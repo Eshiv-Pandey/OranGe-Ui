@@ -1,0 +1,67 @@
+.pixel-mascot {
+  position: relative;
+  isolation: isolate;
+  width: min(304px, 100%);
+  aspect-ratio: 1.2;
+}
+.pixel-mascot__body {
+  position: absolute;
+  inset: 12% 12% 0;
+  aspect-ratio: 1;
+  animation: mascot-bob 2400ms steps(4, end) infinite;
+}
+.pixel-mascot__sprite, .pixel-mascot__eyes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.pixel-mascot__eyes--open { animation: mascot-open 4400ms steps(1, end) infinite; }
+.pixel-mascot__eyes--closed { opacity: 0; animation: mascot-blink 4400ms steps(1, end) infinite; }
+.pixel-mascot__bubble {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  width: 28%;
+  height: auto;
+  animation: bubble-bob 3200ms steps(4, end) infinite;
+}
+.pixel-mascot__heart { transform-origin: 24px 16px; animation: heart-beat 2400ms steps(2, end) infinite; }
+.pixel-mascot__spark { position: absolute; width: 7%; height: auto; }
+.pixel-mascot__spark--left { top: 24%; left: 2%; animation: sparkle-step 2400ms steps(2, end) infinite; }
+.pixel-mascot__spark--right { bottom: 25%; right: 2%; width: 5%; animation: sparkle-step 3200ms steps(2, end) infinite reverse; }
+.pixel-mascot__shadow {
+  position: absolute;
+  z-index: -1;
+  bottom: 1%;
+  left: 26%;
+  width: 48%;
+  height: 5%;
+  background: var(--grass-back);
+  clip-path: polygon(0 25%, 12% 25%, 12% 0, 88% 0, 88% 25%, 100% 25%, 100% 75%, 88% 75%, 88% 100%, 12% 100%, 12% 75%, 0 75%);
+  animation: mascot-shadow 2400ms steps(4, end) infinite;
+}
+.gamer-boy { position: relative; width: min(224px, 100%); aspect-ratio: 1; isolation: isolate; }
+.gamer-boy__sprite, .gamer-boy__thumb { position: absolute; inset: 0; width: 100%; height: 100%; }
+.gamer-boy__thumb { animation: thumb-tap 800ms steps(2, end) infinite; }
+.gamer-boy__shadow { position: absolute; z-index: -1; bottom: 0; left: 28%; width: 52%; height: 5%; background: var(--grass-back); }
+.pixel-grass { position: relative; height: 144px; width: 100%; overflow: hidden; pointer-events: none; }
+.pixel-grass__layer { position: absolute; inset: 0 -16px; width: calc(100% + 32px); height: 144px; overflow: visible; }
+.pixel-grass__layer--back { animation: grass-back-sway 6400ms steps(8, end) infinite alternate; }
+.pixel-grass__layer--mid { animation: grass-mid-sway 4400ms steps(6, end) infinite alternate; }
+.pixel-grass[data-paused] .pixel-grass__layer { animation-play-state: paused; }
+@keyframes mascot-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes mascot-shadow { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(.84); } }
+@keyframes mascot-open { 0%, 91%, 97%, 100% { opacity: 1; } 92%, 96% { opacity: 0; } }
+@keyframes mascot-blink { 0%, 91%, 97%, 100% { opacity: 0; } 92%, 96% { opacity: 1; } }
+@keyframes bubble-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes heart-beat { 0%, 84%, 100% { transform: scale(1); } 85%, 94% { transform: scale(1.1); } }
+@keyframes sparkle-step { 0%, 100% { opacity: .5; transform: scale(.8); } 50% { opacity: 1; transform: scale(1); } }
+@keyframes thumb-tap { 0%, 75%, 100% { transform: translateY(0); } 25%, 50% { transform: translateY(3.125%); } }
+@keyframes grass-back-sway { from { transform: translateX(-8px); } to { transform: translateX(8px); } }
+@keyframes grass-mid-sway { from { transform: translateX(8px); } to { transform: translateX(-8px); } }
+@media (prefers-reduced-motion: reduce) {
+  .pixel-mascot *, .gamer-boy *, .pixel-grass * { animation: none !important; }
+  .pixel-mascot__eyes--closed { opacity: 0; }
+}

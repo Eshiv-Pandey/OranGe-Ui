@@ -19,3 +19,8 @@ Next: Add original arrow and heart cursors, then characters.
 Done: Added original SVG arrow and orange heart, 1x/2x density sources, text and disabled states, and touch opt-out. CSS parses without warnings.
 Blocked: No cursor reference directory was supplied; shapes follow the requested specification.
 Next: Integrate original characters and grass, then verify cursors in a real browser.
+
+## 5. Characters and grass
+Done: Added original 32x32 orange mascot with bob/blink, heart/sparkles, gamer with thumb tapping, and three green grass layers. Five tests prove grid integrity and hidden-tab pause/resume.
+Blocked: None. Reduced motion uses static art; all illustrations reserve their layout space.
+Next: Finish the landing page, verify all stories, and save light/dark screenshots.
