@@ -1,0 +1,12 @@
+node_modules/
+.next/
+coverage/
+out/storybook/
+out/playwright-report/
+out/test-results/
+*.tsbuildinfo
+.env*
+!.env.example
+.DS_Store
+AGENTS.md
+CONTRIBUTION_RULES.md

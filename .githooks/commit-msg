@@ -1,0 +1,5 @@
+#!/bin/sh
+if grep -Eiq 'co-authored-by|generated with|codex' "$1"; then
+  echo 'Commit rejected: attribution text is not allowed.' >&2
+  exit 1
+fi
