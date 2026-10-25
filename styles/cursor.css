@@ -1,0 +1,43 @@
+:root {
+  --pixel-arrow-cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20shape-rendering%3D%22crispEdges%22%3E%3Cpath%20fill%3D%22%23242b20%22%20d%3D%22M0%200h1v1H0zM0%201h2v1H0zM0%202h1v1H0zM2%202h1v1H2zM0%203h1v1H0zM3%203h1v1H3zM0%204h1v1H0zM4%204h1v1H4zM0%205h1v1H0zM5%205h1v1H5zM0%206h1v1H0zM6%206h1v1H6zM0%207h1v1H0zM7%207h1v1H7zM0%208h1v1H0zM8%208h1v1H8zM0%209h1v1H0zM9%209h1v1H9zM0%2010h1v1H0zM6%2010h5v1H6zM0%2011h1v1H0zM3%2011h1v1H3zM6%2011h1v1H6zM0%2012h1v1H0zM2%2012h1v1H2zM4%2012h1v1H4zM7%2012h1v1H7zM0%2013h2v1H0zM4%2013h1v1H4zM7%2013h1v1H7zM0%2014h1v1H0zM5%2014h3v1H5z%22%2F%3E%3Cpath%20fill%3D%22%23fffaf0%22%20d%3D%22M1%202h1v1H1zM1%203h2v1H1zM1%204h3v1H1zM1%205h4v1H1zM1%206h5v1H1zM1%207h6v1H1zM1%208h7v1H1zM1%209h8v1H1zM1%2010h5v1H1zM1%2011h2v1H1zM5%2011h1v1H5zM1%2012h1v1H1zM6%2012h1v1H6zM6%2013h1v1H6z%22%2F%3E%3Cpath%20fill%3D%22%23f97835%22%20d%3D%22M4%2011h1v1H4zM5%2012h1v1H5zM5%2013h1v1H5z%22%2F%3E%3C%2Fsvg%3E") 0 0, auto;
+  --pixel-heart-cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20shape-rendering%3D%22crispEdges%22%3E%3Cpath%20fill%3D%22%23242b20%22%20d%3D%22M3%201h3v1H3zM9%201h3v1H9zM2%202h1v1H2zM6%202h1v1H6zM8%202h1v1H8zM12%202h1v1H12zM1%203h1v1H1zM7%203h1v1H7zM13%203h1v1H13zM1%204h1v1H1zM13%204h1v1H13zM1%205h1v1H1zM13%205h1v1H13zM2%206h1v1H2zM12%206h1v1H12zM3%207h1v1H3zM11%207h1v1H11zM4%208h1v1H4zM10%208h1v1H10zM5%209h1v1H5zM9%209h1v1H9zM6%2010h1v1H6zM8%2010h1v1H8zM7%2011h1v1H7z%22%2F%3E%3Cpath%20fill%3D%22%23fffaf0%22%20d%3D%22M3%204h2v1H3zM3%205h2v1H3z%22%2F%3E%3Cpath%20fill%3D%22%23f97835%22%20d%3D%22M3%202h3v1H3zM9%202h3v1H9zM2%203h5v1H2zM8%203h5v1H8zM2%204h1v1H2zM5%204h8v1H5zM2%205h1v1H2zM5%205h8v1H5zM3%206h9v1H3zM4%207h7v1H4zM5%208h5v1H5zM6%209h3v1H6zM7%2010h1v1H7z%22%2F%3E%3C%2Fsvg%3E") 7 11, pointer;
+}
+
+@supports (cursor: image-set(url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%2F%3E") 1x) 0 0, auto) {
+  :root {
+    --pixel-arrow-cursor: image-set(url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20shape-rendering%3D%22crispEdges%22%3E%3Cpath%20fill%3D%22%23242b20%22%20d%3D%22M0%200h1v1H0zM0%201h2v1H0zM0%202h1v1H0zM2%202h1v1H2zM0%203h1v1H0zM3%203h1v1H3zM0%204h1v1H0zM4%204h1v1H4zM0%205h1v1H0zM5%205h1v1H5zM0%206h1v1H0zM6%206h1v1H6zM0%207h1v1H0zM7%207h1v1H7zM0%208h1v1H0zM8%208h1v1H8zM0%209h1v1H0zM9%209h1v1H9zM0%2010h1v1H0zM6%2010h5v1H6zM0%2011h1v1H0zM3%2011h1v1H3zM6%2011h1v1H6zM0%2012h1v1H0zM2%2012h1v1H2zM4%2012h1v1H4zM7%2012h1v1H7zM0%2013h2v1H0zM4%2013h1v1H4zM7%2013h1v1H7zM0%2014h1v1H0zM5%2014h3v1H5z%22%2F%3E%3Cpath%20fill%3D%22%23fffaf0%22%20d%3D%22M1%202h1v1H1zM1%203h2v1H1zM1%204h3v1H1zM1%205h4v1H1zM1%206h5v1H1zM1%207h6v1H1zM1%208h7v1H1zM1%209h8v1H1zM1%2010h5v1H1zM1%2011h2v1H1zM5%2011h1v1H5zM1%2012h1v1H1zM6%2012h1v1H6zM6%2013h1v1H6z%22%2F%3E%3Cpath%20fill%3D%22%23f97835%22%20d%3D%22M4%2011h1v1H4zM5%2012h1v1H5zM5%2013h1v1H5z%22%2F%3E%3C%2Fsvg%3E") 1x, url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2016%2016%22%20shape-rendering%3D%22crispEdges%22%3E%3Cpath%20fill%3D%22%23242b20%22%20d%3D%22M0%200h1v1H0zM0%201h2v1H0zM0%202h1v1H0zM2%202h1v1H2zM0%203h1v1H0zM3%203h1v1H3zM0%204h1v1H0zM4%204h1v1H4zM0%205h1v1H0zM5%205h1v1H5zM0%206h1v1H0zM6%206h1v1H6zM0%207h1v1H0zM7%207h1v1H7zM0%208h1v1H0zM8%208h1v1H8zM0%209h1v1H0zM9%209h1v1H9zM0%2010h1v1H0zM6%2010h5v1H6zM0%2011h1v1H0zM3%2011h1v1H3zM6%2011h1v1H6zM0%2012h1v1H0zM2%2012h1v1H2zM4%2012h1v1H4zM7%2012h1v1H7zM0%2013h2v1H0zM4%2013h1v1H4zM7%2013h1v1H7zM0%2014h1v1H0zM5%2014h3v1H5z%22%2F%3E%3Cpath%20fill%3D%22%23fffaf0%22%20d%3D%22M1%202h1v1H1zM1%203h2v1H1zM1%204h3v1H1zM1%205h4v1H1zM1%206h5v1H1zM1%207h6v1H1zM1%208h7v1H1zM1%209h8v1H1zM1%2010h5v1H1zM1%2011h2v1H1zM5%2011h1v1H5zM1%2012h1v1H1zM6%2012h1v1H6zM6%2013h1v1H6z%22%2F%3E%3Cpath%20fill%3D%22%23f97835%22%20d%3D%22M4%2011h1v1H4zM5%2012h1v1H5zM5%2013h1v1H5z%22%2F%3E%3C%2Fsvg%3E") 2x) 0 0, auto;
+    --pixel-heart-cursor: image-set(url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20shape-rendering%3D%22crispEdges%22%3E%3Cpath%20fill%3D%22%23242b20%22%20d%3D%22M3%201h3v1H3zM9%201h3v1H9zM2%202h1v1H2zM6%202h1v1H6zM8%202h1v1H8zM12%202h1v1H12zM1%203h1v1H1zM7%203h1v1H7zM13%203h1v1H13zM1%204h1v1H1zM13%204h1v1H13zM1%205h1v1H1zM13%205h1v1H13zM2%206h1v1H2zM12%206h1v1H12zM3%207h1v1H3zM11%207h1v1H11zM4%208h1v1H4zM10%208h1v1H10zM5%209h1v1H5zM9%209h1v1H9zM6%2010h1v1H6zM8%2010h1v1H8zM7%2011h1v1H7z%22%2F%3E%3Cpath%20fill%3D%22%23fffaf0%22%20d%3D%22M3%204h2v1H3zM3%205h2v1H3z%22%2F%3E%3Cpath%20fill%3D%22%23f97835%22%20d%3D%22M3%202h3v1H3zM9%202h3v1H9zM2%203h5v1H2zM8%203h5v1H8zM2%204h1v1H2zM5%204h8v1H5zM2%205h1v1H2zM5%205h8v1H5zM3%206h9v1H3zM4%207h7v1H4zM5%208h5v1H5zM6%209h3v1H6zM7%2010h1v1H7z%22%2F%3E%3C%2Fsvg%3E") 1x, url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2016%2016%22%20shape-rendering%3D%22crispEdges%22%3E%3Cpath%20fill%3D%22%23242b20%22%20d%3D%22M3%201h3v1H3zM9%201h3v1H9zM2%202h1v1H2zM6%202h1v1H6zM8%202h1v1H8zM12%202h1v1H12zM1%203h1v1H1zM7%203h1v1H7zM13%203h1v1H13zM1%204h1v1H1zM13%204h1v1H13zM1%205h1v1H1zM13%205h1v1H13zM2%206h1v1H2zM12%206h1v1H12zM3%207h1v1H3zM11%207h1v1H11zM4%208h1v1H4zM10%208h1v1H10zM5%209h1v1H5zM9%209h1v1H9zM6%2010h1v1H6zM8%2010h1v1H8zM7%2011h1v1H7z%22%2F%3E%3Cpath%20fill%3D%22%23fffaf0%22%20d%3D%22M3%204h2v1H3zM3%205h2v1H3z%22%2F%3E%3Cpath%20fill%3D%22%23f97835%22%20d%3D%22M3%202h3v1H3zM9%202h3v1H9zM2%203h5v1H2zM8%203h5v1H8zM2%204h1v1H2zM5%204h8v1H5zM2%205h1v1H2zM5%205h8v1H5zM3%206h9v1H3zM4%207h7v1H4zM5%208h5v1H5zM6%209h3v1H6zM7%2010h1v1H7z%22%2F%3E%3C%2Fsvg%3E") 2x) 7 11, pointer;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html, body {
+    cursor: var(--pixel-arrow-cursor);
+  }
+
+  :is(a, button, [role="button"], summary, label[for], .stat-card--linked, input[type="button"], input[type="submit"], input[type="reset"], input[type="checkbox"], input[type="radio"], input[type="range"], select):not(:disabled):not([aria-disabled="true"]):not([data-disabled]):not([data-loading]) {
+    cursor: var(--pixel-heart-cursor);
+  }
+
+  :is(input, textarea, [contenteditable="true"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(:disabled) {
+    cursor: text;
+  }
+
+  :is(button, input, select, textarea, [role="button"], a):is(:disabled, [aria-disabled="true"], [data-disabled]) {
+    cursor: not-allowed;
+  }
+
+  [data-loading]:not(input) {
+    cursor: progress;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  html, body {
+    cursor: auto;
+  }
+
+  :is(a, button, [role="button"], summary, label[for], .stat-card--linked) {
+    cursor: auto;
+  }
+}

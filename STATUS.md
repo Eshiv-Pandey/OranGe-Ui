@@ -14,3 +14,8 @@ Next: Verify and commit StatCard, then add cursors.
 Done: Added five accents, exactly two stats, whole-card links, dithered art, stepped hover/press, metadata, and all required stories. Seven tests pass.
 Blocked: None.
 Next: Add original arrow and heart cursors, then characters.
+
+## 4. Pixel cursors
+Done: Added original SVG arrow and orange heart, 1x/2x density sources, text and disabled states, and touch opt-out. CSS parses without warnings.
+Blocked: No cursor reference directory was supplied; shapes follow the requested specification.
+Next: Integrate original characters and grass, then verify cursors in a real browser.
