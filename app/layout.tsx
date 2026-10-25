@@ -12,5 +12,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en" className={`${body.variable} ${display.variable}`}><body>{children}</body></html>;
+  return <html lang="en" className={`${body.variable} ${display.variable}`} suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: 'try{var palette=localStorage.getItem("orangeui-palette");if(palette==="light"||palette==="dark")document.documentElement.dataset.theme=palette}catch{}' }} /></head><body>{children}</body></html>;
 }

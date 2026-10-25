@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pixelify Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/pixelify-sans-latin.woff2") format("woff2");
+}
+
+.story-surface {
+  --font-body: "Geist";
+  --font-display: "Pixelify Sans";
+}

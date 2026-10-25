@@ -47,7 +47,7 @@
 .gamer-boy__thumb { animation: thumb-tap 800ms steps(2, end) infinite; }
 .gamer-boy__shadow { position: absolute; z-index: -1; bottom: 0; left: 28%; width: 52%; height: 5%; background: var(--grass-back); }
 .pixel-grass { position: relative; height: 144px; width: 100%; overflow: hidden; pointer-events: none; }
-.pixel-grass__layer { position: absolute; inset: 0 -16px; width: calc(100% + 32px); height: 144px; overflow: visible; }
+.pixel-grass__layer { position: absolute; inset: 0 -16px; width: calc(100% + 32px); max-width: none; height: 144px; overflow: visible; }
 .pixel-grass__layer--back { animation: grass-back-sway 6400ms steps(8, end) infinite alternate; }
 .pixel-grass__layer--mid { animation: grass-mid-sway 4400ms steps(6, end) infinite alternate; }
 .pixel-grass[data-paused] .pixel-grass__layer { animation-play-state: paused; }

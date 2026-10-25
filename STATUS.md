@@ -24,3 +24,8 @@ Next: Integrate original characters and grass, then verify cursors in a real bro
 Done: Added original 32x32 orange mascot with bob/blink, heart/sparkles, gamer with thumb tapping, and three green grass layers. Five tests prove grid integrity and hidden-tab pause/resume.
 Blocked: None. Reduced motion uses static art; all illustrations reserve their layout space.
 Next: Finish the landing page, verify all stories, and save light/dark screenshots.
+
+## 6. Landing page
+Done: Completed the responsive landing page with the exact requested copy, working component search, interactive previews and handheld console, persistent palette toggle, original scenery, and MIT/GitHub links. Unified stepped borders and shadows, loaded both licensed fonts in Storybook, fitted headings from 360px upward, and removed the grass edge gap.
+Blocked: None. The commit hook is now executable across platforms and rejects every prohibited message pattern.
+Next: Record final checks and screenshots, then commit the verification artifacts.

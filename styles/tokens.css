@@ -8,6 +8,11 @@
   --muted: #5e6557;
   --primary: #f97835;
   --primary-hover: #ff9657;
+  --primary-text: #ba470d;
+  --grid-line: #242b200a;
+  --console-shell: #fff2c8;
+  --console-screen: #293c2e;
+  --console-ink: #242b20;
   --on-primary: #242b20;
   --accent-lime: #d1ed89;
   --accent-mint: #a7dfbd;
@@ -53,6 +58,10 @@
     --muted: #c0c7b4;
     --primary: #ff9254;
     --primary-hover: #ffb078;
+    --primary-text: #ff9254;
+    --grid-line: #fffaf00a;
+    --console-shell: #d0d4af;
+    --console-screen: #18281d;
     --accent-lime: #b9d674;
     --accent-mint: #8fcca5;
     --accent-amber: #e5b963;
@@ -78,6 +87,10 @@
   --muted: #c0c7b4;
   --primary: #ff9254;
   --primary-hover: #ffb078;
+  --primary-text: #ff9254;
+  --grid-line: #fffaf00a;
+  --console-shell: #d0d4af;
+  --console-screen: #18281d;
   --accent-lime: #b9d674;
   --accent-mint: #8fcca5;
   --accent-amber: #e5b963;
