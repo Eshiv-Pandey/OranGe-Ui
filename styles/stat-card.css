@@ -1,0 +1,28 @@
+.stat-card { --card-accent: var(--accent-lime); display: flex; flex-direction: column; min-width: 0; padding: 8px 16px 16px; color: var(--on-accent); background: var(--card-accent); border: 2px solid var(--on-accent); box-shadow: var(--shadow); text-decoration: none; transition: transform var(--motion-ui) var(--motion-step), box-shadow var(--motion-ui) var(--motion-step); }
+.stat-card--lime { --card-accent: var(--accent-lime); }
+.stat-card--mint { --card-accent: var(--accent-mint); }
+.stat-card--amber { --card-accent: var(--accent-amber); }
+.stat-card--sky { --card-accent: var(--accent-sky); }
+.stat-card--coral { --card-accent: var(--accent-coral); }
+@media (hover: hover) {
+  .stat-card--linked:hover { transform: translate(-2px, -4px); box-shadow: 6px 8px 0 var(--shadow-color); }
+}
+.stat-card--linked:active { transform: translate(2px, 2px); box-shadow: var(--shadow-sm); }
+.stat-card--linked:focus-visible { outline: 3px solid var(--focus); outline-offset: 6px; }
+.stat-card__art { position: relative; display: grid; place-items: center; aspect-ratio: 1.13; min-height: 160px; overflow: hidden; background-color: var(--card-accent); background-image: radial-gradient(var(--on-accent) 0.6px, transparent 0.8px), repeating-linear-gradient(0deg, transparent 0 8px, #242b2008 8px 16px); background-size: 4px 4px, 100% 100%; border-bottom: 1px solid #242b2040; }
+.stat-card__art::after { position: absolute; content: ""; inset: 0; pointer-events: none; background: repeating-linear-gradient(90deg, transparent 0 32px, #fffaf015 32px 64px); }
+.stat-card__tab { position: absolute; z-index: 1; top: 0; left: 0; display: grid; gap: 4px; padding: 0 12px 8px 0; font: 600 9px/1.4 var(--font-body), Arial, sans-serif; letter-spacing: 0.08em; background: var(--card-accent); clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) calc(100% - 8px), calc(100% - 8px) 100%, 0 100%); }
+.stat-card__hatch { display: block; width: 80px; height: 8px; background: repeating-linear-gradient(120deg, var(--on-accent) 0 3px, transparent 3px 6px); }
+.stat-card__illustration { position: relative; z-index: 1; display: grid; place-items: center; width: 100%; padding: 32px 16px; }
+.stat-card__illustration > svg { width: 112px; height: 112px; }
+.stat-card__index { position: absolute; right: 8px; bottom: 8px; font: 600 10px/1 var(--font-body), monospace; }
+.stat-card__heading { display: flex; align-items: flex-start; gap: 8px; justify-content: space-between; margin-top: 16px; }
+.stat-card__heading h3 { margin: 0; font-size: 30px; overflow-wrap: anywhere; }
+.stat-card__arrow { flex: none; line-height: 1; font-size: 24px; }
+.stat-card__subtitle { margin: 8px 0 16px; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.stat-card__stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: auto 0 16px; padding-top: 12px; border-top: 1px solid #242b2060; }
+.stat-card__stats dt { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; overflow-wrap: anywhere; }
+.stat-card__stats dd { margin: 4px 0 0; font-size: 24px; font-weight: 750; line-height: 1.2; overflow-wrap: anywhere; }
+.stat-card__footer { display: flex; align-items: flex-start; gap: 8px; min-height: 16px; font-size: 10px; font-weight: 650; text-transform: uppercase; letter-spacing: 0.05em; overflow-wrap: anywhere; }
+.stat-card__footer-dot { width: 8px; height: 8px; flex: none; margin-top: 3px; background: var(--on-accent); }
+@media (prefers-reduced-motion: reduce) { .stat-card { transition: none; } }

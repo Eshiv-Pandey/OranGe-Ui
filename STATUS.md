@@ -9,3 +9,8 @@ Next: Finish Button and Input, then StatCard. Foundation typecheck and lint pass
 Done: Built all variants and field states, native refs, schemas, metadata, and stories. Fixed disabled slotted child activation; 15 primitive tests pass.
 Blocked: None. Test subprocesses run outside the Windows sandbox.
 Next: Verify and commit StatCard, then add cursors.
+
+## 3. StatCard
+Done: Added five accents, exactly two stats, whole-card links, dithered art, stepped hover/press, metadata, and all required stories. Seven tests pass.
+Blocked: None.
+Next: Add original arrow and heart cursors, then characters.
