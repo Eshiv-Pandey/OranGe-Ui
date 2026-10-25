@@ -29,3 +29,8 @@ Next: Finish the landing page, verify all stories, and save light/dark screensho
 Done: Completed the responsive landing page with the exact requested copy, working component search, interactive previews and handheld console, persistent palette toggle, original scenery, and MIT/GitHub links. Unified stepped borders and shadows, loaded both licensed fonts in Storybook, fitted headings from 360px upward, and removed the grass edge gap.
 Blocked: None. The commit hook is now executable across platforms and rejects every prohibited message pattern.
 Next: Record final checks and screenshots, then commit the verification artifacts.
+
+## 7. Final verification
+Done: Lint, typecheck, all 27 unit tests, copy check, production build, and static Storybook build pass. All 15 browser checks pass, including 22 stories in both palettes with zero axe violations and all 48 keyboard controls visited. The 14 landing checks were rerun successfully after the final CSS fixes; all six page audits report zero violations, zero layout shift, loaded fonts, and no runtime errors.
+Blocked: None. Cursor assets decode correctly at DPR 1 and 2, text/touch behavior passes, and reduced motion stops animations. Grass pause/resume is verified with controlled visibility events and actual browser animation timelines. Storybook's nonfatal bundler warnings do not prevent its build or rendering.
+Next: Task 1 is complete. Reviewed light/dark screenshots at 1440px, 390px, and 360px are saved in out/ alongside accessibility and cursor reports. A rendered sweep of 19 widths from 360px to 1440px found no overflow, kept the two-line hero, and fitted every card title. The final commit log and hook comply with the message rules.

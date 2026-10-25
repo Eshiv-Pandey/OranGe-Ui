@@ -1,0 +1,25 @@
+{
+  "width": 390,
+  "theme": "light",
+  "violations": [],
+  "dimensions": {
+    "viewport": 390,
+    "document": 390,
+    "shift": 0,
+    "displayFont": "\"Pixelify Sans\", \"Pixelify Sans Fallback\", monospace",
+    "colorScheme": "light"
+  },
+  "fonts": [
+    {
+      "family": "Geist",
+      "faces": 1,
+      "loaded": true
+    },
+    {
+      "family": "Pixelify Sans",
+      "faces": 1,
+      "loaded": true
+    }
+  ],
+  "errors": []
+}

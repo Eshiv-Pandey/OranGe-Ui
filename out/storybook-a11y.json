@@ -1,0 +1,987 @@
+{
+  "storyCount": 22,
+  "palettes": [
+    "light",
+    "dark"
+  ],
+  "expectedChecks": 44,
+  "completedChecks": 44,
+  "renderedChecks": 44,
+  "passedChecks": 44,
+  "errorCount": 0,
+  "violationCount": 0,
+  "keyboardControlCount": 48,
+  "keyboardVisitedCount": 48,
+  "keyboardFocusFailureCount": 0,
+  "loadedFontChecks": 88,
+  "stories": [
+    {
+      "id": "components-button--all-states",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 4,
+      "keyboardVisited": 4,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--as-link",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--disabled",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--ghost",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--loading",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--loading-link",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--primary",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--secondary",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--with-icon",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--all-states",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 5,
+      "keyboardVisited": 5,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--default",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--disabled",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--error",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--hidden-label",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--loading",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--read-only",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--with-icon",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-statcard--all-accents",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 2,
+      "keyboardVisited": 2,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-statcard--default",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-statcard--linked",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-statcard--long-text",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-statcard--narrow",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--all-states",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 4,
+      "keyboardVisited": 4,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--as-link",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--disabled",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--ghost",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--loading",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--loading-link",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--primary",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--secondary",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-button--with-icon",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--all-states",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 5,
+      "keyboardVisited": 5,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--default",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--disabled",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--error",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--hidden-label",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--loading",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--read-only",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-input--with-icon",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-statcard--all-accents",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 2,
+      "keyboardVisited": 2,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-statcard--default",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-statcard--linked",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-statcard--long-text",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-statcard--narrow",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    }
+  ]
+}

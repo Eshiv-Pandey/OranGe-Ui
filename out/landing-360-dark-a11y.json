@@ -1,0 +1,25 @@
+{
+  "width": 360,
+  "theme": "dark",
+  "violations": [],
+  "dimensions": {
+    "viewport": 360,
+    "document": 360,
+    "shift": 0,
+    "displayFont": "\"Pixelify Sans\", \"Pixelify Sans Fallback\", monospace",
+    "colorScheme": "dark"
+  },
+  "fonts": [
+    {
+      "family": "Geist",
+      "faces": 1,
+      "loaded": true
+    },
+    {
+      "family": "Pixelify Sans",
+      "faces": 1,
+      "loaded": true
+    }
+  ],
+  "errors": []
+}
