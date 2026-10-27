@@ -1,10 +1,11 @@
 @import "./tokens.css";
+@import "./appearances.css";
 
 @font-face { font-family: "oRange Geist"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("/fonts/geist-latin.woff2") format("woff2"); }
 @font-face { font-family: "oRange Pixel"; font-style: normal; font-weight: 400 700; font-display: swap; src: url("/fonts/pixelify-sans-latin.woff2") format("woff2"); }
-:root { --font-body: "oRange Geist"; --font-display: "oRange Pixel"; }
+:root { --font-body: "oRange Geist"; --font-display: "oRange Pixel"; --font-mono: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
 :where(.ui, .pixel-button, .pixel-field, .stat-card), :where(.ui, .pixel-button, .pixel-field, .stat-card) * { box-sizing: border-box; }
-.ui { color: var(--ink); font-family: var(--font-body), Arial, sans-serif; font-size: 14px; line-height: 1.5; }
+.ui { --ui-font: var(--font-body), Arial, sans-serif; color: var(--ink); font-family: var(--ui-font); font-size: 14px; line-height: 1.5; }
 .ui button, .ui input, .ui textarea, .ui select { font: inherit; }
 .ui button { cursor: pointer; }
 .ui button:disabled, .ui [data-disabled] { cursor: not-allowed; }
@@ -12,10 +13,10 @@
 .pixel-type { font-family: var(--font-display), monospace; font-weight: 600; line-height: 1.05; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .ui[data-appearance="polished"] { --ui-radius: 14px; --ui-small-radius: 8px; --ui-panel-radius: 22px; --ui-border: 1px solid var(--line); --ui-shadow: var(--soft-shadow); --ui-ease: var(--motion-ease); }
-.ui[data-appearance="pixel"] { --ui-radius: 0px; --ui-small-radius: 0px; --ui-panel-radius: 0px; --ui-border: 2px solid var(--ink); --ui-shadow: 4px 4px 0 var(--shadow-color); --ui-ease: steps(3, end); font-family: var(--font-display), monospace; font-size: 16px; }
+.ui[data-appearance="pixel"] { --ui-radius: 0px; --ui-small-radius: 0px; --ui-panel-radius: 0px; --ui-border: 2px solid var(--ink); --ui-shadow: 4px 4px 0 var(--shadow-color); --ui-ease: steps(3, end); --ui-font: var(--font-display), monospace; font-family: var(--ui-font); font-size: 16px; }
 .ui-surface { border: var(--ui-border); border-radius: var(--ui-panel-radius); background: var(--surface); box-shadow: var(--ui-shadow); }
-.ui-help { color: var(--muted); font: 13px/1.6 var(--font-body), sans-serif; margin: 6px 0 0; }
-.ui-error { color: var(--error); font: 13px/1.6 var(--font-body), sans-serif; margin: 6px 0 0; }
+.ui-help { color: var(--muted); font: 13px/1.6 var(--ui-font, var(--font-body)), sans-serif; margin: 6px 0 0; }
+.ui-error { color: var(--error); font: 13px/1.6 var(--ui-font, var(--font-body)), sans-serif; margin: 6px 0 0; }
 .ui-icon-button { display: inline-flex; align-items: center; justify-content: center; flex: none; min-width: 40px; min-height: 40px; padding: 8px; border: 0; border-radius: var(--ui-small-radius); color: inherit; background: transparent; }
 .ui-icon-button:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); }
 @media (prefers-reduced-motion: reduce) { .ui, .ui *, .ui *::before, .ui *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

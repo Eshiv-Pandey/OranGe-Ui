@@ -53,3 +53,49 @@
 .gamer-boy-device[data-appearance="pixel"] .console-player { border-radius: 0; }
 .gamer-boy-device[data-appearance="pixel"] .console-button { box-shadow: 3px 3px 0 #4d2b81; }
 @media (max-width: 600px) { .gamer-boy-device .console-button { min-width: 44px; min-height: 44px; } }
+
+.gamer-boy-device[data-appearance="neobrutalism"] .handheld { border: 3px solid #171717; border-radius: 18px; background: #ffda70; color: #171717; box-shadow: 8px 8px 0 var(--ink); }
+.gamer-boy-device[data-appearance="neobrutalism"] .handheld-screen { border: 3px solid #171717; border-radius: 6px; box-shadow: 4px 4px 0 #171717; }
+.gamer-boy-device[data-appearance="neobrutalism"] .console-button { border: 2px solid #171717; border-radius: 8px; background: #8450b0; box-shadow: 3px 3px 0 #171717; }
+.gamer-boy-device[data-appearance="neobrutalism"] .console-play::before,
+.gamer-boy-device[data-appearance="neobrutalism"] .console-play::after { border-radius: 4px; background: #171717; }
+.gamer-boy-device[data-appearance="neobrutalism"] .console-button:active:not(:disabled) { box-shadow: none; }
+.gamer-boy-device[data-appearance="neobrutalism"] .handheld-bottom { border-top: 2px solid #171717; padding-top: 8px; }
+.gamer-boy-device[data-appearance="neobrutalism"] .console-reset { color: #171717; font-weight: 750; }
+.gamer-boy-device[data-appearance="neobrutalism"] .console-player { border: 1px solid #171717; border-radius: 3px; background: var(--primary); }
+
+.gamer-boy-device[data-appearance="retro-os"] .handheld { padding: 5%; border: 4px solid; border-color: var(--retro-highlight) var(--retro-low) var(--retro-low) var(--retro-highlight); border-radius: 0; background: var(--retro-panel); color: var(--ink); box-shadow: inset 1px 1px 0 var(--retro-edge), 6px 6px 0 #00000055; }
+.gamer-boy-device[data-appearance="retro-os"] .handheld-screen { border: 4px solid; border-color: var(--retro-low) var(--retro-highlight) var(--retro-highlight) var(--retro-low); border-radius: 0; box-shadow: inset 2px 2px 0 #24103f; }
+.gamer-boy-device[data-appearance="retro-os"] .screen-status { border-bottom: 1px solid #fcffca66; padding-bottom: 8px; }
+.gamer-boy-device[data-appearance="retro-os"] .handheld-controls { margin-top: 10%; }
+.gamer-boy-device[data-appearance="retro-os"] .console-play { width: 40%; border: 3px solid; border-color: var(--retro-highlight) var(--retro-low) var(--retro-low) var(--retro-highlight); border-radius: 0; background: var(--retro-panel); color: var(--ink); box-shadow: inset 1px 1px 0 var(--retro-edge); }
+.gamer-boy-device[data-appearance="retro-os"] .console-play::before,
+.gamer-boy-device[data-appearance="retro-os"] .console-play::after { display: none; }
+.gamer-boy-device[data-appearance="retro-os"] .console-button { border: 2px solid; border-color: var(--retro-highlight) var(--retro-low) var(--retro-low) var(--retro-highlight); border-radius: 0; background: var(--retro-panel); color: var(--ink); box-shadow: inset 1px 1px 0 var(--retro-edge); }
+.gamer-boy-device[data-appearance="retro-os"] .console-play:active,
+.gamer-boy-device[data-appearance="retro-os"] .console-button:active:not(:disabled) { transform: none; border-color: var(--retro-low) var(--retro-highlight) var(--retro-highlight) var(--retro-low); }
+.gamer-boy-device[data-appearance="retro-os"] .console-reset { color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
+.gamer-boy-device[data-appearance="retro-os"] .handheld-bottom { padding: 4px 8px; border: 1px solid; border-color: var(--retro-low) var(--retro-highlight) var(--retro-highlight) var(--retro-low); }
+.gamer-boy-device[data-appearance="retro-os"] .console-player { border-radius: 0; }
+.gamer-boy-device[data-appearance="retro-os"] .console-button:disabled { color: var(--muted); }
+.gamer-boy-device[data-appearance="retro-os"] .handheld :focus-visible,
+.gamer-boy-device[data-appearance="retro-os"] .handheld:focus-visible { outline-color: var(--focus); box-shadow: 0 0 0 2px var(--surface); }
+
+.gamer-boy-device[data-appearance="terminal"] .handheld { padding: 6%; border: 1px solid var(--muted); border-radius: 0; background: var(--surface); color: var(--ink); box-shadow: none; }
+.gamer-boy-device[data-appearance="terminal"] .handheld-screen { border: 1px solid #aa88d9; border-radius: 0; box-shadow: none; }
+.gamer-boy-device[data-appearance="terminal"] .screen-status { border-bottom: 1px dashed #fcffca80; padding-bottom: 8px; font-family: var(--font-mono); font-size: max(8px, 2cqw); }
+.gamer-boy-device[data-appearance="terminal"] .console-title { font-family: var(--font-mono); font-size: 14cqw; letter-spacing: -.08em; }
+.gamer-boy-device[data-appearance="terminal"] .console-message { font-family: var(--font-mono); font-size: max(9px, 2.7cqw); line-height: 1.25; }
+.gamer-boy-device[data-appearance="terminal"] .console-play { width: 40%; background: transparent; border: 1px solid var(--primary); border-radius: 0; color: var(--primary-text); }
+.gamer-boy-device[data-appearance="terminal"] .console-play::before,
+.gamer-boy-device[data-appearance="terminal"] .console-play::after { display: none; }
+.gamer-boy-device[data-appearance="terminal"] .console-play span { font-family: var(--font-mono); font-size: 5cqw; }
+.gamer-boy-device[data-appearance="terminal"] .console-button { border: 1px solid var(--muted); border-radius: 0; background: var(--surface); color: var(--ink); }
+.gamer-boy-device[data-appearance="terminal"] .console-button span { font-family: var(--font-mono); font-size: max(10px, 2.6cqw); }
+.gamer-boy-device[data-appearance="terminal"] .console-button:not(:disabled):hover { border-color: var(--primary); color: var(--primary-text); background: var(--surface-soft); }
+.gamer-boy-device[data-appearance="terminal"] .console-button:disabled { opacity: .55; }
+.gamer-boy-device[data-appearance="terminal"] .console-player { border-radius: 0; background: var(--primary); box-shadow: inset -2px -2px 0 #b84000; }
+.gamer-boy-device[data-appearance="terminal"] .handheld-bottom { border-top: 1px dashed var(--muted); padding-top: 8px; font-family: var(--font-mono); }
+.gamer-boy-device[data-appearance="terminal"] .console-reset { color: var(--primary-text); font-family: var(--font-mono); }
+.gamer-boy-device[data-appearance="terminal"] .handheld :focus-visible,
+.gamer-boy-device[data-appearance="terminal"] .handheld:focus-visible { outline-color: var(--focus); box-shadow: none; }

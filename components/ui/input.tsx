@@ -3,10 +3,10 @@
 import { isValidElement, useId, type ComponentPropsWithRef, type InputHTMLAttributes, type ReactNode } from "react";
 import { z } from "zod";
 import "../../styles/primitives.css";
-import type { AppearanceProps } from "./appearance";
+import { APPEARANCE_VALUES, type AppearanceProps } from "./appearance";
 
 export const inputPropsSchema = z.object({
-  appearance: z.enum(["polished", "pixel"]).optional(),
+  appearance: z.enum(APPEARANCE_VALUES).optional(),
   label: z.string().optional(),
   hideLabel: z.boolean().optional(),
   description: z.string().optional(),

@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cloneElement, isValidElement, type ButtonHTMLAttributes, type ComponentPropsWithRef, type HTMLAttributes, type ReactNode } from "react";
 import { z } from "zod";
 import "../../styles/primitives.css";
-import type { AppearanceProps } from "./appearance";
+import { APPEARANCE_VALUES, type AppearanceProps } from "./appearance";
 
 function isNode(value: unknown): boolean {
   return value == null || typeof value === "string" || typeof value === "number" ||
@@ -15,7 +15,7 @@ function isNode(value: unknown): boolean {
 const nodeSchema: z.ZodType<ReactNode> = z.custom<ReactNode>(isNode, "Expected renderable content");
 
 export const buttonPropsSchema = z.object({
-  appearance: z.enum(["polished", "pixel"]).optional(),
+  appearance: z.enum(APPEARANCE_VALUES).optional(),
   variant: z.enum(["primary", "secondary", "ghost"]).optional(),
   loading: z.boolean().optional(),
   disabled: z.boolean().optional(),

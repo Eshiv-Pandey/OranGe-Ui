@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { isValidElement } from "react";
 import { cva } from "class-variance-authority";
 import { z } from "zod";
+import { APPEARANCE_VALUES } from "./appearance";
 import "../../styles/stat-card.css";
 
 function isNode(value: unknown): boolean {
@@ -12,7 +13,7 @@ const nodeSchema = z.custom<ReactNode>(isNode, "Expected renderable content");
 const statSchema = z.object({ label: z.string().min(1), value: z.union([z.string().min(1), z.number()]) });
 
 export const statCardPropsSchema = z.object({
-  appearance: z.enum(["polished", "pixel"]).optional(),
+  appearance: z.enum(APPEARANCE_VALUES).optional(),
   accent: z.enum(["lime", "mint", "amber", "sky", "coral"]).default("lime"),
   counter: z.string().min(1),
   art: nodeSchema,
