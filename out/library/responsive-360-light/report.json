@@ -1,0 +1,326 @@
+{
+  "width": 360,
+  "theme": "light",
+  "observations": [
+    {
+      "slug": "button",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "input",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "textarea",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "select",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "checkbox",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "radio-group",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "switch",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "slider",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "toggle",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "toggle-group",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "accordion",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "tabs",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "breadcrumb",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "pagination",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "dropdown-menu",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "command",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "dialog",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "sheet",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "popover",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "tooltip",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "toast",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "alert",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "progress",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "skeleton",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "badge",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "avatar",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "card",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "stat-card",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "separator",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "table",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "empty-state",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "gamer-boy",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "button",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "input",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "textarea",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "select",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "checkbox",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "radio-group",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "switch",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "slider",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "toggle",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "toggle-group",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "accordion",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "tabs",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "breadcrumb",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "pagination",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "dropdown-menu",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "command",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "dialog",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "sheet",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "popover",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "tooltip",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "toast",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "alert",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "progress",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "skeleton",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "badge",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "avatar",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "card",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "stat-card",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "separator",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "table",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "empty-state",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "gamer-boy",
+      "appearance": "pixel",
+      "overflow": false
+    }
+  ]
+}

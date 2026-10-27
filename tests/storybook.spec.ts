@@ -19,14 +19,14 @@ type StoryObservation = {
 const focusableSelector = "a[href], button, input, select, textarea, summary, [tabindex], [contenteditable='true']";
 
 test("all indexed component stories are accessible in both palettes", async ({ page, request }) => {
-  test.setTimeout(240_000);
+  test.setTimeout(900_000);
   const origin = "http://127.0.0.1:6006";
   const indexResponse = await request.get(`${origin}/index.json`);
   expect(indexResponse.ok(), "Storybook index must be available").toBe(true);
   const index = await indexResponse.json() as { entries: Record<string, StoryEntry> };
   const stories = Object.values(index.entries).filter((entry) => entry.type === "story").sort((a, b) => a.id.localeCompare(b.id));
   expect(stories.length, "The check must cover the actual component collection").toBeGreaterThanOrEqual(20);
-  expect(new Set(stories.map((entry) => entry.title))).toEqual(new Set(["Components/Button", "Components/Input", "Components/StatCard"]));
+  expect(new Set(stories.filter((entry) => entry.title.startsWith("Library/")).map((entry) => entry.title)).size).toBe(32);
 
   const observations: StoryObservation[] = [];
   try {
@@ -41,7 +41,7 @@ test("all indexed component stories are accessible in both palettes", async ({ p
           await page.goto(url.href);
           const surface = page.locator("#storybook-root .story-surface");
           await expect(surface, `${story.id} must render the ${palette} palette`).toHaveAttribute("data-theme", palette);
-          await expect(surface.locator(".pixel-button, .pixel-field, .stat-card").first(), `${story.id} must render component markup`).toBeVisible();
+          await expect(surface.locator(".ui, .pixel-button, .pixel-field, .stat-card").first(), `${story.id} must render component markup`).toBeVisible();
           await expect(page.locator(".sb-errordisplay, .sb-nopreview, .sb-error-display").filter({ visible: true })).toHaveCount(0);
           await page.evaluate(() => document.fonts.ready);
           observation.fonts = await surface.evaluate(async (element) => {
@@ -75,17 +75,22 @@ test("all indexed component stories are accessible in both palettes", async ({ p
           const visited: number[] = [];
           for (let step = 0; step < expectedFocus.length; step++) {
             await page.keyboard.press("Tab");
-            const focused = await page.evaluate((selector) => {
+            const focused = await page.evaluate(({ selector, expectedIndex }) => {
               const root = document.getElementById("storybook-root")!;
               const active = document.activeElement;
-              const index = Array.from(root.querySelectorAll(selector)).indexOf(active!);
+              const elements = Array.from(root.querySelectorAll(selector));
+              const expected = elements[expectedIndex];
+              // Roving-focus groups transfer their entry tab stop to an enabled child.
+              // Arrow-key navigation within those groups is covered in library.spec.ts.
+              const redirected = expected?.matches('[role="radiogroup"], [role="tablist"], [role="toolbar"], [role="group"][data-orientation]') && expected.contains(active) && active instanceof HTMLElement && active.tabIndex >= 0 && !active.matches(":disabled");
+              const index = redirected ? expectedIndex : elements.indexOf(active!);
               let outlineVisible = false;
               for (let element = active; element && root.contains(element); element = element.parentElement) {
                 const style = getComputedStyle(element);
                 if (style.outlineStyle !== "none" && Number.parseFloat(style.outlineWidth) > 0 && style.outlineColor !== "transparent" && style.outlineColor !== "rgba(0, 0, 0, 0)") outlineVisible = true;
               }
               return { index, focusVisible: Boolean(active?.matches(":focus-visible")), outlineVisible };
-            }, focusableSelector);
+            }, { selector: focusableSelector, expectedIndex: expectedFocus[step] });
             visited.push(focused.index);
             if (!focused.focusVisible || !focused.outlineVisible) observation.keyboardFocusFailures++;
             expect.soft(focused.focusVisible, `${story.id} (${palette}) control ${step + 1} receives keyboard focus`).toBe(true);
@@ -94,6 +99,28 @@ test("all indexed component stories are accessible in both palettes", async ({ p
           observation.keyboardVisited = new Set(visited.filter((index) => index >= 0)).size;
           observation.keyboardOrderValid = visited.length === expectedFocus.length && visited.every((index, position) => index === expectedFocus[position]);
           expect.soft(visited, `${story.id} (${palette}) visits every enabled control once without a trap`).toEqual(expectedFocus);
+          if (story.title === "Library/ToggleGroup") {
+            const alignment = surface.getByRole("radiogroup", { name: "Text alignment" });
+            await alignment.getByRole("radio", { name: "Left", exact: true }).focus();
+            await page.keyboard.press("ArrowRight");
+            await expect(alignment.getByRole("radio", { name: "Center", exact: true })).toBeFocused();
+            await page.keyboard.press("Space");
+            await expect(alignment.getByRole("radio", { name: "Center", exact: true })).toBeChecked();
+            await expect(alignment.getByRole("radio", { name: "Left", exact: true })).not.toBeChecked();
+            await page.keyboard.press("Tab");
+            const formatting = surface.getByRole("toolbar", { name: "Text formatting" });
+            await expect(formatting.getByRole("button", { name: "Bold", exact: true })).toBeFocused();
+            await page.keyboard.press("ArrowRight");
+            const italic = formatting.getByRole("button", { name: "Italic", exact: true });
+            await expect(italic).toBeFocused();
+            await page.keyboard.press("Space");
+            await expect(italic).toHaveAttribute("aria-pressed", "true");
+            await expect(formatting.getByRole("button", { name: "Bold", exact: true })).toHaveAttribute("aria-pressed", "true");
+            await page.keyboard.press("Space");
+            await expect(italic).toHaveAttribute("aria-pressed", "false");
+            await page.keyboard.press("Shift+Tab");
+            await expect(alignment.getByRole("radio", { name: "Center", exact: true })).toBeFocused();
+          }
         } catch (error) {
           observation.error = error instanceof Error ? error.message : String(error);
           expect.soft(observation.error, `${story.id} (${palette}) completed rendering and verification`).toBeUndefined();

@@ -17,7 +17,7 @@ async function scan(directory) {
   return failures;
 }
 
-const failures = (await Promise.all(["app", "components", "stories"].map(scan))).flat();
+const failures = (await Promise.all(["app", "components", "lib", "stories", "styles", "tests"].map(scan))).flat();
 if (failures.length) {
   console.error("Copy contains forbidden dash characters:\n" + failures.join("\n"));
   process.exit(1);

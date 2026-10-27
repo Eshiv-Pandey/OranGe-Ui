@@ -1,0 +1,432 @@
+{
+  "verifiedAt": "2026-10-27T12:10:20.499Z",
+  "accessibilityScope": "Active overlay component. Whole-page landmark and heading structure belongs to the application suite.",
+  "storybookBuiltAt": "2026-10-27T12:00:55.664Z",
+  "modalHelperSha256": "5bf0ac239f2c9aafca5ad794299cddca48c6547da8e8e8618fdc646be7650d21",
+  "expectedChecks": 20,
+  "completedChecks": 20,
+  "passedChecks": 20,
+  "completedCycles": 40,
+  "observations": [
+    {
+      "story": "library-dialog--polished",
+      "palette": "light",
+      "appearance": "polished",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-sheet--polished",
+      "palette": "light",
+      "appearance": "polished",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-select--polished",
+      "palette": "light",
+      "appearance": "polished",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-dropdownmenu--polished",
+      "palette": "light",
+      "appearance": "polished",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-popover--polished",
+      "palette": "light",
+      "appearance": "polished",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-dialog--pixelated",
+      "palette": "light",
+      "appearance": "pixel",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-sheet--pixelated",
+      "palette": "light",
+      "appearance": "pixel",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-select--pixelated",
+      "palette": "light",
+      "appearance": "pixel",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-dropdownmenu--pixelated",
+      "palette": "light",
+      "appearance": "pixel",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-popover--pixelated",
+      "palette": "light",
+      "appearance": "pixel",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-dialog--polished",
+      "palette": "dark",
+      "appearance": "polished",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-sheet--polished",
+      "palette": "dark",
+      "appearance": "polished",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-select--polished",
+      "palette": "dark",
+      "appearance": "polished",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-dropdownmenu--polished",
+      "palette": "dark",
+      "appearance": "polished",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-popover--polished",
+      "palette": "dark",
+      "appearance": "polished",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-dialog--pixelated",
+      "palette": "dark",
+      "appearance": "pixel",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-sheet--pixelated",
+      "palette": "dark",
+      "appearance": "pixel",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-select--pixelated",
+      "palette": "dark",
+      "appearance": "pixel",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-dropdownmenu--pixelated",
+      "palette": "dark",
+      "appearance": "pixel",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    },
+    {
+      "story": "library-popover--pixelated",
+      "palette": "dark",
+      "appearance": "pixel",
+      "cycles": [
+        {
+          "cycle": 1,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        },
+        {
+          "cycle": 2,
+          "violations": [],
+          "focusRestored": true,
+          "backgroundRestored": true
+        }
+      ],
+      "runtimeErrors": [],
+      "passed": true
+    }
+  ]
+}

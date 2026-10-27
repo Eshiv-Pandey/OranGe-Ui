@@ -1,0 +1,250 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "E:\\CreativeCorner\\OranGe Ui\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config=out/download-validation/library-playwright.config.ts",
+      "--grep",
+      "controls, overlays"
+    ],
+    "configFile": "E:\\CreativeCorner\\OranGe Ui\\out\\download-validation\\library-playwright.config.ts",
+    "rootDir": "E:/CreativeCorner/OranGe Ui/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "E:/CreativeCorner/OranGe Ui/out/test-results/library-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "library",
+        "name": "library",
+        "testDir": "E:/CreativeCorner/OranGe Ui/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/library\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "E:\\CreativeCorner\\OranGe Ui\\out\\test-results\\library-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "library",
+        "testDir": "E:\\CreativeCorner\\OranGe Ui\\tests",
+        "snapshotDir": "E:\\CreativeCorner\\OranGe Ui\\tests",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 60000,
+        "use": {
+          "browserName": "chromium",
+          "trace": "retain-on-failure",
+          "baseURL": "http://127.0.0.1:3107"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "library"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "E:\\CreativeCorner\\OranGe Ui\\out\\library\\browser-verification.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "library.spec.ts",
+      "file": "library.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "polished controls, overlays, menus and feedback work by keyboard in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 48668,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T12:10:14.765Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-6478c993d121550b91e0",
+          "file": "library.spec.ts",
+          "line": 88,
+          "column": 110
+        },
+        {
+          "title": "pixel controls, overlays, menus and feedback work by keyboard in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 38398,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T12:11:04.093Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-2df1bc0009d7977bd96a",
+          "file": "library.spec.ts",
+          "line": 88,
+          "column": 110
+        },
+        {
+          "title": "polished controls, overlays, menus and feedback work by keyboard in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 19180,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T12:11:42.553Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-2b3f9bd7c94658874bad",
+          "file": "library.spec.ts",
+          "line": 88,
+          "column": 110
+        },
+        {
+          "title": "pixel controls, overlays, menus and feedback work by keyboard in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 16017,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T12:12:01.770Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-5c6951c78f4cab6153a0",
+          "file": "library.spec.ts",
+          "line": 88,
+          "column": 110
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-27T12:10:09.526Z",
+    "duration": 130322.44200000001,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

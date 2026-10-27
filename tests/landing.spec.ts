@@ -2,6 +2,8 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
+test.use({ reducedMotion: "reduce" });
+
 async function ready(page: Page) {
   await page.goto("http://127.0.0.1:3107/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Play with pixels.Ship with polish.");
@@ -14,7 +16,7 @@ async function ready(page: Page) {
     return { family, faces: faces.length, loaded: faces.length > 0 && faces.every((face) => face.status === "loaded") };
   })));
   expect(fonts[0].family.toLowerCase()).toContain("geist");
-  expect(fonts[1].family.toLowerCase()).toContain("pixelify");
+  expect(fonts[1].family.toLowerCase()).toContain("geist");
   for (const font of fonts) {
     expect(font.family.toLowerCase()).not.toContain("fallback");
     expect(font.loaded, `${font.family} has a successfully loaded font face`).toBe(true);
@@ -22,7 +24,7 @@ async function ready(page: Page) {
   return fonts;
 }
 
-for (const width of [1440, 390, 360]) {
+for (const width of [1440, 768, 390, 360]) {
   for (const theme of ["light", "dark"] as const) {
     test(`${width}px ${theme} page has no accessibility violations or layout shift`, async ({ browser }) => {
       const context = await browser.newContext({ viewport: { width, height: 1000 }, colorScheme: theme, reducedMotion: "reduce" });
@@ -48,7 +50,7 @@ for (const width of [1440, 390, 360]) {
       expect(results.violations).toEqual([]);
       expect(dimensions.document).toBeLessThanOrEqual(width);
       expect(dimensions.shift).toBeLessThan(0.01);
-      expect(dimensions.displayFont.toLowerCase()).toContain("pixelify");
+      expect(dimensions.displayFont.toLowerCase()).toContain("geist");
       expect(dimensions.colorScheme).toBe(theme);
       expect(errors).toEqual([]);
       await context.close();
@@ -62,7 +64,7 @@ test("search and previews work with keyboard activation", async ({ page }) => {
   await search.fill("Button");
   await search.press("Enter");
   await expect(page.locator(".stat-card-grid .stat-card")).toHaveCount(1);
-  await expect(page.getByRole("heading", { name: "Meet your new building blocks." })).toBeFocused();
+  await expect(page.getByRole("heading", { name: "Your next good idea starts here." })).toBeFocused();
   await page.getByRole("button", { name: "Clear search" }).click();
   await expect(page.locator(".stat-card-grid .stat-card")).toHaveCount(5);
   await search.fill("no-such-component");
@@ -74,25 +76,32 @@ test("search and previews work with keyboard activation", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Saved!" })).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "Reset", exact: true }).click();
   await expect(save).toHaveAttribute("aria-pressed", "false");
+  await page.getByRole("combobox", { name: "Button variant" }).selectOption("secondary");
+  await expect(save).toHaveClass(/pixel-button--secondary/);
+  await page.getByRole("button", { name: "Code", exact: true }).click();
+  await expect(page.getByLabel("button code example")).toContainText('variant="secondary"');
+  await page.getByRole("button", { name: "Preview", exact: true }).click();
+  await expect(page.locator(".stat-card-grid").getByRole("link").filter({ has: page.getByRole("heading", { name: "Input", exact: true }) })).toHaveAttribute("href", "/components/input");
+  await page.getByRole("button", { name: "Input", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Input", exact: true })).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "Try validation" }).click();
   await expect(page.getByRole("textbox", { name: "Your email" })).toHaveAttribute("aria-invalid", "true");
-  await expect(page.locator("#input-preview").getByRole("alert")).toHaveText("Enter a valid email address.");
+  await expect(page.locator(".input-demo").getByRole("alert")).toHaveText("Enter a valid email address.");
   await page.getByRole("textbox", { name: "Your email" }).fill("hello@example.com");
   await page.getByRole("button", { name: "Try validation" }).click();
   await expect(page.getByText("Looks good. You are ready to go!")).toBeVisible();
-  await page.getByRole("button", { name: "Console right", exact: true }).click();
-  await expect(page.locator(".console-message")).toHaveText("One pixel closer.");
-  await page.getByRole("button", { name: "Console down", exact: true }).click();
-  await expect(page.locator(".console-message")).toHaveText("More components loading...");
-  await page.getByRole("button", { name: "Play console demo" }).click();
-  await expect(page.getByRole("button", { name: "Play console demo" })).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "StatCard", exact: true }).click();
+  await page.getByRole("combobox", { name: "Card accent" }).selectOption("coral");
+  await expect(page.locator(".card-demo .stat-card")).toHaveClass(/stat-card--coral/);
+  await page.getByRole("button", { name: "Code", exact: true }).click();
+  await expect(page.getByLabel("statcard code example")).toContainText('accent="coral"');
 });
 
 test("every enabled control receives visible keyboard focus without a trap", async ({ page }) => {
   await ready(page);
   const count = await page.evaluate(() => {
-    const elements = Array.from(document.querySelectorAll<HTMLElement>("a[href], button, input, [tabindex]"))
-      .filter((element) => element.tabIndex >= 0 && !element.matches(":disabled") && getComputedStyle(element).display !== "none");
+    const elements = Array.from(document.querySelectorAll<HTMLElement>("a[href], button, input, select, [tabindex]"))
+      .filter((element) => element.tabIndex >= 0 && !element.matches(":disabled") && element.getBoundingClientRect().width > 0 && element.getBoundingClientRect().height > 0);
     elements.forEach((element, index) => element.dataset.focusOrder = String(index));
     return elements.length;
   });
@@ -117,10 +126,16 @@ test("every enabled control receives visible keyboard focus without a trap", asy
 });
 
 test("360px through desktop have no horizontal overflow", async ({ page }) => {
-  for (const width of [360, 390, 768, 1024, 1440]) {
+  for (const width of [360, 390, 600, 768, 800, 1024, 1100, 1101, 1279, 1280, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await ready(page);
     expect(await page.evaluate(() => document.documentElement.scrollWidth), `${width}px viewport`).toBeLessThanOrEqual(width);
+    const titles = await page.locator(".stat-card-grid h3").evaluateAll((elements) => elements.map((element) => {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      return { text: element.textContent, lines: range.getClientRects().length };
+    }));
+    for (const title of titles) expect(title.lines, `${title.text} stays on one line at ${width}px`).toBe(1);
   }
 });
 
@@ -131,10 +146,11 @@ for (const deviceScaleFactor of [1, 2]) {
     await ready(page);
     expect(await page.evaluate(() => devicePixelRatio)).toBe(deviceScaleFactor);
     const cursor = async (selector: string) => page.locator(selector).first().evaluate((element) => getComputedStyle(element).cursor);
-    const arrow = await cursor("body");
+    const arrow = await page.locator("html").evaluate((element) => getComputedStyle(element).getPropertyValue("--pixel-arrow-cursor").trim());
     const heart = await cursor(".stat-card--linked");
     expect(heart).not.toEqual(arrow);
-    for (const selector of ["a", ".pixel-button:not(:disabled)", "label[for]"]) expect(await cursor(selector)).toEqual(heart);
+    expect(await cursor("body")).toBe("auto");
+    expect(await cursor(".pixel-button:not(:disabled)")).toBe("pointer");
     expect(await cursor(".pixel-input")).toBe("text");
     expect(await cursor(".pixel-button:disabled")).toBe("not-allowed");
     const observations = [];
@@ -177,43 +193,79 @@ test("touch devices use native cursors", async ({ browser }) => {
   await touch.close();
 });
 
-test("grass animation pauses and resumes on visibility state changes", async ({ page }) => {
+test("console supports buttons, keyboard, pause, win, and reset", async ({ page }) => {
+  await ready(page);
+  const device = page.getByRole("group", { name: "Interactive handheld console" });
+  await expect(page.getByRole("button", { name: "Console right" })).toBeDisabled();
+  await device.focus();
+  await device.press("Enter");
+  await expect(page.getByRole("button", { name: "Pause console demo" })).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "Console right" }).click();
+  await expect(page.locator(".console-board")).toHaveAttribute("data-player", "3,1");
+  await page.getByRole("button", { name: "Pause console demo" }).click();
+  await device.press("ArrowRight");
+  await expect(page.locator(".console-board")).toHaveAttribute("data-player", "3,1");
+  await page.getByRole("button", { name: "Play console demo" }).click();
+  for (const key of ["ArrowRight", "ArrowUp", "a", "a", "a", "a", "s", "s"]) await device.press(key);
+  await expect(page.locator(".console-message")).toHaveText("All four found. Nicely played!");
+  await page.getByRole("button", { name: "Play console demo" }).click();
+  await expect(page.locator(".console-board")).toHaveAttribute("data-player", "2,1");
+  const result = await new AxeBuilder({ page }).include(".coming-soon").analyze();
+  expect(result.violations).toEqual([]);
+  await page.getByRole("button", { name: "Reset game" }).click();
+  await expect(page.locator(".console-title")).toHaveText("PRESSPLAY");
+  await device.press("Enter");
+  await device.press("Escape");
+  await expect(page.locator(".console-title")).toHaveText("PRESSPLAY");
+});
+
+test("hero pauses rendering manually, offscreen, and while the tab is hidden", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await ready(page);
-  const grass = page.locator(".pixel-grass");
-  const states = () => grass.evaluate((element) => element.getAnimations({ subtree: true }).map((animation) => animation.playState));
-  await expect.poll(states).toEqual(["running", "running"]);
+  const art = page.locator(".hero-art");
+  const canvas = art.locator("canvas");
+  await expect(art).toHaveAttribute("data-renderer", "webgl");
+  await expect(canvas).toHaveAttribute("data-running", "true");
+  const frames = () => canvas.getAttribute("data-frames").then(Number);
+  const assertStopped = async () => {
+    await expect(canvas).toHaveAttribute("data-running", "false");
+    const before = await frames();
+    await page.waitForTimeout(150);
+    expect(await frames()).toBe(before);
+  };
+  const assertResumed = async () => {
+    await expect(canvas).toHaveAttribute("data-running", "true");
+    const before = await frames();
+    await expect.poll(frames).toBeGreaterThan(before);
+  };
+  const pause = page.locator(".motion-toggle");
+  await pause.click();
+  await assertStopped();
+  await pause.click();
+  await assertResumed();
+  await page.locator("#playground").scrollIntoViewIfNeeded();
+  await expect(art).not.toBeInViewport();
+  await assertStopped();
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  await assertResumed();
   await page.evaluate(() => {
     Object.defineProperty(document, "visibilityState", { configurable: true, get: () => "hidden" });
     document.dispatchEvent(new Event("visibilitychange"));
   });
-  await expect(grass).toHaveAttribute("data-paused", "true");
-  await expect.poll(states).toEqual(["paused", "paused"]);
-  const frozen = await grass.evaluate(async (element) => {
-    const animations = element.getAnimations({ subtree: true });
-    await Promise.all(animations.map((animation) => animation.ready));
-    const before = animations.map((animation) => animation.currentTime);
-    await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
-    return animations.every((animation, index) => animation.currentTime === before[index]);
-  });
-  expect(frozen).toBe(true);
+  await assertStopped();
   await page.evaluate(() => {
     Reflect.deleteProperty(document, "visibilityState");
     document.dispatchEvent(new Event("visibilitychange"));
   });
-  await expect(grass).not.toHaveAttribute("data-paused");
-  await expect.poll(states).toEqual(["running", "running"]);
-  const resumed = await grass.evaluate(async (element) => {
-    const animations = element.getAnimations({ subtree: true });
-    await Promise.all(animations.map((animation) => animation.ready));
-    const before = animations.map((animation) => Number(animation.currentTime));
-    await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
-    return animations.every((animation, index) => Number(animation.currentTime) > before[index]);
-  });
-  expect(resumed).toBe(true);
+  await assertResumed();
+  await pause.click();
+  await expect(page.locator(".hero-static")).toHaveCSS("opacity", "0");
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  await page.screenshot({ path: "out/hero-webgl-desktop.png" });
 });
 
-test("dark toggle persists and reduced motion stops ambient animations", async ({ page }) => {
+test("dark toggle persists and reduced motion uses a static hero", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
   await ready(page);
   const toggle = page.getByRole("button", { name: "Dark mode" });
@@ -221,9 +273,97 @@ test("dark toggle persists and reduced motion stops ambient animations", async (
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await page.reload();
   await expect(toggle).toHaveAttribute("aria-pressed", "true");
-  const animations = await page.locator(".pixel-grass__layer, .pixel-mascot__body, .gamer-boy__thumb").evaluateAll((elements) => elements.map((element) => getComputedStyle(element).animationName));
-  expect(animations.length).toBeGreaterThan(3);
-  expect(animations.every((value) => value === "none")).toBe(true);
+  await expect(page.locator(".hero-art")).toHaveAttribute("data-renderer", "static");
+  await expect(page.locator(".hero-art canvas")).toHaveCount(0);
+  await expect(page.locator(".motion-toggle")).toBeDisabled();
+  const animations = await page.locator(".hero-heading, .hero-art").evaluateAll((elements) => elements.map((element) => getComputedStyle(element).animationName));
+  expect(animations).toEqual(["none", "none"]);
   await toggle.click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(page.locator(".hero-art")).toHaveAttribute("data-renderer", "webgl");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator(".hero-art canvas")).toHaveCount(0);
+  await expect(page.locator(".hero-static")).toHaveCSS("opacity", "1");
+});
+
+test("unavailable graphics and context loss preserve the original static scene", async ({ browser }) => {
+  const context = await browser.newContext({ reducedMotion: "no-preference" });
+  const page = await context.newPage();
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.addInitScript(() => {
+    const original = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, ...args: Parameters<typeof original>) {
+      if (String(args[0]).includes("webgl")) {
+        document.documentElement.dataset.webglAttempted = "true";
+        return null;
+      }
+      return Reflect.apply(original, this, args);
+    } as typeof original;
+  });
+  await ready(page);
+  await expect(page.locator("html")).toHaveAttribute("data-webgl-attempted", "true");
+  await expect(page.locator(".hero-art")).toHaveAttribute("data-renderer", "static");
+  await expect(page.locator(".hero-static")).toHaveCSS("opacity", "1");
+  await page.getByRole("link", { name: "Explore components" }).click();
+  await expect(page.locator("#components-title")).toBeInViewport();
+  expect(errors).toEqual([]);
+  await context.close();
+
+  const supported = await browser.newContext({ reducedMotion: "no-preference" });
+  const live = await supported.newPage();
+  await ready(live);
+  await expect(live.locator(".hero-art")).toHaveAttribute("data-renderer", "webgl");
+  await live.locator(".hero-art canvas").evaluate((element) => {
+    const gl = (element as HTMLCanvasElement).getContext("webgl2")!;
+    gl.getExtension("WEBGL_lose_context")!.loseContext();
+  });
+  await expect(live.locator(".hero-art")).toHaveAttribute("data-renderer", "static");
+  await expect(live.locator(".hero-art canvas")).toHaveAttribute("data-running", "false");
+  await expect(live.locator(".hero-static")).toHaveCSS("opacity", "1");
+  await supported.close();
+});
+
+test("static content and component links are usable before JavaScript loads", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto("/");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.locator(".hero-heading")).toHaveCSS("opacity", "1");
+  await expect(page.locator(".hero-static")).toBeVisible();
+  await page.getByRole("link", { name: "Explore components" }).click();
+  await expect(page.locator("#components-title")).toBeInViewport();
+  await expect(page.locator(".stat-card-grid .stat-card")).toHaveCount(5);
+  await context.close();
+});
+
+test("touch composition keeps the console controls usable and disables pointer motion", async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 360, height: 800 }, isMobile: true, hasTouch: true, reducedMotion: "no-preference" });
+  const page = await context.newPage();
+  await ready(page);
+  await expect(page.locator(".hero-art")).toHaveAttribute("data-renderer", "webgl");
+  await expect(page.locator(".hero-art")).toHaveAttribute("data-interaction", "touch");
+  await page.locator(".motion-toggle").tap();
+  await expect(page.locator(".hero-static")).toHaveCSS("opacity", "0");
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  await page.screenshot({ path: "out/hero-webgl-mobile.png" });
+  await page.getByRole("button", { name: "Play console demo" }).tap();
+  const dimensions = await page.locator(".console-button").evaluateAll((buttons) => buttons.map((button) => {
+    const bounds = button.getBoundingClientRect();
+    const shell = button.closest(".handheld")!.getBoundingClientRect();
+    return { width: bounds.width, height: bounds.height, contained: bounds.left >= shell.left && bounds.right <= shell.right };
+  }));
+  for (const dimension of dimensions) {
+    expect(dimension.width).toBeGreaterThanOrEqual(44);
+    expect(dimension.height).toBeGreaterThanOrEqual(44);
+    expect(dimension.contained).toBe(true);
+  }
+  await page.getByRole("button", { name: "Console right" }).tap();
+  await expect(page.locator(".console-board")).toHaveAttribute("data-player", "3,1");
+  const result = await new AxeBuilder({ page }).include(".coming-soon").analyze();
+  expect(result.violations).toEqual([]);
+  await page.locator(".handheld").screenshot({ path: "out/console-playing-mobile.png" });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
+  await context.close();
 });

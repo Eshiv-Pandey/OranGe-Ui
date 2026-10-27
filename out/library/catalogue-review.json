@@ -1,0 +1,1625 @@
+{
+  "baseURL": "http://127.0.0.1:3107",
+  "reviewedAt": "2026-10-27T11:54:06.691Z",
+  "scenarios": 16,
+  "passed": 16,
+  "failed": 0,
+  "observations": [
+    {
+      "width": 1440,
+      "appearance": "polished",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "60px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Geist",
+          "fontSize": "14px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "55.5581px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "polished",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.800048828125,
+            "height": 157.018798828125,
+            "clearance": {
+              "top": 30.9984130859375,
+              "right": 80.9281005859375,
+              "bottom": 31.9827880859375,
+              "left": 80.9437255859375
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 195.94921875,
+            "clearance": {
+              "top": 11.525390625,
+              "right": 101.12811279296875,
+              "bottom": 12.525390625,
+              "left": 101.14373779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 192.32421875,
+            "clearance": {
+              "top": 13.337890625,
+              "right": 80.52813720703125,
+              "bottom": 14.337890625,
+              "left": 80.52813720703125
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-1440-polished-light.png",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "appearance": "polished",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "60px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Geist",
+          "fontSize": "14px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "55.5581px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "polished",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.800048828125,
+            "height": 157.018798828125,
+            "clearance": {
+              "top": 30.9984130859375,
+              "right": 80.9281005859375,
+              "bottom": 31.9827880859375,
+              "left": 80.9437255859375
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 195.94921875,
+            "clearance": {
+              "top": 11.525390625,
+              "right": 101.12811279296875,
+              "bottom": 12.525390625,
+              "left": 101.14373779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 192.32421875,
+            "clearance": {
+              "top": 13.337890625,
+              "right": 80.52813720703125,
+              "bottom": 14.337890625,
+              "left": 80.52813720703125
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-1440-polished-dark.png",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "appearance": "pixel",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "60px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Pixel",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "54.5381px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "pixel",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.800048828125,
+            "height": 177.73876953125,
+            "clearance": {
+              "top": 20.638427734375,
+              "right": 80.9281005859375,
+              "bottom": 21.622802734375,
+              "left": 80.9437255859375
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 195.2607421875,
+            "clearance": {
+              "top": 11.86962890625,
+              "right": 101.12811279296875,
+              "bottom": 12.86962890625,
+              "left": 101.14373779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 196.96484375,
+            "clearance": {
+              "top": 11.017578125,
+              "right": 80.52813720703125,
+              "bottom": 12.017578125,
+              "left": 80.52813720703125
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-1440-pixel-light.png",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "appearance": "pixel",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "60px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Pixel",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "54.5381px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "pixel",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.800048828125,
+            "height": 177.73876953125,
+            "clearance": {
+              "top": 20.638427734375,
+              "right": 80.9281005859375,
+              "bottom": 21.622802734375,
+              "left": 80.9437255859375
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 195.2607421875,
+            "clearance": {
+              "top": 11.86962890625,
+              "right": 101.12811279296875,
+              "bottom": 12.86962890625,
+              "left": 101.14373779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 196.96484375,
+            "clearance": {
+              "top": 11.017578125,
+              "right": 80.52813720703125,
+              "bottom": 12.017578125,
+              "left": 80.52813720703125
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-1440-pixel-dark.png",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "appearance": "polished",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "36px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Geist",
+          "fontSize": "14px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "55.5581px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 768,
+        "documentWidth": 768,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "polished",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 157.0185546875,
+            "clearance": {
+              "top": 30.99853515625,
+              "right": 27.350006103515625,
+              "bottom": 31.98291015625,
+              "left": 27.350006103515625
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 195.94921875,
+            "clearance": {
+              "top": 11.525390625,
+              "right": 47.54998779296875,
+              "bottom": 12.525390625,
+              "left": 47.54998779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 192.32421875,
+            "clearance": {
+              "top": 13.337890625,
+              "right": 26.95001220703125,
+              "bottom": 14.337890625,
+              "left": 26.95001220703125
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-768-polished-light.png",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "appearance": "polished",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "36px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Geist",
+          "fontSize": "14px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "55.5581px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 768,
+        "documentWidth": 768,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "polished",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 157.0185546875,
+            "clearance": {
+              "top": 30.99853515625,
+              "right": 27.350006103515625,
+              "bottom": 31.98291015625,
+              "left": 27.350006103515625
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 195.94921875,
+            "clearance": {
+              "top": 11.525390625,
+              "right": 47.54998779296875,
+              "bottom": 12.525390625,
+              "left": 47.54998779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 192.32421875,
+            "clearance": {
+              "top": 13.337890625,
+              "right": 26.95001220703125,
+              "bottom": 14.337890625,
+              "left": 26.95001220703125
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-768-polished-dark.png",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "appearance": "pixel",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "36px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Pixel",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "54.5381px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 768,
+        "documentWidth": 768,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "pixel",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 177.73876953125,
+            "clearance": {
+              "top": 20.638427734375,
+              "right": 27.350006103515625,
+              "bottom": 21.622802734375,
+              "left": 27.350006103515625
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 195.2607421875,
+            "clearance": {
+              "top": 11.86962890625,
+              "right": 47.54998779296875,
+              "bottom": 12.86962890625,
+              "left": 47.54998779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 196.96484375,
+            "clearance": {
+              "top": 11.017578125,
+              "right": 26.95001220703125,
+              "bottom": 12.017578125,
+              "left": 26.95001220703125
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-768-pixel-light.png",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "appearance": "pixel",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "36px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Pixel",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "54.5381px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 768,
+        "documentWidth": 768,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "pixel",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 177.73876953125,
+            "clearance": {
+              "top": 20.638427734375,
+              "right": 27.350006103515625,
+              "bottom": 21.622802734375,
+              "left": 27.350006103515625
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 195.2607421875,
+            "clearance": {
+              "top": 11.86962890625,
+              "right": 47.54998779296875,
+              "bottom": 12.86962890625,
+              "left": 47.54998779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 196.96484375,
+            "clearance": {
+              "top": 11.017578125,
+              "right": 26.95001220703125,
+              "bottom": 12.017578125,
+              "left": 26.95001220703125
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-768-pixel-dark.png",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "appearance": "polished",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "38px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Geist",
+          "fontSize": "14px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "55.5581px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "polished",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 157.0185546875,
+            "clearance": {
+              "top": 35.99853515625,
+              "right": 81.60001373291016,
+              "bottom": 36.98291015625,
+              "left": 81.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.40000915527344,
+            "height": 195.94921875,
+            "clearance": {
+              "top": 16.525390625,
+              "right": 101.79998779296875,
+              "bottom": 17.525390625,
+              "left": 101.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 192.32421875,
+            "clearance": {
+              "top": 18.337890625,
+              "right": 81.20001983642578,
+              "bottom": 19.337890625,
+              "left": 81.20000457763672
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-390-polished-light.png",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "appearance": "polished",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "38px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Geist",
+          "fontSize": "14px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "55.5581px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "polished",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 157.0185546875,
+            "clearance": {
+              "top": 35.99853515625,
+              "right": 81.60001373291016,
+              "bottom": 36.98291015625,
+              "left": 81.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.40000915527344,
+            "height": 195.94921875,
+            "clearance": {
+              "top": 16.525390625,
+              "right": 101.79998779296875,
+              "bottom": 17.525390625,
+              "left": 101.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 192.32421875,
+            "clearance": {
+              "top": 18.337890625,
+              "right": 81.20001983642578,
+              "bottom": 19.337890625,
+              "left": 81.20000457763672
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-390-polished-dark.png",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "appearance": "pixel",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "38px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Pixel",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "54.5381px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "pixel",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 177.73828125,
+            "clearance": {
+              "top": 25.638671875,
+              "right": 81.60001373291016,
+              "bottom": 26.623046875,
+              "left": 81.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.40000915527344,
+            "height": 195.259765625,
+            "clearance": {
+              "top": 16.8701171875,
+              "right": 101.79998779296875,
+              "bottom": 17.8701171875,
+              "left": 101.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 196.96484375,
+            "clearance": {
+              "top": 16.017578125,
+              "right": 81.20001983642578,
+              "bottom": 17.017578125,
+              "left": 81.20000457763672
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-390-pixel-light.png",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "appearance": "pixel",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "38px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Pixel",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "54.5381px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "pixel",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 177.73828125,
+            "clearance": {
+              "top": 25.638671875,
+              "right": 81.60001373291016,
+              "bottom": 26.623046875,
+              "left": 81.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.40000915527344,
+            "height": 195.259765625,
+            "clearance": {
+              "top": 16.8701171875,
+              "right": 101.79998779296875,
+              "bottom": 17.8701171875,
+              "left": 101.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 196.96484375,
+            "clearance": {
+              "top": 16.017578125,
+              "right": 81.20001983642578,
+              "bottom": 17.017578125,
+              "left": 81.20000457763672
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-390-pixel-dark.png",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "appearance": "polished",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "38px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Geist",
+          "fontSize": "14px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "55.5581px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 360,
+        "documentWidth": 360,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "polished",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 157.0185546875,
+            "clearance": {
+              "top": 35.99853515625,
+              "right": 66.60001373291016,
+              "bottom": 36.98291015625,
+              "left": 66.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.39999389648438,
+            "height": 195.94921875,
+            "clearance": {
+              "top": 16.525390625,
+              "right": 86.80000305175781,
+              "bottom": 17.525390625,
+              "left": 86.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 192.32421875,
+            "clearance": {
+              "top": 18.337890625,
+              "right": 66.20001983642578,
+              "bottom": 19.337890625,
+              "left": 66.20000457763672
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-360-polished-light.png",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "appearance": "polished",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "38px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Geist",
+          "fontSize": "14px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "55.5581px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 360,
+        "documentWidth": 360,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "polished",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 157.0185546875,
+            "clearance": {
+              "top": 35.99853515625,
+              "right": 66.60001373291016,
+              "bottom": 36.98291015625,
+              "left": 66.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.39999389648438,
+            "height": 195.94921875,
+            "clearance": {
+              "top": 16.525390625,
+              "right": 86.80000305175781,
+              "bottom": 17.525390625,
+              "left": 86.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 192.32421875,
+            "clearance": {
+              "top": 18.337890625,
+              "right": 66.20001983642578,
+              "bottom": 19.337890625,
+              "left": 66.20000457763672
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-360-polished-dark.png",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "appearance": "pixel",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "38px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Pixel",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "54.5381px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 360,
+        "documentWidth": 360,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "pixel",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 177.73828125,
+            "clearance": {
+              "top": 25.638671875,
+              "right": 66.60001373291016,
+              "bottom": 26.623046875,
+              "left": 66.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.39999389648438,
+            "height": 195.259765625,
+            "clearance": {
+              "top": 16.8701171875,
+              "right": 86.80000305175781,
+              "bottom": 17.8701171875,
+              "left": 86.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 196.96484375,
+            "clearance": {
+              "top": 16.017578125,
+              "right": 66.20001983642578,
+              "bottom": 17.017578125,
+              "left": 66.20000457763672
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-360-pixel-light.png",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "appearance": "pixel",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "fontSize": "38px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button",
+          "family": "oRange Pixel",
+          "fontSize": "16px",
+          "faces": 5,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "fontSize": "54.5381px",
+          "faces": 5,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 360,
+        "documentWidth": 360,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "pixel",
+        "components": 32,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 177.73828125,
+            "clearance": {
+              "top": 25.638671875,
+              "right": 66.60001373291016,
+              "bottom": 26.623046875,
+              "left": 66.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.39999389648438,
+            "height": 195.259765625,
+            "clearance": {
+              "top": 16.8701171875,
+              "right": 86.80000305175781,
+              "bottom": 17.8701171875,
+              "left": 86.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 196.96484375,
+            "clearance": {
+              "top": 16.017578125,
+              "right": 66.20001983642578,
+              "bottom": 17.017578125,
+              "left": 66.20000457763672
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-360-pixel-dark.png",
+      "passed": true
+    }
+  ]
+}

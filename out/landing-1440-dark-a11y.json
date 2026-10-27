@@ -5,19 +5,19 @@
   "dimensions": {
     "viewport": 1440,
     "document": 1440,
-    "shift": 0,
-    "displayFont": "\"Pixelify Sans\", \"Pixelify Sans Fallback\", monospace",
+    "shift": 0.0008724305555555557,
+    "displayFont": "\"oRange Geist\", Arial, sans-serif",
     "colorScheme": "dark"
   },
   "fonts": [
     {
-      "family": "Geist",
-      "faces": 1,
+      "family": "oRange Geist",
+      "faces": 3,
       "loaded": true
     },
     {
-      "family": "Pixelify Sans",
-      "faces": 1,
+      "family": "oRange Geist",
+      "faces": 3,
       "loaded": true
     }
   ],
