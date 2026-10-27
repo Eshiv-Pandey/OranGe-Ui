@@ -32,13 +32,16 @@ export async function componentFiles(component: ComponentDefinition, appearance:
     const normalized = path.posix.normalize(relative.replaceAll("\\", "/"));
     if (!allowedSource(normalized)) throw new Error("Source dependency outside component folders");
     if (files[normalized]) return;
-    let sourcePath: string;
-    if (normalized.startsWith("components/ui/")) sourcePath = path.join(root, "components/ui", normalized.slice("components/ui/".length));
-    else if (normalized.startsWith("lib/avatar/")) sourcePath = path.join(root, "lib/avatar", normalized.slice("lib/avatar/".length));
-    else if (normalized.startsWith("styles/")) sourcePath = path.join(root, "styles", normalized.slice("styles/".length));
-    else if (normalized.startsWith("public/fonts/")) sourcePath = path.join(root, "public/fonts", normalized.slice("public/fonts/".length));
-    else throw new Error("Source dependency outside component folders");
-    const data = await readFile(sourcePath); files[normalized] = new Uint8Array(data);
+    // Keep each read statically scoped so production tracing includes only the
+    // downloadable source folders, never private root files or build artifacts.
+    const data = normalized.startsWith("components/ui/")
+      ? await readFile(path.join(root, "components/ui", normalized.slice("components/ui/".length)))
+      : normalized.startsWith("lib/avatar/")
+        ? await readFile(path.join(root, "lib/avatar", normalized.slice("lib/avatar/".length)))
+        : normalized.startsWith("styles/")
+          ? await readFile(path.join(root, "styles", normalized.slice("styles/".length)))
+          : await readFile(path.join(root, "public/fonts", normalized.slice("public/fonts/".length)));
+    files[normalized] = new Uint8Array(data);
     if (!/\.(tsx?|css)$/.test(normalized)) return;
     await includeImports(data.toString("utf8"), normalized);
   }
