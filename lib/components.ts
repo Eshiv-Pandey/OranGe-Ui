@@ -1,3 +1,4 @@
+import type { Appearance } from "../components/ui/appearance";
 export type ComponentCategory = "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play";
 export type PropDoc = { name: string; type: string; defaultValue: string; description: string };
 export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string };
@@ -744,36 +745,118 @@ export const components: ComponentDefinition[] = [
     "slug": "avatar",
     "name": "Avatar",
     "category": "Content & layout",
-    "description": "A face, initials, and an optional presence indicator.",
+    "description": "An original gradient identity, generated from a seed. No upload needed.",
     "props": [
       {
-        "name": "name",
+        "name": "seed",
         "type": "string",
-        "defaultValue": "required",
-        "description": "Accessible name and source of fallback initials."
+        "defaultValue": "name or orangeui:guest",
+        "description": "A stable user ID or handle produces the same avatar everywhere."
       },
       {
-        "name": "src",
-        "type": "string",
-        "defaultValue": "Not set",
-        "description": "Optional image; failures show initials."
+        "name": "config",
+        "type": "AvatarConfig",
+        "defaultValue": "Generated from seed",
+        "description": "Pass saved JSON to reconstruct a customized avatar. Takes precedence over seed."
       },
       {
         "name": "size",
-        "type": "\"sm\" | \"md\" | \"lg\"",
+        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | number",
         "defaultValue": "\"md\"",
-        "description": "32, 48, or 72px."
+        "description": "xs: 24px, sm: 32px, md: 48px, lg: 72px, xl: 112px. Numeric sizes use pixels and stay within 12 to 2048px."
+      },
+      {
+        "name": "shape",
+        "type": "\"squircle\" | \"circle\" | \"rounded\" | \"square\"",
+        "defaultValue": "Config shape",
+        "description": "Overrides the saved shape. Pixel appearance uses stepped edges."
+      },
+      {
+        "name": "name / aria-label",
+        "type": "string",
+        "defaultValue": "Generated profile avatar",
+        "description": "Accessible description. Name also provides a seed when seed is omitted."
       },
       {
         "name": "status",
         "type": "\"online\" | \"away\" | \"offline\"",
         "defaultValue": "Not set",
-        "description": "Presence state, included in the accessible name."
+        "description": "Optional presence badge inside the SVG."
       }
     ],
     "keyboard": "A labelled image, not an extra tab stop. Wrap it in a named link or button when it performs an action.",
-    "usage": "<Avatar appearance=\"polished\" name=\"Orange Studio\" size=\"lg\" status=\"online\" />",
+    "usage": "<Avatar appearance=\"polished\" seed=\"user-42\" name=\"Maya Patel\" size=\"lg\" />",
     "file": "components/ui/avatar.tsx"
+  },
+  {
+    "slug": "avatar-group",
+    "name": "AvatarGroup",
+    "category": "Content & layout",
+    "description": "A small crowd of original identities, with room for everyone.",
+    "props": [
+      {
+        "name": "avatars",
+        "type": "readonly (string | AvatarProps)[]",
+        "defaultValue": "required",
+        "description": "Seeds or complete avatar props in display order."
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "defaultValue": "5",
+        "description": "Maximum visible avatars before a +N overflow chip."
+      },
+      {
+        "name": "size",
+        "type": "AvatarSize",
+        "defaultValue": "\"md\"",
+        "description": "Shared avatar size, including the overflow chip."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "defaultValue": "People",
+        "description": "Accessible name for the collection, followed by the total person count."
+      }
+    ],
+    "keyboard": "A labelled collection, not an extra tab stop. Names and the overflow count are available to assistive technology.",
+    "usage": "<AvatarGroup appearance=\"polished\" avatars={[\"maya\", \"leo\", \"mira\", \"ari\", \"zoe\", \"noah\"]} max={4} label=\"Project team\" />",
+    "file": "components/ui/avatar-group.tsx"
+  },
+  {
+    "slug": "avatar-editor",
+    "name": "AvatarEditor",
+    "category": "Forms & actions",
+    "description": "Make a generated identity your own, one thoughtful detail at a time.",
+    "props": [
+      {
+        "name": "value",
+        "type": "AvatarConfig",
+        "defaultValue": "required",
+        "description": "The current config. The parent owns this state."
+      },
+      {
+        "name": "onChange",
+        "type": "(config: AvatarConfig) => void",
+        "defaultValue": "required",
+        "description": "Emits edits, shuffles, and resets. Save the JSON in your own application."
+      },
+      {
+        "name": "seed",
+        "type": "string",
+        "defaultValue": "orangeui:guest",
+        "description": "The identity used by Reset to default."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "defaultValue": "Customize your avatar",
+        "description": "Accessible name for the editor region."
+      }
+    ],
+    "keyboard": "Tab moves between controls. Arrow keys select palettes and glyphs within their groups and adjust the angle. Shuffle emits a new config; Reset restores the seed default.",
+    "usage": "<AvatarEditor appearance=\"polished\" seed=\"user-42\" value={config} onChange={setConfig} />",
+    "file": "components/ui/avatar-editor.tsx"
   },
   {
     "slug": "card",
@@ -951,11 +1034,12 @@ export const components: ComponentDefinition[] = [
   }
 ];
 export function findComponent(slug: string) { return components.find((component) => component.slug === slug); }
-export function componentUsage(component: ComponentDefinition, appearance: "polished" | "pixel") {
+export function componentUsage(component: ComponentDefinition, appearance: Appearance) {
+  if (component.slug === "avatar-editor") return '"use client";\n\nimport { useState } from "react";\nimport { AvatarEditor } from "./components/ui/avatar-editor";\nimport { generateAvatarConfig } from "./lib/avatar/index";\n\nexport default function Example() {\n  const [config, setConfig] = useState(() => generateAvatarConfig("user-42"));\n  return <AvatarEditor appearance="' + appearance + '" seed="user-42" value={config} onChange={setConfig} />;\n}\n';
   const imports = [`import { ${component.name === "Toast" ? "Toast, ToastProvider" : component.name} } from "./${component.file.replace(/\.tsx$/, "")}";`];
   if (component.usage.includes("<Button") && component.name !== "Button") imports.push('import { Button } from "./components/ui/button";');
   if (component.usage.includes("<Input") && component.name !== "Input") imports.push('import { Input } from "./components/ui/input";');
   if (component.usage.includes("<Switch") && component.name !== "Switch") imports.push('import { Switch } from "./components/ui/switch";');
   const jsx = component.usage.replace(/<(Button|Input|Switch)(?![A-Za-z])(?=\s|>)(?! appearance=)/g, `<$1 appearance="${appearance}"`).replaceAll('appearance="polished"', `appearance="${appearance}"`);
-  return '"use client";\n\n' + imports.join("\n") + "\n\nexport default function Example() {\n  return (\n    " + jsx + "\n  );\n}\n";
+  return (component.slug === "avatar" || component.slug === "avatar-group" ? "" : '"use client";\n\n') + imports.join("\n") + "\n\nexport default function Example() {\n  return (\n    " + jsx + "\n  );\n}\n";
 }

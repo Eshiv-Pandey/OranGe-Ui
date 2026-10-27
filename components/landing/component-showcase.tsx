@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { components } from "../../lib/components";
 
 import { useState, useSyncExternalStore, type FormEvent } from "react";
 import { Button } from "../ui/button";
@@ -8,11 +9,11 @@ import { StatCard, type StatCardProps } from "../ui/stat-card";
 import { Icon } from "./icon";
 
 const cards = [
-  { accent: "lime", title: "Button", subtitle: "Small click. Solid impression.", stats: [{ label: "Variants", value: "03" }, { label: "Appearances", value: "02" }], footer: "Ready for action", art: "button", href: "/components/button" },
-  { accent: "mint", title: "Input", subtitle: "A little room for your next idea.", stats: [{ label: "Appearances", value: "02" }, { label: "Native input", value: "100%" }], footer: "Every detail counts", art: "input", href: "/components/input" },
+  { accent: "lime", title: "Button", subtitle: "Small click. Solid impression.", stats: [{ label: "Variants", value: "03" }, { label: "Appearances", value: "05" }], footer: "Ready for action", art: "button", href: "/components/button" },
+  { accent: "mint", title: "Input", subtitle: "A little room for your next idea.", stats: [{ label: "Appearances", value: "05" }, { label: "Native input", value: "100%" }], footer: "Every detail counts", art: "input", href: "/components/input" },
   { accent: "amber", title: "StatCard", subtitle: "Good numbers. Great company.", stats: [{ label: "Accents", value: "05" }, { label: "Stats per card", value: "02" }], footer: "Made to stand out", art: "card", href: "/components/stat-card?style=pixel" },
-  { accent: "sky", title: "Dialog", subtitle: "A little space for the important things.", stats: [{ label: "Appearances", value: "02" }, { label: "Palettes", value: "02" }], footer: "Room to focus", art: "grid", href: "/components/dialog" },
-  { accent: "coral", title: "GamerBoy", subtitle: "Take a break. Find your next star.", stats: [{ label: "Stars to find", value: "04" }, { label: "Appearances", value: "02" }], footer: "Press play", art: "heart", href: "/components/gamer-boy" },
+  { accent: "sky", title: "Dialog", subtitle: "A little space for the important things.", stats: [{ label: "Appearances", value: "05" }, { label: "Palettes", value: "02" }], footer: "Room to focus", art: "grid", href: "/components/dialog" },
+  { accent: "coral", title: "GamerBoy", subtitle: "Take a break. Find your next star.", stats: [{ label: "Stars to find", value: "04" }, { label: "Appearances", value: "05" }], footer: "Press play", art: "heart", href: "/components/gamer-boy" },
 ] satisfies (Omit<StatCardProps, "counter" | "art"> & { art: string })[];
 
 function CardArt({ kind }: { kind: string }) {
@@ -95,11 +96,11 @@ export function ComponentShowcase() {
           <Button type="submit" variant="ghost" aria-label="Find components"><Icon name="arrow" /></Button>
         </form>
       </div>
-      <p className="catalog-intro">Five favourites from a collection of 32. Each has a polished and pixelated side.</p>
+      <p className="catalog-intro">Five favourites from a collection of {components.length}. Five appearances, ready to make your own.</p>
       {normalized && <div className="search-results"><p role="status">{filtered.length} {filtered.length === 1 ? "result" : "results"} for &quot;{query.trim()}&quot;</p><Button variant="ghost" onClick={() => setQuery("")}>Clear search<Icon name="close" /></Button></div>}
       <div className="stat-card-grid">{filtered.map((card) => <StatCard appearance="pixel" key={card.title} {...card} art={<CardArt kind={card.art} />} counter={`0${cards.indexOf(card) + 1} / 05`} />)}</div>
       {!filtered.length && <p className="empty-search">No matches yet. Try Button, Input, or StatCard.</p>}
-      <div className="collection-notes"><span><Icon name="check" />Polished by default</span><span><Icon name="heart" />A pixelated side</span><span><Icon name="code" />Source included</span><Link href="/components">Explore all 32 components →</Link></div>
+      <div className="collection-notes"><span><Icon name="check" />Polished by default</span><span><Icon name="heart" />A pixelated side</span><span><Icon name="code" />Source included</span><Link href="/components">Explore all {components.length} components →</Link></div>
     </section>
     <InteractivePreview />
   </div>;

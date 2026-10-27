@@ -136,3 +136,25 @@
 @media (max-width: 900px) { .library-layout { grid-template-columns: 215px minmax(0, 1fr); } .library-sidebar { padding: 24px 14px; } .library-main { padding: 24px; } .library-header { padding: 0 24px; gap: 24px; } .library-topline > span { display: none; } .library-topline { justify-content: flex-end; } .detail-demo { padding: 40px 24px; } .detail-caption > span:last-child { display: none; } .detail-section-title { align-items: flex-start; flex-direction: column; margin-bottom: 20px; } }
 @media (max-width: 720px) { .library-header { height: 72px; padding: 0 20px; gap: 16px; } .library-header > nav, .library-sidebar { display: none; } .library-layout { display: block; } .library-main { padding: 22px 20px 0; } .library-mobile-menu { display: block; } .library-header .wordmark { font-size: 21px; gap: 7px; } .library-header .wordmark svg { width: 25px; } .library-header .theme-toggle { padding: 10px; min-width: 44px; } .library-header .theme-toggle .pixel-button__content > span { display: none; } .library-heading { margin-top: 32px; } .library-heading h1 { font-size: 42px; } .library-heading > p:not(.library-kicker) { font-size: 14px; } .desktop-break { display: none; } .library-topline { justify-content: space-between; } .library-topline > span { display: block; font-size: 8px; max-width: 80px; } .appearance-picker button { padding: 8px 10px; } .component-grid { gap: 16px; } .catalogue-controls { gap: 12px; } .catalogue-controls > p { font-size: 10px; white-space: nowrap; } .catalogue-filters { margin-top: 16px; } .library-footer { flex-direction: column; gap: 10px; margin-top: 48px; } .ui-sheet .library-nav a { min-height: 40px; } .ui-sheet .library-nav { font-size: 14px; } .detail-demo { padding: 40px 20px; } .detail-toolbar { padding: 8px; gap: 2px; } .detail-toolbar button { padding: 9px 10px; } .detail-caption { padding: 12px 16px; } .code-block { padding: 20px; font-size: 11px; } .keyboard-note { padding: 20px; gap: 14px; } }
 @media (max-width: 480px) { .component-grid { grid-template-columns: minmax(0, 1fr); } .component-thumbnail { height: 230px; } .component-tile-copy p { min-height: 0; } .library-heading h1 { font-size: 38px; } .detail-mark { font-size: 24px; } .detail-demo.demo-gamer-boy { padding: 24px 10px; } .detail-demo.demo-table { padding: 30px 12px; } .detail-demo.demo-pagination { padding: 40px 10px; } }
+
+/* Five appearances remain fully visible on narrow screens. */
+.library-topline { flex-wrap: wrap; }
+.appearance-picker { display: flex; flex-wrap: wrap; gap: 2px; max-width: 100%; }
+.appearance-picker button { min-height: 44px; flex: 1 0 auto; }
+.avatar-mini-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+.avatar-seed-preview { flex-wrap: nowrap; }
+.avatar-seed-preview strong { font-size: 15px; }
+.avatar-seed-preview .ui-avatar { flex-shrink: 0; }
+.detail-demo.demo-avatar-editor > * { max-width: 780px; }
+.avatar-editor-demo { min-width: 0; }
+.avatar-export-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; margin-bottom: 12px; }
+.avatar-config { max-height: 340px; }
+.server-avatar-example { display: flex; gap: 22px; align-items: center; margin: 24px 0; }
+.server-avatar-example .ui-avatar { flex-shrink: 0; }
+.tile-avatar-editor .thumbnail-inner { width: 680px; transform: scale(.32); }
+.tile-avatar-editor .avatar-export-actions, .tile-avatar-editor .avatar-config { display: none; }
+.tile-avatar .thumbnail-inner { transform: scale(.68); }
+.tile-avatar-group .thumbnail-inner { width: 350px; transform: scale(.7); }
+@media (max-width: 900px) { .library-topline { justify-content: flex-start; } .appearance-picker { width: 100%; } }
+@media (max-width: 720px) { .library-topline > span { max-width: none; } .appearance-picker button { font-size: 11px; padding: 8px 9px; } .demo-avatar-editor { padding: 24px 12px; } }
+@media (max-width: 480px) { .appearance-picker { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); } .appearance-picker button { padding: 8px 4px; } .appearance-picker button:last-child { grid-column: span 2; } .avatar-seed-preview { flex-wrap: wrap; } .avatar-mini-grid { gap: 8px; } }
