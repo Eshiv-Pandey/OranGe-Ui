@@ -11,11 +11,11 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html, body {
+  .pixel-cursor-surface {
     cursor: var(--pixel-arrow-cursor);
   }
 
-  :is(a, button, [role="button"], summary, label[for], .stat-card--linked, input[type="button"], input[type="submit"], input[type="reset"], input[type="checkbox"], input[type="radio"], input[type="range"], select):not(:disabled):not([aria-disabled="true"]):not([data-disabled]):not([data-loading]) {
+  .stat-card--linked, .pixel-cursor-surface :is(a, button):not(:disabled) {
     cursor: var(--pixel-heart-cursor);
   }
 
@@ -33,7 +33,7 @@
 }
 
 @media (hover: none), (pointer: coarse) {
-  html, body {
+  .pixel-cursor-surface {
     cursor: auto;
   }
 

@@ -17,8 +17,9 @@ button, input { font: inherit; }
 button, a, input { -webkit-tap-highlight-color: transparent; }
 button { cursor: pointer; }
 a { color: inherit; }
-img, svg { max-width: 100%; image-rendering: pixelated; }
-svg { shape-rendering: crispEdges; }
+img, svg { max-width: 100%; }
+.pixel-art, .stat-card__illustration svg { image-rendering: pixelated; shape-rendering: crispEdges; }
+h1, h2, h3, p { margin-top: 0; }
 ::selection { color: var(--on-primary); background: var(--primary); }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 5px; box-shadow: 0 0 0 2px var(--cream); }
 .pixel-type { font-family: var(--font-display), monospace; font-weight: 600; line-height: 1.05; }

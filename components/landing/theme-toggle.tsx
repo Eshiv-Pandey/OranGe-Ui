@@ -2,7 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import { Button } from "../ui/button";
-import { PixelIcon } from "./pixel-icon";
+import { Icon } from "./icon";
 
 function subscribeTheme(notify: () => void) {
   const observer = new MutationObserver(notify);
@@ -23,5 +23,5 @@ export function ThemeToggle() {
     const theme = dark ? "light" : "dark";
     document.documentElement.dataset.theme = theme;
     try { localStorage.setItem("orangeui-palette", theme); } catch { /* Storage can be unavailable in private browsing. */ }
-  }}><PixelIcon name={dark ? "moon" : "sun"} /></Button>;
+  }}><Icon name={dark ? "moon" : "sun"} /></Button>;
 }

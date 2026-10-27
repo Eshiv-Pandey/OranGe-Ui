@@ -1,17 +1,18 @@
 "use client";
+import Link from "next/link";
 
-import { useRef, useState, type FormEvent } from "react";
+import { useState, useSyncExternalStore, type FormEvent } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { StatCard, type StatCardProps } from "../ui/stat-card";
-import { PixelIcon } from "./pixel-icon";
+import { Icon } from "./icon";
 
 const cards = [
-  { accent: "lime", title: "Button", subtitle: "Small click. Solid impression.", stats: [{ label: "Variants", value: "03" }, { label: "States", value: "06" }], footer: "Ready for action", art: "button", href: "#button-preview" },
-  { accent: "mint", title: "Input", subtitle: "A little room for your next idea.", stats: [{ label: "Styles", value: "03" }, { label: "Native input", value: "100%" }], footer: "Every detail counts", art: "input", href: "#input-preview" },
-  { accent: "amber", title: "StatCard", subtitle: "Good numbers. Great company.", stats: [{ label: "Accents", value: "05" }, { label: "Stats per card", value: "02" }], footer: "Made to stand out", art: "card", href: "#statcard-preview" },
-  { accent: "sky", title: "Foundations", subtitle: "One shared pixel language.", stats: [{ label: "Grid", value: "8px" }, { label: "Palettes", value: "02" }], footer: "Light and dark", art: "grid", href: "#foundations-preview" },
-  { accent: "coral", title: "Playground", subtitle: "Try a little. Make it yours.", stats: [{ label: "Components", value: "03" }, { label: "License", value: "MIT" }], footer: "Open to everyone", art: "heart", href: "#playground" },
+  { accent: "lime", title: "Button", subtitle: "Small click. Solid impression.", stats: [{ label: "Variants", value: "03" }, { label: "Appearances", value: "02" }], footer: "Ready for action", art: "button", href: "/components/button" },
+  { accent: "mint", title: "Input", subtitle: "A little room for your next idea.", stats: [{ label: "Appearances", value: "02" }, { label: "Native input", value: "100%" }], footer: "Every detail counts", art: "input", href: "/components/input" },
+  { accent: "amber", title: "StatCard", subtitle: "Good numbers. Great company.", stats: [{ label: "Accents", value: "05" }, { label: "Stats per card", value: "02" }], footer: "Made to stand out", art: "card", href: "/components/stat-card?style=pixel" },
+  { accent: "sky", title: "Dialog", subtitle: "A little space for the important things.", stats: [{ label: "Appearances", value: "02" }, { label: "Palettes", value: "02" }], footer: "Room to focus", art: "grid", href: "/components/dialog" },
+  { accent: "coral", title: "GamerBoy", subtitle: "Take a break. Find your next star.", stats: [{ label: "Stars to find", value: "04" }, { label: "Appearances", value: "02" }], footer: "Press play", art: "heart", href: "/components/gamer-boy" },
 ] satisfies (Omit<StatCardProps, "counter" | "art"> & { art: string })[];
 
 function CardArt({ kind }: { kind: string }) {
@@ -28,69 +29,78 @@ function CardArt({ kind }: { kind: string }) {
   </svg>;
 }
 
+function subscribeHash(notify: () => void) {
+  window.addEventListener("hashchange", notify);
+  return () => window.removeEventListener("hashchange", notify);
+}
+function selectComponent(name: string) {
+  history.replaceState(null, "", `#${name}-preview`);
+  window.dispatchEvent(new HashChangeEvent("hashchange"));
+}
+
 function InteractivePreview() {
+  const hash = useSyncExternalStore(subscribeHash, () => location.hash, () => "");
+  const selected = hash === "#input-preview" ? "input" : hash === "#statcard-preview" ? "statcard" : "button";
+  const [code, setCode] = useState(false);
+  const [variant, setVariant] = useState<"primary" | "secondary" | "ghost">("primary");
+  const [accent, setAccent] = useState<"lime" | "mint" | "amber" | "sky" | "coral">("lime");
   const [saved, setSaved] = useState(false);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [validated, setValidated] = useState(false);
   const error = validated && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? "Enter a valid email address." : undefined;
-
   function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setValidated(true);
-    setSubmitted(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+    event.preventDefault(); setValidated(true); setSubmitted(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
   }
+  const snippet = selected === "button" ? `import { Button } from "./components/ui/button";\n\n<Button variant="${variant}">\n  Save a little joy\n</Button>` : selected === "input" ? 'import { Input } from "./components/ui/input";\n\n<Input\n  label="Your email"\n  type="email"\n  placeholder="you@example.com"\n  description="A little room for your next idea."\n/>' : `import { StatCard } from "./components/ui/stat-card";\n\n<StatCard\n  accent="${accent}"\n  counter="01 / 01"\n  art={<span>✦</span>}\n  title="Small wins"\n  subtitle="Every little detail adds up."\n  stats={[\n    { label: "Ideas", value: "24" },\n    { label: "Made real", value: "08" },\n  ]}\n  footer="A good day to build"\n/>`;
 
   return <section id="playground" className="playground" aria-labelledby="playground-title">
-    <div className="section-heading"><div><p className="eyebrow">NO INSTALL REQUIRED</p><h2 id="playground-title" className="pixel-type">Give it a little click.</h2></div><span className="section-note">Real components. Right here.</span></div>
-    <div className="preview-grid">
-      <article id="button-preview" className="preview-panel">
-        <div className="preview-label"><span>01 / BUTTON</span><PixelIcon name="arrow" /></div>
-        <div className="preview-controls"><Button onClick={() => setSaved(!saved)} aria-pressed={saved}><PixelIcon name={saved ? "check" : "heart"} />{saved ? "Saved!" : "Save a little joy"}</Button><Button variant="secondary" onClick={() => setSaved(false)}>Reset</Button><Button variant="ghost" disabled>Unavailable</Button></div>
-        <p role="status" className="preview-feedback">{saved ? "A small action, beautifully handled." : "Press, focus, and hover. Every state feels right."}</p>
-        <code>{'<Button variant="primary">Save a little joy</Button>'}</code>
-      </article>
-      <article id="input-preview" className="preview-panel">
-        <div className="preview-label"><span>02 / INPUT</span><PixelIcon name="arrow" /></div>
-        <form onSubmit={submit} noValidate><Input label="Your email" type="email" placeholder="you@example.com" value={email} onChange={(event) => { setEmail(event.target.value); setSubmitted(false); }} error={error} description="A local demo. Nothing is sent or stored." icon={<PixelIcon name="sparkle" />} required /><Button variant="secondary" type="submit">Try validation<PixelIcon name="arrow" /></Button></form>
-        <p role="status" className="preview-feedback">{submitted ? "Looks good. You are ready to go!" : "Clear labels. Helpful errors. Native behavior."}</p>
-        <code>{'<Input label="Your email" type="email" />'}</code>
-      </article>
+    <div className="section-heading"><div><p className="eyebrow">THE PLAYGROUND</p><h2 id="playground-title">Make yourself at home.</h2></div><p className="section-note">Real components.<br />Room to experiment.</p></div>
+    <div className="playground-shell">
+      <div className="playground-toolbar">
+        <div className="component-picker" role="group" aria-label="Choose a component">{(["button", "input", "statcard"] as const).map((name) => <button key={name} id={`${name}-preview`} type="button" aria-pressed={selected === name} onClick={() => { selectComponent(name); setCode(false); }}>{name === "statcard" ? "StatCard" : name === "button" ? "Button" : "Input"}</button>)}</div>
+        <div className="view-picker" role="group" aria-label="Playground view"><button type="button" aria-pressed={!code} onClick={() => setCode(false)}>Preview</button><button type="button" aria-pressed={code} onClick={() => setCode(true)}><Icon name="code" />Code</button></div>
+      </div>
+      <div className="playground-content">
+        <aside className="playground-settings">
+          <p className="eyebrow">{selected === "button" ? "SMALL CLICK. SOLID IMPRESSION." : selected === "input" ? "A SPACE FOR YOUR NEXT IDEA." : "GOOD NUMBERS. GREAT COMPANY."}</p>
+          <h3>{selected === "button" ? "A satisfying little click." : selected === "input" ? "Every detail, considered." : "Give your numbers character."}</h3>
+          <p>{selected === "button" ? "Soft edges. A subtle lift. All the states an everyday action needs." : selected === "input" ? "Clear labels and useful feedback, with all the native behaviour you expect." : "Five colours, two stats, and a little pixel soul. Make it your own."}</p>
+          {selected === "button" && <label className="setting-label">Variant<select aria-label="Button variant" value={variant} onChange={(event) => setVariant(event.target.value as typeof variant)}><option value="primary">Primary</option><option value="secondary">Secondary</option><option value="ghost">Ghost</option></select></label>}
+          {selected === "statcard" && <label className="setting-label">Accent<select aria-label="Card accent" value={accent} onChange={(event) => setAccent(event.target.value as typeof accent)}>{["lime", "mint", "amber", "sky", "coral"].map((name) => <option key={name} value={name}>{name}</option>)}</select></label>}
+          <span className="playground-footnote"><Icon name="check" />Keyboard and screen reader ready</span>
+        </aside>
+        <div className={`preview-stage${code ? " preview-stage--code" : ""}`}>
+          {code ? <pre tabIndex={0} aria-label={`${selected} code example`}><code>{snippet}</code></pre> : <>
+            {selected === "button" && <div className="button-demo"><Button variant={variant} onClick={() => setSaved(!saved)} aria-pressed={saved}><Icon name={saved ? "check" : "heart"} />{saved ? "Saved!" : "Save a little joy"}</Button><div className="demo-secondary"><Button variant="ghost" onClick={() => setSaved(false)}>Reset</Button><Button variant="ghost" disabled>Unavailable</Button></div><p role="status" className="preview-feedback">{saved ? "A small action, beautifully handled." : "Press, focus, and hover. Every state feels right."}</p></div>}
+            {selected === "input" && <form className="input-demo" onSubmit={submit} noValidate><Input label="Your email" type="email" placeholder="you@example.com" value={email} onChange={(event) => { setEmail(event.target.value); setSubmitted(false); }} error={error} description="A local demo. Nothing is sent or stored." required /><Button variant="secondary" type="submit">Try validation<Icon name="arrow" /></Button><p role="status" className="preview-feedback">{submitted ? "Looks good. You are ready to go!" : "Clear labels. Helpful errors. Native behavior."}</p></form>}
+            {selected === "statcard" && <div className="card-demo"><StatCard appearance="pixel" accent={accent} counter="01 / 01" art={<span className="sample-star">✦</span>} title="Small wins" subtitle="Every little detail adds up." stats={[{ label: "Ideas", value: "24" }, { label: "Made real", value: "08" }]} footer="A good day to build" /></div>}
+          </>}
+        </div>
+      </div>
     </div>
-    <div className="foundation-strip" id="foundations-preview"><div><PixelIcon name="sparkle" /><span><strong>One pixel language.</strong> An 8px grid, hard shadows, and two thoughtful palettes.</span></div><a href="#statcard-preview">See the cards<PixelIcon name="arrow" /></a></div>
+    <div className="foundation-strip" id="foundations-preview"><span><Icon name="sparkle" /><strong>One thoughtful foundation.</strong></span><span>An 8px spacing grid. Softer controls. Two palettes.</span><a href="#components">Meet the collection<Icon name="arrow" /></a></div>
   </section>;
 }
 
 export function ComponentShowcase() {
   const [query, setQuery] = useState("");
-  const catalogRef = useRef<HTMLElement>(null);
   const normalized = query.trim().toLowerCase();
   const filtered = cards.filter((card) => `${card.title} ${card.subtitle} ${card.footer}`.toLowerCase().includes(normalized));
-
-  return <>
-    <form className="hero-search" role="search" onSubmit={(event) => { event.preventDefault(); catalogRef.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" }); document.getElementById("components-title")?.focus({ preventScroll: true }); }}>
-      <Input label="Search components" hideLabel type="search" placeholder="Search components..." value={query} onChange={(event) => setQuery(event.target.value)} icon={<PixelIcon name="sparkle" />} />
-      <Button type="submit" aria-label="Find components"><PixelIcon name="arrow" /></Button>
-    </form>
-    <p className="search-hint">A few good pixels. A whole lot of possibility.</p>
-    <section className="feature-field" id="features" aria-labelledby="features-title">
-      <div className="page-width"><p className="eyebrow">SMALL LIBRARY. BIG ON THE DETAILS.</p><h2 id="features-title" className="pixel-type">Built for real work.</h2>
-        <div className="feature-grid">
-          <article className="feature-card"><span className="feature-icon"><PixelIcon name="sparkle" /></span><div><h3>Polished by default</h3><p>Every state designed, down to the last pixel.</p></div></article>
-          <article className="feature-card"><span className="feature-icon feature-icon--mint"><PixelIcon name="check" /></span><div><h3>Accessible always</h3><p>Keyboard, focus, and screen readers built in.</p></div></article>
-          <article className="feature-card"><span className="feature-icon feature-icon--lime"><PixelIcon name="code" /></span><div><h3>Readable by AI</h3><p>Metadata that coding tools can actually use.</p></div></article>
-        </div>
+  return <div className="page-width catalog-width">
+    <section id="components" aria-labelledby="components-title" className="catalog">
+      <div className="section-heading"><div><p className="eyebrow">SMALL COLLECTION. BIG PERSONALITY.</p><h2 id="components-title" tabIndex={-1}>Your next good idea<br />starts here.</h2></div>
+        <form className="catalog-search" role="search" onSubmit={(event) => { event.preventDefault(); document.getElementById("components-title")?.focus({ preventScroll: true }); }}>
+          <Input label="Search components" hideLabel type="search" placeholder="Find your building block..." value={query} onChange={(event) => setQuery(event.target.value)} icon={<Icon name="search" />} />
+          <Button type="submit" variant="ghost" aria-label="Find components"><Icon name="arrow" /></Button>
+        </form>
       </div>
+      <p className="catalog-intro">Five favourites from a collection of 32. Each has a polished and pixelated side.</p>
+      {normalized && <div className="search-results"><p role="status">{filtered.length} {filtered.length === 1 ? "result" : "results"} for &quot;{query.trim()}&quot;</p><Button variant="ghost" onClick={() => setQuery("")}>Clear search<Icon name="close" /></Button></div>}
+      <div className="stat-card-grid">{filtered.map((card) => <StatCard appearance="pixel" key={card.title} {...card} art={<CardArt kind={card.art} />} counter={`0${cards.indexOf(card) + 1} / 05`} />)}</div>
+      {!filtered.length && <p className="empty-search">No matches yet. Try Button, Input, or StatCard.</p>}
+      <div className="collection-notes"><span><Icon name="check" />Polished by default</span><span><Icon name="heart" />A pixelated side</span><span><Icon name="code" />Source included</span><Link href="/components">Explore all 32 components →</Link></div>
     </section>
-    <div className="page-width catalog-width">
-      <section ref={catalogRef} id="components" aria-labelledby="components-title" className="catalog">
-        <div className="section-heading"><div><p className="eyebrow">THE GOOD STUFF</p><h2 id="components-title" className="pixel-type" tabIndex={-1}>Meet your new building blocks.</h2></div><span className="section-note"><span className="status-dot" />Source you can make your own</span></div>
-        <p className="catalog-intro">Start with the essentials. Keep the character.</p>
-        {normalized && <div className="search-results"><p role="status">{filtered.length} {filtered.length === 1 ? "result" : "results"} for &quot;{query.trim()}&quot;</p><Button variant="ghost" onClick={() => setQuery("")}>Clear search<PixelIcon name="close" /></Button></div>}
-        <div className="stat-card-grid" id="statcard-preview">{filtered.map((card) => <StatCard key={card.title} {...card} art={<CardArt kind={card.art} />} counter={`0${cards.indexOf(card) + 1} / 05`} />)}</div>
-        {!filtered.length && <p className="empty-search">No matches yet. Try Button, Input, or StatCard.</p>}
-      </section>
-      <InteractivePreview />
-    </div>
-  </>;
+    <InteractivePreview />
+  </div>;
 }

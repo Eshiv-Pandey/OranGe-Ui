@@ -3,8 +3,10 @@
 import { isValidElement, useId, type ComponentPropsWithRef, type InputHTMLAttributes, type ReactNode } from "react";
 import { z } from "zod";
 import "../../styles/primitives.css";
+import type { AppearanceProps } from "./appearance";
 
 export const inputPropsSchema = z.object({
+  appearance: z.enum(["polished", "pixel"]).optional(),
   label: z.string().optional(),
   hideLabel: z.boolean().optional(),
   description: z.string().optional(),
@@ -21,7 +23,7 @@ export const inputPropsSchema = z.object({
   onChange: z.custom<NonNullable<InputHTMLAttributes<HTMLInputElement>["onChange"]>>((value) => typeof value === "function").optional(),
 }).passthrough();
 
-export type InputProps = ComponentPropsWithRef<"input"> & {
+export type InputProps = ComponentPropsWithRef<"input"> & AppearanceProps & {
   label?: string;
   hideLabel?: boolean;
   description?: string;
@@ -32,7 +34,7 @@ export type InputProps = ComponentPropsWithRef<"input"> & {
 
 export const inputMeta = {
   name: "Input",
-  purpose: "A readable text field with a pixel frame and clear validation.",
+  purpose: "A readable, rounded text field with clear focus and validation.",
   whenToUse: "Use for short editable text, search, email, and other native input values. Provide a label or accessible name.",
   whenNotToUse: "Use a multiline field for long text and a selection control for a fixed list of choices.",
   props: inputPropsSchema,
@@ -41,6 +43,7 @@ export const inputMeta = {
 } as const;
 
 export function Input({
+  appearance = "polished",
   label,
   hideLabel = false,
   description,
@@ -62,7 +65,7 @@ export function Input({
   const descriptionIds = [describedBy, description && descriptionId, error && errorId].filter(Boolean).join(" ") || undefined;
 
   return (
-    <div className={`pixel-field${className ? ` ${className}` : ""}`} data-error={Boolean(error) || undefined} data-disabled={disabled || undefined}>
+    <div className={`pixel-field${className ? ` ${className}` : ""}`} data-appearance={appearance} data-error={Boolean(error) || undefined} data-disabled={disabled || undefined}>
       {label && <label htmlFor={fieldId} className={hideLabel ? "sr-only" : "pixel-field__label"}>{label}{required && <span aria-hidden="true"> *</span>}</label>}
       <div className="pixel-field__frame">
         {icon && <span className="pixel-field__icon" aria-hidden="true">{icon}</span>}

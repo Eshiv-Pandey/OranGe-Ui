@@ -17,7 +17,7 @@ export const Loading: Story = { args: { loading: true, children: "Saving changes
 export const Disabled: Story = { args: { disabled: true, children: "Unavailable" } };
 export const AsLink: Story = { args: { asChild: true, children: <a href="#destination">View components</a> } };
 export const LoadingLink: Story = { args: { asChild: true, loading: true, children: <a href="#destination">Opening components</a> } };
-export const WithIcon: Story = { args: { children: <><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M6 2h4v4h4v4h-4v4H6v-4H2V6h4z" /></svg>Add component</> } };
+export const WithIcon: Story = { args: { children: <><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"><path d="M12 5v14M5 12h14" /></svg>Add component</> } };
 export const AllStates: Story = {
   render: () => <div style={{ display: "grid", gap: 32 }}>
     <p>Tab to inspect focus. Hover and press enabled controls to inspect their tactile states.</p>

@@ -1,7 +1,7 @@
 :root,
 [data-theme="light"] {
   color-scheme: light;
-  --cream: #fffaf0;
+  --cream: #faf7f0;
   --surface: #fffef8;
   --surface-soft: #f2eddf;
   --ink: #242b20;
@@ -45,6 +45,11 @@
   --space-12: 96px;
   --motion-ui: 160ms;
   --motion-step: steps(3, end);
+  --radius-control: 14px;
+  --radius-panel: 28px;
+  --line: #242b202b;
+  --soft-shadow: 0 3px 8px #242b2009, 0 12px 24px #242b2006;
+  --motion-ease: cubic-bezier(.2,.7,.2,1);
   --pixel-corners: polygon(0 8px, 8px 8px, 8px 0, calc(100% - 8px) 0, calc(100% - 8px) 8px, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 8px), 0 calc(100% - 8px));
 }
 
@@ -75,6 +80,8 @@
     --grid: #fffaf008;
     --shadow-color: #080e08;
     --border-color: #d4ddbb;
+    --line: #f9f3e433;
+    --soft-shadow: 0 3px 8px #00000020, 0 12px 24px #00000015;
   }
 }
 
@@ -104,4 +111,6 @@
   --grid: #fffaf008;
   --shadow-color: #080e08;
   --border-color: #d4ddbb;
+  --line: #f9f3e433;
+  --soft-shadow: 0 3px 8px #00000020, 0 12px 24px #00000015;
 }

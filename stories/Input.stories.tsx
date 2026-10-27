@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Input } from "../components/ui/input";
 
-const searchIcon = <svg viewBox="0 0 20 20" fill="currentColor"><path d="M4 2h8v2H4zM2 4h2v8H2zM12 4h2v8h-2zM4 12h8v2H4zM12 12h2v2h-2zM14 14h2v2h-2zM16 16h2v2h-2z" /></svg>;
+const searchIcon = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 4 4" /></svg>;
 const meta = {
   title: "Components/Input",
   component: Input,

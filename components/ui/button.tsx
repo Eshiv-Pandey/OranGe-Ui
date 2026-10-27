@@ -5,6 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cloneElement, isValidElement, type ButtonHTMLAttributes, type ComponentPropsWithRef, type HTMLAttributes, type ReactNode } from "react";
 import { z } from "zod";
 import "../../styles/primitives.css";
+import type { AppearanceProps } from "./appearance";
 
 function isNode(value: unknown): boolean {
   return value == null || typeof value === "string" || typeof value === "number" ||
@@ -14,6 +15,7 @@ function isNode(value: unknown): boolean {
 const nodeSchema: z.ZodType<ReactNode> = z.custom<ReactNode>(isNode, "Expected renderable content");
 
 export const buttonPropsSchema = z.object({
+  appearance: z.enum(["polished", "pixel"]).optional(),
   variant: z.enum(["primary", "secondary", "ghost"]).optional(),
   loading: z.boolean().optional(),
   disabled: z.boolean().optional(),
@@ -35,7 +37,7 @@ export const buttonVariants = cva("pixel-button", {
   defaultVariants: { variant: "primary" },
 });
 
-export type ButtonProps = ComponentPropsWithRef<"button"> &
+export type ButtonProps = ComponentPropsWithRef<"button"> & AppearanceProps &
   VariantProps<typeof buttonVariants> & {
     loading?: boolean;
     asChild?: boolean;
@@ -43,7 +45,7 @@ export type ButtonProps = ComponentPropsWithRef<"button"> &
 
 export const buttonMeta = {
   name: "Button",
-  purpose: "A tactile pixel control for actions and navigation.",
+  purpose: "A softly rounded, tactile control for actions and navigation.",
   whenToUse: "Use primary for the main action, secondary for supporting actions, and ghost for quiet actions.",
   whenNotToUse: "Use a normal text link for links inside paragraphs. Use Input for editable values.",
   props: buttonPropsSchema,
@@ -52,6 +54,7 @@ export const buttonMeta = {
 } as const;
 
 export function Button({
+  appearance = "polished",
   variant = "primary",
   loading = false,
   disabled = false,
@@ -97,6 +100,7 @@ export function Button({
     return (
       <Slot
         {...props}
+        data-appearance={appearance}
         className={classes}
         aria-disabled={unavailable || undefined}
         aria-busy={loading || undefined}
@@ -128,6 +132,7 @@ export function Button({
   return (
     <button
       {...props}
+      data-appearance={appearance}
       type={type}
       className={classes}
       disabled={unavailable}

@@ -12,6 +12,7 @@ const nodeSchema = z.custom<ReactNode>(isNode, "Expected renderable content");
 const statSchema = z.object({ label: z.string().min(1), value: z.union([z.string().min(1), z.number()]) });
 
 export const statCardPropsSchema = z.object({
+  appearance: z.enum(["polished", "pixel"]).optional(),
   accent: z.enum(["lime", "mint", "amber", "sky", "coral"]).default("lime"),
   counter: z.string().min(1),
   art: nodeSchema,
@@ -40,7 +41,7 @@ const cardVariants = cva("stat-card", {
   defaultVariants: { accent: "lime" },
 });
 
-export function StatCard({ accent = "lime", counter, art, title, subtitle, stats, footer, href, className }: StatCardProps) {
+export function StatCard({ appearance = "polished", accent = "lime", counter, art, title, subtitle, stats, footer, href, className }: StatCardProps) {
   const content = <>
     <div className="stat-card__art" aria-hidden="true">
       <div className="stat-card__tab"><span className="stat-card__hatch" /><span>FIELD NOTES</span></div>
@@ -53,5 +54,5 @@ export function StatCard({ accent = "lime", counter, art, title, subtitle, stats
     <div className="stat-card__footer"><span className="stat-card__footer-dot" aria-hidden="true" />{footer}</div>
   </>;
   const classes = cardVariants({ accent, className });
-  return href ? <a className={`${classes} stat-card--linked`} href={href}>{content}</a> : <article className={classes}>{content}</article>;
+  return href ? <a data-appearance={appearance} className={`${classes} stat-card--linked`} href={href}>{content}</a> : <article data-appearance={appearance} className={classes}>{content}</article>;
 }
