@@ -1,0 +1,11 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { ComponentDemo } from "../components/library/component-demo";
+import "../styles/library.css";
+const meta = { title: "Library/AvatarEditor", component: ComponentDemo, args: { slug: "avatar-editor", appearance: "polished" }, render: (args) => <div className="detail-demo demo-avatar-editor" style={{ maxWidth: 960 }}><ComponentDemo {...args} /></div> } satisfies Meta<typeof ComponentDemo>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export const Polished: Story = {};
+export const Pixelated: Story = { args: { appearance: "pixel" } };
+export const Neobrutalism: Story = { args: { appearance: "neobrutalism" } };
+export const RetroOS: Story = { args: { appearance: "retro-os" } };
+export const Terminal: Story = { args: { appearance: "terminal" } };

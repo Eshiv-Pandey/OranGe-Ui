@@ -6,3 +6,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 export const Polished: Story = {};
 export const Pixelated: Story = { args: { appearance: "pixel" } };
+export const Neobrutalism: Story = { args: { appearance: "neobrutalism" } };
+export const RetroOS: Story = { args: { appearance: "retro-os" } };
+export const Terminal: Story = { args: { appearance: "terminal" } };
