@@ -36,6 +36,7 @@ import { Separator } from "../ui/separator";
 import { Table } from "../ui/table";
 import { EmptyState } from "../ui/empty-state";
 import { GamerBoy } from "../ui/gamer-boy";
+import { MascotAvatar, MASCOT_OPTIONS, type MascotKind, type MascotState } from "../ui/mascot-avatar";
 
 const projects = [
   { id: "1", name: "Orange studio", status: "Live", members: 8 },
@@ -93,7 +94,21 @@ export function ComponentDemo({ slug, appearance = "polished" }: { slug: string;
     case "separator": return <div className="demo-stack"><strong>Orange studio</strong><p className="demo-feedback">A quiet corner for your next idea.</p><Separator {...a} /><div className="demo-row"><span>Projects</span><Separator {...a} orientation="vertical" /><span>People</span><Separator {...a} orientation="vertical" /><span>Settings</span></div></div>;
     case "table": return <Table {...a} caption="A few things we are making" pageSize={3} rows={projects} columns={[{ key: "name", header: "Project", sortable: true }, { key: "status", header: "Status", render: (row) => <Badge {...a} tone={row.status === "Live" ? "success" : "neutral"} dot>{row.status}</Badge> }, { key: "members", header: "People", sortable: true }]} />;
     case "empty-state": return saved ? <Card {...a} title="Your first project" description="A good beginning." footer={action}>{status}</Card> : <EmptyState {...a} title="A fresh canvas." description="Your first project belongs here. Make a little room for it." action={action} />;
+    case "mascot-avatar": return <MascotDemo appearance={appearance} />;
     case "gamer-boy": return <GamerBoy {...a} />;
     default: return null;
   }
+}
+
+function MascotDemo({ appearance }: { appearance: Appearance }) {
+  const [mascot, setMascot] = useState<MascotKind>("dune-hopper");
+  const [state, setState] = useState<MascotState>("idle");
+  return <div className="demo-stack mascot-demo">
+    <MascotAvatar seed="studio-helper" mascot={mascot} state={state} size={176} appearance={appearance} aria-label={`Mascot preview, ${state}`} />
+    <div className="avatar-editor-selects">
+      <Select appearance={appearance} label="Character" value={mascot} onValueChange={(value) => setMascot(value as MascotKind)} options={MASCOT_OPTIONS.map(({ value, label }) => ({ value, label }))} />
+      <Select appearance={appearance} label="Chat state" value={state} onValueChange={(value) => setState(value as MascotState)} options={["idle", "thinking", "talking", "error"].map((value) => ({ value, label: value[0].toUpperCase() + value.slice(1) }))} />
+    </div>
+    <p className="demo-feedback">Move your pointer, then click the character to say hello.</p>
+  </div>;
 }

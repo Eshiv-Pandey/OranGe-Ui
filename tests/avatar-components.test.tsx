@@ -198,6 +198,10 @@ describe("AvatarEditor", () => {
     const initial = normalizeAvatarConfig({ ...generateAvatarConfig("keyboard-user"), palette: 0, glyph: avatarGlyphs[0].id });
     render(<ControlledEditor initial={initial} />);
     await user.tab();
+    expect(screen.getByRole("tab", { name: "Glyphs" })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("tabpanel")).toHaveFocus();
+    await user.tab();
     expect(screen.getByRole("button", { name: "Animate" })).toHaveFocus();
     await user.tab();
     expect(screen.getByRole("radio", { name: avatarPalettes[0].name })).toHaveFocus();

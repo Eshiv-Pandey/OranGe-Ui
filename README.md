@@ -1,6 +1,6 @@
 # oRangeUi
 
-34 reusable React components, five distinct appearances, and a little personality. oRangeUi is a React 19 and TypeScript source library with a Next.js catalogue, live examples, source downloads, and Storybook.
+Reusable React components, five distinct appearances, and a little personality. oRangeUi is a React 19 and TypeScript source library with a Next.js catalogue, live examples, source downloads, and Storybook.
 
 The shared palette uses vivid orange, neutral light surfaces, and OLED black in dark mode. Illustrated StatCards and the purple GamerBoy display keep their own artwork colors.
 
@@ -33,7 +33,7 @@ Start with this README, then read:
 3. [LIBRARY_PLAN.md](LIBRARY_PLAN.md) for the earlier component-library architecture and discovery flow.
 4. [REVAMP_PLAN.md](REVAMP_PLAN.md) for the landing-page design history.
 
-The older plans describe earlier milestones. The current catalogue has 34 components and five appearances.
+The older plans describe earlier milestones. The current catalogue spans five appearances, with new work tracked in STATUS.md.
 
 | Location | What lives there |
 | --- | --- |
@@ -162,6 +162,18 @@ The live preview stays beside the controls on desktop. Palette and glyph lists e
 
 The Animate toggle smoothly shifts the gradient and glyph together. Reduced motion disables it. Animation is a display preference, so it is not added to saved identity data. Exports always use the settled frame.
 
+The Characters tab offers eight original animated SVG companions with `idle`, `thinking`, `talking`, and `error` states. Optional `characterValue` and `onCharacterChange` props control that identity independently; the existing glyph `value` and `onChange` API is unchanged. Both tabs support copy and export.
+
+```tsx
+import { MascotAvatar } from "@/components/ui/mascot-avatar";
+
+<MascotAvatar seed="studio-helper" state="thinking" size={128} />
+```
+
+Mascot eyes follow the pointer, blink, and glance around after three seconds of inactivity. Their motion pauses off screen and in hidden tabs; reduced motion holds a settled pose. Interactive mascots are native buttons with matching hover, focus, and click reactions. Set `interactive={false}` for a named image with no extra tab stop.
+
+For server-side character config or SVG generation, import `generateMascotConfig`, `normalizeMascotConfig`, and `mascotToSvgString` from the pure `components/ui/mascot-art` module. Saved configs contain identity data, separate from expression and animation clocks.
+
 ```tsx
 "use client";
 
@@ -267,6 +279,7 @@ Call PNG export from a browser interaction. Use the returned Blob directly for a
 | `npm run test:browser` | Playwright browser suites |
 | `npm run test:viewport` | Every component in the four required viewports, five appearances, and both themes |
 | `npm run test:avatar-redesign` | Custom colors, animation, reduced motion, clipboard, exports, and editor screenshots |
+| `npm run test:mascot` | Characters, chat states, gaze lifecycle, keyboard behavior, and portable exports |
 
 Before the first browser run, install Chromium with `npx playwright install chromium` and run `npm run build`. The browser configuration starts the production app on port 3107 and Storybook on port 6006. Reports and failure traces are written under `out/playwright-report` and `out/test-results`.
 

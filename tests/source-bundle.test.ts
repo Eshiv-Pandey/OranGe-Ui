@@ -15,7 +15,7 @@ it("every downloadable example includes its imports, CSS, licensed fonts and com
   const reportDirectory = path.join(process.cwd(), "out/download-validation");
   await mkdir(reportDirectory, { recursive: true });
   const directory = await mkdtemp(path.join(reportDirectory, "run-"));
-  expect(components).toHaveLength(34); expect(new Set(components.map((c) => c.slug)).size).toBe(34);
+  expect(components.length).toBeGreaterThanOrEqual(35); expect(new Set(components.map((c) => c.slug)).size).toBe(components.length);
   expect(APPEARANCE_VALUES).toEqual(["polished", "pixel", "neobrutalism", "retro-os", "terminal"]);
   for (const component of components) for (const appearance of APPEARANCE_VALUES) {
     const files = unzipSync(await componentZip(component, appearance));

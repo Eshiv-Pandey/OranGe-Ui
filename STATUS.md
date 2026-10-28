@@ -1,5 +1,18 @@
 # oRangeUi status
 
+## Next iteration in progress
+
+The next iteration follows the supplied avatar, character, motorsport, and launch brief. This work is on `feat/next-iteration` and is not yet launch-complete.
+
+- Task 3: compact component pages and sticky editor previews are committed in `403b7f1` and `86fb28d`. The full 34-component catalogue passed at 1366x768 in all five appearances and both themes; four-viewport checks and screenshots are in `out/iteration/viewports/`.
+- Task 4: original redrawn glyphs, pixel-grid glyphs, custom colors, animation, size context, copy and export are committed in `8a685c7`. All 160 unit tests and build checks passed. Browser interaction/export/animation checks passed, including the corrected Retro OS light contrast case. SVG and PNG matched the settled preview pixel-for-pixel.
+- Task 5: eight animated mascots, shared pointer motion, the Characters tab and portable character configuration are implemented. The 182-test unit/source-bundle suite and 7 additional controlled-editor tests pass, as do typecheck, lint, copy and production build. Browser verification passed 47 of 48 cases, including all 40 appearance/theme/viewport cases and exact SVG/PNG/preview parity in four appearances. The remaining Pixel export case timed out, then its isolated retry stalled waiting for fonts while Windows had about 78 MB free memory. It remains pending and must pass before push.
+- Remaining: Task 1 pointer-driven CharacterAvatar, Helmet and MiniDriver; Task 2 vehicles and motorsport editors; missing launch components, LiveOrb, docs/global tools, final launch checks, ordinary push and PR with screenshot evidence.
+
+The local execution plan is `out/iteration/plan.md`. Its original scope remains active. Verification logs and screenshots under `out/iteration/` describe this iteration; the results below belong to the earlier milestone.
+
+## Earlier milestone
+
 The five-appearance and Infinite Avatar milestone is implemented and verified as of 28 October 2026. The catalogue contains 34 distinct reusable components. Read `README.md` for setup and project handoff, and `THEMES_AVATAR_PLAN.md` for the completed scope.
 
 ## Delivered

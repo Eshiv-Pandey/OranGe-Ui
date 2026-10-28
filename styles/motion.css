@@ -1,0 +1,17 @@
+/* Shared lifecycle gates for component roots, children, and authored effects. */
+:where([data-motion="paused"], [data-motion="paused"] *),
+:where([data-motion="paused"], [data-motion="paused"] *)::before,
+:where([data-motion="paused"], [data-motion="paused"] *)::after {
+  animation-play-state: paused !important;
+}
+:where([data-motion="reduced"], [data-motion="reduced"] *),
+:where([data-motion="reduced"], [data-motion="reduced"] *)::before,
+:where([data-motion="reduced"], [data-motion="reduced"] *)::after {
+  animation: none !important;
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  :where([data-motion], [data-motion] *),
+  :where([data-motion], [data-motion] *)::before,
+  :where([data-motion], [data-motion] *)::after { animation: none !important; transition: none !important; }
+}

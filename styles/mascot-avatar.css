@@ -1,0 +1,47 @@
+@import "./library-base.css";
+
+.mascot-avatar { display: inline-grid; position: relative; width: var(--mascot-size, 128px); max-width: 100%; aspect-ratio: 1; flex: none; vertical-align: middle; --gaze-x: 0; --gaze-y: 0; --blink-scale: 1; }
+.mascot-button, .mascot-image { display: grid; width: 100%; height: 100%; padding: 0; border: 0; color: inherit; background: transparent; border-radius: 25%; }
+.mascot-button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.mascot-image { line-height: 0; }
+.mascot-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.mascot-avatar[data-appearance="pixel"] .mascot-button, .mascot-avatar[data-appearance="terminal"] .mascot-button { border-radius: 3px; }
+.mascot-avatar[data-appearance="retro-os"] .mascot-button { border-radius: 12%; }
+.mascot-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+.mascot-avatar .mascot-blink { transform: scaleY(var(--blink-scale, 1)); transform-origin: center; transform-box: fill-box; }
+.mascot-avatar .mascot-pupil { transform: translate(calc(var(--gaze-x, 0) * 4px), calc(var(--gaze-y, 0) * 3px)); }
+.mascot-avatar .mascot-face { transform: translate(calc(var(--gaze-x, 0) * 1.6px), calc(var(--gaze-y, 0) * 1px)); }
+.mascot-avatar .mascot-idle { transform-origin: 80px 132px; animation: mascot-breathe 3.8s ease-in-out infinite alternate; }
+.mascot-avatar .mascot-tail { animation: mascot-tail-twitch 5.6s ease-in-out infinite; }
+.mascot-avatar .mascot-ear { animation: mascot-ear-twitch 6.4s ease-in-out infinite; }
+.mascot-avatar .mascot-ear-late { animation-delay: -2.8s; }
+.mascot-avatar .mascot-wing { animation: mascot-wing-twitch 5.2s ease-in-out infinite; }
+.mascot-avatar .mascot-wing-late { animation-direction: reverse; animation-delay: -1.4s; }
+.mascot-avatar[data-interactive="true"]:has(.mascot-button:hover) .mascot-idle,
+.mascot-avatar:has(.mascot-button:focus-visible) .mascot-idle { animation-name: mascot-attentive; animation-duration: 1.4s; }
+.mascot-avatar[data-state="thinking"] .mascot-idle { animation-duration: 5.2s; }
+.mascot-avatar[data-state="talking"] .mascot-idle { animation-duration: 1.7s; }
+.mascot-avatar[data-state="error"] .mascot-idle { animation-name: mascot-error-rest; animation-duration: 4s; }
+.mascot-avatar .mascot-talking-mouth { transform-origin: center; transform-box: fill-box; animation: mascot-speak 520ms ease-in-out infinite alternate; }
+.mascot-avatar .mascot-thinking-dots circle { animation: mascot-thought 1.8s ease-in-out infinite; }
+.mascot-avatar .mascot-thinking-dots circle:nth-child(2) { animation-delay: 180ms; }
+.mascot-avatar .mascot-thinking-dots circle:nth-child(3) { animation-delay: 360ms; }
+.mascot-avatar .mascot-reacted .mascot-reaction-layer { transform-origin: 80px 125px; animation: mascot-hello 640ms cubic-bezier(.2, .7, .25, 1) both; }
+.mascot-avatar[data-motion="paused"] *, .mascot-avatar[data-motion="paused"] *::before, .mascot-avatar[data-motion="paused"] *::after { animation-play-state: paused !important; }
+.mascot-avatar[data-motion="reduced"] * { animation: none !important; transition: none !important; }
+.mascot-avatar[data-motion="reduced"] .mascot-pupil, .mascot-avatar[data-motion="reduced"] .mascot-face, .mascot-avatar[data-motion="reduced"] .mascot-blink { transform: none; }
+
+@keyframes mascot-breathe { from { transform: translateY(0) scaleY(1); } to { transform: translateY(-1.5px) scaleY(1.018); } }
+@keyframes mascot-attentive { from { transform: translateY(-1px) rotate(-1deg); } to { transform: translateY(-3px) rotate(1deg); } }
+@keyframes mascot-tail-twitch { 0%, 68%, 100% { transform: rotate(0); } 74% { transform: rotate(-9deg); } 81% { transform: rotate(7deg); } 89% { transform: rotate(-3deg); } }
+@keyframes mascot-ear-twitch { 0%, 72%, 100% { transform: rotate(0); } 80% { transform: rotate(-8deg); } 88% { transform: rotate(5deg); } }
+@keyframes mascot-wing-twitch { 0%, 60%, 100% { transform: rotate(0); } 69% { transform: rotate(-5deg); } 77% { transform: rotate(3deg); } }
+@keyframes mascot-speak { 0%, 100% { transform: scaleY(.45); } 50% { transform: scaleY(1); } }
+@keyframes mascot-thought { 0%, 100% { opacity: .28; } 45% { opacity: 1; } }
+@keyframes mascot-error-rest { 0%, 75%, 100% { transform: translateY(0); } 81% { transform: translateX(-1.5px); } 87% { transform: translateX(1.5px); } 93% { transform: translateX(-.5px); } }
+@keyframes mascot-hello { 0% { transform: translateY(0) rotate(0); } 28% { transform: translateY(-7px) rotate(-5deg); } 57% { transform: translateY(-4px) rotate(4deg); } 79% { transform: translateY(-1px) rotate(-1deg); } 100% { transform: translateY(0) rotate(0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-avatar *, .mascot-avatar *::before, .mascot-avatar *::after { animation: none !important; transition: none !important; }
+  .mascot-avatar .mascot-blink, .mascot-avatar .mascot-pupil, .mascot-avatar .mascot-face { transform: none; }
+}

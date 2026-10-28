@@ -10,6 +10,9 @@ import { AVATAR_PATTERNS, AVATAR_SHAPES, type AvatarConfig, type AvatarCustomCol
 import { uiClass, type AppearanceProps } from "./appearance";
 import { Avatar } from "./avatar";
 import { Button } from "./button";
+import { Tabs } from "./tabs";
+import { AvatarCharacters } from "./avatar-characters";
+import { generateMascotConfig, type MascotConfig } from "./mascot-art";
 import "../../styles/avatar.css";
 
 export type AvatarEditorProps = AppearanceProps & {
@@ -18,6 +21,9 @@ export type AvatarEditorProps = AppearanceProps & {
   /** Reset returns to the config generated from this seed. */
   seed?: string;
   label?: string;
+  /** Optional controlled character identity. Glyph config remains independent. */
+  characterValue?: MascotConfig;
+  onCharacterChange?: (config: MascotConfig) => void;
 };
 
 const patternLabels: Record<AvatarPattern, string> = { none: "Clean", dots: "Tiny dots", grid: "Fine grid", noise: "Soft grain", halo: "Radial glow" };
@@ -30,8 +36,25 @@ function subscribeMotion(callback: () => void) {
 }
 function motionIsReduced() { return window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false; }
 
+/** Glyph and character identities have separate additive controlled APIs. */
+export function AvatarEditor({ characterValue, onCharacterChange, label = "Customize your avatar", className, ...props }: AvatarEditorProps) {
+  const seed = props.seed ?? DEFAULT_AVATAR_SEED;
+  const appearance = props.appearance ?? "polished";
+  const [localCharacter, setLocalCharacter] = useState(() => generateMascotConfig(seed));
+  const updateCharacter = (config: MascotConfig) => {
+    if (!characterValue) setLocalCharacter(config);
+    onCharacterChange?.(config);
+  };
+  return <section className={uiClass("avatar-workbench", className)} data-appearance={appearance} aria-label={label}>
+    <Tabs appearance={appearance} label="Avatar type" items={[
+      { value: "glyphs", label: "Glyphs", content: <GlyphAvatarEditor {...props} /> },
+      { value: "characters", label: "Characters", content: <AvatarCharacters value={characterValue ?? localCharacter} onChange={updateCharacter} seed={seed} appearance={appearance} /> },
+    ]} />
+  </section>;
+}
+
 /** Controlled identity data; animation and export feedback remain local to the editor. */
-export function AvatarEditor({ value, onChange, seed = DEFAULT_AVATAR_SEED, label = "Customize your avatar", appearance = "polished", className }: AvatarEditorProps) {
+function GlyphAvatarEditor({ value, onChange, seed = DEFAULT_AVATAR_SEED, appearance = "polished" }: AvatarEditorProps) {
   const id = useId();
   const [allPalettes, setAllPalettes] = useState(false);
   const [allGlyphs, setAllGlyphs] = useState(false);
@@ -60,7 +83,7 @@ export function AvatarEditor({ value, onChange, seed = DEFAULT_AVATAR_SEED, labe
     } catch { setFeedback("PNG export failed. Try exporting SVG instead."); }
   }
 
-  return <section className={uiClass("avatar-editor ui-surface", className)} data-appearance={appearance} aria-label={label}>
+  return <div className={uiClass("avatar-editor ui-surface")} data-appearance={appearance}>
     <div className="avatar-editor-header">
       <div className="avatar-editor-artwork" data-main-preview="">
         <div className="avatar-editor-preview"><Avatar config={current} size={176} appearance={appearance} animate={activeAnimation} aria-label="Avatar preview" /></div>
@@ -124,5 +147,5 @@ export function AvatarEditor({ value, onChange, seed = DEFAULT_AVATAR_SEED, labe
       <p className="ui-help" role="status">{feedback}</p>
       <details className="avatar-editor-config"><summary>Configuration</summary><pre className="avatar-config" tabIndex={0} aria-label="Avatar configuration"><code>{JSON.stringify(current, null, 2)}</code></pre></details>
     </div>
-  </section>;
+  </div>;
 }

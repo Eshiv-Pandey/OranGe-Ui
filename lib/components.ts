@@ -858,6 +858,12 @@ export const components: ComponentDefinition[] = [
         "type": "string",
         "defaultValue": "Customize your avatar",
         "description": "Accessible name for the editor region."
+      },
+      {
+        "name": "characterValue / onCharacterChange",
+        "type": "MascotConfig / (config: MascotConfig) => void",
+        "defaultValue": "Local character state",
+        "description": "Optionally control the Characters tab independently of the existing glyph value and onChange props. Chat expression and motion remain local display state."
       }
     ],
     "keyboard": "Tab moves between controls. Arrow keys choose palettes and glyphs and adjust the angle. Show all expands options in the page. Animate, Randomize, Reset, Copy config, and exports work with Enter or Space. Reduced motion disables Animate.",
@@ -1014,6 +1020,23 @@ export const components: ComponentDefinition[] = [
     "keyboard": "The action is a normal link or button. The illustration is decorative.",
     "usage": "<EmptyState appearance=\"polished\" title=\"A fresh canvas\" description=\"Your first project belongs here.\" action={<Button>Create project</Button>} />",
     "file": "components/ui/empty-state.tsx"
+  },
+  {
+    "slug": "mascot-avatar",
+    "name": "MascotAvatar",
+    "category": "Play",
+    "description": "Eight original SVG companions with curious eyes and expressive chat states.",
+    "props": [
+      { "name": "seed", "type": "string | number", "defaultValue": "orangeui:character", "description": "Generates the same identity and gaze schedule from a stable value." },
+      { "name": "size", "type": "number", "defaultValue": "128", "description": "Square size in CSS pixels, from 16 to 2048." },
+      { "name": "state", "type": "idle | thinking | talking | error", "defaultValue": "idle", "description": "Sets the expression and accessible chat state." },
+      { "name": "mascot", "type": "MascotKind", "defaultValue": "Generated from seed", "description": "Choose any of the eight original creatures." },
+      { "name": "colors / config", "type": "Partial<MascotColors> / MascotConfig", "defaultValue": "Generated from seed", "description": "Override body, accent, background, backgroundEnd and eye colors, or restore saved identity data. CSS variables can theme each part." },
+      { "name": "interactive / blink", "type": "boolean", "defaultValue": "true", "description": "Enable pointer tracking, click reactions and occasional blinks. Motion pauses off screen and in hidden tabs, and settles with reduced motion." }
+    ],
+    "keyboard": "Interactive characters are native buttons. Tab focuses the character; Enter or Space triggers a greeting. Passive characters are named images with no extra tab stop.",
+    "usage": "<MascotAvatar appearance=\"polished\" seed=\"studio-helper\" size={160} state=\"thinking\" />",
+    "file": "components/ui/mascot-avatar.tsx"
   },
   {
     "slug": "gamer-boy",
