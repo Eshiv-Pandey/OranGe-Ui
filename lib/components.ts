@@ -757,7 +757,7 @@ export const components: ComponentDefinition[] = [
         "name": "config",
         "type": "AvatarConfig",
         "defaultValue": "Generated from seed",
-        "description": "Pass saved JSON to reconstruct a customized avatar. Takes precedence over seed."
+        "description": "Saved identity data takes precedence over seed. Optional customColors accepts two or three opaque hex colors."
       },
       {
         "name": "size",
@@ -770,6 +770,12 @@ export const components: ComponentDefinition[] = [
         "type": "\"squircle\" | \"circle\" | \"rounded\" | \"square\"",
         "defaultValue": "Config shape",
         "description": "Overrides the saved shape. Pixel appearance uses stepped edges."
+      },
+      {
+        "name": "animate",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "Smoothly shifts the gradient and glyph together. Reduced motion holds the settled frame; exports are always settled."
       },
       {
         "name": "name / aria-label",
@@ -839,7 +845,7 @@ export const components: ComponentDefinition[] = [
         "name": "onChange",
         "type": "(config: AvatarConfig) => void",
         "defaultValue": "required",
-        "description": "Emits edits, shuffles, and resets. Save the JSON in your own application."
+        "description": "Emits palette, custom color, glyph, detail, angle, randomize, and reset changes. Save the JSON in your application."
       },
       {
         "name": "seed",
@@ -854,7 +860,7 @@ export const components: ComponentDefinition[] = [
         "description": "Accessible name for the editor region."
       }
     ],
-    "keyboard": "Tab moves between controls. Arrow keys select palettes and glyphs within their groups and adjust the angle. Shuffle emits a new config; Reset restores the seed default.",
+    "keyboard": "Tab moves between controls. Arrow keys choose palettes and glyphs and adjust the angle. Show all expands options in the page. Animate, Randomize, Reset, Copy config, and exports work with Enter or Space. Reduced motion disables Animate.",
     "usage": "<AvatarEditor appearance=\"polished\" seed=\"user-42\" value={config} onChange={setConfig} />",
     "file": "components/ui/avatar-editor.tsx"
   },

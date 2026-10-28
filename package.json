@@ -13,7 +13,9 @@
     "check:copy": "node tests/check-copy.mjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o out/storybook",
-    "test:browser": "playwright test"
+    "test:browser": "playwright test",
+    "test:viewport": "playwright test --config=playwright.viewport.config.ts",
+    "test:avatar-redesign": "playwright test --config=playwright.avatar-redesign.config.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",

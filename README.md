@@ -158,6 +158,10 @@ Group members may be seed strings or Avatar props. `max` limits visible members 
 
 The editor emits complete `AvatarConfig` objects. Your application owns the state and decides when and where to save it.
 
+The live preview stays beside the controls on desktop. Palette and glyph lists expand in the page, and the editor includes custom color pickers, Randomize, Reset, Copy config, and SVG/PNG export. The in-context row renders the same identity at 16, 32, 64, and 128 px.
+
+The Animate toggle smoothly shifts the gradient and glyph together. Reduced motion disables it. Animation is a display preference, so it is not added to saved identity data. Exports always use the settled frame.
+
 ```tsx
 "use client";
 
@@ -196,6 +200,19 @@ const restored = normalizeAvatarConfig(parsed);
 ```
 
 Render the result with `<Avatar config={restored} name="Maya Patel" />`. Handle malformed JSON at the storage boundary. `normalizeAvatarConfig` validates supported fields, bounds numeric values, ignores unknown fields, and recalculates glyph tone for the selected palette. Unsupported versions fall back to the guest config.
+
+An optional `customColors` tuple overrides the palette with two or three opaque hex stops. Existing version-1 configs remain supported:
+
+```tsx
+const custom = normalizeAvatarConfig({
+  ...generateAvatarConfig("studio"),
+  customColors: ["#6236e8", "#df97fa"],
+});
+
+<Avatar config={custom} size={128} animate />
+```
+
+Normalization accepts `#RGB` and `#RRGGBB`, copies and canonicalizes valid colors, and rejects the entire override when a stop is invalid. Clear `customColors` to return to the saved palette. Every glyph includes a separately drawn pixel-grid version for the Pixelated appearance.
 
 The current config is version 1 and contains `palette`, `glyph`, `angle`, `pattern`, `shape`, `glyphTone`, `depth`, `glyphScale`, and `highlight`. Palette order and glyph IDs are persistence contracts. Keep them stable when extending the library.
 
@@ -248,8 +265,12 @@ Call PNG export from a browser interaction. Use the returned Blob directly for a
 | `npm run check:copy` | Project copy checks |
 | `npm test -- --maxWorkers=1` | Unit and source-bundle tests |
 | `npm run test:browser` | Playwright browser suites |
+| `npm run test:viewport` | Every component in the four required viewports, five appearances, and both themes |
+| `npm run test:avatar-redesign` | Custom colors, animation, reduced motion, clipboard, exports, and editor screenshots |
 
 Before the first browser run, install Chromium with `npx playwright install chromium` and run `npm run build`. The browser configuration starts the production app on port 3107 and Storybook on port 6006. Reports and failure traces are written under `out/playwright-report` and `out/test-results`.
+
+The viewport and avatar-redesign suites run their own production server on port 3108. Set `PLAYWRIGHT_PORT` to choose another port, or `PLAYWRIGHT_BASE_URL` to use an existing server. Their reports and screenshots live under `out/iteration/`.
 
 Verify production builds as well as development previews: Next.js may order and combine CSS differently in production. Browser checks cover component interactions, keyboard behavior, active overlays, themes, responsive layouts, downloads, and avatar exports. See [STATUS.md](STATUS.md) for the latest measured results.
 

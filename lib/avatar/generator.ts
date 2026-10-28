@@ -1,6 +1,6 @@
 import { avatarGlyphs } from "./glyphs";
 import { avatarPalettes } from "./palettes";
-import { AVATAR_DEPTHS, AVATAR_PATTERNS, AVATAR_SHAPES, type AvatarConfig, type AvatarGlyphTone } from "./types";
+import { AVATAR_DEPTHS, AVATAR_PATTERNS, AVATAR_SHAPES, type AvatarConfig, type AvatarCustomColors, type AvatarGlyphTone } from "./types";
 
 export const DEFAULT_AVATAR_SEED = "orangeui:guest";
 export const AVATAR_TONE_COLORS = { light: "#ffffff", dark: "#101015" } as const;
@@ -37,9 +37,22 @@ function contrast(first: number, second: number): number {
   return (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05);
 }
 
+/** Only opaque hex colors are allowed in portable config and SVG attributes. */
+export function normalizeAvatarColors(value: unknown): AvatarCustomColors | undefined {
+  if (!Array.isArray(value) || (value.length !== 2 && value.length !== 3)) return undefined;
+  const colors: string[] = [];
+  for (const color of value) {
+    if (typeof color !== "string") return undefined;
+    const hex = color.trim().toLowerCase();
+    if (!/^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/.test(hex)) return undefined;
+    colors.push(hex.length === 4 ? "#" + [...hex.slice(1)].map((channel) => channel + channel).join("") : hex);
+  }
+  return colors.length === 2 ? [colors[0], colors[1]] : [colors[0], colors[1], colors[2]];
+}
+
 /** Choose the more readable tone against the average of the evenly spaced sRGB stops. */
-export function getGlyphTone(palette: number): AvatarGlyphTone {
-  const colors = (avatarPalettes[palette] ?? avatarPalettes[0]).colors;
+export function getGlyphTone(palette: number, customColors?: readonly string[]): AvatarGlyphTone {
+  const colors = normalizeAvatarColors(customColors) ?? (avatarPalettes[palette] ?? avatarPalettes[0]).colors;
   const average = [0, 0, 0];
   for (let stop = 0; stop < colors.length; stop += 1) {
     // End stops cover half the area of an interior stop in a linear gradient.
@@ -86,14 +99,16 @@ export function normalizeAvatarConfig(value: unknown): AvatarConfig {
   const candidate = value as Record<string, unknown>;
   if (candidate.version !== undefined && candidate.version !== 1) return { ...fallbackConfig };
   const palette = boundedNumber(candidate.palette, fallbackConfig.palette, 0, avatarPalettes.length - 1);
+  const customColors = normalizeAvatarColors(candidate.customColors);
   return {
     version: 1,
     palette,
+    ...(customColors ? { customColors } : {}),
     glyph: typeof candidate.glyph === "string" && avatarGlyphs.some((glyph) => glyph.id === candidate.glyph) ? candidate.glyph : fallbackConfig.glyph,
     angle: boundedNumber(candidate.angle, fallbackConfig.angle, 0, 360) % 360,
     pattern: enumValue(candidate.pattern, AVATAR_PATTERNS, fallbackConfig.pattern),
     shape: enumValue(candidate.shape, AVATAR_SHAPES, fallbackConfig.shape),
-    glyphTone: getGlyphTone(palette),
+    glyphTone: getGlyphTone(palette, customColors),
     depth: enumValue(candidate.depth, AVATAR_DEPTHS, fallbackConfig.depth),
     glyphScale: boundedNumber(candidate.glyphScale, fallbackConfig.glyphScale, 0.5, 1, 3),
     highlight: boundedNumber(candidate.highlight, fallbackConfig.highlight, 0, 100),

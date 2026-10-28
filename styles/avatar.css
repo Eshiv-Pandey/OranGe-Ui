@@ -93,6 +93,7 @@
 .avatar-editor-option { min-height: 36px; }
 .avatar-editor-fieldset legend span { margin-left: 0; }
 .avatar-editor-more { border: 0; border-radius: var(--ui-small-radius); background: transparent; color: var(--primary-text); font: inherit; font-size: 12px; text-align: left; text-decoration: underline; text-underline-offset: 3px; min-height: 40px; margin-top: 8px; padding: 5px 0; }
+.avatar-editor[data-appearance="retro-os"] .avatar-editor-more { color: var(--ink); }
 .avatar-editor-controls { grid-column: 2; padding-top: 18px; gap: 16px; }
 .avatar-editor-actions { grid-column: 2; margin: 0; gap: 8px; }
 .avatar-editor[data-appearance="retro-os"] .avatar-editor-header { border: 0; }
@@ -110,4 +111,58 @@
 @media (max-width: 420px) {
   .avatar-editor-header { flex-direction: column; align-items: flex-start; }
   .avatar-editor-pickers { grid-template-columns: 1fr; }
+}
+
+/* A complete identity preview and small-size context share the same data. */
+.avatar-editor-header { gap: 16px; }
+.avatar-editor-artwork { display: grid; gap: 8px; }
+.avatar-editor-preview { width: 192px; height: 192px; background: transparent; }
+.avatar-editor-preview .ui-avatar[data-generated-avatar][data-appearance] { width: 176px; height: 176px; }
+.avatar-editor-artwork h3 { margin-top: 4px; }
+.avatar-editor-selection { margin: 0; }
+.avatar-editor-context { max-width: 100%; }
+.avatar-editor-context > p { margin: 4px 0 12px; font-size: 12px; color: var(--muted); }
+.avatar-editor-context > div { display: flex; flex-wrap: wrap; align-items: end; gap: 10px; }
+.avatar-editor-context figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.avatar-editor-context figcaption { font-size: 10px; white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--muted); }
+.avatar-editor-custom-colors > div { display: flex; flex-wrap: wrap; gap: 14px; }
+.avatar-editor-custom-colors label { display: flex; align-items: center; gap: 8px; font: 11px var(--font-mono); }
+.avatar-editor-custom-colors input { appearance: none; width: 38px; height: 38px; padding: 3px; border: 1px solid var(--line); border-radius: var(--ui-small-radius); background: var(--surface); cursor: pointer; }
+.avatar-editor-custom-colors input::-webkit-color-swatch-wrapper { padding: 0; }
+.avatar-editor-custom-colors input::-webkit-color-swatch { border: 0; border-radius: calc(var(--ui-small-radius) / 2); }
+.avatar-editor-actions > .ui-help { flex: 0 0 100%; margin: 0; }
+.avatar-editor-actions > [role="status"]:empty { display: none; }
+.avatar-editor-config { width: 100%; min-width: 0; font-size: 12px; }
+.avatar-editor-config summary { cursor: pointer; padding: 12px 0; text-underline-offset: 3px; }
+.avatar-editor-config pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 14px; border: 1px solid var(--line); border-radius: var(--ui-small-radius); background: var(--surface-soft); font: 11px/1.6 var(--font-mono); }
+.avatar-editor[data-appearance="neobrutalism"] .avatar-editor-preview { border: 0; box-shadow: none; }
+@media (max-width: 700px) {
+  .avatar-editor-header { flex-direction: column; align-items: flex-start; }
+  .avatar-editor-preview { width: 192px; height: 192px; }
+  .avatar-editor-context > div { gap: 8px; }
+}
+/* Append to styles/avatar.css after task 3. No JS is needed by Avatar. */
+.ui-avatar[data-generated-avatar][data-animate="true"] .avatar-gradient-shift {
+  animation: avatar-gradient-ping-pong 4s cubic-bezier(.45, 0, .55, 1) infinite alternate;
+}
+.ui-avatar[data-generated-avatar][data-animate="true"] .avatar-glyph-motion {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  animation: avatar-glyph-ping-pong 4s cubic-bezier(.45, 0, .55, 1) infinite alternate;
+}
+@keyframes avatar-gradient-ping-pong {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes avatar-glyph-ping-pong {
+  from { transform: translateY(0) rotate(-3deg) scale(1); }
+  to { transform: translateY(-3px) rotate(3deg) scale(1.035); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-avatar[data-generated-avatar][data-animate="true"] .avatar-gradient-shift,
+  .ui-avatar[data-generated-avatar][data-animate="true"] .avatar-glyph-motion {
+    animation: none !important;
+    transform: none;
+  }
+  .ui-avatar[data-generated-avatar] .avatar-gradient-shift { opacity: 0; }
 }

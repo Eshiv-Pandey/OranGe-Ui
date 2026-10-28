@@ -20,7 +20,7 @@ async function openAvatar(page: Page, slug: string, appearance: Appearance = "po
 }
 
 async function configIn(demo: Locator): Promise<AvatarConfig> {
-  return JSON.parse(await demo.locator("pre.avatar-config").innerText()) as AvatarConfig;
+  return JSON.parse(await demo.locator("pre.avatar-config").textContent().then((text) => text ?? "null")) as AvatarConfig;
 }
 
 async function svgFingerprint(svg: Locator) {
@@ -62,12 +62,12 @@ async function expectVisibleRadioFocus(input: Locator) {
   })).toBe(true);
 }
 
-test("seed edits are deterministic inline SVG with isolated definitions and no avatar requests", async ({ page }) => {
+test("seed edits are deterministic inline SVG with isolated definitions and no avatar requests", async ({ page, baseURL }) => {
   const externalImages: string[] = [];
   const seedRequests: string[] = [];
   const changedSeed = "browser-seed-no-network-9f372";
   page.on("request", (request) => {
-    if (request.resourceType() === "image" && /^https?:/.test(request.url()) && new URL(request.url()).origin !== "http://127.0.0.1:3107") externalImages.push(request.url());
+    if (request.resourceType() === "image" && /^https?:/.test(request.url()) && new URL(request.url()).origin !== new URL(baseURL!).origin) externalImages.push(request.url());
     if (request.url().includes(changedSeed)) seedRequests.push(request.url());
   });
   const demo = await openAvatar(page, "avatar");
@@ -113,13 +113,13 @@ test("editor updates config, preview, and seed reset without retaining customiza
   await expect(preview).toHaveAttribute("data-shape", "circle");
   expect(await svgFingerprint(preview)).not.toBe(before);
   const customized = await configIn(demo);
-  await editor.getByRole("button", { name: "Shuffle avatar", exact: true }).click();
+  await editor.getByRole("button", { name: "Randomize avatar", exact: true }).click();
   await expect.poll(() => configIn(demo)).not.toEqual(customized);
   expect((await configIn(demo)).shape).toBe("circle");
   await editor.getByRole("button", { name: "Reset to default", exact: true }).click();
   await expect.poll(() => configIn(demo)).toEqual(initial);
   expect(await svgFingerprint(preview)).toBe(before);
-  await editor.getByRole("button", { name: "Shuffle avatar", exact: true }).click();
+  await editor.getByRole("button", { name: "Randomize avatar", exact: true }).click();
   await page.reload();
   await expect.poll(() => configIn(demo)).toEqual(initial);
 });
@@ -130,7 +130,7 @@ test("SVG and PNG downloads contain the current avatar and the PNG decodes into 
   await demo.getByRole("combobox", { name: "Detail", exact: true }).selectOption("halo");
   const config = await configIn(demo);
   const svgDownload = page.waitForEvent("download");
-  await demo.getByRole("link", { name: "Download SVG", exact: true }).click();
+  await demo.getByRole("link", { name: "Export SVG", exact: true }).click();
   const svgFile = await svgDownload;
   expect(svgFile.suggestedFilename()).toBe("orangeui-avatar.svg");
   const svg = await readFile((await svgFile.path())!, "utf8");
@@ -138,7 +138,7 @@ test("SVG and PNG downloads contain the current avatar and the PNG decodes into 
   await svgFile.saveAs("out/avatar/browser/download.svg");
 
   const pngDownload = page.waitForEvent("download");
-  await demo.getByRole("button", { name: "Download PNG", exact: true }).click();
+  await demo.getByRole("button", { name: "Export PNG", exact: true }).click();
   const pngFile = await pngDownload;
   expect(pngFile.suggestedFilename()).toBe("orangeui-avatar.png");
   const png = await readFile((await pngFile.path())!);
@@ -182,14 +182,14 @@ test("SVG and PNG downloads contain the current avatar and the PNG decodes into 
   expect(decoded.differingChannels).toBe(0);
   await pngFile.saveAs("out/avatar/browser/download.png");
   await writeFile("out/avatar/browser/download-report.json", JSON.stringify(decoded, null, 2));
-  await expect(demo.getByRole("status")).toHaveText("PNG downloaded.");
+  await expect(demo.getByRole("status")).toHaveText("PNG exported at 256 px.");
 });
 
-test("the documentation avatar renders as usable SVG when application JavaScript is disabled", async ({ browser }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1280, height: 900 } });
+test("the documentation avatar renders as usable SVG when application JavaScript is disabled", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, javaScriptEnabled: false, viewport: { width: 1280, height: 900 } });
   try {
     const page = await context.newPage();
-    const response = await page.goto("http://127.0.0.1:3107/docs");
+    const response = await page.goto("/docs");
     expect(response?.status()).toBe(200);
     const avatar = page.getByRole("img", { name: "Server rendered avatar", exact: true });
     await expect(avatar).toBeVisible();
@@ -230,6 +230,10 @@ for (const appearance of APPEARANCE_VALUES) for (const theme of ["light", "dark"
     await expect(editor.getByRole("button", { name: "Show all 36 glyphs" })).toBeFocused();
     await page.keyboard.press("Enter");
     await expect(editor.getByRole("button", { name: "Show fewer glyphs" })).toBeFocused();
+    for (const color of await editor.getByLabel(/^Gradient color \d$/).all()) {
+      await page.keyboard.press("Tab");
+      await expect(color).toBeFocused();
+    }
     await page.keyboard.press("Tab");
     const angle = editor.getByRole("slider", { name: "Gradient angle", exact: true });
     await expect(angle).toBeFocused();
