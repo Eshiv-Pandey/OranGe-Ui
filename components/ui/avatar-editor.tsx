@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, type CSSProperties } from "react";
+import { useId, useState, type CSSProperties } from "react";
 import { DEFAULT_AVATAR_SEED, generateAvatarConfig, normalizeAvatarConfig } from "../../lib/avatar/generator";
 import { avatarGlyphs } from "../../lib/avatar/glyphs";
 import { avatarPalettes } from "../../lib/avatar/palettes";
@@ -24,16 +24,17 @@ const shapeLabels: Record<AvatarShape, string> = { squircle: "Squircle", circle:
 /** Controlled customization. The caller owns state and decides whether to save it. */
 export function AvatarEditor({ value, onChange, seed = DEFAULT_AVATAR_SEED, label = "Customize your avatar", appearance = "polished", className }: AvatarEditorProps) {
   const id = useId();
+  const [allPalettes, setAllPalettes] = useState(false);
+  const [allGlyphs, setAllGlyphs] = useState(false);
   const current = normalizeAvatarConfig(value);
   const palette = avatarPalettes[current.palette];
   const glyph = avatarGlyphs.find((item) => item.id === current.glyph) ?? avatarGlyphs[0];
   const change = (patch: Partial<AvatarConfig>) => onChange(normalizeAvatarConfig({ ...current, ...patch }));
 
   return <section className={uiClass("avatar-editor ui-surface", className)} data-appearance={appearance} aria-label={label}>
-    <div className="avatar-editor-header">
+    <div className="avatar-editor-header" data-main-preview="">
       <div className="avatar-editor-preview"><Avatar config={current} size={128} appearance={appearance} aria-label="Avatar preview" /></div>
       <div className="avatar-editor-intro">
-        <p className="avatar-editor-kicker">Your little signature</p>
         <h3>Make it feel like you.</h3>
         <p className="ui-help">A little color. A curious shape. Entirely yours.</p>
         <p className="avatar-editor-selection" aria-live="polite" aria-atomic="true">{palette.name} <span aria-hidden="true">/</span> {glyph.name}</p>
@@ -44,21 +45,23 @@ export function AvatarEditor({ value, onChange, seed = DEFAULT_AVATAR_SEED, labe
       <fieldset className="avatar-editor-fieldset">
         <legend>Palette <span>{avatarPalettes.length} colors</span></legend>
         <div className="avatar-editor-options avatar-editor-palettes">
-          {avatarPalettes.map((item, index) => <label className="avatar-editor-option avatar-editor-swatch" key={item.name} title={item.name} style={{ "--avatar-swatch": `linear-gradient(135deg, ${item.colors.join(", ")})` } as CSSProperties}>
+          {avatarPalettes.map((item, index) => ({ item, index })).filter(({ index }) => allPalettes || index < 12 || index === current.palette).map(({ item, index }) => <label className="avatar-editor-option avatar-editor-swatch" key={item.name} title={item.name} style={{ "--avatar-swatch": `linear-gradient(135deg, ${item.colors.join(", ")})` } as CSSProperties}>
             <input type="radio" name={`${id}-palette`} value={index} aria-label={item.name} checked={current.palette === index} tabIndex={current.palette === index ? 0 : -1} onChange={() => change({ palette: index })} />
             <span className="avatar-editor-check" aria-hidden="true">✓</span>
           </label>)}
         </div>
+        <button className="avatar-editor-more" type="button" aria-expanded={allPalettes} onClick={() => setAllPalettes(!allPalettes)}>{allPalettes ? "Show fewer palettes" : `Show all ${avatarPalettes.length} palettes`}</button>
       </fieldset>
 
       <fieldset className="avatar-editor-fieldset">
         <legend>Glyph <span>{avatarGlyphs.length} little characters</span></legend>
         <div className="avatar-editor-options avatar-editor-glyphs">
-          {avatarGlyphs.map((item) => <label className="avatar-editor-option avatar-editor-glyph" key={item.id} title={item.name}>
+          {avatarGlyphs.filter((item, index) => allGlyphs || index < 12 || item.id === current.glyph).map((item) => <label className="avatar-editor-option avatar-editor-glyph" key={item.id} title={item.name}>
             <input type="radio" name={`${id}-glyph`} value={item.id} aria-label={item.name} checked={current.glyph === item.id} tabIndex={current.glyph === item.id ? 0 : -1} onChange={() => change({ glyph: item.id })} />
             <svg viewBox="0 0 64 64" width="28" height="28" fill="currentColor" aria-hidden="true">{item.paths.map((path, index) => <path key={index} d={path} fillRule="evenodd" />)}</svg>
           </label>)}
         </div>
+        <button className="avatar-editor-more" type="button" aria-expanded={allGlyphs} onClick={() => setAllGlyphs(!allGlyphs)}>{allGlyphs ? "Show fewer glyphs" : `Show all ${avatarGlyphs.length} glyphs`}</button>
       </fieldset>
     </div>
 

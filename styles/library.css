@@ -158,3 +158,33 @@
 @media (max-width: 900px) { .library-topline { justify-content: flex-start; } .appearance-picker { width: 100%; } }
 @media (max-width: 720px) { .library-topline > span { max-width: none; } .appearance-picker button { font-size: 11px; padding: 8px 9px; } .demo-avatar-editor { padding: 24px 12px; } }
 @media (max-width: 480px) { .appearance-picker { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); } .appearance-picker button { padding: 8px 4px; } .appearance-picker button:last-child { grid-column: span 2; } .avatar-seed-preview { flex-wrap: wrap; } .avatar-mini-grid { gap: 8px; } }
+
+/* Detail pages reserve the first viewport for the working example. */
+.library-shell:has(.detail-heading) .library-header { height: 64px; }
+.library-shell:has(.detail-heading) .library-sidebar { top: 64px; height: calc(100dvh - 64px); }
+.library-main:has(.detail-heading) { padding-top: 16px; }
+.library-main:has(.detail-heading) .library-topline { justify-content: flex-end; }
+.library-main:has(.detail-heading) .library-topline > span { display: none; }
+.detail-heading { margin: 16px 0 18px; }
+.detail-heading h1 { font-size: clamp(30px, 3vw, 40px); line-height: 1.1; letter-spacing: -.04em; margin: 0 0 8px; }
+.detail-heading > p:not(.library-kicker) { font-size: 14px; line-height: 1.6; margin: 0; max-width: 72ch; }
+.detail-preview { overflow: visible; }
+.detail-toolbar { padding: 8px 14px; border-radius: 16px 16px 0 0; }
+.detail-demo { min-height: 280px; padding: 20px 28px; }
+.detail-demo-content { min-width: 0; }
+.detail-demo.demo-gamer-boy > * { max-width: 280px; }
+.detail-demo.demo-gamer-boy .handheld-controls { margin-top: 8%; }
+.detail-demo.demo-gamer-boy .handheld-bottom { margin-top: 3%; }
+.detail-demo.demo-gamer-boy .console-hint { margin-top: 12px; }
+.detail-demo.demo-avatar-editor > * { max-width: 900px; }
+.detail-caption { border-radius: 0 0 16px 16px; }
+.detail-preview > [role="tabpanel"]:focus-visible { outline-offset: -3px; }
+@media (max-width: 720px) {
+  .library-main:has(.detail-heading) { padding: 16px 16px 0; }
+  .library-shell:has(.detail-heading) .library-header { padding: 0 16px; }
+  .detail-heading { margin: 16px 0; }
+  .detail-heading h1 { font-size: 30px; }
+  .detail-demo, .detail-demo.demo-table, .detail-demo.demo-pagination, .detail-demo.demo-gamer-boy { padding: 16px 12px; }
+  .detail-demo.demo-avatar-editor { padding: 12px; }
+  .detail-toolbar { padding: 6px; }
+}

@@ -153,6 +153,7 @@ describe("AvatarEditor", () => {
     const nextPalette = (initial.palette + 1) % avatarPalettes.length;
     const onChange = vi.fn();
     const { rerender } = render(<AvatarEditor value={initial} onChange={onChange} />);
+    await user.click(screen.getByRole("button", { name: "Show all 64 palettes" }));
     const next = screen.getByRole("radio", { name: avatarPalettes[nextPalette].name });
     await user.click(next);
     const changed = normalizeAvatarConfig({ ...initial, palette: nextPalette });
@@ -201,9 +202,18 @@ describe("AvatarEditor", () => {
     await user.keyboard("{ArrowRight}");
     expect(screen.getByRole("radio", { name: avatarPalettes[1].name })).toBeChecked();
     await user.tab();
+    expect(screen.getByRole("button", { name: "Show all 64 palettes" })).toHaveFocus();
+    await user.keyboard("{Enter}");
+    expect(screen.getByRole("button", { name: "Show fewer palettes" })).toHaveFocus();
+    expect(screen.getAllByRole("radio").length).toBeGreaterThanOrEqual(64);
+    await user.tab();
     expect(screen.getByRole("radio", { name: avatarGlyphs[0].name })).toHaveFocus();
     await user.keyboard("{ArrowRight}");
     expect(screen.getByRole("radio", { name: avatarGlyphs[1].name })).toBeChecked();
+    await user.tab();
+    expect(screen.getByRole("button", { name: "Show all 36 glyphs" })).toHaveFocus();
+    await user.keyboard("{Enter}");
+    expect(screen.getByRole("button", { name: "Show fewer glyphs" })).toHaveFocus();
     await user.tab();
     expect(screen.getByRole("slider", { name: "Gradient angle" })).toHaveFocus();
   });
