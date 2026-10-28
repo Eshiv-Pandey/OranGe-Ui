@@ -172,10 +172,11 @@
 .detail-toolbar { padding: 8px 14px; border-radius: 16px 16px 0 0; }
 .detail-demo { min-height: 280px; padding: 20px 28px; }
 .detail-demo-content { min-width: 0; }
-.detail-demo.demo-gamer-boy > * { max-width: 280px; }
+.detail-demo.demo-gamer-boy > * { max-width: 600px; }
+.detail-demo.demo-gamer-boy .gamer-boy-device { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 28px; align-items: center; }
 .detail-demo.demo-gamer-boy .handheld-controls { margin-top: 8%; }
 .detail-demo.demo-gamer-boy .handheld-bottom { margin-top: 3%; }
-.detail-demo.demo-gamer-boy .console-hint { margin-top: 12px; }
+.detail-demo.demo-gamer-boy .console-hint { margin: 0; text-align: left; font-size: 12px; }
 .detail-demo.demo-avatar-editor > * { max-width: 900px; }
 .detail-caption { border-radius: 0 0 16px 16px; }
 .detail-preview > [role="tabpanel"]:focus-visible { outline-offset: -3px; }
@@ -186,5 +187,8 @@
   .detail-heading h1 { font-size: 30px; }
   .detail-demo, .detail-demo.demo-table, .detail-demo.demo-pagination, .detail-demo.demo-gamer-boy { padding: 16px 12px; }
   .detail-demo.demo-avatar-editor { padding: 12px; }
+  .detail-demo.demo-gamer-boy > * { max-width: 280px; }
+  .detail-demo.demo-gamer-boy .gamer-boy-device { display: block; }
+  .detail-demo.demo-gamer-boy .console-hint { margin-top: 12px; text-align: center; font-size: 11px; }
   .detail-toolbar { padding: 6px; }
 }

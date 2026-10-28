@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { components } from "../lib/components";
 import { APPEARANCE_VALUES } from "../components/ui/appearance";
 
@@ -14,6 +14,8 @@ const checkedComponents = selectedSlugs ? components.filter((component) => selec
 
 for (const viewport of viewports) for (const appearance of APPEARANCE_VALUES) for (const theme of ["light", "dark"] as const) {
   test(`first viewport ${viewport.width}x${viewport.height} ${appearance} ${theme}`, async ({ page }, testInfo) => {
+    test.setTimeout(Math.max(180_000, checkedComponents.length * 15_000));
+    const buildId = (await readFile(".next/BUILD_ID", "utf8")).trim();
     await page.setViewportSize(viewport);
     await page.addInitScript((palette) => localStorage.setItem("orangeui-palette", palette), theme);
     const folder = `out/iteration/viewports/${viewport.width}x${viewport.height}/${appearance}-${theme}`;
@@ -60,7 +62,7 @@ for (const viewport of viewports) for (const appearance of APPEARANCE_VALUES) fo
       await testInfo.attach(`${component.slug} ${appearance} ${theme}`, { path: screenshot, contentType: "image/png" });
       observations.push({ slug: component.slug, ...geometry, screenshot });
     }
-    await writeFile(`${folder}/report.json`, JSON.stringify({ viewport, appearance, theme, errors, observations }, null, 2));
+    await writeFile(`${folder}/report.json`, JSON.stringify({ buildId, viewport, appearance, theme, errors, observations }, null, 2));
     expect(errors).toEqual([]);
   });
 }
