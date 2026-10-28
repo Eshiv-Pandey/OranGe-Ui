@@ -1,0 +1,48 @@
+@import "./library-base.css";
+
+.artwork-customizer { display: grid; grid-template-columns: minmax(180px, .95fr) minmax(0, 1.15fr); align-items: start; gap: 24px; width: 100%; max-width: 1000px; padding: 24px; }
+.artwork-customizer-preview { position: sticky; top: 84px; min-width: 0; }
+.artwork-customizer-artwork { display: grid; place-items: center; min-height: 220px; width: 100%; overflow: visible; }
+.artwork-customizer-artwork > * { max-width: 100%; }
+.artwork-customizer-artwork > svg { height: auto; }
+.artwork-customizer-caption { margin-top: 16px; color: var(--muted); font-size: 12px; text-align: center; }
+.artwork-customizer-settings { min-width: 0; }
+.customizer-field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.artwork-customizer-heading h3 { margin: 0; color: var(--ink); font-size: 23px; line-height: 1.2; letter-spacing: -.03em; }
+.artwork-customizer-heading p { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+.artwork-customizer-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin: 20px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.artwork-customizer-tabs button { min-height: 40px; padding: 7px 12px; border: 0; border-radius: var(--ui-small-radius); color: var(--muted); background: transparent; }
+.artwork-customizer-tabs button:hover { color: var(--ink); background: var(--surface-soft); }
+.artwork-customizer-tabs button[aria-selected="true"] { color: var(--on-primary); background: var(--primary); font-weight: 650; }
+.artwork-customizer-panel { display: grid; gap: 16px; min-width: 0; }
+.artwork-customizer-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.artwork-customizer-actions .pixel-button { min-height: 40px; font-size: 12px; padding: 8px 12px; }
+.artwork-customizer-note, .artwork-customizer-feedback { margin: 12px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.artwork-customizer-feedback:empty { display: none; }
+.artwork-customizer-feedback[role="alert"] { color: var(--error); }
+.artwork-customizer-config { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px; }
+.artwork-customizer-config summary { cursor: pointer; color: var(--primary-text); font-size: 12px; }
+.artwork-customizer-config textarea { width: 100%; max-width: 100%; margin-top: 12px; padding: 12px; border: var(--ui-border); border-radius: var(--ui-small-radius); background: var(--surface-soft); color: var(--ink); font: 11px/1.6 var(--font-mono); resize: vertical; }
+.customizer-field { display: grid; gap: 8px; min-width: 0; font-size: 13px; }
+.customizer-field > span:first-child, .customizer-range label { font-weight: 600; }
+.customizer-field select { width: 100%; min-width: 0; min-height: 42px; padding: 8px 10px; border: var(--ui-border); border-radius: var(--ui-small-radius); background: var(--surface); color: var(--ink); }
+.customizer-color > span:last-child { display: flex; align-items: center; gap: 12px; }
+.customizer-color input { width: 52px; height: 44px; padding: 3px; border: var(--ui-border); border-radius: var(--ui-small-radius); background: var(--surface); cursor: pointer; }
+.customizer-color code { color: var(--muted); font-size: 12px; }
+.customizer-range label { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.customizer-range output { color: var(--muted); font-size: 12px; font-weight: 400; font-variant-numeric: tabular-nums; }
+.customizer-range input { width: 100%; min-height: 32px; margin: 0; accent-color: var(--primary); }
+.customizer-toggle { display: flex; align-items: center; gap: 10px; min-height: 40px; cursor: pointer; }
+.customizer-toggle input { width: 18px; height: 18px; margin: 0; accent-color: var(--primary); }
+.artwork-customizer[data-appearance="pixel"] .customizer-color input { border-radius: 0; }
+.artwork-customizer[data-appearance="neobrutalism"] .artwork-customizer-tabs button[aria-selected="true"] { outline: 2px solid var(--ink); }
+.artwork-customizer[data-appearance="retro-os"] .customizer-field select { border: 2px solid; border-color: var(--retro-low) var(--retro-highlight) var(--retro-highlight) var(--retro-low); }
+.artwork-customizer[data-appearance="retro-os"] .artwork-customizer-config summary { color: var(--ink); }
+.artwork-customizer[data-appearance="terminal"] .artwork-customizer-heading h3 { letter-spacing: 0; font-size: 20px; }
+@media (max-width: 700px) {
+  .artwork-customizer { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 18px; }
+  .artwork-customizer-preview { position: static; }
+  .artwork-customizer-artwork { min-height: 180px; }
+  .artwork-customizer-artwork > svg { max-height: 250px; }
+  .artwork-customizer-tabs { margin-top: 16px; }
+}

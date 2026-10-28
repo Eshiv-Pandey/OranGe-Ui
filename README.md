@@ -100,7 +100,7 @@ Customize colors in `styles/tokens.css`. Shared appearance rules load through `s
 | Navigation and disclosure | Accordion, Tabs, Breadcrumb, Pagination, DropdownMenu, Command |
 | Overlays and feedback | Dialog, Sheet, Popover, Tooltip, Toast, Alert, Progress, Skeleton |
 | Content and layout | Badge, Avatar, AvatarGroup, AvatarEditor, Card, StatCard, Separator, Table, EmptyState |
-| Play | GamerBoy |
+| Play | MascotAvatar, CharacterAvatar, Helmet, MiniDriver, GamerBoy |
 
 ## Infinite Avatar
 
@@ -263,6 +263,26 @@ export async function downloadAvatar(config: AvatarConfig) {
 
 Call PNG export from a browser interaction. Use the returned Blob directly for an upload, or create and later revoke an object URL for a local download.
 
+## Cursor-following artwork
+
+`CharacterAvatar`, `Helmet`, and `MiniDriver` are original, layered SVG illustrations. Each supports `seed`, `size`, `config`, `colors`, `parts`, `interactive`, `blink`, `appearance`, and `className`. A saved config takes precedence over the seed; explicit part and color overrides take precedence over the config. Their documentation pages include a live customizer with randomize, reset, copy config, and SVG/PNG export.
+
+```tsx
+import { CharacterAvatar } from "@/components/ui/character-avatar";
+import { Helmet } from "@/components/ui/helmet";
+import { MiniDriver } from "@/components/ui/mini-driver";
+
+<CharacterAvatar seed="studio-portrait" parts={{ glasses: "round" }} />
+<Helmet seed="lagoon-helmet" pattern="chevron" finish="chrome" number="247" />
+<MiniDriver seed="little-pit-crew" helmet={{ number: "318" }} />
+```
+
+The shared `usePointerGaze` hook eases normalized pointer coordinates, starts seeded idle glances after three seconds, and manages blinking. It pauses when off screen or the tab is hidden and settles with reduced motion. Helmet uses a native button to flip its visor, with optional `visorOpen` and `onVisorOpenChange` control. MiniDriver uses one gaze host for its full body and helmet; keyboard or pointer activation triggers a wave. Noninteractive helmets and drivers are named images.
+
+Pure config and SVG helpers live in `components/ui/character-art`, `helmet-art`, and `mini-driver-art`. Use `characterToSvgString`, `helmetToSvgString`, or `miniDriverToSvgString` on the server for settled portable artwork. Pass the result to `svgToPng` from `components/ui/svg-export` in a browser when PNG is needed. `size` is the square width for the portrait and helmet, and the full height for the 3:4 driver. Theme parts with `--character-*`, `--helmet-*`, and `--driver-*` color variables; pass explicit config colors when exporting those changes.
+
+The reusable controlled `ArtworkCustomizer` provides a sticky preview, accessible tabs, normalized updates, clipboard fallback, and settled SVG/PNG downloads. Its `CustomizerColor`, `CustomizerRange`, `CustomizerSelect`, and `CustomizerToggle` fields use native inputs.
+
 ## Development and checks
 
 | Command | Purpose |
@@ -280,6 +300,7 @@ Call PNG export from a browser interaction. Use the returned Blob directly for a
 | `npm run test:viewport` | Every component in the four required viewports, five appearances, and both themes |
 | `npm run test:avatar-redesign` | Custom colors, animation, reduced motion, clipboard, exports, and editor screenshots |
 | `npm run test:mascot` | Characters, chat states, gaze lifecycle, keyboard behavior, and portable exports |
+| `npm run test:artwork-customizers` | Character, helmet, and driver customizers, viewport captures, keyboard controls, motion, and decoded SVG/PNG exports |
 
 Before the first browser run, install Chromium with `npx playwright install chromium` and run `npm run build`. The browser configuration starts the production app on port 3107 and Storybook on port 6006. Reports and failure traces are written under `out/playwright-report` and `out/test-results`.
 

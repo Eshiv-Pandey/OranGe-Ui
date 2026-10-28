@@ -172,6 +172,8 @@
 .detail-toolbar { padding: 8px 14px; border-radius: 16px 16px 0 0; }
 .detail-demo { min-height: 280px; padding: 20px 28px; }
 .detail-demo-content { min-width: 0; }
+.detail-demo > .detail-demo-content:has(> .artwork-customizer) { max-width: 1000px; }
+.thumbnail-artwork { display: flex; align-items: center; justify-content: center; }
 .detail-demo.demo-gamer-boy > * { max-width: 600px; }
 .detail-demo.demo-gamer-boy .gamer-boy-device { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 28px; align-items: center; }
 .detail-demo.demo-gamer-boy .handheld-controls { margin-top: 8%; }

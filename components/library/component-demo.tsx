@@ -37,6 +37,10 @@ import { Table } from "../ui/table";
 import { EmptyState } from "../ui/empty-state";
 import { GamerBoy } from "../ui/gamer-boy";
 import { MascotAvatar, MASCOT_OPTIONS, type MascotKind, type MascotState } from "../ui/mascot-avatar";
+import { CharacterDemo, HelmetDemo, MiniDriverDemo } from "./character-demos";
+import { CharacterAvatar } from "../ui/character-avatar";
+import { Helmet } from "../ui/helmet";
+import { MiniDriver } from "../ui/mini-driver";
 
 const projects = [
   { id: "1", name: "Orange studio", status: "Live", members: 8 },
@@ -47,7 +51,7 @@ const projects = [
 ];
 
 /** The catalogue and docs render these same reusable components. */
-export function ComponentDemo({ slug, appearance = "polished" }: { slug: string; appearance?: Appearance }) {
+export function ComponentDemo({ slug, appearance = "polished", thumbnail = false }: { slug: string; appearance?: Appearance; thumbnail?: boolean }) {
   const a = { appearance };
   const [avatarSeed, setAvatarSeed] = useState("user-42");
   const [avatarConfig, setAvatarConfig] = useState(() => generateAvatarConfig("user-42"));
@@ -61,6 +65,9 @@ export function ComponentDemo({ slug, appearance = "polished" }: { slug: string;
   const status = <p className="demo-feedback" role="status">{feedback || "Try it. Every example is interactive."}</p>;
   const action = <Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Ready for a fresh start." : "Project created in this preview."); }}>{saved ? "Start again" : "Create project"}</Button>;
   switch (slug) {
+    case "character-avatar": return thumbnail ? <div className="thumbnail-artwork"><CharacterAvatar {...a} size={190} interactive={false} /></div> : <CharacterDemo appearance={appearance} />;
+    case "helmet": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive={false} /></div> : <HelmetDemo appearance={appearance} />;
+    case "mini-driver": return thumbnail ? <div className="thumbnail-artwork"><MiniDriver {...a} size={215} interactive={false} /></div> : <MiniDriverDemo appearance={appearance} />;
     case "button": return <div className="demo-stack"><div className="demo-row"><Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Removed from favourites." : "Saved to favourites."); }} aria-pressed={saved}>{saved ? "Saved!" : "Save a little joy"}</Button><Button {...a} variant="secondary" onClick={() => { setSaved(false); setFeedback("Ready to go again."); }}>Reset</Button></div><div className="demo-row"><Button {...a} variant="ghost" onClick={() => setFeedback("A little detail, a big difference.")}>Learn more</Button><Button {...a} disabled>Unavailable</Button></div>{status}</div>;
     case "input": return <form className="demo-stack" noValidate onSubmit={(event) => { event.preventDefault(); setValidated(true); setFeedback(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "Looks good. Ready to go!" : "Check your email address."); }}><Input {...a} label="Your email" type="email" placeholder="you@example.com" value={value} onChange={(event) => { setValue(event.target.value); setValidated(false); }} error={validated && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "Enter a valid email address." : undefined} description="A little room for your next idea." required /><Button {...a} type="submit">Try validation</Button>{status}</form>;
     case "textarea": return <div className="demo-stack"><Textarea {...a} label="Your next big idea" placeholder="It all starts with a little thought..." value={value} maxLength={200} onChange={(event) => setValue(event.target.value)} description={`${value.length} of 200 characters`} /><Button {...a} onClick={() => setFeedback(value.trim() ? "Draft saved in this preview." : "Write a little something first.")}>Save draft</Button>{status}</div>;

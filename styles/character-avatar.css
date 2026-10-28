@@ -1,0 +1,22 @@
+@import "./library-base.css";
+
+.character-avatar { display: inline-block; width: var(--character-size, 240px); max-width: 100%; height: auto; flex: none; vertical-align: middle; overflow: visible; --gaze-x: 0; --gaze-y: 0; --blink-scale: 1; }
+.character-avatar .character-shoulders { transform: translate(calc(var(--gaze-x, 0) * 1.3px), calc(var(--gaze-y, 0) * .6px)); }
+.character-avatar .character-neck { transform: translate(calc(var(--gaze-x, 0) * 1.8px), calc(var(--gaze-y, 0) * .8px)); }
+.character-avatar .character-hair-back { transform: translate(calc(var(--gaze-x, 0) * 3.1px), calc(var(--gaze-y, 0) * 1.4px)); }
+.character-avatar .character-head { transform: translate(calc(var(--gaze-x, 0) * 3.5px), calc(var(--gaze-y, 0) * 1.8px)); }
+.character-avatar .character-hair-front { transform: translate(calc(var(--gaze-x, 0) * 4.5px), calc(var(--gaze-y, 0) * 2.1px)); }
+.character-avatar .character-glasses { transform: translate(calc(var(--gaze-x, 0) * 4.1px), calc(var(--gaze-y, 0) * 1.9px)); }
+.character-avatar .character-pupil { transform: translate(calc(var(--gaze-x, 0) * 4px), calc(var(--gaze-y, 0) * 2.5px)); }
+.character-avatar .character-blink { transform: scaleY(var(--blink-scale, 1)); }
+.character-avatar[data-motion="reduced"] .character-shoulders,
+.character-avatar[data-motion="reduced"] .character-neck,
+.character-avatar[data-motion="reduced"] .character-hair-back,
+.character-avatar[data-motion="reduced"] .character-head,
+.character-avatar[data-motion="reduced"] .character-hair-front,
+.character-avatar[data-motion="reduced"] .character-glasses,
+.character-avatar[data-motion="reduced"] .character-pupil,
+.character-avatar[data-motion="reduced"] .character-blink { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .character-avatar :is(.character-shoulders, .character-neck, .character-hair-back, .character-head, .character-hair-front, .character-glasses, .character-pupil, .character-blink) { transform: none; }
+}

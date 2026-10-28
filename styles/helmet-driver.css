@@ -1,0 +1,29 @@
+@import "./library-base.css";
+
+.helmet, .mini-driver { display: inline-block; flex: none; position: relative; vertical-align: middle; line-height: 0; max-width: 100%; }
+.helmet { width: var(--helmet-size, 240px); aspect-ratio: 1; }
+.mini-driver { width: calc(var(--driver-size, 280px) * .75); aspect-ratio: 3 / 4; }
+.helmet-button, .helmet-image, .mini-driver-button, .mini-driver-image { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; color: inherit; border-radius: 18px; }
+.helmet-button, .mini-driver-button { cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.helmet-button:focus-visible, .mini-driver-button:focus-visible { outline: 3px solid var(--focus, #bf4800); outline-offset: 4px; }
+.helmet-svg, .mini-driver-svg { display: block; width: 100%; height: auto; overflow: visible; }
+:is(.helmet, .mini-driver) .helmet-shell-layer { transform: translate(calc(var(--gaze-x, 0) * 3px), calc(var(--gaze-y, 0) * 2px)) skewY(calc(var(--gaze-x, 0) * 1.4deg)); transform-origin: 120px 126px; }
+:is(.helmet, .mini-driver) .helmet-stripe-layer { transform: translateX(calc(var(--gaze-x, 0) * 2px)); }
+:is(.helmet, .mini-driver) .helmet-number-layer { transform: translate(calc(var(--gaze-x, 0) * 3px), calc(var(--gaze-y, 0) * 1px)); }
+:is(.helmet, .mini-driver) .helmet-visor-orbit { transform: translate(calc(var(--gaze-x, 0) * 4px), calc(var(--gaze-y, 0) * 2px)); }
+:is(.helmet, .mini-driver) .helmet-visor-lift { transform-origin: 59px 112px; transition: transform 340ms cubic-bezier(.16, 1, .3, 1); }
+.helmet[data-motion="paused"] .helmet-visor-lift, .mini-driver[data-motion="paused"] .helmet-visor-lift { transition: none; }
+:is(.helmet, .mini-driver)[data-visor-open="true"] .helmet-visor-lift { transform: translateY(-42px) rotate(-5deg) scaleY(.76); }
+:is(.helmet, .mini-driver) .helmet-pupil { transform: translate(calc(var(--gaze-x, 0) * 3px), calc(var(--gaze-y, 0) * 2px)); }
+:is(.helmet, .mini-driver) .helmet-blink { transform: scaleY(var(--blink-scale, 1)); }
+:is(.helmet, .mini-driver) .mini-driver-body { transform-origin: 120px 290px; animation: mini-driver-breathe 3.8s ease-in-out infinite; }
+:is(.helmet, .mini-driver) .mini-driver-head { transform-origin: 120px 144px; animation: mini-driver-bob 3.8s ease-in-out infinite; }
+:is(.helmet, .mini-driver) .mini-driver-arm-wave { transform-origin: 158px 157px; }
+:is(.helmet, .mini-driver) .mini-driver-reacted .mini-driver-arm-wave { animation: mini-driver-wave 1100ms ease-in-out both; }
+.helmet[data-appearance="pixel"] .helmet-button, .mini-driver[data-appearance="pixel"] .mini-driver-button,
+.helmet[data-appearance="terminal"] .helmet-button, .mini-driver[data-appearance="terminal"] .mini-driver-button { border-radius: 0; }
+.helmet[data-appearance="pixel"] svg, .mini-driver[data-appearance="pixel"] svg { shape-rendering: crispEdges; }
+@keyframes mini-driver-breathe { 0%, 100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-1px) scaleY(1.006); } }
+@keyframes mini-driver-bob { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-2px) rotate(-.5deg); } }
+@keyframes mini-driver-wave { 0%, 100% { transform: rotate(0); } 18% { transform: rotate(-112deg); } 38% { transform: rotate(-90deg); } 58% { transform: rotate(-123deg); } 80% { transform: rotate(-96deg); } }
+@media (prefers-reduced-motion: reduce) { .helmet *, .mini-driver * { animation: none !important; transition: none !important; } }

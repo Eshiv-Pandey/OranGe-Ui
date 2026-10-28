@@ -1,7 +1,7 @@
 import type { Appearance } from "../components/ui/appearance";
 export type ComponentCategory = "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play";
 export type PropDoc = { name: string; type: string; defaultValue: string; description: string };
-export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string };
+export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string; customizerPreview?: boolean };
 export const componentCategories: ComponentCategory[] = ["Forms & actions", "Navigation & disclosure", "Overlays & feedback", "Content & layout", "Play"];
 export const components: ComponentDefinition[] = [
   {
@@ -831,6 +831,7 @@ export const components: ComponentDefinition[] = [
   },
   {
     "slug": "avatar-editor",
+    "customizerPreview": true,
     "name": "AvatarEditor",
     "category": "Forms & actions",
     "description": "Make a generated identity your own, one thoughtful detail at a time.",
@@ -1037,6 +1038,51 @@ export const components: ComponentDefinition[] = [
     "keyboard": "Interactive characters are native buttons. Tab focuses the character; Enter or Space triggers a greeting. Passive characters are named images with no extra tab stop.",
     "usage": "<MascotAvatar appearance=\"polished\" seed=\"studio-helper\" size={160} state=\"thinking\" />",
     "file": "components/ui/mascot-avatar.tsx"
+  },
+  {
+    "slug": "character-avatar", "name": "CharacterAvatar", "category": "Play", "customizerPreview": true,
+    "description": "An original illustrated portrait with curious eyes and layered movement.",
+    "props": [
+      { "name": "seed / config", "type": "string | number / CharacterConfig", "defaultValue": "orangeui:portrait", "description": "Stable identity. A supplied versioned config takes priority over the seed." },
+      { "name": "size", "type": "number", "defaultValue": "240", "description": "Square size in CSS pixels, clamped from 16 to 2048." },
+      { "name": "colors", "type": "Partial<CharacterColors>", "defaultValue": "Generated", "description": "Skin, hair, outfit, accent, background, backgroundEnd, eye and frame. CSS variables use the --character- prefix." },
+      { "name": "parts", "type": "Partial<CharacterParts>", "defaultValue": "Generated", "description": "Hair, glasses, outfit, face, background accents and earring overrides." },
+      { "name": "interactive / blink", "type": "boolean", "defaultValue": "true", "description": "Pointer tracking and seeded blinking. Offscreen or hidden artwork pauses; reduced motion settles every layer." }
+    ],
+    "keyboard": "The portrait is a named image. Customizer tabs use arrows, Home and End; native fields, copy and export actions work with the keyboard.",
+    "usage": "<CharacterAvatar appearance=\"polished\" seed=\"studio-portrait\" size={240} parts={{ glasses: \"round\", hair: \"coil\" }} />",
+    "file": "components/ui/character-avatar.tsx"
+  },
+  {
+    "slug": "helmet", "name": "Helmet", "category": "Play", "customizerPreview": true,
+    "description": "An original motorsport helmet with layered turns and a working visor.",
+    "props": [
+      { "name": "seed / config", "type": "string | number / HelmetConfig", "defaultValue": "orangeui:helmet", "description": "Deterministic colors, finish and fictional number. Saved config takes precedence." },
+      { "name": "size", "type": "number", "defaultValue": "240", "description": "Square size in CSS pixels, from 24 to 2048." },
+      { "name": "colors / parts", "type": "Partial<HelmetColors> / Partial<HelmetParts>", "defaultValue": "Generated", "description": "Shell, stripe, stripeAlt, visor, trim and eye colors; pattern, finish, vents and visorOpen. Theme variables use --helmet-." },
+      { "name": "visorColor / stripeColors", "type": "string / readonly [string, string?]", "defaultValue": "From config", "description": "Convenient overrides for the visor and two stripe colors." },
+      { "name": "pattern / finish / number", "type": "plain | bands | chevron / gloss | matte | chrome / string | number", "defaultValue": "Generated", "description": "Sponsor-free design, surface finish, and up to three digits for a fictional identity." },
+      { "name": "visorOpen / onVisorOpenChange", "type": "boolean / (open: boolean) => void", "defaultValue": "Local toggle", "description": "Control the visor, or let the component toggle locally from the saved default." },
+      { "name": "interactive / blink", "type": "boolean", "defaultValue": "true", "description": "Enable pointer turns, visor activation and eye blinks. Motion respects visibility and reduced motion." }
+    ],
+    "keyboard": "Tab focuses the helmet button. Enter or Space flips the visor and updates its pressed state. Noninteractive helmets are named images.",
+    "usage": "<Helmet appearance=\"polished\" seed=\"lagoon-helmet\" size={240} pattern=\"chevron\" finish=\"gloss\" number=\"247\" />",
+    "file": "components/ui/helmet.tsx"
+  },
+  {
+    "slug": "mini-driver", "name": "MiniDriver", "category": "Play", "customizerPreview": true,
+    "description": "A small original driver with a curious helmet, breathing body and friendly wave.",
+    "props": [
+      { "name": "seed / config", "type": "string | number / MiniDriverConfig", "defaultValue": "orangeui:driver", "description": "Stable suit and nested helmet identity, with saved configuration taking priority." },
+      { "name": "size", "type": "number", "defaultValue": "280", "description": "Full-body height in CSS pixels. Width is three quarters of the height." },
+      { "name": "colors / parts", "type": "Partial<MiniDriverColors> / Partial<MiniDriverParts>", "defaultValue": "Generated", "description": "Suit, panels, gloves, boots and zip colors; suit panels, boot shape and belt. CSS variables use --driver-." },
+      { "name": "helmet", "type": "Partial helmet number, colors and parts", "defaultValue": "From config", "description": "Override the exact Helmet geometry reused by the driver, including visor and finish." },
+      { "name": "interactive / blink", "type": "boolean", "defaultValue": "true", "description": "Enable pointer turns, wave activation and blinking. One shared gaze host controls the complete figure." },
+      { "name": "onWave", "type": "() => void", "defaultValue": "Not set", "description": "Called when a wave is requested by click or keyboard." }
+    ],
+    "keyboard": "Tab focuses the driver. Enter or Space plays a wave and announces a greeting. Noninteractive drivers are named images with no extra focus stop.",
+    "usage": "<MiniDriver appearance=\"polished\" seed=\"little-pit-crew\" size={280} helmet={{ number: \"318\" }} />",
+    "file": "components/ui/mini-driver.tsx"
   },
   {
     "slug": "gamer-boy",
