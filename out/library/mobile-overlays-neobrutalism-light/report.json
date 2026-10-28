@@ -1,0 +1,150 @@
+{
+  "width": 360,
+  "theme": "light",
+  "appearance": "neobrutalism",
+  "observations": [
+    {
+      "name": "dialog",
+      "controls": [
+        {
+          "name": "input-_r_8_",
+          "insideViewport": true,
+          "unobstructed": true
+        },
+        {
+          "name": "Create workspace",
+          "insideViewport": true,
+          "unobstructed": true
+        },
+        {
+          "name": "Close dialog",
+          "insideViewport": true,
+          "unobstructed": true
+        }
+      ],
+      "violations": [],
+      "overflow": false,
+      "auditScope": "document",
+      "excludedRules": []
+    },
+    {
+      "name": "sheet",
+      "controls": [
+        {
+          "name": "_r_8_",
+          "insideViewport": true,
+          "unobstructed": true
+        },
+        {
+          "name": "_r_9_",
+          "insideViewport": true,
+          "unobstructed": true
+        },
+        {
+          "name": "Preview size",
+          "insideViewport": true,
+          "unobstructed": true
+        },
+        {
+          "name": "Close panel",
+          "insideViewport": true,
+          "unobstructed": true
+        }
+      ],
+      "violations": [],
+      "overflow": false,
+      "auditScope": "document",
+      "excludedRules": []
+    },
+    {
+      "name": "popover",
+      "controls": [
+        {
+          "name": "input-_r_8_",
+          "insideViewport": true,
+          "unobstructed": true
+        },
+        {
+          "name": "Save name",
+          "insideViewport": true,
+          "unobstructed": true
+        },
+        {
+          "name": "Close popover",
+          "insideViewport": true,
+          "unobstructed": true
+        }
+      ],
+      "violations": [],
+      "overflow": false,
+      "auditScope": "document",
+      "excludedRules": []
+    },
+    {
+      "name": "select",
+      "controls": [
+        {
+          "name": "Orange studio",
+          "insideViewport": true,
+          "unobstructed": true
+        },
+        {
+          "name": "Personal space",
+          "insideViewport": true,
+          "unobstructed": true
+        }
+      ],
+      "violations": [],
+      "overflow": false,
+      "auditScope": ".ui-select-content",
+      "excludedRules": [
+        "region"
+      ]
+    },
+    {
+      "name": "menu",
+      "controls": [
+        {
+          "name": "Duplicate project",
+          "insideViewport": true,
+          "unobstructed": true
+        },
+        {
+          "name": "Add to favourites",
+          "insideViewport": true,
+          "unobstructed": true
+        },
+        {
+          "name": "Archive project",
+          "insideViewport": true,
+          "unobstructed": true
+        }
+      ],
+      "violations": [],
+      "overflow": false,
+      "auditScope": ".ui-menu",
+      "excludedRules": [
+        "region"
+      ]
+    },
+    {
+      "name": "toast",
+      "controls": [
+        {
+          "name": "Undo",
+          "insideViewport": true,
+          "unobstructed": true
+        },
+        {
+          "name": "Dismiss notification",
+          "insideViewport": true,
+          "unobstructed": true
+        }
+      ],
+      "violations": [],
+      "overflow": false,
+      "auditScope": "document",
+      "excludedRules": []
+    }
+  ]
+}

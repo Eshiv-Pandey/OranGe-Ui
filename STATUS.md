@@ -1,53 +1,69 @@
 # oRangeUi status
 
-The 32-component library expansion and landing-page revamp are complete and verified locally as of 27 October 2026. The requirements in `LIBRARY_PLAN.md` and `REVAMP_PLAN.md` are implemented.
+The five-appearance and Infinite Avatar milestone is implemented and verified as of 28 October 2026. The catalogue contains 34 distinct reusable components. Read `README.md` for setup and project handoff, and `THEMES_AVATAR_PLAN.md` for the completed scope.
 
 ## Delivered
 
-- 32 distinct reusable React components, each with polished and pixelated appearances, typed APIs, realistic examples, and light/dark styling. Utilities and colour variants are not counted as components.
-- A searchable, categorized `/components` catalogue with complete preview tiles; directly linkable style selection; persistent appearance and theme choices; responsive sidebar and mobile navigation.
-- All 32 `/components/[slug]` pages with live interactions, Preview/Usage/Source tabs, clipboard copy, complete ZIP downloads, API properties, keyboard guidance, and previous/next links.
-- `/docs` installation and theming guidance, including source layout, dependencies, fonts, licensing, and keyboard-scrollable code examples.
-- GamerBoy as a reusable purple-screen handheld, including keyboard/touch movement, four-star collection, pause/resume, bounds, replay, reset, and accessible feedback.
-- The original orange hero, static and reduced-motion fallbacks, existing illustrated cards, and working landing navigation into the expanded library.
+- Polished, Pixelated, Neobrutalism, Retro OS, and Terminal appearances across all components, previews, usage examples, stories, and source downloads. Functional categories and light/dark palette selection remain independent.
+- OLED black dark backgrounds with neutral gray surfaces and vivid `#ff6a00` orange. Illustrated cards and the purple GamerBoy display retain their intentional artwork colors.
+- Persistent appearance selection, direct style URLs, responsive five-option controls, searchable catalogue/navigation, complete component docs, and working downloads.
+- Infinite Avatar with 64 curated gradients, 36 original SVG glyphs, five subtle patterns, selectable depth/shapes, stable seeded generation, automatic readable glyph tones, and a small versioned JSON config.
+- Pure SVG Avatar with unique definition IDs, accessible naming, fixed named/numeric sizes, config precedence, status compatibility, and synchronous Server Component support. Pixelated uses a stepped mask.
+- Overlapping AvatarGroup and controlled, keyboard-accessible AvatarEditor with live preview, palette/glyph/angle/pattern/shape controls, shuffle, and seed reset. The editor never persists user data.
+- Server SVG/data-URL helpers and optional browser PNG Blob export, public exports, complete downloadable dependencies, and docs covering JSON persistence, SSR, theming, and export.
+- Seed controls, 100-avatar variety grids, sizes/shapes, group/editor, and all appearance stories. The docs include a real server-rendered avatar visible with JavaScript disabled.
 
-The completion audit also corrected lost Checkbox/Switch descriptions, invalid pagination values, Command option identifiers and keyboard visibility, breadcrumb appearance retention, clipped catalogue previews, inaccessible scrolling code samples, and a React 19 composed-ref cleanup bug that left the page inert after closing Select.
+The mood boards remained private input. No supplied reference image was added to the repository. Glyphs are original SVG drawings, and no dependencies were added.
 
 ## Verification
 
 | Check | Result |
 | --- | --- |
-| Lint, TypeScript, and copy checks | Passed |
-| `npm test -- --maxWorkers=1` | All 43 tests passed |
-| `npm run build` | Passed with Next.js 16.4.3; all 32 detail routes generated |
-| `npm run build-storybook` | Passed |
-| Landing browser suite | All 20 checks passed |
-| Library browser coverage | All 31 checks passed across the full matrix and affected reruns |
-| Component accessibility matrix | 128 observations: 32 components in both appearances and themes; zero axe violations, runtime errors, or horizontal overflow |
-| Catalogue visual/accessibility review | 16 scenarios: 1440, 768, 390, and 360px in both appearances/themes; all passed, including 48 complete-thumbnail checks |
-| Responsive detail pages | 256 observations at 360 and 768px across both appearances/themes; no horizontal overflow |
-| Storybook browser suite | All 86 stories in both palettes passed: 172 checks, zero axe violations/errors/focus failures, all 268 keyboard entry controls visited |
-| Final Storybook overlay verification | 20 component/appearance/theme checks and 40 open/change/close cycles passed after the final modal cleanup fix |
-| Source bundle integrity | All 64 ZIP examples freshly extracted, local TS/CSS imports verified, strictly typechecked, and independently bundled with Vite; zero diagnostics |
+| Lint, strict TypeScript, copy checks | Passed |
+| Vitest | 132 tests passed across 10 files |
+| Next.js production build | Passed; 34 detail routes and request-rendered docs; no tracing warnings |
+| Storybook production build | Passed |
+| Avatar determinism | Identical config and SVG across 1,000 repeated calls |
+| Avatar distribution | 10,000 unique configs; all 64 palettes and 36 glyphs used |
+| Avatar contrast | Every automatically selected palette/tone meets at least 3:1 against the sampled gradient average |
+| Public exports and SSR | Passed, including hydration stability and JavaScript-disabled docs |
+| Avatar browser tests | All 15 passed, including five appearances in both palettes at 360/390px |
+| PNG export | Decodes to 256 x 256; 51,837 visible pixels; zero pixel-channel differences from the current exported SVG raster |
+| Component accessibility matrix | 340 observations: 34 components x five appearances x two palettes; zero violations, runtime errors, or horizontal overflow |
+| Responsive detail matrix | 680 observations at 360/768px in all appearances/palettes; zero horizontal overflow |
+| Library browser scenarios | All 67 covered successfully across the main runs and affected reruns |
+| Active mobile overlays | 60 observations across all five appearances and both palettes; passed |
+| Catalogue visual/accessibility audit | All 40 desktop/tablet/mobile appearance/palette scenarios passed, including 240 complete-thumbnail checks |
+| Storybook browser coverage | 202 stories in both palettes, 404 latest observations; zero violations/runtime/focus failures; all 724 keyboard entry controls visited |
+| Landing browser tests | All 20 passed |
+| Landing responsive audits | Eight viewport/palette audits; zero accessibility/runtime/overflow failures; maximum layout shift 0.000873 |
+| Downloaded source | All 170 examples and 30 avatar utility entry modules strictly compile and independently bundle with zero diagnostics |
+| Palette-only tree shaking | 5,246-byte production bundle contains palette data only, with no glyph or generator modules |
+| Production source tracing | Limited to 174 required files; no personal rules, environment files, or verification artifacts |
 
-Browser behavior coverage includes filtering and empty results, direct URLs, appearance persistence, mobile navigation, validation, disabled and controlled states, selection, sorting/pagination, clipboard/source downloads, overlay focus trapping and restoration, notifications, and all eight GamerBoy appearance/theme/input combinations. Code samples scroll by keyboard on narrow screens.
-
-Landing checks include manual/offscreen/hidden-tab motion pause, reduced motion, unavailable WebGL, actual context loss, usable content with JavaScript disabled, theme persistence, and cursor density. The eight landing audits have zero accessibility/runtime failures and no horizontal overflow; measured layout shift is below 0.001 in every case.
-
-Screenshots were visually reviewed for desktop, tablet, and narrow mobile layouts, including all component appearances and both palettes, active mobile overlays, and the complete catalogue previews.
+Verification corrected a Retro OS editor text contrast issue, a docs streaming boundary that hid content without JavaScript, avatar thumbnail clearances, and unnecessary generator retention in palette-only bundles. The toast keyboard audit now pauses its normal dismissal timer by focusing Undo before running accessibility analysis. Catalogue audits distinguish cancelled speculative Next.js prefetches from failed navigations/assets and inspect the text-bearing node when verifying installed system fonts.
 
 ## Evidence
 
-- `out/library/{polished,pixel}-{light,dark}/`: all 128 component screenshots and matrix reports.
-- `out/library/catalogue-review.json`, `catalogue-*.png`, and `review-final-thumbnails-*.png`: all 16 catalogue audits and visual evidence.
-- `out/library/responsive-{360,768}-{light,dark}/`: detail-page observations and screenshots, including documentation.
-- `out/library/mobile-overlays-*/`: active Dialog, Sheet, Popover, Select, DropdownMenu, and Toast screenshots and reports in all four appearance/theme combinations.
-- `out/library/gamer-boy-*-playing.png`: desktop and mobile active-game captures in both appearances/themes.
-- `out/library/browser-verification.json`: final desktop keyboard-flow rerun.
-- `out/storybook-a11y.json`: all 172 story/palette observations.
-- `out/storybook-overlay-a11y.json`: final overlay cycles, focus restoration, and verified modal-source hash.
-- `out/source-bundle-verification.json`: 64 compiled and bundled downloadable examples.
-- `out/landing-{1440,768,390,360}-{light,dark}.png` and matching audit JSON: current landing evidence.
-- `out/hero-webgl-{desktop,mobile}.png`, `out/console-playing-mobile.png`, and `out/cursors-dpr-{1,2}.json`: hero, controller, and cursor checks.
+- `out/avatar/core-verification.json`, `glyphs.png`, and `variety-100.png`: distribution, original glyph geometry, and visual review.
+- `out/avatar/browser/`: all avatar mobile screenshots, 100-seed grids/reports, actual SVG/PNG downloads, pixel comparison, and JavaScript-disabled server output. The 100-seed sample has 100 unique avatars, 52 palettes, and 35 glyphs in each palette.
+- `out/avatar/unit-final.log`, `production-build.log`, `storybook-build.log`, and `browser/playwright-final.log`: final command outcomes.
+- `out/avatar/tree-shaking.json` and `source-trace.json`: bundle and deployment trace evidence.
+- `out/library/verification-summary.json`: component/responsive/overlay totals, with links to the underlying evidence.
+- `out/library/{polished,pixel,neobrutalism,retro-os,terminal}-{light,dark}/`: all 340 detail screenshots and current matrix reports.
+- `out/library/responsive-{360,768}-{light,dark}/`: 680 responsive observations and selected full-page screenshots.
+- `out/library/mobile-overlays-*/`: active overlay screenshots, control visibility, and accessibility reports.
+- `out/library/catalogue-review.json` and `catalogue-*.png`: 40 complete catalogue audits and visuals.
+- `out/library/review-*.png`: ten component contact sheets, visually reviewed along with full-size samples.
+- `out/library/browser-final.json`, `browser-final.log`, and `oled-final.json`: final flow checks and the corrected color-value serialization check.
+- `out/storybook-verification.json`: latest results assembled from the full `out/storybook-a11y.json` run and the successful 50-check `out/storybook-a11y-filtered-avatar.json` refresh. The original report is preserved, including the corrected contrast finding.
+- `out/source-bundle-verification.json`: 170 source examples plus 30 utility modules.
+- `out/landing-final-report.json`, `out/landing-final.log`, and `out/landing-*.png`: landing behavior, responsive audits, and screenshots.
 
-Browser verification uses Chromium, including emulated touch. Active modal Select/Menu audits inspect the popup and omit only the inapplicable document-region rule while the background is inert; full unfiltered page audits run before and after closing. Other application overlay audits cover the whole document. Storybook's additional active-overlay checks are explicitly component-scoped. Its build emits nonfatal bundler warnings for client directives and chunk sizes.
+Browser verification uses Chromium and emulated touch. Active modal Select/Menu audits inspect the popup and exclude only the inapplicable document-region rule while the page is inert; full-document audits also run after closing. Storybook emits nonfatal warnings about ignored client directives and its documentation bundle sizes.
+
+## Remaining work
+
+No required feature or verification work remains for this milestone. Consuming applications own config persistence and account integration. Optional future work could add named avatar presets or searchable palette/glyph pickers.
+
+The earlier architecture and landing direction remain documented in `LIBRARY_PLAN.md` and `REVAMP_PLAN.md`.

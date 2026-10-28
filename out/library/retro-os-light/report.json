@@ -1,0 +1,178 @@
+{
+  "theme": "light",
+  "appearance": "retro-os",
+  "checked": 34,
+  "errors": [],
+  "observations": [
+    {
+      "slug": "button",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "input",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "textarea",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "select",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "checkbox",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "radio-group",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "switch",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "slider",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "toggle",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "toggle-group",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "accordion",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "tabs",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "breadcrumb",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "pagination",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "dropdown-menu",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "command",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "dialog",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "sheet",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "popover",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "tooltip",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "toast",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "alert",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "progress",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "skeleton",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "badge",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "avatar",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "avatar-group",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "avatar-editor",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "card",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "stat-card",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "separator",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "table",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "empty-state",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "gamer-boy",
+      "violations": [],
+      "overflow": false
+    }
+  ]
+}

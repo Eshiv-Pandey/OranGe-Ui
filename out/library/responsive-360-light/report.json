@@ -133,6 +133,16 @@
       "overflow": false
     },
     {
+      "slug": "avatar-group",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
+      "slug": "avatar-editor",
+      "appearance": "polished",
+      "overflow": false
+    },
+    {
       "slug": "card",
       "appearance": "polished",
       "overflow": false
@@ -293,6 +303,16 @@
       "overflow": false
     },
     {
+      "slug": "avatar-group",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "avatar-editor",
+      "appearance": "pixel",
+      "overflow": false
+    },
+    {
       "slug": "card",
       "appearance": "pixel",
       "overflow": false
@@ -320,6 +340,516 @@
     {
       "slug": "gamer-boy",
       "appearance": "pixel",
+      "overflow": false
+    },
+    {
+      "slug": "button",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "input",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "textarea",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "select",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "checkbox",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "radio-group",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "switch",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "slider",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "toggle",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "toggle-group",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "accordion",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "tabs",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "breadcrumb",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "pagination",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "dropdown-menu",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "command",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "dialog",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "sheet",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "popover",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "tooltip",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "toast",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "alert",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "progress",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "skeleton",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "badge",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "avatar",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "avatar-group",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "avatar-editor",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "card",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "stat-card",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "separator",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "table",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "empty-state",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "gamer-boy",
+      "appearance": "neobrutalism",
+      "overflow": false
+    },
+    {
+      "slug": "button",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "input",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "textarea",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "select",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "checkbox",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "radio-group",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "switch",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "slider",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "toggle",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "toggle-group",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "accordion",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "tabs",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "breadcrumb",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "pagination",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "dropdown-menu",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "command",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "dialog",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "sheet",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "popover",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "tooltip",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "toast",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "alert",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "progress",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "skeleton",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "badge",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "avatar",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "avatar-group",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "avatar-editor",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "card",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "stat-card",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "separator",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "table",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "empty-state",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "gamer-boy",
+      "appearance": "retro-os",
+      "overflow": false
+    },
+    {
+      "slug": "button",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "input",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "textarea",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "select",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "checkbox",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "radio-group",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "switch",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "slider",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "toggle",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "toggle-group",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "accordion",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "tabs",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "breadcrumb",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "pagination",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "dropdown-menu",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "command",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "dialog",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "sheet",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "popover",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "tooltip",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "toast",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "alert",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "progress",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "skeleton",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "badge",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "avatar",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "avatar-group",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "avatar-editor",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "card",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "stat-card",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "separator",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "table",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "empty-state",
+      "appearance": "terminal",
+      "overflow": false
+    },
+    {
+      "slug": "gamer-boy",
+      "appearance": "terminal",
       "overflow": false
     }
   ]

@@ -1,0 +1,2163 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "E:\\CreativeCorner\\OranGe Ui\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "out/download-validation/playwright-current.config.ts",
+      "--project",
+      "library",
+      "--grep-invert",
+      "all 34 components render with accessible (polished|pixel|neobrutalism|terminal)|all 34 components render with accessible retro-os styling in dark|all component details fit at 360px in light",
+      "--reporter=list,json",
+      "--output",
+      "out/test-results/library-final"
+    ],
+    "configFile": "E:\\CreativeCorner\\OranGe Ui\\out\\download-validation\\playwright-current.config.ts",
+    "rootDir": "E:/CreativeCorner/OranGe Ui/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "E:/CreativeCorner/OranGe Ui/out/test-results/library-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "landing",
+        "name": "landing",
+        "testDir": "E:/CreativeCorner/OranGe Ui/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/landing\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "E:/CreativeCorner/OranGe Ui/out/test-results/library-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "library",
+        "name": "library",
+        "testDir": "E:/CreativeCorner/OranGe Ui/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/library\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "E:/CreativeCorner/OranGe Ui/out/test-results/library-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "avatar",
+        "name": "avatar",
+        "testDir": "E:/CreativeCorner/OranGe Ui/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/avatar\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "E:/CreativeCorner/OranGe Ui/out/test-results/library-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "stories",
+        "name": "stories",
+        "testDir": "E:/CreativeCorner/OranGe Ui/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/storybook\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "E:\\CreativeCorner\\OranGe Ui\\out\\test-results\\library-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "library",
+        "testDir": "E:\\CreativeCorner\\OranGe Ui\\tests",
+        "snapshotDir": "E:\\CreativeCorner\\OranGe Ui\\tests",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 60000,
+        "use": {
+          "browserName": "chromium",
+          "trace": "retain-on-failure",
+          "baseURL": "http://127.0.0.1:3107"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "library"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "library.spec.ts",
+      "file": "library.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "all 34 components render with accessible retro-os styling in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 93433,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:22:28.206Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-985f669bb8547d34dfc1",
+          "file": "library.spec.ts",
+          "line": 31,
+          "column": 7
+        },
+        {
+          "title": "catalogue search and category flow at 1440px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6355,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:24:01.968Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-e89067478b23e0d1b5aa",
+          "file": "library.spec.ts",
+          "line": 54,
+          "column": 48
+        },
+        {
+          "title": "catalogue search and category flow at 768px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5640,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:24:08.357Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-fe3ac6f99cd0712971ff",
+          "file": "library.spec.ts",
+          "line": 54,
+          "column": 48
+        },
+        {
+          "title": "catalogue search and category flow at 390px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6251,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:24:14.016Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-6d4fab99a5488ea6f31b",
+          "file": "library.spec.ts",
+          "line": 54,
+          "column": 48
+        },
+        {
+          "title": "catalogue search and category flow at 360px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6758,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:24:20.296Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-5f2b09fd3f29693578a0",
+          "file": "library.spec.ts",
+          "line": 54,
+          "column": 48
+        },
+        {
+          "title": "polished controls, overlays, menus and feedback work by keyboard in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 20242,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:24:27.079Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-6478c993d121550b91e0",
+          "file": "library.spec.ts",
+          "line": 89,
+          "column": 97
+        },
+        {
+          "title": "pixel controls, overlays, menus and feedback work by keyboard in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14268,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:24:47.357Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-2df1bc0009d7977bd96a",
+          "file": "library.spec.ts",
+          "line": 89,
+          "column": 97
+        },
+        {
+          "title": "neobrutalism controls, overlays, menus and feedback work by keyboard in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12637,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:25:01.651Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-df7b48a7108da5c7035e",
+          "file": "library.spec.ts",
+          "line": 89,
+          "column": 97
+        },
+        {
+          "title": "retro-os controls, overlays, menus and feedback work by keyboard in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12965,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:25:14.305Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-c380c745ce74ec4de7f1",
+          "file": "library.spec.ts",
+          "line": 89,
+          "column": 97
+        },
+        {
+          "title": "terminal controls, overlays, menus and feedback work by keyboard in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13026,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:25:27.283Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-69bed859fdafffc9a57a",
+          "file": "library.spec.ts",
+          "line": 89,
+          "column": 97
+        },
+        {
+          "title": "polished controls, overlays, menus and feedback work by keyboard in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13495,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:25:40.326Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-2b3f9bd7c94658874bad",
+          "file": "library.spec.ts",
+          "line": 89,
+          "column": 97
+        },
+        {
+          "title": "pixel controls, overlays, menus and feedback work by keyboard in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13481,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:25:53.838Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-5c6951c78f4cab6153a0",
+          "file": "library.spec.ts",
+          "line": 89,
+          "column": 97
+        },
+        {
+          "title": "neobrutalism controls, overlays, menus and feedback work by keyboard in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13458,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:26:07.337Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-f1810b238b8909d3e40a",
+          "file": "library.spec.ts",
+          "line": 89,
+          "column": 97
+        },
+        {
+          "title": "retro-os controls, overlays, menus and feedback work by keyboard in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13332,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:26:20.807Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-07324d3465b76992b386",
+          "file": "library.spec.ts",
+          "line": 89,
+          "column": 97
+        },
+        {
+          "title": "terminal controls, overlays, menus and feedback work by keyboard in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13828,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:26:34.153Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-d714c5227618f4507106",
+          "file": "library.spec.ts",
+          "line": 89,
+          "column": 97
+        },
+        {
+          "title": "usage, source, clipboard, every source download, and documentation links",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2317,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:26:47.999Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-b09f43a376ccbf094326",
+          "file": "library.spec.ts",
+          "line": 146,
+          "column": 5
+        },
+        {
+          "title": "code examples scroll with the keyboard on narrow screens",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3586,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:26:50.326Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-77a27306b64cb3b4f71d",
+          "file": "library.spec.ts",
+          "line": 171,
+          "column": 5
+        },
+        {
+          "title": "all component details fit at 360px in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 45886,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:26:53.925Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-094a0bb82ce53700736f",
+          "file": "library.spec.ts",
+          "line": 196,
+          "column": 85
+        },
+        {
+          "title": "all component details fit at 768px in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 61958,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:27:39.829Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-fd5191aca5337261f80f",
+          "file": "library.spec.ts",
+          "line": 196,
+          "column": 85
+        },
+        {
+          "title": "all component details fit at 768px in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 69585,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:28:41.803Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-cf9b7d419f368002e106",
+          "file": "library.spec.ts",
+          "line": 196,
+          "column": 85
+        },
+        {
+          "title": "breadcrumb preview navigation preserves a directly linked pixel appearance",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1671,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:29:51.410Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-af9012aa592ee5b01f68",
+          "file": "library.spec.ts",
+          "line": 220,
+          "column": 5
+        },
+        {
+          "title": "Polished selection persists through links, reload, and source download",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1390,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:33:15.249Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-a241073096b0718995f5",
+          "file": "library.spec.ts",
+          "line": 415,
+          "column": 37
+        },
+        {
+          "title": "Pixelated selection persists through links, reload, and source download",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1812,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:33:16.653Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-d5e1b40c7e26cfe58bbf",
+          "file": "library.spec.ts",
+          "line": 415,
+          "column": 37
+        },
+        {
+          "title": "Neobrutalism selection persists through links, reload, and source download",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1445,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:33:18.479Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-d833be22fe1b957b95f7",
+          "file": "library.spec.ts",
+          "line": 415,
+          "column": 37
+        },
+        {
+          "title": "Retro OS selection persists through links, reload, and source download",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1497,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:33:19.936Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-3d4db6ea6f90559beeaf",
+          "file": "library.spec.ts",
+          "line": 415,
+          "column": 37
+        },
+        {
+          "title": "Terminal selection persists through links, reload, and source download",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1392,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:33:21.450Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-637e2ba203704ecf1f7b",
+          "file": "library.spec.ts",
+          "line": 415,
+          "column": 37
+        },
+        {
+          "title": "dark website surfaces are OLED neutral with vivid orange accents",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "library",
+              "projectName": "library",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 636,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"--cream\": \"#000000\",\u001b[39m\n\u001b[31m+   \"--cream\": \"#000\",\u001b[39m\n\u001b[2m    \"--primary\": \"#ff6a00\",\u001b[22m\n\u001b[2m    \"--surface\": \"#0a0a0a\",\u001b[22m\n\u001b[2m    \"--surface-soft\": \"#171717\",\u001b[22m\n\u001b[2m  }\u001b[22m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"--cream\": \"#000000\",\u001b[39m\n\u001b[31m+   \"--cream\": \"#000\",\u001b[39m\n\u001b[2m    \"--primary\": \"#ff6a00\",\u001b[22m\n\u001b[2m    \"--surface\": \"#0a0a0a\",\u001b[22m\n\u001b[2m    \"--surface-soft\": \"#171717\",\u001b[22m\n\u001b[2m  }\u001b[22m\n    at E:\\CreativeCorner\\OranGe Ui\\tests\\library.spec.ts:446:20",
+                    "location": {
+                      "file": "E:\\CreativeCorner\\OranGe Ui\\tests\\library.spec.ts",
+                      "column": 20,
+                      "line": 446
+                    },
+                    "snippet": "  444 |       return Object.fromEntries([\"--cream\", \"--surface\", \"--surface-soft\", \"--primary\"].map((name) => [name, style.getPropertyValue(name).trim()]));\n  445 |     });\n> 446 |     expect(tokens).toEqual({ \"--cream\": \"#000000\", \"--surface\": \"#0a0a0a\", \"--surface-soft\": \"#171717\", \"--primary\": \"#ff6a00\" });\n      |                    ^\n  447 |     expect(await page.locator(\"body\").evaluate((body) => getComputedStyle(body).backgroundColor)).toBe(\"rgb(0, 0, 0)\");\n  448 |   }\n  449 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "E:\\CreativeCorner\\OranGe Ui\\tests\\library.spec.ts",
+                        "column": 20,
+                        "line": 446
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"--cream\": \"#000000\",\u001b[39m\n\u001b[31m+   \"--cream\": \"#000\",\u001b[39m\n\u001b[2m    \"--primary\": \"#ff6a00\",\u001b[22m\n\u001b[2m    \"--surface\": \"#0a0a0a\",\u001b[22m\n\u001b[2m    \"--surface-soft\": \"#171717\",\u001b[22m\n\u001b[2m  }\u001b[22m\n\n  444 |       return Object.fromEntries([\"--cream\", \"--surface\", \"--surface-soft\", \"--primary\"].map((name) => [name, style.getPropertyValue(name).trim()]));\n  445 |     });\n> 446 |     expect(tokens).toEqual({ \"--cream\": \"#000000\", \"--surface\": \"#0a0a0a\", \"--surface-soft\": \"#171717\", \"--primary\": \"#ff6a00\" });\n      |                    ^\n  447 |     expect(await page.locator(\"body\").evaluate((body) => getComputedStyle(body).backgroundColor)).toBe(\"rgb(0, 0, 0)\");\n  448 |   }\n  449 | });\n    at E:\\CreativeCorner\\OranGe Ui\\tests\\library.spec.ts:446:20"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T08:33:22.852Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "E:\\CreativeCorner\\OranGe Ui\\out\\test-results\\library-final\\library-dark-website-surfa-d7cb7-l-with-vivid-orange-accents-library\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "E:\\CreativeCorner\\OranGe Ui\\out\\test-results\\library-final\\library-dark-website-surfa-d7cb7-l-with-vivid-orange-accents-library\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "E:\\CreativeCorner\\OranGe Ui\\tests\\library.spec.ts",
+                    "column": 20,
+                    "line": 446
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "ad0ae3d52ea8a2949ca9-c6cb672fc01c9ddb649d",
+          "file": "library.spec.ts",
+          "line": 437,
+          "column": 5
+        }
+      ],
+      "suites": [
+        {
+          "title": "GamerBoy at 1440px",
+          "file": "library.spec.ts",
+          "line": 245,
+          "column": 39,
+          "specs": [
+            {
+              "title": "GamerBoy lifecycle with keyboard in polished light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2405,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:29:53.102Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-9c380418dc430ddaf7f0",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with keyboard in pixel light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2511,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:29:55.521Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-f14b1eec5192addf57be",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with keyboard in neobrutalism light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2331,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:29:58.049Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-df3825ec11f19e767480",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with keyboard in retro-os light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2157,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:00.393Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-e68d85474842a1a1b656",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with keyboard in terminal light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2153,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:02.559Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-ad44260544b364d2ac17",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with keyboard in polished dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2166,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:04.723Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-50c2ab13218b6fd6b6bf",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with keyboard in pixel dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2062,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:06.906Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-b2b3c76527034b82cf83",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with keyboard in neobrutalism dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2078,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:08.979Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-279cabee078952004de0",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with keyboard in retro-os dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2098,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:11.068Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-d3d0c6ebba3476b50a92",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with keyboard in terminal dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2215,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:13.181Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-011f339c02b544eb198e",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "GamerBoy at 360px",
+          "file": "library.spec.ts",
+          "line": 245,
+          "column": 39,
+          "specs": [
+            {
+              "title": "GamerBoy lifecycle with touch in polished light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2477,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:15.410Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-83b186cf5496c611aeb2",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with touch in pixel light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2306,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:17.901Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-146c829e696c3c06e635",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with touch in neobrutalism light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2304,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:20.219Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-4c2ca80d23303c695d04",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with touch in retro-os light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2353,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:22.535Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-6f7eda7af74ef7cba4e7",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with touch in terminal light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2443,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:24.901Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-04d293b5e14376efe013",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with touch in polished dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2502,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:27.354Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-9bc48fb1241627037494",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with touch in pixel dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2457,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:29.865Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-f5df393e47f02316419e",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with touch in neobrutalism dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2468,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:32.335Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-9c6426e5175a71bfd49b",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with touch in retro-os dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2305,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:34.813Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-ab7582c837f90de317ac",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            },
+            {
+              "title": "GamerBoy lifecycle with touch in terminal dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2506,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:37.132Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-7b0dce66c4f9f6c5ff32",
+              "file": "library.spec.ts",
+              "line": 248,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "mobile overlays",
+          "file": "library.spec.ts",
+          "line": 309,
+          "column": 6,
+          "specs": [
+            {
+              "title": "mobile overlays remain usable and accessible in polished light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 19531,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:39.648Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-b15c47e63d2eaa562d59",
+              "file": "library.spec.ts",
+              "line": 312,
+              "column": 9
+            },
+            {
+              "title": "mobile overlays remain usable and accessible in pixel light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 47063,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:30:59.195Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-948b9d55ff5a7c5c482c",
+              "file": "library.spec.ts",
+              "line": 312,
+              "column": 9
+            },
+            {
+              "title": "mobile overlays remain usable and accessible in neobrutalism light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 18740,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:31:46.290Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-3fc9e689633e9191eb49",
+              "file": "library.spec.ts",
+              "line": 312,
+              "column": 9
+            },
+            {
+              "title": "mobile overlays remain usable and accessible in retro-os light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 13564,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:32:05.077Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-7c44fcb9b7ac4fc9e1f9",
+              "file": "library.spec.ts",
+              "line": 312,
+              "column": 9
+            },
+            {
+              "title": "mobile overlays remain usable and accessible in terminal light",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 13165,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:32:18.672Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-bf102b60bdd7369b2491",
+              "file": "library.spec.ts",
+              "line": 312,
+              "column": 9
+            },
+            {
+              "title": "mobile overlays remain usable and accessible in polished dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9281,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:32:31.860Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-20691e059b466290343e",
+              "file": "library.spec.ts",
+              "line": 312,
+              "column": 9
+            },
+            {
+              "title": "mobile overlays remain usable and accessible in pixel dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8857,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:32:41.157Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-d63e1e8ef24a667ce95f",
+              "file": "library.spec.ts",
+              "line": 312,
+              "column": 9
+            },
+            {
+              "title": "mobile overlays remain usable and accessible in neobrutalism dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9314,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:32:50.037Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-9371fa51e8aaf508a816",
+              "file": "library.spec.ts",
+              "line": 312,
+              "column": 9
+            },
+            {
+              "title": "mobile overlays remain usable and accessible in retro-os dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7641,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:32:59.369Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-0b6e483dcd613c90c941",
+              "file": "library.spec.ts",
+              "line": 312,
+              "column": 9
+            },
+            {
+              "title": "mobile overlays remain usable and accessible in terminal dark",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "library",
+                  "projectName": "library",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8207,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-28T08:33:07.026Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0ae3d52ea8a2949ca9-a60b41d307ceaded8f66",
+              "file": "library.spec.ts",
+              "line": 312,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-28T08:22:26.253Z",
+    "duration": 659811.532,
+    "expected": 56,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

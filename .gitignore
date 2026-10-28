@@ -15,3 +15,4 @@ USER_INSTRUCTIONS.md
 out/avatar/browser/test-results/
 out/storybook-avatar-tests/
 out/landing-tests/
+out/avatar/browser/*test-results/

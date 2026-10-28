@@ -1,0 +1,1121 @@
+{
+  "storyFilter": "avatar",
+  "indexedStoryCount": 202,
+  "storyCount": 25,
+  "palettes": [
+    "light",
+    "dark"
+  ],
+  "expectedChecks": 50,
+  "completedChecks": 50,
+  "renderedChecks": 50,
+  "passedChecks": 50,
+  "errorCount": 0,
+  "violationCount": 0,
+  "keyboardControlCount": 126,
+  "keyboardVisitedCount": 126,
+  "keyboardFocusFailureCount": 0,
+  "loadedFontChecks": 100,
+  "stories": [
+    {
+      "id": "components-avatar--controlled-customization",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 8,
+      "keyboardVisited": 8,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--group",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--hundred-avatars",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--neobrutalism",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--pixelated",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--retro-os",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--seed-playground",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--shapes",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--sizes",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--terminal",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatar--neobrutalism",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatar--pixelated",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatar--polished",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatar--retro-os",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatar--terminal",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatareditor--neobrutalism",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 10,
+      "keyboardVisited": 10,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatareditor--pixelated",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 10,
+      "keyboardVisited": 10,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatareditor--polished",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 10,
+      "keyboardVisited": 10,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatareditor--retro-os",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 10,
+      "keyboardVisited": 10,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatareditor--terminal",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 10,
+      "keyboardVisited": 10,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatargroup--neobrutalism",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatargroup--pixelated",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatargroup--polished",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatargroup--retro-os",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatargroup--terminal",
+      "palette": "light",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--controlled-customization",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 8,
+      "keyboardVisited": 8,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--group",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--hundred-avatars",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--neobrutalism",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--pixelated",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--retro-os",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--seed-playground",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--shapes",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--sizes",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "components-avatar--terminal",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatar--neobrutalism",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatar--pixelated",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatar--polished",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatar--retro-os",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatar--terminal",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 1,
+      "keyboardVisited": 1,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatareditor--neobrutalism",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 10,
+      "keyboardVisited": 10,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatareditor--pixelated",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 10,
+      "keyboardVisited": 10,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatareditor--polished",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 10,
+      "keyboardVisited": 10,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatareditor--retro-os",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 10,
+      "keyboardVisited": 10,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatareditor--terminal",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 10,
+      "keyboardVisited": 10,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatargroup--neobrutalism",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatargroup--pixelated",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatargroup--polished",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatargroup--retro-os",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "library-avatargroup--terminal",
+      "palette": "dark",
+      "rendered": true,
+      "violations": [],
+      "keyboardControls": 0,
+      "keyboardVisited": 0,
+      "keyboardFocusFailures": 0,
+      "keyboardOrderValid": true,
+      "fonts": [
+        {
+          "family": "Geist",
+          "faces": 1,
+          "loaded": true
+        },
+        {
+          "family": "Pixelify Sans",
+          "faces": 1,
+          "loaded": true
+        }
+      ]
+    }
+  ]
+}

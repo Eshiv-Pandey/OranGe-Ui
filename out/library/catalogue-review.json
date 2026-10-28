@@ -1,8 +1,10 @@
 {
   "baseURL": "http://127.0.0.1:3107",
-  "reviewedAt": "2026-10-27T11:54:06.691Z",
-  "scenarios": 16,
-  "passed": 16,
+  "reviewedAt": "2026-10-28T08:44:16.398Z",
+  "expectedComponents": 34,
+  "expectedScenarios": 40,
+  "scenarios": 40,
+  "passed": 40,
   "failed": 0,
   "observations": [
     {
@@ -11,41 +13,76 @@
       "theme": "light",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [
+        {
+          "url": "http://127.0.0.1:3107/docs?style=polished&_rsc=O061I_TyT672XdpT",
+          "error": "net::ERR_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:3107/docs?_rsc=AOiFQ8F2Qxyz_jmz",
+          "error": "net::ERR_ABORTED"
+        }
+      ],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "60px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "14px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "55.5581px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -55,17 +92,17 @@
         "overflow": false,
         "palette": "light",
         "appearance": "polished",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.800048828125,
-            "height": 157.018798828125,
+            "height": 170.344970703125,
             "clearance": {
-              "top": 30.9984130859375,
+              "top": 24.3275146484375,
               "right": 80.9281005859375,
-              "bottom": 31.9827880859375,
+              "bottom": 25.3275146484375,
               "left": 80.9437255859375
             },
             "complete": true
@@ -78,19 +115,55 @@
               "top": 11.525390625,
               "right": 101.12811279296875,
               "bottom": 12.525390625,
-              "left": 101.14373779296875
+              "left": 101.12811279296875
             },
             "complete": true
           },
           {
             "slug": "empty-state",
-            "width": 185.5999755859375,
+            "width": 185.60009765625,
             "height": 192.32421875,
             "clearance": {
               "top": 13.337890625,
-              "right": 80.52813720703125,
+              "right": 80.528076171875,
               "bottom": 14.337890625,
-              "left": 80.52813720703125
+              "left": 80.528076171875
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 173.976318359375,
+            "height": 177.1787109375,
+            "clearance": {
+              "top": 20.91845703125,
+              "right": 86.3477783203125,
+              "bottom": 21.90283203125,
+              "left": 86.3477783203125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.10009765625,
+            "clearance": {
+              "top": 91.949951171875,
+              "right": 75.828125,
+              "bottom": 92.949951171875,
+              "left": 75.828125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 174.08984375,
+            "clearance": {
+              "top": 22.455078125,
+              "right": 101.9281005859375,
+              "bottom": 23.455078125,
+              "left": 101.92813110351562
             },
             "complete": true
           }
@@ -112,41 +185,67 @@
       "theme": "dark",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "60px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "14px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "55.5581px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -156,17 +255,17 @@
         "overflow": false,
         "palette": "dark",
         "appearance": "polished",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.800048828125,
-            "height": 157.018798828125,
+            "height": 170.344970703125,
             "clearance": {
-              "top": 30.9984130859375,
+              "top": 24.3275146484375,
               "right": 80.9281005859375,
-              "bottom": 31.9827880859375,
+              "bottom": 25.3275146484375,
               "left": 80.9437255859375
             },
             "complete": true
@@ -179,19 +278,55 @@
               "top": 11.525390625,
               "right": 101.12811279296875,
               "bottom": 12.525390625,
-              "left": 101.14373779296875
+              "left": 101.12811279296875
             },
             "complete": true
           },
           {
             "slug": "empty-state",
-            "width": 185.5999755859375,
+            "width": 185.60009765625,
             "height": 192.32421875,
             "clearance": {
               "top": 13.337890625,
-              "right": 80.52813720703125,
+              "right": 80.528076171875,
               "bottom": 14.337890625,
-              "left": 80.52813720703125
+              "left": 80.528076171875
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 173.976318359375,
+            "height": 177.1787109375,
+            "clearance": {
+              "top": 20.91845703125,
+              "right": 86.3477783203125,
+              "bottom": 21.90283203125,
+              "left": 86.3477783203125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.10009765625,
+            "clearance": {
+              "top": 91.949951171875,
+              "right": 75.828125,
+              "bottom": 92.949951171875,
+              "left": 75.828125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 174.08984375,
+            "clearance": {
+              "top": 22.455078125,
+              "right": 101.9281005859375,
+              "bottom": 23.455078125,
+              "left": 101.92813110351562
             },
             "complete": true
           }
@@ -213,41 +348,67 @@
       "theme": "light",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "60px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "54.5381px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -257,17 +418,17 @@
         "overflow": false,
         "palette": "light",
         "appearance": "pixel",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.800048828125,
-            "height": 177.73876953125,
+            "height": 191.06494140625,
             "clearance": {
-              "top": 20.638427734375,
+              "top": 13.967529296875,
               "right": 80.9281005859375,
-              "bottom": 21.622802734375,
+              "bottom": 14.967529296875,
               "left": 80.9437255859375
             },
             "complete": true
@@ -280,19 +441,55 @@
               "top": 11.86962890625,
               "right": 101.12811279296875,
               "bottom": 12.86962890625,
-              "left": 101.14373779296875
+              "left": 101.12811279296875
             },
             "complete": true
           },
           {
             "slug": "empty-state",
-            "width": 185.5999755859375,
+            "width": 185.60009765625,
             "height": 196.96484375,
             "clearance": {
               "top": 11.017578125,
-              "right": 80.52813720703125,
+              "right": 80.528076171875,
               "bottom": 12.017578125,
-              "left": 80.52813720703125
+              "left": 80.528076171875
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 173.976318359375,
+            "height": 180.98486328125,
+            "clearance": {
+              "top": 19.007568359375,
+              "right": 86.3477783203125,
+              "bottom": 20.007568359375,
+              "left": 86.3477783203125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.10009765625,
+            "clearance": {
+              "top": 91.949951171875,
+              "right": 75.828125,
+              "bottom": 92.949951171875,
+              "left": 75.828125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 177.4501953125,
+            "clearance": {
+              "top": 20.77490234375,
+              "right": 101.9281005859375,
+              "bottom": 21.77490234375,
+              "left": 101.92813110351562
             },
             "complete": true
           }
@@ -314,41 +511,76 @@
       "theme": "dark",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [
+        {
+          "url": "http://127.0.0.1:3107/docs?style=pixel&_rsc=O061I_TyT672XdpT",
+          "error": "net::ERR_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:3107/docs?_rsc=AOiFQ8F2Qxyz_jmz",
+          "error": "net::ERR_ABORTED"
+        }
+      ],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "60px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "54.5381px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -358,17 +590,17 @@
         "overflow": false,
         "palette": "dark",
         "appearance": "pixel",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.800048828125,
-            "height": 177.73876953125,
+            "height": 191.06494140625,
             "clearance": {
-              "top": 20.638427734375,
+              "top": 13.967529296875,
               "right": 80.9281005859375,
-              "bottom": 21.622802734375,
+              "bottom": 14.967529296875,
               "left": 80.9437255859375
             },
             "complete": true
@@ -381,19 +613,55 @@
               "top": 11.86962890625,
               "right": 101.12811279296875,
               "bottom": 12.86962890625,
-              "left": 101.14373779296875
+              "left": 101.12811279296875
             },
             "complete": true
           },
           {
             "slug": "empty-state",
-            "width": 185.5999755859375,
+            "width": 185.60009765625,
             "height": 196.96484375,
             "clearance": {
               "top": 11.017578125,
-              "right": 80.52813720703125,
+              "right": 80.528076171875,
               "bottom": 12.017578125,
-              "left": 80.52813720703125
+              "left": 80.528076171875
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 173.976318359375,
+            "height": 180.98486328125,
+            "clearance": {
+              "top": 19.007568359375,
+              "right": 86.3477783203125,
+              "bottom": 20.007568359375,
+              "left": 86.3477783203125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.10009765625,
+            "clearance": {
+              "top": 91.949951171875,
+              "right": 75.828125,
+              "bottom": 92.949951171875,
+              "left": 75.828125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 177.4501953125,
+            "clearance": {
+              "top": 20.77490234375,
+              "right": 101.9281005859375,
+              "bottom": 21.77490234375,
+              "left": 101.92813110351562
             },
             "complete": true
           }
@@ -410,46 +678,1122 @@
       "passed": true
     },
     {
-      "width": 768,
-      "appearance": "polished",
+      "width": 1440,
+      "appearance": "neobrutalism",
       "theme": "light",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [
+        {
+          "url": "http://127.0.0.1:3107/docs?_rsc=AOiFQ8F2Qxyz_jmz",
+          "error": "net::ERR_ABORTED"
+        }
+      ],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
-          "fontSize": "36px",
-          "faces": 5,
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "60px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", sans-serif",
           "fontSize": "14px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "54.5381px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "neobrutalism",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.800048828125,
+            "height": 183.784912109375,
+            "clearance": {
+              "top": 17.6075439453125,
+              "right": 80.9281005859375,
+              "bottom": 18.6075439453125,
+              "left": 80.9437255859375
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 199.060546875,
+            "clearance": {
+              "top": 9.9697265625,
+              "right": 101.12811279296875,
+              "bottom": 10.9697265625,
+              "left": 101.12811279296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.60009765625,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 11.8876953125,
+              "right": 80.528076171875,
+              "bottom": 12.8876953125,
+              "left": 80.528076171875
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 173.976318359375,
+            "height": 178.298828125,
+            "clearance": {
+              "top": 20.3583984375,
+              "right": 86.3477783203125,
+              "bottom": 21.3427734375,
+              "left": 86.3477783203125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.10009765625,
+            "clearance": {
+              "top": 91.949951171875,
+              "right": 75.828125,
+              "bottom": 92.949951171875,
+              "left": 75.828125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 174.7197265625,
+            "clearance": {
+              "top": 22.14013671875,
+              "right": 101.9281005859375,
+              "bottom": 23.14013671875,
+              "left": 101.92813110351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-1440-neobrutalism-light.png",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "appearance": "neobrutalism",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [
+        {
+          "url": "http://127.0.0.1:3107/docs?style=neobrutalism&_rsc=O061I_TyT672XdpT",
+          "error": "net::ERR_ABORTED"
+        }
+      ],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "60px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", sans-serif",
+          "fontSize": "14px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "54.5381px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "neobrutalism",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.800048828125,
+            "height": 183.784912109375,
+            "clearance": {
+              "top": 17.6075439453125,
+              "right": 80.9281005859375,
+              "bottom": 18.6075439453125,
+              "left": 80.9437255859375
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 199.060546875,
+            "clearance": {
+              "top": 9.9697265625,
+              "right": 101.12811279296875,
+              "bottom": 10.9697265625,
+              "left": 101.12811279296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.60009765625,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 11.8876953125,
+              "right": 80.528076171875,
+              "bottom": 12.8876953125,
+              "left": 80.528076171875
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 173.976318359375,
+            "height": 178.298828125,
+            "clearance": {
+              "top": 20.3583984375,
+              "right": 86.3477783203125,
+              "bottom": 21.3427734375,
+              "left": 86.3477783203125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.10009765625,
+            "clearance": {
+              "top": 91.949951171875,
+              "right": 75.828125,
+              "bottom": 92.949951171875,
+              "left": 75.828125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 174.7197265625,
+            "clearance": {
+              "top": 22.14013671875,
+              "right": 101.9281005859375,
+              "bottom": 23.14013671875,
+              "left": 101.92813110351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-1440-neobrutalism-dark.png",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "appearance": "retro-os",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "60px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Arial",
+          "stack": "Arial, Helvetica, sans-serif",
+          "fontSize": "14px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Arial",
+              "postScriptName": "Arial-BoldMT",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "56.78px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "retro-os",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.800048828125,
+            "height": 168.6650390625,
+            "clearance": {
+              "top": 25.16748046875,
+              "right": 80.9281005859375,
+              "bottom": 26.16748046875,
+              "left": 80.9437255859375
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 195.8544921875,
+            "clearance": {
+              "top": 11.57275390625,
+              "right": 101.12811279296875,
+              "bottom": 12.57275390625,
+              "left": 101.12811279296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.60009765625,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 11.8876953125,
+              "right": 80.528076171875,
+              "bottom": 12.8876953125,
+              "left": 80.528076171875
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 173.976318359375,
+            "height": 177.40625,
+            "clearance": {
+              "top": 20.8046875,
+              "right": 86.3477783203125,
+              "bottom": 21.7890625,
+              "left": 86.3477783203125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.10009765625,
+            "clearance": {
+              "top": 91.949951171875,
+              "right": 75.828125,
+              "bottom": 92.949951171875,
+              "left": 75.828125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 175.1396484375,
+            "clearance": {
+              "top": 21.93017578125,
+              "right": 101.9281005859375,
+              "bottom": 22.93017578125,
+              "left": 101.92813110351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-1440-retro-os-light.png",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "appearance": "retro-os",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "60px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Arial",
+          "stack": "Arial, Helvetica, sans-serif",
+          "fontSize": "14px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Arial",
+              "postScriptName": "Arial-BoldMT",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "56.78px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "retro-os",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.800048828125,
+            "height": 168.6650390625,
+            "clearance": {
+              "top": 25.16748046875,
+              "right": 80.9281005859375,
+              "bottom": 26.16748046875,
+              "left": 80.9437255859375
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 195.8544921875,
+            "clearance": {
+              "top": 11.57275390625,
+              "right": 101.12811279296875,
+              "bottom": 12.57275390625,
+              "left": 101.12811279296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.60009765625,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 11.8876953125,
+              "right": 80.528076171875,
+              "bottom": 12.8876953125,
+              "left": 80.528076171875
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 173.976318359375,
+            "height": 177.40625,
+            "clearance": {
+              "top": 20.8046875,
+              "right": 86.3477783203125,
+              "bottom": 21.7890625,
+              "left": 86.3477783203125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.10009765625,
+            "clearance": {
+              "top": 91.949951171875,
+              "right": 75.828125,
+              "bottom": 92.949951171875,
+              "left": 75.828125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 175.1396484375,
+            "clearance": {
+              "top": 21.93017578125,
+              "right": 101.9281005859375,
+              "bottom": 22.93017578125,
+              "left": 101.92813110351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-1440-retro-os-dark.png",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "appearance": "terminal",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [
+        {
+          "url": "http://127.0.0.1:3107/docs?style=terminal&_rsc=O061I_TyT672XdpT",
+          "error": "net::ERR_ABORTED"
+        }
+      ],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "60px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "13px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-SemiBold",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "46.5369px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-Bold",
+              "isCustomFont": false,
+              "glyphCount": 9
+            }
+          ]
+        }
+      ],
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "terminal",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.800048828125,
+            "height": 183.111328125,
+            "clearance": {
+              "top": 17.9521484375,
+              "right": 80.9281005859375,
+              "bottom": 18.9365234375,
+              "left": 80.9437255859375
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 202.908203125,
+            "clearance": {
+              "top": 8.0458984375,
+              "right": 101.12811279296875,
+              "bottom": 9.0458984375,
+              "left": 101.12811279296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.60009765625,
+            "height": 190.583984375,
+            "clearance": {
+              "top": 14.2080078125,
+              "right": 80.528076171875,
+              "bottom": 15.2080078125,
+              "left": 80.528076171875
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 173.976318359375,
+            "height": 175.384765625,
+            "clearance": {
+              "top": 21.8076171875,
+              "right": 86.3477783203125,
+              "bottom": 22.8076171875,
+              "left": 86.3477783203125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.10009765625,
+            "clearance": {
+              "top": 91.949951171875,
+              "right": 75.828125,
+              "bottom": 92.949951171875,
+              "left": 75.828125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 173.0400390625,
+            "clearance": {
+              "top": 22.97998046875,
+              "right": 101.9281005859375,
+              "bottom": 23.97998046875,
+              "left": 101.92813110351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-1440-terminal-light.png",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "appearance": "terminal",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [
+        {
+          "url": "http://127.0.0.1:3107/docs?style=terminal&_rsc=O061I_TyT672XdpT",
+          "error": "net::ERR_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:3107/docs?_rsc=AOiFQ8F2Qxyz_jmz",
+          "error": "net::ERR_ABORTED"
+        }
+      ],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "60px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "13px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-SemiBold",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "46.5369px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-Bold",
+              "isCustomFont": false,
+              "glyphCount": 9
+            }
+          ]
+        }
+      ],
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "terminal",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.800048828125,
+            "height": 183.111328125,
+            "clearance": {
+              "top": 17.9521484375,
+              "right": 80.9281005859375,
+              "bottom": 18.9365234375,
+              "left": 80.9437255859375
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 202.908203125,
+            "clearance": {
+              "top": 8.0458984375,
+              "right": 101.12811279296875,
+              "bottom": 9.0458984375,
+              "left": 101.12811279296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.60009765625,
+            "height": 190.583984375,
+            "clearance": {
+              "top": 14.2080078125,
+              "right": 80.528076171875,
+              "bottom": 15.2080078125,
+              "left": 80.528076171875
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 173.976318359375,
+            "height": 175.384765625,
+            "clearance": {
+              "top": 21.8076171875,
+              "right": 86.3477783203125,
+              "bottom": 22.8076171875,
+              "left": 86.3477783203125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.10009765625,
+            "clearance": {
+              "top": 91.949951171875,
+              "right": 75.828125,
+              "bottom": 92.949951171875,
+              "left": 75.828125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 173.0400390625,
+            "clearance": {
+              "top": 22.97998046875,
+              "right": 101.9281005859375,
+              "bottom": 23.97998046875,
+              "left": 101.92813110351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-1440-terminal-dark.png",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "appearance": "polished",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "36px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "14px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "55.5581px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -459,17 +1803,17 @@
         "overflow": false,
         "palette": "light",
         "appearance": "polished",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.79998779296875,
-            "height": 157.0185546875,
+            "height": 170.34521484375,
             "clearance": {
-              "top": 30.99853515625,
+              "top": 24.327392578125,
               "right": 27.350006103515625,
-              "bottom": 31.98291015625,
+              "bottom": 25.327392578125,
               "left": 27.350006103515625
             },
             "complete": true
@@ -495,6 +1839,42 @@
               "right": 26.95001220703125,
               "bottom": 14.337890625,
               "left": 26.95001220703125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 113.9599609375,
+            "height": 177.1787109375,
+            "clearance": {
+              "top": 20.91845703125,
+              "right": 62.77001953125,
+              "bottom": 21.90283203125,
+              "left": 62.77001953125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 91.9501953125,
+              "right": 22.25,
+              "bottom": 92.9501953125,
+              "left": 22.25
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.800048828125,
+            "height": 174.08984375,
+            "clearance": {
+              "top": 22.455078125,
+              "right": 48.3499755859375,
+              "bottom": 23.455078125,
+              "left": 48.3499755859375
             },
             "complete": true
           }
@@ -516,41 +1896,76 @@
       "theme": "dark",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [
+        {
+          "url": "http://127.0.0.1:3107/docs?style=polished&_rsc=O061I_TyT672XdpT",
+          "error": "net::ERR_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:3107/docs?_rsc=AOiFQ8F2Qxyz_jmz",
+          "error": "net::ERR_ABORTED"
+        }
+      ],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "36px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "14px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "55.5581px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -560,17 +1975,17 @@
         "overflow": false,
         "palette": "dark",
         "appearance": "polished",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.79998779296875,
-            "height": 157.0185546875,
+            "height": 170.34521484375,
             "clearance": {
-              "top": 30.99853515625,
+              "top": 24.327392578125,
               "right": 27.350006103515625,
-              "bottom": 31.98291015625,
+              "bottom": 25.327392578125,
               "left": 27.350006103515625
             },
             "complete": true
@@ -598,6 +2013,42 @@
               "left": 26.95001220703125
             },
             "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 113.9599609375,
+            "height": 177.1787109375,
+            "clearance": {
+              "top": 20.91845703125,
+              "right": 62.77001953125,
+              "bottom": 21.90283203125,
+              "left": 62.77001953125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 91.9501953125,
+              "right": 22.25,
+              "bottom": 92.9501953125,
+              "left": 22.25
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.800048828125,
+            "height": 174.08984375,
+            "clearance": {
+              "top": 22.455078125,
+              "right": 48.3499755859375,
+              "bottom": 23.455078125,
+              "left": 48.3499755859375
+            },
+            "complete": true
           }
         ],
         "themeControl": {
@@ -617,41 +2068,72 @@
       "theme": "light",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [
+        {
+          "url": "http://127.0.0.1:3107/docs?style=pixel&_rsc=O061I_TyT672XdpT",
+          "error": "net::ERR_ABORTED"
+        }
+      ],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "36px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "54.5381px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -661,17 +2143,17 @@
         "overflow": false,
         "palette": "light",
         "appearance": "pixel",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.79998779296875,
-            "height": 177.73876953125,
+            "height": 191.06494140625,
             "clearance": {
-              "top": 20.638427734375,
+              "top": 13.967529296875,
               "right": 27.350006103515625,
-              "bottom": 21.622802734375,
+              "bottom": 14.967529296875,
               "left": 27.350006103515625
             },
             "complete": true
@@ -697,6 +2179,42 @@
               "right": 26.95001220703125,
               "bottom": 12.017578125,
               "left": 26.95001220703125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 113.9599609375,
+            "height": 180.9853515625,
+            "clearance": {
+              "top": 19.00732421875,
+              "right": 62.77001953125,
+              "bottom": 20.00732421875,
+              "left": 62.77001953125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 91.9501953125,
+              "right": 22.25,
+              "bottom": 92.9501953125,
+              "left": 22.25
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.800048828125,
+            "height": 177.4501953125,
+            "clearance": {
+              "top": 20.77490234375,
+              "right": 48.3499755859375,
+              "bottom": 21.77490234375,
+              "left": 48.3499755859375
             },
             "complete": true
           }
@@ -718,41 +2236,67 @@
       "theme": "dark",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "36px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "54.5381px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -762,17 +2306,17 @@
         "overflow": false,
         "palette": "dark",
         "appearance": "pixel",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.79998779296875,
-            "height": 177.73876953125,
+            "height": 191.06494140625,
             "clearance": {
-              "top": 20.638427734375,
+              "top": 13.967529296875,
               "right": 27.350006103515625,
-              "bottom": 21.622802734375,
+              "bottom": 14.967529296875,
               "left": 27.350006103515625
             },
             "complete": true
@@ -800,6 +2344,42 @@
               "left": 26.95001220703125
             },
             "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 113.9599609375,
+            "height": 180.9853515625,
+            "clearance": {
+              "top": 19.00732421875,
+              "right": 62.77001953125,
+              "bottom": 20.00732421875,
+              "left": 62.77001953125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 91.9501953125,
+              "right": 22.25,
+              "bottom": 92.9501953125,
+              "left": 22.25
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.800048828125,
+            "height": 177.4501953125,
+            "clearance": {
+              "top": 20.77490234375,
+              "right": 48.3499755859375,
+              "bottom": 21.77490234375,
+              "left": 48.3499755859375
+            },
+            "complete": true
           }
         ],
         "themeControl": {
@@ -814,46 +2394,1108 @@
       "passed": true
     },
     {
-      "width": 390,
-      "appearance": "polished",
+      "width": 768,
+      "appearance": "neobrutalism",
       "theme": "light",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
-          "fontSize": "38px",
-          "faces": 5,
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "36px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", sans-serif",
           "fontSize": "14px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "54.5381px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 768,
+        "documentWidth": 768,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "neobrutalism",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 183.78515625,
+            "clearance": {
+              "top": 17.607421875,
+              "right": 27.350006103515625,
+              "bottom": 18.607421875,
+              "left": 27.350006103515625
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 199.060546875,
+            "clearance": {
+              "top": 9.9697265625,
+              "right": 47.54998779296875,
+              "bottom": 10.9697265625,
+              "left": 47.54998779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 11.8876953125,
+              "right": 26.95001220703125,
+              "bottom": 12.8876953125,
+              "left": 26.95001220703125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 113.9599609375,
+            "height": 178.298828125,
+            "clearance": {
+              "top": 20.3583984375,
+              "right": 62.77001953125,
+              "bottom": 21.3427734375,
+              "left": 62.77001953125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 91.9501953125,
+              "right": 22.25,
+              "bottom": 92.9501953125,
+              "left": 22.25
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.800048828125,
+            "height": 174.7197265625,
+            "clearance": {
+              "top": 22.14013671875,
+              "right": 48.3499755859375,
+              "bottom": 23.14013671875,
+              "left": 48.3499755859375
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-768-neobrutalism-light.png",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "appearance": "neobrutalism",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "36px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", sans-serif",
+          "fontSize": "14px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "54.5381px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 768,
+        "documentWidth": 768,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "neobrutalism",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 183.78515625,
+            "clearance": {
+              "top": 17.607421875,
+              "right": 27.350006103515625,
+              "bottom": 18.607421875,
+              "left": 27.350006103515625
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 199.060546875,
+            "clearance": {
+              "top": 9.9697265625,
+              "right": 47.54998779296875,
+              "bottom": 10.9697265625,
+              "left": 47.54998779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 11.8876953125,
+              "right": 26.95001220703125,
+              "bottom": 12.8876953125,
+              "left": 26.95001220703125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 113.9599609375,
+            "height": 178.298828125,
+            "clearance": {
+              "top": 20.3583984375,
+              "right": 62.77001953125,
+              "bottom": 21.3427734375,
+              "left": 62.77001953125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 91.9501953125,
+              "right": 22.25,
+              "bottom": 92.9501953125,
+              "left": 22.25
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.800048828125,
+            "height": 174.7197265625,
+            "clearance": {
+              "top": 22.14013671875,
+              "right": 48.3499755859375,
+              "bottom": 23.14013671875,
+              "left": 48.3499755859375
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-768-neobrutalism-dark.png",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "appearance": "retro-os",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "36px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Arial",
+          "stack": "Arial, Helvetica, sans-serif",
+          "fontSize": "14px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Arial",
+              "postScriptName": "Arial-BoldMT",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "56.78px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 768,
+        "documentWidth": 768,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "retro-os",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 168.6650390625,
+            "clearance": {
+              "top": 25.16748046875,
+              "right": 27.350006103515625,
+              "bottom": 26.16748046875,
+              "left": 27.350006103515625
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 195.8544921875,
+            "clearance": {
+              "top": 11.57275390625,
+              "right": 47.54998779296875,
+              "bottom": 12.57275390625,
+              "left": 47.54998779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 11.8876953125,
+              "right": 26.95001220703125,
+              "bottom": 12.8876953125,
+              "left": 26.95001220703125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 113.9599609375,
+            "height": 177.40625,
+            "clearance": {
+              "top": 20.8046875,
+              "right": 62.77001953125,
+              "bottom": 21.7890625,
+              "left": 62.77001953125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 91.9501953125,
+              "right": 22.25,
+              "bottom": 92.9501953125,
+              "left": 22.25
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.800048828125,
+            "height": 175.1396484375,
+            "clearance": {
+              "top": 21.93017578125,
+              "right": 48.3499755859375,
+              "bottom": 22.93017578125,
+              "left": 48.3499755859375
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-768-retro-os-light.png",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "appearance": "retro-os",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [
+        {
+          "url": "http://127.0.0.1:3107/docs?style=retro-os&_rsc=O061I_TyT672XdpT",
+          "error": "net::ERR_ABORTED"
+        }
+      ],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "36px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Arial",
+          "stack": "Arial, Helvetica, sans-serif",
+          "fontSize": "14px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Arial",
+              "postScriptName": "Arial-BoldMT",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "56.78px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 768,
+        "documentWidth": 768,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "retro-os",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 168.6650390625,
+            "clearance": {
+              "top": 25.16748046875,
+              "right": 27.350006103515625,
+              "bottom": 26.16748046875,
+              "left": 27.350006103515625
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 195.8544921875,
+            "clearance": {
+              "top": 11.57275390625,
+              "right": 47.54998779296875,
+              "bottom": 12.57275390625,
+              "left": 47.54998779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 11.8876953125,
+              "right": 26.95001220703125,
+              "bottom": 12.8876953125,
+              "left": 26.95001220703125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 113.9599609375,
+            "height": 177.40625,
+            "clearance": {
+              "top": 20.8046875,
+              "right": 62.77001953125,
+              "bottom": 21.7890625,
+              "left": 62.77001953125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 91.9501953125,
+              "right": 22.25,
+              "bottom": 92.9501953125,
+              "left": 22.25
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.800048828125,
+            "height": 175.1396484375,
+            "clearance": {
+              "top": 21.93017578125,
+              "right": 48.3499755859375,
+              "bottom": 22.93017578125,
+              "left": 48.3499755859375
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-768-retro-os-dark.png",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "appearance": "terminal",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "36px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "13px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-SemiBold",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "46.5369px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-Bold",
+              "isCustomFont": false,
+              "glyphCount": 9
+            }
+          ]
+        }
+      ],
+      "layout": {
+        "viewport": 768,
+        "documentWidth": 768,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "terminal",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 183.111328125,
+            "clearance": {
+              "top": 17.9521484375,
+              "right": 27.350006103515625,
+              "bottom": 18.9365234375,
+              "left": 27.350006103515625
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 202.908203125,
+            "clearance": {
+              "top": 8.0458984375,
+              "right": 47.54998779296875,
+              "bottom": 9.0458984375,
+              "left": 47.54998779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 190.583984375,
+            "clearance": {
+              "top": 14.2080078125,
+              "right": 26.95001220703125,
+              "bottom": 15.2080078125,
+              "left": 26.95001220703125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 113.9599609375,
+            "height": 175.384765625,
+            "clearance": {
+              "top": 21.8076171875,
+              "right": 62.77001953125,
+              "bottom": 22.8076171875,
+              "left": 62.77001953125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 91.9501953125,
+              "right": 22.25,
+              "bottom": 92.9501953125,
+              "left": 22.25
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.800048828125,
+            "height": 173.0400390625,
+            "clearance": {
+              "top": 22.97998046875,
+              "right": 48.3499755859375,
+              "bottom": 23.97998046875,
+              "left": 48.3499755859375
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-768-terminal-light.png",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "appearance": "terminal",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [
+        {
+          "url": "http://127.0.0.1:3107/docs?style=terminal&_rsc=O061I_TyT672XdpT",
+          "error": "net::ERR_ABORTED"
+        }
+      ],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "36px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "13px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-SemiBold",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "46.5369px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-Bold",
+              "isCustomFont": false,
+              "glyphCount": 9
+            }
+          ]
+        }
+      ],
+      "layout": {
+        "viewport": 768,
+        "documentWidth": 768,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "terminal",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 183.111328125,
+            "clearance": {
+              "top": 17.9521484375,
+              "right": 27.350006103515625,
+              "bottom": 18.9365234375,
+              "left": 27.350006103515625
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.4000244140625,
+            "height": 202.908203125,
+            "clearance": {
+              "top": 8.0458984375,
+              "right": 47.54998779296875,
+              "bottom": 9.0458984375,
+              "left": 47.54998779296875
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 190.583984375,
+            "clearance": {
+              "top": 14.2080078125,
+              "right": 26.95001220703125,
+              "bottom": 15.2080078125,
+              "left": 26.95001220703125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 113.9599609375,
+            "height": 175.384765625,
+            "clearance": {
+              "top": 21.8076171875,
+              "right": 62.77001953125,
+              "bottom": 22.8076171875,
+              "left": 62.77001953125
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 91.9501953125,
+              "right": 22.25,
+              "bottom": 92.9501953125,
+              "left": 22.25
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.800048828125,
+            "height": 173.0400390625,
+            "clearance": {
+              "top": 22.97998046875,
+              "right": 48.3499755859375,
+              "bottom": 23.97998046875,
+              "left": 48.3499755859375
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 46,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-768-terminal-dark.png",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "appearance": "polished",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "38px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "14px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "55.5581px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -863,17 +3505,17 @@
         "overflow": false,
         "palette": "light",
         "appearance": "polished",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.79998779296875,
-            "height": 157.0185546875,
+            "height": 170.3447265625,
             "clearance": {
-              "top": 35.99853515625,
+              "top": 29.32763671875,
               "right": 81.60001373291016,
-              "bottom": 36.98291015625,
+              "bottom": 30.32763671875,
               "left": 81.5999984741211
             },
             "complete": true
@@ -899,6 +3541,42 @@
               "right": 81.20001983642578,
               "bottom": 19.337890625,
               "left": 81.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 174.71998596191406,
+            "height": 174.939453125,
+            "clearance": {
+              "top": 27.0380859375,
+              "right": 86.6400146484375,
+              "bottom": 28.0224609375,
+              "left": 86.63999938964844
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 76.5,
+              "bottom": 97.9501953125,
+              "left": 76.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 194.568359375,
+            "clearance": {
+              "top": 17.2236328125,
+              "right": 102.5999755859375,
+              "bottom": 18.2080078125,
+              "left": 102.60000610351562
             },
             "complete": true
           }
@@ -920,41 +3598,67 @@
       "theme": "dark",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "38px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "14px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "55.5581px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -964,17 +3668,17 @@
         "overflow": false,
         "palette": "dark",
         "appearance": "polished",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.79998779296875,
-            "height": 157.0185546875,
+            "height": 170.3447265625,
             "clearance": {
-              "top": 35.99853515625,
+              "top": 29.32763671875,
               "right": 81.60001373291016,
-              "bottom": 36.98291015625,
+              "bottom": 30.32763671875,
               "left": 81.5999984741211
             },
             "complete": true
@@ -1000,6 +3704,42 @@
               "right": 81.20001983642578,
               "bottom": 19.337890625,
               "left": 81.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 174.71998596191406,
+            "height": 174.939453125,
+            "clearance": {
+              "top": 27.0380859375,
+              "right": 86.6400146484375,
+              "bottom": 28.0224609375,
+              "left": 86.63999938964844
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 76.5,
+              "bottom": 97.9501953125,
+              "left": 76.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 194.568359375,
+            "clearance": {
+              "top": 17.2236328125,
+              "right": 102.5999755859375,
+              "bottom": 18.2080078125,
+              "left": 102.60000610351562
             },
             "complete": true
           }
@@ -1021,41 +3761,67 @@
       "theme": "light",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "38px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "54.5381px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -1065,17 +3831,17 @@
         "overflow": false,
         "palette": "light",
         "appearance": "pixel",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.79998779296875,
-            "height": 177.73828125,
+            "height": 191.0654296875,
             "clearance": {
-              "top": 25.638671875,
+              "top": 18.96728515625,
               "right": 81.60001373291016,
-              "bottom": 26.623046875,
+              "bottom": 19.96728515625,
               "left": 81.5999984741211
             },
             "complete": true
@@ -1101,6 +3867,42 @@
               "right": 81.20001983642578,
               "bottom": 17.017578125,
               "left": 81.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 174.71998596191406,
+            "height": 178.744140625,
+            "clearance": {
+              "top": 25.1279296875,
+              "right": 86.6400146484375,
+              "bottom": 26.1279296875,
+              "left": 86.63999938964844
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 76.5,
+              "bottom": 97.9501953125,
+              "left": 76.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 198.44921875,
+            "clearance": {
+              "top": 15.275390625,
+              "right": 102.5999755859375,
+              "bottom": 16.275390625,
+              "left": 102.60000610351562
             },
             "complete": true
           }
@@ -1122,41 +3924,67 @@
       "theme": "dark",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "38px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "54.5381px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -1166,17 +3994,17 @@
         "overflow": false,
         "palette": "dark",
         "appearance": "pixel",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.79998779296875,
-            "height": 177.73828125,
+            "height": 191.0654296875,
             "clearance": {
-              "top": 25.638671875,
+              "top": 18.96728515625,
               "right": 81.60001373291016,
-              "bottom": 26.623046875,
+              "bottom": 19.96728515625,
               "left": 81.5999984741211
             },
             "complete": true
@@ -1204,6 +4032,42 @@
               "left": 81.20000457763672
             },
             "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 174.71998596191406,
+            "height": 178.744140625,
+            "clearance": {
+              "top": 25.1279296875,
+              "right": 86.6400146484375,
+              "bottom": 26.1279296875,
+              "left": 86.63999938964844
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 76.5,
+              "bottom": 97.9501953125,
+              "left": 76.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 198.44921875,
+            "clearance": {
+              "top": 15.275390625,
+              "right": 102.5999755859375,
+              "bottom": 16.275390625,
+              "left": 102.60000610351562
+            },
+            "complete": true
           }
         ],
         "themeControl": {
@@ -1218,46 +4082,1108 @@
       "passed": true
     },
     {
-      "width": 360,
-      "appearance": "polished",
+      "width": 390,
+      "appearance": "neobrutalism",
       "theme": "light",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "38px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", sans-serif",
           "fontSize": "14px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "54.5381px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "neobrutalism",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 183.78515625,
+            "clearance": {
+              "top": 22.607421875,
+              "right": 81.60001373291016,
+              "bottom": 23.607421875,
+              "left": 81.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.40000915527344,
+            "height": 199.060546875,
+            "clearance": {
+              "top": 14.9697265625,
+              "right": 101.79998779296875,
+              "bottom": 15.9697265625,
+              "left": 101.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 16.8876953125,
+              "right": 81.20001983642578,
+              "bottom": 17.8876953125,
+              "left": 81.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 174.71998596191406,
+            "height": 176.05859375,
+            "clearance": {
+              "top": 26.478515625,
+              "right": 86.6400146484375,
+              "bottom": 27.462890625,
+              "left": 86.63999938964844
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 76.5,
+              "bottom": 97.9501953125,
+              "left": 76.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 195.08984375,
+            "clearance": {
+              "top": 16.955078125,
+              "right": 102.5999755859375,
+              "bottom": 17.955078125,
+              "left": 102.60000610351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-390-neobrutalism-light.png",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "appearance": "neobrutalism",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [
+        {
+          "url": "http://127.0.0.1:3107/docs?_rsc=AOiFQ8F2Qxyz_jmz",
+          "error": "net::ERR_ABORTED"
+        }
+      ],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "38px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", sans-serif",
+          "fontSize": "14px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "54.5381px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "neobrutalism",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 183.78515625,
+            "clearance": {
+              "top": 22.607421875,
+              "right": 81.60001373291016,
+              "bottom": 23.607421875,
+              "left": 81.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.40000915527344,
+            "height": 199.060546875,
+            "clearance": {
+              "top": 14.9697265625,
+              "right": 101.79998779296875,
+              "bottom": 15.9697265625,
+              "left": 101.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 16.8876953125,
+              "right": 81.20001983642578,
+              "bottom": 17.8876953125,
+              "left": 81.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 174.71998596191406,
+            "height": 176.05859375,
+            "clearance": {
+              "top": 26.478515625,
+              "right": 86.6400146484375,
+              "bottom": 27.462890625,
+              "left": 86.63999938964844
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 76.5,
+              "bottom": 97.9501953125,
+              "left": 76.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 195.08984375,
+            "clearance": {
+              "top": 16.955078125,
+              "right": 102.5999755859375,
+              "bottom": 17.955078125,
+              "left": 102.60000610351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-390-neobrutalism-dark.png",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "appearance": "retro-os",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "38px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Arial",
+          "stack": "Arial, Helvetica, sans-serif",
+          "fontSize": "14px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Arial",
+              "postScriptName": "Arial-BoldMT",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "56.78px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "retro-os",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 168.6650390625,
+            "clearance": {
+              "top": 30.16748046875,
+              "right": 81.60001373291016,
+              "bottom": 31.16748046875,
+              "left": 81.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.40000915527344,
+            "height": 195.853515625,
+            "clearance": {
+              "top": 16.5732421875,
+              "right": 101.79998779296875,
+              "bottom": 17.5732421875,
+              "left": 101.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 16.8876953125,
+              "right": 81.20001983642578,
+              "bottom": 17.8876953125,
+              "left": 81.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 174.71998596191406,
+            "height": 175.166015625,
+            "clearance": {
+              "top": 26.9248046875,
+              "right": 86.6400146484375,
+              "bottom": 27.9091796875,
+              "left": 86.63999938964844
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 76.5,
+              "bottom": 97.9501953125,
+              "left": 76.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 195.509765625,
+            "clearance": {
+              "top": 16.7451171875,
+              "right": 102.5999755859375,
+              "bottom": 17.7451171875,
+              "left": 102.60000610351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-390-retro-os-light.png",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "appearance": "retro-os",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "38px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Arial",
+          "stack": "Arial, Helvetica, sans-serif",
+          "fontSize": "14px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Arial",
+              "postScriptName": "Arial-BoldMT",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "56.78px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "retro-os",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 168.6650390625,
+            "clearance": {
+              "top": 30.16748046875,
+              "right": 81.60001373291016,
+              "bottom": 31.16748046875,
+              "left": 81.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.40000915527344,
+            "height": 195.853515625,
+            "clearance": {
+              "top": 16.5732421875,
+              "right": 101.79998779296875,
+              "bottom": 17.5732421875,
+              "left": 101.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 16.8876953125,
+              "right": 81.20001983642578,
+              "bottom": 17.8876953125,
+              "left": 81.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 174.71998596191406,
+            "height": 175.166015625,
+            "clearance": {
+              "top": 26.9248046875,
+              "right": 86.6400146484375,
+              "bottom": 27.9091796875,
+              "left": 86.63999938964844
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 76.5,
+              "bottom": 97.9501953125,
+              "left": 76.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 195.509765625,
+            "clearance": {
+              "top": 16.7451171875,
+              "right": 102.5999755859375,
+              "bottom": 17.7451171875,
+              "left": 102.60000610351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-390-retro-os-dark.png",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "appearance": "terminal",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "38px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "13px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-SemiBold",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "46.5369px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-Bold",
+              "isCustomFont": false,
+              "glyphCount": 9
+            }
+          ]
+        }
+      ],
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "terminal",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 183.111328125,
+            "clearance": {
+              "top": 22.9521484375,
+              "right": 81.60001373291016,
+              "bottom": 23.9365234375,
+              "left": 81.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.40000915527344,
+            "height": 202.908203125,
+            "clearance": {
+              "top": 13.0458984375,
+              "right": 101.79998779296875,
+              "bottom": 14.0458984375,
+              "left": 101.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 190.583984375,
+            "clearance": {
+              "top": 19.2080078125,
+              "right": 81.20001983642578,
+              "bottom": 20.2080078125,
+              "left": 81.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 174.71998596191406,
+            "height": 173.14453125,
+            "clearance": {
+              "top": 27.927734375,
+              "right": 86.6400146484375,
+              "bottom": 28.927734375,
+              "left": 86.63999938964844
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 76.5,
+              "bottom": 97.9501953125,
+              "left": 76.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 193.455078125,
+            "clearance": {
+              "top": 17.7724609375,
+              "right": 102.5999755859375,
+              "bottom": 18.7724609375,
+              "left": 102.60000610351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-390-terminal-light.png",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "appearance": "terminal",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [
+        {
+          "url": "http://127.0.0.1:3107/docs?style=terminal&_rsc=AOiFQ8F2Qxyz_jmz",
+          "error": "net::ERR_ABORTED"
+        }
+      ],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "38px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "13px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-SemiBold",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "46.5369px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-Bold",
+              "isCustomFont": false,
+              "glyphCount": 9
+            }
+          ]
+        }
+      ],
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "terminal",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 183.111328125,
+            "clearance": {
+              "top": 22.9521484375,
+              "right": 81.60001373291016,
+              "bottom": 23.9365234375,
+              "left": 81.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.40000915527344,
+            "height": 202.908203125,
+            "clearance": {
+              "top": 13.0458984375,
+              "right": 101.79998779296875,
+              "bottom": 14.0458984375,
+              "left": 101.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 190.583984375,
+            "clearance": {
+              "top": 19.2080078125,
+              "right": 81.20001983642578,
+              "bottom": 20.2080078125,
+              "left": 81.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 174.71998596191406,
+            "height": 173.14453125,
+            "clearance": {
+              "top": 27.927734375,
+              "right": 86.6400146484375,
+              "bottom": 28.927734375,
+              "left": 86.63999938964844
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 76.5,
+              "bottom": 97.9501953125,
+              "left": 76.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.80001831054688,
+            "height": 193.455078125,
+            "clearance": {
+              "top": 17.7724609375,
+              "right": 102.5999755859375,
+              "bottom": 18.7724609375,
+              "left": 102.60000610351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-390-terminal-dark.png",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "appearance": "polished",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "38px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "14px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "55.5581px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -1267,17 +5193,17 @@
         "overflow": false,
         "palette": "light",
         "appearance": "polished",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.79998779296875,
-            "height": 157.0185546875,
+            "height": 170.3447265625,
             "clearance": {
-              "top": 35.99853515625,
+              "top": 29.32763671875,
               "right": 66.60001373291016,
-              "bottom": 36.98291015625,
+              "bottom": 30.32763671875,
               "left": 66.5999984741211
             },
             "complete": true
@@ -1303,6 +5229,42 @@
               "right": 66.20001983642578,
               "bottom": 19.337890625,
               "left": 66.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 157.91998291015625,
+            "height": 195.9921875,
+            "clearance": {
+              "top": 16.51171875,
+              "right": 80.0400161743164,
+              "bottom": 17.49609375,
+              "left": 80.04000091552734
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 61.5,
+              "bottom": 97.9501953125,
+              "left": 61.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.8000030517578,
+            "height": 194.568359375,
+            "clearance": {
+              "top": 17.2236328125,
+              "right": 87.59999084472656,
+              "bottom": 18.2080078125,
+              "left": 87.60000610351562
             },
             "complete": true
           }
@@ -1324,41 +5286,67 @@
       "theme": "dark",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "38px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "14px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "55.5581px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -1368,17 +5356,17 @@
         "overflow": false,
         "palette": "dark",
         "appearance": "polished",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.79998779296875,
-            "height": 157.0185546875,
+            "height": 170.3447265625,
             "clearance": {
-              "top": 35.99853515625,
+              "top": 29.32763671875,
               "right": 66.60001373291016,
-              "bottom": 36.98291015625,
+              "bottom": 30.32763671875,
               "left": 66.5999984741211
             },
             "complete": true
@@ -1406,6 +5394,42 @@
               "left": 66.20000457763672
             },
             "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 157.91998291015625,
+            "height": 195.9921875,
+            "clearance": {
+              "top": 16.51171875,
+              "right": 80.0400161743164,
+              "bottom": 17.49609375,
+              "left": 80.04000091552734
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 61.5,
+              "bottom": 97.9501953125,
+              "left": 61.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.8000030517578,
+            "height": 194.568359375,
+            "clearance": {
+              "top": 17.2236328125,
+              "right": 87.59999084472656,
+              "bottom": 18.2080078125,
+              "left": 87.60000610351562
+            },
+            "complete": true
           }
         ],
         "themeControl": {
@@ -1425,41 +5449,67 @@
       "theme": "light",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "38px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "54.5381px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -1469,17 +5519,17 @@
         "overflow": false,
         "palette": "light",
         "appearance": "pixel",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.79998779296875,
-            "height": 177.73828125,
+            "height": 191.0654296875,
             "clearance": {
-              "top": 25.638671875,
+              "top": 18.96728515625,
               "right": 66.60001373291016,
-              "bottom": 26.623046875,
+              "bottom": 19.96728515625,
               "left": 66.5999984741211
             },
             "complete": true
@@ -1505,6 +5555,42 @@
               "right": 66.20001983642578,
               "bottom": 17.017578125,
               "left": 66.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 157.91998291015625,
+            "height": 199.796875,
+            "clearance": {
+              "top": 14.6015625,
+              "right": 80.0400161743164,
+              "bottom": 15.6015625,
+              "left": 80.04000091552734
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 61.5,
+              "bottom": 97.9501953125,
+              "left": 61.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.8000030517578,
+            "height": 198.44921875,
+            "clearance": {
+              "top": 15.275390625,
+              "right": 87.59999084472656,
+              "bottom": 16.275390625,
+              "left": 87.60000610351562
             },
             "complete": true
           }
@@ -1526,41 +5612,72 @@
       "theme": "dark",
       "errors": [],
       "failedRequests": [],
+      "cancelledPrefetches": [
+        {
+          "url": "http://127.0.0.1:3107/docs?_rsc=AOiFQ8F2Qxyz_jmz",
+          "error": "net::ERR_ABORTED"
+        }
+      ],
       "status": 200,
       "fonts": [
         {
           "selector": "body",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": "h1",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "38px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".component-tile h2",
           "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
-          "selector": ".tile-button .pixel-button",
+          "selector": ".tile-button .pixel-button__content",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "16px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         },
         {
           "selector": ".tile-gamer-boy .console-title",
           "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
           "fontSize": "54.5381px",
-          "faces": 5,
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
           "loaded": true
         }
       ],
@@ -1570,17 +5687,17 @@
         "overflow": false,
         "palette": "dark",
         "appearance": "pixel",
-        "components": 32,
+        "components": 34,
         "clippedText": [],
         "thumbnailBounds": [
           {
             "slug": "accordion",
             "width": 184.79998779296875,
-            "height": 177.73828125,
+            "height": 191.0654296875,
             "clearance": {
-              "top": 25.638671875,
+              "top": 18.96728515625,
               "right": 66.60001373291016,
-              "bottom": 26.623046875,
+              "bottom": 19.96728515625,
               "left": 66.5999984741211
             },
             "complete": true
@@ -1608,6 +5725,42 @@
               "left": 66.20000457763672
             },
             "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 157.91998291015625,
+            "height": 199.796875,
+            "clearance": {
+              "top": 14.6015625,
+              "right": 80.0400161743164,
+              "bottom": 15.6015625,
+              "left": 80.04000091552734
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 61.5,
+              "bottom": 97.9501953125,
+              "left": 61.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.8000030517578,
+            "height": 198.44921875,
+            "clearance": {
+              "top": 15.275390625,
+              "right": 87.59999084472656,
+              "bottom": 16.275390625,
+              "left": 87.60000610351562
+            },
+            "complete": true
           }
         ],
         "themeControl": {
@@ -1619,6 +5772,1032 @@
       },
       "violations": [],
       "screenshot": "out/library/catalogue-360-pixel-dark.png",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "appearance": "neobrutalism",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "38px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", sans-serif",
+          "fontSize": "14px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "54.5381px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 360,
+        "documentWidth": 360,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "neobrutalism",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 183.78515625,
+            "clearance": {
+              "top": 22.607421875,
+              "right": 66.60001373291016,
+              "bottom": 23.607421875,
+              "left": 66.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.39999389648438,
+            "height": 199.060546875,
+            "clearance": {
+              "top": 14.9697265625,
+              "right": 86.80000305175781,
+              "bottom": 15.9697265625,
+              "left": 86.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 16.8876953125,
+              "right": 66.20001983642578,
+              "bottom": 17.8876953125,
+              "left": 66.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 157.91998291015625,
+            "height": 197.111328125,
+            "clearance": {
+              "top": 15.9521484375,
+              "right": 80.0400161743164,
+              "bottom": 16.9365234375,
+              "left": 80.04000091552734
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 61.5,
+              "bottom": 97.9501953125,
+              "left": 61.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.8000030517578,
+            "height": 195.08984375,
+            "clearance": {
+              "top": 16.955078125,
+              "right": 87.59999084472656,
+              "bottom": 17.955078125,
+              "left": 87.60000610351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-360-neobrutalism-light.png",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "appearance": "neobrutalism",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "38px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", sans-serif",
+          "fontSize": "14px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "54.5381px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 360,
+        "documentWidth": 360,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "neobrutalism",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 183.78515625,
+            "clearance": {
+              "top": 22.607421875,
+              "right": 66.60001373291016,
+              "bottom": 23.607421875,
+              "left": 66.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.39999389648438,
+            "height": 199.060546875,
+            "clearance": {
+              "top": 14.9697265625,
+              "right": 86.80000305175781,
+              "bottom": 15.9697265625,
+              "left": 86.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 16.8876953125,
+              "right": 66.20001983642578,
+              "bottom": 17.8876953125,
+              "left": 66.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 157.91998291015625,
+            "height": 197.111328125,
+            "clearance": {
+              "top": 15.9521484375,
+              "right": 80.0400161743164,
+              "bottom": 16.9365234375,
+              "left": 80.04000091552734
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 61.5,
+              "bottom": 97.9501953125,
+              "left": 61.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.8000030517578,
+            "height": 195.08984375,
+            "clearance": {
+              "top": 16.955078125,
+              "right": 87.59999084472656,
+              "bottom": 17.955078125,
+              "left": 87.60000610351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-360-neobrutalism-dark.png",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "appearance": "retro-os",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "38px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Arial",
+          "stack": "Arial, Helvetica, sans-serif",
+          "fontSize": "14px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Arial",
+              "postScriptName": "Arial-BoldMT",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "56.78px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 360,
+        "documentWidth": 360,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "retro-os",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 168.6650390625,
+            "clearance": {
+              "top": 30.16748046875,
+              "right": 66.60001373291016,
+              "bottom": 31.16748046875,
+              "left": 66.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.39999389648438,
+            "height": 195.853515625,
+            "clearance": {
+              "top": 16.5732421875,
+              "right": 86.80000305175781,
+              "bottom": 17.5732421875,
+              "left": 86.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 16.8876953125,
+              "right": 66.20001983642578,
+              "bottom": 17.8876953125,
+              "left": 66.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 157.91998291015625,
+            "height": 196.21875,
+            "clearance": {
+              "top": 16.3984375,
+              "right": 80.0400161743164,
+              "bottom": 17.3828125,
+              "left": 80.04000091552734
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 61.5,
+              "bottom": 97.9501953125,
+              "left": 61.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.8000030517578,
+            "height": 195.509765625,
+            "clearance": {
+              "top": 16.7451171875,
+              "right": 87.59999084472656,
+              "bottom": 17.7451171875,
+              "left": 87.60000610351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-360-retro-os-light.png",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "appearance": "retro-os",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "38px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Arial",
+          "stack": "Arial, Helvetica, sans-serif",
+          "fontSize": "14px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Arial",
+              "postScriptName": "Arial-BoldMT",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "oRange Pixel",
+          "stack": "\"oRange Pixel\", monospace",
+          "fontSize": "56.78px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        }
+      ],
+      "layout": {
+        "viewport": 360,
+        "documentWidth": 360,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "retro-os",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 168.6650390625,
+            "clearance": {
+              "top": 30.16748046875,
+              "right": 66.60001373291016,
+              "bottom": 31.16748046875,
+              "left": 66.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.39999389648438,
+            "height": 195.853515625,
+            "clearance": {
+              "top": 16.5732421875,
+              "right": 86.80000305175781,
+              "bottom": 17.5732421875,
+              "left": 86.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 195.224609375,
+            "clearance": {
+              "top": 16.8876953125,
+              "right": 66.20001983642578,
+              "bottom": 17.8876953125,
+              "left": 66.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 157.91998291015625,
+            "height": 196.21875,
+            "clearance": {
+              "top": 16.3984375,
+              "right": 80.0400161743164,
+              "bottom": 17.3828125,
+              "left": 80.04000091552734
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 61.5,
+              "bottom": 97.9501953125,
+              "left": 61.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.8000030517578,
+            "height": 195.509765625,
+            "clearance": {
+              "top": 16.7451171875,
+              "right": 87.59999084472656,
+              "bottom": 17.7451171875,
+              "left": 87.60000610351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-360-retro-os-dark.png",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "appearance": "terminal",
+      "theme": "light",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "38px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "13px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-SemiBold",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "46.5369px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-Bold",
+              "isCustomFont": false,
+              "glyphCount": 9
+            }
+          ]
+        }
+      ],
+      "layout": {
+        "viewport": 360,
+        "documentWidth": 360,
+        "overflow": false,
+        "palette": "light",
+        "appearance": "terminal",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 183.111328125,
+            "clearance": {
+              "top": 22.9521484375,
+              "right": 66.60001373291016,
+              "bottom": 23.9365234375,
+              "left": 66.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.39999389648438,
+            "height": 202.908203125,
+            "clearance": {
+              "top": 13.0458984375,
+              "right": 86.80000305175781,
+              "bottom": 14.0458984375,
+              "left": 86.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 190.583984375,
+            "clearance": {
+              "top": 19.2080078125,
+              "right": 66.20001983642578,
+              "bottom": 20.2080078125,
+              "left": 66.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 157.91998291015625,
+            "height": 194.197265625,
+            "clearance": {
+              "top": 17.4013671875,
+              "right": 80.0400161743164,
+              "bottom": 18.4013671875,
+              "left": 80.04000091552734
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 61.5,
+              "bottom": 97.9501953125,
+              "left": 61.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.8000030517578,
+            "height": 193.455078125,
+            "clearance": {
+              "top": 17.7724609375,
+              "right": 87.59999084472656,
+              "bottom": 18.7724609375,
+              "left": 87.60000610351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-360-terminal-light.png",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "appearance": "terminal",
+      "theme": "dark",
+      "errors": [],
+      "failedRequests": [],
+      "cancelledPrefetches": [],
+      "status": 200,
+      "fonts": [
+        {
+          "selector": "body",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": "h1",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "38px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".component-tile h2",
+          "family": "oRange Geist",
+          "stack": "\"oRange Geist\", Arial, sans-serif",
+          "fontSize": "16px",
+          "faces": 6,
+          "systemStack": false,
+          "requiresMonospace": false,
+          "fixedWidth": false,
+          "available": true,
+          "loaded": true
+        },
+        {
+          "selector": ".tile-button .pixel-button__content",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "13px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-SemiBold",
+              "isCustomFont": false,
+              "glyphCount": 17
+            }
+          ]
+        },
+        {
+          "selector": ".tile-gamer-boy .console-title",
+          "family": "Cascadia Code",
+          "stack": "\"Cascadia Code\", SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+          "fontSize": "46.5369px",
+          "faces": 0,
+          "systemStack": true,
+          "requiresMonospace": true,
+          "fixedWidth": true,
+          "available": true,
+          "loaded": true,
+          "platformFonts": [
+            {
+              "familyName": "Cascadia Code",
+              "postScriptName": "CascadiaCodeRoman-Bold",
+              "isCustomFont": false,
+              "glyphCount": 9
+            }
+          ]
+        }
+      ],
+      "layout": {
+        "viewport": 360,
+        "documentWidth": 360,
+        "overflow": false,
+        "palette": "dark",
+        "appearance": "terminal",
+        "components": 34,
+        "clippedText": [],
+        "thumbnailBounds": [
+          {
+            "slug": "accordion",
+            "width": 184.79998779296875,
+            "height": 183.111328125,
+            "clearance": {
+              "top": 22.9521484375,
+              "right": 66.60001373291016,
+              "bottom": 23.9365234375,
+              "left": 66.5999984741211
+            },
+            "complete": true
+          },
+          {
+            "slug": "gamer-boy",
+            "width": 144.39999389648438,
+            "height": 202.908203125,
+            "clearance": {
+              "top": 13.0458984375,
+              "right": 86.80000305175781,
+              "bottom": 14.0458984375,
+              "left": 86.80000305175781
+            },
+            "complete": true
+          },
+          {
+            "slug": "empty-state",
+            "width": 185.5999755859375,
+            "height": 190.583984375,
+            "clearance": {
+              "top": 19.2080078125,
+              "right": 66.20001983642578,
+              "bottom": 20.2080078125,
+              "left": 66.20000457763672
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar",
+            "width": 157.91998291015625,
+            "height": 194.197265625,
+            "clearance": {
+              "top": 17.4013671875,
+              "right": 80.0400161743164,
+              "bottom": 18.4013671875,
+              "left": 80.04000091552734
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-group",
+            "width": 195,
+            "height": 35.099609375,
+            "clearance": {
+              "top": 96.9501953125,
+              "right": 61.5,
+              "bottom": 97.9501953125,
+              "left": 61.5
+            },
+            "complete": true
+          },
+          {
+            "slug": "avatar-editor",
+            "width": 142.8000030517578,
+            "height": 193.455078125,
+            "clearance": {
+              "top": 17.7724609375,
+              "right": 87.59999084472656,
+              "bottom": 18.7724609375,
+              "left": 87.60000610351562
+            },
+            "complete": true
+          }
+        ],
+        "themeControl": {
+          "width": 44,
+          "height": 44,
+          "iconWidth": 16,
+          "iconHeight": 16
+        }
+      },
+      "violations": [],
+      "screenshot": "out/library/catalogue-360-terminal-dark.png",
       "passed": true
     }
   ]

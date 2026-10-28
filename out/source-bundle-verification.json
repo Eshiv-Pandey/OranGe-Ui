@@ -1,7 +1,10 @@
 {
-  "components": 32,
-  "appearances": 2,
-  "compiledExamples": 64,
-  "bundledExamples": 64,
-  "diagnostics": 0
+  "components": 34,
+  "appearances": 5,
+  "compiledExamples": 170,
+  "bundledExamples": 170,
+  "compiledAvatarUtilities": 30,
+  "bundledAvatarUtilities": 30,
+  "diagnostics": 0,
+  "extractedTo": "out\\download-validation\\run-jDmsJc"
 }

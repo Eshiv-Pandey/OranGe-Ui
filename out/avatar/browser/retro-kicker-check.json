@@ -1,0 +1,8 @@
+{
+  "violations": [],
+  "style": {
+    "color": "rgb(23, 23, 23)",
+    "background": "rgb(229, 229, 229)"
+  },
+  "note": "Exact source CSS rule injected into current production build pending rebuild."
+}

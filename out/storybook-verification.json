@@ -1,0 +1,15 @@
+{
+  "scope": "Latest observations from the full run plus the targeted Avatar refresh",
+  "sources": [
+    "out/storybook-a11y.json",
+    "out/storybook-a11y-filtered-avatar.json"
+  ],
+  "storyCount": 202,
+  "observations": 404,
+  "passed": 404,
+  "keyboardControls": 724,
+  "keyboardVisited": 724,
+  "violations": 0,
+  "runtimeErrors": 0,
+  "focusFailures": 0
+}

@@ -1,0 +1,13 @@
+{
+  "components": 34,
+  "appearances": 5,
+  "themes": 2,
+  "desktopObservations": 340,
+  "responsiveObservations": 680,
+  "activeMobileOverlays": 60,
+  "runtimeErrors": 0,
+  "accessibilityViolations": 0,
+  "horizontalOverflow": 0,
+  "libraryScenarios": 67,
+  "evidence": "Ten desktop matrices, four responsive matrices, ten active-overlay reports, browser-final.json (56 successes), oled-final.json (1 success), and catalogue-review.json (40 successes). The desktop and responsive reports also preserve 10 previously completed scenarios."
+}

@@ -1,0 +1,15 @@
+{
+  "mode": "Vite production library bundle",
+  "imported": "avatarPalettes from lib/avatar/index.ts",
+  "bytes": 5246,
+  "paletteCount": 64,
+  "renderedModules": [
+    "lib/avatar/palettes.ts"
+  ],
+  "excludedModules": [
+    "glyphs.ts",
+    "generator.ts",
+    "render.ts"
+  ],
+  "runtimeDataMatches": true
+}

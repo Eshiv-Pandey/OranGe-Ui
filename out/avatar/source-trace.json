@@ -1,0 +1,17 @@
+{
+  "tracedFiles": 174,
+  "counts": {
+    "components/ui/": 38,
+    "lib/avatar/": 7,
+    "styles/": 14,
+    "public/fonts/": 4,
+    "node_modules/": 105,
+    ".next/": 5
+  },
+  "requiredAvatarHelpers": true,
+  "missing": [],
+  "privateOrEvidence": [],
+  "other": [
+    "LICENSE"
+  ]
+}

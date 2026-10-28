@@ -1,7 +1,7 @@
 {
   "theme": "dark",
   "appearance": "pixel",
-  "checked": 32,
+  "checked": 34,
   "errors": [],
   "observations": [
     {
@@ -131,6 +131,16 @@
     },
     {
       "slug": "avatar",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "avatar-group",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "slug": "avatar-editor",
       "violations": [],
       "overflow": false
     },
