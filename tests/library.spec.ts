@@ -3,6 +3,7 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { unzipSync, strFromU8 } from "fflate";
 import { components } from "../lib/components";
+import { APPEARANCES, APPEARANCE_VALUES } from "../components/ui/appearance";
 
 test.use({ reducedMotion: "reduce" });
 async function open(page: Page, slug: string, appearance = "polished") {
@@ -26,8 +27,8 @@ function activeChoiceAudit(page: Page, selector: ".ui-select-content" | ".ui-men
   return new AxeBuilder({ page }).include(selector).disableRules(["region"]);
 }
 
-for (const theme of ["light", "dark"] as const) for (const appearance of ["polished", "pixel"] as const) {
-  test(`all 32 components render with accessible ${appearance} styling in ${theme}`, async ({ page }) => {
+for (const theme of ["light", "dark"] as const) for (const appearance of APPEARANCE_VALUES) {
+  test(`all ${components.length} components render with accessible ${appearance} styling in ${theme}`, async ({ page }) => {
     test.setTimeout(300_000); await page.setViewportSize({ width: 1440, height: 1100 });
     await page.addInitScript((palette) => localStorage.setItem("orangeui-palette", palette), theme);
     const errors: string[] = []; page.on("pageerror", (error) => errors.push(error.message));
@@ -52,7 +53,7 @@ for (const theme of ["light", "dark"] as const) for (const appearance of ["polis
 
 for (const width of [1440, 768, 390, 360]) test(`catalogue search and category flow at ${width}px`, async ({ page }) => {
   await page.setViewportSize({ width, height: 1000 });
-  await page.goto("/components?style=pixel"); await expect(page.locator(".component-tile")).toHaveCount(32);
+  await page.goto("/components?style=pixel"); await expect(page.locator(".component-tile")).toHaveCount(components.length);
   if (width < 721) {
     const theme = page.getByRole("button", { name: "Dark mode" });
     await expect(theme.locator("svg")).toBeVisible();
@@ -85,7 +86,7 @@ for (const width of [1440, 768, 390, 360]) test(`catalogue search and category f
   await page.screenshot({ path: `out/library/catalogue-${width}-pixel.png`, fullPage: true });
 });
 
-for (const theme of ["light", "dark"] as const) for (const appearance of ["polished", "pixel"] as const) test(`${appearance} controls, overlays, menus and feedback work by keyboard in ${theme}`, async ({ page }) => {
+for (const theme of ["light", "dark"] as const) for (const appearance of APPEARANCE_VALUES) test(`${appearance} controls, overlays, menus and feedback work by keyboard in ${theme}`, async ({ page }) => {
   test.setTimeout(180_000); await page.setViewportSize({ width: 1280, height: 1000 });
   await page.addInitScript((palette) => localStorage.setItem("orangeui-palette", palette), theme);
   let demo = await open(page, "button", appearance); await demo.getByRole("button", { name: "Save a little joy" }).press("Enter"); await expect(demo.getByRole("button", { name: "Saved!" })).toHaveAttribute("aria-pressed", "true");
@@ -134,7 +135,7 @@ for (const theme of ["light", "dark"] as const) for (const appearance of ["polis
   demo = await open(page, "sheet", appearance); const sheetTrigger = demo.getByRole("button", { name: "Workspace preferences" }); await sheetTrigger.click(); await expect(page.getByRole("dialog")).toBeVisible(); await page.getByRole("dialog").getByRole("switch", { name: "Quiet hours" }).click(); expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]); await page.keyboard.press("Escape"); await expect(sheetTrigger).toBeFocused();
   demo = await open(page, "popover", appearance); await demo.getByRole("button", { name: "Edit project name" }).click(); await page.getByRole("dialog").getByRole("textbox").fill("Pocket garden"); await page.getByRole("dialog").getByRole("button", { name: "Save name" }).click(); await expect(demo.getByRole("status")).toContainText("renamed to Pocket garden");
   demo = await open(page, "tooltip", appearance); await demo.getByRole("button").focus(); await expect(page.getByRole("tooltip")).toContainText("Mumbai"); await page.keyboard.press("Escape"); await expect(page.getByRole("tooltip")).not.toBeVisible();
-  demo = await open(page, "toast", appearance); await demo.getByRole("button", { name: "Save changes" }).click(); await expect(page.locator(".ui-toast")).toBeVisible(); expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]); await page.getByRole("button", { name: "Undo", exact: true }).click(); await expect(demo.getByRole("status")).toHaveText("Changes undone.");
+  demo = await open(page, "toast", appearance); await demo.getByRole("button", { name: "Save changes" }).click(); await expect(page.locator(".ui-toast")).toBeVisible(); await page.getByRole("button", { name: "Undo", exact: true }).focus(); expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]); await page.getByRole("button", { name: "Undo", exact: true }).press("Enter"); await expect(demo.getByRole("status")).toHaveText("Changes undone.");
   demo = await open(page, "alert", appearance); await demo.getByRole("button", { name: "Dismiss alert" }).click(); await expect(demo.getByText("Everything is up to date.")).not.toBeVisible();
   demo = await open(page, "progress", appearance); await demo.getByRole("button", { name: "Advance" }).click(); await expect(demo.getByRole("progressbar").first()).toHaveAttribute("aria-valuenow", "60");
   demo = await open(page, "skeleton", appearance); await demo.getByRole("button", { name: "Reveal content" }).click(); await expect(demo.getByRole("heading", { name: "Orange studio" })).toBeVisible();
@@ -199,7 +200,7 @@ for (const width of [360, 768]) for (const theme of ["light", "dark"] as const) 
   const observations = [];
   const folder = `out/library/responsive-${width}-${theme}`;
   await mkdir(folder, { recursive: true });
-  for (const appearance of ["polished", "pixel"] as const) for (const component of components) {
+  for (const appearance of APPEARANCE_VALUES) for (const component of components) {
     await open(page, component.slug, appearance);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
     expect.soft(overflow, `${component.slug} ${appearance} fits at ${width}px`).toBe(false);
@@ -243,7 +244,7 @@ async function visibleSurfaceControls(surface: Locator) {
 
 for (const width of [1440, 360]) test.describe(`GamerBoy at ${width}px`, () => {
   test.use({ viewport: { width, height: 1000 }, hasTouch: width === 360 });
-  for (const theme of ["light", "dark"] as const) for (const appearance of ["polished", "pixel"] as const) {
+  for (const theme of ["light", "dark"] as const) for (const appearance of APPEARANCE_VALUES) {
     test(`GamerBoy lifecycle with ${width === 360 ? "touch" : "keyboard"} in ${appearance} ${theme}`, async ({ page }) => {
       await page.addInitScript((palette) => localStorage.setItem("orangeui-palette", palette), theme);
       const demo = await open(page, "gamer-boy", appearance);
@@ -307,7 +308,7 @@ for (const width of [1440, 360]) test.describe(`GamerBoy at ${width}px`, () => {
 
 test.describe("mobile overlays", () => {
   test.use({ viewport: { width: 360, height: 800 }, hasTouch: true });
-  for (const theme of ["light", "dark"] as const) for (const appearance of ["polished", "pixel"] as const) {
+  for (const theme of ["light", "dark"] as const) for (const appearance of APPEARANCE_VALUES) {
     test(`mobile overlays remain usable and accessible in ${appearance} ${theme}`, async ({ page }) => {
       test.setTimeout(120_000);
       await page.addInitScript((palette) => localStorage.setItem("orangeui-palette", palette), theme);
@@ -408,5 +409,41 @@ test.describe("mobile overlays", () => {
       await expect(demo.getByRole("status")).toHaveText("Changes undone.");
       await writeFile(`${folder}/report.json`, JSON.stringify({ width: 360, theme, appearance, observations }, null, 2));
     });
+  }
+});
+
+for (const item of APPEARANCES) test(`${item.label} selection persists through links, reload, and source download`, async ({ page, request }) => {
+  await page.setViewportSize({ width: 390, height: 900 });
+  await page.goto("/components");
+  const picker = page.getByRole("group", { name: "Component appearance", exact: true });
+  await picker.getByRole("button", { name: item.label, exact: true }).click();
+  await expect(page).toHaveURL(new RegExp(`style=${item.value}$`));
+  expect(await page.evaluate(() => localStorage.getItem("orangeui-appearance"))).toBe(item.value);
+  await page.locator(".tile-avatar").getByRole("link", { name: "Avatar", exact: true }).click();
+  await expect(page).toHaveURL(new RegExp(`/avatar\\?style=${item.value}$`));
+  await page.reload();
+  await expect(picker.getByRole("button", { name: item.label, exact: true })).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("tab", { name: "Usage", exact: true }).click();
+  await expect(page.locator(".code-block")).toContainText(`appearance="${item.value}"`);
+  const response = await request.get(`/api/components/avatar?style=${item.value}`);
+  expect(response.ok()).toBe(true);
+  const files = unzipSync(await response.body());
+  expect(strFromU8(files["Example.tsx"])).toContain(`appearance="${item.value}"`);
+  expect(files["lib/avatar/png.ts"]).toBeTruthy();
+  await page.goto("/components/avatar-group");
+  await expect(picker.getByRole("button", { name: item.label, exact: true })).toHaveAttribute("aria-pressed", "true");
+});
+
+test("dark website surfaces are OLED neutral with vivid orange accents", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("orangeui-palette", "dark"));
+  for (const route of ["/", "/components", "/components/button", "/docs"]) {
+    await page.goto(route);
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    const tokens = await page.evaluate(() => {
+      const style = getComputedStyle(document.documentElement);
+      return Object.fromEntries(["--cream", "--surface", "--surface-soft", "--primary"].map((name) => [name, style.getPropertyValue(name).trim().replace(/^#([a-f0-9])([a-f0-9])([a-f0-9])$/i, "#$1$1$2$2$3$3")]));
+    });
+    expect(tokens).toEqual({ "--cream": "#000000", "--surface": "#0a0a0a", "--surface-soft": "#171717", "--primary": "#ff6a00" });
+    expect(await page.locator("body").evaluate((body) => getComputedStyle(body).backgroundColor)).toBe("rgb(0, 0, 0)");
   }
 });

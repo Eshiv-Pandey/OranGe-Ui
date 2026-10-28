@@ -12,6 +12,7 @@ export default defineConfig({
   projects: [
     { name: "landing", testMatch: /landing\.spec\.ts$/, use: { baseURL: "http://127.0.0.1:3107" } },
     { name: "library", testMatch: /library\.spec\.ts$/, use: { baseURL: "http://127.0.0.1:3107" } },
+    { name: "avatar", testMatch: /avatar\.spec\.ts$/, use: { baseURL: "http://127.0.0.1:3107" } },
     { name: "stories", testMatch: /storybook\.spec\.ts$/, use: { baseURL: "http://127.0.0.1:6006" } },
   ],
   webServer: [

@@ -12,3 +12,6 @@ out/download-validation/
 AGENTS.md
 CONTRIBUTION_RULES.md
 USER_INSTRUCTIONS.md
+out/avatar/browser/test-results/
+out/storybook-avatar-tests/
+out/landing-tests/

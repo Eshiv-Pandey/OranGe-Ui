@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
+import { components } from "../lib/components";
 
 type StoryEntry = { id: string; title: string; name: string; type: string };
 type StoryObservation = {
@@ -24,9 +25,15 @@ test("all indexed component stories are accessible in both palettes", async ({ p
   const indexResponse = await request.get(`${origin}/index.json`);
   expect(indexResponse.ok(), "Storybook index must be available").toBe(true);
   const index = await indexResponse.json() as { entries: Record<string, StoryEntry> };
-  const stories = Object.values(index.entries).filter((entry) => entry.type === "story").sort((a, b) => a.id.localeCompare(b.id));
-  expect(stories.length, "The check must cover the actual component collection").toBeGreaterThanOrEqual(20);
-  expect(new Set(stories.filter((entry) => entry.title.startsWith("Library/")).map((entry) => entry.title)).size).toBe(32);
+  const indexedStories = Object.values(index.entries).filter((entry) => entry.type === "story").sort((a, b) => a.id.localeCompare(b.id));
+  expect(indexedStories.length, "The check must cover the actual component collection").toBeGreaterThanOrEqual(components.length);
+  const libraryTitles = [...new Set(indexedStories.filter((entry) => entry.title.startsWith("Library/")).map((entry) => entry.title))].sort();
+  expect(libraryTitles).toEqual(components.map((component) => `Library/${component.name}`).sort());
+  const storyFilter = process.env.STORY_FILTER?.trim();
+  const stories = storyFilter ? indexedStories.filter((story) => story.id.includes(storyFilter)) : indexedStories;
+  expect(stories.length, `Story ID filter ${storyFilter || "(all)"} must select at least one story`).toBeGreaterThan(0);
+  const filterName = storyFilter?.replace(/[^a-zA-Z0-9_-]+/g, "-").slice(0, 80) || "selection";
+  const reportPath = storyFilter ? `out/storybook-a11y-filtered-${filterName}.json` : "out/storybook-a11y.json";
 
   const observations: StoryObservation[] = [];
   try {
@@ -66,10 +73,19 @@ test("all indexed component stories are accessible in both palettes", async ({ p
 
           const expectedFocus = await page.evaluate((selector) => {
             const root = document.getElementById("storybook-root")!;
-            return Array.from(root.querySelectorAll<HTMLElement>(selector)).flatMap((element, index) => {
+            const candidates = Array.from(root.querySelectorAll<HTMLElement>(selector)).flatMap((element, index) => {
               const rect = element.getBoundingClientRect();
-              return element.tabIndex >= 0 && !element.matches(":disabled") && !element.closest("[hidden], [aria-hidden='true']") && rect.width > 0 && rect.height > 0 ? [index] : [];
+              return element.tabIndex >= 0 && !element.matches(":disabled") && !element.closest("[hidden], [aria-hidden='true']") && rect.width > 0 && rect.height > 0 ? [{ element, index }] : [];
             });
+            return candidates.filter(({ element }) => {
+              if (!(element instanceof HTMLInputElement) || element.type !== "radio" || !element.name) return true;
+              // Native radio groups have one Tab entry: the checked input, or
+              // the first enabled input if none is selected. Separate forms
+              // retain separate groups even when their radio names match.
+              const group = candidates.filter((candidate) => candidate.element instanceof HTMLInputElement && candidate.element.type === "radio" && candidate.element.name === element.name && candidate.element.form === element.form);
+              const entry = group.find((candidate) => (candidate.element as HTMLInputElement).checked) ?? group[0];
+              return entry.element === element;
+            }).map(({ index }) => index);
           }, focusableSelector);
           observation.keyboardControls = expectedFocus.length;
           const visited: number[] = [];
@@ -98,7 +114,9 @@ test("all indexed component stories are accessible in both palettes", async ({ p
           }
           observation.keyboardVisited = new Set(visited.filter((index) => index >= 0)).size;
           observation.keyboardOrderValid = visited.length === expectedFocus.length && visited.every((index, position) => index === expectedFocus[position]);
-          expect.soft(visited, `${story.id} (${palette}) visits every enabled control once without a trap`).toEqual(expectedFocus);
+          // Native picker Arrow navigation is covered in avatar-components.test.tsx
+          // and avatar.spec.ts; every other enabled control remains in this Tab audit.
+          expect.soft(visited, `${story.id} (${palette}) visits every enabled tab stop once without a trap`).toEqual(expectedFocus);
           if (story.title === "Library/ToggleGroup") {
             const alignment = surface.getByRole("radiogroup", { name: "Text alignment" });
             await alignment.getByRole("radio", { name: "Left", exact: true }).focus();
@@ -131,7 +149,9 @@ test("all indexed component stories are accessible in both palettes", async ({ p
     }
   } finally {
     await mkdir("out", { recursive: true });
-    await writeFile("out/storybook-a11y.json", JSON.stringify({
+    await writeFile(reportPath, JSON.stringify({
+      storyFilter: storyFilter || null,
+      indexedStoryCount: indexedStories.length,
       storyCount: stories.length,
       palettes: ["light", "dark"],
       expectedChecks: stories.length * 2,
