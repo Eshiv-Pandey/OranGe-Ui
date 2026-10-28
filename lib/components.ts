@@ -1106,10 +1106,86 @@ export const components: ComponentDefinition[] = [
     "keyboard": "Focus the device and press Enter or Space to start. Arrow keys or WASD move. Play pauses/resumes, Escape resets, and on-device buttons work with touch.",
     "usage": "<GamerBoy appearance=\"polished\" onScoreChange={(score) => console.log(score)} />",
     "file": "components/ui/gamer-boy.tsx"
+  },
+  {
+    slug: "open-wheel-car", name: "OpenWheelCar", category: "Play", customizerPreview: true,
+    description: "An original open-wheel car with responsive suspension, rotating wheels and a scrolling track.",
+    props: [
+      { name: "speed", type: "number, 0..1", defaultValue: "0.45", description: "Target velocity. Bounded acceleration and braking drive spring pitch, suspension and wheel rotation." },
+      { name: "seed / config", type: "string | number / VehicleConfig", defaultValue: "orangeui:open-wheel", description: "Stable sponsor-free livery and fictional number. Saved configuration takes precedence." },
+      { name: "livery / number / tireCompound", type: "Partial<VehicleLivery> / string | number / soft | medium | hard | wet", defaultValue: "Generated", description: "Override base, accent, stripe, pattern, short number and tire markings." },
+      { name: "size / track / theme", type: "number / boolean / light | dark", defaultValue: "640 / true / follows page", description: "Width in CSS pixels, optional track and scene palette. The 640:260 ratio is preserved. CSS colors use --vehicle-." }
+    ],
+    keyboard: "The car is a named image. Customizer tabs, native fields and action buttons support the keyboard. Reduced motion settles the car; hidden and offscreen motion pauses.",
+    usage: '<OpenWheelCar appearance="polished" seed="tidal-run" speed={0.65} number="247" />', file: "components/ui/open-wheel-car.tsx"
+  },
+  {
+    slug: "superbike", name: "Superbike", category: "Play", customizerPreview: true,
+    description: "An original superbike with braking dive, launch lift and a rider that tucks into speed.",
+    props: [
+      { name: "speed / lean", type: "number, 0..1 / number, -1..1", defaultValue: "0.4 / 0", description: "Target speed and projected corner lean, up to 24 degrees. Wheel travel follows speed, with blur at high velocity." },
+      { name: "wheelie", type: "boolean", defaultValue: "false", description: "Allows one brief front lift when accelerating from a complete stop." },
+      { name: "seed / config / livery", type: "string | number / VehicleConfig / Partial<VehicleLivery>", defaultValue: "orangeui:superbike", description: "Stable colors and parts with explicit overrides for base, accent, stripe and pattern." },
+      { name: "number / tireCompound", type: "string | number / soft | medium | hard | wet", defaultValue: "Generated", description: "Fictional one-to-three-digit identity and tire markings." },
+      { name: "size / track / theme", type: "number / boolean / light | dark", defaultValue: "640 / true / follows page", description: "Responsive width, optional track, and scene palette. CSS colors use --vehicle-." }
+    ],
+    keyboard: "The bike is a named image. Use the customizer keyboard controls to change speed, lean and livery. Motion pauses when hidden and becomes static with reduced motion.",
+    usage: '<Superbike appearance="polished" seed="orchard-run" speed={0.6} lean={0.3} wheelie />', file: "components/ui/superbike.tsx"
+  },
+  {
+    slug: "race-start-lights", name: "RaceStartLights", category: "Play",
+    description: "Five lights build anticipation, then extinguish together to mark the start.",
+    props: [
+      { name: "running / sequenceKey", type: "boolean / string | number", defaultValue: "false / 0", description: "Start the countdown and change the key to replay it. Stopping resets all lights." },
+      { name: "intervalMs", type: "number", defaultValue: "800", description: "Active milliseconds between lights, from 100 to 10000. Hidden and offscreen time does not count." },
+      { name: "onComplete", type: "() => void", defaultValue: "Not set", description: "Called exactly once when all five lights go out. Reduced motion keeps the discrete sequence and callback." },
+      { name: "label", type: "string", defaultValue: "Race start", description: "Accessible group name. The live status announces the light count and Go." }
+    ],
+    keyboard: "The lights present status without a focus stop. The demo uses native buttons to start, replay and reset; its interval slider supports arrow keys.",
+    usage: '<RaceStartLights appearance="polished" running intervalMs={800} />', file: "components/ui/race-start-lights.tsx"
+  },
+  {
+    slug: "race-progress", name: "RaceProgress", category: "Play",
+    description: "A small vehicle travels from the start line to the finish as progress advances.",
+    props: [
+      { name: "label / value / max", type: "string / number / number", defaultValue: "required / 0 / 100", description: "Named determinate progress with clamped values and a native progressbar role." },
+      { name: "vehicle / colors", type: "car | bike / Partial<RaceProgressColors>", defaultValue: "car / warm orange", description: "Original car or bike silhouette, with base and accent color overrides." },
+      { name: "showValue / renderVehicle", type: "boolean / (context) => ReactNode", defaultValue: "true / built-in silhouette", description: "Show the percentage or provide an alternate decorative SVG. Context contains vehicle, progress and appearance." }
+    ],
+    keyboard: "The progressbar announces its label and value without adding a focus stop. Demo fields and buttons adjust progress with the keyboard. Reduced motion removes travel transitions.",
+    usage: '<RaceProgress appearance="polished" label="Preparing the workspace" value={64} vehicle="car" />', file: "components/ui/race-progress.tsx"
+  },
+  {
+    slug: "livery-editor", name: "LiveryEditor", category: "Play", customizerPreview: true,
+    description: "Create a sponsor-free livery, try it in motion and export a settled vehicle.",
+    props: [
+      { name: "value / onChange", type: "VehicleConfig / (config: VehicleConfig) => void", defaultValue: "required", description: "Controlled livery, fictional number and tire compound. Save the normalized JSON in your own application." },
+      { name: "seed", type: "string | number", defaultValue: "orangeui:motorsport", description: "Identity used by Reset and deterministic Randomize. Changing the seed does not replace the controlled value." },
+      { name: "vehicle / defaultSpeed", type: "car | bike / number, 0..1", defaultValue: "user can choose / 0.45", description: "Optionally fix the vehicle and set its starting target speed. Motion and scene controls remain local preferences." }
+    ],
+    keyboard: "Arrow keys, Home and End move between tabs. Native sliders, selects and colors update the preview. Buttons randomize, reset, copy JSON or download SVG/PNG; clipboard failures expose selectable JSON.",
+    usage: '<LiveryEditor appearance="polished" value={config} onChange={setConfig} />', file: "components/ui/livery-editor.tsx"
+  },
+  {
+    slug: "helmet-editor", name: "HelmetEditor", category: "Play", customizerPreview: true,
+    description: "A reusable helmet playground for colors, finishes, visor position and portable exports.",
+    props: [
+      { name: "value / onChange", type: "HelmetConfig / (config: HelmetConfig) => void", defaultValue: "required", description: "Controlled helmet identity. Visor clicks write the new position back through onChange." },
+      { name: "seed", type: "string | number", defaultValue: "orangeui:helmet", description: "Used by Reset and Randomize while the parent owns the current config." },
+      { name: "label", type: "string", defaultValue: "Customize your helmet", description: "Visible heading and accessible name of the editor." }
+    ],
+    keyboard: "Tabs and native fields work with the keyboard. Enter or Space flips the focused helmet visor. Copy config and SVG/PNG export include the selected parts, colors and visor position.",
+    usage: '<HelmetEditor appearance="polished" value={config} onChange={setConfig} />', file: "components/ui/helmet-editor.tsx"
   }
 ];
 export function findComponent(slug: string) { return components.find((component) => component.slug === slug); }
 export function componentUsage(component: ComponentDefinition, appearance: Appearance) {
+  if (component.slug === "livery-editor" || component.slug === "helmet-editor") {
+    const livery = component.slug === "livery-editor";
+    const generator = livery ? "generateVehicleConfig" : "generateHelmetConfig";
+    const seed = livery ? "orangeui:motorsport" : "orangeui:helmet";
+    return `"use client";\n\nimport { useState } from "react";\nimport { ${component.name} } from "./${component.file.replace(/\.tsx$/, "")}";\nimport { ${generator} } from "./components/ui/${livery ? "vehicle-art" : "helmet-art"}";\n\nexport default function Example() {\n  const [config, setConfig] = useState(() => ${generator}("${seed}"));\n  return <${component.name} appearance="${appearance}" seed="${seed}" value={config} onChange={setConfig} />;\n}\n`;
+  }
   if (component.slug === "avatar-editor") return '"use client";\n\nimport { useState } from "react";\nimport { AvatarEditor } from "./components/ui/avatar-editor";\nimport { generateAvatarConfig } from "./lib/avatar/index";\n\nexport default function Example() {\n  const [config, setConfig] = useState(() => generateAvatarConfig("user-42"));\n  return <AvatarEditor appearance="' + appearance + '" seed="user-42" value={config} onChange={setConfig} />;\n}\n';
   const imports = [`import { ${component.name === "Toast" ? "Toast, ToastProvider" : component.name} } from "./${component.file.replace(/\.tsx$/, "")}";`];
   if (component.usage.includes("<Button") && component.name !== "Button") imports.push('import { Button } from "./components/ui/button";');

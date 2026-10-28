@@ -100,7 +100,7 @@ Customize colors in `styles/tokens.css`. Shared appearance rules load through `s
 | Navigation and disclosure | Accordion, Tabs, Breadcrumb, Pagination, DropdownMenu, Command |
 | Overlays and feedback | Dialog, Sheet, Popover, Tooltip, Toast, Alert, Progress, Skeleton |
 | Content and layout | Badge, Avatar, AvatarGroup, AvatarEditor, Card, StatCard, Separator, Table, EmptyState |
-| Play | MascotAvatar, CharacterAvatar, Helmet, MiniDriver, GamerBoy |
+| Play | MascotAvatar, CharacterAvatar, Helmet, MiniDriver, GamerBoy, OpenWheelCar, Superbike, RaceStartLights, RaceProgress, LiveryEditor, HelmetEditor |
 
 ## Infinite Avatar
 
@@ -283,7 +283,29 @@ Pure config and SVG helpers live in `components/ui/character-art`, `helmet-art`,
 
 The reusable controlled `ArtworkCustomizer` provides a sticky preview, accessible tabs, normalized updates, clipboard fallback, and settled SVG/PNG downloads. Its `CustomizerColor`, `CustomizerRange`, `CustomizerSelect`, and `CustomizerToggle` fields use native inputs.
 
+## Motorsport components
+
+`OpenWheelCar` and `Superbike` use original side-view SVG artwork and a shared visibility-aware animation loop. Their `speed` prop is a normalized target from 0 to 1. Acceleration and braking drive a damped suspension model, pitch, proportional wheel travel, high-speed blur, parallax track motion, ground shadow and exhaust shimmer. Car wings flex independently. The bike adds fork compression, rear squat, rider tuck with fixed grips, normalized `lean` from -1 to 1, and an optional `wheelie` on launch from rest.
+
+```tsx
+import { OpenWheelCar } from "@/components/ui/open-wheel-car";
+import { Superbike } from "@/components/ui/superbike";
+
+<OpenWheelCar speed={0.7} number="247" livery={{ base: "#247b83", pattern: "sweep" }} />
+<Superbike speed={0.5} lean={0.3} wheelie tireCompound="medium" />
+```
+
+Both vehicles accept a saved `VehicleConfig` from `generateVehicleConfig(seed)`, partial `livery` overrides (`base`, `accent`, `stripe`, `pattern`), a fictional `number`, `tireCompound`, `size`, `track`, and optional `theme`. Patterns are `solid`, `sweep`, `split`, and `chevron`; compounds are `soft`, `medium`, `hard`, and `wet`. Width defaults to 640px and preserves the 640:260 ratio. Set `track={false}` for a transparent cutout. Without an explicit `theme`, scene colors follow the page and system preference.
+
+`LiveryEditor` controls `value: VehicleConfig` and `onChange`. Omit its `vehicle` prop to offer both vehicles, or set `car` or `bike` to fix the preview. Motion and scene choices are local preferences, separate from saved livery. `HelmetEditor` similarly controls `HelmetConfig`, including visor clicks. Both editors randomize, reset from `seed`, copy normalized JSON, and export settled SVG/PNG. Vehicle exports are 640x260; helmet exports are 512x512. Pure `openWheelCarToSvgString` and `superbikeToSvgString` helpers work on the server and accept explicit `appearance`, `theme`, and `track` options.
+
+Motion freezes off screen and in hidden tabs, resumes without catching up hidden time, and settles under reduced motion. No animation library is required. The pure `vehicle-motion` module exposes the travel and suspension model separately from the `useVehicleMotion` React adapter.
+
+`RaceStartLights` lights five lamps in sequence, then extinguishes them together. Set `running`, use `sequenceKey` to replay, choose `intervalMs`, and handle its once-per-sequence `onComplete`. Hidden and offscreen time is excluded. Reduced motion retains the discrete countdown and completion. `RaceProgress` provides a named determinate progressbar with `label`, `value`, `max`, a `car` or `bike` silhouette, optional colors, and a `renderVehicle` slot.
+
 ## Development and checks
+
+On machines with limited memory, use `npm run test:serial`. It runs one Vitest worker at a time and avoids shell-specific argument forwarding through `npm test`.
 
 | Command | Purpose |
 | --- | --- |
@@ -301,6 +323,7 @@ The reusable controlled `ArtworkCustomizer` provides a sticky preview, accessibl
 | `npm run test:avatar-redesign` | Custom colors, animation, reduced motion, clipboard, exports, and editor screenshots |
 | `npm run test:mascot` | Characters, chat states, gaze lifecycle, keyboard behavior, and portable exports |
 | `npm run test:artwork-customizers` | Character, helmet, and driver customizers, viewport captures, keyboard controls, motion, and decoded SVG/PNG exports |
+| `npm run test:motorsport` | Motorsport layouts, editors, portable exports, live vehicle physics, race lights, and progress controls |
 
 Before the first browser run, install Chromium with `npx playwright install chromium` and run `npm run build`. The browser configuration starts the production app on port 3107 and Storybook on port 6006. Reports and failure traces are written under `out/playwright-report` and `out/test-results`.
 

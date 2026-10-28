@@ -1,0 +1,28 @@
+@import "./library-base.css";
+
+.motorsport-vehicle { display: block; width: min(100%, var(--vehicle-size, 640px)); height: auto; flex: none; overflow: hidden; border-radius: 12px; }
+.motorsport-vehicle[data-appearance="pixel"], .motorsport-vehicle[data-appearance="terminal"] { border-radius: 0; }
+.motorsport-vehicle[data-appearance="pixel"] { shape-rendering: crispEdges; }
+:where([data-theme="dark"]) .motorsport-vehicle:not([data-vehicle-theme="light"]), .motorsport-vehicle[data-vehicle-theme="dark"] { --vehicle-sky: #18222b; --vehicle-distant: #293943; --vehicle-barrier: #3d4c52; --vehicle-road: #273138; --vehicle-marking: #78908f; }
+.motorsport-vehicle[data-vehicle-theme="light"] { --vehicle-sky: #edf1ec; --vehicle-distant: #cbd9d4; --vehicle-barrier: #a6b7b4; --vehicle-road: #d0d7d3; --vehicle-marking: #f5f5e9; }
+.motorsport-vehicle .vehicle-road { transform: translateX(var(--vehicle-road-offset, 0px)); }
+.motorsport-vehicle .vehicle-markings { transform: translateX(var(--vehicle-marking-offset, 0px)); }
+.motorsport-vehicle .vehicle-background { transform: translateX(var(--vehicle-background-offset, 0px)); }
+.motorsport-vehicle .vehicle-far-background { transform: translateX(var(--vehicle-far-background-offset, 0px)); }
+.motorsport-vehicle .vehicle-speed-lines { opacity: var(--vehicle-speed-lines, 0); transform: translateX(var(--vehicle-speed-line-offset, 0px)); }
+.motorsport-vehicle .vehicle-shadow { opacity: var(--vehicle-shadow-opacity, .2); transform: scale(var(--vehicle-shadow-scale-x, 1), var(--vehicle-shadow-scale-y, 1)); }
+.motorsport-vehicle .vehicle-wheel-rotor { transform: rotate(var(--vehicle-wheel-angle, 0deg)); }
+.motorsport-vehicle .vehicle-wheel-crisp { opacity: var(--vehicle-wheel-spokes, 1); }
+.motorsport-vehicle .vehicle-wheel-blur { opacity: var(--vehicle-wheel-blur, 0); }
+.motorsport-vehicle .vehicle-heat { opacity: var(--vehicle-heat, 0); transform: translateY(calc(sin(var(--vehicle-heat-phase, 0)) * 2px)) scaleY(calc(1 + sin(var(--vehicle-heat-phase, 0)) * .13)); transform-origin: 140px 160px; }
+.motorsport-vehicle .car-sprung-body { transform: translateY(var(--vehicle-body-y, 0px)) rotate(var(--vehicle-pitch, 0deg)); transform-origin: 321px 190px; }
+.motorsport-vehicle .car-front-wing { transform: rotate(var(--vehicle-front-wing, 0deg)); transform-origin: 545px 197px; }
+.motorsport-vehicle .car-rear-wing { transform: rotate(var(--vehicle-rear-wing, 0deg)); transform-origin: 117px 168px; }
+.motorsport-vehicle .bike-corner-lean { transform: skewX(calc(var(--vehicle-lean, 0deg) * .16)); transform-origin: 335px 224px; }
+.motorsport-vehicle .bike-wheelie { transform: rotate(calc(var(--vehicle-wheelie, 0deg) * -1)); transform-origin: 190px 160px; }
+.motorsport-vehicle .bike-sprung-body { transform: translateY(var(--vehicle-body-y, 0px)) rotate(var(--vehicle-body-pitch, 0deg)); transform-origin: 335px 160px; }
+.motorsport-vehicle .bike-fork-upper { transform: translateY(var(--vehicle-fork-compression, 0px)); }
+.motorsport-vehicle .bike-rider-head { transform: translate(calc(var(--vehicle-rider-tuck, 0) * 34px), calc(var(--vehicle-rider-tuck, 0) * 16px)); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not(.light) .motorsport-vehicle:not([data-vehicle-theme="light"]) { --vehicle-sky: #18222b; --vehicle-distant: #293943; --vehicle-barrier: #3d4c52; --vehicle-road: #273138; --vehicle-marking: #78908f; }
+}

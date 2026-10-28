@@ -166,7 +166,7 @@ for (const artwork of artworks) test(`${artwork.slug} controls, keyboard tabs, c
       await expect(input).toBeFocused(); expect(await configText(editor)).not.toBe(before);
     }
     const number = panel.getByRole("slider", { name: "Fictional number", exact: true });
-    if (await number.count()) { await number.focus(); await number.press("Home"); await number.press("ArrowRight"); await expect(number).toHaveValue("101"); }
+    if (await number.count()) { await number.focus(); await number.press("Home"); await number.press("ArrowRight"); await expect(number).toHaveValue(String(Number(await number.getAttribute("min")) + Number(await number.getAttribute("step")))); }
     const audit = await new AxeBuilder({ page }).include(".artwork-customizer").analyze(); expect(audit.violations.map(({ id }) => id)).toEqual([]);
   }
   const edited = await configText(editor);

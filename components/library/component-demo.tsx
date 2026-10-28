@@ -41,6 +41,11 @@ import { CharacterDemo, HelmetDemo, MiniDriverDemo } from "./character-demos";
 import { CharacterAvatar } from "../ui/character-avatar";
 import { Helmet } from "../ui/helmet";
 import { MiniDriver } from "../ui/mini-driver";
+import { MotorsportDemo } from "./motorsport-demos";
+import { OpenWheelCar } from "../ui/open-wheel-car";
+import { Superbike } from "../ui/superbike";
+import { RaceStartLights } from "../ui/race-start-lights";
+import { RaceProgress } from "../ui/race-progress";
 
 const projects = [
   { id: "1", name: "Orange studio", status: "Live", members: 8 },
@@ -65,6 +70,11 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   const status = <p className="demo-feedback" role="status">{feedback || "Try it. Every example is interactive."}</p>;
   const action = <Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Ready for a fresh start." : "Project created in this preview."); }}>{saved ? "Start again" : "Create project"}</Button>;
   switch (slug) {
+    case "open-wheel-car": case "livery-editor": return thumbnail ? <OpenWheelCar {...a} speed={0} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "superbike": return thumbnail ? <Superbike {...a} speed={0} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "helmet-editor": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive={false} /></div> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "race-start-lights": return thumbnail ? <RaceStartLights {...a} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "race-progress": return thumbnail ? <RaceProgress {...a} label="Pit lane preparation" value={64} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
     case "character-avatar": return thumbnail ? <div className="thumbnail-artwork"><CharacterAvatar {...a} size={190} interactive={false} /></div> : <CharacterDemo appearance={appearance} />;
     case "helmet": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive={false} /></div> : <HelmetDemo appearance={appearance} />;
     case "mini-driver": return thumbnail ? <div className="thumbnail-artwork"><MiniDriver {...a} size={215} interactive={false} /></div> : <MiniDriverDemo appearance={appearance} />;

@@ -49,3 +49,17 @@ export { HELMET_FINISHES, HELMET_PALETTES, HELMET_PATTERNS, generateHelmetConfig
 export * from "./components/ui/mini-driver";
 export { DRIVER_BOOTS, DRIVER_SUITS, generateMiniDriverConfig, miniDriverToSvgString, normalizeMiniDriverConfig } from "./components/ui/mini-driver-art";
 export * from "./components/ui/artwork-customizer";
+export { OpenWheelCar } from "./components/ui/open-wheel-car";
+export type { OpenWheelCarProps } from "./components/ui/open-wheel-car";
+export { Superbike } from "./components/ui/superbike";
+export type { SuperbikeProps } from "./components/ui/superbike";
+export { generateVehicleConfig, normalizeVehicleConfig, VEHICLE_PALETTES, LIVERY_PATTERNS, TIRE_COMPOUNDS } from "./components/ui/vehicle-art";
+export type { VehicleConfig, VehicleLivery, LiveryPattern, TireCompound } from "./components/ui/vehicle-art";
+export { openWheelCarToSvgString, OPEN_WHEEL_GEOMETRY } from "./components/ui/open-wheel-car-art";
+export { superbikeToSvgString, SUPERBIKE_GEOMETRY } from "./components/ui/superbike-art";
+export { useVehicleMotion } from "./components/ui/use-vehicle-motion";
+export type { UseVehicleMotionOptions } from "./components/ui/use-vehicle-motion";
+export * from "./components/ui/race-start-lights";
+export * from "./components/ui/race-progress";
+export * from "./components/ui/livery-editor";
+export * from "./components/ui/helmet-editor";

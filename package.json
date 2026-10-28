@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:serial": "vitest run --maxWorkers=1 --fileParallelism=false",
     "check:copy": "node tests/check-copy.mjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o out/storybook",
@@ -17,7 +18,8 @@
     "test:viewport": "playwright test --config=playwright.viewport.config.ts",
     "test:avatar-redesign": "playwright test --config=playwright.avatar-redesign.config.ts",
     "test:mascot": "playwright test --config=playwright.mascot.config.ts",
-    "test:artwork-customizers": "playwright test --config=playwright.artwork-customizers.config.ts"
+    "test:artwork-customizers": "playwright test --config=playwright.artwork-customizers.config.ts",
+    "test:motorsport": "playwright test --config=playwright.motorsport.config.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
