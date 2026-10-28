@@ -16,3 +16,9 @@ out/avatar/browser/test-results/
 out/storybook-avatar-tests/
 out/landing-tests/
 out/avatar/browser/*test-results/
+
+# Impeccable developer consent, cache, and live session state
+.impeccable/config.local.json
+.impeccable/hook.cache.json
+.impeccable/live/*
+!.impeccable/live/config.json
