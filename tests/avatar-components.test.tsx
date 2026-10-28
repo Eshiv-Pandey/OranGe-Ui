@@ -13,6 +13,7 @@ import { DEFAULT_AVATAR_SEED, generateAvatarConfig, normalizeAvatarConfig } from
 import { avatarGlyphs } from "../lib/avatar/glyphs";
 import { avatarPalettes } from "../lib/avatar/palettes";
 import type { AvatarConfig } from "../lib/avatar/types";
+import * as orangeUi from "../index";
 
 function glyphPaths(config: AvatarConfig) {
   return avatarGlyphs.find((glyph) => glyph.id === config.glyph)!.paths;
@@ -22,6 +23,23 @@ function ControlledEditor({ initial = generateAvatarConfig("keyboard-user") }: {
   const [value, setValue] = useState(initial);
   return <AvatarEditor value={value} onChange={setValue} seed="keyboard-user" />;
 }
+
+describe("avatar public entry point", () => {
+  it("exports the components, portable config, data, and server-safe SVG helpers", () => {
+    const config: orangeUi.AvatarConfig = orangeUi.generateAvatarConfig("public-profile");
+    expect(orangeUi.Avatar).toBe(Avatar);
+    expect(orangeUi.AvatarGroup).toBe(AvatarGroup);
+    expect(orangeUi.AvatarEditor).toBe(AvatarEditor);
+    expect(orangeUi.avatarPalettes).toBe(avatarPalettes);
+    expect(orangeUi.avatarGlyphs).toBe(avatarGlyphs);
+    expect(orangeUi.normalizeAvatarConfig(JSON.parse(JSON.stringify(config)))).toEqual(config);
+    expect(renderToString(<orangeUi.Avatar config={config} name="Public profile" />)).toContain('aria-label="Public profile"');
+    const svg = orangeUi.avatarToSvgString(config, 128);
+    expect(svg).toContain('width="128"');
+    expect(decodeURIComponent(orangeUi.avatarToDataUrl(config, 128).split(",")[1])).toBe(svg);
+    expect(orangeUi.avatarToPng).toBeTypeOf("function");
+  });
+});
 
 describe("Avatar", () => {
   it("renders a named, fixed-size inline SVG with a stable seed-derived glyph", () => {

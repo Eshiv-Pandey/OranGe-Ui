@@ -151,7 +151,7 @@
 .avatar-config { max-height: 340px; }
 .server-avatar-example { display: flex; gap: 22px; align-items: center; margin: 24px 0; }
 .server-avatar-example .ui-avatar { flex-shrink: 0; }
-.tile-avatar-editor .thumbnail-inner { width: 680px; transform: scale(.32); }
+.tile-avatar-editor .thumbnail-inner { width: 680px; transform: scale(.23); }
 .tile-avatar-editor .avatar-export-actions, .tile-avatar-editor .avatar-config { display: none; }
 .tile-avatar .thumbnail-inner { transform: scale(.68); }
 .tile-avatar-group .thumbnail-inner { width: 350px; transform: scale(.7); }

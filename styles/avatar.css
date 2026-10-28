@@ -57,6 +57,7 @@
 .avatar-editor[data-appearance="pixel"] .avatar-editor-preview { border-radius: 0; }
 .avatar-editor[data-appearance="neobrutalism"] .avatar-editor-preview { border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); }
 .avatar-editor[data-appearance="retro-os"] .avatar-editor-header { border-bottom: 3px double var(--retro-edge); }
+.avatar-editor[data-appearance="retro-os"] .avatar-editor-kicker { color: var(--ink); }
 .avatar-editor[data-appearance="retro-os"] .avatar-editor-glyph { border-top-color: var(--retro-highlight); border-left-color: var(--retro-highlight); border-bottom-color: var(--retro-low); border-right-color: var(--retro-low); }
 .avatar-editor[data-appearance="terminal"] .avatar-editor-kicker::before { content: "> "; }
 .avatar-editor[data-appearance="terminal"] h3 { font-family: var(--font-mono); font-size: 22px; letter-spacing: -.035em; }

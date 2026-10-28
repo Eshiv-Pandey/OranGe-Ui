@@ -68,8 +68,7 @@ export function generateAvatarConfig(seed: string): AvatarConfig {
   };
 }
 
-const fallbackConfig = generateAvatarConfig(DEFAULT_AVATAR_SEED);
-const glyphIds: ReadonlySet<string> = new Set(avatarGlyphs.map((glyph) => glyph.id));
+const fallbackConfig = /* @__PURE__ */ generateAvatarConfig(DEFAULT_AVATAR_SEED);
 
 function boundedNumber(value: unknown, fallback: number, minimum: number, maximum: number, precision = 0): number {
   if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
@@ -90,7 +89,7 @@ export function normalizeAvatarConfig(value: unknown): AvatarConfig {
   return {
     version: 1,
     palette,
-    glyph: typeof candidate.glyph === "string" && glyphIds.has(candidate.glyph) ? candidate.glyph : fallbackConfig.glyph,
+    glyph: typeof candidate.glyph === "string" && avatarGlyphs.some((glyph) => glyph.id === candidate.glyph) ? candidate.glyph : fallbackConfig.glyph,
     angle: boundedNumber(candidate.angle, fallbackConfig.angle, 0, 360) % 360,
     pattern: enumValue(candidate.pattern, AVATAR_PATTERNS, fallbackConfig.pattern),
     shape: enumValue(candidate.shape, AVATAR_SHAPES, fallbackConfig.shape),
