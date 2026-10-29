@@ -46,6 +46,11 @@ import { OpenWheelCar } from "../ui/open-wheel-car";
 import { Superbike } from "../ui/superbike";
 import { RaceStartLights } from "../ui/race-start-lights";
 import { RaceProgress } from "../ui/race-progress";
+import * as LaunchForms from "./launch-forms-demos";
+import { NavigationDemo, NAVIGATION_DEMO_SLUGS } from "./navigation-demos";
+import { AIDemo, AI_DEMO_SLUGS } from "./ai-demos";
+import { LiveOrb } from "../ui/live-orb";
+import { LiveOrbDemo } from "./live-orb-demo";
 
 const projects = [
   { id: "1", name: "Orange studio", status: "Live", members: 8 },
@@ -69,7 +74,20 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   const [validated, setValidated] = useState(false);
   const status = <p className="demo-feedback" role="status">{feedback || "Try it. Every example is interactive."}</p>;
   const action = <Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Ready for a fresh start." : "Project created in this preview."); }}>{saved ? "Start again" : "Create project"}</Button>;
+  if ((NAVIGATION_DEMO_SLUGS as readonly string[]).includes(slug)) return <NavigationDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
+  if ((AI_DEMO_SLUGS as readonly string[]).includes(slug)) return <AIDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   switch (slug) {
+    case "live-orb": return thumbnail ? <LiveOrb {...a} size={160} interactive={false} blink={false} /> : <LiveOrbDemo appearance={appearance} />;
+    case "label": return <LaunchForms.LabelDemo {...a} />;
+    case "kbd": return <LaunchForms.KbdDemo {...a} />;
+    case "form": return <LaunchForms.FormDemo {...a} />;
+    case "combobox": return <LaunchForms.ComboboxDemo {...a} />;
+    case "calendar": return <LaunchForms.CalendarDemo {...a} />;
+    case "date-picker": return <LaunchForms.DatePickerDemo {...a} />;
+    case "input-otp": return <LaunchForms.InputOTPDemo {...a} />;
+    case "file-upload": return <LaunchForms.FileUploadDemo {...a} />;
+    case "rating": return <LaunchForms.RatingDemo {...a} />;
+    case "stepper": return <LaunchForms.StepperDemo {...a} />;
     case "open-wheel-car": case "livery-editor": return thumbnail ? <OpenWheelCar {...a} speed={0} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
     case "superbike": return thumbnail ? <Superbike {...a} speed={0} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
     case "helmet-editor": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive={false} /></div> : <MotorsportDemo slug={slug} appearance={appearance} />;
@@ -111,7 +129,7 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
     case "separator": return <div className="demo-stack"><strong>Orange studio</strong><p className="demo-feedback">A quiet corner for your next idea.</p><Separator {...a} /><div className="demo-row"><span>Projects</span><Separator {...a} orientation="vertical" /><span>People</span><Separator {...a} orientation="vertical" /><span>Settings</span></div></div>;
     case "table": return <Table {...a} caption="A few things we are making" pageSize={3} rows={projects} columns={[{ key: "name", header: "Project", sortable: true }, { key: "status", header: "Status", render: (row) => <Badge {...a} tone={row.status === "Live" ? "success" : "neutral"} dot>{row.status}</Badge> }, { key: "members", header: "People", sortable: true }]} />;
     case "empty-state": return saved ? <Card {...a} title="Your first project" description="A good beginning." footer={action}>{status}</Card> : <EmptyState {...a} title="A fresh canvas." description="Your first project belongs here. Make a little room for it." action={action} />;
-    case "mascot-avatar": return <MascotDemo appearance={appearance} />;
+    case "mascot-avatar": return thumbnail ? <div className="thumbnail-artwork"><MascotAvatar seed="studio-helper" mascot="dune-hopper" state="idle" size={176} appearance={appearance} /></div> : <MascotDemo appearance={appearance} />;
     case "gamer-boy": return <GamerBoy {...a} />;
     default: return null;
   }

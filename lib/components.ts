@@ -1,8 +1,11 @@
 import type { Appearance } from "../components/ui/appearance";
-export type ComponentCategory = "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play";
+import { launchFormComponents } from "./launch-form-components";
+import { NAVIGATION_COMPONENTS } from "./navigation-components";
+import { AI_COMPONENTS } from "./ai-components";
+export type ComponentCategory = "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play" | "AI & chat";
 export type PropDoc = { name: string; type: string; defaultValue: string; description: string };
-export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string; customizerPreview?: boolean };
-export const componentCategories: ComponentCategory[] = ["Forms & actions", "Navigation & disclosure", "Overlays & feedback", "Content & layout", "Play"];
+export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string; customizerPreview?: boolean; usageImports?: string[]; usageSetup?: string };
+export const componentCategories: ComponentCategory[] = ["Forms & actions", "Navigation & disclosure", "Overlays & feedback", "Content & layout", "Play", "AI & chat"];
 export const components: ComponentDefinition[] = [
   {
     "slug": "button",
@@ -1176,6 +1179,21 @@ export const components: ComponentDefinition[] = [
     ],
     keyboard: "Tabs and native fields work with the keyboard. Enter or Space flips the focused helmet visor. Copy config and SVG/PNG export include the selected parts, colors and visor position.",
     usage: '<HelmetEditor appearance="polished" value={config} onChange={setConfig} />', file: "components/ui/helmet-editor.tsx"
+  },
+  ...launchFormComponents,
+  ...NAVIGATION_COMPONENTS,
+  ...AI_COMPONENTS,
+  {
+    slug: "live-orb", name: "LiveOrb", category: "AI & chat", customizerPreview: true,
+    description: "A curious WebGL sphere with pointer-following eyes and three material previews.",
+    file: "components/ui/live-orb.tsx", usage: '<LiveOrb appearance="polished" size={200} interactive blink />',
+    keyboard: "A named decorative character with no focus stop. Native size, color and checkbox controls customize the demo. Motion pauses offscreen and in hidden tabs, and reduced motion holds a settled frame. A CSS face remains visible when WebGL is unavailable.",
+    props: [
+      { name: "size", type: "number", defaultValue: "280", description: "Sphere edge length in CSS pixels." },
+      { name: "variant / theme", type: "white | black | webgl | custom / light | dark | auto", defaultValue: "follows theme / auto", description: "Default material contrasts with the page. Theme follows HTML classes, data-theme and the system preference." },
+      { name: "color / eyeColor / colors", type: "string / string / string[]", defaultValue: "Preset colors", description: "Custom body and eye colors, or the WebGL wash stops." },
+      { name: "interactive / blink", type: "boolean", defaultValue: "true / true", description: "Pointer-following gaze and occasional blinking. Idle glances continue when pointer interaction is disabled." }
+    ]
   }
 ];
 export function findComponent(slug: string) { return components.find((component) => component.slug === slug); }
@@ -1191,6 +1209,9 @@ export function componentUsage(component: ComponentDefinition, appearance: Appea
   if (component.usage.includes("<Button") && component.name !== "Button") imports.push('import { Button } from "./components/ui/button";');
   if (component.usage.includes("<Input") && component.name !== "Input") imports.push('import { Input } from "./components/ui/input";');
   if (component.usage.includes("<Switch") && component.name !== "Switch") imports.push('import { Switch } from "./components/ui/switch";');
-  const jsx = component.usage.replace(/<(Button|Input|Switch)(?![A-Za-z])(?=\s|>)(?! appearance=)/g, `<$1 appearance="${appearance}"`).replaceAll('appearance="polished"', `appearance="${appearance}"`);
-  return (component.slug === "avatar" || component.slug === "avatar-group" ? "" : '"use client";\n\n') + imports.join("\n") + "\n\nexport default function Example() {\n  return (\n    " + jsx + "\n  );\n}\n";
+  imports.push(...(component.usageImports ?? []));
+  const styled = new RegExp(`<(${component.name}|Button|Input|Switch)(?![A-Za-z])(?=\\s|>)(?! appearance=)`, "g");
+  const jsx = component.usage.replace(styled, `<$1 appearance="${appearance}"`).replaceAll('appearance="polished"', `appearance="${appearance}"`);
+  const setup = component.usageSetup ? "  " + component.usageSetup.replaceAll("\n", "\n  ") + "\n" : "";
+  return (component.slug === "avatar" || component.slug === "avatar-group" ? "" : '"use client";\n\n') + [...new Set(imports)].join("\n") + "\n\nexport default function Example() {\n" + setup + "  return (\n    " + jsx + "\n  );\n}\n";
 }

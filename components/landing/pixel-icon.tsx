@@ -8,7 +8,7 @@ const shapes = {
   heart: "M2 2h4v2h4V2h4v2h2v6h-2v2h-2v2h-2v2H6v-2H4v-2H2v-2H0V4h2z",
   sun: "M6 0h4v3H6zM6 13h4v3H6zM0 6h3v4H0zM13 6h3v4h-3zM4 4h8v8H4zM1 1h2v2H1zM13 1h2v2h-2zM1 13h2v2H1zM13 13h2v2h-2z",
   moon: "M6 0h4v2H6v2H4v6h2v2h4v2h4v-2h2v2h-2v2H4v-2H2v-2H0V4h2V2h4z",
-  github: "M4 1h3v2h3V1h3v3h2v7h-2v2h-2v3H5v-3H3v-2H1V4h3zM0 12h2v2h3v2H2v-2H0z",
+  github: "M1 0h5v5H1zM10 0h5v5h-2v4h-2v2H5v1h1v4H1v-4h2V5h2v4h6V5h-1z",
   search: "M2 0h8v2h2v8h-2v2H2v-2H0V2h2zM3 3v6h6V3zM10 10h3v3h3v3h-3v-3h-3z",
   close: "M1 1h3v3h3v3h2V4h3V1h3v3h-3v3H9v2h3v3h3v3h-3v-3H9V9H7v3H4v3H1v-3h3V9h3V7H4V4H1z",
 } as const;

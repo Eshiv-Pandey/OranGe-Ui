@@ -67,7 +67,13 @@
 .tile-stat-card .thumbnail-inner { width: 220px; transform: scale(.4); }
 .tile-gamer-boy .thumbnail-inner { width: 380px; transform: scale(.38); }
 .tile-gamer-boy .console-hint { display: none; }
-.tile-table .thumbnail-inner, .tile-command .thumbnail-inner { width: 330px; transform: scale(.65); }
+.tile-command .thumbnail-inner { width: 330px; transform: scale(.52); }
+.tile-table .thumbnail-inner { width: 460px; transform: scale(.52); }
+.tile-calendar .thumbnail-inner { width: 316px; transform: scale(.56); }
+.tile-carousel .ui-carousel-slide { padding: 0; }
+.tile-carousel .launch-carousel-panel { min-height: 150px; padding: 18px; }
+.tile-carousel .launch-carousel-panel h3 { margin-bottom: 8px; font-size: 20px; }
+.tile-carousel .launch-carousel-panel p { font-size: 12px; }
 .tile-accordion .thumbnail-inner { width: 330px; transform: scale(.56); }
 .tile-tabs .thumbnail-inner { transform: scale(.72); }
 .tile-empty-state .thumbnail-inner { width: 320px; transform: scale(.58); }
@@ -152,6 +158,10 @@
 .server-avatar-example { display: flex; gap: 22px; align-items: center; margin: 24px 0; }
 .server-avatar-example .ui-avatar { flex-shrink: 0; }
 .tile-avatar-editor .thumbnail-inner { width: 680px; transform: scale(.21); }
+.tile-avatar-editor .avatar-editor { grid-template-columns: minmax(160px, .7fr) minmax(0, 1.3fr); }
+.tile-avatar-editor .avatar-editor-header { grid-column: 1; grid-row: 1 / span 3; position: static; }
+.tile-avatar-editor .avatar-editor-pickers { grid-template-columns: 1fr 1fr; }
+.tile-avatar-editor .avatar-editor-pickers, .tile-avatar-editor .avatar-editor-controls, .tile-avatar-editor .avatar-editor-actions { grid-column: 2; }
 .tile-avatar-editor .avatar-export-actions, .tile-avatar-editor .avatar-config { display: none; }
 .tile-avatar .thumbnail-inner { transform: scale(.56); }
 .tile-avatar-group .thumbnail-inner { width: 300px; transform: scale(.65); }
@@ -189,8 +199,11 @@
   .detail-heading h1 { font-size: 30px; }
   .detail-demo, .detail-demo.demo-table, .detail-demo.demo-pagination, .detail-demo.demo-gamer-boy { padding: 16px 12px; }
   .detail-demo.demo-avatar-editor { padding: 12px; }
+  .library-main:has(.demo-gamer-boy) { padding-top: 8px; }
+  .library-main:has(.demo-gamer-boy) .detail-heading { margin: 8px 0; }
+  .detail-demo.demo-gamer-boy { padding-top: 8px; }
   .detail-demo.demo-gamer-boy > * { max-width: 280px; }
   .detail-demo.demo-gamer-boy .gamer-boy-device { display: block; }
-  .detail-demo.demo-gamer-boy .console-hint { margin-top: 12px; text-align: center; font-size: 11px; }
+  .detail-demo.demo-gamer-boy .console-hint { margin-top: 8px; text-align: center; font-size: 11px; }
   .detail-toolbar { padding: 6px; }
 }

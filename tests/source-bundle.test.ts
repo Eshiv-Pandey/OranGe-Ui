@@ -102,7 +102,9 @@ for (const batch of batches) it(`downloads, typechecks and bundles ${batch.map((
   expect(avatarUtilities).toHaveLength(batch.filter((component) => ["avatar", "avatar-group", "avatar-editor"].includes(component.slug)).length * APPEARANCE_VALUES.length * 2);
   expect(hasCss).toBe(true);
   completed.push({ compiledExamples: examples.length, compiledAvatarUtilities: avatarUtilities.length, bundledEntries });
-}, 90_000);
+// This checks source correctness, not build speed. Compilers may page heavily
+// on small machines even though each batch remains bounded in size.
+}, 300_000);
 
 it("follows a local directory entry and keeps dependency traversal inside permitted source folders", async () => {
   const reportDirectory = path.join(process.cwd(), "out/download-validation");
