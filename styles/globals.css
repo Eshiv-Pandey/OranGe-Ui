@@ -8,6 +8,9 @@
   --color-primary: var(--primary);
   --color-cream: var(--cream);
   --color-ink: var(--ink);
+  --color-background: var(--cream);
+  --color-foreground: var(--ink);
+  --color-muted-foreground: var(--muted);
 }
 
 * { box-sizing: border-box; }

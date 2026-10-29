@@ -29,14 +29,28 @@ import { Badge } from "../ui/badge";
 import { Avatar } from "../ui/avatar";
 import { AvatarGroup } from "../ui/avatar-group";
 import { AvatarEditor } from "../ui/avatar-editor";
-import { generateAvatarConfig, avatarToDataUrl } from "../../lib/avatar/index";
-import { avatarToPng } from "../../lib/avatar/png";
+import { generateAvatarConfig } from "../../lib/avatar/index";
 import { Card } from "../ui/card";
 import { StatCard } from "../ui/stat-card";
 import { Separator } from "../ui/separator";
 import { Table } from "../ui/table";
 import { EmptyState } from "../ui/empty-state";
 import { GamerBoy } from "../ui/gamer-boy";
+import { MascotAvatar, MASCOT_OPTIONS, type MascotKind, type MascotState } from "../ui/mascot-avatar";
+import { CharacterDemo, HelmetDemo, MiniDriverDemo } from "./character-demos";
+import { CharacterAvatar } from "../ui/character-avatar";
+import { Helmet } from "../ui/helmet";
+import { MiniDriver } from "../ui/mini-driver";
+import { MotorsportDemo } from "./motorsport-demos";
+import { OpenWheelCar } from "../ui/open-wheel-car";
+import { Superbike } from "../ui/superbike";
+import { RaceStartLights } from "../ui/race-start-lights";
+import { RaceProgress } from "../ui/race-progress";
+import * as LaunchForms from "./launch-forms-demos";
+import { NavigationDemo, NAVIGATION_DEMO_SLUGS } from "./navigation-demos";
+import { AIDemo, AI_DEMO_SLUGS } from "./ai-demos";
+import { LiveOrb } from "../ui/live-orb";
+import { LiveOrbDemo } from "./live-orb-demo";
 
 const projects = [
   { id: "1", name: "Orange studio", status: "Live", members: 8 },
@@ -47,11 +61,10 @@ const projects = [
 ];
 
 /** The catalogue and docs render these same reusable components. */
-export function ComponentDemo({ slug, appearance = "polished" }: { slug: string; appearance?: Appearance }) {
+export function ComponentDemo({ slug, appearance = "polished", thumbnail = false }: { slug: string; appearance?: Appearance; thumbnail?: boolean }) {
   const a = { appearance };
   const [avatarSeed, setAvatarSeed] = useState("user-42");
   const [avatarConfig, setAvatarConfig] = useState(() => generateAvatarConfig("user-42"));
-  const [exportStatus, setExportStatus] = useState("");
   const [saved, setSaved] = useState(false);
   const [value, setValue] = useState("");
   const [checked, setChecked] = useState(true);
@@ -61,7 +74,28 @@ export function ComponentDemo({ slug, appearance = "polished" }: { slug: string;
   const [validated, setValidated] = useState(false);
   const status = <p className="demo-feedback" role="status">{feedback || "Try it. Every example is interactive."}</p>;
   const action = <Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Ready for a fresh start." : "Project created in this preview."); }}>{saved ? "Start again" : "Create project"}</Button>;
+  if ((NAVIGATION_DEMO_SLUGS as readonly string[]).includes(slug)) return <NavigationDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
+  if ((AI_DEMO_SLUGS as readonly string[]).includes(slug)) return <AIDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   switch (slug) {
+    case "live-orb": return thumbnail ? <LiveOrb {...a} size={160} interactive={false} blink={false} /> : <LiveOrbDemo appearance={appearance} />;
+    case "label": return <LaunchForms.LabelDemo {...a} />;
+    case "kbd": return <LaunchForms.KbdDemo {...a} />;
+    case "form": return <LaunchForms.FormDemo {...a} />;
+    case "combobox": return <LaunchForms.ComboboxDemo {...a} />;
+    case "calendar": return <LaunchForms.CalendarDemo {...a} />;
+    case "date-picker": return <LaunchForms.DatePickerDemo {...a} />;
+    case "input-otp": return <LaunchForms.InputOTPDemo {...a} />;
+    case "file-upload": return <LaunchForms.FileUploadDemo {...a} />;
+    case "rating": return <LaunchForms.RatingDemo {...a} />;
+    case "stepper": return <LaunchForms.StepperDemo {...a} />;
+    case "open-wheel-car": case "livery-editor": return thumbnail ? <OpenWheelCar {...a} speed={0} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "superbike": return thumbnail ? <Superbike {...a} speed={0} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "helmet-editor": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive={false} /></div> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "race-start-lights": return thumbnail ? <RaceStartLights {...a} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "race-progress": return thumbnail ? <RaceProgress {...a} label="Pit lane preparation" value={64} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "character-avatar": return thumbnail ? <div className="thumbnail-artwork"><CharacterAvatar {...a} size={190} interactive={false} /></div> : <CharacterDemo appearance={appearance} />;
+    case "helmet": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive={false} /></div> : <HelmetDemo appearance={appearance} />;
+    case "mini-driver": return thumbnail ? <div className="thumbnail-artwork"><MiniDriver {...a} size={215} interactive={false} /></div> : <MiniDriverDemo appearance={appearance} />;
     case "button": return <div className="demo-stack"><div className="demo-row"><Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Removed from favourites." : "Saved to favourites."); }} aria-pressed={saved}>{saved ? "Saved!" : "Save a little joy"}</Button><Button {...a} variant="secondary" onClick={() => { setSaved(false); setFeedback("Ready to go again."); }}>Reset</Button></div><div className="demo-row"><Button {...a} variant="ghost" onClick={() => setFeedback("A little detail, a big difference.")}>Learn more</Button><Button {...a} disabled>Unavailable</Button></div>{status}</div>;
     case "input": return <form className="demo-stack" noValidate onSubmit={(event) => { event.preventDefault(); setValidated(true); setFeedback(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "Looks good. Ready to go!" : "Check your email address."); }}><Input {...a} label="Your email" type="email" placeholder="you@example.com" value={value} onChange={(event) => { setValue(event.target.value); setValidated(false); }} error={validated && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "Enter a valid email address." : undefined} description="A little room for your next idea." required /><Button {...a} type="submit">Try validation</Button>{status}</form>;
     case "textarea": return <div className="demo-stack"><Textarea {...a} label="Your next big idea" placeholder="It all starts with a little thought..." value={value} maxLength={200} onChange={(event) => setValue(event.target.value)} description={`${value.length} of 200 characters`} /><Button {...a} onClick={() => setFeedback(value.trim() ? "Draft saved in this preview." : "Write a little something first.")}>Save draft</Button>{status}</div>;
@@ -89,13 +123,27 @@ export function ComponentDemo({ slug, appearance = "polished" }: { slug: string;
     case "badge": return <div className="demo-row"><Badge {...a} tone="success" dot>Live</Badge><Badge {...a} tone="accent">New</Badge><Badge {...a}>Draft</Badge><Badge {...a} tone="warning">In review</Badge><Badge {...a} tone="danger">Needs attention</Badge></div>;
     case "avatar": return <div className="demo-stack avatar-seed-demo"><div className="demo-row avatar-seed-preview"><Avatar {...a} seed={avatarSeed} size={112} aria-label={`Avatar for ${avatarSeed || "guest"}`} /><div><strong>Your seed. Your identity.</strong><p className="demo-feedback">Same seed, same avatar. No upload needed.</p></div></div><Input {...a} label="Avatar seed" value={avatarSeed} onChange={(event) => setAvatarSeed(event.target.value)} /><div className="avatar-mini-grid">{Array.from({ length: 12 }, (_, index) => <Avatar {...a} key={index} seed={`user-${index + 1}`} size={40} />)}</div></div>;
     case "avatar-group": return <div className="demo-stack"><AvatarGroup {...a} avatars={Array.from({ length: 8 }, (_, index) => ({ seed: `user-${index + 1}`, name: `Team member ${index + 1}` }))} max={5} size="md" label="Your studio team" /><p className="demo-feedback">Eight people. One small, colourful introduction.</p></div>;
-    case "avatar-editor": return <div className="avatar-editor-demo"><AvatarEditor {...a} seed="user-42" value={avatarConfig} onChange={setAvatarConfig} /><div className="avatar-export-actions"><Button {...a} variant="secondary" asChild><a href={avatarToDataUrl(avatarConfig, 256, { appearance })} download="orangeui-avatar.svg">Download SVG</a></Button><Button {...a} variant="secondary" onClick={async () => { try { const blob = await avatarToPng(avatarConfig, 256, { appearance }); const url = URL.createObjectURL(blob); const link = document.createElement("a"); link.href = url; link.download = "orangeui-avatar.png"; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); setExportStatus("PNG downloaded."); } catch { setExportStatus("PNG export unavailable in this browser. Try SVG instead."); } }}>Download PNG</Button></div><p className="demo-feedback" role="status">{exportStatus || "Keep the JSON below to restore your customized avatar."}</p><pre className="install-command avatar-config" aria-label="Avatar configuration" tabIndex={0}><code>{JSON.stringify(avatarConfig, null, 2)}</code></pre></div>;
+    case "avatar-editor": return <div className="avatar-editor-demo"><AvatarEditor {...a} seed="user-42" value={avatarConfig} onChange={setAvatarConfig} /></div>;
     case "card": return <Card {...a} title="Weekend studio" description="A good place for your next idea." footer={action}><div className="demo-row"><Avatar {...a} name="Orange Studio" /><Badge {...a} tone="success" dot>{saved ? "Created" : "Ready when you are"}</Badge></div><p className="demo-feedback" role="status">{feedback || "Make room for something new."}</p></Card>;
     case "stat-card": return <StatCard {...a} accent="mint" title="Small wins" subtitle="Every little detail adds up." counter="01 / 05" art={<span className="demo-star">✦</span>} stats={[{ label: "Ideas", value: 24 }, { label: "Made real", value: 8 }]} footer="A good day to build" />;
     case "separator": return <div className="demo-stack"><strong>Orange studio</strong><p className="demo-feedback">A quiet corner for your next idea.</p><Separator {...a} /><div className="demo-row"><span>Projects</span><Separator {...a} orientation="vertical" /><span>People</span><Separator {...a} orientation="vertical" /><span>Settings</span></div></div>;
     case "table": return <Table {...a} caption="A few things we are making" pageSize={3} rows={projects} columns={[{ key: "name", header: "Project", sortable: true }, { key: "status", header: "Status", render: (row) => <Badge {...a} tone={row.status === "Live" ? "success" : "neutral"} dot>{row.status}</Badge> }, { key: "members", header: "People", sortable: true }]} />;
     case "empty-state": return saved ? <Card {...a} title="Your first project" description="A good beginning." footer={action}>{status}</Card> : <EmptyState {...a} title="A fresh canvas." description="Your first project belongs here. Make a little room for it." action={action} />;
+    case "mascot-avatar": return thumbnail ? <div className="thumbnail-artwork"><MascotAvatar seed="studio-helper" mascot="dune-hopper" state="idle" size={176} appearance={appearance} /></div> : <MascotDemo appearance={appearance} />;
     case "gamer-boy": return <GamerBoy {...a} />;
     default: return null;
   }
+}
+
+function MascotDemo({ appearance }: { appearance: Appearance }) {
+  const [mascot, setMascot] = useState<MascotKind>("dune-hopper");
+  const [state, setState] = useState<MascotState>("idle");
+  return <div className="demo-stack mascot-demo">
+    <MascotAvatar seed="studio-helper" mascot={mascot} state={state} size={176} appearance={appearance} aria-label={`Mascot preview, ${state}`} />
+    <div className="avatar-editor-selects">
+      <Select appearance={appearance} label="Character" value={mascot} onValueChange={(value) => setMascot(value as MascotKind)} options={MASCOT_OPTIONS.map(({ value, label }) => ({ value, label }))} />
+      <Select appearance={appearance} label="Chat state" value={state} onValueChange={(value) => setState(value as MascotState)} options={["idle", "thinking", "talking", "error"].map((value) => ({ value, label: value[0].toUpperCase() + value.slice(1) }))} />
+    </div>
+    <p className="demo-feedback">Move your pointer, then click the character to say hello.</p>
+  </div>;
 }

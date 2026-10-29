@@ -153,6 +153,7 @@ describe("AvatarEditor", () => {
     const nextPalette = (initial.palette + 1) % avatarPalettes.length;
     const onChange = vi.fn();
     const { rerender } = render(<AvatarEditor value={initial} onChange={onChange} />);
+    await user.click(screen.getByRole("button", { name: "Show all 64 palettes" }));
     const next = screen.getByRole("radio", { name: avatarPalettes[nextPalette].name });
     await user.click(next);
     const changed = normalizeAvatarConfig({ ...initial, palette: nextPalette });
@@ -184,7 +185,7 @@ describe("AvatarEditor", () => {
     const initial = Object.freeze(normalizeAvatarConfig({ ...generateAvatarConfig("changed"), shape: "circle" }));
     const onChange = vi.fn();
     render(<AvatarEditor value={initial} onChange={onChange} seed="original" />);
-    await user.click(screen.getByRole("button", { name: "Shuffle avatar" }));
+    await user.click(screen.getByRole("button", { name: "Randomize avatar" }));
     const shuffled = onChange.mock.lastCall![0] as AvatarConfig;
     expect(shuffled).not.toEqual(initial);
     expect(shuffled.shape).toBe("circle");
@@ -197,13 +198,32 @@ describe("AvatarEditor", () => {
     const initial = normalizeAvatarConfig({ ...generateAvatarConfig("keyboard-user"), palette: 0, glyph: avatarGlyphs[0].id });
     render(<ControlledEditor initial={initial} />);
     await user.tab();
+    expect(screen.getByRole("tab", { name: "Glyphs" })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("tabpanel")).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("button", { name: "Animate" })).toHaveFocus();
+    await user.tab();
     expect(screen.getByRole("radio", { name: avatarPalettes[0].name })).toHaveFocus();
     await user.keyboard("{ArrowRight}");
     expect(screen.getByRole("radio", { name: avatarPalettes[1].name })).toBeChecked();
     await user.tab();
+    expect(screen.getByRole("button", { name: "Show all 64 palettes" })).toHaveFocus();
+    await user.keyboard("{Enter}");
+    expect(screen.getByRole("button", { name: "Show fewer palettes" })).toHaveFocus();
+    expect(screen.getAllByRole("radio").length).toBeGreaterThanOrEqual(64);
+    await user.tab();
     expect(screen.getByRole("radio", { name: avatarGlyphs[0].name })).toHaveFocus();
     await user.keyboard("{ArrowRight}");
     expect(screen.getByRole("radio", { name: avatarGlyphs[1].name })).toBeChecked();
+    await user.tab();
+    expect(screen.getByRole("button", { name: "Show all 36 glyphs" })).toHaveFocus();
+    await user.keyboard("{Enter}");
+    expect(screen.getByRole("button", { name: "Show fewer glyphs" })).toHaveFocus();
+    for (const color of screen.getAllByLabelText(/^Gradient color \d$/)) {
+      await user.tab();
+      expect(color).toHaveFocus();
+    }
     await user.tab();
     expect(screen.getByRole("slider", { name: "Gradient angle" })).toHaveFocus();
   });
@@ -214,7 +234,7 @@ describe("AvatarEditor", () => {
     expect(screen.getByRole("region", { name: "Customize your avatar" })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Avatar preview" })).toBeInTheDocument();
     expect((await axe.run(container, { rules: { "color-contrast": { enabled: false } } })).violations).toEqual([]);
-    await userEvent.setup().click(screen.getByRole("button", { name: "Shuffle avatar" }));
+    await userEvent.setup().click(screen.getByRole("button", { name: "Randomize avatar" }));
     expect(persist).not.toHaveBeenCalled();
   });
 });

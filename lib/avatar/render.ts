@@ -35,7 +35,7 @@ function decimal(value: number): string {
 /** Trusted, self-contained SVG children for a root with viewBox="0 0 100 100". */
 export function avatarSvgBody(value: AvatarConfig, id: string, options: AvatarRenderOptions = {}): string {
   const config = normalizeAvatarConfig(value);
-  const palette = avatarPalettes[config.palette];
+  const colors = config.customColors ?? avatarPalettes[config.palette].colors;
   const glyph = avatarGlyphs.find((entry) => entry.id === config.glyph) ?? avatarGlyphs[0];
   const namespace = svgNamespace(id);
   const shape = options.shape && AVATAR_SHAPES.includes(options.shape) ? options.shape : config.shape;
@@ -45,16 +45,21 @@ export function avatarSvgBody(value: AvatarConfig, id: string, options: AvatarRe
   const radians = config.angle * Math.PI / 180;
   const x = Math.cos(radians) * 50;
   const y = Math.sin(radians) * 50;
-  const stops = palette.colors.map((color, index) => `<stop offset="${decimal(index / (palette.colors.length - 1))}" stop-color="${color}"/>`).join("");
+  const stops = colors.map((color, index) => `<stop offset="${decimal(index / (colors.length - 1))}" stop-color="${color}"/>`).join("");
+  const shiftedStops = [...colors].reverse().map((color, index) => `<stop offset="${decimal(index / (colors.length - 1))}" stop-color="${color}"/>`).join("");
   const definitions = [
     `<linearGradient id="${namespace}-gradient" x1="${decimal(50 - x)}%" y1="${decimal(50 - y)}%" x2="${decimal(50 + x)}%" y2="${decimal(50 + y)}%" color-interpolation="sRGB">${stops}</linearGradient>`,
+    `<linearGradient id="${namespace}-shift" x1="${decimal(50 - x)}%" y1="${decimal(50 - y)}%" x2="${decimal(50 + x)}%" y2="${decimal(50 + y)}%" color-interpolation="sRGB">${shiftedStops}</linearGradient>`,
     `<clipPath id="${namespace}-clip"><path d="${outline}"/></clipPath>`,
   ];
-  const layers = [`<path d="${outline}" fill="url(#${namespace}-gradient)"/>`];
+  const layers = [`<path d="${outline}" fill="url(#${namespace}-gradient)"/>`, `<path class="avatar-gradient-shift" d="${outline}" fill="url(#${namespace}-shift)" opacity="0"/>`];
 
-  if (config.depth !== "flat" || config.pattern === "halo") {
-    definitions.push(`<radialGradient id="${namespace}-highlight" cx="${config.highlight}%" cy="0%" r="90%"><stop stop-color="#ffffff" stop-opacity="${config.pattern === "halo" ? "0.25" : "0.14"}"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>`);
-    layers.push(`<path d="${outline}" fill="url(#${namespace}-highlight)"/>`);
+  // Even flat tiles retain the soft material highlight; depth controls elevation.
+  definitions.push(`<radialGradient id="${namespace}-highlight" cx="${config.highlight}%" cy="0%" r="90%"><stop stop-color="#ffffff" stop-opacity="${config.pattern === "halo" ? "0.25" : config.depth === "flat" ? "0.1" : "0.14"}"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>`);
+  layers.push(`<path d="${outline}" fill="url(#${namespace}-highlight)"/>`);
+  if (config.depth !== "flat") {
+    definitions.push(`<linearGradient id="${namespace}-depth" x1="0" y1="0" x2="0" y2="1"><stop offset="0.5" stop-color="#000000" stop-opacity="0"/><stop offset="1" stop-color="#000000" stop-opacity="${config.depth === "raised" ? "0.14" : "0.07"}"/></linearGradient>`);
+    layers.push(`<path d="${outline}" fill="url(#${namespace}-depth)"/>`);
   }
 
   if (config.pattern === "dots" || config.pattern === "grid") {
@@ -75,14 +80,15 @@ export function avatarSvgBody(value: AvatarConfig, id: string, options: AvatarRe
   }
   const inset = decimal((100 - config.glyphScale * 100) / 2);
   const scale = decimal(config.glyphScale * 100 / 64);
-  layers.push(`<g fill="${tone}" fill-rule="evenodd" transform="translate(${inset} ${inset}) scale(${scale})"${raised ? ` filter="url(#${namespace}-shadow)"` : ""}>${glyph.paths.map((path) => `<path d="${path}"/>`).join("")}</g>`);
+  const paths = pixel && "pixelPaths" in glyph ? glyph.pixelPaths as readonly string[] : glyph.paths;
+  layers.push(`<g class="avatar-glyph-motion"><g fill="${tone}" fill-rule="evenodd" transform="translate(${inset} ${inset}) scale(${scale})"${raised ? ` filter="url(#${namespace}-shadow)"` : ""}${pixel ? ' shape-rendering="crispEdges"' : ""}>${paths.map((path) => `<path d="${path}"/>`).join("")}</g></g>`);
 
   if (options.appearance === "neobrutalism") {
     layers.push(`<path d="${outline}" fill="none" stroke="#101015" stroke-width="5"/>`);
   } else if (options.appearance === "retro-os") {
     definitions.push(`<linearGradient id="${namespace}-bevel" x2="0" y2="1"><stop stop-color="#ffffff" stop-opacity="0.8"/><stop offset="1" stop-color="#000000" stop-opacity="0.5"/></linearGradient>`);
     layers.push(`<path d="${outline}" fill="none" stroke="url(#${namespace}-bevel)" stroke-width="3"/>`);
-  } else if (config.depth !== "flat" || options.appearance === "terminal") {
+  } else {
     layers.push(`<path d="${outline}" fill="none" stroke="${tone}" stroke-opacity="0.2" stroke-width="${options.appearance === "terminal" ? "2" : "1"}"/>`);
   }
 

@@ -14,6 +14,8 @@ export type AvatarProps = AppearanceProps & {
   /** Saved display data takes priority over seed. */
   config?: AvatarConfig;
   size?: AvatarSize;
+  /** Optional CSS motion. Reduced-motion preferences always show settled artwork. */
+  animate?: boolean;
   shape?: AvatarShape;
   name?: string;
   status?: "online" | "away" | "offline";
@@ -26,7 +28,7 @@ export function avatarSizePixels(size: AvatarSize = "md"): number {
 }
 
 /** Inline SVG that also renders in synchronous React Server Components. */
-export function Avatar({ appearance = "polished", className, seed, config, size = "md", shape, name, status, "aria-label": ariaLabel }: AvatarProps) {
+export function Avatar({ appearance = "polished", className, seed, config, size = "md", animate = false, shape, name, status, "aria-label": ariaLabel }: AvatarProps) {
   const id = useId();
   const value = config ? normalizeAvatarConfig(config) : generateAvatarConfig(seed ?? name ?? DEFAULT_AVATAR_SEED);
   const pixels = avatarSizePixels(size);
@@ -45,6 +47,7 @@ export function Avatar({ appearance = "polished", className, seed, config, size 
     aria-label={label}
     className={uiClass("ui-avatar", className)}
     data-generated-avatar=""
+    data-animate={animate || undefined}
     data-appearance={appearance}
     data-shape={shape ?? value.shape}
     data-size={size}

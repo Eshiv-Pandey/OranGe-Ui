@@ -9,6 +9,7 @@ import { ThemeToggle } from "../components/landing/theme-toggle";
 import "../styles/landing.css";
 
 const github = "https://github.com/Eshiv-Pandey/OranGe-Ui";
+export const metadata = { alternates: { canonical: "/" } };
 
 export default function Home() {
   return <>

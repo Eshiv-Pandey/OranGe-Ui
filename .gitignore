@@ -16,6 +16,9 @@ out/avatar/browser/test-results/
 out/storybook-avatar-tests/
 out/landing-tests/
 out/avatar/browser/*test-results/
+out/iteration/
+references/landing1.png
+references/landing3.png
 
 # Impeccable developer consent, cache, and live session state
 .impeccable/config.local.json
