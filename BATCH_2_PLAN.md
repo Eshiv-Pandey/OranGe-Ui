@@ -34,3 +34,13 @@ All components need typed props, className, live auto/light/dark themes, reduced
 - Lint, typecheck, copy check, source/registry checks, and production build.
 - Save current evidence in out/batch-2/ and record exact outcomes, limitations and licenses in STATUS.md.
 - Commit and ordinarily push verified task changes; personal working rules remain local.
+
+## Final brief audit, 30 October 2026
+
+The attached brief and all 12 private reference images were reconciled with the desktop and 380px previews in both palettes. The requested device silhouettes, seasonal foliage, perforated paper, flowers above the swatch, player layouts, mixed-script lettering and clear lettering through frost are present. The final audit corrected a repeated-resize defect that hid the frost and its text cutout. The new pixel regression passes in all four viewport/palette combinations.
+
+The final build passes 35 affected unit/source cases, 80 independently compiled and bundled examples, nine affected browser cases and four catalogue viewport cases. All 56 creative accessibility observations are clean. Lint, strict TypeScript, copy checks, production build, bundle isolation and source traces pass. Earlier full results remain recorded in STATUS.md; this final pass refreshes the affected checks.
+
+No required component is deferred. SwingKeychain uses a lazily loaded custom Verlet solver with canvas shading, one of the implementation approaches allowed by the brief. HindiText uses Yatra One and HinglishText uses Baloo 2 under SIL OFL 1.1, with swappable tokens and complete notices. The sample playlist contains three original synthesized CC0 1.0 recordings. Original artwork supplies the demos; reference characters, lettering, logos and album art are not distributed.
+
+Browser verification covers Chromium and emulated touch. Camera checks use a fake MediaStream and device tilt uses granted permissions with synthetic events. A sustained 60fps result on physical phones was not measured. Exact reports, the reproduced defect and final screenshots are in out/batch-2/final-audit/.

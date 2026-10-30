@@ -74,7 +74,6 @@ export function FrostedGlass({ background = GARDEN_ART, frostBlur = 18, tint = "
         if (pointerPaths.size && drips.length < 10 && Math.random() < frame.delta / 1000) { const path = [...pointerPaths.values()][0]; drips.push({ ...path.last, pressure: 0.5 }); }
         for (let index = drips.length - 1; index >= 0; index--) { const point = drips[index], next = { ...point, y: point.y + frame.delta * 0.016 }; paintFrostCurve(maskContext, point, point, next, 6, 0.75); drips[index] = next; if (next.y > frame.height) drips.splice(index, 1); dirty.current = true; }
       }
-      frostTextCutout(maskContext, config.text, config.font, frame.width, frame.height);
       const liveCanvas = backdrop.current?.querySelector("canvas"), image = source.current?.complete && source.current.naturalWidth ? source.current : null, imageSource = liveCanvas || image;
       const dynamic = Boolean(liveCanvas);
       if (imageSource !== lastSource || lastGrain !== config.grain || lastBlur !== config.frostBlur || lastTint !== config.tint) { dirty.current = true; lastSource = imageSource; }
@@ -87,6 +86,7 @@ export function FrostedGlass({ background = GARDEN_ART, frostBlur = 18, tint = "
       frostContext.filter = "none"; frostContext.fillStyle = config.tint; frostContext.fillRect(0, 0, frame.width, frame.height);
       frostContext.globalAlpha = clamp(config.grain, 0, 1); frostContext.fillStyle = frostContext.createPattern(noise, "repeat")!; frostContext.fillRect(0, 0, frame.width, frame.height); frostContext.globalAlpha = 1;
       frostContext.globalCompositeOperation = "destination-in"; frostContext.drawImage(maskCanvas, 0, 0, frame.width, frame.height); frostContext.restore();
+      frostTextCutout(frostContext, config.text, config.font, frame.width, frame.height);
       context.clearRect(0, 0, frame.width, frame.height); context.drawImage(frost, 0, 0, frame.width, frame.height);
       lastGrain = config.grain; lastBlur = config.frostBlur; lastTint = config.tint; dirty.current = false;
     });

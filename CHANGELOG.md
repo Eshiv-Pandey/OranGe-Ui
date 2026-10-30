@@ -9,6 +9,7 @@
 - Add independently authored AnimeFire and GrainGradient shaders, static fallbacks, visibility-aware motion and gesture-gated synthesized sound.
 - Add licensed Hindi and Hinglish display generators with local transliteration, original patterns and SIL OFL font notices.
 - Add pressure-aware multi-touch writing through FrostedGlass, text cutouts, optional regrowth and reset controls.
+- Preserve visible frost during repeated canvas resizing and keep text cutouts separate from drawing strokes.
 - Add original mascot avatars, cursor-following character artwork, helmets, mini drivers and customizable motorsport vehicles.
 - Add controlled artwork, helmet and livery editors with portable JSON, SVG and PNG exports.
 - Add spring-based vehicle motion, race start lights and vehicle progress indicators with visibility and reduced-motion support.

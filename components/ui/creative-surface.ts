@@ -74,8 +74,12 @@ export function createCreativeCanvas(canvas: HTMLCanvasElement, draw: (context: 
     const box = canvas.getBoundingClientRect();
     width = Math.max(1, box.width); height = Math.max(1, box.height);
     dpr = options.pixelSize ? 1 / clamp(options.pixelSize, 1, 12) : Math.min(2, window.devicePixelRatio || 1);
-    canvas.width = Math.max(1, Math.round(width * dpr));
-    canvas.height = Math.max(1, Math.round(height * dpr));
+    const physicalWidth = Math.max(1, Math.round(width * dpr)), physicalHeight = Math.max(1, Math.round(height * dpr));
+    // Assigning an unchanged backing size still clears every visible pixel.
+    if (canvas.width !== physicalWidth || canvas.height !== physicalHeight) {
+      canvas.width = physicalWidth;
+      canvas.height = physicalHeight;
+    }
     redraw();
   };
   const observer = typeof ResizeObserver === "function" ? new ResizeObserver(resize) : null;

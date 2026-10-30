@@ -286,6 +286,47 @@ for (const slug of ["hindi-text", "hinglish-text"]) test(`mixed script editing, 
   await expect.poll(() => demo.locator(".styled-text-output text").count()).toBeGreaterThan(2);
 });
 
+test("frosted glass preserves visible frost and text through fractional canvas resizes", async ({ page }) => {
+  const folder = "out/batch-2/final-audit";
+  await mkdir(folder, { recursive: true });
+  const observations: Observation[] = [];
+  const pixels = (canvas: Locator) => canvas.evaluate((element: HTMLCanvasElement) => {
+    const data = element.getContext("2d")!.getImageData(0, 0, element.width, element.height).data;
+    let opaque = 0, clear = 0;
+    for (let index = 3; index < data.length; index += 4) {
+      if (data[index] >= 250) opaque++;
+      if (data[index] <= 5) clear++;
+    }
+    return { opaque: opaque / (data.length / 4), clear: clear / (data.length / 4) };
+  });
+  try {
+    for (const width of [1366, 380]) for (const theme of ["light", "dark"] as const) {
+      await page.setViewportSize({ width, height: width === 380 ? 844 : 900 });
+      await page.addInitScript((value) => localStorage.setItem("orangeui-palette", value), theme);
+      await page.emulateMedia({ colorScheme: theme });
+      const demo = await open(page, "frosted-glass"), stage = demo.locator(".frosted-glass-stage"), canvas = stage.locator(":scope > canvas");
+      await expect.poll(async () => (await pixels(canvas)).opaque).toBeGreaterThan(0.6);
+      const initial = await pixels(canvas);
+      expect(initial.clear).toBeGreaterThan(0.01);
+      const backingWidth = await canvas.evaluate((element: HTMLCanvasElement) => element.width);
+      await stage.evaluate((element) => {
+        const dpr = Math.min(2, devicePixelRatio || 1), physicalWidth = Math.round(element.getBoundingClientRect().width * dpr);
+        (element as HTMLElement).style.width = (physicalWidth - 0.125) / dpr + "px";
+      });
+      await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+      expect(await canvas.evaluate((element: HTMLCanvasElement) => element.width)).toBe(backingWidth);
+      const resized = await pixels(canvas);
+      expect(resized.opaque).toBeGreaterThan(0.6);
+      expect(resized.clear).toBeGreaterThan(0.01);
+      await demo.locator("[data-main-preview]").screenshot({ path: `${folder}/frosted-glass-${width}-${theme}.png`, animations: "disabled" });
+      expect((await pixels(canvas)).opaque).toBeGreaterThan(0.6);
+      observations.push({ slug: "frosted-glass", width, theme, initial, resized, backingWidth });
+    }
+  } finally {
+    await writeFile(`${folder}/frosted-glass-report.json`, JSON.stringify({ buildId: (await readFile(".next/BUILD_ID", "utf8")).trim(), observations }, null, 2));
+  }
+});
+
 test("frosted glass pointer, multiple touch paths, keyboard clearing and reset", async ({ page }) => {
   const demo = await open(page, "frosted-glass"), canvas = demo.locator(".frosted-glass-stage > canvas");
   const initial = await canvas.evaluate((element: HTMLCanvasElement) => element.toDataURL());
