@@ -13,12 +13,12 @@ for (const route of routes) {
   const files = trace.files.map((file) => path.relative(root, path.resolve(path.dirname(route), file)).replaceAll("\\", "/"));
   const source = files.filter((file) => !file.startsWith("node_modules/") && !file.startsWith(".next/"));
   assert(!source.some((file) => /^(?:out\/|references\/|\.git\/|\.env)/.test(file)), "Private or verification files must not enter route traces");
-  const unexpected = source.filter((file) => !/^(?:components\/ui\/|lib\/avatar\/|styles\/|public\/fonts\/)/.test(file) && !["lib/utils.ts", "LICENSE", "THIRD_PARTY_NOTICES.md", "package.json"].includes(file));
+  const unexpected = source.filter((file) => !/^(?:components\/ui\/|lib\/avatar\/|styles\/|public\/fonts\/|public\/audio\/orangeui\/)/.test(file) && !["lib/utils.ts", "LICENSE", "THIRD_PARTY_NOTICES.md", "package.json"].includes(file));
   assert.equal(unexpected.length, 0, `Unexpected source files in ${route}: ${unexpected.join(", ")}`);
-  for (const required of ["components/ui/live-orb.tsx", "lib/utils.ts", "styles/launch-forms.css", "public/fonts/geist-latin.woff2", "LICENSE", "THIRD_PARTY_NOTICES.md"]) assert(source.includes(required), `${route} lacks ${required}`);
+  for (const required of ["components/ui/live-orb.tsx", "components/ui/season-tree.tsx", "components/ui/styled-text.tsx", "lib/utils.ts", "styles/launch-forms.css", "public/fonts/geist-latin.woff2", "public/fonts/desi/yatra-one.woff2", "public/audio/orangeui/sunroom.wav", "public/audio/orangeui/CC0-1.0.txt", "LICENSE", "THIRD_PARTY_NOTICES.md"]) assert(source.includes(required), `${route} lacks ${required}`);
   reports.push({ route, tracedFiles: files.length, publicSourceFiles: source.length, source });
 }
 const report = { buildId, routes: reports };
 await mkdir("out/iteration", { recursive: true });
 await writeFile("out/iteration/launch-traces.json", JSON.stringify(report, null, 2));
-console.log(JSON.stringify({ buildId, routes: reports.map(({ source, ...result }) => result) }, null, 2));
+console.log(JSON.stringify({ buildId, routes: reports.map(({ route, tracedFiles, publicSourceFiles }) => ({ route, tracedFiles, publicSourceFiles })) }, null, 2));

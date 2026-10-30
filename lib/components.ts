@@ -2,9 +2,10 @@ import type { Appearance } from "../components/ui/appearance";
 import { launchFormComponents } from "./launch-form-components";
 import { NAVIGATION_COMPONENTS } from "./navigation-components";
 import { AI_COMPONENTS } from "./ai-components";
+import { CREATIVE_COMPONENTS } from "./creative-components";
 export type ComponentCategory = "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play" | "AI & chat";
 export type PropDoc = { name: string; type: string; defaultValue: string; description: string };
-export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string; customizerPreview?: boolean; usageImports?: string[]; usageSetup?: string };
+export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string; customizerPreview?: boolean; usageImports?: string[]; usageSetup?: string; collection?: Appearance; notes?: string[] };
 export const componentCategories: ComponentCategory[] = ["Forms & actions", "Navigation & disclosure", "Overlays & feedback", "Content & layout", "Play", "AI & chat"];
 export const components: ComponentDefinition[] = [
   {
@@ -1196,6 +1197,8 @@ export const components: ComponentDefinition[] = [
     ]
   }
 ];
+components.push(...CREATIVE_COMPONENTS);
+export function componentsInCollection(appearance: Appearance) { return components.filter((component) => !component.collection || component.collection === appearance); }
 export function findComponent(slug: string) { return components.find((component) => component.slug === slug); }
 export function componentUsage(component: ComponentDefinition, appearance: Appearance) {
   if (component.slug === "livery-editor" || component.slug === "helmet-editor") {

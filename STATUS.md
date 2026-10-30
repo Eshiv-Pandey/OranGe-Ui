@@ -1,5 +1,17 @@
 # oRangeUi status
 
+## Batch 2 delivered
+
+The 14 creative components are implemented and verified as of 30 October 2026 on `feat/next-iteration`, bringing the catalogue to 84 components. `BATCH_2_PLAN.md` records the completed scope. SeasonTree belongs to Pixelated, RetroPlayer and RetroCamera to Retro OS, and the other creative pieces to Polished.
+
+- Original tree, device, charm and floral artwork; shared real audio playback; camera capture; editable stamps and lettering; independent shaders; and pressure-aware frosted glass are integrated with typed APIs, demos, keyboard controls, live palettes and public exports.
+- All 452 distinct unit/source cases are covered by passing results across the full and affected runs. The fresh unit run passes 429 cases in 33 files; the source recheck repairs the three failed batches from the original run. All 420 downloadable examples and 30 avatar utility entries compile and bundle without diagnostics. ZIP and registry checks retain sample audio, export fonts and complete license notices.
+- All 23 creative browser scenarios and four catalogue viewport scenarios are covered by passing results across the main and affected runs. The final build refresh includes 56 accessibility checks, 112 detail/preview screenshots and catalogue checks at 1366, 1440, 1920 and 390px. The final matrices report zero accessibility violations, runtime errors or overflow failures.
+- Verification corrected decorative battery markup, visible control names, portable ES2020 source compatibility and the TiltStamp3D catalogue thumbnail. Browser checks count actual stamp artwork, grant sensor permissions explicitly, await loaded catalogue previews and inspect the element that actually receives keyboard focus.
+- Lint, strict TypeScript, copy checks, production build, bundle isolation and both deployment-source trace checks pass. Each source route retains 192 public files and 12 runtime files. Final build: `b6M5xBh0TNIvG1gCnGorr`.
+
+Current evidence is in `out/batch-2/verification-summary.json`, the command logs, `browser/` and `catalogue/`. The interaction run uses build `EmaIHY4s86PYNzYsfUA3d`; the final detail and catalogue refresh uses the final build above. Browser tests use Chromium, emulated touch, a fake camera MediaStream and synthetic device-orientation events with granted permissions. Yatra One and Baloo 2 retain their SIL OFL notices; the original Orange sessions recordings include their full CC0 1.0 notice.
+
 ## Next iteration delivered
 
 The avatar, character, motorsport, and launch iteration is implemented and verified as of 29 October 2026 on `feat/next-iteration`. The catalogue contains 70 components across five appearances and both palettes.

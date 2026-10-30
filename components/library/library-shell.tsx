@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createContext, useContext, useId, useState, useSyncExternalStore, type ReactNode } from "react";
-import { componentCategories, components } from "../../lib/components";
+import { componentCategories, components, findComponent } from "../../lib/components";
 import { APPEARANCES, isAppearance, parseAppearance, type Appearance } from "../ui/appearance";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -26,7 +26,7 @@ export function LibraryShell({ children }: { children: ReactNode }) {
   const requested = search.get("style");
   const appearance = isAppearance(requested) ? requested : stored;
   const [menu, setMenu] = useState(false);
-  const href = (path: string) => `${path}?style=${appearance}`;
+  const href = (path: string) => path + "?style=" + (path.startsWith("/components/") ? findComponent(path.split("/").at(-1) || "")?.collection ?? appearance : appearance);
   function choose(next: Appearance) {
     try { localStorage.setItem("orangeui-appearance", next); window.dispatchEvent(new Event("orange-appearance")); } catch { /* URL remains the source of truth when storage is unavailable. */ }
     router.replace(`${pathname}?style=${next}`, { scroll: false });

@@ -1,0 +1,32 @@
+import { CREATIVE_SHADER_COMMON } from "./creative-webgl";
+
+/** Independently authored weighted color field and pointer flow. */
+export const GRAIN_GRADIENT_FRAGMENT = CREATIVE_SHADER_COMMON + [
+  "uniform vec3 uColors[12];uniform vec2 uPositions[12];uniform float uColorCount;uniform float uSpeed;uniform float uBlur;uniform float uIntensity;uniform float uGrain;",
+  "uniform float uAngle;uniform float uTurbulence;uniform float uWaveScale;uniform float uPointerEffect;uniform float uInteractive;uniform float uGrainStyle;uniform float uVignette;uniform float uPosterize;uniform float uDither;uniform float uMode;",
+  "void main(){",
+  " vec2 p=vUv;float t=uTime*uSpeed;vec2 direction=vec2(cos(uAngle),sin(uAngle));",
+  " vec2 flow=vec2(noise(p*uWaveScale+direction*t),noise(p*uWaveScale-direction*t+4.));",
+  " p+=(flow-.5)*uTurbulence*.4+direction*sin(t*.7)*.075;",
+  " vec2 difference=p-uPointer;float distance=max(.001,length(difference));float falloff=exp(-distance*7.)*uInteractive;",
+  " if(uPointerEffect<.5){float a=falloff*.7*sin(t+distance*7.);mat2 rotation=mat2(cos(a),-sin(a),sin(a),cos(a));p=uPointer+rotation*(p-uPointer);}",
+  " else if(uPointerEffect<1.5)p+=difference/distance*falloff*.12;",
+  " else if(uPointerEffect<2.5)p-=difference/distance*falloff*.12;",
+  " else p+=difference/distance*sin(distance*28.-t*9.)*falloff*.03;",
+  " vec3 color=vec3(0.);float total=0.;",
+  " for(int i=0;i<12;i++){",
+  "  if(float(i)>=uColorCount)break;float d=length(p-uPositions[i]);",
+  "  if(uMode>.5&&uMode<1.5)d=abs(length(p-.5)*1.5-float(i)/max(1.,uColorCount-1.));",
+  "  else if(uMode>1.5){float a=fract(atan(p.y-.5,p.x-.5)/6.2831853+.5);d=abs(a-float(i)/uColorCount);d=min(d,1.-d);}",
+  "  float weight=exp(-d*d/(.02+uBlur*.22));color+=uColors[i]*weight;total+=weight;",
+  " }",
+  " color/=max(.0001,total);vec3 base=mix(vec3(.965,.95,.91),vec3(.075,.065,.09),uTheme);color=mix(base,color,uIntensity);",
+  " float g=hash(gl_FragCoord.xy+fract(t)*11.)-.5;",
+  " if(uGrainStyle>.5&&uGrainStyle<1.5)g=step(.77,hash(floor(gl_FragCoord.xy/2.)))-.23;",
+  " else if(uGrainStyle>1.5)g=noise(gl_FragCoord.xy*.75)-.5;",
+  " color+=g*uGrain*.24;color*=1.-uVignette*pow(length(vUv-.5)*1.414,1.7);",
+  " if(uPosterize>1.)color=floor(color*(uPosterize-1.)+.5)/(uPosterize-1.);",
+  " if(uDither>.5)color=floor(color*9.+bayer(gl_FragCoord.xy/2.)-.5)/9.;",
+  " gl_FragColor=vec4(clamp(color,0.,1.),1.);",
+  "}",
+].join("\n");

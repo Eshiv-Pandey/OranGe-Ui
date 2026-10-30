@@ -115,7 +115,17 @@ The docs header provides custom accent colors, readable palette tokens and Copy 
 | Play | MascotAvatar, CharacterAvatar, Helmet, MiniDriver, GamerBoy, OpenWheelCar, Superbike, RaceStartLights, RaceProgress, LiveryEditor, HelmetEditor |
 | AI and chat | ChatMessage, PromptInput, ToolCallCard, AgentStatus, ThinkingIndicator, ModelPicker, Markdown, LiveOrb |
 
-There are 70 public catalogue components. Table already provides sorting and pagination. Form uses Zod validation; FileUpload selects local files and leaves uploading to the consuming app. AI components expose application-owned callbacks. The chat demo streams a fixed local response and makes no model request. Markdown supports GFM with safe URL handling and raw HTML omitted.
+There are 84 public catalogue components. Table already provides sorting and pagination. Form uses Zod validation; FileUpload selects local files and leaves uploading to the consuming app. AI components expose application-owned callbacks. The chat demo streams a fixed local response and makes no model request. Markdown supports GFM with safe URL handling and raw HTML omitted.
+
+### Creative components
+
+Batch 2 adds SeasonTree, RetroPlayer, RetroCamera, SwingKeychain, CustomStamp, TiltStamp3D, IslandPlayer, GlassPlayer, NeonPillPlayer, AnimeFire, GrainGradient, HindiText, HinglishText and FrostedGlass. SeasonTree belongs to Pixelated, the two pocket devices to Retro OS, and the remaining creative pieces to Polished. The 70 core components retain all five appearances.
+
+All four players share real playback, seeking and audio state through useAudioPlayer. Original Orange sessions recordings are dedicated to CC0 1.0, with complete notices in public/audio/orangeui/. Source ZIPs include their public assets; registry examples embed sample audio for portability. Camera access and every sound require a user gesture. Decorative animation observes visibility and reduced motion.
+
+HindiText and HinglishText share the StyledText generator. Yatra One and Baloo 2 use SIL OFL 1.1, with font files and credits in public/fonts/desi/. Override --font-hindi-display and --font-hinglish-display to swap licensed fonts without changing the API. Users own the text they create. Roman-to-Hindi transliteration runs locally. Stamp and lettering editors export standalone SVG or PNG.
+
+The supplied references guided layout and materials. Shipped illustrations, decals, shader code and audio are original; reference artwork, characters, lettering and brand marks are excluded. See BATCH_2_PLAN.md and the component pages for APIs, keyboard guidance and license details.
 
 LiveOrb is by jay sharma (@radiumcoders), distributed under MIT. Its shader and interaction engine are retained, with the supplied warning-string repairs and local stylesheet/appearance integration. Full attribution travels with the component; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 

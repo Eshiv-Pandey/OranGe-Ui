@@ -1,0 +1,12 @@
+.anime-fire, .grain-gradient { width: 100%; min-width: 0; height: 340px; overflow: hidden; border-radius: 12px; background: #fbf4e8; }
+.anime-fire[data-theme="dark"] { background: #111018; }
+.anime-fire canvas, .grain-gradient canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: pan-y; }
+.anime-fire-fallback, .grain-gradient-fallback { position: absolute; inset: 0; }
+.anime-fire-fallback svg { width: 100%; height: 100%; }
+.anime-fire[data-renderer="webgl"] .anime-fire-fallback, .grain-gradient[data-renderer="webgl"] .grain-gradient-fallback { visibility: hidden; }
+.grain-gradient-fallback { background: var(--gradient-fallback, linear-gradient(25deg, #df7a73, #f3ba80, #9f9cc7, #6b88ad)); }
+.shader-sound-toggle, .shader-export { position: absolute; z-index: 2; bottom: 12px; right: 12px; font-size: 11px; padding: 7px 9px; background: #fffef0d9; color: #45393e; border-color: #fff8; backdrop-filter: blur(8px); }
+.shader-feedback { position: absolute; bottom: 10px; left: 12px; max-width: calc(100% - 125px); margin: 0; padding: 3px 5px; background: #fffbe8c9; color: #423540; font-size: 10px; }
+.gradient-color-point { position: absolute; z-index: 3; width: 24px; height: 24px; border: 2px solid #fffd; box-shadow: 0 2px 6px #0005; border-radius: 50%; transform: translate(-50%, -50%); touch-action: none; cursor: grab; }
+.gradient-color-point:active { cursor: grabbing; }
+@media (max-width: 420px) { .anime-fire, .grain-gradient { height: 290px; } }

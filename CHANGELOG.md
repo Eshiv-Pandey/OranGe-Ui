@@ -2,7 +2,13 @@
 
 ## Unreleased
 
-- Expand the catalogue to 70 components, covering forms, navigation, code, chat and AI interface states.
+- Expand the catalogue to 84 components, covering forms, navigation, code, chat, AI and creative interfaces.
+- Add the original seasonal pixel tree, working retro music player and camera, and a physics-based acrylic keychain.
+- Add editable perforated stamps, stamp sheets, a floral 3D card and standalone image exports.
+- Add IslandPlayer, GlassPlayer and NeonPillPlayer on one reusable real-audio engine, with original CC0 sample recordings.
+- Add independently authored AnimeFire and GrainGradient shaders, static fallbacks, visibility-aware motion and gesture-gated synthesized sound.
+- Add licensed Hindi and Hinglish display generators with local transliteration, original patterns and SIL OFL font notices.
+- Add pressure-aware multi-touch writing through FrostedGlass, text cutouts, optional regrowth and reset controls.
 - Add original mascot avatars, cursor-following character artwork, helmets, mini drivers and customizable motorsport vehicles.
 - Add controlled artwork, helmet and livery editors with portable JSON, SVG and PNG exports.
 - Add spring-based vehicle motion, race start lights and vehicle progress indicators with visibility and reduced-motion support.

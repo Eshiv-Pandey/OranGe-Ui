@@ -17,6 +17,8 @@ out/storybook-avatar-tests/
 out/landing-tests/
 out/avatar/browser/*test-results/
 out/iteration/
+out/reference-images/
+out/batch-2/
 references/landing1.png
 references/landing3.png
 

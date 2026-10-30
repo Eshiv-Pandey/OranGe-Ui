@@ -1,0 +1,81 @@
+.creative-decals { position: absolute; inset: 0; pointer-events: none; }
+.creative-decal { position: absolute; aspect-ratio: 1; pointer-events: auto; filter: drop-shadow(1px 2px 0 #fff) drop-shadow(-1px -1px 0 #fff) drop-shadow(1px 3px 1px #0003); }
+.creative-decal-grab { position: relative; border: 0; padding: 0; background: transparent; width: 100%; height: 100%; touch-action: none; }
+.creative-decal-grab:disabled { opacity: 1; cursor: default; }
+.creative-decal-grab img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; }
+.creative-decal-resize { position: absolute; right: -3px; bottom: -3px; width: 9px; height: 9px; border-radius: 2px; background: #fff; border: 1px solid #5c478e; cursor: nwse-resize; }
+.creative-sticker-editor { margin: 14px auto 0; max-width: 300px; }
+.creative-sticker-add { width: 38px; height: 38px; padding: 4px; }
+.creative-sticker-add img { width: 100%; height: 100%; }
+.creative-sticker-upload { display: grid; gap: 5px; margin-top: 12px; font-size: 12px; }
+.creative-sticker-upload input { width: 100%; font-size: 11px; }
+.retro-player-scene { width: min(100%, 340px); padding-top: 105px; }
+.retro-earbuds { position: absolute; inset: 0; width: 100%; height: 470px; overflow: visible; z-index: -1; }
+.retro-player-body { position: relative; width: min(76%, 248px); min-height: 350px; margin: 0 auto; padding: 20px 15px; color: #24232d; background: var(--device-body, #e6e5df); border: 3px solid #36343a; border-radius: 27px 23px 24px 21px / 23px 28px 21px 25px; box-shadow: inset 0 0 0 4px #fbfaf5, inset 0 -6px 0 5px #aaa9a6, 4px 7px 0 -1px #34343b, 0 18px 28px -20px #36313c99; }
+.retro-player-screen { position: relative; z-index: 2; border: 3px solid #28272e; padding: 8px 9px 4px; min-height: 120px; background: var(--device-screen, #f6f5ee); box-shadow: inset 0 0 0 2px #dedbd4; font-family: var(--font-display), monospace; }
+.retro-screen-heading { display: flex; justify-content: space-between; align-items: center; font-size: 8px; border-bottom: 1px solid #989794; padding-bottom: 4px; margin-bottom: 9px; }
+.retro-battery { display: block; width: 15px; height: 7px; border: 1px solid #26252e; background: linear-gradient(to right, #42404e 70%, transparent 70%); }
+.retro-screen-track { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.retro-screen-track img { width: 43px; height: 43px; object-fit: cover; border: 2px solid #26252e; }
+.retro-screen-track div { min-width: 0; }
+.retro-screen-track strong, .retro-screen-track span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 110px; }
+.retro-screen-track strong { font-size: 12px; }
+.retro-screen-track span { font-size: 8px; }
+.retro-screen-track small { font-size: 8px; }
+.retro-player-screen input { display: block; width: 100%; margin: 9px 0 0; height: 6px; accent-color: #8174df; }
+.retro-screen-time { display: flex; justify-content: space-between; font-size: 8px; margin-top: 4px; }
+.retro-track-menu { display: grid; gap: 3px; min-height: 71px; }
+.retro-track-menu button { padding: 2px 4px; border: 0; background: transparent; color: inherit; text-align: left; font-size: 10px; }
+.retro-track-menu button[aria-pressed="true"] { background: #a89ee8; }
+.retro-click-wheel { position: relative; z-index: 2; width: 143px; height: 143px; border: 3px solid #36333a; border-radius: 50%; margin: 26px auto 0; background: #f4f3ee; box-shadow: inset 0 0 0 2px #fff; }
+.retro-wheel-ring { position: absolute; inset: 0; border-radius: 50%; touch-action: none; cursor: ew-resize; }
+.retro-wheel-zone { position: absolute; border: 0; background: transparent; padding: 5px; color: #27252c; }
+.retro-wheel-menu { left: 36px; top: 5px; font-size: 9px !important; font-weight: 700; letter-spacing: .06em; }
+.retro-wheel-previous { left: 4px; top: 52px; }
+.retro-wheel-next { right: 4px; top: 52px; }
+.retro-wheel-play { left: 57px; bottom: 6px; }
+.retro-wheel-center { position: absolute; width: 51px; height: 51px; inset: 0; margin: auto; border: 3px solid #35313c; border-radius: 50%; background: #d6d5d0; box-shadow: inset 1px 3px 0 #eee; }
+.retro-wheel-zone svg { width: 16px; height: 16px; }
+.retro-player-footer { display: flex; justify-content: center; align-items: center; gap: 18px; margin: 23px auto 0; }
+.retro-player-footer .creative-button { padding: 6px 9px; font-size: 11px; }
+.retro-player-scene > .creative-player-feedback { text-align: center; }
+@media (max-width: 420px) { .retro-player-scene { padding-top: 90px; } .retro-player-body { width: min(83%, 248px); padding-inline: 12px; } .retro-screen-track strong, .retro-screen-track span { max-width: 100px; } }
+
+.retro-camera { width: min(100%, var(--camera-size, 360px)); }
+.retro-camera-top { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 18px; height: 27px; font-size: 8px; letter-spacing: .08em; }
+.camera-shutter { width: 47px; height: 22px; border: 2px solid #33483c; border-bottom: 0; border-radius: 6px 6px 0 0; background: #507455; color: #f5f6df; }
+.retro-camera-stage { width: 100%; aspect-ratio: 1.56; perspective: 1000px; }
+.retro-camera-rotator { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.2, .7, .15, 1); }
+.retro-camera-stage[data-view="front"] .retro-camera-rotator { transform: rotateY(180deg); }
+.retro-camera-side { position: absolute; inset: 0; padding: 12px; border: 3px solid #365043; border-radius: 17px 13px 14px 12px; color: #244335; background: var(--device-body, #a7cf59); box-shadow: inset 0 0 0 4px #cfeb86, inset 0 -7px 10px #496b4966, 3px 5px 0 #42684c; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.retro-camera-back { display: flex; gap: 9px; }
+.retro-camera-front { transform: rotateY(180deg); }
+.retro-camera-screen { position: relative; align-self: flex-start; flex: 1; height: 91%; border: 5px solid #365341; border-radius: 5px; background: #19271f; overflow: hidden; isolation: isolate; }
+.camera-demo-image, .camera-video, .camera-review-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.camera-screen-hud { position: absolute; inset: 5px 5px auto; display: flex; justify-content: space-between; color: #fff; font: 8px var(--font-mono); text-shadow: 0 1px 2px #000; }
+.camera-screen-hud span { background: #142c2866; padding: 2px 3px; border-radius: 2px; }
+.camera-buttons { width: 57px; flex: none; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding-bottom: 9px; }
+.camera-zoom { display: flex; width: 100%; gap: 0; }
+.camera-zoom button { flex: 1; padding: 2px 0; border: 1px solid #526e46; background: #d4e5a8; color: #233e30; font-size: 10px; box-shadow: inset 0 2px 0 #ecf7c3; }
+.camera-zoom button:first-child { border-radius: 3px 0 0 3px; }
+.camera-zoom button:last-child { border-radius: 0 3px 3px 0; }
+.camera-dpad { display: flex; align-items: center; width: 54px; height: 54px; border: 2px solid #557348; background: #b8d191; border-radius: 50%; box-shadow: inset 0 3px 0 #d7e8bd; }
+.camera-dpad button { padding: 1px; border: 0; background: transparent; color: #2b4d39; font-size: 12px; }
+.camera-dpad button:nth-child(2) { border: 1px solid #6a865b; border-radius: 50%; width: 29px; height: 29px; background: #c8dda2; font-size: 8px; }
+.camera-menu-button { border: 1px solid #5c7449; background: #cee5a2; border-radius: 12px; padding: 4px 6px; color: #2e4f35; font-size: 8px !important; }
+.camera-delete-button { display: flex; align-items: center; justify-content: center; border: 1px solid #5c7449; border-radius: 50%; background: #cee5a2; color: #2e4f35; width: 24px; height: 24px; }
+.camera-bottom-brand { position: absolute; bottom: 3px; left: 25%; font-size: 7px; letter-spacing: .09em; }
+.camera-lens { position: absolute; width: 51%; right: 6%; top: 8%; filter: drop-shadow(3px 5px 2px #1c4e4945); }
+.camera-front-flash { position: absolute; top: 11%; left: 10%; width: 22%; height: 11%; border: 2px solid #628153; border-radius: 4px; background: repeating-linear-gradient(90deg, #dbe7b1 0 2px, #a5bc88 2px 4px); box-shadow: inset 0 0 3px #526149; }
+.camera-front-brand { position: absolute; left: 8%; top: 27%; color: #37594d; font-size: 13px; letter-spacing: .1em; font-weight: 750; text-shadow: 1px 1px #d9ecc0; }
+.camera-megapixels { position: absolute; bottom: 8%; right: 5%; color: #e4f4bf; font-size: 10px; font-weight: 700; text-shadow: 1px 1px #3c6841; }
+.camera-action-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-top: 19px; }
+.camera-action-row .creative-button { padding: 6px 9px; font-size: 11px; }
+.camera-gallery { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; max-height: 150px; overflow-y: auto; }
+.camera-gallery > button { padding: 2px; width: 51px; height: 44px; border: 1px solid var(--creative-line); background: var(--creative-paper); border-radius: 4px; }
+.camera-gallery > button[aria-pressed="true"] { border: 2px solid var(--creative-accent); }
+.camera-gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.camera-flash { position: absolute; inset: 0; background: #fff; pointer-events: none; animation: camera-flash .12s ease-out forwards; }
+.camera-grain { position: absolute; inset: 0; opacity: .15; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='31' height='29'%3E%3Cpath d='M1 4h1m7 9h1m12-6h1M4 24h1m20-4h1m-7 6h1m-1-10h1M12 3h1' stroke='%23000'/%3E%3C/svg%3E"); }
+@keyframes camera-flash { to { opacity: 0; } }
+@media (max-width: 420px) { .retro-camera-side { padding: 10px 8px; } .retro-camera-back { gap: 5px; } .camera-buttons { width: 47px; } .camera-dpad { width: 45px; height: 45px; } .camera-dpad button:nth-child(2) { width: 24px; height: 24px; } }

@@ -7,12 +7,15 @@ import { externalPackage, relativeSourceImport, rewriteSourceImports, sourceAlia
 
 export type ComponentSourceBundle = { files: Record<string, Uint8Array>; dependencies: string[]; devDependencies: string[] };
 export const BUNDLED_FONTS = ["geist-latin.woff2", "pixelify-sans-latin.woff2", "OFL-Geist.txt", "OFL-PixelifySans.txt"] as const;
+export const CREATIVE_FONT_ASSETS = ["public/fonts/desi/yatra-one.woff2", "public/fonts/desi/baloo-2.woff2", "public/fonts/desi/OFL-yatra-one.txt", "public/fonts/desi/OFL-baloo-2.txt", "public/fonts/desi/README.md"] as const;
+export const CREATIVE_AUDIO_ASSETS = ["public/audio/orangeui/sunroom.wav", "public/audio/orangeui/blue-hour.wav", "public/audio/orangeui/pocket-garden.wav", "public/audio/orangeui/LICENSE.txt", "public/audio/orangeui/CC0-1.0.txt"] as const;
 
 function allowedSource(relative: string): boolean {
   return /^(?:components\/ui\/|lib\/avatar\/).+\.tsx?$/.test(relative)
     || /^styles\/.+\.css$/.test(relative)
     || relative === "lib/utils.ts"
     || BUNDLED_FONTS.some((name) => relative === `public/fonts/${name}`)
+    || [...CREATIVE_FONT_ASSETS, ...CREATIVE_AUDIO_ASSETS].some((name) => relative === name)
     || relative === "LICENSE" || relative === "THIRD_PARTY_NOTICES.md";
 }
 
@@ -21,6 +24,7 @@ function sourceScope(relative: string): string {
   if (relative.startsWith("lib/avatar/")) return "lib/avatar";
   if (relative.startsWith("styles/")) return "styles";
   if (relative.startsWith("public/fonts/")) return "public/fonts";
+  if (relative.startsWith("public/audio/")) return "public/audio";
   return relative;
 }
 
@@ -75,11 +79,15 @@ export async function collectComponentSource(component: ComponentDefinition, app
             ? await realpath(path.join(root, "styles", normalized.slice("styles/".length)))
             : normalized.startsWith("public/fonts/")
               ? await realpath(path.join(root, "public/fonts", normalized.slice("public/fonts/".length)))
+              : normalized.startsWith("public/audio/")
+                ? await realpath(path.join(root, "public/audio", normalized.slice("public/audio/".length)))
               : normalized === "THIRD_PARTY_NOTICES.md"
                 ? await realpath(path.join(root, "THIRD_PARTY_NOTICES.md"))
                 : await realpath(path.join(root, "LICENSE"));
     const scope = sourceScope(normalized);
-    const within = path.relative(path.join(realRoot, scope), actual);
+    // This containment calculation does not read files. Explicit tracing
+    // includes retain the public folders without inferring a whole-root scan.
+    const within = path.relative(path.join(/* turbopackIgnore: true */ realRoot, scope), actual);
     if (within === ".." || within.startsWith(`..${path.sep}`) || path.isAbsolute(within)
       || scope === normalized && within !== "") throw new Error("Source dependency outside component folders");
     // Keep each read statically scoped so production tracing includes only the
@@ -94,11 +102,17 @@ export async function collectComponentSource(component: ComponentDefinition, app
             ? await readFile(path.join(root, "styles", normalized.slice("styles/".length)))
             : normalized.startsWith("public/fonts/")
               ? await readFile(path.join(root, "public/fonts", normalized.slice("public/fonts/".length)))
+            : normalized.startsWith("public/audio/")
+              ? await readFile(path.join(root, "public/audio", normalized.slice("public/audio/".length)))
               : normalized === "THIRD_PARTY_NOTICES.md"
                 ? await readFile(path.join(root, "THIRD_PARTY_NOTICES.md"))
                 : await readFile(path.join(root, "LICENSE"));
     files[normalized] = new Uint8Array(data);
     if (!/\.(tsx?|css)$/.test(normalized)) return;
+    if (normalized.endsWith(".css")) for (const match of data.toString("utf8").matchAll(/url\(["']?(\/fonts\/[^"')?]+)["']?\)/g)) {
+      const asset = "public" + match[1];
+      if (allowedSource(asset)) await include(asset);
+    }
     files[normalized] = strToU8(await includeImports(data.toString("utf8"), normalized));
   }
   let example = componentUsage(component, appearance);
@@ -110,6 +124,8 @@ export async function collectComponentSource(component: ComponentDefinition, app
     await include("lib/avatar/png.ts");
   }
   for (const font of BUNDLED_FONTS) await include("public/fonts/" + font);
+  if (files["components/ui/styled-text.tsx"]) for (const asset of CREATIVE_FONT_ASSETS) await include(asset);
+  if (files["components/ui/creative-playlist.ts"]) for (const asset of CREATIVE_AUDIO_ASSETS) await include(asset);
   files["Example.tsx"] = strToU8(example);
   await include("LICENSE");
   if (files["components/ui/live-orb.tsx"]) await include("THIRD_PARTY_NOTICES.md");
@@ -151,6 +167,7 @@ Components assign unique SVG definition IDs automatically. If you insert several
     files["THIRD_PARTY_NOTICES.md"] ? "## Third-party attribution\n\nThis bundle includes LiveOrb. Keep THIRD_PARTY_NOTICES.md, including its attribution and complete MIT permission notice, with redistributed source.\n" : "",
   ].filter(Boolean).join("\n");
   files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n" + extraNotes);
+  if (component.collection) files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n## Creative collection\n\nThis component retains its " + component.collection + " material. Theme follows live HTML dark/light classes, data-theme, then the system preference.\n\n" + (component.notes ?? []).join("\n\n") + "\n\nMerge the included public/ folder into your public assets, including audio/ for the original sample playlist and fonts/desi/ for display lettering. Retain all included license and credit files.\n");
   return { files, dependencies, devDependencies };
 }
 export async function componentFiles(component: ComponentDefinition, appearance: Appearance) { return (await collectComponentSource(component, appearance)).files; }

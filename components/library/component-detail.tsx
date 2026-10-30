@@ -13,7 +13,8 @@ const views = ["preview", "usage", "source"] as const;
 type View = typeof views[number];
 
 export function ComponentDetail({ component, source }: { component: ComponentDefinition; source: string }) {
-  const { appearance, href } = useLibrary();
+  const { appearance: hostAppearance, href } = useLibrary();
+  const appearance = component.collection ?? hostAppearance;
   const [view, setView] = useState<View>("preview");
   const [reset, setReset] = useState(0);
   const [copy, setCopy] = useState("");
@@ -55,9 +56,10 @@ export function ComponentDetail({ component, source }: { component: ComponentDef
       <Link className="text-link" href={href("/docs")}>Full installation and theming guide</Link>
     </section>
     <section className="detail-section"><h2>A few useful props.</h2><div className="props-scroll" role="region" aria-label={`${component.name} properties`} tabIndex={0}><table className="props-table"><thead><tr><th scope="col">Prop</th><th scope="col">Type / default</th><th scope="col">What it does</th></tr></thead><tbody>{[
-      { name: "appearance", type: APPEARANCE_VALUES.map((value) => `"${value}"`).join(" | "), defaultValue: '"polished"', description: "Choose Polished, Pixelated, Neobrutalism, Retro OS, or Terminal styling." },
+      { name: "appearance", type: APPEARANCE_VALUES.map((value) => `"${value}"`).join(" | "), defaultValue: '"' + (component.collection ?? "polished") + '"', description: component.collection ? "Host appearance metadata; this component retains the material of its " + APPEARANCES.find((item) => item.value === component.collection)!.label + " collection." : "Choose Polished, Pixelated, Neobrutalism, Retro OS, or Terminal styling." },
       { name: "className", type: "string", defaultValue: "Not set", description: "Extend the outer component styles." }, ...component.props,
     ].map((prop) => <tr key={prop.name}><th scope="row"><code>{prop.name}</code></th><td><code>{prop.type}</code><small>{prop.defaultValue}</small></td><td>{prop.description}</td></tr>)}</tbody></table></div></section>
+    {!!component.notes?.length && <section className="component-notes"><h2>Using this component.</h2>{component.notes.map((note) => <p key={note}>{note}</p>)}</section>}
     <section className="keyboard-note"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 9h1m3 0h1m3 0h1m3 0h1M6 12h1m3 0h1m3 0h1m3 0h1M7 16h10"/></svg><div><h2>At home on a keyboard.</h2><p>{component.keyboard}</p></div></section>
     <nav className="component-pagination" aria-label="Adjacent components">{previous ? <Link href={href(`/components/${previous.slug}`)}><small>PREVIOUS</small>{previous.name}</Link> : <span />}{next ? <Link href={href(`/components/${next.slug}`)}><small>NEXT</small>{next.name}</Link> : <Link href={href("/components")}><small>BACK TO THE COLLECTION</small>All components</Link>}</nav>
   </>;

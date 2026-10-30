@@ -1,0 +1,22 @@
+.creative-demo .creative-demo-preview > .anime-fire, .creative-demo .creative-demo-preview > .grain-gradient { width: 100%; }
+.creative-demo .creative-controls { --creative-line: var(--line); }
+.creative-demo-loading { display: flex; align-items: center; justify-content: center; min-height: 280px; color: var(--muted); font-size: 12px; }
+.component-notes { margin-top: 38px; }
+.component-notes h2 { font-size: 21px; margin: 0 0 14px; }
+.component-notes p { max-width: 70ch; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.detail-demo:has(.creative-demo) { padding: 30px 26px; }
+.detail-demo:has(.styled-text) { padding: 25px 25px; }
+.creative-thumbnail { display: flex; align-items: center; justify-content: center; width: 290px; min-height: 220px; }
+.creative-thumbnail .creative-controls, .creative-thumbnail .creative-actions, .creative-thumbnail .creative-editor, .creative-thumbnail .creative-feedback, .creative-thumbnail .creative-player-feedback, .creative-thumbnail .styled-text-input, .creative-thumbnail .styled-text-actions, .creative-thumbnail .stamp-export-actions, .creative-thumbnail .retro-player-footer, .creative-thumbnail .camera-action-row, .creative-thumbnail .keychain-footer, .creative-thumbnail .tilt-stamp-footer, .creative-thumbnail .frosted-glass-footer, .creative-thumbnail .shader-sound-toggle { display: none; }
+.creative-thumbnail .retro-player-scene { transform: scale(.63); transform-origin: center; margin: -82px 0; width: 340px; min-width: 340px; }
+.creative-thumbnail .custom-stamp { width: 185px; }
+.creative-thumbnail .custom-stamp-stage { padding: 18px 26px; }
+.creative-thumbnail .swing-keychain { width: 230px; }
+.creative-thumbnail .tilt-stamp { width: 260px; transform: scale(.75); margin-block: -47px; }
+.tile-tilt-stamp-3d .thumbnail-inner { width: 290px; transform: scale(.7); }
+.creative-thumbnail .frosted-glass { width: 165px; }
+.creative-thumbnail .anime-fire, .creative-thumbnail .grain-gradient { height: 220px; }
+.creative-thumbnail .island-player { width: 280px; padding: 19px; }
+.creative-thumbnail .glass-player-scene { width: 250px; padding: 25px; }
+.creative-thumbnail .styled-text { width: 290px; }
+@media (max-width: 480px) { .detail-demo:has(.creative-demo), .detail-demo:has(.styled-text) { padding: 18px 12px; } }

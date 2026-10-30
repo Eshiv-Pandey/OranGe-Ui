@@ -12,6 +12,7 @@
     "test": "vitest run",
     "test:serial": "vitest run --maxWorkers=1 --fileParallelism=false",
     "test:launch": "playwright test --config=playwright.launch.config.ts",
+    "test:creative": "playwright test --config=playwright.creative.config.ts",
     "check:copy": "node tests/check-copy.mjs",
     "check:bundle": "node tests/scripts/check-bundle-size.mjs",
     "check:traces": "node tests/scripts/check-source-traces.mjs",

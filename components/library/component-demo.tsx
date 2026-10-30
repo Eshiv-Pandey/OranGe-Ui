@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
+import { CREATIVE_COMPONENT_SLUGS } from "../../lib/creative-components";
 import type { Appearance } from "../ui/appearance";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -52,6 +53,7 @@ import { AIDemo, AI_DEMO_SLUGS } from "./ai-demos";
 import { LiveOrb } from "../ui/live-orb";
 import { LiveOrbDemo } from "./live-orb-demo";
 
+const CreativeDemo = lazy(() => import("./creative-demos"));
 const projects = [
   { id: "1", name: "Orange studio", status: "Live", members: 8 },
   { id: "2", name: "Pocket garden", status: "Draft", members: 3 },
@@ -74,6 +76,7 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   const [validated, setValidated] = useState(false);
   const status = <p className="demo-feedback" role="status">{feedback || "Try it. Every example is interactive."}</p>;
   const action = <Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Ready for a fresh start." : "Project created in this preview."); }}>{saved ? "Start again" : "Create project"}</Button>;
+  if (CREATIVE_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading">Preparing preview...</div>}><CreativeDemo slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if ((NAVIGATION_DEMO_SLUGS as readonly string[]).includes(slug)) return <NavigationDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   if ((AI_DEMO_SLUGS as readonly string[]).includes(slug)) return <AIDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   switch (slug) {

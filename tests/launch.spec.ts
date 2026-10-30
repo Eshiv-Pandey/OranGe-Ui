@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Locator, type Page, type TestInfo } from "@playwright/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { components, type ComponentDefinition } from "../lib/components";
+import { components, componentsInCollection, type ComponentDefinition } from "../lib/components";
 import { APPEARANCE_VALUES, type Appearance } from "../components/ui/appearance";
 import { editColor } from "./browser-artwork-helpers";
 
@@ -219,12 +219,13 @@ for (const viewport of viewports) for (const route of ["/", "/components", "/doc
   await expect(page.getByRole("heading", { level: 1 })).toBeInViewport({ ratio: 1 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
   if (route === "/components") {
-    await expect(page.locator(".component-tile")).toHaveCount(70);
+    await expect(page.locator(".component-tile")).toHaveCount(componentsInCollection("polished").length);
+    await expect(page.locator(".creative-thumbnail")).toHaveCount(componentsInCollection("polished").filter((component) => component.collection).length);
     const tiles = await page.locator(".component-thumbnail .thumbnail-inner").evaluateAll((items) => items.map((item) => {
       const frame = item.parentElement!.getBoundingClientRect(), rect = item.getBoundingClientRect();
-      return { visible: rect.width > 0 && rect.height > 0, fits: rect.left >= frame.left - 1 && rect.right <= frame.right + 1 && rect.top >= frame.top - 1 && rect.bottom <= frame.bottom + 1 };
+      return { name: item.closest(".component-tile")?.querySelector("h2")?.textContent, visible: rect.width > 0 && rect.height > 0, fits: rect.left >= frame.left - 1 && rect.right <= frame.right + 1 && rect.top >= frame.top - 1 && rect.bottom <= frame.bottom + 1, width: rect.width, height: rect.height, frameWidth: frame.width, frameHeight: frame.height };
     }));
-    expect(tiles.every(({ visible, fits }) => visible && fits)).toBe(true);
+    expect(tiles.filter(({ visible, fits }) => !visible || !fits)).toEqual([]);
   }
   if (viewport.width === 1366) {
     await metadata(page, route);
@@ -236,7 +237,7 @@ for (const viewport of viewports) for (const route of ["/", "/components", "/doc
   if (route === "/components" && (viewport.width === 1366 || viewport.width === 390)) {
     const folder = `${evidence}/catalogue-tiles/${viewport.width}x${viewport.height}`;
     await mkdir(folder, { recursive: true });
-    for (const slug of ["command", "table", "mascot-avatar", "calendar", "carousel", "avatar-editor"]) {
+    for (const slug of ["command", "table", "mascot-avatar", "calendar", "carousel", "avatar-editor", "tilt-stamp-3d"]) {
       const tileScreenshot = `${folder}/${slug}.png`;
       await page.locator(`.component-tile.tile-${slug}`).screenshot({ path: tileScreenshot, animations: "disabled" });
       await info.attach(`${slug} catalogue tile ${viewport.width}`, { path: tileScreenshot, contentType: "image/png" });

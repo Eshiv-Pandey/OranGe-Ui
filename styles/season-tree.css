@@ -1,0 +1,6 @@
+.season-tree { width: min(100%, var(--tree-size, 340px)); }
+.season-tree-canvas { width: 100%; aspect-ratio: 128 / 138; image-rendering: pixelated; }
+.season-tree-picker { display: flex; justify-content: center; gap: 4px; padding-top: 15px; flex-wrap: wrap; }
+.season-tree-picker button { display: inline-flex; align-items: center; gap: 5px; padding: 6px; border: 1px solid transparent; background: transparent; color: var(--creative-muted); font-family: var(--font-display), monospace; font-size: 11px; }
+.season-tree-picker button[aria-pressed="true"] { border-color: var(--creative-line); background: var(--creative-paper); color: var(--creative-ink); }
+.season-tree-picker span { width: 7px; height: 7px; }
