@@ -1,5 +1,7 @@
 "use client";
 
+import { CreativeEditorSlot } from "./creative-editor-slot";
+
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import type { Appearance } from "./appearance";
@@ -72,8 +74,8 @@ export function RetroPlayer({ tracks, autoPlay = false, bodyColor = "#e6e5df", s
         <button type="button" className="retro-wheel-center" aria-label={player.playing ? "Pause" : "Play"} onClick={player.toggle} />
       </div>
     </div>
-    <div className="retro-player-footer"><PlayerVolume player={player} /><button className="creative-button" type="button" aria-pressed={editing} onClick={() => setEditing(!editing)}>{editing ? "Done" : "Edit stickers"}</button></div>
-    {editing && <StickerEditor stickers={currentStickers} onChange={changeStickers} />}
+    <CreativeEditorSlot><div className="retro-player-footer"><PlayerVolume player={player} /><button className="creative-button" type="button" aria-pressed={editing} onClick={() => setEditing(!editing)}>{editing ? "Done" : "Edit stickers"}</button></div>
+    {editing && <StickerEditor stickers={currentStickers} onChange={changeStickers} />}</CreativeEditorSlot>
     <PlayerFeedback player={player} />
   </div>;
 }

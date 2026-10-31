@@ -14,6 +14,7 @@ import { ThemeTools } from "./theme-tools";
 import { version } from "../../package.json";
 import "../../styles/library.css";
 import "../../styles/launch-docs.css";
+import "../../styles/component-workbench.css";
 
 const AppearanceContext = createContext<{ appearance: Appearance; href: (path: string) => string }>({ appearance: "polished", href: (path) => path });
 export const useLibrary = () => useContext(AppearanceContext);

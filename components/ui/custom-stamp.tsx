@@ -1,5 +1,7 @@
 "use client";
 
+import { CreativeEditorSlot } from "./creative-editor-slot";
+
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import type { Appearance } from "./appearance";
@@ -65,6 +67,7 @@ export function CustomStamp({ image = DEFAULT_STAMP.image, title = DEFAULT_STAMP
     <div className="custom-stamp-stage" style={{ "--stamp-stage": background } as CSSProperties}><svg ref={svg} viewBox={isSheet ? "0 0 496 736" : "0 0 240 360"} role="img" aria-label={current.title + " postage stamp"} className="custom-stamp-art">
       {isSheet ? [0, 1, 2, 3].map((index) => <g key={index} transform={"translate(" + index % 2 * 256 + " " + Math.floor(index / 2) * 376 + ")"}><StampArtwork config={current} id={id + index} /></g>) : <StampArtwork config={current} id={id} />}
     </svg></div>
+    <CreativeEditorSlot>
     <div className="creative-actions stamp-export-actions"><button type="button" className="creative-button" onClick={() => void exportImage("png")}><CreativeIcon name="download" width="15" height="15" />PNG</button><button type="button" className="creative-button" onClick={() => void exportImage("svg")}>SVG</button><label><input type="checkbox" checked={isSheet} onChange={(event) => setSheet(event.target.checked)} /> Stamp sheet</label></div>
     {message && <p className="creative-feedback" role="status">{message}</p>}
     {editable && <details className="creative-editor" open={showEditor || undefined}><summary>Customize your stamp</summary><div className="creative-controls">
@@ -78,5 +81,6 @@ export function CustomStamp({ image = DEFAULT_STAMP.image, title = DEFAULT_STAMP
       <label className="creative-check"><input type="checkbox" checked={current.postmark} onChange={(event) => update({ postmark: event.target.checked })} />Postmark</label>
       <label className="creative-wide">Upload your artwork<input type="file" accept="image/*" onChange={async (event) => { const file = event.target.files?.[0]; if (!file) return; try { const data = await creativeFileData(file, controller.current?.signal); update({ image: data, imagePosition: { x: 0, y: 0 }, imageZoom: 1 }); } catch {} }} /></label>
     </div></details>}
+    </CreativeEditorSlot>
   </div>;
 }

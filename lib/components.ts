@@ -1129,6 +1129,7 @@ export const components: ComponentDefinition[] = [
     props: [
       { name: "speed / lean", type: "number, 0..1 / number, -1..1", defaultValue: "0.4 / 0", description: "Target speed and projected corner lean, up to 24 degrees. Wheel travel follows speed, with blur at high velocity." },
       { name: "wheelie", type: "boolean", defaultValue: "false", description: "Allows one brief front lift when accelerating from a complete stop." },
+      { name: "rider", type: "boolean", defaultValue: "true", description: "Show the animated rider or expose the full bike silhouette." },
       { name: "seed / config / livery", type: "string | number / VehicleConfig / Partial<VehicleLivery>", defaultValue: "orangeui:superbike", description: "Stable colors and parts with explicit overrides for base, accent, stripe and pattern." },
       { name: "number / tireCompound", type: "string | number / soft | medium | hard | wet", defaultValue: "Generated", description: "Fictional one-to-three-digit identity and tire markings." },
       { name: "size / track / theme", type: "number / boolean / light | dark", defaultValue: "640 / true / follows page", description: "Responsive width, optional track, and scene palette. CSS colors use --vehicle-." }
@@ -1159,28 +1160,6 @@ export const components: ComponentDefinition[] = [
     keyboard: "The progressbar announces its label and value without adding a focus stop. Demo fields and buttons adjust progress with the keyboard. Reduced motion removes travel transitions.",
     usage: '<RaceProgress appearance="polished" label="Preparing the workspace" value={64} vehicle="car" />', file: "components/ui/race-progress.tsx"
   },
-  {
-    slug: "livery-editor", name: "LiveryEditor", category: "Play", customizerPreview: true,
-    description: "Create a sponsor-free livery, try it in motion and export a settled vehicle.",
-    props: [
-      { name: "value / onChange", type: "VehicleConfig / (config: VehicleConfig) => void", defaultValue: "required", description: "Controlled livery, fictional number and tire compound. Save the normalized JSON in your own application." },
-      { name: "seed", type: "string | number", defaultValue: "orangeui:motorsport", description: "Identity used by Reset and deterministic Randomize. Changing the seed does not replace the controlled value." },
-      { name: "vehicle / defaultSpeed", type: "car | bike / number, 0..1", defaultValue: "user can choose / 0.45", description: "Optionally fix the vehicle and set its starting target speed. Motion and scene controls remain local preferences." }
-    ],
-    keyboard: "Arrow keys, Home and End move between tabs. Native sliders, selects and colors update the preview. Buttons randomize, reset, copy JSON or download SVG/PNG; clipboard failures expose selectable JSON.",
-    usage: '<LiveryEditor appearance="polished" value={config} onChange={setConfig} />', file: "components/ui/livery-editor.tsx"
-  },
-  {
-    slug: "helmet-editor", name: "HelmetEditor", category: "Play", customizerPreview: true,
-    description: "A reusable helmet playground for colors, finishes, visor position and portable exports.",
-    props: [
-      { name: "value / onChange", type: "HelmetConfig / (config: HelmetConfig) => void", defaultValue: "required", description: "Controlled helmet identity. Visor clicks write the new position back through onChange." },
-      { name: "seed", type: "string | number", defaultValue: "orangeui:helmet", description: "Used by Reset and Randomize while the parent owns the current config." },
-      { name: "label", type: "string", defaultValue: "Customize your helmet", description: "Visible heading and accessible name of the editor." }
-    ],
-    keyboard: "Tabs and native fields work with the keyboard. Enter or Space flips the focused helmet visor. Copy config and SVG/PNG export include the selected parts, colors and visor position.",
-    usage: '<HelmetEditor appearance="polished" value={config} onChange={setConfig} />', file: "components/ui/helmet-editor.tsx"
-  },
   ...launchFormComponents,
   ...NAVIGATION_COMPONENTS,
   ...AI_COMPONENTS,
@@ -1201,12 +1180,6 @@ components.push(...CREATIVE_COMPONENTS);
 export function componentsInCollection(appearance: Appearance) { return components.filter((component) => !component.collection || component.collection === appearance); }
 export function findComponent(slug: string) { return components.find((component) => component.slug === slug); }
 export function componentUsage(component: ComponentDefinition, appearance: Appearance) {
-  if (component.slug === "livery-editor" || component.slug === "helmet-editor") {
-    const livery = component.slug === "livery-editor";
-    const generator = livery ? "generateVehicleConfig" : "generateHelmetConfig";
-    const seed = livery ? "orangeui:motorsport" : "orangeui:helmet";
-    return `"use client";\n\nimport { useState } from "react";\nimport { ${component.name} } from "./${component.file.replace(/\.tsx$/, "")}";\nimport { ${generator} } from "./components/ui/${livery ? "vehicle-art" : "helmet-art"}";\n\nexport default function Example() {\n  const [config, setConfig] = useState(() => ${generator}("${seed}"));\n  return <${component.name} appearance="${appearance}" seed="${seed}" value={config} onChange={setConfig} />;\n}\n`;
-  }
   if (component.slug === "avatar-editor") return '"use client";\n\nimport { useState } from "react";\nimport { AvatarEditor } from "./components/ui/avatar-editor";\nimport { generateAvatarConfig } from "./lib/avatar/index";\n\nexport default function Example() {\n  const [config, setConfig] = useState(() => generateAvatarConfig("user-42"));\n  return <AvatarEditor appearance="' + appearance + '" seed="user-42" value={config} onChange={setConfig} />;\n}\n';
   const imports = [`import { ${component.name === "Toast" ? "Toast, ToastProvider" : component.name} } from "./${component.file.replace(/\.tsx$/, "")}";`];
   if (component.usage.includes("<Button") && component.name !== "Button") imports.push('import { Button } from "./components/ui/button";');

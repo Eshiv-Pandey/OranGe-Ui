@@ -33,13 +33,14 @@ export function LiveryEditor({ value, onChange, seed = "orangeui:motorsport", ve
   const [speed, setSpeed] = useState(() => Number.isFinite(defaultSpeed) ? Math.max(0, Math.min(1, defaultSpeed)) : .45);
   const [lean, setLean] = useState(0);
   const [wheelie, setWheelie] = useState(false);
+  const [rider, setRider] = useState(false);
   const [track, setTrack] = useState(true);
   const [theme, setTheme] = useState<"auto" | "light" | "dark">("auto");
   const kind = vehicle ?? selectedVehicle;
   const sceneTheme = theme === "auto" ? undefined : theme;
   return <ArtworkCustomizer value={value} onChange={onChange} seed={String(seed)} normalizeConfig={normalizeVehicleConfig} generateConfig={generateVehicleConfig} appearance={appearance} className={`livery-editor${className ? ` ${className}` : ""}`} filename={kind === "car" ? "open-wheel-car" : "superbike"} exportWidth={640} label="Customize your livery" previewCaption={`${kind === "car" ? "Open-wheel car" : "Superbike"}. Adjust speed to accelerate or brake.`}
-    renderPreview={(config, style) => kind === "car" ? <OpenWheelCar config={config} seed={seed} speed={speed} track={track} theme={sceneTheme} appearance={style} /> : <Superbike config={config} seed={seed} speed={speed} lean={lean} wheelie={wheelie} track={track} theme={sceneTheme} appearance={style} />}
-    configToSvg={(config, options) => (kind === "car" ? openWheelCarToSvgString : superbikeToSvgString)(config, 640, { ...options, track, theme: theme === "auto" ? pageTheme() : theme })}
+    renderPreview={(config, style) => kind === "car" ? <OpenWheelCar config={config} seed={seed} speed={speed} track={track} theme={sceneTheme} appearance={style} /> : <Superbike rider={rider} config={config} seed={seed} speed={speed} lean={lean} wheelie={wheelie} track={track} theme={sceneTheme} appearance={style} />}
+    configToSvg={(config, options) => (kind === "car" ? openWheelCarToSvgString : superbikeToSvgString)(config, 640, { ...options, track, rider, theme: theme === "auto" ? pageTheme() : theme })}
     tabs={[
       { id: "design", label: "Design", render: ({ value: current, update }) => <>
         {!vehicle && <CustomizerSelect label="Vehicle" value={kind} options={[{ value: "car", label: "Open-wheel car" }, { value: "bike", label: "Superbike" }]} onChange={setSelectedVehicle} />}
@@ -54,7 +55,7 @@ export function LiveryEditor({ value, onChange, seed = "orangeui:motorsport", ve
       { id: "motion", label: "Motion", render: () => <>
         <CustomizerRange label="Speed" value={speed} onChange={setSpeed} formatValue={(value) => `${Math.round(value * 100)}%`} />
         <div className="livery-speed-actions"><Button appearance={appearance} variant="secondary" onClick={() => setSpeed(1)}>Accelerate</Button><Button appearance={appearance} variant="secondary" onClick={() => setSpeed(0)}>Brake to stop</Button></div>
-        {kind === "bike" && <><CustomizerRange label="Corner lean" value={lean} min={-1} max={1} onChange={setLean} formatValue={(value) => `${Math.round(value * 24)} degrees`} /><CustomizerToggle label="Wheelie on launch" checked={wheelie} onChange={setWheelie} /><p className="artwork-customizer-note">Brake to a complete stop, then accelerate to try a launch.</p></>}
+        {kind === "bike" && <><CustomizerToggle label="Show rider" checked={rider} onChange={setRider} /><CustomizerRange label="Corner lean" value={lean} min={-1} max={1} onChange={setLean} formatValue={(value) => `${Math.round(value * 24)} degrees`} /><CustomizerToggle label="Wheelie on launch" checked={wheelie} onChange={setWheelie} /><p className="artwork-customizer-note">Brake to a complete stop, then accelerate to try a launch.</p></>}
         <p className="artwork-customizer-note">Wheels follow distance travelled. Suspension settles under acceleration and braking. Motion pauses off screen and respects reduced motion.</p>
       </> },
       { id: "scene", label: "Scene", render: () => <><CustomizerToggle label="Show track" checked={track} onChange={setTrack} /><CustomizerSelect label="Track palette" value={theme} options={[{ value: "auto", label: "Follow page" }, { value: "light", label: "Daylight" }, { value: "dark", label: "After dark" }]} onChange={setTheme} /><p className="artwork-customizer-note">Turn off the track to export a transparent vehicle. Exports keep your chosen scene and a settled pose.</p></> },

@@ -23,14 +23,14 @@ export type MascotColors = {
 export type MascotConfig = { version: 1; mascot: MascotKind; colors: MascotColors; detail: 0 | 1 | 2 };
 
 export const MASCOT_PALETTES = [
-  { name: "Apricot evening", colors: { body: "#ffc18b", accent: "#d96454", background: "#454064", backgroundEnd: "#252e48", eye: "#25243a" } },
-  { name: "Lagoon day", colors: { body: "#8ce0cf", accent: "#298f93", background: "#315764", backgroundEnd: "#203947", eye: "#183d46" } },
-  { name: "Golden pollen", colors: { body: "#f9d77c", accent: "#d48a45", background: "#425448", backgroundEnd: "#263e37", eye: "#40332c" } },
-  { name: "Mint garden", colors: { body: "#bee4a3", accent: "#659978", background: "#4d4860", backgroundEnd: "#343145", eye: "#273d39" } },
-  { name: "Berry milk", colors: { body: "#f0b2cf", accent: "#af607d", background: "#424978", backgroundEnd: "#293253", eye: "#342943" } },
-  { name: "Cloud pebble", colors: { body: "#ccd5e1", accent: "#8090b8", background: "#56506b", backgroundEnd: "#343547", eye: "#303249" } },
-  { name: "Copper leaf", colors: { body: "#efad78", accent: "#a96048", background: "#395c5d", backgroundEnd: "#273e49", eye: "#403034" } },
-  { name: "Lilac tide", colors: { body: "#c9b8ef", accent: "#8674bd", background: "#3c5d65", backgroundEnd: "#283c4f", eye: "#31354e" } },
+  { name: "Apricot evening", colors: { body: "#fff4da", accent: "#278b80", background: "#f2bd4d", backgroundEnd: "#e8aa39", eye: "#252923" } },
+  { name: "Lagoon day", colors: { body: "#b7e0d6", accent: "#427e88", background: "#ebd9af", backgroundEnd: "#dec99a", eye: "#183d46" } },
+  { name: "Golden pollen", colors: { body: "#ffdc89", accent: "#d57f5a", background: "#abc4b0", backgroundEnd: "#8dad99", eye: "#40332c" } },
+  { name: "Mint garden", colors: { body: "#d4e6b1", accent: "#729566", background: "#b7abc8", backgroundEnd: "#a496bb", eye: "#273d39" } },
+  { name: "Berry milk", colors: { body: "#f8d2d9", accent: "#c86b83", background: "#b7c8e5", backgroundEnd: "#9dafd6", eye: "#342943" } },
+  { name: "Cloud pebble", colors: { body: "#e0e4ed", accent: "#8897bc", background: "#d9bba5", backgroundEnd: "#cfa88d", eye: "#303249" } },
+  { name: "Copper leaf", colors: { body: "#ffefd2", accent: "#db6b4f", background: "#c8d8a4", backgroundEnd: "#b5c58e", eye: "#403034" } },
+  { name: "Lilac tide", colors: { body: "#d9c9f3", accent: "#9880c6", background: "#b2d3d4", backgroundEnd: "#94bdbf", eye: "#31354e" } },
 ] as const;
 
 const DEFAULT_SEED = "orangeui:character";
@@ -110,11 +110,12 @@ export function mascotSvgBody(input: MascotConfig, id: string, options: MascotRe
   let eyeIndex = 0;
   const line = `stroke="${ink}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"`;
   function eyes(x: number, y: number, separation: number, rx = 11, ry = 14) {
+    rx *= .48; ry *= .52;
     return [-1, 1].map((side) => {
       const eyeId = `${ns}-eye-${eyeIndex++}`;
       defs.push(`<clipPath id="${eyeId}"><ellipse rx="${rx}" ry="${ry}"/></clipPath>`);
       const eyebrow = state === "error" ? `<path d="M${-rx} ${-ry - 5}L${rx} ${-ry - (side < 0 ? 1 : 9)}" fill="none" ${line}/>` : "";
-      return `<g transform="translate(${x + side * separation / 2} ${y})">${eyebrow}<g class="mascot-blink"><ellipse rx="${rx}" ry="${ry}" fill="${cream}"/><g clip-path="url(#${eyeId})"><g class="mascot-pupil"><ellipse cy="2" rx="${Math.max(4, rx * .48)}" ry="${ry * .64}" fill="${ink}"/><ellipse cx="-1.6" cy="-1.5" rx="1.6" ry="2" fill="${cream}"/></g></g></g></g>`;
+      return `<g transform="translate(${x + side * separation / 2} ${y})">${eyebrow}<g class="mascot-blink"><ellipse rx="${rx}" ry="${ry}" fill="${ink}"/><g clip-path="url(#${eyeId})"><g class="mascot-pupil"><ellipse cy="2" rx="${rx * .8}" ry="${ry * .85}" fill="${ink}"/><ellipse cx="-1.6" cy="-1.5" rx="1.1" ry="1.4" fill="${cream}"/></g></g></g></g>`;
     }).join("");
   }
   function mouth(x: number, y: number, width = 8) {
@@ -123,7 +124,7 @@ export function mascotSvgBody(input: MascotConfig, id: string, options: MascotRe
     return `<path d="${path}" transform="translate(${x} ${y})" fill="none" ${line}/>`;
   }
   function cheeks(x: number, y: number, separation = 47) {
-    return `<ellipse cx="${x - separation / 2}" cy="${y}" rx="6" ry="3.3" fill="${accent}" opacity="0.65"/><ellipse cx="${x + separation / 2}" cy="${y}" rx="6" ry="3.3" fill="${accent}" opacity="0.65"/>`;
+    return `<ellipse cx="${x - separation / 2}" cy="${y}" rx="5" ry="2.5" fill="#e88285" opacity="0.78"/><ellipse cx="${x + separation / 2}" cy="${y}" rx="5" ry="2.5" fill="#e88285" opacity="0.78"/>`;
   }
   function freckles(x: number, y: number) {
     if (config.detail === 0) return `<path d="M${x - 4} ${y}h8" fill="none" stroke="${accent}" stroke-width="4" stroke-linecap="round"/>`;
@@ -133,11 +134,7 @@ export function mascotSvgBody(input: MascotConfig, id: string, options: MascotRe
   let art = "";
   switch (config.mascot) {
     case "dune-hopper":
-      art = `<g class="mascot-tail" style="transform-origin:112px 115px"><path d="M108 114C131 96 143 106 131 123C124 134 111 132 107 123Z" fill="${accent}"/></g>
-        <g class="mascot-idle"><ellipse cx="81" cy="112" rx="31" ry="27" fill="${body}"/><ellipse cx="81" cy="118" rx="18" ry="17" fill="${cream}" opacity="0.64"/><path d="M53 123Q36 123 40 135Q57 143 68 132ZM97 130Q107 142 123 135Q127 123 109 122Z" fill="${accent}"/>
-        <g class="mascot-face"><g class="mascot-ear" style="transform-origin:57px 65px"><path d="M49 68C37 50 32 14 43 11C55 9 65 45 63 63Z" fill="${body}"/><path d="M49 54C42 38 40 23 44 21C49 23 53 39 54 54Z" fill="${accent}"/></g>
-        <g class="mascot-ear mascot-ear-late" style="transform-origin:97px 58px"><path d="M88 61C89 39 95 13 108 14C119 15 118 30 106 34L107 60Z" fill="${body}"/><path d="M97 49L100 29Q110 23 108 24L101 54Z" fill="${accent}"/></g>
-        <path d="M37 81C37 57 53 45 79 46C106 44 124 59 124 84C124 107 106 116 80 114C55 117 37 106 37 81Z" fill="${body}"/>${freckles(80, 58)}${eyes(80, 80, 34, 11, 15)}${cheeks(80, 96)}<path d="M76 98Q80 94 84 98L80 102Z" fill="${accent}"/>${mouth(80, 103, 7)}</g></g>`;
+      art = `<g class="mascot-tail" style="transform-origin:115px 126px"><path d="M111 124Q143 113 139 133Q130 146 113 140Z" fill="${body}"/></g><g class="mascot-idle"><path d="M52 112Q76 98 108 112L119 147H43Z" fill="${body}"/><path d="M97 126Q113 122 115 145L96 149" fill="${body}"/><g class="mascot-face"><g class="mascot-ear" style="transform-origin:56px 56px"><path d="M43 63C33 39 33 15 45 15C55 16 62 38 63 56Z" fill="${body}"/><path d="M44 29L50 47" stroke="${accent}" stroke-width="6" stroke-linecap="round"/></g><g class="mascot-ear mascot-ear-late" style="transform-origin:104px 54px"><path d="M94 52C99 26 108 13 118 19Q130 29 111 58Z" fill="${body}"/><path d="M113 29L104 46" stroke="${accent}" stroke-width="6" stroke-linecap="round"/></g><path d="M40 67Q45 47 80 47Q114 45 125 69L131 88L124 93L130 99L123 103L127 110Q114 128 84 130Q60 129 43 116L36 109L42 105L35 99L41 92L35 86Z" fill="${body}"/><path d="M39 67Q43 40 77 39Q108 36 122 59L126 75Q93 63 58 74L29 77Q22 67 39 67Z" fill="${accent}"/><path d="M52 58Q75 49 101 60" fill="none" stroke="${cream}" stroke-width="2.5" stroke-linecap="round"/><path d="M81 45L91 46L96 54L84 58L77 51Z" fill="${cream}"/>${eyes(81, 88, 34, 10, 13)}${cheeks(81, 103, 50)}<path d="M74 104Q80 100 87 104L81 110Z" fill="${ink}"/>${mouth(81, 112, 6)}</g><path d="M42 111Q29 110 27 126Q28 142 42 141L52 130Q63 122 60 114Q55 107 49 110L49 101Q40 96 39 105Z" fill="${body}"/><path d="M32 126L39 133M40 123L47 130" fill="none" stroke="${ink}" stroke-width="2.5" stroke-linecap="round"/></g>`;
       break;
     case "puddle-puff":
       art = `<g class="mascot-tail" style="transform-origin:112px 115px"><path d="M110 118C120 105 125 88 142 91C151 93 147 111 138 120C127 131 119 130 110 126Z" fill="${accent}"/><path d="M123 120L138 101" fill="none" stroke="${body}" stroke-width="4" stroke-linecap="round"/></g>
@@ -171,10 +168,7 @@ export function mascotSvgBody(input: MascotConfig, id: string, options: MascotRe
         <g class="mascot-face"><g class="mascot-ear" style="transform-origin:79px 41px"><path d="M75 43Q60 37 66 22Q80 22 84 34Q84 21 96 22Q103 38 87 43Z" fill="${accent}"/></g><path d="M44 57Q42 39 67 35Q94 29 111 43Q123 55 113 76Q96 88 66 83Q44 82 44 57Z" fill="${body}"/>${eyes(80, 61, 31, 10, 13)}${cheeks(80, 74, 48)}${mouth(80, 78, 6)}${freckles(79, 44)}</g><path d="M63 124L72 128M91 121L102 125" fill="none" stroke="${body}" stroke-width="4" stroke-linecap="round"/></g>`;
       break;
     case "burrow-bud":
-      art = `<g class="mascot-tail" style="transform-origin:112px 114px"><path d="M110 115C122 95 129 85 145 88C145 112 131 130 113 128Z" fill="${accent}"/><path d="M119 119L137 98" fill="none" stroke="${body}" stroke-width="4" stroke-linecap="round"/></g>
-        <g class="mascot-idle"><path d="M41 100Q44 77 79 80Q111 78 121 104Q131 133 97 137H62Q31 132 41 100Z" fill="${body}"/><path d="M49 115Q36 112 34 126Q45 139 62 131ZM99 124Q108 139 126 128Q126 114 112 114Z" fill="${accent}"/><path d="M65 108Q81 99 98 108L101 131H61Z" fill="${cream}" opacity="0.65"/>
-        <g class="mascot-face"><g class="mascot-ear" style="transform-origin:49px 58px"><path d="M45 63Q24 54 34 34Q49 32 56 54Z" fill="${body}"/><path d="M41 53L39 43L49 52Z" fill="${accent}"/></g><g class="mascot-ear mascot-ear-late" style="transform-origin:107px 58px"><path d="M100 55Q109 32 124 40Q132 59 113 67Z" fill="${body}"/><path d="M111 55L117 46L119 58Z" fill="${accent}"/></g>
-        <path d="M37 80Q36 56 65 50L77 41L89 49Q121 51 123 78Q128 108 82 113Q37 113 37 80Z" fill="${body}"/><path d="M59 88Q78 78 101 87L104 102Q80 117 54 102Z" fill="${cream}" opacity="0.8"/>${eyes(79, 77, 32, 10, 13)}<path d="M74 94Q79 90 84 94L79 100Z" fill="${accent}"/>${mouth(79, 101, 7)}${freckles(79, 57)}</g></g>`;
+      art = `<g class="mascot-tail" style="transform-origin:113px 126px"><path d="M109 122Q128 103 142 111Q147 134 116 139Z" fill="${accent}"/><path d="M121 128L135 118" stroke="${body}" stroke-width="3"/></g><g class="mascot-idle"><path d="M53 109Q77 98 105 111L120 149H43Z" fill="${body}"/><path d="M102 129L109 147" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round"/><g class="mascot-face"><g class="mascot-ear" style="transform-origin:48px 62px"><path d="M40 67Q22 33 35 28L62 51Z" fill="${body}"/><path d="M38 43L48 56" stroke="${accent}" stroke-width="7" stroke-linecap="round"/></g><g class="mascot-ear mascot-ear-late" style="transform-origin:114px 64px"><path d="M101 51L127 30Q145 39 124 70Z" fill="${body}"/><path d="M125 45L115 58" stroke="${accent}" stroke-width="7" stroke-linecap="round"/></g><path d="M37 71Q47 47 81 48Q119 48 130 75L128 89L135 94L128 100L133 106L125 109Q112 129 84 130Q57 129 40 114L32 108L37 102L31 96L38 90Z" fill="${body}"/><path d="M44 57Q61 29 94 39Q119 47 123 63L115 73Q79 57 50 77L28 76L31 66Z" fill="${accent}"/><path d="M70 47L77 44L86 51L79 60L71 58Z" fill="${cream}"/><path d="M48 63Q77 52 103 65" fill="none" stroke="${ink}" stroke-width="2.5" stroke-linecap="round"/>${eyes(84, 89, 36, 10, 12)}${cheeks(83, 103, 50)}<path d="M77 102Q84 99 90 104L83 111Z" fill="${ink}"/>${mouth(83, 112, 6)}</g><path d="M50 113Q40 101 30 111L23 123Q24 139 38 142L49 134L58 126Z" fill="${body}"/><path d="M30 119Q40 114 45 123L48 134M29 128L36 135" fill="none" stroke="${ink}" stroke-width="2.5" stroke-linecap="round"/></g>`;
       break;
     case "ribbon-ray":
       art = `<g class="mascot-tail" style="transform-origin:80px 106px"><path d="M74 104C55 122 82 136 71 147L86 147C99 130 72 126 87 108Z" fill="${accent}"/><path d="M92 107C100 119 119 110 124 129L135 129C129 101 110 114 103 97Z" fill="${body}"/></g>
@@ -182,6 +176,10 @@ export function mascotSvgBody(input: MascotConfig, id: string, options: MascotRe
         <g class="mascot-face"><path d="M79 32C105 31 123 60 116 83Q108 106 81 119Q53 107 45 84C35 57 54 34 79 32Z" fill="${body}"/><path d="M62 40Q77 30 96 40L80 56Z" fill="${accent}"/>${eyes(80, 74, 34, 11, 15)}${cheeks(80, 92, 53)}${mouth(80, 98, 8)}${freckles(80, 111)}</g></g>`;
       break;
   }
+  art = art.replace(/<(path|ellipse|circle)\b[^>]*>/g, (tag) => {
+    if (tag.includes('stroke=') || ![body, accent].some((paint) => tag.includes(`fill="${paint}"`))) return tag;
+    return tag.replace('/>', ` stroke="${ink}" stroke-width="${pixel ? 3.5 : 3}" stroke-linejoin="round" stroke-linecap="round"/>`);
+  });
   const thought = state === "thinking" ? `<g class="mascot-thinking-dots" fill="${cream}" aria-hidden="true"><circle cx="115" cy="36" r="3"/><circle cx="126" cy="27" r="4"/><circle cx="140" cy="20" r="5"/></g>` : "";
   const marks = config.detail === 0 ? `<path d="M24 28v8m-4 -4h8M133 127v6m-3 -3h6" fill="none" stroke="${cream}" stroke-width="2" stroke-linecap="round" opacity="0.5"/>`
     : config.detail === 1 ? `<circle cx="25" cy="34" r="3" fill="${cream}" opacity="0.4"/><circle cx="136" cy="122" r="2" fill="${cream}" opacity="0.5"/>`
@@ -193,7 +191,7 @@ export function mascotSvgBody(input: MascotConfig, id: string, options: MascotRe
     edge = `<path d="${outline}" fill="none" stroke="url(#${ns}-bevel)" stroke-width="5"/>`;
   }
   if (options.appearance === "terminal") edge = `<path d="${outline}" fill="none" stroke="${body}" stroke-opacity="0.7" stroke-width="2"/>`;
-  return `<defs>${defs.join("")}</defs><g clip-path="url(#${ns}-tile)"><path d="${outline}" fill="url(#${ns}-background)"/><path d="${outline}" fill="url(#${ns}-shine)"/>${marks}<ellipse cx="80" cy="139" rx="44" ry="6" fill="${ink}" opacity="0.18"/><g class="mascot-reaction-layer">${art}</g>${thought}${edge}</g>`;
+  return `<defs>${defs.join("")}</defs><g clip-path="url(#${ns}-tile)"><path d="${outline}" fill="url(#${ns}-background)"/>${marks}<g class="mascot-reaction-layer">${art}</g>${thought}${edge}</g>`;
 }
 
 /** A settled, self-contained frame for documents or SVG/PNG download pipelines. */

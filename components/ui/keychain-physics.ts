@@ -1,37 +1,49 @@
 export type ChainParticle = { x: number; y: number; px: number; py: number; radius: number; fixed: boolean };
 export type ChainLink = { a: number; b: number; length: number };
-export type KeychainWorld = { particles: ChainParticle[]; links: ChainLink[]; charmStart: number; width: number; height: number; grabbed: number | null };
+export type KeychainWorld = { particles: ChainParticle[]; links: ChainLink[]; charmStart: number; width: number; height: number; grabbed: number | null; accumulator: number };
 
 /** Compact, deterministic Verlet world. Rendering and audio have no dependency on it. */
 export function createKeychainWorld(width = 360, height = 420, count = 5, chainLength = 6): KeychainWorld {
   const particles: ChainParticle[] = [], links: ChainLink[] = [];
-  const steps = Math.max(2, Math.min(12, Math.round(chainLength))), linkLength = Math.min(15, height * 0.22 / steps);
+  const steps = Math.max(2, Math.min(12, Math.round(chainLength))), linkLength = Math.min(12, height * 0.18 / steps);
   for (let index = 0; index <= steps; index++) {
-    const x = width / 2 + Math.sin(index) * 2, y = height * 0.2 + index * linkLength;
+    const x = width / 2 + Math.sin(index) * .3, y = height * 0.25 + index * linkLength;
     particles.push({ x, y, px: x, py: y, radius: 4, fixed: index === 0 });
     if (index) links.push({ a: index - 1, b: index, length: linkLength });
   }
   const charmStart = particles.length, anchor = particles.at(-1)!;
   for (let index = 0; index < Math.min(12, Math.max(1, count)); index++) {
-    const x = anchor.x + (index - (count - 1) / 2) * 31, y = anchor.y + 54 + (index % 3) * 17;
-    particles.push({ x, y, px: x, py: y, radius: 23 + (index % 3) * 4, fixed: false });
+    const angle = (index - (count - 1) / 2) * Math.min(.58, 2.4 / Math.max(1, count - 1)), length = 70 + (index % 3) * 31;
+    const x = anchor.x + Math.sin(angle) * length, y = anchor.y + Math.cos(angle) * length;
+    particles.push({ x, y, px: x, py: y, radius: 24 + (index % 3) * 3, fixed: false });
     links.push({ a: charmStart - 1, b: charmStart + index, length: Math.hypot(x - anchor.x, y - anchor.y) });
   }
-  return { particles, links, charmStart, width, height, grabbed: null };
+  return { particles, links, charmStart, width, height, grabbed: null, accumulator: 0 };
 }
 
 export function stepKeychain(world: KeychainWorld, seconds: number, gravity = 850, damping = 0.96) {
-  const delta = Math.min(1 / 30, Math.max(0, seconds)), friction = Math.pow(Math.min(0.999, Math.max(0.5, damping)), delta * 60);
+  // A fixed 120 Hz solve keeps release inertia identical at 30, 60 and 120 fps.
+  world.accumulator += Math.min(1 / 15, Math.max(0, Number.isFinite(seconds) ? seconds : 0));
+  let impact = 0;
+  while (world.accumulator >= 1 / 120) {
+    impact = Math.max(impact, integrateKeychain(world, 1 / 120, gravity, damping));
+    world.accumulator -= 1 / 120;
+  }
+  return impact;
+}
+
+function integrateKeychain(world: KeychainWorld, delta: number, gravity: number, damping: number) {
+  const friction = Math.pow(Math.min(0.999, Math.max(0.5, damping)), delta * 20);
   let impact = 0;
   for (const [index, particle] of world.particles.entries()) {
     if (particle.fixed || index === world.grabbed) continue;
     const x = particle.x, y = particle.y;
-    particle.x += (x - particle.px) * friction;
-    particle.y += (y - particle.py) * friction + gravity * delta * delta;
+    particle.x += Math.max(-8, Math.min(8, x - particle.px)) * friction;
+    particle.y += Math.max(-8, Math.min(8, y - particle.py)) * friction + gravity * delta * delta;
     particle.px = x; particle.py = y;
   }
-  const weight = (index: number) => world.particles[index].fixed || index === world.grabbed ? 0 : 1;
-  for (let iteration = 0; iteration < 8; iteration++) {
+  const weight = (index: number) => world.particles[index].fixed || index === world.grabbed ? 0 : index < world.charmStart ? 1 : .28;
+  for (let iteration = 0; iteration < 14; iteration++) {
     for (const link of world.links) {
       const a = world.particles[link.a], b = world.particles[link.b], dx = b.x - a.x, dy = b.y - a.y, distance = Math.hypot(dx, dy) || 0.001;
       const wa = weight(link.a), wb = weight(link.b), total = wa + wb;
@@ -73,6 +85,7 @@ export function moveKeychain(world: KeychainWorld, x: number, y: number) {
   if (world.grabbed === null) return;
   const particle = world.particles[world.grabbed], previousX = particle.x, previousY = particle.y;
   particle.x = Math.max(10, Math.min(world.width - 10, x)); particle.y = Math.max(30, Math.min(world.height - 30, y));
-  particle.px = previousX; particle.py = previousY;
+  particle.px = particle.x - Math.max(-5, Math.min(5, particle.x - previousX));
+  particle.py = particle.y - Math.max(-5, Math.min(5, particle.y - previousY));
 }
 export function releaseKeychain(world: KeychainWorld) { world.grabbed = null; }

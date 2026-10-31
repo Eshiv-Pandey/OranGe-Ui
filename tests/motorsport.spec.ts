@@ -11,8 +11,6 @@ const surfaces = [
   { slug: "superbike", name: "Superbike", selector: ".artwork-customizer-artwork .motorsport-vehicle" },
   { slug: "race-start-lights", name: "RaceStartLights", selector: ".race-start-lights" },
   { slug: "race-progress", name: "RaceProgress", selector: ".race-progress" },
-  { slug: "livery-editor", name: "LiveryEditor", selector: ".artwork-customizer-artwork .motorsport-vehicle" },
-  { slug: "helmet-editor", name: "HelmetEditor", selector: ".artwork-customizer-artwork .helmet" },
 ] as const;
 test.beforeAll(async () => { await mkdir(evidence, { recursive: true }); });
 
@@ -59,24 +57,18 @@ for (const viewport of viewports) for (const appearance of appearances) for (con
   });
 }
 
-for (const kind of ["livery", "helmet"] as const) test(`${kind} editor controls, keyboard tabs, saved config and local preferences`, async ({ page, context }) => {
+for (const kind of ["car", "bike", "helmet"] as const) test(`${kind} editor controls, keyboard tabs, saved config and local preferences`, async ({ page, context }) => {
   const helmet = kind === "helmet";
   await page.emulateMedia({ reducedMotion: "reduce" });
-  const editor = editorIn(await openPage(page, `${kind}-editor`), helmet);
+  const editor = editorIn(await openPage(page, helmet ? "helmet" : kind === "bike" ? "superbike" : "open-wheel-car"), helmet);
   await context.grantPermissions(["clipboard-read", "clipboard-write"], { origin: new URL(page.url()).origin });
   const initial = await configuration(editor), design = editor.getByRole("tab", { name: "Design", exact: true });
   await design.focus(); await design.press("End");
   const finalTab = editor.getByRole("tab", { name: helmet ? "Motion" : "Scene", exact: true });
   await expect(finalTab).toBeFocused(); await expect(finalTab).toHaveAttribute("aria-selected", "true");
   await finalTab.press("Home"); await expect(design).toBeFocused();
-  if (!helmet) {
-    const vehicle = editor.getByRole("combobox", { name: "Vehicle", exact: true });
-    await vehicle.selectOption("bike"); await expect(preview(editor)).toHaveClass(/superbike/); expect(await configuration(editor)).toBe(initial);
-    await vehicle.selectOption("car"); await expect(preview(editor)).toHaveClass(/open-wheel-car/);
-  }
-  const vehicleId = helmet ? null : await editor.getByRole("combobox", { name: "Vehicle", exact: true }).getAttribute("id");
+  if (!helmet) await expect(preview(editor)).toHaveClass(kind === "car" ? /open-wheel-car/ : /superbike/);
   for (const select of await editor.getByRole("tabpanel").getByRole("combobox").all()) {
-    if (vehicleId && await select.getAttribute("id") === vehicleId) continue;
     const options = await select.locator("option:not(:disabled)").evaluateAll((nodes) => nodes.map((node) => (node as HTMLOptionElement).value));
     for (const option of options) if (option !== await select.inputValue()) { const before = await configuration(editor); await select.selectOption(option); expect(await configuration(editor)).not.toBe(before); }
   }
@@ -101,10 +93,12 @@ for (const kind of ["livery", "helmet"] as const) test(`${kind} editor controls,
     await editor.getByRole("checkbox", { name: "Follow pointer", exact: true }).uncheck(); await editor.getByRole("checkbox", { name: "Blink", exact: true }).uncheck();
     await expect(editor.locator(".artwork-customizer-artwork .helmet-button")).toHaveCount(0);
   } else {
-    await design.click(); await editor.getByRole("combobox", { name: "Vehicle", exact: true }).selectOption("bike");
-    await editor.getByRole("tab", { name: "Motion", exact: true }).click();
-    const lean = editor.getByRole("slider", { name: "Corner lean", exact: true }); await lean.focus(); await lean.press("End"); await expect(lean).toHaveValue("1");
-    await editor.getByRole("checkbox", { name: "Wheelie on launch", exact: true }).check();
+    if (kind === "bike") {
+      const lean = editor.getByRole("slider", { name: "Corner lean", exact: true }); await lean.focus(); await lean.press("End"); await expect(lean).toHaveValue("1");
+      await editor.getByRole("checkbox", { name: "Wheelie on launch", exact: true }).check();
+      await editor.getByRole("checkbox", { name: "Show rider", exact: true }).check();
+      await expect(editor.locator(".bike-rider")).toBeVisible();
+    }
     await editor.getByRole("tab", { name: "Scene", exact: true }).click(); await editor.getByRole("checkbox", { name: "Show track", exact: true }).uncheck();
     await editor.getByRole("combobox", { name: "Track palette", exact: true }).selectOption("dark");
   }
@@ -145,9 +139,8 @@ async function captureExport(page: Page, editor: Locator, filename: string, stem
 
 for (const kind of ["car", "bike", "helmet"] as const) for (const appearance of appearances) test(`${kind} editor portable exports ${appearance}`, async ({ page }, info) => {
   await page.emulateMedia({ reducedMotion: "reduce" }); await page.addInitScript(() => localStorage.setItem("orangeui-palette", "dark"));
-  const helmet = kind === "helmet", editor = editorIn(await openPage(page, helmet ? "helmet-editor" : "livery-editor", appearance), helmet);
-  if (!helmet) await editor.getByRole("combobox", { name: "Vehicle", exact: true }).selectOption(kind);
-  else await editor.getByRole("checkbox", { name: "Visor open", exact: true }).check();
+  const helmet = kind === "helmet", editor = editorIn(await openPage(page, helmet ? "helmet" : kind === "bike" ? "superbike" : "open-wheel-car", appearance), helmet);
+  if (helmet) await editor.getByRole("checkbox", { name: "Visor open", exact: true }).check();
   await editor.getByRole("tab", { name: "Colors", exact: true }).click();
   await editColor(editor.locator('input[type="color"]').and(editor.getByLabel(helmet ? "Shell" : "Base color", { exact: true })), "#ab789c");
   const identity = await configuration(editor), filename = helmet ? "helmet" : kind === "car" ? "open-wheel-car" : "superbike";

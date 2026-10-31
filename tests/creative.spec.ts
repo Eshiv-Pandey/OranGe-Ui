@@ -5,7 +5,7 @@ import { CREATIVE_COMPONENTS } from "../lib/creative-components";
 import { componentsInCollection } from "../lib/components";
 import type { Appearance } from "../components/ui/appearance";
 
-const evidence = "out/batch-2/browser";
+const evidence = process.env.ORANGEUI_EVIDENCE_DIR ?? "out/batch-2/browser";
 type Observation = { slug: string; [key: string]: unknown };
 declare global {
   interface Window {
@@ -35,7 +35,7 @@ test.beforeEach(async ({ page }) => {
 
 async function open(page: Page, slug: string) {
   const component = CREATIVE_COMPONENTS.find((item) => item.slug === slug)!;
-  await page.goto(`/components/${slug}?style=${component.collection}`);
+  await page.goto(`/components/${slug}?style=${component.collection}`, { waitUntil: "networkidle" });
   const demo = page.getByTestId("live-demo");
   await expect(demo.locator(".creative-demo")).toBeVisible({ timeout: 30_000 });
   await page.evaluate(() => document.fonts.ready);
@@ -187,6 +187,7 @@ for (const slug of ["retro-player", "island-player", "glass-player", "neon-pill-
 test("neon touch expansion preserves playback until an explicit play tap", async ({ page }) => {
   await page.setViewportSize({ width: 380, height: 844 });
   const demo = await open(page, "neon-pill-player"), pill = demo.locator(".neon-pill-player");
+  await page.getByRole("heading", { name: "NeonPillPlayer", exact: true }).click();
   await expect(pill).toHaveAttribute("data-expanded", "false");
   const session = await page.context().newCDPSession(page);
   const rect = (await demo.locator(".neon-cover-button").boundingBox())!;
@@ -233,14 +234,15 @@ test("camera real test stream, zoom, filter, capture, flip and track cleanup", a
   await expect.poll(() => demo.locator("video").evaluate((element: HTMLVideoElement) => element.readyState)).toBeGreaterThanOrEqual(2);
   await demo.getByRole("button", { name: "Zoom in" }).click();
   await expect(demo.locator(".camera-screen-hud")).toContainText("1.3×");
-  await demo.getByRole("button", { name: "MENU", exact: true }).click();
   await demo.getByRole("combobox", { name: "Photo filter", exact: true }).selectOption("mono");
   await demo.getByRole("button", { name: "Take photo", exact: true }).click();
   await expect(demo.getByRole("button", { name: "Review photo 1", exact: true })).toBeVisible();
-  await demo.getByRole("button", { name: "Front", exact: true }).click();
+  await expect(demo.locator(".retro-camera-stage")).toHaveAttribute("data-layout", "stacked");
+  await demo.getByRole("checkbox", { name: "Show both sides" }).uncheck();
+  await demo.getByRole("button", { name: "Flip to front", exact: true }).click();
   await expect(demo.locator(".retro-camera-stage")).toHaveAttribute("data-view", "front");
   await expect(demo.getByRole("button", { name: "Zoom in" })).toHaveCount(0);
-  await demo.getByRole("button", { name: "Back", exact: true }).click();
+  await demo.getByRole("button", { name: "Flip to back", exact: true }).click();
   await demo.getByRole("button", { name: "Delete selected photo" }).click();
   await expect(demo.locator(".camera-gallery")).toHaveCount(0);
   await page.evaluate(() => { Object.defineProperty(document, "visibilityState", { configurable: true, value: "hidden" }); document.dispatchEvent(new Event("visibilitychange")); });

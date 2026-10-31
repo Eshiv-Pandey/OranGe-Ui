@@ -35,7 +35,7 @@ export const CREATIVE_COMPONENTS: ComponentDefinition[] = [
     ["showPicker", "boolean", "true", "Built-in season picker."],
     ["windStrength / fallRate", "number / number", "0.6 / 1", "Canopy sway, drift and falling leaves per second."],
     ["pixelSize", "number", "3", "Hard-edged canvas pixel scale."],
-    ["background", "string", "Season sky", "Custom backdrop or transparent."],
+    ["background", "string", "transparent", "Custom backdrop or transparent."],
     ["paused / size", "boolean / number | string", "false / 340", "Freeze decorative motion; responsive maximum width."],
   ], ["All foliage and branch geometry is procedural and original. Seasons change density, shapes, sky, ground and separate foliage/falling palettes. Reduced motion retains a settled tree."]),
   definition("retro-player", "RetroPlayer", "retro-os", "A sticker-covered pocket player with a working click wheel and real music.", "<RetroPlayer tracks={CREATIVE_PLAYLIST} showEarbuds />", "Wheel buttons use Enter/Space. Focus the ring and use arrows to seek or change volume. Sticker arrows move, plus/minus resize, Delete removes.", [
@@ -46,6 +46,7 @@ export const CREATIVE_COMPONENTS: ComponentDefinition[] = [
   ], [...playerNotes, "Menu cycles between music, playlist and volume. Drag the ring to scrub or change volume. Decals contain no reference characters or device logo."], { usageImports: sampleImports }),
   definition("retro-camera", "RetroCamera", "retro-os", "A pocket camera with live view, digital zoom, filters and an in-memory gallery.", '<RetroCamera facingMode="user" mirror />', "Enable camera requests permission. W/T zoom, shutter captures, d-pad browses, Menu exposes filters and stickers.", [
     ["bodyColor", "string", "#a7cf59", "Camera body color."],
+    ["layout", "flip | stacked", "flip", "Show one side with the visible Flip button, or show front and back together."],
     ["stickers / onStickersChange", "readonly CreativeSticker[] / callback", "Original decals", "Editable or controlled decorative stickers."],
     ["facingMode / mirror", "user | environment / boolean", "user / true", "Camera selection and mirrored front-camera preview."],
     ["onCapture", "(blob: Blob) => void", "Not set", "Receives the captured PNG."],
@@ -57,7 +58,7 @@ export const CREATIVE_COMPONENTS: ComponentDefinition[] = [
     ["charms", "readonly KeychainCharm[]", "Five original charms", "Original shapes or user images; up to 12 charms."],
     ["chainLength / gravity / damping", "number / number / number", "6 / 850 / 0.96", "Link count, downward acceleration and retained velocity."],
     ["muted / volume", "boolean / number", "true / 0.35", "Synthesized collision clinks with impact-based volume."],
-    ["clipColor / background / size", "string / string / number | string", "#91afc3 / #ffe28b / 340", "Metal finish, backdrop and responsive width."],
+    ["clipColor / background / size", "string / string / number | string", "#91afc3 / transparent / 340", "Metal finish, backdrop and responsive width."],
   ], ["A small lazily loaded custom Verlet solver handles gravity, chain constraints and collisions. Canvas shading gives the clip and acrylic charms depth without a large 3D dependency. Reduced motion retains a settled pose."]),
   definition("custom-stamp", "CustomStamp", "polished", "Make a perforated paper stamp, edit every detail, and export a stamp sheet.", '<CustomStamp title="CITRUS CLUB" value="50" editable />', "Use native editor inputs, image position/zoom controls and PNG/SVG export buttons.", [
     ["image / title / subtitle", "string", "Original citrus / CITRUS CLUB / A LITTLE SUNSHINE", "Artwork and editable face text."],
@@ -78,7 +79,7 @@ export const CREATIVE_COMPONENTS: ComponentDefinition[] = [
   definition("island-player", "IslandPlayer", "polished", "A quiet black music island with real playback, timing and an audio-driven equalizer.", "<IslandPlayer tracks={CREATIVE_PLAYLIST} />", "Tab to transport, progress, mute and output. Arrow keys scrub the native progress slider.", [
     tracks, ["index / onTrackChange", "number / callback", "Local first track", "Controlled track selection."],
     ["showOutputIcon", "boolean", "true", "Output selection where supported, browser/system guidance otherwise."],
-    ["size", "number | string", "360", "Responsive width."], volume,
+    ["size", "number | string", "420", "Responsive width."], volume,
   ], playerNotes, { usageImports: sampleImports }),
   definition("glass-player", "GlassPlayer", "polished", "Full-bleed cover art, a blurred backdrop, and music, like and share controls.", "<GlassPlayer tracks={CREATIVE_PLAYLIST} blur={26} />", "Like, share, transport and mute are buttons; arrows scrub the native slider.", [
     tracks, ["liked / onLike", "boolean / callback", "false", "Controlled or local animated like preference."],
@@ -102,6 +103,7 @@ export const CREATIVE_COMPONENTS: ComponentDefinition[] = [
     ["angle / direction / turbulence / waveScale", "number / forward | reverse / number / number", "25 / forward / 0.65 / 2.5", "Flow direction and evolving-field scale."],
     ["pointerEffect", "swirl | repel | attract | ripple", "swirl", "Pointer deformation."],
     ["grainStyle / vignette / posterize / dither", "film | dots | noise / number / number / boolean", "film / 0 / 0 / false", "Texture, edge shading, band count and Bayer print."],
+    ["showFullscreenButton", "boolean", "true", "Expand to the viewport. Escape or Exit full screen returns to the editor."],
     ["mode / showPoints / showExportButton / paused", "mesh | radial | conic / boolean / boolean / boolean", "mesh / false / true / false", "Shape, editable handles, export and manual pause."],
   ], ["An independent original shader with more than four colors, named Indian-festival palettes, radial/conic modes and mesh points. No referenced gradient source is used.", "Reduced motion keeps a static field. Hidden frames pause; context restoration and a fallback image export are supported."]),
   definition("hindi-text", "HindiText", "polished", "Your words in a licensed Hindi display face, with offline transliteration and exports.", '<HindiText text="रंगों की दुनिया" />', "Type, paste, toggle transliteration, style your lettering and export using native controls.", textRows, textNotes, { customizerPreview: true }),
@@ -109,7 +111,7 @@ export const CREATIVE_COMPONENTS: ComponentDefinition[] = [
   definition("frosted-glass", "FrostedGlass", "polished", "Write through grainy glass to reveal the sharp garden beneath.", '<FrostedGlass text={"MAKE\\nROOM\\nFOR JOY"} />', "Pointer, touch and pen write. Arrows draw, Space clears, R resets. Reset, clear and mute are visible buttons.", [
     ["background", "string | ReactNode", "Original garden", "Image, CSS color/gradient or GrainGradient component."],
     ["frostBlur / tint / grain", "number / string / number", "18 / translucent green / 0.18", "Blur, tint and fine grain."],
-    ["brushSize / brushSoftness", "number / number", "38 / 0.55", "Pressure-aware diameter and feathered edge."],
+    ["brushSize / brushSoftness", "number / number", "48 / 0.7", "Pressure-aware diameter and feathered edge."],
     ["regrowMs", "number", "0", "Regrowth duration; 0 preserves clear strokes."],
     ["text / font", "string / string", "Empty / italic bold 66px Georgia", "Initial text cutout, including line breaks."],
     ["onClear / showResetButton", "() => void / boolean", "Not set / true", "Clear-glass callback and reset control."],

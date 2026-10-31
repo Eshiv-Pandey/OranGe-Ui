@@ -4,18 +4,18 @@
 .stamp-export-actions { justify-content: center; margin-top: 16px; }
 .stamp-export-actions label { font-size: 11px; color: var(--creative-muted); display: flex; gap: 4px; align-items: center; }
 .stamp-export-actions .creative-button { font-size: 11px; padding: 7px 10px; }
-.tilt-stamp { width: min(100%, var(--tilt-size, 340px)); perspective: 1100px; padding: 55px 16px 22px; touch-action: pan-y; }
-.tilt-stamp-card { position: relative; width: 76%; max-width: 242px; height: 316px; margin: 0 auto; transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); transform-style: preserve-3d; background: #fffef8; color: #242629; box-shadow: 1px 2px 0 #bdbbb2, 2px 4px 0 #dad7cd, 0 25px 31px -18px #26354370; cursor: grab; }
+.tilt-stamp { width: min(100%, var(--tilt-size, 340px)); perspective: 1100px; padding: 26px 18px 18px; touch-action: pan-y; }
+.tilt-stamp-card { position: relative; width: 90%; max-width: 278px; aspect-ratio: 4 / 5; height: auto; margin: 0 auto; transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); transform-style: preserve-3d; background: #fffef8; color: #232526; box-shadow: 0 2px 1px #79786c70, 2px 18px 32px -12px #0007; cursor: grab; touch-action: none; }
 .tilt-stamp-card:active { cursor: grabbing; }
-.tilt-stamp-picture { position: absolute; z-index: 2; width: 142%; height: 251px; left: -21%; top: -51px; object-fit: contain; transform: translateZ(28px); pointer-events: none; filter: drop-shadow(0 10px 3px #34326d26); }
-.tilt-stamp-swatch { position: absolute; inset: 15px 14px 94px; background: var(--tilt-accent, #443395); transform: translateZ(1px); }
-.tilt-stamp-label { position: absolute; left: 15px; right: 15px; bottom: 14px; transform: translateZ(5px); }
-.tilt-stamp-label strong { display: block; font-size: 17px; font-weight: 800; letter-spacing: -.025em; margin-bottom: 9px; overflow-wrap: anywhere; line-height: 1.1; }
-.tilt-stamp-label small { display: block; font-size: 8px; letter-spacing: .07em; max-width: calc(100% - 27px); }
+.tilt-stamp-picture { position: absolute; z-index: 2; width: 107%; height: 79%; left: -3.5%; top: -6%; object-fit: contain; transform: translateZ(19px); pointer-events: none; filter: drop-shadow(2px 7px 4px #15112e38); }
+.tilt-stamp-swatch { position: absolute; inset: 12px 12px 27%; background: var(--tilt-accent, #443395); transform: translateZ(1px); }
+.tilt-stamp-label { position: absolute; left: 17px; right: 17px; bottom: 18px; transform: translateZ(3px); }
+.tilt-stamp-label strong { display: block; font-size: clamp(16px, 1.6vw, 21px); font-weight: 800; letter-spacing: -.025em; margin-bottom: 9px; overflow-wrap: anywhere; line-height: 1.1; }
+.tilt-stamp-label small { display: block; font-size: 9px; font-weight: 600; letter-spacing: .025em; max-width: calc(100% - 29px); line-height: 1.55; }
 .tilt-stamp-seal { position: absolute; right: 0; bottom: 1px; width: 21px; height: 21px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #cecbc1; box-shadow: inset 1px 2px 2px #aba99f55, 1px 1px 0 #fff; }
 .tilt-stamp-seal svg { width: 13px; height: 13px; }
 .tilt-stamp-glare { position: absolute; z-index: 3; inset: 0; pointer-events: none; mix-blend-mode: screen; background: radial-gradient(ellipse at var(--glare-x, 35%) var(--glare-y, 25%), #ffffffa0, #fff0 65%); opacity: var(--glare-opacity, .25); transform: translateZ(6px); }
 .tilt-stamp-card[data-foil="true"] .tilt-stamp-glare { background: conic-gradient(from var(--foil-angle, 120deg) at var(--glare-x, 35%) var(--glare-y, 25%), #e197fc70, #82e9db60, #f7e2a980, #f492c260, #e197fc70); mix-blend-mode: color-dodge; }
-.tilt-stamp-footer { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 24px; color: var(--creative-muted); font-size: 11px; }
+.tilt-stamp-footer { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; margin-top: 26px; color: var(--creative-muted); font-size: 11px; }
 .tilt-stamp-footer button { font-size: 10px; padding: 6px 8px; }
-@media (max-width: 420px) { .custom-stamp-stage { padding: 25px 32px; } .tilt-stamp { padding-inline: 6px; } .tilt-stamp-card { width: 79%; height: 300px; } .tilt-stamp-label strong { font-size: 15px; } }
+@media (max-width: 420px) { .custom-stamp-stage { padding: 25px 32px; } .tilt-stamp { padding-inline: 12px; } .tilt-stamp-card { width: 89%; } .tilt-stamp-label strong { font-size: 18px; } }

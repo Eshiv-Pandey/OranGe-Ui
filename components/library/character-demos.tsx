@@ -18,24 +18,34 @@ function ColorFields<T extends Record<string, string>>({ value, onChange }: { va
   return <div className="customizer-field-grid">{Object.entries(value).map(([key, color]) => <CustomizerColor key={key} label={colorLabel(key)} value={color} onChange={(next) => onChange({ ...value, [key]: next })} />)}</div>;
 }
 
-function usePreviewOptions() {
-  const [size, setSize] = useState(240);
+function usePreviewOptions(initialSize = 300) {
+  const [size, setSize] = useState(initialSize);
   const [interactive, setInteractive] = useState(true);
   const [blink, setBlink] = useState(true);
   return { size, setSize, interactive, setInteractive, blink, setBlink };
 }
 
 function MotionFields({ preview }: { preview: ReturnType<typeof usePreviewOptions> }) {
-  return <><CustomizerRange label="Preview size" min={120} max={300} step={8} value={preview.size} onChange={preview.setSize} formatValue={(value) => `${value}px`} /><CustomizerToggle label="Follow pointer" checked={preview.interactive} onChange={preview.setInteractive} /><CustomizerToggle label="Blink" checked={preview.blink} onChange={preview.setBlink} /><p className="artwork-customizer-note">Motion pauses off screen and in hidden tabs. Your system&apos;s reduced motion setting keeps the artwork still.</p></>;
+  return <><CustomizerRange label="Preview size" min={120} max={400} step={8} value={preview.size} onChange={preview.setSize} formatValue={(value) => `${value}px`} /><CustomizerToggle label="Follow pointer" checked={preview.interactive} onChange={preview.setInteractive} /><CustomizerToggle label="Blink" checked={preview.blink} onChange={preview.setBlink} /><p className="artwork-customizer-note">Motion pauses off screen and in hidden tabs. Your system&apos;s reduced motion setting keeps the artwork still.</p></>;
+}
+
+function portraitPreset(seed: string | number) {
+  const config = generateCharacterConfig(seed);
+  return seed === "orangeui:portrait" ? normalizeCharacterConfig({ ...config, colors: CHARACTER_PALETTES[0].colors, parts: { ...config.parts, hair: "swept", glasses: "round", outfit: "jacket" } }) : config;
+}
+
+function helmetPreset(seed: string | number) {
+  const config = generateHelmetConfig(seed);
+  return seed === "orangeui:helmet" ? normalizeHelmetConfig({ ...config, colors: HELMET_PALETTES[1].colors, parts: { ...config.parts, pattern: "bands", finish: "gloss" } }) : config;
 }
 
 export function CharacterDemo({ appearance }: { appearance: Appearance }) {
   const [seed, setSeed] = useState("orangeui:portrait");
-  const [config, setConfig] = useState(() => generateCharacterConfig(seed));
+  const [config, setConfig] = useState(() => portraitPreset(seed));
   const preview = usePreviewOptions();
-  return <ArtworkCustomizer value={config} onChange={setConfig} normalizeConfig={normalizeCharacterConfig} generateConfig={generateCharacterConfig} seed={seed} appearance={appearance} filename="character-avatar" label="Customize your character" previewCaption="Move the pointer to turn the portrait." renderPreview={(value, style) => <CharacterAvatar config={value} seed={seed} size={preview.size} interactive={preview.interactive} blink={preview.blink} appearance={style} />} configToSvg={(value, opts) => characterToSvgString(value, 512, opts)} tabs={[
+  return <ArtworkCustomizer value={config} onChange={setConfig} normalizeConfig={normalizeCharacterConfig} generateConfig={portraitPreset} seed={seed} appearance={appearance} filename="character-avatar" label="Customize your character" previewCaption="Move the pointer to turn the portrait." renderPreview={(value, style) => <CharacterAvatar config={value} seed={seed} size={preview.size} interactive={preview.interactive} blink={preview.blink} appearance={style} />} configToSvg={(value, opts) => characterToSvgString(value, 512, opts)} tabs={[
     { id: "parts", label: "Parts", render: ({ value, update }) => <>
-      <Input appearance={appearance} label="Character seed" value={seed} onChange={(event) => { setSeed(event.target.value); setConfig(generateCharacterConfig(event.target.value)); }} />
+      <Input appearance={appearance} label="Character seed" value={seed} onChange={(event) => { setSeed(event.target.value); setConfig(portraitPreset(event.target.value)); }} />
       {([['hair', CHARACTER_HAIR], ['glasses', CHARACTER_GLASSES], ['outfit', CHARACTER_OUTFITS], ['face', CHARACTER_FACES]] as const).map(([key, values]) => <CustomizerSelect key={key} label={colorLabel(key)} value={value.parts[key]} options={options(values as readonly string[])} onChange={(next) => update({ parts: { ...value.parts, [key]: next } as CharacterConfig['parts'] })} />)}
       <CustomizerToggle label="Background accents" checked={value.parts.accents} onChange={(accents) => update({ parts: { ...value.parts, accents } })} /><CustomizerToggle label="Earring" checked={value.parts.earring} onChange={(earring) => update({ parts: { ...value.parts, earring } })} />
     </> },
@@ -54,10 +64,10 @@ function HelmetColorsFields({ value, onChange }: { value: HelmetConfig; onChange
 
 export function HelmetDemo({ appearance }: { appearance: Appearance }) {
   const [seed, setSeed] = useState("orangeui:helmet");
-  const [config, setConfig] = useState(() => generateHelmetConfig(seed));
+  const [config, setConfig] = useState(() => helmetPreset(seed));
   const preview = usePreviewOptions();
-  return <ArtworkCustomizer value={config} onChange={setConfig} normalizeConfig={normalizeHelmetConfig} generateConfig={generateHelmetConfig} seed={seed} appearance={appearance} filename="helmet" label="Customize your helmet" previewCaption="Follow the pointer. Click or press Space to flip the visor." renderPreview={(value, style) => <Helmet config={value} seed={seed} size={preview.size} interactive={preview.interactive} blink={preview.blink} visorOpen={value.parts.visorOpen} onVisorOpenChange={(visorOpen) => setConfig({ ...value, parts: { ...value.parts, visorOpen } })} appearance={style} />} configToSvg={(value, opts) => helmetToSvgString(value, 512, opts)} tabs={[
-    { id: "design", label: "Design", render: ({ value, replace }) => <><Input appearance={appearance} label="Helmet seed" value={seed} onChange={(event) => { setSeed(event.target.value); setConfig(generateHelmetConfig(event.target.value)); }} /><HelmetDesignFields value={value} onChange={replace} /></> },
+  return <ArtworkCustomizer value={config} onChange={setConfig} normalizeConfig={normalizeHelmetConfig} generateConfig={helmetPreset} seed={seed} appearance={appearance} filename="helmet" label="Customize your helmet" previewCaption="Follow the pointer. Click or press Space to flip the visor." renderPreview={(value, style) => <Helmet config={value} seed={seed} size={preview.size} interactive={preview.interactive} blink={preview.blink} visorOpen={value.parts.visorOpen} onVisorOpenChange={(visorOpen) => setConfig({ ...value, parts: { ...value.parts, visorOpen } })} appearance={style} />} configToSvg={(value, opts) => helmetToSvgString(value, 512, opts)} tabs={[
+    { id: "design", label: "Design", render: ({ value, replace }) => <><Input appearance={appearance} label="Helmet seed" value={seed} onChange={(event) => { setSeed(event.target.value); setConfig(helmetPreset(event.target.value)); }} /><HelmetDesignFields value={value} onChange={replace} /></> },
     { id: "colors", label: "Colors", render: ({ value, replace }) => <HelmetColorsFields value={value} onChange={replace} /> },
     { id: "motion", label: "Motion", render: () => <MotionFields preview={preview} /> },
   ]} />;
@@ -66,7 +76,7 @@ export function HelmetDemo({ appearance }: { appearance: Appearance }) {
 export function MiniDriverDemo({ appearance }: { appearance: Appearance }) {
   const [seed, setSeed] = useState("orangeui:driver");
   const [config, setConfig] = useState(() => generateMiniDriverConfig(seed));
-  const preview = usePreviewOptions();
+  const preview = usePreviewOptions(340);
   return <ArtworkCustomizer value={config} onChange={setConfig} normalizeConfig={normalizeMiniDriverConfig} generateConfig={generateMiniDriverConfig} seed={seed} appearance={appearance} filename="mini-driver" exportWidth={480} label="Customize your driver" previewCaption="Move the pointer to look around. Click or press Space to wave." renderPreview={(value, style) => <MiniDriver config={value} seed={seed} size={preview.size} interactive={preview.interactive} blink={preview.blink} appearance={style} />} configToSvg={(value, opts) => miniDriverToSvgString(value, 640, opts)} tabs={[
     { id: "suit", label: "Suit", render: ({ value, update }) => <><Input appearance={appearance} label="Driver seed" value={seed} onChange={(event) => { setSeed(event.target.value); setConfig(generateMiniDriverConfig(event.target.value)); }} /><CustomizerSelect label="Suit panels" value={value.parts.suit} options={options(DRIVER_SUITS)} onChange={(suit) => update({ parts: { ...value.parts, suit } })} /><CustomizerSelect label="Boot shape" value={value.parts.boots} options={options(DRIVER_BOOTS)} onChange={(boots) => update({ parts: { ...value.parts, boots } })} /><CustomizerToggle label="Belt" checked={value.parts.belt} onChange={(belt) => update({ parts: { ...value.parts, belt } })} /><ColorFields value={value.colors} onChange={(colors) => update({ colors })} /></> },
     { id: "helmet", label: "Helmet", render: ({ value, update }) => <HelmetDesignFields value={value.helmet} onChange={(helmet) => update({ helmet })} /> },

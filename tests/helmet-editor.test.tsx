@@ -145,7 +145,7 @@ describe("HelmetEditor exports", () => {
     expect(svg.documentElement.getAttribute("viewBox")).toBe("0 0 240 240");
     expect(source).toContain("#123456");
     expect(source).toContain(">007</text>");
-    expect(svg.querySelector(".helmet-visor-lift")?.getAttribute("transform")).toContain("translate(0 -42)");
+    expect(svg.querySelector(".helmet-visor-lift")?.getAttribute("transform")).toBe("rotate(30 178 111)");
     expect(source).not.toMatch(/var\(|<animate|<script|<image/);
     expect(svg.documentElement.getAttribute("shape-rendering")).toBe(appearance === "pixel" ? "crispEdges" : "auto");
     await user.click(screen.getByRole("button", { name: "Export PNG" }));

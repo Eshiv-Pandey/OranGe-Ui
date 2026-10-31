@@ -16,18 +16,32 @@ export function seededTreeRandom(seed: number) {
 }
 export function createSeasonFoliage(season: TreeSeason): TreeTile[] {
   const random = seededTreeRandom(9143), palette = TREE_PALETTES[season];
-  const clusters = [[43, 43, 25, 16], [71, 35, 25, 17], [90, 52, 24, 21], [105, 72, 19, 15], [29, 68, 24, 20], [52, 63, 27, 22], [75, 72, 26, 23], [49, 87, 30, 13]];
   const tiles: TreeTile[] = [];
-  for (const [cx, cy, rx, ry] of clusters) for (let i = 0; i < 58 * palette.density; i++) {
-    const angle = random() * Math.PI * 2, radius = Math.sqrt(random());
-    tiles.push({ x: Math.round(cx + Math.cos(angle) * radius * rx), y: Math.round(cy + Math.sin(angle) * radius * ry), w: 3 + Math.floor(random() * 6), h: season === "pink" ? 3 : 3 + Math.floor(random() * 4), color: palette.leaves[Math.floor(random() * palette.leaves.length)], layer: random() });
+  // Connected leaf masses have an illuminated crown and a warm, broken underside.
+  // The empty fork below the crown is intentional, so the trunk reads at small sizes.
+  const crowns = [[41, 48, 23, 21], [65, 35, 24, 20], [88, 50, 24, 21], [29, 72, 22, 20], [64, 62, 38, 26], [99, 78, 22, 22], [41, 87, 23, 16]];
+  const step = season === "green" ? 2 : season === "pink" ? 3 : 2.5;
+  for (let y = 17; y < 105; y += step) for (let x = 7; x < 124; x += step) {
+    const edge = Math.sin(x * .57) * 1.7 + Math.cos(y * .91) * 1.2;
+    const inside = crowns.some(([cx, cy, rx, ry]) => ((x - cx) / (rx + edge)) ** 2 + ((y - cy) / (ry + edge)) ** 2 < 1);
+    if (!inside) continue;
+    if (season === "winter" && (y > 76 || random() > .032)) continue;
+    const opening = y > 77 && x > 51 && x < 79 && Math.abs(x - 65) < (y - 73) * .6;
+    if (opening) continue;
+    const shade = y * .46 + x * .07 + Math.sin(x * .23) * 4 + Math.cos(y * .29) * 3 + Math.sin(x * .35 - y * .2) * 3 + random() * 7;
+    const colorIndex = shade < 29 ? 1 : shade < 38 ? 0 : shade < 49 ? 2 : 3;
+    const paletteOrder = season === "yellow" ? ["#ffc950", "#ffdd75", "#ffa947", "#ec7046"] : season === "green" ? ["#7fb84f", "#bbd976", "#5b934b", "#386a48"] : palette.leaves;
+    const front = y < 59 || (y < 88 && Math.sin(x * .19 - y * .07) > .35);
+    tiles.push({ x: Math.round(x), y: Math.round(y), w: Math.ceil(step) + 1, h: Math.ceil(step) + (season === "pink" ? 1 : 2), color: paletteOrder[colorIndex], layer: front ? .9 : .3 });
+    if (random() < .014 && y < 80) tiles.push({ x: Math.round(x - 5), y: Math.round(y - 5), w: 2, h: 2, color: paletteOrder[1], layer: .9 });
   }
   return tiles;
 }
 export function paintTreeBranches(context: CanvasRenderingContext2D, winter = false) {
-  context.fillStyle = "#71333f";
-  const blocks = [[58, 79, 8, 43], [54, 107, 16, 16], [47, 118, 32, 6], [63, 61, 6, 30], [45, 64, 7, 7], [49, 69, 7, 8], [52, 76, 9, 9], [36, 52, 5, 12], [41, 59, 7, 10], [69, 73, 9, 6], [77, 61, 6, 15], [82, 57, 10, 5], [89, 43, 4, 16], [59, 48, 5, 19], [65, 39, 4, 13], [74, 91, 13, 5], [85, 82, 5, 13], [34, 81, 20, 5], [29, 75, 5, 11]];
+  context.fillStyle = "#683447";
+  const blocks = [[59, 79, 9, 33], [56, 109, 15, 10], [52, 117, 23, 5], [46, 121, 35, 3], [62, 61, 6, 30], [46, 65, 5, 7], [49, 71, 6, 8], [53, 78, 10, 8], [36, 52, 4, 10], [40, 60, 8, 8], [68, 76, 8, 7], [75, 66, 5, 13], [80, 60, 9, 5], [87, 47, 4, 16], [58, 47, 4, 18], [63, 39, 4, 12], [69, 91, 14, 5], [82, 82, 4, 12], [34, 84, 20, 4], [29, 77, 5, 10]];
   for (const [x, y, w, h] of blocks) context.fillRect(x, y, w, h);
-  context.fillStyle = "#a65552"; context.fillRect(60, 94, 3, 24); context.fillRect(55, 108, 3, 13); context.fillRect(67, 68, 3, 11);
+  context.fillStyle = "#a25456"; context.fillRect(59, 92, 3, 21); context.fillRect(56, 112, 3, 7); context.fillRect(62, 68, 2, 13); context.fillRect(51, 74, 2, 6);
+  context.fillStyle = "#472b3c"; context.fillRect(65, 100, 3, 18); context.fillRect(69, 118, 5, 3);
   if (winter) { context.fillStyle = "#f8ffff"; context.fillRect(37, 51, 10, 3); context.fillRect(70, 90, 17, 3); context.fillRect(51, 118, 25, 3); }
 }

@@ -18,7 +18,7 @@ function isDark() {
 }
 
 export function ThemeToggle() {
-  const dark = useSyncExternalStore(subscribeTheme, isDark, () => false);
+  const dark = useSyncExternalStore(subscribeTheme, isDark, () => true);
   return <Button variant="ghost" className="theme-toggle" aria-label="Dark mode" aria-pressed={dark} onClick={() => {
     const theme = dark ? "light" : "dark";
     document.documentElement.dataset.theme = theme;

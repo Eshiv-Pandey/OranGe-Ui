@@ -7,8 +7,9 @@ import { CREATIVE_COMPONENTS } from "../lib/creative-components";
 import { collectComponentSource, CREATIVE_AUDIO_ASSETS, CREATIVE_FONT_ASSETS } from "../lib/source-bundle";
 import { componentRegistryItem, registryAssetSource } from "../lib/component-registry";
 
-it("registers exactly 84 unique components and keeps creative pieces in their intended collections", () => {
-  expect(components).toHaveLength(84); expect(new Set(components.map(({ slug }) => slug)).size).toBe(84); expect(CREATIVE_COMPONENTS).toHaveLength(14);
+it("registers exactly 82 unique components and keeps creative pieces in their intended collections", () => {
+  expect(components).toHaveLength(82); expect(new Set(components.map(({ slug }) => slug)).size).toBe(82); expect(CREATIVE_COMPONENTS).toHaveLength(14);
+  expect(components.some(({slug}) => slug === "livery-editor" || slug === "helmet-editor")).toBe(false);
   expect(componentsInCollection("pixel").filter((component) => component.collection).map(({ slug }) => slug)).toEqual(["season-tree"]);
   expect(componentsInCollection("retro-os").filter((component) => component.collection).map(({ slug }) => slug)).toEqual(["retro-player", "retro-camera"]);
   expect(componentsInCollection("polished").filter((component) => component.collection)).toHaveLength(11);

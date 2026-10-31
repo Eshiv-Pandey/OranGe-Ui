@@ -1,39 +1,45 @@
-import { CREATIVE_SHADER_COMMON } from "./creative-webgl";
+﻿import { CREATIVE_SHADER_COMMON } from "./creative-webgl";
 
-/** Original cel field, ink contour, rising particles and background heat distortion. */
-export const ANIME_FIRE_FRAGMENT = CREATIVE_SHADER_COMMON + [
-  "uniform vec3 uColors[3]; uniform float uSpeed; uniform float uIntensity; uniform float uHeight; uniform float uInteractive; uniform float uDither; uniform float uPixelSize;",
-  "void main(){",
-  " vec2 uv=floor(gl_FragCoord.xy/max(1.,uPixelSize))*max(1.,uPixelSize)/uResolution;",
-  " float t=uTime*uSpeed; float pull=uInteractive*clamp(uPointer.y,0.,1.);",
-  " float reach=max(.04,uHeight+pull*.24); float y=uv.y/reach;",
-  " float bend=(uPointer.x-.5)*pow(clamp(y,0.,1.),1.5)*uInteractive*.58;",
-  " float x=(uv.x-.5-bend)*(uResolution.x/uResolution.y);",
-  " float n=noise(vec2(x*7.+sin(t),y*4.-t*2.1));",
-  " float tongues=sin(x*24.+t*2.)*.07+sin(x*43.-t*1.7)*.045;",
-  " float width=max(.025,(1.-y*.78)*(.31+uIntensity*.065));",
-  " float field=1.-y-pow(abs(x)/width,1.6)+(n-.5)*.29+tongues*(.4+y);",
-  " float shimmer=(noise(vec2(uv.x*13.+t*.9,uv.y*9.-t*1.8))-.5)*.016*exp(-abs(field)*5.);",
-  " vec3 bg=mix(vec3(.98,.955,.91),vec3(.052,.047,.07),uTheme);",
-  " bg+=vec3(.11,.045,.012)*exp(-abs(field)*9.)*(.7+.3*sin(t*6.))+shimmer;",
-  " vec3 ink=mix(uColors[0]*.48,vec3(.18,.075,.1),.32);",
-  " vec3 color=bg;",
-  " if(field>-.035 && y<1.2){",
-  "   color=ink;",
-  "   if(field>.025)color=uColors[0];",
-  "   if(field>.19)color=uColors[1];",
-  "   if(field>.44)color=uColors[2];",
-  "   if(field>.69)color=mix(uColors[2],vec3(1.,.98,.83),.68);",
-  "   float glow=exp(-abs(field-.08)*13.)*.1;color+=uColors[1]*glow;",
-  " }",
-  " for(int i=0;i<19;i++){",
-  "   float fi=float(i);float seed=hash(vec2(fi,4.));float rise=fract(seed+t*(.095+seed*.07));",
-  "   float sx=.15+hash(vec2(fi,7.))*.7+sin(rise*8.+fi+t)*.026+(uPointer.x-.5)*rise*.16*uInteractive;",
-  "   float sy=.1+rise*.82;vec2 d=(uv-vec2(sx,sy))*vec2(uResolution.x/uResolution.y,1.);",
-  "   float ember=1.-smoothstep(.002,.008, length(d));ember*=sin(rise*3.14159)*(.5+uIntensity*.3);",
-  "   color=mix(color,mix(uColors[1],uColors[2],seed),clamp(ember,0.,1.));",
-  " }",
-  " if(uDither>.5){float threshold=bayer(gl_FragCoord.xy/max(1.,uPixelSize))-.5;color=floor(color*7.+threshold*.75)/7.;}",
-  " gl_FragColor=vec4(clamp(color,0.,1.),1.);",
-  "}",
-].join("\n");
+/** Original advected flame field, with four cel layers and detached rising embers. */
+export const ANIME_FIRE_FRAGMENT = CREATIVE_SHADER_COMMON + `
+uniform vec3 uColors[3];
+uniform float uSpeed,uIntensity,uHeight,uInteractive,uDither,uPixelSize;
+float flameNoise(vec2 p){
+  return noise(p)*.57+noise(p*2.07+7.3)*.28+noise(p*4.13+2.1)*.15;
+}
+void main(){
+  vec2 uv=(floor(gl_FragCoord.xy/max(1.,uPixelSize))+.5)*max(1.,uPixelSize)/uResolution;
+  float t=uTime*uSpeed;
+  float aspect=uResolution.x/uResolution.y;
+  float pointerPull=exp(-pow((uv.x-uPointer.x)*4.,2.))*uPointer.y*uInteractive*.32;
+  vec2 p=vec2(uv.x*max(1.,aspect)*4.5,uv.y*3.);
+  p.x+=sin(p.y*2.8-t*2.1)*.25+sin(p.y*5.2-t*1.3)*.12;
+  p+=vec2(flameNoise(p*.9+vec2(0.,-t)),flameNoise(p*.7+5.-t*.6))*.55;
+  float flowing=flameNoise(p+vec2(t*.14,-t*2.4));
+  float curl=sin(p.x*3.1+flowing*5.+t*.8)*.032;
+  float reach=uHeight*(.68+uIntensity*.22)+pointerPull;
+  float field=reach-uv.y+(flowing-.47)*(.48+reach*.3)+curl;
+  field-=smoothstep(.8,1.,uv.y)*.2;
+  vec3 background=mix(vec3(.988,.978,.958),vec3(.041,.037,.043),uTheme);
+  vec3 color=background;
+  float alive=smoothstep(0.,.18,uIntensity);
+  float feather=max(.0015,1.5/uResolution.y);
+  color=mix(color,uColors[0],smoothstep(-feather,feather,field)*alive);
+  color=mix(color,uColors[1],smoothstep(.068-feather,.068+feather,field)*alive);
+  color=mix(color,uColors[2],smoothstep(.16-feather,.16+feather,field)*alive);
+  vec3 core=mix(uColors[2],vec3(1.,.965,.84),.8);
+  color=mix(color,core,smoothstep(.28-feather,.28+feather,field)*alive);
+  color+=vec3(1.,.47,.12)*exp(-abs(field)*28.)*.025;
+  for(int i=0;i<12;i++){
+    float fi=float(i),seed=hash(vec2(fi,3.4));
+    float rise=fract(seed+t*(.07+seed*.035));
+    float x=hash(vec2(fi,7.8))+sin(rise*9.+fi+t)*.018;
+    float y=.12+rise*.77;
+    vec2 d=(uv-vec2(x,y))*vec2(aspect,1.);
+    float ember=(1.-smoothstep(.001,.0045,length(d)))*sin(rise*3.14159)*alive;
+    color=mix(color,uColors[1],ember*.7);
+  }
+  color+=(hash(gl_FragCoord.xy)-.5)*.012;
+  if(uDither>.5)color=floor(color*7.+(bayer(gl_FragCoord.xy/max(1.,uPixelSize))-.5)*.8)/7.;
+  gl_FragColor=vec4(clamp(color,0.,1.),1.);
+}`;

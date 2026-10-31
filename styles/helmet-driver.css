@@ -11,9 +11,10 @@
 :is(.helmet, .mini-driver) .helmet-stripe-layer { transform: translateX(calc(var(--gaze-x, 0) * 2px)); }
 :is(.helmet, .mini-driver) .helmet-number-layer { transform: translate(calc(var(--gaze-x, 0) * 3px), calc(var(--gaze-y, 0) * 1px)); }
 :is(.helmet, .mini-driver) .helmet-visor-orbit { transform: translate(calc(var(--gaze-x, 0) * 4px), calc(var(--gaze-y, 0) * 2px)); }
-:is(.helmet, .mini-driver) .helmet-visor-lift { transform-origin: 59px 112px; transition: transform 340ms cubic-bezier(.16, 1, .3, 1); }
+:is(.helmet, .mini-driver) .helmet-visor-lift { transform-origin: 178px 111px; transition: transform 340ms cubic-bezier(.16, 1, .3, 1); }
 .helmet[data-motion="paused"] .helmet-visor-lift, .mini-driver[data-motion="paused"] .helmet-visor-lift { transition: none; }
-:is(.helmet, .mini-driver)[data-visor-open="true"] .helmet-visor-lift { transform: translateY(-42px) rotate(-5deg) scaleY(.76); }
+:is(.helmet, .mini-driver)[data-visor-open="true"] .helmet-visor-lift { transform: rotate(30deg); }
+:is(.helmet, .mini-driver)[data-visor-open="false"] .helmet-interior-face { opacity: 0; }
 :is(.helmet, .mini-driver) .helmet-pupil { transform: translate(calc(var(--gaze-x, 0) * 3px), calc(var(--gaze-y, 0) * 2px)); }
 :is(.helmet, .mini-driver) .helmet-blink { transform: scaleY(var(--blink-scale, 1)); }
 :is(.helmet, .mini-driver) .mini-driver-body { transform-origin: 120px 290px; animation: mini-driver-breathe 3.8s ease-in-out infinite; }

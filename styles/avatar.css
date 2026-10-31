@@ -181,3 +181,5 @@
   }
   .ui-avatar[data-generated-avatar] .avatar-gradient-shift { opacity: 0; }
 }
+
+.avatar-editor-settings { min-width: 0; }

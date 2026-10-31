@@ -8,6 +8,7 @@ import { createCreativeSound } from "./creative-audio";
 import { CreativeIcon } from "./creative-icons";
 import { stickerSource } from "./creative-decals";
 import type { KeychainWorld } from "./keychain-physics";
+import { paintChainLink, paintKeychainCharm } from "./keychain-art";
 import "../../styles/swing-keychain.css";
 
 export type KeychainCharm = { id: string; kind?: "orange" | "flower" | "star" | "planet" | "bolt"; image?: string; color?: string; label?: string };
@@ -18,7 +19,7 @@ export type SwingKeychainProps = {
   theme?: CreativeTheme; appearance?: Appearance; className?: string;
 };
 
-export function SwingKeychain({ charms = DEFAULT_CHARMS, chainLength = 6, gravity = 850, damping = 0.96, muted = true, volume = 0.35, clipColor = "#91afc3", background = "#ffe28b", size = 340, theme = "auto", appearance = "polished", className }: SwingKeychainProps) {
+export function SwingKeychain({ charms = DEFAULT_CHARMS, chainLength = 6, gravity = 850, damping = 0.96, muted = true, volume = 0.35, clipColor = "#91afc3", background = "transparent", size = 340, theme = "auto", appearance = "polished", className }: SwingKeychainProps) {
   const root = useRef<HTMLDivElement>(null), canvas = useRef<HTMLCanvasElement>(null), world = useRef<KeychainWorld | null>(null);
   const physics = useRef<typeof import("./keychain-physics") | null>(null), sound = useRef<ReturnType<typeof createCreativeSound> | null>(null);
   const [isMuted, setMuted] = usePropPreference(muted), resolved = useCreativeTheme(theme);
@@ -31,42 +32,44 @@ export function SwingKeychain({ charms = DEFAULT_CHARMS, chainLength = 6, gravit
       if (cancelled || !canvas.current) return;
       physics.current = module;
       const model = module.createKeychainWorld(360, 420, Math.max(1, charms.length), chainLength); world.current = model;
-      for (let i = 0; i < 90; i++) module.stepKeychain(model, 1 / 60, gravity, damping);
+      // Settle assembly overlaps before the first paint, including reduced motion.
+      for (let i = 0; i < 360; i++) module.stepKeychain(model, 1 / 60, gravity, .65);
+      for (const particle of model.particles) { particle.px = particle.x; particle.py = particle.y; }
       for (const [index, charm] of charms.entries()) {
         const image = new Image(); image.crossOrigin = "anonymous";
-        image.onload = () => renderer?.redraw(); image.src = charm.image || stickerSource({ id: charm.id, kind: charm.kind || "star", x: 0, y: 0, size: 1 }); images[index] = image;
+        image.onload = () => renderer?.redraw(); if (charm.image) image.src = charm.image; images[index] = image;
       }
       let lastSound = 0;
       renderer = createCreativeCanvas(canvas.current, (context, frame) => {
         const config = latest.current, dt = frame.reduced ? 0 : frame.delta / 1000;
         const impact = dt ? module.stepKeychain(model, dt, clamp(config.gravity, 0, 2500), clamp(config.damping, 0.5, 0.999)) : 0;
-        if (impact > 45 && frame.time - lastSound > 120 && !config.isMuted) { session.play("clink", config.volume, impact / 450); lastSound = frame.time; }
-        if (!frame.reduced && model.grabbed === null) {
-          const anchor = model.particles[0]; anchor.x = 180 + Math.sin(frame.time / 1800) * 1.5;
-        }
+        if (impact > 55 && frame.time - lastSound > 145 && !config.isMuted) { session.play("clink", config.volume, impact / 350); lastSound = frame.time; }
         context.clearRect(0, 0, frame.width, frame.height); context.save(); context.scale(frame.width / 360, frame.height / 420);
-        context.fillStyle = config.background; context.fillRect(0, 0, 360, 420);
+        if (config.background !== "transparent") { context.fillStyle = config.background; context.fillRect(0, 0, 360, 420); }
         const metal = context.createLinearGradient(146, 0, 211, 0); metal.addColorStop(0, "#d5e6ef"); metal.addColorStop(0.45, config.clipColor); metal.addColorStop(1, "#4e7394");
         context.lineCap = "round"; context.lineJoin = "round";
-        context.beginPath(); context.moveTo(167, 84); context.bezierCurveTo(118, 13, 224, -4, 214, 55); context.bezierCurveTo(210, 87, 190, 107, 169, 83);
+        context.beginPath(); context.moveTo(169, 95); context.bezierCurveTo(132, 48, 157, 13, 188, 20); context.bezierCurveTo(240, 31, 208, 116, 179, 102);
         context.strokeStyle = "#273f5a"; context.lineWidth = 13; context.stroke(); context.strokeStyle = metal; context.lineWidth = 8; context.stroke();
-        context.beginPath(); context.moveTo(154, 34); context.lineTo(169, 78); context.strokeStyle = "#314e69"; context.lineWidth = 8; context.stroke(); context.strokeStyle = "#b5d2df"; context.lineWidth = 4; context.stroke();
+        context.beginPath(); context.moveTo(155, 43); context.lineTo(169, 88); context.strokeStyle = "#314e69"; context.lineWidth = 8; context.stroke(); context.strokeStyle = "#d2e2ea"; context.lineWidth = 4; context.stroke();
         for (const link of model.links) {
           const a = model.particles[link.a], b = model.particles[link.b];
-          context.beginPath(); context.moveTo(a.x, a.y); context.lineTo(b.x, b.y); context.strokeStyle = "#314768"; context.lineWidth = 7; context.stroke(); context.strokeStyle = "#b8cede"; context.lineWidth = 3.5; context.stroke();
+          const length = Math.hypot(b.x - a.x, b.y - a.y), angle = -Math.atan2(b.x - a.x, b.y - a.y);
+          const charmLink = link.b >= model.charmStart, end = charmLink ? Math.max(0, length - b.radius - 9) : length;
+          const count = Math.max(1, Math.ceil(end / (charmLink ? 8 : 10)));
+          for (let segment = 0; segment < count; segment++) { const distance = (segment + .5) / count * end, t = distance / length; paintChainLink(context, a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t, angle, segment % 2 === 0, charmLink ? .67 : .9); }
         }
         for (let index = 1; index < model.charmStart; index++) {
-          const node = model.particles[index]; context.beginPath(); context.ellipse(node.x, node.y, 6, 8, index % 2 ? 0.35 : -0.35, 0, Math.PI * 2); context.strokeStyle = "#2b425c"; context.lineWidth = 3; context.stroke(); context.strokeStyle = "#bdd3de"; context.lineWidth = 1.4; context.stroke();
+          if (index === model.charmStart - 1) { const node = model.particles[index]; paintChainLink(context, node.x, node.y, 0, false, 1.8); }
         }
         for (let index = 0; index < config.charms.length && model.charmStart + index < model.particles.length; index++) {
           const node = model.particles[model.charmStart + index], anchor = model.particles[model.charmStart - 1], image = images[index], charm = config.charms[index];
-          const angle = Math.atan2(node.x - anchor.x, node.y - anchor.y) * -0.55;
+          const angle = Math.atan2(node.x - anchor.x, node.y - anchor.y) * -.8, radius = node.radius + 8;
           context.save(); context.translate(node.x, node.y); context.rotate(angle);
-          context.shadowColor = "#8e63295c"; context.shadowBlur = 6; context.shadowOffsetX = 3; context.shadowOffsetY = 6;
-          context.beginPath(); context.roundRect(-node.radius - 3, -node.radius - 3, node.radius * 2 + 6, node.radius * 2 + 6, charm.image ? 10 : node.radius * 0.4); context.fillStyle = "#fffdf4"; context.fill(); context.shadowColor = "transparent";
-          context.strokeStyle = charm.color || "#344d68"; context.lineWidth = 2; context.stroke();
-          if (image?.complete && image.naturalWidth) context.drawImage(image, -node.radius + 2, -node.radius + 2, node.radius * 2 - 4, node.radius * 2 - 4);
-          context.beginPath(); context.arc(0, -node.radius + 2, 3, 0, Math.PI * 2); context.fillStyle = "#8bacc0"; context.fill(); context.strokeStyle = "#3b5b72"; context.lineWidth = 1; context.stroke();
+          if (charm.image) {
+            context.beginPath(); context.roundRect(-radius, -radius, radius * 2, radius * 2, 8); context.fillStyle = "#edf1f1"; context.fill(); context.strokeStyle = charm.color || "#567185"; context.lineWidth = 2; context.stroke();
+            if (image?.complete && image.naturalWidth) { context.save(); context.clip(); context.drawImage(image, -radius + 3, -radius + 3, radius * 2 - 6, radius * 2 - 6); context.restore(); }
+          } else paintKeychainCharm(context, charm.kind || "star", radius, charm.color);
+          paintChainLink(context, 0, -radius - 2, 0, false, .65);
           context.restore();
         }
         context.restore(); if (root.current) root.current.dataset.ready = "true";

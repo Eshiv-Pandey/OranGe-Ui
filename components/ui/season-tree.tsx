@@ -35,7 +35,7 @@ export function SeasonTree({ season, onSeasonChange, showPicker = true, windStre
       const palette = TREE_PALETTES[currentSeason], wind = clamp(config.windStrength, 0, 4);
       context.clearRect(0, 0, frame.width, frame.height);
       context.save(); context.scale(frame.width / 128, frame.height / 138);
-      if (config.background !== "transparent") { context.fillStyle = config.background || (config.resolved === "dark" ? palette.darkSky : palette.sky); context.fillRect(0, 0, 128, 138); }
+      if (config.background && config.background !== "transparent") { context.fillStyle = config.background; context.fillRect(0, 0, 128, 138); }
       context.fillStyle = palette.ground; context.fillRect(15, 122, 101, 2); context.fillRect(23, 124, 80, 3);
       context.fillStyle = currentSeason === "winter" ? "#edf8ff" : "#f1af5b"; context.fillRect(40, 126, 46, 2);
       const paintFoliage = (tiles: TreeTile[], opacity: number, front: boolean) => {

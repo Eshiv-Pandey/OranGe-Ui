@@ -23,6 +23,10 @@ const nonPublicSources = Object.entries(traceScopes).flatMap(([folder, retained]
 const privateFiles = ["./AGENTS.md", "./USER_INSTRUCTIONS.md", "./CONTRIBUTION_RULES.md", "./.env*", "./.git/**/*", "./out/**/*", "./references/**/*", "./*.tsbuildinfo", "./next-env.d.ts", ...nonPublicSources];
 const config: NextConfig = {
   poweredByHeader: false,
+  redirects: async () => [
+    { source: "/components/livery-editor", destination: "/components/open-wheel-car", permanent: true },
+    { source: "/components/helmet-editor", destination: "/components/helmet", permanent: true },
+  ],
   outputFileTracingIncludes: { "/api/components/*": downloadableSource, "/r/*": downloadableSource },
   outputFileTracingExcludes: { "/api/components/*": privateFiles, "/r/*": privateFiles },
 };

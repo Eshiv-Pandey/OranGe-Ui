@@ -43,8 +43,9 @@ export function AvatarCharacters({ value, onChange, seed = "orangeui:character",
         <h3>{mascotLabel(config.mascot)}</h3>
         <p className="ui-help">Move your pointer. Click to say hello.</p>
       </div>
-      <div className="avatar-editor-context" role="group" aria-label="Character in context"><p>In context</p><div>{[16, 32, 64, 128].map((size) => <figure key={size}><MascotAvatar config={config} state={state} size={size} appearance={appearance} interactive={false} blink={blink} /><figcaption>{size} px</figcaption></figure>)}</div></div>
+
     </div>
+    <div className="avatar-editor-settings">
     <div className="avatar-editor-pickers avatar-character-pickers">
       <fieldset className="avatar-editor-fieldset"><legend>Character <span>8 original companions</span></legend>
         <div className="avatar-character-options">{MASCOT_OPTIONS.map((option) => <label key={option.value} className="avatar-character-option" title={option.description}>
@@ -62,6 +63,7 @@ export function AvatarCharacters({ value, onChange, seed = "orangeui:character",
       <fieldset className="avatar-editor-fieldset avatar-editor-custom-colors"><legend>Character colors</legend><div>{Object.entries(colorLabels).map(([key, label]) => <label key={key} htmlFor={`${id}-${key}`}><input id={`${id}-${key}`} type="color" aria-label={`${label} color`} value={config.colors[key as keyof MascotColors]} onChange={(event) => change({ colors: { ...config.colors, [key]: event.target.value } })} /><span>{label}</span></label>)}</div></fieldset>
       <div className="avatar-character-toggles"><label><input type="checkbox" checked={interactive} onChange={(event) => setInteractive(event.target.checked)} /> Follow pointer</label><label><input type="checkbox" checked={blink} onChange={(event) => setBlink(event.target.checked)} /> Blink</label></div>
     </div>
+      <div className="avatar-editor-context" role="group" aria-label="Character in context"><p>In context</p><div>{[16, 32, 64, 128].map((size) => <figure key={size}><MascotAvatar config={config} state={state} size={size} appearance={appearance} interactive={false} blink={blink} /><figcaption>{size} px</figcaption></figure>)}</div></div>
     <div className="avatar-editor-actions">
       <Button appearance={appearance} onClick={() => { onChange(generateMascotConfig(`${seed}:${JSON.stringify(config)}:next`)); setFeedback("A new character combination."); }}>Randomize character</Button>
       <Button appearance={appearance} variant="secondary" onClick={() => { onChange(generateMascotConfig(seed)); setState("idle"); setInteractive(true); setBlink(true); setFeedback("Character reset."); }}>Reset character</Button>
@@ -71,6 +73,7 @@ export function AvatarCharacters({ value, onChange, seed = "orangeui:character",
       <p className="ui-help">Exports preserve the selected expression in a settled pose.</p>
       <p className="ui-help" role="status">{feedback}</p>
       <details className="avatar-editor-config"><summary>Configuration</summary><pre className="character-config" tabIndex={0} aria-label="Character configuration"><code>{JSON.stringify(config, null, 2)}</code></pre></details>
+    </div>
     </div>
   </div>;
 }

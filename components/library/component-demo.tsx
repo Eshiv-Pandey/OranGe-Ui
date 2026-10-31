@@ -1,4 +1,6 @@
 "use client";
+
+import { CreativeWorkbench } from "../ui/creative-editor-slot";
 import { lazy, Suspense, useState } from "react";
 import { CREATIVE_COMPONENT_SLUGS } from "../../lib/creative-components";
 import type { Appearance } from "../ui/appearance";
@@ -141,12 +143,10 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
 function MascotDemo({ appearance }: { appearance: Appearance }) {
   const [mascot, setMascot] = useState<MascotKind>("dune-hopper");
   const [state, setState] = useState<MascotState>("idle");
-  return <div className="demo-stack mascot-demo">
-    <MascotAvatar seed="studio-helper" mascot={mascot} state={state} size={176} appearance={appearance} aria-label={`Mascot preview, ${state}`} />
-    <div className="avatar-editor-selects">
+  return <div className="creative-surface creative-demo mascot-demo"><CreativeWorkbench preview={<MascotAvatar seed="studio-helper" mascot={mascot} state={state} size={300} appearance={appearance} aria-label={`Mascot preview, ${state}`} />}><div className="avatar-editor-selects">
       <Select appearance={appearance} label="Character" value={mascot} onValueChange={(value) => setMascot(value as MascotKind)} options={MASCOT_OPTIONS.map(({ value, label }) => ({ value, label }))} />
       <Select appearance={appearance} label="Chat state" value={state} onValueChange={(value) => setState(value as MascotState)} options={["idle", "thinking", "talking", "error"].map((value) => ({ value, label: value[0].toUpperCase() + value.slice(1) }))} />
     </div>
-    <p className="demo-feedback">Move your pointer, then click the character to say hello.</p>
+    <p className="demo-feedback">Move your pointer, then click the character to say hello.</p></CreativeWorkbench>
   </div>;
 }

@@ -112,10 +112,10 @@ The docs header provides custom accent colors, readable palette tokens and Copy 
 | Navigation and disclosure | Accordion, Tabs, Breadcrumb, Pagination, DropdownMenu, Command, NavigationMenu, Navbar, Sidebar, ContextMenu |
 | Overlays and feedback | Dialog, Sheet, Popover, Tooltip, Toast, Alert, Progress, Skeleton, HoverCard |
 | Content and layout | Badge, Avatar, AvatarGroup, AvatarEditor, Card, StatCard, Separator, Table, EmptyState, Kbd, ScrollArea, Carousel, CodeBlock |
-| Play | MascotAvatar, CharacterAvatar, Helmet, MiniDriver, GamerBoy, OpenWheelCar, Superbike, RaceStartLights, RaceProgress, LiveryEditor, HelmetEditor |
+| Play | MascotAvatar, CharacterAvatar, Helmet, MiniDriver, GamerBoy, OpenWheelCar, Superbike, RaceStartLights, RaceProgress |
 | AI and chat | ChatMessage, PromptInput, ToolCallCard, AgentStatus, ThinkingIndicator, ModelPicker, Markdown, LiveOrb |
 
-There are 84 public catalogue components. Table already provides sorting and pagination. Form uses Zod validation; FileUpload selects local files and leaves uploading to the consuming app. AI components expose application-owned callbacks. The chat demo streams a fixed local response and makes no model request. Markdown supports GFM with safe URL handling and raw HTML omitted.
+There are 82 public catalogue components. Table already provides sorting and pagination. Form uses Zod validation; FileUpload selects local files and leaves uploading to the consuming app. AI components expose application-owned callbacks. The chat demo streams a fixed local response and makes no model request. Markdown supports GFM with safe URL handling and raw HTML omitted.
 
 ### Creative components
 
@@ -324,7 +324,9 @@ import { Superbike } from "@/components/ui/superbike";
 
 Both vehicles accept a saved `VehicleConfig` from `generateVehicleConfig(seed)`, partial `livery` overrides (`base`, `accent`, `stripe`, `pattern`), a fictional `number`, `tireCompound`, `size`, `track`, and optional `theme`. Patterns are `solid`, `sweep`, `split`, and `chevron`; compounds are `soft`, `medium`, `hard`, and `wet`. Width defaults to 640px and preserves the 640:260 ratio. Set `track={false}` for a transparent cutout. Without an explicit `theme`, scene colors follow the page and system preference.
 
-`LiveryEditor` controls `value: VehicleConfig` and `onChange`. Omit its `vehicle` prop to offer both vehicles, or set `car` or `bike` to fix the preview. Motion and scene choices are local preferences, separate from saved livery. `HelmetEditor` similarly controls `HelmetConfig`, including visor clicks. Both editors randomize, reset from `seed`, copy normalized JSON, and export settled SVG/PNG. Vehicle exports are 640x260; helmet exports are 512x512. Pure `openWheelCarToSvgString` and `superbikeToSvgString` helpers work on the server and accept explicit `appearance`, `theme`, and `track` options.
+`LiveryEditor` controls `value: VehicleConfig` and `onChange`. Omit its `vehicle` prop to offer both vehicles, or set `car` or `bike` to fix the preview. Motion and scene choices are local preferences, separate from saved livery. `HelmetEditor` similarly controls `HelmetConfig`, including visor clicks. Both editors randomize, reset from `seed`, copy normalized JSON, and export settled SVG/PNG. Vehicle exports are 640x260; helmet exports are 512x512. Pure `openWheelCarToSvgString` and `superbikeToSvgString` helpers work on the server and accept explicit `appearance`, `theme`, and `track` options. Superbike also accepts `rider` to include or hide the rider in its preview and export.
+
+These editor APIs remain reusable. Their duplicate catalogue pages redirect to OpenWheelCar and Helmet; the component pages host the editing controls beside the preview. The site defaults to dark and preserves an explicit saved light preference. See [COMPONENT_REWORK.md](COMPONENT_REWORK.md) for the October 2026 artwork and editor rework.
 
 Motion freezes off screen and in hidden tabs, resumes without catching up hidden time, and settles under reduced motion. No animation library is required. The pure `vehicle-motion` module exposes the travel and suspension model separately from the `useVehicleMotion` React adapter.
 

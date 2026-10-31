@@ -50,9 +50,34 @@ export function createCreativeSound() {
     // Animation/collision callers can only use an already unlocked session.
     const context = lease?.context;
     if (destroyed || !context || context.state !== "running" || volume <= 0) return;
-    const duration = kind === "wipe" ? 0.17 : kind === "shutter" ? 0.09 : kind === "clink" ? 0.23 : 0.035;
+    if (kind === "clink") {
+      // Inharmonic steel modes, brief contact noise and delayed smaller contacts.
+      // Unlike a pitched oscillator sweep, each ring keeps its own resonant frequency.
+      const duration = .42, source = context.createBufferSource(), gain = context.createGain();
+      const buffer = context.createBuffer(1, Math.ceil(context.sampleRate * duration), context.sampleRate), data = buffer.getChannelData(0);
+      const base = 1700 + Math.random() * 650, strength = clamp(impact, .05, 1);
+      const contacts = [0, .026 + Math.random() * .016, .069 + Math.random() * .025];
+      const modes = [1, 1.47, 2.09, 2.73, 3.61];
+      for (let sample = 0; sample < data.length; sample++) {
+        const time = sample / context.sampleRate;
+        let value = 0;
+        for (let contact = 0; contact < contacts.length; contact++) {
+          const t = time - contacts[contact]; if (t < 0) continue;
+          const hit = Math.pow(.46, contact);
+          for (let mode = 0; mode < modes.length; mode++) value += Math.sin(2 * Math.PI * base * modes[mode] * (1 + contact * .12) * t) * Math.exp(-t / (.09 - mode * .014)) * hit / (modes.length + mode * 1.8);
+          value += (Math.random() * 2 - 1) * Math.exp(-t * 850) * hit * .36;
+        }
+        data[sample] = value * Math.min(1, time * 5000);
+      }
+      source.buffer = buffer; gain.gain.value = clamp(volume, 0, 1) * strength * .48;
+      source.connect(gain); gain.connect(context.destination);
+      sources.add(source); nodes.add(source); nodes.add(gain);
+      source.onended = () => disconnect(source, [source, gain]); source.start();
+      return;
+    }
+    const duration = kind === "wipe" ? 0.17 : kind === "shutter" ? 0.09 : 0.035;
     const gain = context.createGain();
-    const peak = clamp(volume, 0, 1) * clamp(impact, 0.05, 1) * (kind === "clink" ? 0.12 : 0.07);
+    const peak = clamp(volume, 0, 1) * clamp(impact, 0.05, 1) * 0.07;
     gain.gain.setValueAtTime(peak, context.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + duration);
     gain.connect(context.destination);
@@ -70,9 +95,9 @@ export function createCreativeSound() {
       source.start(); source.stop(context.currentTime + duration);
     } else {
       const source = context.createOscillator();
-      source.type = kind === "clink" ? "triangle" : "sine";
-      source.frequency.setValueAtTime(kind === "clink" ? 1800 + Math.random() * 900 : 1100, context.currentTime);
-      source.frequency.exponentialRampToValueAtTime(kind === "clink" ? 850 : 650, context.currentTime + duration);
+      source.type = "sine";
+      source.frequency.setValueAtTime(1100, context.currentTime);
+      source.frequency.exponentialRampToValueAtTime(650, context.currentTime + duration);
       source.connect(gain);
       sources.add(source); nodes.add(source); nodes.add(gain);
       source.onended = () => disconnect(source, [source, gain]);

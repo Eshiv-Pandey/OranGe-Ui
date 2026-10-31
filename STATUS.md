@@ -1,5 +1,16 @@
 # oRangeUi status
 
+## Component rework delivered
+
+The requested 17-component rework is implemented and verified as of 31 October 2026 on `feat/next-iteration`. The catalogue now has 82 entries after consolidating the duplicate LiveryEditor and HelmetEditor listings into OpenWheelCar and Helmet. Old page URLs redirect, and reusable editor APIs remain available. [COMPONENT_REWORK.md](COMPONENT_REWORK.md) records the complete scope and evidence.
+
+- Shared right-side inspectors scroll independently on desktop; mobile previews remain pinned above the controls. Camera, player, text, stamp and avatar tools use the revised layout. Fresh visits default to dark while an explicit saved light preference is preserved.
+- All requested artwork, device/player surfaces and effects were reworked using original assets. Keychain dynamics use a fixed-step weighted solve and metallic contact synthesis; fire has a separate ambience engine. GrainGradient has native and fallback fullscreen. FrostedGlass and TiltStamp3D use original modeled botanical artwork. Superbike can show or hide its rider.
+- Passing unit coverage includes the 455-test full run and subsequent affected runs, covering 457 distinct cases across 36 files. All 24 creative browser scenarios, five rework regressions, 25 artwork/vehicle export scenarios and three canonical editor flows pass. The final six-case creative refresh includes 56 desktop/mobile observations in both themes; 14 additional final artwork/editor observations have no accessibility violations, runtime errors or overflow.
+- Lint, strict TypeScript, copy checks, production build, bundle isolation and both deployment-source trace checks pass. Each source route retains 197 public files and 12 runtime files. Final build: `jLcfFzglubClyY06mqxuv`. The final bike export recheck passes all five appearances with exact SVG/PNG/settled-preview matches.
+
+Evidence and build provenance are documented in `COMPONENT_REWORK.md` and ignored `out/rework/verification-summary.json`. Browser tests use Chromium, emulated touch and a fake camera. Fire/keychain sound buffers and lifecycle behavior were tested but not audibly auditioned. The supplied reference images and personal working rules remain local. No requested rework is deferred.
+
 ## Batch 2 delivered
 
 The 14 creative components are implemented and verified as of 30 October 2026 on `feat/next-iteration`, bringing the catalogue to 84 components. `BATCH_2_PLAN.md` records the completed scope. SeasonTree belongs to Pixelated, RetroPlayer and RetroCamera to Retro OS, and the other creative pieces to Polished.

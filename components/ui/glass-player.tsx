@@ -15,7 +15,7 @@ export type GlassPlayerProps = {
   theme?: CreativeTheme; size?: CreativeSize; appearance?: Appearance; className?: string;
 };
 
-export function GlassPlayer({ tracks, liked, onLike, onShare, blur = 26, volume = 0.65, muted = false, theme = "auto", size = 340, appearance = "polished", className }: GlassPlayerProps) {
+export function GlassPlayer({ tracks, liked, onLike, onShare, blur = 26, volume = 0.65, muted = false, theme = "auto", size = 380, appearance = "polished", className }: GlassPlayerProps) {
   const player = useAudioPlayer({ tracks, volume, muted });
   const [localLiked, setLocalLiked] = useState(false), [message, setMessage] = useState("");
   const resolved = useCreativeTheme(theme), root = useRef<HTMLDivElement>(null);

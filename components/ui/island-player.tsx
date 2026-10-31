@@ -15,7 +15,7 @@ export type IslandPlayerProps = {
   theme?: CreativeTheme; appearance?: Appearance; className?: string;
 };
 
-export function IslandPlayer({ tracks, index, onTrackChange, showOutputIcon = true, volume = 0.65, muted = false, size = 360, theme = "auto", appearance = "polished", className }: IslandPlayerProps) {
+export function IslandPlayer({ tracks, index, onTrackChange, showOutputIcon = true, volume = 0.65, muted = false, size = 420, theme = "auto", appearance = "polished", className }: IslandPlayerProps) {
   const player = useAudioPlayer({ tracks, index, onTrackChange, volume, muted });
   const resolved = useCreativeTheme(theme), root = useRef<HTMLDivElement>(null);
   const [output, setOutput] = useState("");

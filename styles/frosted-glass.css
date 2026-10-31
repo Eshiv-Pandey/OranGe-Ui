@@ -1,11 +1,12 @@
-.frosted-glass { width: min(100%, 360px); }
-.frosted-glass-stage { position: relative; width: 100%; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; background: #b6c9b7; }
+.frosted-glass { width: min(100%, 420px); }
+.frosted-glass-stage { position: relative; width: 100%; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; background: #a9beb7; border-radius: 16px; box-shadow: 0 14px 40px -20px #0007; }
+.frosted-glass-stage::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 1px 1px #fff9, inset 1px 0 1px #fff5, inset 0 -1px 2px #122d3c55; background: linear-gradient(115deg, #fff1 0%, #fff0 27%, #fff0 76%, #fff1 100%); }
 .frosted-glass-background, .frosted-glass-initial { position: absolute; inset: 0; pointer-events: none; }
 .frosted-glass-background > img { width: 100%; height: 100%; object-fit: cover; }
 .frosted-glass-background > .grain-gradient { height: 100% !important; border-radius: 0; }
-.frosted-glass-background .shader-export, .frosted-glass-background .shader-feedback { display: none; }
+.frosted-glass-background .shader-export, .frosted-glass-background .shader-fullscreen, .frosted-glass-background .shader-feedback { display: none; }
 .frosted-glass-stage canvas { position: relative; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
 .frosted-glass-stage:has(canvas[width]) .frosted-glass-initial { visibility: hidden; }
-.frosted-glass-footer { display: grid; gap: 10px; padding-top: 13px; color: var(--creative-muted); font-size: 11px; }
+.frosted-glass-footer { display: grid; gap: 12px; padding-top: 16px; color: var(--creative-muted); font-size: 11px; }
 .frosted-glass-footer .creative-actions { justify-content: space-between; }
-.frosted-glass-footer .creative-button { padding: 6px 8px; font-size: 11px; }
+.frosted-glass-footer .creative-button { min-height: 36px; padding: 7px 11px; font-size: 11px; }

@@ -1,5 +1,7 @@
 "use client";
 
+import { CreativeEditorSlot } from "./creative-editor-slot";
+
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import type { Appearance } from "./appearance";
@@ -104,6 +106,7 @@ export function StyledText({ text, onTextChange, font = "hindi", transliterate =
         <text x="360" y={top + index * lineHeight} fill={ink} stroke={strokeColor} strokeWidth={stroke} paintOrder="stroke" strokeLinejoin="round">{line}</text>
       </g>)}
     </svg>
+    <CreativeEditorSlot>
     {editable && <label className="styled-text-input" htmlFor={id}>Your words<textarea id={id} value={source} rows={2} placeholder={roman ? "Try namaste" : "Type in Hindi, English, or both"} onChange={(event) => { if (text === undefined) setInput(event.target.value); onTextChange?.(event.target.value); }} /></label>}
     <div className="styled-text-actions"><label><input type="checkbox" checked={roman} onChange={(event) => setRoman(event.target.checked)} />Roman to Hindi</label><div className="creative-actions"><button type="button" className="creative-button" onClick={() => void exportImage("png")}><CreativeIcon name="download" width="14" height="14" />PNG</button><button type="button" className="creative-button" onClick={() => void exportImage("svg")}>SVG</button></div></div>
     {showControls && <details className="creative-editor"><summary>Style your lettering</summary><div className="creative-controls">
@@ -117,6 +120,7 @@ export function StyledText({ text, onTextChange, font = "hindi", transliterate =
       <label>Pattern<select value={decoration} onChange={(event) => { setDecoration(event.target.value as StyledTextConfig["pattern"]); changed({ pattern: event.target.value as StyledTextConfig["pattern"] }); }}><option value="none">None</option><option value="mandala">Mandala</option><option value="paisley">Paisley</option></select></label>
       <label>Background color<input type="color" value={paper} onChange={(event) => { setPaper(event.target.value); changed({ background: event.target.value }); }} /></label>
     </div></details>}
+    </CreativeEditorSlot>
     {message && <p className="creative-feedback" role="status">{message}</p>}
   </div>;
 }

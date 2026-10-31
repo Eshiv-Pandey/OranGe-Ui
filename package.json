@@ -23,7 +23,8 @@
     "test:avatar-redesign": "playwright test --config=playwright.avatar-redesign.config.ts",
     "test:mascot": "playwright test --config=playwright.mascot.config.ts",
     "test:artwork-customizers": "playwright test --config=playwright.artwork-customizers.config.ts",
-    "test:motorsport": "playwright test --config=playwright.motorsport.config.ts"
+    "test:motorsport": "playwright test --config=playwright.motorsport.config.ts",
+    "test:rework": "playwright test --config=playwright.rework.config.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",

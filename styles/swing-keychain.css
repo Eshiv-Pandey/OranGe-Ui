@@ -1,7 +1,7 @@
-.swing-keychain { width: min(100%, var(--keychain-size, 340px)); }
+.swing-keychain { position: relative; width: min(100%, var(--keychain-size, 340px)); }
 .swing-keychain canvas { position: relative; width: 100%; aspect-ratio: 360 / 420; touch-action: none; cursor: grab; }
 .swing-keychain canvas:active { cursor: grabbing; }
-.keychain-still { position: absolute; width: 100%; aspect-ratio: 360 / 420; background: var(--keychain-background, #ffe28b); }
+.keychain-still { position: absolute; width: 100%; aspect-ratio: 360 / 420; background: var(--keychain-background, transparent); }
 .keychain-still svg { width: 100%; height: 100%; }
 .swing-keychain[data-ready="true"] .keychain-still { visibility: hidden; }
 .keychain-footer { display: flex; align-items: center; justify-content: space-between; padding: 7px 2px; color: var(--creative-muted); font-size: 11px; }

@@ -5,7 +5,8 @@ import { cn } from "@/lib/utils";
 import type { Appearance } from "./appearance";
 import { useCreativeTheme, clamp, type CreativeTheme, type CreativeSize } from "./creative-surface";
 import { createMotionActivity } from "./use-motion-activity";
-import { FLORAL_ART } from "./creative-art";
+import { BOTANICAL_BLOOM } from "./botanical-art";
+import { CreativeEditorSlot } from "./creative-editor-slot";
 import { CreativeIcon } from "./creative-icons";
 import "../../styles/creative-stamps.css";
 
@@ -15,7 +16,7 @@ export type TiltStamp3DProps = {
   theme?: CreativeTheme; appearance?: Appearance; className?: string;
 };
 
-export function TiltStamp3D({ image = FLORAL_ART, label = "ORANGE STUDIO", code = "MIDNIGHT BLOOM / 1038 U", accent = "#4e419b", seal, intensity = 1, glare = true, autoRotate = false, size = 340, foil = false, theme = "auto", appearance = "polished", className }: TiltStamp3DProps) {
+export function TiltStamp3D({ image = BOTANICAL_BLOOM, label = "ORANGE STUDIO", code = "MIDNIGHT BLOOM / 1038 U", accent = "#4e419b", seal, intensity = 1, glare = true, autoRotate = false, size = 340, foil = false, theme = "auto", appearance = "polished", className }: TiltStamp3DProps) {
   const root = useRef<HTMLDivElement>(null), card = useRef<HTMLDivElement>(null), target = useRef({ x: 0, y: 0, glareX: 35, glareY: 25 });
   const drag = useRef<{ x: number; y: number } | null>(null), latest = useRef({ intensity, autoRotate, glare }), mounted = useRef(false), orientationCleanup = useRef<(() => void) | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null), [orientation, setOrientation] = useState(false), [message, setMessage] = useState("");
@@ -35,7 +36,7 @@ export function TiltStamp3D({ image = FLORAL_ART, label = "ORANGE STUDIO", code 
       }
       paper.style.setProperty("--tilt-x", x.toFixed(3) + "deg"); paper.style.setProperty("--tilt-y", y.toFixed(3) + "deg");
       paper.style.setProperty("--glare-x", target.current.glareX + "%"); paper.style.setProperty("--glare-y", target.current.glareY + "%");
-      paper.style.setProperty("--glare-opacity", config.glare ? "0.38" : "0");
+      paper.style.setProperty("--glare-opacity", config.glare ? "0.14" : "0");
       paper.style.setProperty("--foil-angle", (120 + y * 4) + "deg");
     };
     const motion = createMotionActivity(element, { onFrame: ({ time }) => paint(false, time), onStatus: (status) => { if (status !== "running") paint(true); } });
@@ -61,8 +62,8 @@ export function TiltStamp3D({ image = FLORAL_ART, label = "ORANGE STUDIO", code 
         const box = event.currentTarget.getBoundingClientRect(), px = (event.clientX - box.left) / box.width, py = (event.clientY - box.top) / box.height;
         target.current.glareX = clamp(px * 100, 0, 100); target.current.glareY = clamp(py * 100, 0, 100);
         if (drag.current) {
-          target.current.y += (event.clientX - drag.current.x) * 0.4;
-          target.current.x -= (event.clientY - drag.current.y) * 0.4;
+          target.current.y = clamp(target.current.y + (event.clientX - drag.current.x) * 0.3 * intensity, -38, 38);
+          target.current.x = clamp(target.current.x - (event.clientY - drag.current.y) * 0.3 * intensity, -32, 32);
           drag.current = { x: event.clientX, y: event.clientY };
         } else { target.current.x = (0.5 - py) * 18 * intensity; target.current.y = (px - 0.5) * 22 * intensity; }
       }}
@@ -78,8 +79,8 @@ export function TiltStamp3D({ image = FLORAL_ART, label = "ORANGE STUDIO", code 
       <div className="tilt-stamp-swatch" /><img className="tilt-stamp-picture" src={image} alt="Original floral arrangement" draggable={false} />
       <div className="tilt-stamp-label"><strong>{label}</strong><small>{code}</small><span className="tilt-stamp-seal">{seal ?? <CreativeIcon name="spark" />}</span></div><div className="tilt-stamp-glare" />
     </div>
-    <span id={description} className="sr-only">Move your pointer to tilt. Drag to rotate freely. Arrow keys rotate; Home resets.</span>
-    <div className="tilt-stamp-footer"><span>Paper, with a little perspective.</span><button type="button" className="creative-button" aria-pressed={orientation} onClick={() => void enableOrientation()}>{orientation ? "Motion on" : "Use device tilt"}</button></div>
+    <span id={description} className="sr-only">Move your pointer to tilt. Drag to turn the card. Arrow keys rotate; Home resets.</span>
+    <div className="tilt-stamp-footer"><span>Move or drag to tilt the card.</span><CreativeEditorSlot><button type="button" className="creative-button" aria-pressed={orientation} onClick={() => void enableOrientation()}>{orientation ? "Motion on" : "Use device tilt"}</button></CreativeEditorSlot></div>
     {message && <p className="creative-feedback" role="status">{message}</p>}
   </div>;
 }
