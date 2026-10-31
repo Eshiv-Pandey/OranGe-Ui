@@ -8,12 +8,12 @@ export type VehicleLivery = { base: string; accent: string; stripe: string; patt
 export type VehicleConfig = { version: 1; livery: VehicleLivery; number: string; tireCompound: TireCompound };
 export type VehicleRenderOptions = { appearance?: Appearance; theme?: "light" | "dark"; portable?: boolean; track?: boolean; rider?: boolean };
 export const VEHICLE_PALETTES = [
-  { name: "Tidal copper", base: "#247b83", accent: "#dc9765", stripe: "#eee5bf" },
-  { name: "Orchard relay", base: "#668147", accent: "#e2ba67", stripe: "#eaf0d7" },
-  { name: "Dusk violet", base: "#675383", accent: "#cf8f91", stripe: "#e8d4a8" },
-  { name: "Alpine note", base: "#4b789e", accent: "#a8d4c6", stripe: "#edf0dc" },
-  { name: "Copper drift", base: "#b6674c", accent: "#4a677a", stripe: "#eee1bd" },
-  { name: "Sand velocity", base: "#d0b27a", accent: "#54716a", stripe: "#efe9d7" },
+  { name: "Electric tide", base: "#007dff", accent: "#d4ff25", stripe: "#f4fbff" },
+  { name: "Citrus grid", base: "#ff5100", accent: "#18244c", stripe: "#ffe52e" },
+  { name: "Ultraviolet", base: "#7335ff", accent: "#ff4094", stripe: "#fff2ce" },
+  { name: "Glacier flash", base: "#00b9da", accent: "#173977", stripe: "#f4fbff" },
+  { name: "Scarlet circuit", base: "#fa2448", accent: "#122341", stripe: "#ffe03c" },
+  { name: "Lime velocity", base: "#99df16", accent: "#183e4c", stripe: "#f8ffc7" },
 ] as const;
 export const TIRE_COLORS: Record<TireCompound, string> = { soft: "#ec796e", medium: "#e6bd65", hard: "#e4e8df", wet: "#78b8db" };
 
@@ -73,8 +73,8 @@ export function vehicleScene(config: VehicleConfig, ns: string, options: Vehicle
 export function vehicleWheel(config: VehicleConfig, ns: string, cx: number, cy: number, radius: number, kind: "car" | "bike", options: VehicleRenderOptions): string {
   const p = vehiclePaint(config, options), r = radius, rim = r * (kind === "car" ? .65 : .77), pixel = options.appearance === "pixel";
   const spokeCount = kind === "bike" ? 5 : 12;
-  const spokes = Array.from({ length: spokeCount }, (_, index) => kind === "bike" ? `<path d="M${cx - 3} ${cy - 3}Q${cx + rim * .38} ${cy - rim * .23} ${cx + rim * .91} ${cy - rim * .14}L${cx + rim * .98} ${cy - rim * .04}Q${cx + rim * .51} ${cy + rim * .01} ${cx + 2} ${cy + 4}Z" transform="rotate(${index * 72} ${cx} ${cy})" fill="#2d363b" stroke="#849097" stroke-width=".8"/>` : `<path d="M${cx + rim * .44} ${cy - 1}L${cx + rim * .89} ${cy - 2}L${cx + rim * .96} ${cy + 1}L${cx + rim * .45} ${cy + 2}Z" transform="rotate(${index * 30} ${cx} ${cy})" fill="#40494e"/>`).join("");
-  const disc = kind === "bike" ? `<circle cx="${cx}" cy="${cy}" r="${rim * .43}" fill="#667079" stroke="#d0d4d4" stroke-width="${r * .02}"/><circle cx="${cx}" cy="${cy}" r="${rim * .35}" fill="none" stroke="#252c32" stroke-width="${r * .055}" stroke-dasharray="${r * .025} ${r * .065}"/><circle cx="${cx}" cy="${cy}" r="${rim * .23}" fill="none" stroke="#252c32" stroke-width="${r * .045}" stroke-dasharray="${r * .025} ${r * .065}"/>` : `<circle cx="${cx}" cy="${cy}" r="${rim * .46}" fill="#252a2d" stroke="#535c61" stroke-width="1"/>`;
+  const spokes = Array.from({ length: spokeCount }, (_, index) => kind === "bike" ? `<path d="M${cx - 3} ${cy - 3}Q${cx + rim * .38} ${cy - rim * (cx > 320 ? .4 : .23)} ${cx + rim * .91} ${cy - rim * .14}L${cx + rim * .98} ${cy - rim * .04}Q${cx + rim * .51} ${cy + rim * .01} ${cx + 2} ${cy + 4}Z" transform="rotate(${index * 72} ${cx} ${cy})" fill="#2d363b" stroke="#849097" stroke-width=".8"/>` : `<path d="M${cx + rim * .44} ${cy - 1}L${cx + rim * .89} ${cy - 2}L${cx + rim * .96} ${cy + 1}L${cx + rim * .45} ${cy + 2}Z" transform="rotate(${index * 30} ${cx} ${cy})" fill="#40494e"/>`).join("");
+  const disc = kind === "bike" ? `<circle cx="${cx}" cy="${cy}" r="${rim * (cx > 320 ? .64 : .43)}" fill="#667079" stroke="#d0d4d4" stroke-width="${r * .02}"/><circle cx="${cx}" cy="${cy}" r="${rim * (cx > 320 ? .54 : .35)}" fill="none" stroke="#252c32" stroke-width="${r * .055}" stroke-dasharray="${r * .025} ${r * .065}"/><circle cx="${cx}" cy="${cy}" r="${rim * (cx > 320 ? .4 : .23)}" fill="none" stroke="#252c32" stroke-width="${r * .045}" stroke-dasharray="${r * .025} ${r * .065}"/>` : `<circle cx="${cx}" cy="${cy}" r="${rim * .46}" fill="#252a2d" stroke="#535c61" stroke-width="1"/>`;
   const grooves = config.tireCompound === "wet" ? Array.from({ length: 12 }, (_, index) => `<path d="M${cx + r * .8} ${cy - 3}L${cx + r * .9} ${cy + 1}" transform="rotate(${index * 30} ${cx} ${cy})" stroke="${p.rim}" stroke-width="${r * .04}" opacity=".65"/>`).join("") : "";
   return `<g class="vehicle-wheel vehicle-wheel-${cx < 320 ? "rear" : "front"}" data-wheel-radius="${r}"><circle cx="${cx}" cy="${cy}" r="${r}" fill="#15191d" stroke="#090c0e" stroke-width="${options.appearance === "neobrutalism" ? 3.5 : 1.5}"/><circle cx="${cx}" cy="${cy}" r="${r * .95}" fill="none" stroke="#3d4247" stroke-width="${r * .025}"/><circle cx="${cx}" cy="${cy}" r="${r * .87}" fill="none" stroke="${p.tireMark}" stroke-width="${r * .035}" stroke-dasharray="${r * 1.1} ${r * .25}"/><circle cx="${cx}" cy="${cy}" r="${rim}" fill="${kind === "bike" ? "#12191c" : "#20262a"}" stroke="#707a81" stroke-width="${r * .027}"/><circle cx="${cx}" cy="${cy}" r="${rim * .93}" fill="none" stroke="#090d10" stroke-width="${r * .025}"/>
     <g class="vehicle-wheel-crisp" opacity="1"><g class="vehicle-wheel-rotor" style="transform-origin:${cx}px ${cy}px">${spokes}${disc}${grooves}</g></g>

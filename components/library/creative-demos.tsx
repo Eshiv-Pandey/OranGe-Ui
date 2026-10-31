@@ -38,9 +38,9 @@ function Select<T extends string>({ label, value, options, onChange }: { label: 
 function Panel({ preview, children }: { preview: ReactNode; children?: ReactNode }) {
   return <CreativeWorkbench preview={preview}>{children}</CreativeWorkbench>;
 }
-function SeasonDemo() {
-  const [wind, setWind] = useState(0.6), [fall, setFall] = useState(1), [pixel, setPixel] = useState(3), [paused, setPaused] = useState(false);
-  return <Panel preview={<SeasonTree windStrength={wind} fallRate={fall} pixelSize={pixel} paused={paused} />}><Range label="Wind" value={wind} onChange={setWind} max={3} /><Range label="Falling leaves" value={fall} onChange={setFall} max={6} /><Range label="Pixel scale" value={pixel} onChange={setPixel} min={1} max={6} step={1} /><Check label="Pause tree" value={paused} onChange={setPaused} /></Panel>;
+function SeasonDemo({ appearance }: { appearance: Appearance }) {
+  const [wind, setWind] = useState(0.6), [fall, setFall] = useState(1), [pixel, setPixel] = useState(appearance === "pixel" ? 3 : 1), [paused, setPaused] = useState(false);
+  return <Panel preview={<SeasonTree appearance={appearance} windStrength={wind} fallRate={fall} pixelSize={pixel} paused={paused} />}><Range label="Wind" value={wind} onChange={setWind} max={3} /><Range label="Falling leaves" value={fall} onChange={setFall} max={6} /><Range label="Pixel scale" value={pixel} onChange={setPixel} min={1} max={6} step={1} /><Check label="Pause tree" value={paused} onChange={setPaused} /></Panel>;
 }
 function RetroDemo() {
   const [body, setBody] = useState("#e6e5df"), [screen, setScreen] = useState("#f6f5ee"), [earbuds, setEarbuds] = useState(true);
@@ -79,9 +79,9 @@ function NeonDemo() {
   const [color, setColor] = useState("#ce72ef"), [expand, setExpand] = useState<"hover" | "click">("hover"), [volume, setVolume] = useState(0.65);
   return <Panel preview={<NeonPillPlayer defaultExpanded tracks={CREATIVE_PLAYLIST} glowColor={color} expandOn={expand} volume={volume} />}><Color label="Glow color" value={color} onChange={setColor} /><Select label="Expand on" value={expand} onChange={setExpand} options={["hover", "click"]} /><Range label="Player volume" value={volume} onChange={setVolume} /><p className="creative-feedback">Hover or focus to open. On touch, tap to expand and tap outside to close.</p></Panel>;
 }
-function FireDemo() {
-  const [colors, setColors] = useState(["#e44322", "#ff881a", "#ffd34b"]), [speed, setSpeed] = useState(0.6), [intensity, setIntensity] = useState(1), [height, setHeight] = useState(0.45), [dither, setDither] = useState(false), [interactive, setInteractive] = useState(true), [volume, setVolume] = useState(0.3), [pixel, setPixel] = useState(1);
-  return <Panel preview={<AnimeFire colors={colors} speed={speed} intensity={intensity} height={height} dither={dither} interactive={interactive} volume={volume} pixelSize={pixel} />}><Range label="Fire speed" value={speed} onChange={setSpeed} max={2} /><Range label="Fire intensity" value={intensity} onChange={setIntensity} max={2} /><Range label="Flame height" value={height} onChange={setHeight} min={0.1} max={0.9} /><Range label="Crackle volume" value={volume} onChange={setVolume} />{colors.map((color, index) => <Color key={index} label={["Ember", "Flame", "Core"][index]} value={color} onChange={(value) => setColors(colors.map((previous, i) => index === i ? value : previous))} />)}<Range label="Fire pixel size" value={pixel} onChange={setPixel} min={1} max={8} step={1} /><Check label="Bayer print" value={dither} onChange={setDither} /><Check label="Follow pointer" value={interactive} onChange={setInteractive} /></Panel>;
+function FireDemo({ appearance }: { appearance: Appearance }) {
+  const [colors, setColors] = useState(["#e44322", "#ff881a", "#ffd34b"]), [speed, setSpeed] = useState(0.6), [intensity, setIntensity] = useState(1), [height, setHeight] = useState(0.45), [dither, setDither] = useState(appearance === "retro-os"), [interactive, setInteractive] = useState(true), [volume, setVolume] = useState(0.3), [pixel, setPixel] = useState(appearance === "pixel" ? 5 : appearance === "terminal" ? 3 : 1);
+  return <Panel preview={<AnimeFire appearance={appearance} colors={colors} speed={speed} intensity={intensity} height={height} dither={dither} interactive={interactive} volume={volume} pixelSize={pixel} />}><Range label="Fire speed" value={speed} onChange={setSpeed} max={2} /><Range label="Fire intensity" value={intensity} onChange={setIntensity} max={2} /><Range label="Flame height" value={height} onChange={setHeight} min={0.1} max={0.9} /><Range label="Crackle volume" value={volume} onChange={setVolume} />{colors.map((color, index) => <Color key={index} label={["Ember", "Flame", "Core"][index]} value={color} onChange={(value) => setColors(colors.map((previous, i) => index === i ? value : previous))} />)}<Range label="Fire pixel size" value={pixel} onChange={setPixel} min={1} max={8} step={1} /><Check label="Bayer print" value={dither} onChange={setDither} /><Check label="Follow pointer" value={interactive} onChange={setInteractive} /></Panel>;
 }
 function GradientDemo() {
   const [preset, setPreset] = useState<keyof typeof GRAIN_PRESETS>("sunset"), [mode, setMode] = useState<NonNullable<GrainGradientProps["mode"]>>("mesh"), [effect, setEffect] = useState<NonNullable<GrainGradientProps["pointerEffect"]>>("swirl");
@@ -97,7 +97,7 @@ function FrostDemo() {
 function Thumbnail({ slug, appearance }: { slug: string; appearance: Appearance }) {
   const a = { appearance };
   switch (slug) {
-    case "season-tree": return <SeasonTree paused showPicker={false} size={245} />;
+    case "season-tree": return <SeasonTree {...a} paused showPicker={false} size={245} />;
     case "retro-player": return <RetroPlayer {...a} tracks={CREATIVE_PLAYLIST} muted />;
     case "retro-camera": return <RetroCamera {...a} />;
     case "swing-keychain": return <SwingKeychain {...a} />;
@@ -116,6 +116,6 @@ function Thumbnail({ slug, appearance }: { slug: string; appearance: Appearance 
 }
 export default function CreativeDemo({ slug, appearance = "polished", thumbnail = false }: { slug: string; appearance?: Appearance; thumbnail?: boolean }) {
   const theme = useCreativeTheme();
-  const demos: Record<string, ReactNode> = { "season-tree": <SeasonDemo />, "retro-player": <RetroDemo />, "retro-camera": <CameraDemo />, "swing-keychain": <KeychainDemo />, "custom-stamp": <StampDemo />, "tilt-stamp-3d": <TiltDemo />, "island-player": <IslandDemo />, "glass-player": <GlassDemo />, "neon-pill-player": <NeonDemo />, "anime-fire": <FireDemo />, "grain-gradient": <GradientDemo />, "hindi-text": <HindiText />, "hinglish-text": <HinglishText />, "frosted-glass": <FrostDemo /> };
+  const demos: Record<string, ReactNode> = { "season-tree": <SeasonDemo appearance={appearance} />, "retro-player": <RetroDemo />, "retro-camera": <CameraDemo />, "swing-keychain": <KeychainDemo />, "custom-stamp": <StampDemo />, "tilt-stamp-3d": <TiltDemo />, "island-player": <IslandDemo />, "glass-player": <GlassDemo />, "neon-pill-player": <NeonDemo />, "anime-fire": <FireDemo appearance={appearance} />, "grain-gradient": <GradientDemo />, "hindi-text": <HindiText />, "hinglish-text": <HinglishText />, "frosted-glass": <FrostDemo /> };
   return <div className={"creative-surface " + (thumbnail ? "creative-thumbnail" : "creative-demo")} data-theme={theme}>{thumbnail ? <Thumbnail slug={slug} appearance={appearance} /> : slug === "hindi-text" || slug === "hinglish-text" ? <Panel preview={demos[slug]} /> : demos[slug]}</div>;
 }

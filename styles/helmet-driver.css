@@ -20,7 +20,19 @@
 :is(.helmet, .mini-driver) .mini-driver-body { transform-origin: 120px 290px; animation: mini-driver-breathe 3.8s ease-in-out infinite; }
 :is(.helmet, .mini-driver) .mini-driver-head { transform-origin: 120px 144px; animation: mini-driver-bob 3.8s ease-in-out infinite; }
 :is(.helmet, .mini-driver) .mini-driver-arm-wave { transform-origin: 158px 157px; }
-:is(.helmet, .mini-driver) .mini-driver-reacted .mini-driver-arm-wave { animation: mini-driver-wave 1100ms ease-in-out both; }
+.mini-driver[data-gesture="wave"] .mini-driver-arm-wave { animation: mini-driver-wave 1500ms ease-in-out both; }
+.mini-driver[data-gesture="thumbs-up"] .mini-driver-arm-wave { transform: rotate(-65deg); }
+.mini-driver[data-gesture="wave"] .driver-hand-rest, .mini-driver[data-gesture="thumbs-up"] .driver-hand-rest { opacity: 0; }
+.mini-driver[data-gesture="wave"] .driver-hand-wave, .mini-driver[data-gesture="thumbs-up"] .driver-hand-thumb { opacity: 1; }
+.mini-driver .driver-pupil { transform: translate(calc(var(--gaze-x, 0) * 3px), calc(var(--gaze-y, 0) * 2px)); }
+.mini-driver .driver-eye-blink { transform: scaleY(var(--blink-scale, 1)); }
+.mini-driver[data-paused="true"] * { animation-play-state: paused !important; }
+.mini-driver:has(.mini-driver-controls) { aspect-ratio: auto; }
+.mini-driver-button, .mini-driver-image { height: auto; }
+.mini-driver-controls { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 10px; line-height: 1.4; }
+.mini-driver-controls button { min-height: 30px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; font-size: 10px; background: var(--surface); color: var(--ink); }
+.mini-driver-controls button:hover { background: var(--surface-soft); }
+.mini-driver-controls button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 .helmet[data-appearance="pixel"] .helmet-button, .mini-driver[data-appearance="pixel"] .mini-driver-button,
 .helmet[data-appearance="terminal"] .helmet-button, .mini-driver[data-appearance="terminal"] .mini-driver-button { border-radius: 0; }
 .helmet[data-appearance="pixel"] svg, .mini-driver[data-appearance="pixel"] svg { shape-rendering: crispEdges; }

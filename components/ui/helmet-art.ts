@@ -10,12 +10,12 @@ export type HelmetConfig = { version: 1; number: string; colors: HelmetColors; p
 export type HelmetRenderOptions = { appearance?: Appearance; portable?: boolean; backdrop?: boolean };
 
 export const HELMET_PALETTES = [
-  { name: "Lagoon sprint", colors: { shell: "#e4efe4", stripe: "#228c8c", stripeAlt: "#dfb455", visor: "#3f7587", trim: "#203842", eye: "#f4dca3" } },
+  { name: "Lagoon sprint", colors: { shell: "#f5fff6", stripe: "#00c9ac", stripeAlt: "#ffe522", visor: "#3f7587", trim: "#203842", eye: "#f4dca3" } },
   { name: "Copper comet", colors: { shell: "#f56a32", stripe: "#172c43", stripeAlt: "#ffda52", visor: "#546b72", trim: "#1c2325", eye: "#ffe3b5" } },
-  { name: "Plum circuit", colors: { shell: "#8c79a9", stripe: "#ecd3a1", stripeAlt: "#d37773", visor: "#584667", trim: "#302839", eye: "#ffe8b9" } },
-  { name: "Glacier club", colors: { shell: "#75b6c9", stripe: "#e6ead6", stripeAlt: "#da9c66", visor: "#264d75", trim: "#233445", eye: "#edf7d9" } },
-  { name: "Moss relay", colors: { shell: "#adbd78", stripe: "#385659", stripeAlt: "#edb876", visor: "#466971", trim: "#293d39", eye: "#ffefc2" } },
-  { name: "Dusk run", colors: { shell: "#536780", stripe: "#dfb1b5", stripeAlt: "#edcb7a", visor: "#70547d", trim: "#222d40", eye: "#f4e4ad" } },
+  { name: "Plum circuit", colors: { shell: "#8e39ff", stripe: "#fff09b", stripeAlt: "#ff4296", visor: "#584667", trim: "#302839", eye: "#ffe8b9" } },
+  { name: "Glacier club", colors: { shell: "#12b8ed", stripe: "#f5fbff", stripeAlt: "#ff9e18", visor: "#264d75", trim: "#233445", eye: "#edf7d9" } },
+  { name: "Moss relay", colors: { shell: "#a7ee22", stripe: "#173d4c", stripeAlt: "#ffcb20", visor: "#466971", trim: "#293d39", eye: "#ffefc2" } },
+  { name: "Dusk run", colors: { shell: "#2159f5", stripe: "#ff539e", stripeAlt: "#ffe532", visor: "#70547d", trim: "#222d40", eye: "#f4e4ad" } },
 ] as const;
 
 export function motorsportSeed(seed: string | number): number {

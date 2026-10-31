@@ -1,6 +1,14 @@
 .season-tree { width: min(100%, var(--tree-size, 340px)); }
-.season-tree-canvas { width: 100%; aspect-ratio: 128 / 138; image-rendering: pixelated; }
+.season-tree-canvas { width: 100%; aspect-ratio: 128 / 138; }
 .season-tree-picker { display: flex; justify-content: center; gap: 4px; padding-top: 15px; flex-wrap: wrap; }
-.season-tree-picker button { display: inline-flex; align-items: center; gap: 5px; padding: 6px; border: 1px solid transparent; background: transparent; color: var(--creative-muted); font-family: var(--font-display), monospace; font-size: 11px; }
+.season-tree-picker button { display: inline-flex; align-items: center; gap: 5px; min-height: 32px; padding: 6px 8px; border: 1px solid transparent; border-radius: 7px; background: transparent; color: var(--creative-muted); font-family: var(--font-sans), sans-serif; font-size: 11px; }
 .season-tree-picker button[aria-pressed="true"] { border-color: var(--creative-line); background: var(--creative-paper); color: var(--creative-ink); }
 .season-tree-picker span { width: 7px; height: 7px; }
+.season-tree[data-appearance="pixel"] .season-tree-canvas { image-rendering: pixelated; }
+.season-tree[data-appearance="pixel"] .season-tree-picker button { border-radius: 0; font-family: var(--font-display), monospace; }
+.season-tree[data-appearance="neobrutalism"] .season-tree-picker button { border: 2px solid var(--creative-ink); border-radius: 0; font-weight: 750; }
+.season-tree[data-appearance="neobrutalism"] .season-tree-picker button[aria-pressed="true"] { box-shadow: 3px 3px 0 var(--creative-ink); }
+.season-tree[data-appearance="retro-os"] .season-tree-picker button { border-radius: 0; background: var(--creative-paper); border: 2px outset var(--creative-line); font-family: var(--font-mono), monospace; }
+.season-tree[data-appearance="retro-os"] .season-tree-picker button[aria-pressed="true"] { border-style: inset; }
+.season-tree[data-appearance="terminal"] .season-tree-picker button { border-radius: 0; font-family: var(--font-mono), monospace; border-bottom: 1px solid var(--creative-line); }
+.season-tree[data-appearance="terminal"] .season-tree-picker button[aria-pressed="true"] { border-color: var(--creative-accent); background: transparent; text-decoration: underline; text-underline-offset: 5px; }

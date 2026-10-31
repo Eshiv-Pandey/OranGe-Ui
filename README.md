@@ -32,6 +32,7 @@ Start with this README, then read:
 2. [STATUS.md](STATUS.md) for measured verification results, saved evidence, and outstanding work.
 3. [LIBRARY_PLAN.md](LIBRARY_PLAN.md) for the earlier component-library architecture and discovery flow.
 4. [REVAMP_PLAN.md](REVAMP_PLAN.md) for the landing-page design history.
+5. [COMPONENT_FOLLOWUP.md](COMPONENT_FOLLOWUP.md) for the sidebar, five-appearance fire/tree and artwork follow-up.
 
 The older plans describe earlier milestones. The current catalogue spans five appearances, with new work tracked in STATUS.md.
 
@@ -102,7 +103,7 @@ Appearance and color theme are independent. Set `data-theme="dark"` or `data-the
 
 Customize colors in `styles/tokens.css`. Shared appearance rules load through `styles/library-base.css`, including in source downloads. Font URLs resolve from `/fonts/`; adjust them when deploying under a base path.
 
-The docs header provides custom accent colors, readable palette tokens and Copy theme. Accent preferences persist locally across routes. Use Ctrl+K or Command+K to search and open a component.
+The docs header provides custom accent colors, readable palette tokens and Copy theme. Accent preferences persist locally across routes. Use Ctrl+K or Command+K to search and open a component or the setup guide. The sidebar keeps the logo, collapse control and Search docs visible while its list scrolls. Collapsed state persists locally, and mobile navigation opens in a sheet.
 
 ### Component inventory
 
@@ -119,7 +120,7 @@ There are 82 public catalogue components. Table already provides sorting and pag
 
 ### Creative components
 
-Batch 2 adds SeasonTree, RetroPlayer, RetroCamera, SwingKeychain, CustomStamp, TiltStamp3D, IslandPlayer, GlassPlayer, NeonPillPlayer, AnimeFire, GrainGradient, HindiText, HinglishText and FrostedGlass. SeasonTree belongs to Pixelated, the two pocket devices to Retro OS, and the remaining creative pieces to Polished. The 70 core components retain all five appearances.
+Batch 2 adds SeasonTree, RetroPlayer, RetroCamera, SwingKeychain, CustomStamp, TiltStamp3D, IslandPlayer, GlassPlayer, NeonPillPlayer, AnimeFire, GrainGradient, HindiText, HinglishText and FrostedGlass. AnimeFire and SeasonTree support all five appearances, including catalogue previews and source downloads. The two pocket devices retain Retro OS materials; the other creative pieces retain Polished materials.
 
 All four players share real playback, seeking and audio state through useAudioPlayer. Original Orange sessions recordings are dedicated to CC0 1.0, with complete notices in public/audio/orangeui/. Source ZIPs include their public assets; registry examples embed sample audio for portability. Camera access and every sound require a user gesture. Decorative animation observes visibility and reduced motion.
 
@@ -304,7 +305,9 @@ import { MiniDriver } from "@/components/ui/mini-driver";
 <MiniDriver seed="little-pit-crew" helmet={{ number: "318" }} />
 ```
 
-The shared `usePointerGaze` hook eases normalized pointer coordinates, starts seeded idle glances after three seconds, and manages blinking. It pauses when off screen or the tab is hidden and settles with reduced motion. Helmet uses a native button to flip its visor, with optional `visorOpen` and `onVisorOpenChange` control. MiniDriver uses one gaze host for its full body and helmet; keyboard or pointer activation triggers a wave. Noninteractive helmets and drivers are named images.
+CharacterAvatar offers seven hair styles, seven outfits, four face shapes, three glasses choices and six vivid palettes. Hair and clothing have separate layered silhouettes; saved version-1 configurations remain supported.
+
+The shared `usePointerGaze` hook eases normalized pointer coordinates, starts seeded idle glances after three seconds, and manages blinking. It pauses when off screen or the tab is hidden and settles with reduced motion. Helmet uses a native button to flip its visor, with optional `visorOpen` and `onVisorOpenChange` control. MiniDriver uses one gaze host for its full body and front-facing helmet. Its eyes remain visible, and automatic gestures alternate a wave, a thumbs up and relaxed hands. Set `autoGestures={false}` to keep only direct reactions. Keyboard or pointer activation triggers a wave. `showControls` adds Thumbs up and Pause animation buttons; `paused` and `onPausedChange` support application-controlled pausing. Noninteractive helmets and drivers are named images.
 
 Pure config and SVG helpers live in `components/ui/character-art`, `helmet-art`, and `mini-driver-art`. Use `characterToSvgString`, `helmetToSvgString`, or `miniDriverToSvgString` on the server for settled portable artwork. Pass the result to `svgToPng` from `components/ui/svg-export` in a browser when PNG is needed. `size` is the square width for the portrait and helmet, and the full height for the 3:4 driver. Theme parts with `--character-*`, `--helmet-*`, and `--driver-*` color variables; pass explicit config colors when exporting those changes.
 
@@ -318,7 +321,7 @@ The reusable controlled `ArtworkCustomizer` provides a sticky preview, accessibl
 import { OpenWheelCar } from "@/components/ui/open-wheel-car";
 import { Superbike } from "@/components/ui/superbike";
 
-<OpenWheelCar speed={0.7} number="247" livery={{ base: "#247b83", pattern: "sweep" }} />
+<OpenWheelCar speed={0.7} number="247" livery={{ base: "#007dff", pattern: "sweep" }} />
 <Superbike speed={0.5} lean={0.3} wheelie tireCompound="medium" />
 ```
 

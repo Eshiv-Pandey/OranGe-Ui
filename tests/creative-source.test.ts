@@ -6,20 +6,30 @@ import { components, componentsInCollection } from "../lib/components";
 import { CREATIVE_COMPONENTS } from "../lib/creative-components";
 import { collectComponentSource, CREATIVE_AUDIO_ASSETS, CREATIVE_FONT_ASSETS } from "../lib/source-bundle";
 import { componentRegistryItem, registryAssetSource } from "../lib/component-registry";
+import { APPEARANCE_VALUES } from "../components/ui/appearance";
+
+for (const appearance of APPEARANCE_VALUES) for (const slug of ["anime-fire", "season-tree"]) it(`${slug} is discoverable and portable in ${appearance}`, async () => {
+  const component = componentsInCollection(appearance).find((item) => item.slug === slug)!;
+  expect(component).toBeDefined();
+  const bundle = await collectComponentSource(component, appearance);
+  expect(strFromU8(bundle.files["Example.tsx"])).toContain(`appearance="${appearance}"`);
+  const registry = await componentRegistryItem(component, appearance);
+  expect(registry.files.some((file) => file.content.includes(`appearance="${appearance}"`))).toBe(true);
+}, 30_000);
 
 it("registers exactly 82 unique components and keeps creative pieces in their intended collections", () => {
   expect(components).toHaveLength(82); expect(new Set(components.map(({ slug }) => slug)).size).toBe(82); expect(CREATIVE_COMPONENTS).toHaveLength(14);
   expect(components.some(({slug}) => slug === "livery-editor" || slug === "helmet-editor")).toBe(false);
-  expect(componentsInCollection("pixel").filter((component) => component.collection).map(({ slug }) => slug)).toEqual(["season-tree"]);
+  expect(componentsInCollection("pixel").filter((component) => component.collection).map(({ slug }) => slug)).toEqual([]);
   expect(componentsInCollection("retro-os").filter((component) => component.collection).map(({ slug }) => slug)).toEqual(["retro-player", "retro-camera"]);
-  expect(componentsInCollection("polished").filter((component) => component.collection)).toHaveLength(11);
+  expect(componentsInCollection("polished").filter((component) => component.collection)).toHaveLength(10);
 });
 for (const component of CREATIVE_COMPONENTS) it("ships portable dependencies and a real example for " + component.name, async () => {
-  const bundle = await collectComponentSource(component, component.collection!);
+  const bundle = await collectComponentSource(component, component.collection ?? "polished");
   expect(strFromU8(bundle.files[component.file])).toMatch(/^"use client";/);
   expect(strFromU8(bundle.files["Example.tsx"])).toContain("<" + component.name);
   expect(bundle.files["LICENSE"]).toBeDefined();
-  expect(strFromU8(bundle.files["README.md"])).toContain("Creative collection");
+  expect(strFromU8(bundle.files["README.md"])).toContain("Creative component");
   expect(Object.keys(bundle.files).some((name) => /USER_INSTRUCTIONS|AGENTS|reference-images|\.env/.test(name))).toBe(false);
   if (bundle.files["components/ui/creative-playlist.ts"]) {
     for (const file of CREATIVE_AUDIO_ASSETS) expect(bundle.files[file]).toBeDefined();
@@ -41,7 +51,7 @@ it("embeds real display fonts and complete OFL credits in text registry installs
 });
 for (const slug of ["custom-stamp", "hindi-text", "hinglish-text"]) it("retains standalone image export fonts after registry installation of " + slug, async () => {
   const component = CREATIVE_COMPONENTS.find((item) => item.slug === slug)!;
-  const item = await componentRegistryItem(component, component.collection!);
+  const item = await componentRegistryItem(component, component.collection ?? "polished");
   const installedSource = item.files.find(({ path }) => path.endsWith(slug === "custom-stamp" ? "custom-stamp.tsx" : "styled-text.tsx"))!.content;
   expect(/["']\/fonts\/[^"']+\.woff2["']/.test(installedSource)).toBe(false);
   expect(installedSource.match(/data:font\/woff2;base64/g)?.length).toBe(slug === "custom-stamp" ? 1 : 2);

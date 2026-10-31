@@ -23,14 +23,14 @@ export type MascotColors = {
 export type MascotConfig = { version: 1; mascot: MascotKind; colors: MascotColors; detail: 0 | 1 | 2 };
 
 export const MASCOT_PALETTES = [
-  { name: "Apricot evening", colors: { body: "#fff4da", accent: "#278b80", background: "#f2bd4d", backgroundEnd: "#e8aa39", eye: "#252923" } },
-  { name: "Lagoon day", colors: { body: "#b7e0d6", accent: "#427e88", background: "#ebd9af", backgroundEnd: "#dec99a", eye: "#183d46" } },
-  { name: "Golden pollen", colors: { body: "#ffdc89", accent: "#d57f5a", background: "#abc4b0", backgroundEnd: "#8dad99", eye: "#40332c" } },
-  { name: "Mint garden", colors: { body: "#d4e6b1", accent: "#729566", background: "#b7abc8", backgroundEnd: "#a496bb", eye: "#273d39" } },
-  { name: "Berry milk", colors: { body: "#f8d2d9", accent: "#c86b83", background: "#b7c8e5", backgroundEnd: "#9dafd6", eye: "#342943" } },
-  { name: "Cloud pebble", colors: { body: "#e0e4ed", accent: "#8897bc", background: "#d9bba5", backgroundEnd: "#cfa88d", eye: "#303249" } },
-  { name: "Copper leaf", colors: { body: "#ffefd2", accent: "#db6b4f", background: "#c8d8a4", backgroundEnd: "#b5c58e", eye: "#403034" } },
-  { name: "Lilac tide", colors: { body: "#d9c9f3", accent: "#9880c6", background: "#b2d3d4", backgroundEnd: "#94bdbf", eye: "#31354e" } },
+  { name: "Apricot evening", colors: { body: "#fff4da", accent: "#00a691", background: "#ffc21f", backgroundEnd: "#ff922e", eye: "#252923" } },
+  { name: "Lagoon day", colors: { body: "#5debd0", accent: "#006dcb", background: "#ffe95d", backgroundEnd: "#ffc934", eye: "#183d46" } },
+  { name: "Golden pollen", colors: { body: "#ffcb2c", accent: "#f06624", background: "#36cab4", backgroundEnd: "#00a69a", eye: "#40332c" } },
+  { name: "Mint garden", colors: { body: "#c2ff47", accent: "#239761", background: "#b36cff", backgroundEnd: "#7b3bdf", eye: "#273d39" } },
+  { name: "Berry milk", colors: { body: "#ff92b8", accent: "#d62f7b", background: "#58bfff", backgroundEnd: "#426ff6", eye: "#342943" } },
+  { name: "Cloud pebble", colors: { body: "#aabaff", accent: "#6038c9", background: "#ffb85a", backgroundEnd: "#fa8335", eye: "#303249" } },
+  { name: "Copper leaf", colors: { body: "#ffefd2", accent: "#f44f39", background: "#b1f256", backgroundEnd: "#68c62e", eye: "#403034" } },
+  { name: "Lilac tide", colors: { body: "#bc88ff", accent: "#7441cb", background: "#54e6e3", backgroundEnd: "#1bacd7", eye: "#31354e" } },
 ] as const;
 
 const DEFAULT_SEED = "orangeui:character";

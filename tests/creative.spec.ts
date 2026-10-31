@@ -35,7 +35,7 @@ test.beforeEach(async ({ page }) => {
 
 async function open(page: Page, slug: string) {
   const component = CREATIVE_COMPONENTS.find((item) => item.slug === slug)!;
-  await page.goto(`/components/${slug}?style=${component.collection}`, { waitUntil: "networkidle" });
+  await page.goto(`/components/${slug}?style=${component.collection ?? "polished"}`, { waitUntil: "networkidle" });
   const demo = page.getByTestId("live-demo");
   await expect(demo.locator(".creative-demo")).toBeVisible({ timeout: 30_000 });
   await page.evaluate(() => document.fonts.ready);
@@ -89,7 +89,7 @@ for (const width of [1366, 380]) for (const theme of ["light", "dark"] as const)
       await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
       await expect(page.getByRole("heading", { name: component.name, exact: true })).toBeVisible();
       await expect(demo.locator(".creative-demo")).toHaveAttribute("data-theme", theme);
-      await expect(demo.locator("[data-appearance]").first()).toHaveAttribute("data-appearance", component.collection!);
+      await expect(demo.locator("[data-appearance]").first()).toHaveAttribute("data-appearance", (component.collection ?? "polished"));
       await expect(demo.locator("[data-main-preview]")).toHaveCount(1);
       const geometry = await demo.evaluate((element) => {
         const primary = element.querySelector("[data-main-preview]")!, rect = primary.getBoundingClientRect();
@@ -113,7 +113,7 @@ for (const width of [1366, 380]) for (const theme of ["light", "dark"] as const)
       await page.evaluate(() => { (document.activeElement as HTMLElement)?.blur(); scrollTo(0, 0); });
       await page.screenshot({ path: `${folder}/${component.slug}.png`, animations: "disabled" });
       await demo.locator("[data-main-preview]").screenshot({ path: `${folder}/${component.slug}-preview.png`, animations: "disabled" });
-      await expect(page.getByRole("link", { name: "Download source", exact: true })).toHaveAttribute("href", `/api/components/${component.slug}?style=${component.collection}`);
+      await expect(page.getByRole("link", { name: "Download source", exact: true })).toHaveAttribute("href", `/api/components/${component.slug}?style=${component.collection ?? "polished"}`);
       expect.soft(await page.title(), component.slug + " title").toContain(component.name);
       observations.push({ slug: component.slug, collection: component.collection, geometry, violations, focus });
     });
@@ -128,7 +128,7 @@ test("creative collection search, navigation, copy and source routes", async ({ 
   for (const appearance of ["pixel", "retro-os", "polished"] as Appearance[]) {
     await page.goto(`/components?style=${appearance}`);
     await expect(page.locator(".component-tile")).toHaveCount(componentsInCollection(appearance).length);
-    for (const component of CREATIVE_COMPONENTS.filter((item) => item.collection === appearance)) {
+    for (const component of CREATIVE_COMPONENTS.filter((item) => !item.collection || item.collection === appearance)) {
       const input = page.getByRole("searchbox", { name: "Search all components" });
       await input.fill(component.name);
       await expect(page.locator(".component-tile")).toHaveCount(1);
@@ -138,16 +138,16 @@ test("creative collection search, navigation, copy and source routes", async ({ 
   for (const component of CREATIVE_COMPONENTS) {
     await open(page, component.slug);
     await page.getByRole("button", { name: "Copy install command", exact: true }).click();
-    expect(await page.evaluate(() => window.__creativeTest.copied.at(-1))).toContain(`/r/${component.slug}.json?style=${component.collection}`);
+    expect(await page.evaluate(() => window.__creativeTest.copied.at(-1))).toContain(`/r/${component.slug}.json?style=${component.collection ?? "polished"}`);
     await page.getByRole("button", { name: "Copy prompt", exact: true }).click();
     expect(await page.evaluate(() => window.__creativeTest.copied.at(-1))).toContain(component.name);
     await page.getByRole("tab", { name: "Usage", exact: true }).click();
     await expect(page.locator("#example-panel code")).toContainText("<" + component.name);
     await page.getByRole("button", { name: "Copy code", exact: true }).click();
     expect(await page.evaluate(() => window.__creativeTest.copied.at(-1))).toContain("<" + component.name);
-    const zip = await request.get(`/api/components/${component.slug}?style=${component.collection}`);
+    const zip = await request.get(`/api/components/${component.slug}?style=${component.collection ?? "polished"}`);
     expect(zip.ok()).toBe(true); expect(zip.headers()["content-type"]).toContain("zip");
-    const registry = await request.get(`/r/${component.slug}.json?style=${component.collection}`);
+    const registry = await request.get(`/r/${component.slug}.json?style=${component.collection ?? "polished"}`);
     expect(registry.ok()).toBe(true);
     const item = await registry.json(); expect(item.name).toBe("orangeui-" + component.slug);
     expect(item.files.some((file: { path: string }) => /AGENTS|USER_INSTRUCTIONS|reference-images|\.env/.test(file.path))).toBe(false);

@@ -10,8 +10,9 @@
 .creative-sticker-upload { display: grid; gap: 5px; margin-top: 12px; font-size: 12px; }
 .creative-sticker-upload input { width: 100%; font-size: 11px; }
 .retro-player-scene { width: min(100%, 340px); padding-top: 74px; padding-bottom: 18px; }
-.retro-earbuds { position: absolute; inset: 0; width: 100%; height: 470px; overflow: visible; z-index: -1; }
-.retro-player-body { position: relative; width: min(76%, 248px); min-height: 354px; margin: 0 auto; padding: 22px 17px; color: #24232d; background: linear-gradient(110deg, #ffffff50, transparent 35%, #0000000b 80%, #ffffff80), var(--device-body, #e6e5df); border: 2px solid #39383c; border-radius: 23px; box-shadow: inset 0 0 0 3px #fbfaf5, inset -3px -5px 0 3px #a5a4a2, 2px 4px 0 #5b5a5e, 0 18px 26px -16px #0009; }
+.retro-player-hardware { position: relative; width: min(72%, 248px); margin: 0 auto 28px; isolation: isolate; }
+.retro-earbuds { position: absolute; left: 0; top: 0; width: 100%; height: auto; overflow: visible; z-index: 0; pointer-events: none; }
+.retro-player-body { position: relative; z-index: 1; width: 100%; min-height: 354px; margin: 0 auto; padding: 22px 17px; color: #24232d; background: linear-gradient(110deg, #ffffff50, transparent 35%, #0000000b 80%, #ffffff80), var(--device-body, #e6e5df); border: 2px solid #39383c; border-radius: 23px; box-shadow: inset 0 0 0 3px #fbfaf5, inset -3px -5px 0 3px #a5a4a2, 2px 4px 0 #5b5a5e, 0 18px 26px -16px #0009; }
 .retro-player-body::before { content: ""; position: absolute; left: 28px; top: -4px; width: 28px; height: 3px; border-radius: 3px 3px 0 0; background: #85858a; }
 .retro-player-screen { position: relative; z-index: 2; border: 3px solid #28272e; padding: 8px 9px 4px; min-height: 120px; background: var(--device-screen, #f6f5ee); box-shadow: inset 0 0 0 2px #dedbd4; font-family: var(--font-display), monospace; }
 .retro-screen-heading { display: flex; justify-content: space-between; align-items: center; font-size: 8px; border-bottom: 1px solid #989794; padding-bottom: 4px; margin-bottom: 9px; }
@@ -30,17 +31,17 @@
 .retro-track-menu button[aria-pressed="true"] { background: #a89ee8; }
 .retro-click-wheel { position: relative; z-index: 2; width: 143px; height: 143px; border: 2px solid #565359; border-radius: 50%; margin: 26px auto 0; background: linear-gradient(145deg, #fff, #e8e7e1); box-shadow: inset 0 0 0 2px #fff, 0 2px 3px #5552; }
 .retro-wheel-ring { position: absolute; inset: 0; border-radius: 50%; touch-action: none; cursor: ew-resize; }
-.retro-wheel-zone { position: absolute; border: 0; background: transparent; padding: 5px; color: #27252c; }
-.retro-wheel-menu { left: 36px; top: 5px; font-size: 9px !important; font-weight: 700; letter-spacing: .06em; }
-.retro-wheel-previous { left: 4px; top: 52px; }
-.retro-wheel-next { right: 4px; top: 52px; }
-.retro-wheel-play { left: 57px; bottom: 6px; }
+.retro-wheel-zone { position: absolute; display: grid; place-items: center; min-width: 30px; min-height: 30px; border: 0; background: transparent; padding: 4px; color: #27252c; line-height: 1; }
+.retro-wheel-menu { left: 50%; transform: translateX(-50%); top: 2px; font-size: 9px !important; font-weight: 700; letter-spacing: .06em; }
+.retro-wheel-previous { left: 1px; top: 50%; transform: translateY(-50%); }
+.retro-wheel-next { right: 1px; top: 50%; transform: translateY(-50%); }
+.retro-wheel-play { left: 50%; transform: translateX(-50%); bottom: 2px; }
 .retro-wheel-center { position: absolute; width: 51px; height: 51px; inset: 0; margin: auto; border: 2px solid #656168; border-radius: 50%; background: linear-gradient(150deg, #ecebe6, #c8c7c2); box-shadow: inset 0 1px 2px #fff, 0 1px 2px #0002; }
 .retro-wheel-zone svg { width: 16px; height: 16px; }
 .retro-player-footer { display: flex; justify-content: center; align-items: center; gap: 18px; margin: 23px auto 0; }
 .retro-player-footer .creative-button { padding: 6px 9px; font-size: 11px; }
 .retro-player-scene > .creative-player-feedback { text-align: center; }
-@media (max-width: 420px) { .retro-player-scene { padding-top: 90px; } .retro-player-body { width: min(83%, 248px); padding-inline: 12px; } .retro-screen-track strong, .retro-screen-track span { max-width: 100px; } }
+@media (max-width: 420px) { .retro-player-scene { padding-top: 90px; } .retro-player-body { padding-inline: 12px; } .retro-screen-track strong, .retro-screen-track span { max-width: 100px; } }
 
 .retro-camera { width: min(100%, var(--camera-size, 360px)); }
 .retro-camera-top { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 18px; height: 27px; font-size: 8px; letter-spacing: .08em; }

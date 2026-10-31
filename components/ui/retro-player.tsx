@@ -36,7 +36,8 @@ export function RetroPlayer({ tracks, autoPlay = false, bodyColor = "#e6e5df", s
     tick();
   };
   return <div className={cn("creative-surface retro-player-scene", className)} data-theme={resolved} data-appearance={appearance} style={{ "--device-body": bodyColor, "--device-screen": screenColor } as CSSProperties}>
-    {showEarbuds && <svg className="retro-earbuds" viewBox="0 0 340 480" aria-hidden="true"><g fill="none" stroke="#343339" strokeWidth="7"><path d="M218 143V35Q225-55 282 20T315 236Q300 390 244 404M102 400Q15 394 30 217l28-138M50 116Q-1 259 108 265"/></g><g fill="none" stroke="#faf9f5" strokeWidth="4"><path d="M218 143V35Q225-55 282 20T315 236Q300 390 244 404M102 400Q15 394 30 217l28-138M50 116Q-1 259 108 265"/></g><g fill="#faf9f5" stroke="#343339" strokeWidth="2.5"><path d="M42 48q-8-21 10-28t26 11q8 13-6 24l-11 38-13-4 9-36Z"/><ellipse cx="53" cy="34" rx="14" ry="12"/><path d="M8 152q-4-19 12-23t23 11q4 12-11 20l-8 39-13-4 8-38Z"/><ellipse cx="20" cy="140" rx="12" ry="11"/><rect x="208" y="109" width="20" height="35" rx="3"/></g><path d="m49 35 7 2m-40 104 7 2" stroke="#343339" strokeWidth="4"/></svg>}
+    <div className="retro-player-hardware">
+    {showEarbuds && <svg className="retro-earbuds" viewBox="0 0 248 354" aria-hidden="true"><g fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M180-2V-38Q181-71 217-69Q278-66 282 34L278 142Q281 162 268 174M268 174Q284 216 279 288Q276 376 198 380Q-52 396-46 229L-30 94M268 174Q-82 178-52 41L-27-32" stroke="#59565f" strokeWidth="6"/><path d="M180-2V-38Q181-71 217-69Q278-66 282 34L278 142Q281 162 268 174M268 174Q284 216 279 288Q276 376 198 380Q-52 396-46 229L-30 94M268 174Q-82 178-52 41L-27-32" stroke="#f5f4ed" strokeWidth="3.5"/></g><g fill="#f6f5ed" stroke="#48454e" strokeWidth="1.8"><rect x="175" y="-24" width="10" height="23" rx="3"/><rect x="176" y="-4" width="8" height="6" rx="1" fill="#9fa6ad"/><path d="M-30-34L-38-57Q-40-75-22-74Q-3-71-11-52L-22-29Z"/><ellipse cx="-26" cy="-62" rx="10" ry="8"/><path d="M-32 96L-43 71Q-47 55-31 51Q-13 50-10 65Q-7 76-22 84L-24 98Z"/><ellipse cx="-29" cy="65" rx="10" ry="8"/><rect x="264" y="162" width="9" height="22" rx="3"/></g><path d="M-31-64l7 3M-34 64l7 3" stroke="#48454e" strokeWidth="2.8"/></svg>}
     <div className="retro-player-body" onPointerDown={player.allowAutoPlay}>
       <div className="retro-player-screen">
         <div className="retro-screen-heading"><span>ORANGE / MUSIC</span><span className="retro-battery" aria-hidden="true" /></div>
@@ -73,6 +74,7 @@ export function RetroPlayer({ tracks, autoPlay = false, bodyColor = "#e6e5df", s
         <button type="button" className="retro-wheel-zone retro-wheel-play" aria-label={player.playing ? "Pause" : "Play"} onClick={() => { tick(); player.toggle(); }}><CreativeIcon name={player.playing ? "pause" : "play"} width="15" height="15" /></button>
         <button type="button" className="retro-wheel-center" aria-label={player.playing ? "Pause" : "Play"} onClick={player.toggle} />
       </div>
+    </div>
     </div>
     <CreativeEditorSlot><div className="retro-player-footer"><PlayerVolume player={player} /><button className="creative-button" type="button" aria-pressed={editing} onClick={() => setEditing(!editing)}>{editing ? "Done" : "Edit stickers"}</button></div>
     {editing && <StickerEditor stickers={currentStickers} onChange={changeStickers} />}</CreativeEditorSlot>

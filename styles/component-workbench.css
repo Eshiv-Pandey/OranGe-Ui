@@ -82,6 +82,7 @@
   .creative-workbench > .creative-demo-preview, .detail-demo .artwork-customizer-preview { position: sticky; top: 64px; z-index: 3; min-height: 240px; padding: 20px; background: var(--surface); box-shadow: 0 8px 16px -14px #0009; }
   .detail-demo .artwork-customizer-artwork { min-height: 180px; }
   .detail-demo .artwork-customizer-artwork > * { max-height: 210px; width: auto; }
+  .detail-demo .artwork-customizer-artwork > .mini-driver { width: min(100%, 172.5px); max-height: none; }
   .detail-demo .artwork-customizer-caption { margin-top: 8px; font-size: 10px; }
   .creative-inspector, .detail-demo .artwork-customizer-settings { height: auto; border-left: 0; border-top: 1px solid var(--line); overflow: visible; }
   .creative-inspector-scroll { max-height: none; overflow: visible; padding: 20px; }

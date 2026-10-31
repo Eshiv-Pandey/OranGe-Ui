@@ -1,0 +1,51 @@
+/* The brand and search stay still while the component list scrolls. */
+.library-navigation-shell { display: grid; grid-template-columns: 240px minmax(0, 1fr); }
+.library-navigation-shell[data-sidebar="collapsed"] { grid-template-columns: 64px minmax(0, 1fr); }
+.library-navigation-shell .library-sidebar, .library-navigation-shell:has(.detail-heading) .library-sidebar { display: flex; flex-direction: column; padding: 0; position: sticky; top: 0; height: 100dvh; overflow: hidden; background: var(--cream); }
+.library-sidebar-head { flex: none; padding: 14px 12px 12px; }
+.library-sidebar-brand { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.library-sidebar-brand .wordmark { font-size: 19px; letter-spacing: -.035em; gap: 8px; }
+.library-sidebar-brand .wordmark svg { width: 25px; height: 25px; }
+.sidebar-collapse { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border: 0; border-radius: 8px; color: var(--muted); background: transparent; }
+.sidebar-collapse:hover { background: var(--surface-soft); color: var(--ink); }
+.sidebar-collapse svg, .library-mobile-menu svg { width: 20px; height: 20px; }
+.sidebar-search { width: 100%; }
+.sidebar-search .header-tool { width: 100%; justify-content: flex-start; min-height: 38px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-soft); box-shadow: none; color: var(--muted); }
+.sidebar-search .header-tool-label { display: inline-flex; flex: 1; justify-content: space-between; }
+.sidebar-search .header-tool svg { flex: none; width: 16px; height: 16px; }
+.library-sidebar-scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--line) transparent; padding: 0 12px 24px; }
+.library-sidebar-scroll[hidden] { display: none; }
+.library-navigation-shell .library-nav-intro { margin: 4px 0 24px; gap: 2px; }
+.library-navigation-shell .library-nav a { min-height: 36px; }
+.library-navigation-shell .library-nav-group > p { text-transform: none; font-size: 12px; letter-spacing: 0; color: var(--ink); font-weight: 600; margin-bottom: 6px; }
+.library-navigation-shell .library-nav a[aria-current] { box-shadow: none; outline: 1px solid var(--line); outline-offset: -1px; }
+.library-sidebar-footer { display: flex; align-items: center; justify-content: space-between; flex: none; gap: 10px; margin: 0 12px; padding: 16px 8px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+.library-sidebar-footer a { text-decoration: none; }
+.library-navigation-shell[data-sidebar="collapsed"] .library-sidebar-brand { flex-direction: column; }
+.library-navigation-shell[data-sidebar="collapsed"] .wordmark > span,
+.library-navigation-shell[data-sidebar="collapsed"] .sidebar-search .header-tool-label,
+.library-navigation-shell[data-sidebar="collapsed"] .library-sidebar-footer > a:last-child { display: none; }
+.library-navigation-shell[data-sidebar="collapsed"] .sidebar-search .header-tool { padding: 10px; }
+.library-navigation-shell[data-sidebar="collapsed"] .library-sidebar-footer { margin-top: auto; margin-inline: 6px; padding-inline: 6px; }
+.library-content-column { min-width: 0; }
+.library-navigation-shell .library-header { height: 60px; padding: 0 24px; gap: 24px; }
+.library-navigation-shell .library-header > nav { font-size: 12px; gap: 22px; }
+.library-navigation-shell .library-layout { display: block; max-width: none; }
+.library-navigation-shell .library-main { max-width: none; }
+.library-mobile-brand, .library-mobile-search { display: none; }
+@media (max-width: 800px) {
+  .library-navigation-shell, .library-navigation-shell[data-sidebar="collapsed"] { display: block; }
+  .library-navigation-shell .library-sidebar, .library-navigation-shell:has(.detail-heading) .library-sidebar { display: none; }
+  .library-navigation-shell .library-header { height: 64px; padding: 0 16px; gap: 8px; }
+  .library-mobile-brand, .library-mobile-search, .library-navigation-shell .library-mobile-menu { display: block; }
+  .library-mobile-brand .wordmark { font-size: 19px; letter-spacing: -.035em; gap: 6px; }
+  .library-mobile-brand .wordmark svg { width: 25px; height: 25px; }
+  .library-navigation-shell .library-header > nav { display: none; }
+  .library-mobile-search .header-tool-label { display: none; }
+  .library-navigation-shell .library-header-actions { gap: 2px; }
+  .library-navigation-shell .library-header .theme-toggle { min-height: 36px; padding: 8px; }
+  .library-navigation-shell .library-mobile-menu .pixel-button { min-width: 36px; padding: 8px; }
+}
+
+.header-appearance select { max-width: 132px; min-height: 34px; border: 1px solid var(--line); border-radius: 7px; padding: 5px 7px; font-size: 11px; background: var(--surface); color: var(--ink); }
+@media (max-width: 480px) { .header-appearance select { max-width: 92px; } .library-mobile-brand .wordmark > span { display: none; } }

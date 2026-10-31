@@ -9,7 +9,7 @@ const playerNotes = [
   "Uses the shared useAudioPlayer engine with real HTMLAudioElement playback, seeking, track changes, volume, mute, loading and errors. Same-origin, blob and data tracks use audio analysis; remote tracks preserve playback and use the visual fallback.",
   "The three original Orange sessions recordings are dedicated to CC0 1.0. Complete credits and license text travel with source downloads. Supply your own licensed playlist for production.",
 ];
-function definition(slug: string, name: string, collection: Appearance, description: string, usage: string, keyboard: string, rows: Row[], notes: string[] = [], options: Partial<ComponentDefinition> = {}): ComponentDefinition {
+function definition(slug: string, name: string, collection: Appearance | undefined, description: string, usage: string, keyboard: string, rows: Row[], notes: string[] = [], options: Partial<ComponentDefinition> = {}): ComponentDefinition {
   return { slug, name, collection, customizerPreview: true, category: collection === "retro-os" || ["season-tree", "swing-keychain"].includes(slug) ? "Play" : "Content & layout", description, file: "components/ui/" + slug + ".tsx", usage, keyboard, props: [...rows, theme].map(([name, type, defaultValue, description]): PropDoc => ({ name, type, defaultValue, description })), notes, ...options };
 }
 const textRows: Row[] = [
@@ -30,11 +30,11 @@ const textNotes = [
   "Override --font-hindi-display and --font-hinglish-display for your own licensed or premium fonts without changing the component API. Transliteration is phonetic with a common-word dictionary, rather than translation.",
 ];
 export const CREATIVE_COMPONENTS: ComponentDefinition[] = [
-  definition("season-tree", "SeasonTree", "pixel", "An original pixel tree that moves through blossom, summer, autumn, maple and winter.", '<SeasonTree season="yellow" showPicker />', "Tab through the season picker; Enter or Space changes season.", [
+  definition("season-tree", "SeasonTree", undefined, "An original animated tree that moves through blossom, summer, autumn, maple and winter.", '<SeasonTree season="yellow" showPicker />', "Tab through the season picker; Enter or Space changes season.", [
     ["season / onSeasonChange", "TreeSeason / callback", "yellow", "Controlled or local pink, green, yellow, red or winter season."],
     ["showPicker", "boolean", "true", "Built-in season picker."],
     ["windStrength / fallRate", "number / number", "0.6 / 1", "Canopy sway, drift and falling leaves per second."],
-    ["pixelSize", "number", "3", "Hard-edged canvas pixel scale."],
+    ["pixelSize", "number", "Appearance-specific", "Canvas resolution; defaults to 3 in Pixelated and 1 in other appearances."],
     ["background", "string", "transparent", "Custom backdrop or transparent."],
     ["paused / size", "boolean / number | string", "false / 340", "Freeze decorative motion; responsive maximum width."],
   ], ["All foliage and branch geometry is procedural and original. Seasons change density, shapes, sky, ground and separate foliage/falling palettes. Reduced motion retains a settled tree."]),
@@ -90,10 +90,10 @@ export const CREATIVE_COMPONENTS: ComponentDefinition[] = [
     tracks, ["glowColor", "string", "#ce72ef", "Cover and progress glow."],
     ["expandOn / defaultExpanded", "hover | click / boolean", "hover / false", "Expansion mode and initial state."], volume,
   ], [...playerNotes, "Starts minimized with the original glowing cover and equalizer. A generic original music icon replaces service branding."], { usageImports: sampleImports }),
-  definition("anime-fire", "AnimeFire", "polished", "Original cel-shaded fire with ink edges, bright core, rising sparks and optional crackle.", "<AnimeFire speed={0.6} intensity={1} height={0.45} />", "Arrows move the focused canvas attraction point. The visible sound toggle starts or mutes synthesized crackle.", [
+  definition("anime-fire", "AnimeFire", undefined, "Original cel-shaded fire with ink edges, bright core, rising sparks and optional crackle.", "<AnimeFire speed={0.6} intensity={1} height={0.45} />", "Arrows move the focused canvas attraction point. The visible sound toggle starts or mutes synthesized crackle.", [
     ["colors", "readonly string[]", "Ember / flame / core", "Three cel-band colors."],
     ["speed / intensity / height", "number / number / number", "0.6 / 1 / 0.45", "Exact compatible motion, flame strength and normalized-height defaults."],
-    ["interactive / dither / pixelSize", "boolean / boolean / number", "true / false / 1", "Smoothed pointer attraction, Bayer print and pixel scale."],
+    ["interactive / dither / pixelSize", "boolean / boolean / number", "true / appearance-specific / appearance-specific", "Smoothed pointer attraction. Dither defaults to true in Retro OS and false otherwise. Pixel size defaults to 5 in Pixelated, 3 in Terminal and 1 otherwise. Explicit values override these defaults."],
     ["sound / volume / muted", "boolean / number / boolean", "false / 0.3 / false", "Gesture-gated crackle and low rumble."],
   ], ["Independent original shader with the requested base prop surface. No 23rd.dev code, artwork or sound is copied. Context loss/restoration and a CSS/SVG fallback are handled.", "Decorative frames and crackle pause off screen and in hidden tabs. Reduced motion keeps a still; sound defaults off."]),
   definition("grain-gradient", "GrainGradient", "polished", "A flowing grain gradient with editable mesh points, presets and image export.", '<GrainGradient preset="sunset" mode="mesh" />', "Drag color points or use their arrow keys. Save image exports the current frame.", [

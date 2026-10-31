@@ -34,7 +34,7 @@ export function LiveryEditor({ value, onChange, seed = "orangeui:motorsport", ve
   const [lean, setLean] = useState(0);
   const [wheelie, setWheelie] = useState(false);
   const [rider, setRider] = useState(false);
-  const [track, setTrack] = useState(true);
+  const [track, setTrack] = useState(vehicle !== "bike");
   const [theme, setTheme] = useState<"auto" | "light" | "dark">("auto");
   const kind = vehicle ?? selectedVehicle;
   const sceneTheme = theme === "auto" ? undefined : theme;

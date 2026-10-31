@@ -14,12 +14,12 @@ export type SeasonTreeProps = {
 };
 type FallingLeaf = { x: number; y: number; rotation: number; speed: number; drift: number; color: string };
 
-export function SeasonTree({ season, onSeasonChange, showPicker = true, windStrength = 0.6, fallRate = 1, pixelSize = 3, background, paused = false, size = 340, theme = "auto", className }: SeasonTreeProps) {
+export function SeasonTree({ season, onSeasonChange, showPicker = true, windStrength = 0.6, fallRate = 1, pixelSize, background, paused = false, size = 340, theme = "auto", appearance = "polished", className }: SeasonTreeProps) {
   const [localSeason, setLocalSeason] = useState<TreeSeason>("yellow"), activeSeason = season ?? localSeason;
   const resolved = useCreativeTheme(theme), canvas = useRef<HTMLCanvasElement>(null);
-  const latest = useRef({ season: activeSeason, windStrength, fallRate, paused, resolved, background });
+  const latest = useRef({ season: activeSeason, windStrength, fallRate, paused, resolved, background, appearance });
   const redraw = useRef<(() => void) | null>(null);
-  useEffect(() => { latest.current = { season: activeSeason, windStrength, fallRate, paused, resolved, background }; redraw.current?.(); }, [activeSeason, windStrength, fallRate, paused, resolved, background]);
+  useEffect(() => { latest.current = { season: activeSeason, windStrength, fallRate, paused, resolved, background, appearance }; redraw.current?.(); }, [activeSeason, windStrength, fallRate, paused, resolved, background, appearance]);
   useEffect(() => {
     const element = canvas.current; if (!element) return;
     let currentSeason = latest.current.season, foliage = createSeasonFoliage(currentSeason), previous: TreeTile[] = [], transition = 1, clock = 0, spawn = 0;
@@ -43,8 +43,18 @@ export function SeasonTree({ season, onSeasonChange, showPicker = true, windStre
         for (const leaf of tiles) {
           if ((leaf.layer > 0.83) !== front) continue;
           const sway = Math.round(Math.sin(clock * 1.2 + leaf.y * 0.04) * wind * (leaf.y < 70 ? 0.8 : 0.3));
-          context.fillStyle = leaf.color; context.fillRect(leaf.x + sway, leaf.y, leaf.w, leaf.h);
-          if (currentSeason === "red" && leaf.layer > 0.7) context.fillRect(leaf.x + sway + 2, leaf.y - 2, 2, leaf.h + 4);
+          context.fillStyle = leaf.color;
+          if (config.appearance === "polished") {
+            context.beginPath(); context.ellipse(leaf.x + sway + leaf.w / 2, leaf.y + leaf.h / 2, leaf.w * .65, leaf.h * .65, -.4, 0, Math.PI * 2); context.fill();
+          } else if (config.appearance === "terminal") {
+            context.lineWidth = .55; context.strokeStyle = leaf.color;
+            context.strokeRect(Math.round((leaf.x + sway) / 3) * 3, Math.round(leaf.y / 3) * 3, 2, 2);
+          } else {
+            context.fillRect(leaf.x + sway, leaf.y, leaf.w, leaf.h);
+            if (config.appearance === "neobrutalism" && leaf.layer > .65) { context.strokeStyle = "#30233d"; context.lineWidth = .5; context.strokeRect(leaf.x + sway, leaf.y, leaf.w, leaf.h); }
+            if (config.appearance === "retro-os" && leaf.layer > .7) { context.fillStyle = "#ffffff80"; context.fillRect(leaf.x + sway, leaf.y, 1, 1); }
+            if (currentSeason === "red" && leaf.layer > .7) context.fillRect(leaf.x + sway + 2, leaf.y - 2, 2, leaf.h + 4);
+          }
         }
         context.globalAlpha = 1;
       };
@@ -68,12 +78,12 @@ export function SeasonTree({ season, onSeasonChange, showPicker = true, windStre
       const settled = ground.length ? ground : [{ x: 39, y: 120, rotation: 0, speed: 0, drift: 0, color: palette.fallen[0] }, { x: 92, y: 120, rotation: 0, speed: 0, drift: 0, color: palette.fallen[1] }];
       for (const leaf of settled) { context.fillStyle = leaf.color; context.fillRect(Math.round(leaf.x), Math.round(leaf.y), 4, 2); }
       context.restore();
-    }, { pixelSize });
+    }, { pixelSize: pixelSize ?? (appearance === "pixel" ? 3 : 1) });
     redraw.current = renderer.redraw;
     return () => { redraw.current = null; renderer.destroy(); };
-  }, [pixelSize]);
-  return <div className={cn("creative-surface season-tree", className)} data-theme={resolved} data-appearance="pixel" style={{ "--tree-size": typeof size === "number" ? size + "px" : size } as CSSProperties}>
-    <canvas ref={canvas} className="season-tree-canvas" role="img" aria-label={TREE_SEASONS.find((item) => item.value === activeSeason)?.label + " pixel tree with falling leaves"} />
+  }, [pixelSize, appearance]);
+  return <div className={cn("creative-surface season-tree", className)} data-theme={resolved} data-appearance={appearance} style={{ "--tree-size": typeof size === "number" ? size + "px" : size } as CSSProperties}>
+    <canvas ref={canvas} className="season-tree-canvas" role="img" aria-label={TREE_SEASONS.find((item) => item.value === activeSeason)?.label + " tree with falling leaves"} />
     {showPicker && <div className="season-tree-picker" role="group" aria-label="Tree season">{TREE_SEASONS.map(({ value, label }) => <button key={value} type="button" aria-pressed={activeSeason === value} onClick={() => { if (season === undefined) setLocalSeason(value); onSeasonChange?.(value); }}><span style={{ background: TREE_PALETTES[value].leaves[0] }} aria-hidden="true" />{label}</button>)}</div>}
   </div>;
 }

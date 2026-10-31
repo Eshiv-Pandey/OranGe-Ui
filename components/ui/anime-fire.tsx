@@ -17,23 +17,25 @@ export type AnimeFireProps = {
 };
 const FIRE_COLORS = ["#e44322", "#ff881a", "#ffd34b"] as const;
 
-export function AnimeFire({ colors = FIRE_COLORS, speed = 0.6, intensity = 1, height = 0.45, interactive = true, dither = false, pixelSize = 1, theme = "auto", className, sound = false, volume = 0.3, muted = false, appearance = "polished" }: AnimeFireProps) {
+export function AnimeFire({ colors = FIRE_COLORS, speed = 0.6, intensity = 1, height = 0.45, interactive = true, dither, pixelSize, theme = "auto", className, sound = false, volume = 0.3, muted = false, appearance = "polished" }: AnimeFireProps) {
+  const resolvedPixel = pixelSize ?? (appearance === "pixel" ? 5 : appearance === "terminal" ? 3 : 1);
+  const resolvedDither = dither ?? appearance === "retro-os";
   const root = useRef<HTMLDivElement>(null), canvas = useRef<HTMLCanvasElement>(null), pointer = useRef({ x: 0.5, y: 0.12, tx: 0.5, ty: 0.12 });
   const [enabled, setEnabled] = usePropPreference(sound), [isMuted, setMuted] = usePropPreference(muted), [started, setStarted] = useState(false), resolved = useCreativeTheme(theme);
   const session = useRef<ReturnType<typeof createFireAudio> | null>(null), renderer = useRef<ReturnType<typeof createCreativeWebGL> | null>(null), active = useRef(false);
-  const latest = useRef({ colors, speed, intensity, height, interactive, dither, pixelSize, resolved, enabled, isMuted, started, volume });
+  const latest = useRef({ colors, speed, intensity, height, interactive, dither: resolvedDither, pixelSize: resolvedPixel, appearance, resolved, enabled, isMuted, started, volume });
   useEffect(() => {
-    latest.current = { colors, speed, intensity, height, interactive, dither, pixelSize, resolved, enabled, isMuted, started, volume };
+    latest.current = { colors, speed, intensity, height, interactive, dither: resolvedDither, pixelSize: resolvedPixel, appearance, resolved, enabled, isMuted, started, volume };
     if (active.current && enabled && !isMuted && started) session.current?.start(volume * clamp(intensity, 0, 2)); else session.current?.stop();
     renderer.current?.redraw();
-  }, [colors, speed, intensity, height, interactive, dither, pixelSize, resolved, enabled, isMuted, started, volume]);
+  }, [colors, speed, intensity, height, interactive, resolvedDither, resolvedPixel, appearance, resolved, enabled, isMuted, started, volume]);
   useEffect(() => {
     if (!canvas.current) return;
     const audio = createFireAudio(); session.current = audio;
     const effect = createCreativeWebGL(canvas.current, ANIME_FIRE_FRAGMENT, (frame) => {
       const config = latest.current, p = pointer.current, smoothing = frame.reduced ? 1 : Math.min(1, frame.delta * 7);
       p.x += (p.tx - p.x) * smoothing; p.y += (p.ty - p.y) * smoothing;
-      return { uTime: frame.time, uTheme: config.resolved === "dark" ? 1 : 0, uPointer: [p.x, p.y], uColors: [0, 1, 2].flatMap((index) => creativeColor(config.colors[index] || FIRE_COLORS[index])), uSpeed: clamp(config.speed, 0, 5), uIntensity: clamp(config.intensity, 0, 3), uHeight: clamp(config.height, 0.05, 1), uInteractive: config.interactive ? 1 : 0, uDither: config.dither ? 1 : 0, uPixelSize: clamp(config.pixelSize, 1, 20) };
+      return { uAppearance: ["polished", "pixel", "neobrutalism", "retro-os", "terminal"].indexOf(config.appearance), uTime: frame.time, uTheme: config.resolved === "dark" ? 1 : 0, uPointer: [p.x, p.y], uColors: [0, 1, 2].flatMap((index) => creativeColor(config.colors[index] || FIRE_COLORS[index])), uSpeed: clamp(config.speed, 0, 5), uIntensity: clamp(config.intensity, 0, 3), uHeight: clamp(config.height, 0.05, 1), uInteractive: config.interactive ? 1 : 0, uDither: config.dither ? 1 : 0, uPixelSize: clamp(config.pixelSize, 1, 20) };
     }, {
       onState: (ready) => { if (root.current) root.current.dataset.renderer = ready ? "webgl" : "fallback"; },
     });

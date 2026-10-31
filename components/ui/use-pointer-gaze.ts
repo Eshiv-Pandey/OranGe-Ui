@@ -2,14 +2,14 @@
 
 import { useEffect, useRef, type RefObject } from "react";
 import { advancePointerGaze, createPointerGaze, pointerFromRect, type PointerGazeOptions } from "./pointer-gaze";
-import { useMotionActivity, type MotionElement, type MotionStatus } from "./use-motion-activity";
+import { useMotionActivity, type MotionElement, type MotionStatus, type MotionFrame } from "./use-motion-activity";
 
 export type { PointerGazeOptions } from "./pointer-gaze";
 
 /** Shared pointer gaze with no per-frame React state or renders. */
-export function usePointerGaze<T extends MotionElement>(ref: RefObject<T | null>, { seed = "orangeui:gaze", interactive = true, blink = true }: PointerGazeOptions = {}) {
+export function usePointerGaze<T extends MotionElement>(ref: RefObject<T | null>, { seed = "orangeui:gaze", interactive = true, blink = true, paused = false, onFrame }: PointerGazeOptions & { paused?: boolean; onFrame?: (frame: MotionFrame) => void } = {}) {
   const state = useRef(createPointerGaze(seed));
-  const options = useRef({ interactive, blink });
+  const options = useRef({ interactive, blink, paused });
   const status = useRef<MotionStatus>("paused");
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export function usePointerGaze<T extends MotionElement>(ref: RefObject<T | null>
     element.style.setProperty("--gaze-y", "0");
     element.style.setProperty("--blink-scale", "1");
     function move(event: PointerEvent) {
-      if (!options.current.interactive || status.current !== "running") return;
+      if (!options.current.interactive || options.current.paused || status.current !== "running") return;
       state.current.pointer = pointerFromRect(event.clientX, event.clientY, element!.getBoundingClientRect());
       state.current.pointerAt = state.current.clock;
     }
@@ -39,17 +39,18 @@ export function usePointerGaze<T extends MotionElement>(ref: RefObject<T | null>
   useEffect(() => {
     if (state.current.seed !== String(seed)) state.current = createPointerGaze(seed, state.current.clock);
     if (options.current.interactive !== interactive) state.current.pointerAt = -Infinity;
-    options.current = { interactive, blink };
+    options.current = { interactive, blink, paused };
     if (!blink) {
       state.current.blinkScale = 1;
       ref.current?.style.setProperty("--blink-scale", "1");
     }
-  }, [seed, interactive, blink, ref]);
+  }, [seed, interactive, blink, paused, ref]);
 
   useMotionActivity(ref, {
     onFrame: (frame) => {
       const element = ref.current;
-      if (!element) return;
+      if (!element || options.current.paused) return;
+      onFrame?.(frame);
       advancePointerGaze(state.current, frame, options.current);
       element.style.setProperty("--gaze-x", state.current.look.x.toFixed(4));
       element.style.setProperty("--gaze-y", state.current.look.y.toFixed(4));

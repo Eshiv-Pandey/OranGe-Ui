@@ -3,7 +3,7 @@
 /** Original advected flame field, with four cel layers and detached rising embers. */
 export const ANIME_FIRE_FRAGMENT = CREATIVE_SHADER_COMMON + `
 uniform vec3 uColors[3];
-uniform float uSpeed,uIntensity,uHeight,uInteractive,uDither,uPixelSize;
+uniform float uSpeed,uIntensity,uHeight,uInteractive,uDither,uPixelSize,uAppearance;
 float flameNoise(vec2 p){
   return noise(p)*.57+noise(p*2.07+7.3)*.28+noise(p*4.13+2.1)*.15;
 }
@@ -40,6 +40,17 @@ void main(){
     color=mix(color,uColors[1],ember*.7);
   }
   color+=(hash(gl_FragCoord.xy)-.5)*.012;
+  if(uAppearance>1.5&&uAppearance<2.5){
+    float edge=1.-smoothstep(.003,.011,min(abs(field),min(abs(field-.068),abs(field-.16))));
+    color=mix(color,vec3(.055,.035,.06),edge*alive);
+  }
+  if(uAppearance>3.5){
+    vec2 cell=fract(gl_FragCoord.xy/vec2(5.,8.));
+    float glyph=step(.18,cell.x)*step(cell.x,.82)*step(.18,cell.y)*step(cell.y,.8);
+    float lit=step(0.,field)*(.45+step(.068,field)*.25+step(.16,field)*.3);
+    vec3 terminalInk=mix(uColors[0],uColors[2],lit)*mix(.48,1.,uTheme);
+    color=mix(background,terminalInk,lit*glyph*alive);
+  }
   if(uDither>.5)color=floor(color*7.+(bayer(gl_FragCoord.xy/max(1.,uPixelSize))-.5)*.8)/7.;
   gl_FragColor=vec4(clamp(color,0.,1.),1.);
 }`;

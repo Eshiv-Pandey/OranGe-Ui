@@ -1,9 +1,10 @@
 import type { Appearance } from "./appearance";
+import { characterWardrobe } from "./character-wardrobe";
 
-export const CHARACTER_HAIR = ["swept", "crop", "coil"] as const;
+export const CHARACTER_HAIR = ["swept", "crop", "coil", "bob", "bun", "braids", "shaved"] as const;
 export const CHARACTER_GLASSES = ["round", "angular", "none"] as const;
-export const CHARACTER_OUTFITS = ["jacket", "crew", "collar"] as const;
-export const CHARACTER_FACES = ["soft", "long", "round"] as const;
+export const CHARACTER_OUTFITS = ["jacket", "crew", "collar", "hoodie", "racer", "knit", "overalls"] as const;
+export const CHARACTER_FACES = ["soft", "long", "round", "angular"] as const;
 export type CharacterColors = { skin: string; hair: string; outfit: string; accent: string; background: string; backgroundEnd: string; eye: string; frame: string };
 export type CharacterParts = {
   hair: typeof CHARACTER_HAIR[number]; glasses: typeof CHARACTER_GLASSES[number];
@@ -13,12 +14,12 @@ export type CharacterParts = {
 export type CharacterConfig = { version: 1; colors: CharacterColors; parts: CharacterParts };
 
 export const CHARACTER_PALETTES = [
-  { name: "Lilac workshop", colors: { skin: "#f0bd96", hair: "#37152f", outfit: "#22243c", accent: "#efc978", background: "#a88bd0", backgroundEnd: "#9879c3", eye: "#2d2638", frame: "#382b40" } },
-  { name: "Amber afternoon", colors: { skin: "#a96d51", hair: "#332b32", outfit: "#59694f", accent: "#f1b875", background: "#e4bc77", backgroundEnd: "#bd8060", eye: "#282a32", frame: "#443138" } },
-  { name: "Quiet lagoon", colors: { skin: "#edbc98", hair: "#384751", outfit: "#69537c", accent: "#9cdac7", background: "#b4ddd2", backgroundEnd: "#6aa8ac", eye: "#2e3644", frame: "#30495b" } },
-  { name: "Rose notebook", colors: { skin: "#85503e", hair: "#272e3c", outfit: "#3a6170", accent: "#ecb5ac", background: "#dbaab8", backgroundEnd: "#ab809e", eye: "#211e29", frame: "#efd3aa" } },
-  { name: "Orchard morning", colors: { skin: "#c38763", hair: "#58413d", outfit: "#4f5781", accent: "#bdd991", background: "#c6d69f", backgroundEnd: "#8caa83", eye: "#302b37", frame: "#493345" } },
-  { name: "Blue hour", colors: { skin: "#efc7a8", hair: "#51405d", outfit: "#355958", accent: "#e1b96b", background: "#a7bdd8", backgroundEnd: "#6c8aa7", eye: "#352d3e", frame: "#374052" } },
+  { name: "Lilac workshop", colors: { skin: "#f0bd96", hair: "#37152f", outfit: "#2e3fc2", accent: "#ffcf28", background: "#b15bfa", backgroundEnd: "#7041c9", eye: "#2d2638", frame: "#382b40" } },
+  { name: "Amber afternoon", colors: { skin: "#a96d51", hair: "#332b32", outfit: "#007d6d", accent: "#ffda3b", background: "#ffb836", backgroundEnd: "#ef6b32", eye: "#282a32", frame: "#443138" } },
+  { name: "Quiet lagoon", colors: { skin: "#edbc98", hair: "#384751", outfit: "#813bed", accent: "#a6fa51", background: "#53e3c4", backgroundEnd: "#009aac", eye: "#2e3644", frame: "#30495b" } },
+  { name: "Rose notebook", colors: { skin: "#85503e", hair: "#272e3c", outfit: "#1665c4", accent: "#ff8498", background: "#ff87b4", backgroundEnd: "#cf4186", eye: "#211e29", frame: "#efd3aa" } },
+  { name: "Orchard morning", colors: { skin: "#c38763", hair: "#58413d", outfit: "#7334c9", accent: "#c1f528", background: "#afe956", backgroundEnd: "#32a789", eye: "#302b37", frame: "#493345" } },
+  { name: "Blue hour", colors: { skin: "#efc7a8", hair: "#51405d", outfit: "#006f84", accent: "#ffc62c", background: "#52b7fa", backgroundEnd: "#2864d8", eye: "#352d3e", frame: "#374052" } },
 ] as const;
 
 function hashSeed(seed: string | number): number {
@@ -32,7 +33,7 @@ export function generateCharacterConfig(seed: string | number = "orangeui:portra
   const hash = hashSeed(seed);
   return {
     version: 1, colors: { ...CHARACTER_PALETTES[hash % CHARACTER_PALETTES.length].colors },
-    parts: { hair: CHARACTER_HAIR[(hash >>> 3) % 3], glasses: CHARACTER_GLASSES[(hash >>> 7) % 3], outfit: CHARACTER_OUTFITS[(hash >>> 11) % 3], face: CHARACTER_FACES[(hash >>> 15) % 3], accents: true, earring: Boolean(hash & 2) },
+    parts: { hair: CHARACTER_HAIR[(hash >>> 3) % CHARACTER_HAIR.length], glasses: CHARACTER_GLASSES[(hash >>> 7) % 3], outfit: CHARACTER_OUTFITS[(hash >>> 11) % CHARACTER_OUTFITS.length], face: CHARACTER_FACES[(hash >>> 15) % CHARACTER_FACES.length], accents: true, earring: Boolean(hash & 2) },
   };
 }
 
@@ -95,18 +96,23 @@ export function characterSvgBody(input: CharacterConfig, id: string, options: Ch
   const outfitLight = shade("outfit-highlight", "outfit", "#8c8aa2", .16), outfitShadow = shade("outfit-shadow", "outfit", "#11121e", .35);
   const mouth = shade("lip", "skin", "#7c2454", .63);
   const tile = options.appearance === "pixel" ? "M20 4H220V12H232V20H236V220H228V232H220V236H20V228H8V220H4V20H12V8H20Z" : "M22 4H218Q236 4 236 22V218Q236 236 218 236H22Q4 236 4 218V22Q4 4 22 4Z";
-  const face = parts.face === "long" ? "M88 46C66 54 56 78 57 98L51 117L62 123L64 141Q72 161 94 163L118 150L145 119L148 81L124 49Z" : parts.face === "round" ? "M86 48C64 54 53 79 54 100L48 116L59 124Q56 148 79 155Q100 163 119 149L146 116L146 78L123 49Z" : "M87 46C65 55 56 79 57 99L51 116L62 123L65 140Q77 155 95 156L119 144L145 117L148 78L123 47Z";
+  const face = parts.face === "angular" ? "M88 45L66 58L56 88L55 109L49 119L62 126L67 145L89 159L116 148L144 118L151 78L126 48Z" : parts.face === "long" ? "M88 46C66 54 56 78 57 98L51 117L62 123L64 141Q72 161 94 163L118 150L145 119L148 81L124 49Z" : parts.face === "round" ? "M86 48C64 54 53 79 54 100L48 116L59 124Q56 148 79 155Q100 163 119 149L146 116L146 78L123 49Z" : "M87 46C65 55 56 79 57 99L51 116L62 123L65 140Q77 155 95 156L119 144L145 117L148 78L123 47Z";
   const defs = [
     `<linearGradient id="${ns}-background" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${paint("background")}"/><stop offset="1" stop-color="${paint("backgroundEnd")}"/></linearGradient>`,
     `<clipPath id="${ns}-tile"><path d="${tile}"/></clipPath>`,
     `<clipPath id="${ns}-face"><path d="${face}"/></clipPath>`,
   ];
-  const backHair = parts.hair === "swept" ? `<path d="M62 60C66 30 95 21 115 28C144 18 175 36 183 63C195 82 181 104 186 121L202 145L179 143L190 159L163 153L152 172L131 152L103 151L71 136L60 106Z" fill="${hair}" stroke="${hairShadow}" stroke-width="3" stroke-linejoin="round"/><path d="M157 71Q181 87 166 114L175 146L159 137L154 154L140 139Z" fill="${hairShadow}"/>` : parts.hair === "crop" ? `<path d="M57 99C47 71 53 39 80 28L99 32L114 21L126 30Q172 24 177 62L169 117L145 137L77 129Z" fill="${hairShadow}"/>` : `<path d="M60 122C45 120 40 104 49 95C32 87 38 67 53 63C44 48 57 31 73 36C76 20 94 18 106 30C119 14 139 19 143 32C162 24 179 38 177 52C195 53 203 71 191 82C201 97 192 114 177 115L173 137L145 145L90 144Z" fill="${hairShadow}"/>`;
+  let backHair = parts.hair === "swept" ? `<path d="M62 60C66 30 95 21 115 28C144 18 175 36 183 63C195 82 181 104 186 121L202 145L179 143L190 159L163 153L152 172L131 152L103 151L71 136L60 106Z" fill="${hair}" stroke="${hairShadow}" stroke-width="3" stroke-linejoin="round"/><path d="M157 71Q181 87 166 114L175 146L159 137L154 154L140 139Z" fill="${hairShadow}"/>` : parts.hair === "crop" ? `<path d="M57 99C47 71 53 39 80 28L99 32L114 21L126 30Q172 24 177 62L169 117L145 137L77 129Z" fill="${hairShadow}"/>` : `<path d="M60 122C45 120 40 104 49 95C32 87 38 67 53 63C44 48 57 31 73 36C76 20 94 18 106 30C119 14 139 19 143 32C162 24 179 38 177 52C195 53 203 71 191 82C201 97 192 114 177 115L173 137L145 145L90 144Z" fill="${hairShadow}"/>`;
   let shoulders = `<path d="M76 168L103 153L140 151L158 163C189 169 209 191 217 216L224 247H52L57 208C59 189 65 177 76 168Z" fill="${outfit}" stroke="${outfitShadow}" stroke-width="3"/>`;
   if (parts.outfit === "jacket") shoulders += `<path d="M82 162L97 160L119 179L131 164L152 160L167 176L146 188L126 183L102 182Z" fill="${outfitShadow}"/><path d="M91 167L102 165L119 180L110 191L82 179Z" fill="${outfitLight}"/><path d="M126 184L133 240" fill="none" stroke="${outfitShadow}" stroke-width="5"/><path d="M128 184L135 240" fill="none" stroke="${accent}" stroke-width="1.5"/><rect x="126" y="184" width="5" height="10" rx="1" fill="${accent}"/><path d="M79 194L108 198L107 204L77 200ZM78 209L100 211" fill="none" stroke="${accent}" stroke-width="3"/><path d="M161 196L174 196L179 202L173 210L161 207Z" fill="none" stroke="${accent}" stroke-width="2"/><path d="M167 197V206M164 201H173" stroke="${accent}" stroke-width="2"/><path d="M188 213L208 206M187 219L210 212" stroke="${accent}" stroke-width="3"/><path d="M80 224L91 217L104 220L112 231L101 227L90 231Z" fill="${accent}"/><path d="M145 226L151 217L169 218L178 228L168 225L157 234Z" fill="${accent}"/><path d="M174 175Q187 189 184 210L195 239M72 184L63 236" fill="none" stroke="${outfitShadow}" stroke-width="3"/>`;
   else if (parts.outfit === "crew") shoulders += `<path d="M90 158Q114 181 147 158L158 166Q121 196 81 173Z" fill="${accent}"/><path d="M88 172Q116 189 148 171" fill="none" stroke="${outfitShadow}" stroke-width="3"/><path d="M73 188L66 236M181 188L202 238" fill="none" stroke="${outfitLight}" stroke-width="3"/><path d="M100 215Q124 209 152 220" fill="none" stroke="${outfitLight}" stroke-width="4"/><path d="M99 170L97 180M111 174V186M124 175V187M138 170L142 182" stroke="${outfit}" stroke-width="2"/>`;
-  else shoulders += `<path d="M97 152L119 176L142 153L157 166L145 188L120 177L104 193L79 167Z" fill="${accent}"/><path d="M121 182L132 242" fill="none" stroke="${outfitLight}" stroke-width="10"/><circle cx="124" cy="199" r="2" fill="${accent}"/><circle cx="129" cy="224" r="2" fill="${accent}"/><path d="M76 207L105 211L101 231L75 226Z" fill="${outfitLight}"/><path d="M77 210L90 219L104 213" fill="none" stroke="${outfitShadow}" stroke-width="2"/>`;
-  const frontHair = parts.hair === "swept" ? `<path d="M99 31C77 22 54 42 52 67Q48 77 36 87L56 86L64 79L62 102L72 108L79 92L79 68Q85 54 98 46C106 67 126 75 135 88L134 112L145 99L150 83Q168 88 182 77L167 67Q163 38 131 27Z" fill="${hair}" stroke="${hairShadow}" stroke-width="2.8" stroke-linejoin="round"/><path d="M97 34Q111 58 128 67L141 81M77 41Q60 53 60 76M119 32Q151 40 157 61" fill="none" stroke="${hairLight}" stroke-width="3" stroke-linecap="round"/>` : parts.hair === "crop" ? `<path d="M56 95C43 68 55 39 80 30L97 36L112 25L128 35Q163 29 174 63L161 100L146 109L145 80Q114 80 95 62L79 82L72 102Z" fill="${hair}" stroke="${hairShadow}" stroke-width="3"/><path d="M65 58L81 43L94 49M111 42Q131 61 157 58M64 75L76 66" fill="none" stroke="${hairLight}" stroke-width="4" stroke-linecap="round"/>` : `<path d="M53 91C39 77 49 59 63 61C53 43 72 27 85 38C92 21 110 27 117 38C132 25 150 33 152 47C171 38 187 52 181 67C191 78 178 95 164 87L150 109L142 101L142 82Q125 90 119 73Q99 86 91 70Q80 85 70 82L69 101Z" fill="${hair}" stroke="${hairShadow}" stroke-width="3"/><path d="M63 62Q61 44 80 48M93 49Q90 35 105 40M120 56Q120 40 137 47M151 63Q159 47 172 62M77 70Q88 58 99 64" fill="none" stroke="${hairLight}" stroke-width="3" stroke-linecap="round"/>`;
+  else if (parts.outfit === "collar") shoulders += `<path d="M97 152L119 176L142 153L157 166L145 188L120 177L104 193L79 167Z" fill="${accent}"/><path d="M121 182L132 242" fill="none" stroke="${outfitLight}" stroke-width="10"/><circle cx="124" cy="199" r="2" fill="${accent}"/><circle cx="129" cy="224" r="2" fill="${accent}"/><path d="M76 207L105 211L101 231L75 226Z" fill="${outfitLight}"/><path d="M77 210L90 219L104 213" fill="none" stroke="${outfitShadow}" stroke-width="2"/>`;
+  let frontHair = parts.hair === "swept" ? `<path d="M99 31C77 22 54 42 52 67Q48 77 36 87L56 86L64 79L62 102L72 108L79 92L79 68Q85 54 98 46C106 67 126 75 135 88L134 112L145 99L150 83Q168 88 182 77L167 67Q163 38 131 27Z" fill="${hair}" stroke="${hairShadow}" stroke-width="2.8" stroke-linejoin="round"/><path d="M97 34Q111 58 128 67L141 81M77 41Q60 53 60 76M119 32Q151 40 157 61" fill="none" stroke="${hairLight}" stroke-width="3" stroke-linecap="round"/>` : parts.hair === "crop" ? `<path d="M56 95C43 68 55 39 80 30L97 36L112 25L128 35Q163 29 174 63L161 100L146 109L145 80Q114 80 95 62L79 82L72 102Z" fill="${hair}" stroke="${hairShadow}" stroke-width="3"/><path d="M65 58L81 43L94 49M111 42Q131 61 157 58M64 75L76 66" fill="none" stroke="${hairLight}" stroke-width="4" stroke-linecap="round"/>` : `<path d="M53 91C39 77 49 59 63 61C53 43 72 27 85 38C92 21 110 27 117 38C132 25 150 33 152 47C171 38 187 52 181 67C191 78 178 95 164 87L150 109L142 101L142 82Q125 90 119 73Q99 86 91 70Q80 85 70 82L69 101Z" fill="${hair}" stroke="${hairShadow}" stroke-width="3"/><path d="M63 62Q61 44 80 48M93 49Q90 35 105 40M120 56Q120 40 137 47M151 63Q159 47 172 62M77 70Q88 58 99 64" fill="none" stroke="${hairLight}" stroke-width="3" stroke-linecap="round"/>`;
+  const wardrobe = characterWardrobe(parts.hair, parts.outfit, { hair, hairLight, hairShadow, outfit, outfitLight, outfitShadow, accent });
+  if (wardrobe.back !== undefined) backHair = wardrobe.back;
+  if (wardrobe.front !== undefined) frontHair = wardrobe.front;
+  shoulders += wardrobe.clothing;
+  shoulders += `<path d="M67 199L60 237M186 204L205 238" fill="none" stroke="${outfitShadow}" stroke-width="2"/><path d="M68 201L65 215M187 208L197 225" fill="none" stroke="${outfitLight}" stroke-width="1.5"/>`;
   function eye(x: number, y: number, index: number, wide: number) {
     const path = `M${x - wide} ${y}Q${x - 1} ${y - 10} ${x + wide} ${y - 1}L${x + wide - 2} ${y + 8}Q${x} ${y + 12} ${x - wide} ${y + 5}Z`;
     defs.push(`<clipPath id="${ns}-eye-${index}"><path d="${path}"/></clipPath>`);

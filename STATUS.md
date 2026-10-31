@@ -1,5 +1,16 @@
 # oRangeUi status
 
+## Eight-task component follow-up
+
+The sidebar and artwork follow-up is complete and verified as of 31 October 2026 on `feat/next-iteration`. [COMPONENT_FOLLOWUP.md](COMPONENT_FOLLOWUP.md) records the eight tasks and exact evidence. The catalogue remains at 82 entries.
+
+- Fixed sidebar logo/collapse/search, independent navigation scrolling, a persistent compact rail and mobile navigation are integrated. AnimeFire and SeasonTree now belong to every appearance collection, with distinct rendering treatments.
+- Superbike has a more detailed side-on silhouette and mechanical parts. MiniDriver faces forward with visible blinking eyes, free hands, automatic and interactive greetings, and pause controls. RetroPlayer has connected earphones and aligned wheel labels. Preset artwork colors are punchier, and CharacterAvatar has seven hair styles and seven outfits with additional garment detail.
+- All 468 unit/source cases are covered by passing results, with a final 41-case affected refresh. All 410 downloadable component examples and 30 avatar utility modules compile and bundle. All 47 targeted browser cases pass, including 54 accessibility/overflow observations, editor and motion behavior, and 25 exact SVG/PNG/settled-preview export comparisons.
+- Lint, strict TypeScript, copy checks, production build, bundle isolation and source traces pass. Final application build: `RvaA6UgP0JwZElqdVNPV8`; each source route retains 200 public files plus 12 runtime files. Review corrections restore the mobile theme icon and readable, horizontally scrollable prop tables. The replacement verdict reviewer marked both fixes resolved and returned `ship`; documentation comparison is complete.
+
+The earlier milestone records below are historical. The follow-up removes the earlier fixed collection restriction on AnimeFire and SeasonTree. Supplied references and personal working instructions remain local.
+
 ## Component rework delivered
 
 The requested 17-component rework is implemented and verified as of 31 October 2026 on `feat/next-iteration`. The catalogue now has 82 entries after consolidating the duplicate LiveryEditor and HelmetEditor listings into OpenWheelCar and Helmet. Old page URLs redirect, and reusable editor APIs remain available. [COMPONENT_REWORK.md](COMPONENT_REWORK.md) records the complete scope and evidence.

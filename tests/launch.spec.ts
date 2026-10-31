@@ -336,11 +336,11 @@ for (const viewport of [viewports[0], viewports[3]]) test(`launch global theme a
     await expect(page.locator("html")).toHaveAttribute("data-theme", palette);
     await expect.poll(() => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--primary").trim())).toBe("#777777");
   }
-  const searchTrigger = page.getByRole("button", { name: "Search Ctrl K", exact: true });
+  const searchTrigger = page.getByRole("button", { name: "Search docs Ctrl K", exact: true });
   await searchTrigger.focus();
   for (const shortcut of ["Control+k", "Meta+k"] as const) {
     await page.keyboard.press(shortcut);
-    const searchDialog = page.getByRole("dialog", { name: "Find a component", exact: true });
+    const searchDialog = page.getByRole("dialog", { name: "Search docs", exact: true });
     await expect(searchDialog).toBeVisible();
     const search = searchDialog.getByRole("combobox", { name: "Search all components", exact: true });
     await expect(search).toBeFocused();

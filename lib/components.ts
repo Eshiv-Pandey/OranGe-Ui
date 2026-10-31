@@ -1075,12 +1075,15 @@ export const components: ComponentDefinition[] = [
   },
   {
     "slug": "mini-driver", "name": "MiniDriver", "category": "Play", "customizerPreview": true,
-    "description": "A small original driver with a curious helmet, breathing body and friendly wave.",
+    "description": "A front-facing driver with expressive eyes, free hands and automatic waves and thumbs up.",
     "props": [
+      { name: "autoGestures", type: "boolean", defaultValue: "true", description: "Alternates relaxed hands, a wave and a thumbs up while visible. Reduced motion retains a settled pose." },
+      { name: "paused / onPausedChange", type: "boolean / callback", defaultValue: "false", description: "Freeze and resume gestures, blinking and gaze. A supplied paused prop is controlled." },
+      { name: "showControls", type: "boolean", defaultValue: "false", description: "Show the Thumbs up and Pause animation buttons below the driver. Clicking the driver waves hello." },
       { "name": "seed / config", "type": "string | number / MiniDriverConfig", "defaultValue": "orangeui:driver", "description": "Stable suit and nested helmet identity, with saved configuration taking priority." },
       { "name": "size", "type": "number", "defaultValue": "280", "description": "Full-body height in CSS pixels. Width is three quarters of the height." },
       { "name": "colors / parts", "type": "Partial<MiniDriverColors> / Partial<MiniDriverParts>", "defaultValue": "Generated", "description": "Suit, panels, gloves, boots and zip colors; suit panels, boot shape and belt. CSS variables use --driver-." },
-      { "name": "helmet", "type": "Partial helmet number, colors and parts", "defaultValue": "From config", "description": "Override the exact Helmet geometry reused by the driver, including visor and finish." },
+      { "name": "helmet", "type": "Partial helmet number, colors and parts", "defaultValue": "From config", "description": "Set the front-facing helmet number, paint, visor position and finish. The separate Helmet component retains its side profile." },
       { "name": "interactive / blink", "type": "boolean", "defaultValue": "true", "description": "Enable pointer turns, wave activation and blinking. One shared gaze host controls the complete figure." },
       { "name": "onWave", "type": "() => void", "defaultValue": "Not set", "description": "Called when a wave is requested by click or keyboard." }
     ],

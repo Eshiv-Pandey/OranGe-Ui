@@ -2,7 +2,14 @@
 
 ## Unreleased
 
-- Expand the catalogue to 84 components, covering forms, navigation, code, chat, AI and creative interfaces.
+- Keep the component sidebar brand and docs search fixed, with a persistent collapse control and mobile navigation.
+- Support all five appearances in AnimeFire and SeasonTree.
+- Redraw the racing bike with exposed mechanical details and a transparent initial preview.
+- Give MiniDriver a front-facing helmet, visible blinking eyes, automatic waves and thumbs up, and pause controls.
+- Connect the pocket player's earphones and center its click-wheel labels.
+- Add vivid vehicle, helmet, mascot and character palettes, plus seven character hair styles and seven outfits.
+
+- Expand the catalogue to 82 components, covering forms, navigation, code, chat, AI and creative interfaces.
 - Add the original seasonal pixel tree, working retro music player and camera, and a physics-based acrylic keychain.
 - Add editable perforated stamps, stamp sheets, a floral 3D card and standalone image exports.
 - Add IslandPlayer, GlassPlayer and NeonPillPlayer on one reusable real-audio engine, with original CC0 sample recordings.
