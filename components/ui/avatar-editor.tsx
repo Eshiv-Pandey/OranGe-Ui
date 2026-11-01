@@ -9,6 +9,7 @@ import { avatarToPng } from "../../lib/avatar/png";
 import { AVATAR_PATTERNS, AVATAR_SHAPES, type AvatarConfig, type AvatarCustomColors, type AvatarPattern, type AvatarShape } from "../../lib/avatar/types";
 import { uiClass, type AppearanceProps } from "./appearance";
 import { Avatar } from "./avatar";
+import { WorkbenchInspector } from "./workbench-inspector";
 import { Button } from "./button";
 import { Tabs } from "./tabs";
 import { AvatarCharacters } from "./avatar-characters";
@@ -95,7 +96,7 @@ function GlyphAvatarEditor({ value, onChange, seed = DEFAULT_AVATAR_SEED, appear
 
     </div>
 
-    <div className="avatar-editor-settings">
+    <WorkbenchInspector><div className="avatar-editor-settings">
     <div className="avatar-editor-pickers">
       <fieldset className="avatar-editor-fieldset">
         <legend>Palette <span>{avatarPalettes.length} gradients</span></legend>
@@ -149,6 +150,6 @@ function GlyphAvatarEditor({ value, onChange, seed = DEFAULT_AVATAR_SEED, appear
       <p className="ui-help" role="status">{feedback}</p>
       <details className="avatar-editor-config"><summary>Configuration</summary><pre className="avatar-config" tabIndex={0} aria-label="Avatar configuration"><code>{JSON.stringify(current, null, 2)}</code></pre></details>
     </div>
-    </div>
+    </div></WorkbenchInspector>
   </div>;
 }

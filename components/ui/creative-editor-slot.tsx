@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { WorkbenchInspector } from "./workbench-inspector";
 
 const EditorTarget = createContext<HTMLElement | null>(null);
 
@@ -11,13 +12,13 @@ export function CreativeWorkbench({ preview, children }: { preview: ReactNode; c
   return <EditorTarget.Provider value={target}>
     <div className="creative-workbench">
       <div className="creative-demo-preview" data-main-preview="">{preview}</div>
-      <aside className="creative-inspector" aria-label="Component properties">
+      <WorkbenchInspector><aside className="creative-inspector" aria-label="Component properties">
         <header className="creative-inspector-heading"><h3>Properties</h3><span>Live preview</span></header>
         <div className="creative-inspector-scroll">
           {children && <div className="creative-controls">{children}</div>}
           <div ref={setTarget} />
         </div>
-      </aside>
+      </aside></WorkbenchInspector>
     </div>
   </EditorTarget.Provider>;
 }

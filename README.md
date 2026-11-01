@@ -21,6 +21,8 @@ Open `http://localhost:3000`. The main routes are:
 | `/components` | Searchable component catalogue |
 | `/components?style=terminal` | Direct link to an appearance |
 | `/components/[slug]` | Live preview, usage, source, props, and keyboard guidance |
+| `/components/shader-canvas` | Gradient and noise playground with ordered effects and pointer interactions |
+| `/components/flowing-water` | Flowing teal water with adjustable sun reflections and ripples |
 | `/docs` | Installation, theming, and Infinite Avatar guide |
 | `/api/components/[slug]?style=retro-os` | Download a component source ZIP |
 

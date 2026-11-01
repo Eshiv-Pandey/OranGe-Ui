@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { createContext, useContext, useState, useSyncExternalStore, type ReactNode } from "react";
+import { createContext, Suspense, useContext, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import { componentCategories, components, findComponent } from "../../lib/components";
 import { APPEARANCES, isAppearance, parseAppearance, type Appearance } from "../ui/appearance";
 import { Input } from "../ui/input";
@@ -16,6 +16,7 @@ import "../../styles/library.css";
 import "../../styles/launch-docs.css";
 import "../../styles/component-workbench.css";
 import "../../styles/library-navigation.css";
+import "../../styles/library-workspace.css";
 
 const AppearanceContext = createContext<{ appearance: Appearance; href: (path: string) => string }>({ appearance: "polished", href: (path) => path });
 export const useLibrary = () => useContext(AppearanceContext);
@@ -31,11 +32,19 @@ function PanelIcon() {
   return <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><rect x="3" y="3.5" width="14" height="13" rx="2" /><path d="M8 4v12" /></svg>;
 }
 
+/** Isolate the URL-dependent hook so the docs and CSS canvas fallback prerender. */
+function AppearanceQuery({ onChange }: { onChange: (appearance: string | null) => void }) {
+  const search = useSearchParams(), requested = search.get("style");
+  useEffect(() => onChange(requested), [requested, onChange]);
+  return null;
+}
+
 export function LibraryShell({ children }: { children: ReactNode }) {
-  const pathname = usePathname(), search = useSearchParams(), router = useRouter();
+  const pathname = usePathname(), router = useRouter();
+  const [requested, setRequested] = useState<string | null>(null);
   const stored = useSyncExternalStore(subscribe, storedAppearance, () => "polished" as Appearance);
   const collapsed = useSyncExternalStore(subscribeSidebar, storedSidebar, () => false);
-  const requested = search.get("style"), appearance = isAppearance(requested) ? requested : stored;
+  const appearance = isAppearance(requested) ? requested : stored;
   const [menu, setMenu] = useState(false), [localCollapsed, setLocalCollapsed] = useState<boolean>();
   const isCollapsed = localCollapsed ?? collapsed;
   const href = (path: string) => path + "?style=" + (path.startsWith("/components/") ? findComponent(path.split("/").at(-1) || "")?.collection ?? appearance : appearance);
@@ -48,6 +57,7 @@ export function LibraryShell({ children }: { children: ReactNode }) {
     try { localStorage.setItem("orangeui-sidebar", isCollapsed ? "expanded" : "collapsed"); window.dispatchEvent(new Event("orange-sidebar")); } catch { /* The mounted control works without storage. */ }
   }
   return <AppearanceContext.Provider value={{ appearance, href }}><div className="library-shell library-navigation-shell" data-sidebar={isCollapsed ? "collapsed" : "expanded"}>
+    <Suspense fallback={null}><AppearanceQuery onChange={setRequested} /></Suspense>
     <a href="#library-main" className="skip-link">Skip to content</a>
     <aside className="library-sidebar" aria-label="Documentation sidebar">
       <div className="library-sidebar-head">

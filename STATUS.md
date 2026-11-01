@@ -1,5 +1,18 @@
 # oRangeUi status
 
+## Shader and workbench update
+
+The seven-task update is implemented and verified as of 1 November 2026 on `feat/next-iteration`. The catalogue now contains 84 components.
+
+- Added raw WebGL2 ShaderCanvas with gradient/noise sources, ordered pixelate/dither/OKLab palette modules, three exported presets and a complete controls page. Pointer warp, eight simultaneous ripples, cursor proximity and scroll coupling are opt-in. Render scale, reduced motion, visibility pause, resize, cleanup and CSS fallback are covered.
+- Added FlowingWater with layered waves, teal caustics and sun reflections. The same renderer supports its color, motion and lighting controls. Existing GrainGradient sunset and aurora palettes are more saturated.
+- Component pages use a large preview, a separate props inspector and a persistent install section. Controls scroll independently; narrow screens stack the preview and inspector. URL appearance handling has its own Suspense boundary, so static HTML includes the library and gradient fallback without JavaScript.
+- Gallery cards run live demos with a pixel-aware cursor, real pointer events, a six-preview limit, visibility pause and manual handoff. Lazy previews wait for content before capturing a static frame, and WebGL captures redraw synchronously. Automatic playback avoids navigation, file pickers and page-level popup triggers; users can activate these normally.
+- CharacterAvatar has refined facial detail and garment stitching/folds. MiniDriver uses an upright thumbs-up pose without remounting the SVG. OpenWheelCar and Superbike accept focused WASD/arrow acceleration, braking and steering, with Escape/blur release and visible instructions.
+- Verification: 483 unit/source tests passed across split runs, with affected shader, preview, library-state and theme suites refreshed. Six production browser tests pass, including JavaScript-disabled fallbacks, inspector scrolling, mobile layout and fullscreen focus restoration. Lint, strict TypeScript, copy checks and production build pass. Build `p3cYmhc-kBdjCzgZp3SH9` traces 218 public files plus 12 runtime files for each source route. The workbench visual review returned `ship`.
+
+API and extension examples are in [SHADER_CANVAS.md](SHADER_CANVAS.md). Local verification artifacts are under `out/iteration/` and `out/rework/`. Supplied reference images and personal instructions remain local.
+
 ## Eight-task component follow-up
 
 The sidebar and artwork follow-up is complete and verified as of 31 October 2026 on `feat/next-iteration`. [COMPONENT_FOLLOWUP.md](COMPONENT_FOLLOWUP.md) records the eight tasks and exact evidence. The catalogue remains at 82 entries.

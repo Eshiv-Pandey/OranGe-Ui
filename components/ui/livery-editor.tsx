@@ -38,7 +38,7 @@ export function LiveryEditor({ value, onChange, seed = "orangeui:motorsport", ve
   const [theme, setTheme] = useState<"auto" | "light" | "dark">("auto");
   const kind = vehicle ?? selectedVehicle;
   const sceneTheme = theme === "auto" ? undefined : theme;
-  return <ArtworkCustomizer value={value} onChange={onChange} seed={String(seed)} normalizeConfig={normalizeVehicleConfig} generateConfig={generateVehicleConfig} appearance={appearance} className={`livery-editor${className ? ` ${className}` : ""}`} filename={kind === "car" ? "open-wheel-car" : "superbike"} exportWidth={640} label="Customize your livery" previewCaption={`${kind === "car" ? "Open-wheel car" : "Superbike"}. Adjust speed to accelerate or brake.`}
+  return <ArtworkCustomizer value={value} onChange={onChange} seed={String(seed)} normalizeConfig={normalizeVehicleConfig} generateConfig={generateVehicleConfig} appearance={appearance} className={`livery-editor${className ? ` ${className}` : ""}`} filename={kind === "car" ? "open-wheel-car" : "superbike"} exportWidth={640} label="Customize your livery" previewCaption="Click the vehicle to drive. W / Up accelerates, S / Down brakes, A D / Left Right steer. Escape releases control."
     renderPreview={(config, style) => kind === "car" ? <OpenWheelCar config={config} seed={seed} speed={speed} track={track} theme={sceneTheme} appearance={style} /> : <Superbike rider={rider} config={config} seed={seed} speed={speed} lean={lean} wheelie={wheelie} track={track} theme={sceneTheme} appearance={style} />}
     configToSvg={(config, options) => (kind === "car" ? openWheelCarToSvgString : superbikeToSvgString)(config, 640, { ...options, track, rider, theme: theme === "auto" ? pageTheme() : theme })}
     tabs={[

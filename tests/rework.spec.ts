@@ -1,5 +1,18 @@
 import { expect, test } from "@playwright/test";
 
+test("shader docs expose CSS fallbacks without JavaScript", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, baseURL });
+  const page = await context.newPage();
+  for (const slug of ["shader-canvas", "flowing-water"]) {
+    await page.goto(`/components/${slug}`);
+    const fallback = page.locator(".shader-canvas:visible").first();
+    await expect(fallback).toHaveAttribute("data-renderer", "fallback");
+    await expect(fallback).toHaveCSS("background-image", /linear-gradient/);
+    await expect(page.getByRole("main")).toBeVisible();
+  }
+  await context.close();
+});
+
 test("defaults to dark and preserves an explicit light preference", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/components/retro-camera");
@@ -24,7 +37,7 @@ test("long properties scroll independently while the preview stays visible", asy
   for (const slug of ["retro-camera", "retro-player", "character-avatar", "grain-gradient", "avatar-editor"]) {
     await page.goto(`/components/${slug}`, { waitUntil: "networkidle" });
     const preview = page.locator(".creative-demo-preview, .artwork-customizer-preview, .avatar-editor-header").first();
-    const inspector = page.locator(".creative-inspector-scroll, .artwork-customizer-settings, .avatar-editor-settings").first();
+    const inspector = page.locator(".workspace-inspector-body");
     await expect(inspector).toBeVisible();
     await expect(preview).toBeVisible();
     const before = (await preview.boundingBox())!;
@@ -39,15 +52,18 @@ test("long properties scroll independently while the preview stays visible", asy
   }
 });
 
-test("mobile properties keep the artwork pinned above the controls", async ({ page }) => {
+test("mobile properties stack below the artwork without horizontal clipping", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/components/character-avatar");
-  const preview = page.locator(".artwork-customizer-preview");
+  const preview = page.locator(".workspace-stage");
+  const initial = (await preview.boundingBox())!;
+  const controls = (await page.locator(".workspace-inspector").boundingBox())!;
+  expect(initial.y).toBeGreaterThanOrEqual(60);
+  expect(initial.width).toBeLessThanOrEqual(390);
+  expect(controls.y).toBeGreaterThanOrEqual(initial.y + initial.height);
   await page.getByRole("tab", { name: "Colors", exact: true }).click();
   await page.getByRole("button", { name: "Export PNG", exact: true }).scrollIntoViewIfNeeded();
-  const box = (await preview.boundingBox())!;
-  expect(box.y).toBeGreaterThanOrEqual(60);
-  expect(box.y + box.height).toBeLessThan(500);
+  await expect(page.getByRole("button", { name: "Export PNG", exact: true })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
 });
 

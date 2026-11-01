@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { registerCanvasFrame } from "./canvas-frame"
 import { cn } from "@/lib/utils"
 import type { Appearance } from "./appearance"
 import "../../styles/live-orb.css"
@@ -596,6 +597,7 @@ export function createLiveOrb(
   canvas.addEventListener("webglcontextlost", onLost)
   canvas.addEventListener("webglcontextrestored", onRestored)
 
+  const releaseCapture = registerCanvasFrame(canvas, redraw)
   resize()
   wake()
 
@@ -607,6 +609,7 @@ export function createLiveOrb(
     },
     destroy() {
       destroyed = true
+      releaseCapture()
       cancelAnimationFrame(raf)
       raf = 0
       ro.disconnect()

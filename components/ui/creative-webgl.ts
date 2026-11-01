@@ -1,6 +1,7 @@
 "use client";
 
 import { createMotionActivity } from "./use-motion-activity";
+import { registerCanvasFrame } from "./canvas-frame";
 
 export type CreativeShaderFrame = { time: number; delta: number; reduced: boolean; width: number; height: number };
 export type CreativeUniforms = Record<string, number | readonly number[] | Float32Array>;
@@ -77,11 +78,12 @@ export function createCreativeWebGL(canvas: HTMLCanvasElement, fragmentSource: s
     onFrame: (frame) => { time = frame.time; paint(frame.delta / 1000); },
     onStatus: (status) => { reduced = status === "reduced"; options.onActive?.(status === "running"); paint(); },
   });
+  const releaseCapture = registerCanvasFrame(canvas, paint);
   resize();
   return {
     available: Boolean(program), redraw: () => paint(),
     destroy() {
-      destroyed = true; activity.destroy(); observer?.disconnect(); if (!observer) window.removeEventListener("resize", resize);
+      destroyed = true; releaseCapture(); activity.destroy(); observer?.disconnect(); if (!observer) window.removeEventListener("resize", resize);
       canvas.removeEventListener("webglcontextlost", onLost); canvas.removeEventListener("webglcontextrestored", onRestored);
       dispose(); context.getExtension("WEBGL_lose_context")?.loseContext();
     },

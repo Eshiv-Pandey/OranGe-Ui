@@ -12,8 +12,8 @@ import "../../styles/creative-shaders.css";
 
 export type GradientPoint = { x: number; y: number };
 export const GRAIN_PRESETS = {
-  sunset: ["#f1a396", "#ffe3af", "#aacfe4", "#b9a3db"],
-  aurora: ["#183c57", "#6abda8", "#665aaf", "#d8a4cf"],
+  sunset: ["#ff4d00", "#ffbd00", "#28eaff", "#bc35ff"],
+  aurora: ["#002aff", "#00ebba", "#8738ff", "#ff31c9"],
   ocean: ["#10335e", "#168b96", "#82cbbc", "#cbdcd1"],
   holi: ["#f16b92", "#f1b94b", "#69b791", "#9675cc", "#e4844a"],
   diwali: ["#8a3551", "#c25f49", "#edab47", "#f4d783", "#62417e"],

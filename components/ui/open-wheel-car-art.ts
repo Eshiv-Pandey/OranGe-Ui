@@ -38,7 +38,7 @@ export function openWheelCarSvgBody(input: VehicleConfig, id: string, options: V
     <path d="M224 154L242 153M184 191L189 188M419 194L426 192" stroke="${p.stripe}" stroke-width="1.5"/>
     <g fill="#d5ddda">${[[217,162],[300,174],[375,179],[410,188]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1"/>`).join("")}</g>
   </g>`;
-  return `${defs}${effects.defs}${vehicleScene(config, ns, options)}${effects.lines}${effects.shadow}${effects.heat}${suspension}${body}${vehicleWheel(config, ns, 151, 190, 34, "car", options)}${vehicleWheel(config, ns, 491, 190, 34, "car", options)}`;
+  return `${defs}${effects.defs}${vehicleScene(config, ns, options)}${effects.lines}<g class="vehicle-steering">${effects.shadow}${effects.heat}${suspension}${body}${vehicleWheel(config, ns, 151, 190, 34, "car", options)}${vehicleWheel(config, ns, 491, 190, 34, "car", options)}</g>`;
 }
 
 export function openWheelCarToSvgString(config: VehicleConfig, size = 640, options: VehicleRenderOptions & { id?: string } = {}): string {

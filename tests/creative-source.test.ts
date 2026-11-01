@@ -17,8 +17,8 @@ for (const appearance of APPEARANCE_VALUES) for (const slug of ["anime-fire", "s
   expect(registry.files.some((file) => file.content.includes(`appearance="${appearance}"`))).toBe(true);
 }, 30_000);
 
-it("registers exactly 82 unique components and keeps creative pieces in their intended collections", () => {
-  expect(components).toHaveLength(82); expect(new Set(components.map(({ slug }) => slug)).size).toBe(82); expect(CREATIVE_COMPONENTS).toHaveLength(14);
+it("registers all 84 unique components and keeps creative pieces in their intended collections", () => {
+  expect(components).toHaveLength(84); expect(new Set(components.map(({ slug }) => slug)).size).toBe(84); expect(CREATIVE_COMPONENTS).toHaveLength(14);
   expect(components.some(({slug}) => slug === "livery-editor" || slug === "helmet-editor")).toBe(false);
   expect(componentsInCollection("pixel").filter((component) => component.collection).map(({ slug }) => slug)).toEqual([]);
   expect(componentsInCollection("retro-os").filter((component) => component.collection).map(({ slug }) => slug)).toEqual(["retro-player", "retro-camera"]);

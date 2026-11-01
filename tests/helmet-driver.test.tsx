@@ -121,8 +121,13 @@ describe("helmet and driver interaction", () => {
     const { container, rerender } = render(<MiniDriver showControls paused={false} onPausedChange={onPausedChange} />);
     expect(container.querySelectorAll(".driver-eye-blink")).toHaveLength(2);
     expect(container.querySelectorAll(".helmet-interior-face")).toHaveLength(0);
+    const originalSvg = container.querySelector(".mini-driver-svg");
     await user.click(screen.getByRole("button", { name: "Thumbs up" }));
     expect(screen.getByRole("status")).toHaveTextContent("gives a thumbs up");
+    expect(container.querySelector(".mini-driver")).toHaveAttribute("data-gesture", "thumbs-up");
+    expect(container.querySelector(".mini-driver-svg")).toBe(originalSvg);
+    expect(container.querySelector(".driver-hand-thumb")?.closest(".mini-driver-arm-wave")).toBeNull();
+    expect(container.querySelector(".driver-hand-thumb")?.closest(".mini-driver-arm-thumb")).not.toBeNull();
     await user.click(screen.getByRole("button", { name: "Pause animation" }));
     expect(onPausedChange).toHaveBeenCalledWith(true);
     expect(container.querySelector(".mini-driver")).toHaveAttribute("data-paused", "false");

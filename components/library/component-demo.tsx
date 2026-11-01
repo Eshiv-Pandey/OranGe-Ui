@@ -56,6 +56,11 @@ import { LiveOrb } from "../ui/live-orb";
 import { LiveOrbDemo } from "./live-orb-demo";
 
 const CreativeDemo = lazy(() => import("./creative-demos"));
+const ShaderCanvasDemo = lazy(() => import("./shader-canvas-demo"));
+const FlowingWaterDemo = lazy(() => import("./flowing-water-demo"));
+function ShaderFallback({ water = false }: { water?: boolean }) {
+  return <div data-preview-pending className="shader-canvas" data-renderer="fallback" role="img" aria-label={water ? "Teal water preview" : "Color gradient preview"} style={{ width: "100%", height: 460, borderRadius: 14, background: water ? "linear-gradient(125deg,#001d31,#067b83,#23989f)" : "linear-gradient(125deg,#ff4d00,#ff1e56,#ad32ff,#38f2ff,#ffb900)" }} />;
+}
 const projects = [
   { id: "1", name: "Orange studio", status: "Live", members: 8 },
   { id: "2", name: "Pocket garden", status: "Draft", members: 3 },
@@ -78,11 +83,13 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   const [validated, setValidated] = useState(false);
   const status = <p className="demo-feedback" role="status">{feedback || "Try it. Every example is interactive."}</p>;
   const action = <Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Ready for a fresh start." : "Project created in this preview."); }}>{saved ? "Start again" : "Create project"}</Button>;
-  if (CREATIVE_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading">Preparing preview...</div>}><CreativeDemo slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+  if (CREATIVE_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing preview...</div>}><CreativeDemo slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if ((NAVIGATION_DEMO_SLUGS as readonly string[]).includes(slug)) return <NavigationDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   if ((AI_DEMO_SLUGS as readonly string[]).includes(slug)) return <AIDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   switch (slug) {
-    case "live-orb": return thumbnail ? <LiveOrb {...a} size={160} interactive={false} blink={false} /> : <LiveOrbDemo appearance={appearance} />;
+    case "shader-canvas": return <Suspense fallback={<ShaderFallback />}><ShaderCanvasDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+    case "flowing-water": return <Suspense fallback={<ShaderFallback water />}><FlowingWaterDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+    case "live-orb": return thumbnail ? <LiveOrb {...a} size={160} interactive blink /> : <LiveOrbDemo appearance={appearance} />;
     case "label": return <LaunchForms.LabelDemo {...a} />;
     case "kbd": return <LaunchForms.KbdDemo {...a} />;
     case "form": return <LaunchForms.FormDemo {...a} />;
@@ -93,14 +100,14 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
     case "file-upload": return <LaunchForms.FileUploadDemo {...a} />;
     case "rating": return <LaunchForms.RatingDemo {...a} />;
     case "stepper": return <LaunchForms.StepperDemo {...a} />;
-    case "open-wheel-car": case "livery-editor": return thumbnail ? <OpenWheelCar {...a} speed={0} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
-    case "superbike": return thumbnail ? <Superbike {...a} speed={0} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
-    case "helmet-editor": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive={false} /></div> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "open-wheel-car": case "livery-editor": return thumbnail ? <OpenWheelCar {...a} speed={70} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "superbike": return thumbnail ? <Superbike {...a} speed={70} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "helmet-editor": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive /></div> : <MotorsportDemo slug={slug} appearance={appearance} />;
     case "race-start-lights": return thumbnail ? <RaceStartLights {...a} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
     case "race-progress": return thumbnail ? <RaceProgress {...a} label="Pit lane preparation" value={64} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
-    case "character-avatar": return thumbnail ? <div className="thumbnail-artwork"><CharacterAvatar {...a} size={190} interactive={false} /></div> : <CharacterDemo appearance={appearance} />;
-    case "helmet": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive={false} /></div> : <HelmetDemo appearance={appearance} />;
-    case "mini-driver": return thumbnail ? <div className="thumbnail-artwork"><MiniDriver {...a} size={215} interactive={false} /></div> : <MiniDriverDemo appearance={appearance} />;
+    case "character-avatar": return thumbnail ? <div className="thumbnail-artwork"><CharacterAvatar {...a} size={190} interactive /></div> : <CharacterDemo appearance={appearance} />;
+    case "helmet": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive /></div> : <HelmetDemo appearance={appearance} />;
+    case "mini-driver": return thumbnail ? <div className="thumbnail-artwork"><MiniDriver {...a} size={215} interactive /></div> : <MiniDriverDemo appearance={appearance} />;
     case "button": return <div className="demo-stack"><div className="demo-row"><Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Removed from favourites." : "Saved to favourites."); }} aria-pressed={saved}>{saved ? "Saved!" : "Save a little joy"}</Button><Button {...a} variant="secondary" onClick={() => { setSaved(false); setFeedback("Ready to go again."); }}>Reset</Button></div><div className="demo-row"><Button {...a} variant="ghost" onClick={() => setFeedback("A little detail, a big difference.")}>Learn more</Button><Button {...a} disabled>Unavailable</Button></div>{status}</div>;
     case "input": return <form className="demo-stack" noValidate onSubmit={(event) => { event.preventDefault(); setValidated(true); setFeedback(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "Looks good. Ready to go!" : "Check your email address."); }}><Input {...a} label="Your email" type="email" placeholder="you@example.com" value={value} onChange={(event) => { setValue(event.target.value); setValidated(false); }} error={validated && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "Enter a valid email address." : undefined} description="A little room for your next idea." required /><Button {...a} type="submit">Try validation</Button>{status}</form>;
     case "textarea": return <div className="demo-stack"><Textarea {...a} label="Your next big idea" placeholder="It all starts with a little thought..." value={value} maxLength={200} onChange={(event) => setValue(event.target.value)} description={`${value.length} of 200 characters`} /><Button {...a} onClick={() => setFeedback(value.trim() ? "Draft saved in this preview." : "Write a little something first.")}>Save draft</Button>{status}</div>;

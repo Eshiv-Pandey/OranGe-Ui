@@ -97,7 +97,7 @@ function FrostDemo() {
 function Thumbnail({ slug, appearance }: { slug: string; appearance: Appearance }) {
   const a = { appearance };
   switch (slug) {
-    case "season-tree": return <SeasonTree {...a} paused showPicker={false} size={245} />;
+    case "season-tree": return <SeasonTree {...a} showPicker={false} size={245} />;
     case "retro-player": return <RetroPlayer {...a} tracks={CREATIVE_PLAYLIST} muted />;
     case "retro-camera": return <RetroCamera {...a} />;
     case "swing-keychain": return <SwingKeychain {...a} />;
@@ -106,8 +106,8 @@ function Thumbnail({ slug, appearance }: { slug: string; appearance: Appearance 
     case "island-player": return <IslandPlayer {...a} tracks={CREATIVE_PLAYLIST} muted />;
     case "glass-player": return <GlassPlayer {...a} tracks={CREATIVE_PLAYLIST} muted />;
     case "neon-pill-player": return <NeonPillPlayer {...a} tracks={CREATIVE_PLAYLIST} defaultExpanded muted />;
-    case "anime-fire": return <AnimeFire {...a} interactive={false} />;
-    case "grain-gradient": return <GrainGradient {...a} interactive={false} showExportButton={false} showFullscreenButton={false} paused />;
+    case "anime-fire": return <AnimeFire {...a} interactive />;
+    case "grain-gradient": return <GrainGradient {...a} interactive showExportButton={false} showFullscreenButton={false} />;
     case "hindi-text": return <HindiText {...a} editable={false} showControls={false} />;
     case "hinglish-text": return <HinglishText {...a} editable={false} showControls={false} />;
     case "frosted-glass": return <FrostedGlass {...a} text={"MAKE\nROOM"} showResetButton={false} />;

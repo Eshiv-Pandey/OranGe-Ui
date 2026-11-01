@@ -1,15 +1,18 @@
+import type { DemoStep } from "../components/library/use-demo-player";
 import type { Appearance } from "../components/ui/appearance";
 import { launchFormComponents } from "./launch-form-components";
 import { NAVIGATION_COMPONENTS } from "./navigation-components";
 import { AI_COMPONENTS } from "./ai-components";
 import { CREATIVE_COMPONENTS } from "./creative-components";
+import { SHADER_COMPONENTS } from "./shader-components";
 export type ComponentCategory = "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play" | "AI & chat";
 export type PropDoc = { name: string; type: string; defaultValue: string; description: string };
-export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string; customizerPreview?: boolean; usageImports?: string[]; usageSetup?: string; collection?: Appearance; notes?: string[] };
+export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string; customizerPreview?: boolean; usageImports?: string[]; usageSetup?: string; collection?: Appearance; notes?: string[]; demo?: DemoStep[] };
 export const componentCategories: ComponentCategory[] = ["Forms & actions", "Navigation & disclosure", "Overlays & feedback", "Content & layout", "Play", "AI & chat"];
 export const components: ComponentDefinition[] = [
   {
     "slug": "button",
+    demo: [{ t: 0, action: "move", to: "button:not(:disabled)" }, { t: 800, action: "hover" }, { t: 1800, action: "click" }, { t: 3000, action: "leave" }],
     "name": "Button",
     "category": "Forms & actions",
     "description": "A tactile action with clear loading, disabled, and link states.",
@@ -242,6 +245,7 @@ export const components: ComponentDefinition[] = [
   },
   {
     "slug": "toggle",
+    demo: [{ t: 0, action: "move", to: "button[aria-pressed]" }, { t: 700, action: "hover" }, { t: 1400, action: "click" }, { t: 2600, action: "click" }, { t: 3200, action: "leave" }],
     "name": "Toggle",
     "category": "Forms & actions",
     "description": "A pressable control that remembers its state.",
@@ -1118,18 +1122,20 @@ export const components: ComponentDefinition[] = [
     slug: "open-wheel-car", name: "OpenWheelCar", category: "Play", customizerPreview: true,
     description: "An original open-wheel car with responsive suspension, rotating wheels and a scrolling track.",
     props: [
+      { name: "keyboardControls", type: "boolean", defaultValue: "true", description: "Focus the vehicle for WASD or arrow controls. W / Up accelerates, S / Down brakes, A D / Left Right steer. Escape releases control." },
       { name: "speed", type: "number, 0..1", defaultValue: "0.45", description: "Target velocity. Bounded acceleration and braking drive spring pitch, suspension and wheel rotation." },
       { name: "seed / config", type: "string | number / VehicleConfig", defaultValue: "orangeui:open-wheel", description: "Stable sponsor-free livery and fictional number. Saved configuration takes precedence." },
       { name: "livery / number / tireCompound", type: "Partial<VehicleLivery> / string | number / soft | medium | hard | wet", defaultValue: "Generated", description: "Override base, accent, stripe, pattern, short number and tire markings." },
       { name: "size / track / theme", type: "number / boolean / light | dark", defaultValue: "640 / true / follows page", description: "Width in CSS pixels, optional track and scene palette. The 640:260 ratio is preserved. CSS colors use --vehicle-." }
     ],
-    keyboard: "The car is a named image. Customizer tabs, native fields and action buttons support the keyboard. Reduced motion settles the car; hidden and offscreen motion pauses.",
+    keyboard: "Click or Tab to focus the vehicle. W / Up accelerates, S / Down brakes, and A D / Left Right steer. Escape or blur releases control. Input fields keep native keyboard behavior. Motion pauses while hidden and becomes static with reduced motion.",
     usage: '<OpenWheelCar appearance="polished" seed="tidal-run" speed={0.65} number="247" />', file: "components/ui/open-wheel-car.tsx"
   },
   {
     slug: "superbike", name: "Superbike", category: "Play", customizerPreview: true,
     description: "An original superbike with braking dive, launch lift and a rider that tucks into speed.",
     props: [
+      { name: "keyboardControls", type: "boolean", defaultValue: "true", description: "Focus the vehicle for WASD or arrow controls. W / Up accelerates, S / Down brakes, A D / Left Right steer. Escape releases control." },
       { name: "speed / lean", type: "number, 0..1 / number, -1..1", defaultValue: "0.4 / 0", description: "Target speed and projected corner lean, up to 24 degrees. Wheel travel follows speed, with blur at high velocity." },
       { name: "wheelie", type: "boolean", defaultValue: "false", description: "Allows one brief front lift when accelerating from a complete stop." },
       { name: "rider", type: "boolean", defaultValue: "true", description: "Show the animated rider or expose the full bike silhouette." },
@@ -1137,7 +1143,7 @@ export const components: ComponentDefinition[] = [
       { name: "number / tireCompound", type: "string | number / soft | medium | hard | wet", defaultValue: "Generated", description: "Fictional one-to-three-digit identity and tire markings." },
       { name: "size / track / theme", type: "number / boolean / light | dark", defaultValue: "640 / true / follows page", description: "Responsive width, optional track, and scene palette. CSS colors use --vehicle-." }
     ],
-    keyboard: "The bike is a named image. Use the customizer keyboard controls to change speed, lean and livery. Motion pauses when hidden and becomes static with reduced motion.",
+    keyboard: "Click or Tab to focus the vehicle. W / Up accelerates, S / Down brakes, and A D / Left Right steer. Escape or blur releases control. Input fields keep native keyboard behavior. Motion pauses while hidden and becomes static with reduced motion.",
     usage: '<Superbike appearance="polished" seed="orchard-run" speed={0.6} lean={0.3} wheelie />', file: "components/ui/superbike.tsx"
   },
   {
@@ -1167,7 +1173,8 @@ export const components: ComponentDefinition[] = [
   ...NAVIGATION_COMPONENTS,
   ...AI_COMPONENTS,
   {
-    slug: "live-orb", name: "LiveOrb", category: "AI & chat", customizerPreview: true,
+    slug: "live-orb", name: "LiveOrb",
+    demo: [{ t: 0, action: "move", to: { x: 25, y: 35 } }, { t: 850, action: "move", to: { x: 75, y: 40 } }, { t: 1600, action: "move", to: "center" }, { t: 2300, action: "click" }, { t: 3400, action: "leave" }], category: "AI & chat", customizerPreview: true,
     description: "A curious WebGL sphere with pointer-following eyes and three material previews.",
     file: "components/ui/live-orb.tsx", usage: '<LiveOrb appearance="polished" size={200} interactive blink />',
     keyboard: "A named decorative character with no focus stop. Native size, color and checkbox controls customize the demo. Motion pauses offscreen and in hidden tabs, and reduced motion holds a settled frame. A CSS face remains visible when WebGL is unavailable.",
@@ -1179,7 +1186,7 @@ export const components: ComponentDefinition[] = [
     ]
   }
 ];
-components.push(...CREATIVE_COMPONENTS);
+components.push(...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS);
 export function componentsInCollection(appearance: Appearance) { return components.filter((component) => !component.collection || component.collection === appearance); }
 export function findComponent(slug: string) { return components.find((component) => component.slug === slug); }
 export function componentUsage(component: ComponentDefinition, appearance: Appearance) {

@@ -85,7 +85,7 @@ function AgentStatusDemo({ appearance, thumbnail }: { appearance: Appearance; th
 
 function ThinkingDemo({ appearance, thumbnail }: { appearance: Appearance; thumbnail: boolean }) {
   const [active, setActive] = useState(true);
-  return <div className="demo-stack"><ThinkingIndicator appearance={appearance} active={active && !thumbnail} label={active ? "Preparing the response" : "Thinking paused"} />{!thumbnail && <Switch appearance={appearance} label="Animate indicator" checked={active} onCheckedChange={setActive} />}</div>;
+  return <div className="demo-stack"><ThinkingIndicator appearance={appearance} active={active} label={active ? "Preparing the response" : "Thinking paused"} />{!thumbnail && <Switch appearance={appearance} label="Animate indicator" checked={active} onCheckedChange={setActive} />}</div>;
 }
 
 function ModelPickerDemo({ appearance, thumbnail }: { appearance: Appearance; thumbnail: boolean }) {

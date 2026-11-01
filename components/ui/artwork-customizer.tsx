@@ -3,6 +3,7 @@
 import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { uiClass, type Appearance, type AppearanceProps } from "./appearance";
 import { Button } from "./button";
+import { WorkbenchInspector } from "./workbench-inspector";
 import { downloadArtwork, normalizeSvgColor, prepareSvgExport, stableConfigJson, svgToPng, type SvgExportOptions } from "./svg-export";
 import "../../styles/artwork-customizer.css";
 
@@ -76,7 +77,7 @@ export function ArtworkCustomizer<T extends object>({ value, onChange, normalize
       <div className="artwork-customizer-artwork" data-main-preview="">{renderPreview(current, appearance)}</div>
       {previewCaption && <div className="artwork-customizer-caption">{previewCaption}</div>}
     </div>
-    <div className="artwork-customizer-settings">
+    <WorkbenchInspector><div className="artwork-customizer-settings">
       <div className="artwork-customizer-heading"><h3>{label}</h3>{description && <p>{description}</p>}</div>
       {activeTab && <>
         <div className="artwork-customizer-tabs" role="tablist" aria-label={`${label} options`}>
@@ -98,7 +99,7 @@ export function ArtworkCustomizer<T extends object>({ value, onChange, normalize
         <label className="sr-only" htmlFor={`${id}-config`}>Configuration JSON</label>
         <textarea id={`${id}-config`} readOnly value={json} rows={5} spellCheck={false} onFocus={(event) => event.currentTarget.select()} />
       </details>
-    </div>
+    </div></WorkbenchInspector>
   </section>;
 }
 

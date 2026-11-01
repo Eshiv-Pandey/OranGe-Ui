@@ -21,9 +21,10 @@
 :is(.helmet, .mini-driver) .mini-driver-head { transform-origin: 120px 144px; animation: mini-driver-bob 3.8s ease-in-out infinite; }
 :is(.helmet, .mini-driver) .mini-driver-arm-wave { transform-origin: 158px 157px; }
 .mini-driver[data-gesture="wave"] .mini-driver-arm-wave { animation: mini-driver-wave 1500ms ease-in-out both; }
-.mini-driver[data-gesture="thumbs-up"] .mini-driver-arm-wave { transform: rotate(-65deg); }
+.mini-driver[data-gesture="thumbs-up"] .mini-driver-arm-wave { opacity: 0; }
+.mini-driver[data-gesture="thumbs-up"] .mini-driver-arm-thumb { opacity: 1; }
 .mini-driver[data-gesture="wave"] .driver-hand-rest, .mini-driver[data-gesture="thumbs-up"] .driver-hand-rest { opacity: 0; }
-.mini-driver[data-gesture="wave"] .driver-hand-wave, .mini-driver[data-gesture="thumbs-up"] .driver-hand-thumb { opacity: 1; }
+.mini-driver[data-gesture="wave"] .driver-hand-wave { opacity: 1; }
 .mini-driver .driver-pupil { transform: translate(calc(var(--gaze-x, 0) * 3px), calc(var(--gaze-y, 0) * 2px)); }
 .mini-driver .driver-eye-blink { transform: scaleY(var(--blink-scale, 1)); }
 .mini-driver[data-paused="true"] * { animation-play-state: paused !important; }
