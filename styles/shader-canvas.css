@@ -1,0 +1,15 @@
+.shader-canvas { position: relative; width: 100%; height: 460px; min-width: 0; overflow: hidden; border-radius: 14px; isolation: isolate; }
+.shader-canvas canvas, .shader-canvas-fallback { position: absolute; inset: 0; width: 100%; height: 100%; }
+.shader-canvas canvas { display: block; touch-action: pan-y; }
+.shader-canvas-fallback { background: var(--shader-fallback); }
+.shader-canvas[data-renderer="fallback"] canvas { visibility: hidden; }
+.shader-canvas[data-renderer="webgl2"] .shader-canvas-fallback { visibility: hidden; }
+.shader-canvas[data-appearance="pixel"], .shader-canvas[data-appearance="neobrutalism"], .shader-canvas[data-appearance="retro-os"], .shader-canvas[data-appearance="terminal"] { border-radius: 0; }
+.shader-canvas[data-appearance="pixel"] canvas { image-rendering: pixelated; }
+.shader-canvas[data-appearance="neobrutalism"] { border: 3px solid var(--creative-ink); }
+.shader-canvas[data-appearance="retro-os"] { border: 3px inset var(--creative-line); }
+.shader-canvas[data-appearance="terminal"] { border: 1px solid var(--creative-line); }
+.creative-thumbnail .shader-canvas { height: 100%; min-height: 200px; }
+.shader-module-order { display: flex; gap: 6px; align-items: center; justify-content: space-between; }
+.shader-module-order button { min-width: 32px; min-height: 32px; }
+@media (max-width: 600px) { .shader-canvas { height: 380px; } }
