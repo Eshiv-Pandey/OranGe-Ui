@@ -19,7 +19,7 @@
     cursor: var(--pixel-heart-cursor);
   }
 
-  :is(input, textarea, [contenteditable="true"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(:disabled) {
+  :is(input, textarea, [contenteditable="true"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not(:disabled) {
     cursor: text;
   }
 

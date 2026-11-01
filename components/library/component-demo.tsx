@@ -58,8 +58,11 @@ import { LiveOrbDemo } from "./live-orb-demo";
 const CreativeDemo = lazy(() => import("./creative-demos"));
 const ShaderCanvasDemo = lazy(() => import("./shader-canvas-demo"));
 const FlowingWaterDemo = lazy(() => import("./flowing-water-demo"));
-function ShaderFallback({ water = false }: { water?: boolean }) {
-  return <div data-preview-pending className="shader-canvas" data-renderer="fallback" role="img" aria-label={water ? "Teal water preview" : "Color gradient preview"} style={{ width: "100%", height: 460, borderRadius: 14, background: water ? "linear-gradient(125deg,#001d31,#067b83,#23989f)" : "linear-gradient(125deg,#ff4d00,#ff1e56,#ad32ff,#38f2ff,#ffb900)" }} />;
+const FlowingGrassDemo = lazy(() => import("./flowing-grass-demo"));
+const DriftingCloudsDemo = lazy(() => import("./drifting-clouds-demo"));
+function ShaderFallback({ kind = "gradient" }: { kind?: "gradient" | "water" | "grass" | "clouds" }) {
+  const colors = { gradient: "#ff4d00,#ff1e56,#ad32ff,#38f2ff,#ffb900", water: "#001d31,#067b83,#23989f", grass: "#071f16,#76aa3c,#d5ee94", clouds: "#087bbd,#fffdf7,#6d95b6" };
+  return <div data-preview-pending className="shader-canvas" data-renderer="fallback" role="img" aria-label={`${kind} preview`} style={{ width: "100%", height: 460, borderRadius: 14, background: `linear-gradient(125deg,${colors[kind]})` }} />;
 }
 const projects = [
   { id: "1", name: "Orange studio", status: "Live", members: 8 },
@@ -88,7 +91,9 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   if ((AI_DEMO_SLUGS as readonly string[]).includes(slug)) return <AIDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   switch (slug) {
     case "shader-canvas": return <Suspense fallback={<ShaderFallback />}><ShaderCanvasDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
-    case "flowing-water": return <Suspense fallback={<ShaderFallback water />}><FlowingWaterDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+    case "flowing-water": return <Suspense fallback={<ShaderFallback kind="water" />}><FlowingWaterDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+    case "flowing-grass": return <Suspense fallback={<ShaderFallback kind="grass" />}><FlowingGrassDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+    case "drifting-clouds": return <Suspense fallback={<ShaderFallback kind="clouds" />}><DriftingCloudsDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
     case "live-orb": return thumbnail ? <LiveOrb {...a} size={160} interactive blink /> : <LiveOrbDemo appearance={appearance} />;
     case "label": return <LaunchForms.LabelDemo {...a} />;
     case "kbd": return <LaunchForms.KbdDemo {...a} />;

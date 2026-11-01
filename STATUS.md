@@ -1,5 +1,18 @@
 # oRangeUi status
 
+## Playground, nature and landscape update
+
+The six-task update is implemented and verified as of 2 November 2026 on `feat/next-iteration`, bringing the catalogue to 86 components. [SIX_TASK_UPDATE.md](SIX_TASK_UPDATE.md) records the requirements, exact evidence and verification limits.
+
+- Component navigation opens at Preview at the top. The preview fills its stage, with a floating glass view dock and a distinct editor. Exact number/color fields, independently scrolling controls, separate API documentation and persistent install actions are integrated.
+- FlowingGrass adds long, overlapping, rooted blades with directional wind, gusts and local pointer/touch interaction. DriftingClouds adds connected cumulus forms, detailed lit caps and blue recesses. Both expose typed settings, all five appearances, editable demos, public exports and portable downloads.
+- The supplied landscape replaces `/`, with masked flower/cloud motion, river-weighted sparkles and a fixed person. The previous home remains at `/classic`; `/pricing` explains the MIT license. Reduced motion, visibility suspension, static fallback, configuration and mask/export guidance are retained.
+- All 509 current unit/source cases are covered by passing full/affected results. All 430 downloadable examples and 30 avatar utility entries compile and bundle. The final source audit matches the retained downloads to current files, including the final nature corrections.
+- All 44 production browser cases are covered by passing results: 24 for the six-task update and 20 for the preserved landing. Checks cover all 86 navigation entries, five-appearance nature editing/downloads, both palettes, responsive geometry, keyboard interaction, accessibility, lifecycle and fallback behavior. The classic theme tests now explicitly select the intended palette and verify saved choices.
+- Lint, strict TypeScript, copy checks, production build, bundle isolation and source traces pass. Build `2e6ySSZo8eGcQzw5n_6U4` retains 227 public files and 12 runtime files per source route. Scoped visual reviews returned `ship`, and the final documentation comparison is recorded. Hardware/mobile frame rate and missing historical comp-workflow artifacts are not claimed as verified.
+
+Component guides are [FLOWING_GRASS.md](FLOWING_GRASS.md), [DRIFTING_CLOUDS.md](DRIFTING_CLOUDS.md) and [LANDING_SCENE.md](LANDING_SCENE.md). Personal instructions and original supplied references remain local.
+
 ## Shader and workbench update
 
 The seven-task update is implemented and verified as of 1 November 2026 on `feat/next-iteration`. The catalogue now contains 84 components.

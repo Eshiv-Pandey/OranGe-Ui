@@ -17,12 +17,16 @@ Open `http://localhost:3000`. The main routes are:
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Landing page, interactive playground, and GamerBoy |
+| `/` | Animated landscape landing with a static fallback |
+| `/classic` | Original landing, interactive playground, and GamerBoy |
+| `/pricing` | MIT license and free-use information |
 | `/components` | Searchable component catalogue |
 | `/components?style=terminal` | Direct link to an appearance |
 | `/components/[slug]` | Live preview, usage, source, props, and keyboard guidance |
 | `/components/shader-canvas` | Gradient and noise playground with ordered effects and pointer interactions |
 | `/components/flowing-water` | Flowing teal water with adjustable sun reflections and ripples |
+| `/components/flowing-grass` | Grass with editable wind, blades, colors and pointer interaction |
+| `/components/drifting-clouds` | Cumulus clouds with editable shape, sunlight and drift |
 | `/docs` | Installation, theming, and Infinite Avatar guide |
 | `/api/components/[slug]?style=retro-os` | Download a component source ZIP |
 
@@ -35,6 +39,7 @@ Start with this README, then read:
 3. [LIBRARY_PLAN.md](LIBRARY_PLAN.md) for the earlier component-library architecture and discovery flow.
 4. [REVAMP_PLAN.md](REVAMP_PLAN.md) for the landing-page design history.
 5. [COMPONENT_FOLLOWUP.md](COMPONENT_FOLLOWUP.md) for the sidebar, five-appearance fire/tree and artwork follow-up.
+6. [SIX_TASK_UPDATE.md](SIX_TASK_UPDATE.md) for the playground, editor, nature materials and landscape landing update.
 
 The older plans describe earlier milestones. The current catalogue spans five appearances, with new work tracked in STATUS.md.
 
@@ -117,8 +122,9 @@ The docs header provides custom accent colors, readable palette tokens and Copy 
 | Content and layout | Badge, Avatar, AvatarGroup, AvatarEditor, Card, StatCard, Separator, Table, EmptyState, Kbd, ScrollArea, Carousel, CodeBlock |
 | Play | MascotAvatar, CharacterAvatar, Helmet, MiniDriver, GamerBoy, OpenWheelCar, Superbike, RaceStartLights, RaceProgress |
 | AI and chat | ChatMessage, PromptInput, ToolCallCard, AgentStatus, ThinkingIndicator, ModelPicker, Markdown, LiveOrb |
+| Shader scenes | ShaderCanvas, FlowingWater, FlowingGrass, DriftingClouds |
 
-There are 82 public catalogue components. Table already provides sorting and pagination. Form uses Zod validation; FileUpload selects local files and leaves uploading to the consuming app. AI components expose application-owned callbacks. The chat demo streams a fixed local response and makes no model request. Markdown supports GFM with safe URL handling and raw HTML omitted.
+There are 86 public catalogue components. Table already provides sorting and pagination. Form uses Zod validation; FileUpload selects local files and leaves uploading to the consuming app. AI components expose application-owned callbacks. The chat demo streams a fixed local response and makes no model request. Markdown supports GFM with safe URL handling and raw HTML omitted.
 
 ### Creative components
 
@@ -128,7 +134,9 @@ All four players share real playback, seeking and audio state through useAudioPl
 
 HindiText and HinglishText share the StyledText generator. Yatra One and Baloo 2 use SIL OFL 1.1, with font files and credits in public/fonts/desi/. Override --font-hindi-display and --font-hinglish-display to swap licensed fonts without changing the API. Users own the text they create. Roman-to-Hindi transliteration runs locally. Stamp and lettering editors export standalone SVG or PNG.
 
-The supplied references guided layout and materials. Shipped illustrations, decals, shader code and audio are original; reference artwork, characters, lettering and brand marks are excluded. See BATCH_2_PLAN.md and the component pages for APIs, keyboard guidance and license details.
+The Batch 2 references guided layout and materials. That batch's shipped illustrations, decals, shader code and audio are original; its reference artwork, characters, lettering and brand marks are excluded. See BATCH_2_PLAN.md and the component pages for APIs, keyboard guidance and license details.
+
+The landscape landing uses the owner's supplied base image, cleaned to remove the original interface, with derived flower, cloud, grass and person masks. [LANDING_SCENE.md](LANDING_SCENE.md) documents its configuration, asset origins, mask export recipe and rendering limits. The reusable nature components use procedural shaders; their public APIs are described in [FLOWING_GRASS.md](FLOWING_GRASS.md) and [DRIFTING_CLOUDS.md](DRIFTING_CLOUDS.md).
 
 LiveOrb is by jay sharma (@radiumcoders), distributed under MIT. Its shader and interaction engine are retained, with the supplied warning-string repairs and local stylesheet/appearance integration. Full attribution travels with the component; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 

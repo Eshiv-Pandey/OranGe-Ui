@@ -4,6 +4,7 @@ import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "rea
 import { uiClass, type Appearance, type AppearanceProps } from "./appearance";
 import { Button } from "./button";
 import { WorkbenchInspector } from "./workbench-inspector";
+import { EditorColor, EditorRange } from "./editor-controls";
 import { downloadArtwork, normalizeSvgColor, prepareSvgExport, stableConfigJson, svgToPng, type SvgExportOptions } from "./svg-export";
 import "../../styles/artwork-customizer.css";
 
@@ -104,14 +105,11 @@ export function ArtworkCustomizer<T extends object>({ value, onChange, normalize
 }
 
 export function CustomizerColor({ label, value, onChange }: { label: string; value: string; onChange: (color: string) => void }) {
-  const id = useId();
-  const color = normalizeSvgColor(value);
-  return <label className="customizer-field customizer-color" htmlFor={id}><span>{label}</span><span><input id={id} type="color" aria-label={label} value={color} onChange={(event) => onChange(normalizeSvgColor(event.target.value))} /><code>{color}</code></span></label>;
+  return <EditorColor label={label} value={normalizeSvgColor(value)} onChange={(next) => onChange(normalizeSvgColor(next))} />;
 }
 
 export function CustomizerRange({ label, value, onChange, min = 0, max = 1, step = 0.01, formatValue = String }: { label: string; value: number; onChange: (value: number) => void; min?: number; max?: number; step?: number; formatValue?: (value: number) => string }) {
-  const id = useId();
-  return <div className="customizer-field customizer-range"><label htmlFor={id}>{label}<output htmlFor={id} aria-hidden="true">{formatValue(value)}</output></label><input id={id} type="range" min={min} max={max} step={step} value={value} aria-valuetext={formatValue(value)} onChange={(event) => onChange(Number(event.target.value))} /></div>;
+  return <EditorRange label={label} value={value} onChange={onChange} min={min} max={max} step={step} formatValue={formatValue} />;
 }
 
 export function CustomizerSelect<T extends string>({ label, value, options, onChange }: { label: string; value: T; options: readonly { value: T; label: string; disabled?: boolean }[]; onChange: (value: T) => void }) {

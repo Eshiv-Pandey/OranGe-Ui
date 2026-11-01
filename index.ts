@@ -104,6 +104,8 @@ export * from "./components/ui/anime-fire";
 export * from "./components/ui/grain-gradient";
 export * from "./components/ui/shader-canvas";
 export * from "./components/ui/flowing-water";
+export * from "./components/ui/flowing-grass";
+export * from "./components/ui/drifting-clouds";
 export * from "./components/ui/styled-text";
 export * from "./components/ui/hindi-text";
 export * from "./components/ui/hinglish-text";

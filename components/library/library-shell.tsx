@@ -56,7 +56,15 @@ export function LibraryShell({ children }: { children: ReactNode }) {
     setLocalCollapsed(!isCollapsed);
     try { localStorage.setItem("orangeui-sidebar", isCollapsed ? "expanded" : "collapsed"); window.dispatchEvent(new Event("orange-sidebar")); } catch { /* The mounted control works without storage. */ }
   }
-  return <AppearanceContext.Provider value={{ appearance, href }}><div className="library-shell library-navigation-shell" data-sidebar={isCollapsed ? "collapsed" : "expanded"}>
+  return <AppearanceContext.Provider value={{ appearance, href }}><div className="library-shell library-navigation-shell" data-sidebar={isCollapsed ? "collapsed" : "expanded"} onClickCapture={(event) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const link = (event.target as Element).closest<HTMLAnchorElement>("a[href]");
+    if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
+    const destination = new URL(link.href, window.location.href);
+    if (destination.origin === window.location.origin && destination.pathname.startsWith("/components/") && !destination.hash) {
+      window.dispatchEvent(new Event("orangeui:open-playground"));
+    }
+  }}>
     <Suspense fallback={null}><AppearanceQuery onChange={setRequested} /></Suspense>
     <a href="#library-main" className="skip-link">Skip to content</a>
     <aside className="library-sidebar" aria-label="Documentation sidebar">

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Expand the catalogue to 86 components with editable FlowingGrass and DriftingClouds in all five appearances.
+- Open component links at the playground, with a full-height preview and floating glass Preview, Usage and Source dock.
+- Give the editor exact numeric and color inputs, independent scrolling and separate API documentation.
+- Preserve shader settings and the mounted canvas when switching appearances; make Reset explicit.
+- Add the supplied landscape landing with localized motion and a static fallback, preserve the earlier home at `/classic`, and explain MIT licensing at `/pricing`.
+
 - Keep the component sidebar brand and docs search fixed, with a persistent collapse control and mobile navigation.
 - Support all five appearances in AnimeFire and SeasonTree.
 - Redraw the racing bike with exposed mechanical details and a transparent initial preview.

@@ -20,5 +20,5 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function ComponentPage({ params }: { params: Promise<{ slug: string }> }) {
   const component = findComponent((await params).slug); if (!component) notFound();
   const source = await readFile(path.join(process.cwd(), "components/ui", `${component.slug}.tsx`), "utf8");
-  return <ComponentDetail component={component} source={source} />;
+  return <ComponentDetail key={component.slug} component={component} source={source} />;
 }
