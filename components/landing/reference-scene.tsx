@@ -20,7 +20,9 @@ export function ReferenceScene() {
     controller.current = createReferenceRenderer(canvas.current, REFERENCE_SCENE_CONFIG, (state) => { if (host.current) host.current.dataset.renderer = state; });
     return () => { controller.current?.destroy(); controller.current = null; };
   }, []);
-  useEffect(() => { controller.current?.setPaused(paused); }, [paused]);
+  // Resynchronize on preference changes as well as clicks. This also covers a
+  // media change arriving between a frame's stop check and its change event.
+  useEffect(() => { controller.current?.setPaused(paused); }, [paused, reduced]);
   return <>
     <div ref={host} className="reference-background" data-renderer="fallback" aria-hidden="true">
       <div className="reference-static" />

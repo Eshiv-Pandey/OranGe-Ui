@@ -1,15 +1,17 @@
 /** All scene tuning lives here. Distances are fractions of the source image. */
 export const REFERENCE_SCENE_CONFIG = {
-  windStrength: 0.0022,
-  windSpeed: 1.12,
-  gustSpeed: 0.54,
-  cloudSpeed: 0.035,
-  cloudDisplacement: 0.005,
-  sparkleCount: 1400,
-  sparkleIntensity: 0.68,
-  grain: 0.003,
+  windStrength: 0.014,
+  windSpeed: 1.45,
+  gustSpeed: 0.85,
+  cloudSpeed: 0.085,
+  cloudDisplacement: 0.048,
+  sparkleCount: 1800,
+  sparkleIntensity: 1.05,
+  sparkleSpeed: 1.1,
+  grain: 0.002,
   parallax: 0.0012,
   maxDpr: 2,
+  maxPixels: 1_600_000,
 } as const;
 
 export type ReferenceSceneConfig = { [Key in keyof typeof REFERENCE_SCENE_CONFIG]: number };

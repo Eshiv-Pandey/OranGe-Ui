@@ -1,5 +1,16 @@
 # oRangeUi status
 
+## Landing motion correction
+
+The landing motion correction is verified as of 2 November 2026 on `feat/next-iteration`.
+
+- The landscape now has visible gusts through flower clumps and grass, directional mist flow and 1,800 independently twinkling river sparkles. The original composition and fixed person remain intact. Both the person and hill are protected from displaced source samples and drifting sparkle fragments.
+- A small noise lookup replaces nested cloud noise calculations. The animation clock follows elapsed visible time at lower frame rates, and the drawing buffer is capped at 1,600,000 pixels with DPR capped at 2. Pause, hidden-tab suspension, context restoration and changing reduced-motion preferences preserve the intended state.
+- All ten focused unit tests and five production browser cases pass. Coverage includes desktop/mobile visible motion, exact subject protection, keyboard pause/resume, reduced motion, accessibility, a synthetic terrain-boundary check, the large-display render budget, real context restoration and static/no-JavaScript navigation. All 5,150 desktop and 5,666 mobile subject pixels remain unchanged in the final motion comparisons.
+- Lint, strict TypeScript, copy checks and production build `lmjC8Ariy9I66Rjzn51Ul` pass. Evidence, moving-frame comparisons, browser videos and callback timing are under `out/iteration/landing-motion/`. Timing uses headless SwiftShader and is not a physical-device performance claim.
+
+The earlier claim of localized motion did not establish that it was sufficiently visible. [LANDING_SCENE.md](LANDING_SCENE.md) records the corrected renderer and regression method.
+
 ## Fire and cloud rendering fixes
 
 The rendering corrections are verified as of 2 November 2026 on `feat/next-iteration`.

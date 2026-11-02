@@ -212,7 +212,7 @@ Component appearances are independent of palette. Polished, Pixelated, Neobrutal
 
 - Orange pixel branding alongside readable interface typography.
 - Neutral light and dark workspaces with a separate appearance choice.
-- Photographic landscape material with localized, optional motion.
+- Photographic landscape material with visible wind, flowing mist and independent twinkles.
 - Visible field boundaries, exact editable values and a persistent live preview.
 - Distinct depth and shape language for all five component appearances.
 
@@ -330,7 +330,7 @@ The public gradient editor is GrainGradient. ShaderCanvas remains an installable
 
 ### Landscape and nature surfaces
 
-Use the existing cleaned photographic plate and masks for the landscape, preserving the recognizable river, fixed central figure, restrained type and orange logo. Keep scene motion subtle and localized; navigation, copy and the pause control remain HTML. The previous landing remains a separate visual surface at `/classic`.
+Use the existing cleaned photographic plate and masks for the landscape, preserving the recognizable river, fixed central figure, restrained type and orange logo. Make wind, directional mist and staggered twinkles visible within the first few seconds while keeping movement localized. Navigation, copy and the pause control remain HTML. The previous landing remains a separate visual surface at `/classic`.
 
 SeasonTree uses layered foliage and a continuous, tapered branching form on a transparent canvas, so the chosen preview surface remains visible around the artwork. FlowingGrass uses fine, overlapping rooted blades, sunlight, optional flowers, directional wind and local interaction. DriftingClouds uses bounded cloud volume with lit edges and interior shadow. Their material, color controls and appearance APIs belong to the component examples, while the inspector remains consistent. Keep static presentation and motion preferences part of the component contract.
 

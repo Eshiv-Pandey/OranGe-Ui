@@ -1,4 +1,5 @@
 import { registerCanvasFrame } from "../ui/canvas-frame";
+import { REFERENCE_NOISE_SIZE, referenceNoiseTexels } from "./reference-noise";
 import { REFERENCE_SCENE_ASSETS, referenceCover, referenceSparkles, type ReferenceSceneConfig } from "./reference-scene-config";
 import { REFERENCE_FRAGMENT_SHADER, REFERENCE_SPARKLE_FRAGMENT_SHADER, REFERENCE_SPARKLE_VERTEX_SHADER, REFERENCE_VERTEX_SHADER } from "./reference-shaders";
 
@@ -13,7 +14,8 @@ export function createReferenceRenderer(canvas: HTMLCanvasElement, config: Refer
   const gl = context;
   let program: WebGLProgram | null = null, sparkProgram: WebGLProgram | null = null;
   let vao: WebGLVertexArrayObject | null = null, sparkVao: WebGLVertexArrayObject | null = null, sparkBuffer: WebGLBuffer | null = null;
-  let textures: WebGLTexture[] = [], sparkCount = 0, frame = 0, time = 0, previous = 0, dpr = 1;
+  let textures: WebGLTexture[] = [], sparkCount = 0, frame = 0, time = 0, dpr = 1;
+  let previous: number | null = null;
   let destroyed = false, ready = false, lost = false, paused = false, visible = true;
   const pointer = [0, 0], target = [0, 0], media = win.matchMedia("(prefers-reduced-motion: reduce)");
   let images: HTMLImageElement[] = [];
@@ -56,7 +58,7 @@ export function createReferenceRenderer(canvas: HTMLCanvasElement, config: Refer
     gl.viewport(0, 0, canvas.width, canvas.height); gl.disable(gl.BLEND);
     gl.useProgram(program); gl.bindVertexArray(vao);
     textures.forEach((texture, index) => { gl.activeTexture(gl.TEXTURE0 + index); gl.bindTexture(gl.TEXTURE_2D, texture); });
-    ["uPlate", "uFlowers", "uClouds", "uPerson", "uGrass"].forEach((name, index) => gl.uniform1i(location(name), index));
+    ["uPlate", "uFlowers", "uClouds", "uPerson", "uGrass", "uNoise"].forEach((name, index) => gl.uniform1i(location(name), index));
     gl.uniform2fv(location("uCover"), cover.scale); gl.uniform2fv(location("uCenter"), cover.center);
     gl.uniform2f(location("uPointer"), pointer[0], pointer[1]);
     const values = { uTime: media.matches ? 0 : time, uMotion: motion, uWindStrength: config.windStrength, uWindSpeed: config.windSpeed, uGustSpeed: config.gustSpeed, uCloudSpeed: config.cloudSpeed, uCloudDisplacement: config.cloudDisplacement, uGrain: config.grain, uParallax: config.parallax };
@@ -65,17 +67,23 @@ export function createReferenceRenderer(canvas: HTMLCanvasElement, config: Refer
     if (sparkProgram && sparkCount && motion) {
       gl.useProgram(sparkProgram); gl.bindVertexArray(sparkVao);
       gl.uniform2fv(location("uCover", true), cover.scale); gl.uniform2fv(location("uCenter", true), cover.center);
-      for (const [name, value] of Object.entries({ uTime: time, uMotion: motion, uCloudSpeed: config.cloudSpeed, uCloudDisplacement: config.cloudDisplacement, uDpr: dpr, uSparkleIntensity: config.sparkleIntensity })) gl.uniform1f(location(name, true), value);
+      gl.uniform2f(location("uResolution", true), canvas.width, canvas.height);
+      gl.uniform1i(location("uNoise", true), 5); gl.uniform1i(location("uPerson", true), 3); gl.uniform1i(location("uClouds", true), 2);
+      for (const [name, value] of Object.entries({ uTime: time, uMotion: motion, uCloudSpeed: config.cloudSpeed, uCloudDisplacement: config.cloudDisplacement, uDpr: dpr, uSparkleIntensity: config.sparkleIntensity, uSparkleSpeed: config.sparkleSpeed })) gl.uniform1f(location(name, true), value);
       gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE); gl.drawArrays(gl.POINTS, 0, sparkCount); gl.disable(gl.BLEND);
     }
     gl.bindVertexArray(null);
   };
-  const cancel = () => { if (frame) win.cancelAnimationFrame(frame); frame = 0; previous = 0; };
+  const cancel = () => { if (frame) win.cancelAnimationFrame(frame); frame = 0; previous = null; };
   const running = () => ready && !destroyed && !lost && !paused && !media.matches && visible && document.visibilityState !== "hidden";
   const tick = (now: number) => {
-    frame = 0; if (!running()) return;
-    time += previous ? Math.min(50, Math.max(0, now - previous)) / 1000 : 0; previous = now;
-    pointer[0] += (target[0] - pointer[0]) * .025; pointer[1] += (target[1] - pointer[1]) * .025;
+    frame = 0; if (!running()) { synchronize(); return; }
+    // Follow elapsed visible time, including on slower GPUs. Clamping each
+    // frame to 50 ms made a 10 fps device run the scene at half speed.
+    const delta = previous === null ? 0 : Math.max(0, now - previous) / 1000;
+    time += delta; previous = now;
+    const follow = 1 - Math.exp(-delta * 3);
+    pointer[0] += (target[0] - pointer[0]) * follow; pointer[1] += (target[1] - pointer[1]) * follow;
     paint(); frame = win.requestAnimationFrame(tick);
   };
   const synchronize = () => {
@@ -84,8 +92,12 @@ export function createReferenceRenderer(canvas: HTMLCanvasElement, config: Refer
     else { cancel(); paint(); }
   };
   const resize = () => {
-    const bounds = canvas.getBoundingClientRect(); dpr = Math.min(2, Math.max(.5, config.maxDpr), win.devicePixelRatio || 1);
-    const width = Math.max(1, Math.round(bounds.width * dpr)), height = Math.max(1, Math.round(bounds.height * dpr));
+    const bounds = canvas.getBoundingClientRect();
+    // The source plate is only 1199 x 805. Extra millions of fragment samples
+    // on large/high-DPR displays add cost without recovering image detail.
+    dpr = Math.min(2, Math.max(.5, config.maxDpr), win.devicePixelRatio || 1,
+      Math.sqrt(Math.max(1, config.maxPixels) / Math.max(1, bounds.width * bounds.height)));
+    const width = Math.max(1, Math.floor(bounds.width * dpr)), height = Math.max(1, Math.floor(bounds.height * dpr));
     if (canvas.width !== width || canvas.height !== height) { canvas.width = width; canvas.height = height; }
     paint();
   };
@@ -101,7 +113,16 @@ export function createReferenceRenderer(canvas: HTMLCanvasElement, config: Refer
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+        if (index === 1 || index === 4) {
+          gl.generateMipmap(gl.TEXTURE_2D);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+        }
       });
+      const noise = gl.createTexture(); if (!noise) throw new Error("Noise texture allocation failed");
+      textures.push(noise); gl.activeTexture(gl.TEXTURE0 + 5); gl.bindTexture(gl.TEXTURE_2D, noise);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, REFERENCE_NOISE_SIZE, REFERENCE_NOISE_SIZE, 0, gl.RGBA, gl.UNSIGNED_BYTE, referenceNoiseTexels());
       // This detached canvas only reads assets once. The page renders one WebGL canvas.
       const reader = document.createElement("canvas"); reader.width = images[0].naturalWidth; reader.height = images[0].naturalHeight;
       const read = reader.getContext("2d", { willReadFrequently: true });
@@ -115,7 +136,10 @@ export function createReferenceRenderer(canvas: HTMLCanvasElement, config: Refer
       }
       reader.width = reader.height = 1;
       ready = true; resize(); onState("webgl2"); synchronize();
-    } catch { dispose(); onState("fallback"); synchronize(); }
+    } catch (error) {
+      dispose(); onState("fallback"); synchronize();
+      if (process.env.NODE_ENV !== "production") console.warn("Landscape renderer unavailable:", error);
+    }
   };
   const onLost = (event: Event) => { event.preventDefault(); lost = true; cancel(); onState("fallback"); synchronize(); };
   const onRestored = () => { lost = false; initialize(); };
