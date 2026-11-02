@@ -71,6 +71,21 @@ it("does not add a third-party notice to unrelated components", async () => {
   });
 });
 
+it("includes the adapted fire shader's license in both download formats", async () => {
+  const notice = "Shader Anime Fire by jay sharma (@radiumcoders)\nMIT License\nPermission is hereby granted ...";
+  await withSourceFixture({
+    "components/ui/fixture.tsx": 'export { ANIME_FIRE_FRAGMENT } from "./anime-fire-shader";',
+    "components/ui/anime-fire-shader.ts": 'export const ANIME_FIRE_FRAGMENT = "void main() {}";',
+    "THIRD_PARTY_NOTICES.md": notice,
+  }, async (_directory, component) => {
+    const files = await componentFiles(component, "polished");
+    expect(strFromU8(files["THIRD_PARTY_NOTICES.md"])).toBe(notice);
+    expect(strFromU8(files["README.md"])).toContain("This bundle includes Shader Anime Fire.");
+    const registry = await componentRegistryItem(component, "polished");
+    expect(registry.files.find((file) => file.target === "~/orangeui/licenses/THIRD_PARTY_NOTICES.md")?.content).toBe(notice);
+  });
+});
+
 it("rejects path traversal, unapproved aliases and root source probes", async () => {
   await withSourceFixture({}, async (directory, component) => {
     for (const dependency of ["../../private", "@/lib/private", "@/app/page", "../../USER_INSTRUCTIONS.md", "@/components/ui/../../../private"]) {

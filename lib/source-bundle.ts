@@ -128,7 +128,8 @@ export async function collectComponentSource(component: ComponentDefinition, app
   if (files["components/ui/creative-playlist.ts"]) for (const asset of CREATIVE_AUDIO_ASSETS) await include(asset);
   files["Example.tsx"] = strToU8(example);
   await include("LICENSE");
-  if (files["components/ui/live-orb.tsx"]) await include("THIRD_PARTY_NOTICES.md");
+  const attributedComponents = [files["components/ui/live-orb.tsx"] && "LiveOrb", files["components/ui/anime-fire-shader.ts"] && "Shader Anime Fire"].filter(Boolean);
+  if (attributedComponents.length) await include("THIRD_PARTY_NOTICES.md");
   const dependencies = [...external].sort();
   const devDependencies = external.has("three") ? ["@types/three"] : [];
   const avatarReadme = isAvatarBundle ? `## Avatar seeds, saved configs, and exports
@@ -164,7 +165,7 @@ Components assign unique SVG definition IDs automatically. If you insert several
     "## Portable imports\n\nApproved project aliases are converted to relative imports in this download. Keep the components/, styles/, and lib/ folder relationship intact; no @ alias is required.\n",
     devDependencies.length ? `## Type dependencies\n\nInstall the additional TypeScript declarations used by this component:\n\n\`\`\`sh\nnpm install --save-dev ${devDependencies.join(" ")}\n\`\`\`\n` : "",
     external.has("react-markdown") || external.has("remark-gfm") ? `## Markdown dependencies\n\n${dependencies.filter((name) => name === "react-markdown" || name === "remark-gfm").map((name) => `\`${name}\``).join(" and ")} are external packages included in the install command above. React itself does not provide these modules.\n` : "",
-    files["THIRD_PARTY_NOTICES.md"] ? "## Third-party attribution\n\nThis bundle includes LiveOrb. Keep THIRD_PARTY_NOTICES.md, including its attribution and complete MIT permission notice, with redistributed source.\n" : "",
+    files["THIRD_PARTY_NOTICES.md"] ? `## Third-party attribution\n\nThis bundle includes ${attributedComponents.join(" and ")}. Keep THIRD_PARTY_NOTICES.md, including its attribution and complete MIT permission notice, with redistributed source.\n` : "",
   ].filter(Boolean).join("\n");
   files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n" + extraNotes);
   if (component.notes?.length) files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n## Creative component\n\n" + (component.collection ? "This component retains its " + component.collection + " material. " : "Choose any of the five appearances. ") + "Theme follows live HTML dark/light classes, data-theme, then the system preference.\n\n" + (component.notes ?? []).join("\n\n") + "\n\nMerge the included public/ folder into your public assets, including audio/ for the original sample playlist and fonts/desi/ for display lettering. Retain all included license and credit files.\n");

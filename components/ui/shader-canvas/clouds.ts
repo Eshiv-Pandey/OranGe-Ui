@@ -1,11 +1,13 @@
 import { clamp, hexRgb, type ShaderModule } from "./types";
 import { CLOUD_FIELD_GLSL, cloudGeometry } from "./clouds-field";
 
-/** Connected, nested cumulus volumes with directional light transport. */
+/** Connected cumulus caps with analytic surfaces and directional lighting. */
 export const clouds: ShaderModule = {
   id: "clouds", kind: "source",
+  renderBudget: { maxPixels: 360_000, maxFps: 30 },
   defaults: { speed: .35, scale: 1, coverage: .62, density: .75, billow: .6, softness: .2, sunAngle: 35, lightIntensity: 1, seed: 7, skyColor: "#087bbd", cloudColor: "#fffdf7", shadowColor: "#6d95b6" },
   uniforms: {
+    uCloudLobeCount: { type: "int", value: () => 84 },
     uSpeed: { type: "float", value: (s) => clamp(s.speed, 0, 3, .35) },
     uScale: { type: "float", value: (s) => clamp(s.scale, .5, 2.5, 1) },
     uCoverage: { type: "float", value: (s) => clamp(s.coverage, 0, 1, .62) },

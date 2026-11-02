@@ -1,5 +1,17 @@
 # oRangeUi status
 
+## Fire and cloud rendering fixes
+
+The rendering corrections are verified as of 2 November 2026 on `feat/next-iteration`.
+
+- DriftingClouds now shades its connected billows in one analytic pass instead of nested view and shadow marching. Animation is capped at 30 frames per second and 360,000 pixels, including on high-DPR screens. Shape, lighting, colors, pause and pointer controls remain live.
+- AnimeFire uses the MIT-licensed 23rd.dev reference flame shader, with the existing sound, embers and five appearances. React effect cleanup no longer destroys the canvas context during development remounts. The static flame cutout is replaced by a glow fallback, and the sound control clears the preview dock on mobile. Fire rendering is capped at 30 frames per second and 768,000 pixels.
+- The affected unit coverage totals 97 passing cases across the initial run and focused refresh. Four source-download batch checks compile and bundle 70 examples, including every appearance of the affected shaders. The fire attribution and complete MIT notice travel with both ZIP and registry downloads.
+- All three new production browser cases and both existing fire/GrainGradient lifecycle cases pass. The new cases cover live frames, controls, reduced motion, real context loss/restoration, repeated navigation, all five appearances, desktop and mobile geometry, and a 2200 by 1400 viewport at DPR 3. The two navigation/lifecycle cases also pass against the development server.
+- Lint, strict TypeScript, copy checks, bundle isolation and production build `357hPG13TUdJlzWfumHrm` pass. Production source traces retain 227 public files plus 12 runtime files per download route. Evidence, source hashes and captures are retained in `out/iteration/effects-fix/`.
+
+These results supersede the earlier cloud renderer's performance findings. Earlier sections retain their recorded milestone results.
+
 ## Playground, nature and landscape update
 
 The six-task update is implemented and verified as of 2 November 2026 on `feat/next-iteration`, bringing the catalogue to 86 components. [SIX_TASK_UPDATE.md](SIX_TASK_UPDATE.md) records the requirements, exact evidence and verification limits.

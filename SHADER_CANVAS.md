@@ -54,6 +54,8 @@ void main() {
 
 The core adds the GLSL version and common header. Module uniforms support scalar float/int, vectors and float/vec3/vec4 arrays. Built-in modules and shaders live in `components/ui/shader-canvas/`.
 
+A module can declare `renderBudget: { maxPixels: 360_000, maxFps: 30 }`. The renderer honors the strictest budget in the pipeline, caps backing resolution without changing its aspect ratio, and throttles animation while retaining immediate redraws for edits and exports. DriftingClouds uses this budget even when `renderScale` is set to 1.
+
 ## FlowingWater
 
 `FlowingWater` shares this renderer and lifecycle. It adds `speed`, `scale`, `depth`, `sparkle`, `choppiness`, `sunAngle`, `color` and `deepColor`. Its procedural surface combines wave normals, refracted caustics and sharp sun reflections. There are no external images or video assets.

@@ -6,7 +6,11 @@ export type ShaderSettings = Record<string, unknown>;
 export type UniformValue = number | readonly number[];
 export type ShaderUniform = { type: "float" | "int" | "vec2" | "vec3" | "vec4" | "float[]" | "vec3[]" | "vec4[]"; value: (settings: ShaderSettings) => UniformValue };
 /** Add a module to `modules`; the renderer never needs to know its settings. */
-export type ShaderModule = { id: string; kind: "source" | "effect"; fragment: string; uniforms: Record<string, ShaderUniform>; defaults: ShaderSettings };
+export type ShaderModule = {
+  id: string; kind: "source" | "effect"; fragment: string; uniforms: Record<string, ShaderUniform>; defaults: ShaderSettings;
+  /** Upper bounds apply even on high-DPR screens and when renderScale is 1. */
+  renderBudget?: { maxPixels: number; maxFps: number };
+};
 export type ShaderSource = { type: "gradient" | "noise" | (string & {}); colors?: readonly string[]; softness?: number; speed?: number; scale?: number; warp?: number; seed?: number; saturation?: number; grain?: number; [key: string]: unknown };
 export type ShaderEffect =
   | { type: "pixelate"; size?: number }

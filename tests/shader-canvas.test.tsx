@@ -3,6 +3,7 @@ import { afterEach, expect, it, vi } from "vitest";
 import { ShaderCanvas, gameboyNoise, type ShaderCanvasProps } from "../components/ui/shader-canvas";
 import { createShaderRenderer } from "../components/ui/shader-canvas/renderer";
 import { hexRgb, sourceColors } from "../components/ui/shader-canvas/types";
+import { clouds } from "../components/ui/shader-canvas/clouds";
 
 afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 function harness(reduced = false) {
@@ -65,4 +66,21 @@ it("pauses offscreen and resumes when IntersectionObserver reports the canvas vi
   const renderer = createShaderRenderer(h.canvas, () => ({}), vi.fn()); expect(h.queue.size).toBe(0);
   intersect([{ isIntersecting: true }]); expect(h.queue.size).toBe(1);
   intersect([{ isIntersecting: false }]); expect(h.queue.size).toBe(0); renderer.destroy();
+});
+
+it("caps cloud pixels on a large high-DPR screen and throttles high-refresh frames", () => {
+  const h = harness();
+  vi.mocked(h.canvas.getBoundingClientRect).mockReturnValue({ width: 2400, height: 1600, left: 0, top: 0 } as DOMRect);
+  const renderer = createShaderRenderer(h.canvas, () => ({ source: { type: "clouds" }, modules: [clouds], renderScale: 1 }), vi.fn());
+  expect(h.canvas.width * h.canvas.height).toBeLessThanOrEqual(360_000);
+  expect(h.canvas.width / h.canvas.height).toBeCloseTo(1.5, 2);
+  const now = performance.now() + 100;
+  h.frame(now);
+  const draws = h.draws.length;
+  h.frame(now + 8); h.frame(now + 16); h.frame(now + 24);
+  expect(h.draws).toHaveLength(draws);
+  h.frame(now + 34);
+  expect(h.draws).toHaveLength(draws + 1);
+  renderer.destroy();
+  expect(h.queue.size).toBe(0);
 });

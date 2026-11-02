@@ -10,7 +10,17 @@
 
 The source registry does not state a copyright year. No year is inferred here.
 
-MIT License
+## AnimeFire shader
+
+`components/ui/anime-fire-shader.ts` adapts **Shader Anime Fire** by **jay sharma (@radiumcoders)**.
+
+- Component and MIT designation: https://21st.dev/@radiumcoders/components/shader-anime-fire
+- Author's source registry: https://www.23rd.dev/r/shader-anime-fire.json
+- Integrated on 2 November 2026. The reference's turbulence, cel bands and linear-light color math are retained. Local changes adapt uniform names and add the library's appearances, pixel mode and embers. The surrounding React component, rendering lifecycle and crackle audio remain local.
+
+The registry does not state a copyright year. No year is inferred here.
+
+## MIT License for LiveOrb and Shader Anime Fire
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

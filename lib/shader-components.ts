@@ -69,6 +69,6 @@ export const SHADER_COMPONENTS: ComponentDefinition[] = [
       { name: "interaction", type: "ShaderInteraction", defaultValue: "All toggles false", description: "Optional pointer breeze and scroll-linked motion, with adjustable radius and strength." },
       ...lifecycle.map((prop) => prop.name === "renderScale" ? { ...prop, defaultValue: "0.65" } : prop),
     ],
-    notes: ["The shader integrates density and sunlight through a three-dimensional cloud field. Seeded billows preserve their shape as they drift.", "All controls remain live while paused. Hidden and offscreen canvases stop rendering, and reduced motion uses a still frame. Source downloads include every local renderer dependency."],
+    notes: ["A single analytic pass shades connected cloud caps with bounded drift and deterministic billows. Rendering is limited to 360,000 pixels and 30 frames per second, including on high-DPR screens.", "All controls remain live while paused. Hidden and offscreen canvases stop rendering, and reduced motion uses a still frame. Source downloads include every local renderer dependency."],
   },
 ];

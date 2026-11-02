@@ -1,4 +1,5 @@
 .creative-demo .creative-demo-preview > .anime-fire, .creative-demo .creative-demo-preview > .grain-gradient { width: 100%; }
+.creative-demo .anime-fire .shader-sound-toggle { top: 16px; bottom: auto; }
 .creative-demo .creative-controls { --creative-line: var(--line); }
 .creative-demo-loading { display: flex; align-items: center; justify-content: center; min-height: 280px; color: var(--muted); font-size: 12px; }
 .component-notes { margin-top: 38px; }

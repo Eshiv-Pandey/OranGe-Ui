@@ -10,11 +10,12 @@ export function createShaderRenderer(canvas: HTMLCanvasElement, read: () => Shad
   const gl = canvas.getContext("webgl2", { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: "low-power" });
   if (!gl) { state(false); return { redraw() {}, destroy() {} }; }
   let passes: Pass[] = [], targets: Target[] = [], signature = "", raf = 0, time = 0, previous = 0, disposed = false, lost = false, visible = !window.IntersectionObserver;
+  let lastFrame = 0;
   let cssWidth = 1, cssHeight = 1, scroll = 0, rippleIndex = 0, active = 0, tx = .5, ty = .5, px = .5, py = .5, vx = 0, vy = 0, velocityX = 0, velocityY = 0;
   const ripples = new Float32Array(32), motion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let vao = gl.createVertexArray();
   const canAnimate = () => !disposed && !lost && visible && !document.hidden && !motion.matches && !read().paused;
-  const stop = () => { cancelAnimationFrame(raf); raf = 0; previous = 0; };
+  const stop = () => { cancelAnimationFrame(raf); raf = 0; previous = 0; lastFrame = 0; };
   function shader(type: number, source: string) {
     const result = gl!.createShader(type); if (!result) throw new Error("Shader allocation failed");
     gl!.shaderSource(result, source); gl!.compileShader(result);
@@ -55,7 +56,10 @@ export function createShaderRenderer(canvas: HTMLCanvasElement, read: () => Shad
   function resize(config: ShaderCanvasProps) {
     const box = canvas.getBoundingClientRect(); cssWidth = Math.max(1, box.width); cssHeight = Math.max(1, box.height);
     const dpr = Math.min(window.devicePixelRatio || 1, 2.5), scale = clamp(config.renderScale, .25, 1, 1);
-    const max = Math.min(gl!.getParameter(gl!.MAX_TEXTURE_SIZE), 4096), width = Math.max(1, Math.min(max, Math.round(cssWidth * dpr * scale))), height = Math.max(1, Math.min(max, Math.round(cssHeight * dpr * scale)));
+    const max = Math.min(gl!.getParameter(gl!.MAX_TEXTURE_SIZE), 4096);
+    const maxPixels = Math.min(max * max, ...passes.map((pass) => pass.module.renderBudget?.maxPixels ?? Infinity));
+    const ratio = Math.min(dpr * scale, Math.sqrt(maxPixels / (cssWidth * cssHeight)), max / cssWidth, max / cssHeight);
+    const width = Math.max(1, Math.floor(cssWidth * ratio)), height = Math.max(1, Math.floor(cssHeight * ratio));
     if (canvas.width === width && canvas.height === height && targets.length === 2) return;
     canvas.width = width; canvas.height = height; clearTargets();
     for (let i = 0; i < 2; i++) {
@@ -104,7 +108,14 @@ export function createShaderRenderer(canvas: HTMLCanvasElement, read: () => Shad
     } catch { stop(); clearTargets(); state(false); return; }
     if (canAnimate() && !raf) raf = requestAnimationFrame(frame);
   }
-  function frame(now: number) { raf = 0; if (canAnimate()) draw(now, true); }
+  function frame(now: number) {
+    raf = 0;
+    if (!canAnimate()) return;
+    const maxFps = Math.min(...passes.map((pass) => pass.module.renderBudget?.maxFps ?? Infinity));
+    if (lastFrame && now - lastFrame < 1000 / maxFps - 1) { raf = requestAnimationFrame(frame); return; }
+    lastFrame = now;
+    draw(now, true);
+  }
   function redraw() { if (!document.hidden) draw(performance.now(), false); if (!canAnimate()) stop(); }
   function visibility() { if (canAnimate()) redraw(); else stop(); }
   function position(event: PointerEvent) {

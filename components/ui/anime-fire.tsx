@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import type { Appearance } from "./appearance";
 import { useCreativeTheme, usePropPreference, observeCreativeVisibility, clamp, type CreativeTheme } from "./creative-surface";
@@ -16,11 +16,12 @@ export type AnimeFireProps = {
   sound?: boolean; volume?: number; muted?: boolean; appearance?: Appearance;
 };
 const FIRE_COLORS = ["#e44322", "#ff881a", "#ffd34b"] as const;
+const linearColor = (color: string) => creativeColor(color).map((channel) => channel <= .04045 ? channel / 12.92 : ((channel + .055) / 1.055) ** 2.4);
 
 export function AnimeFire({ colors = FIRE_COLORS, speed = 0.6, intensity = 1, height = 0.45, interactive = true, dither, pixelSize, theme = "auto", className, sound = false, volume = 0.3, muted = false, appearance = "polished" }: AnimeFireProps) {
   const resolvedPixel = pixelSize ?? (appearance === "pixel" ? 5 : appearance === "terminal" ? 3 : 1);
   const resolvedDither = dither ?? appearance === "retro-os";
-  const root = useRef<HTMLDivElement>(null), canvas = useRef<HTMLCanvasElement>(null), pointer = useRef({ x: 0.5, y: 0.12, tx: 0.5, ty: 0.12 });
+  const root = useRef<HTMLDivElement>(null), canvas = useRef<HTMLCanvasElement>(null), pointer = useRef({ x: .5, y: .5, tx: .5, ty: .5, pull: 0, targetPull: 0 });
   const [enabled, setEnabled] = usePropPreference(sound), [isMuted, setMuted] = usePropPreference(muted), [started, setStarted] = useState(false), resolved = useCreativeTheme(theme);
   const session = useRef<ReturnType<typeof createFireAudio> | null>(null), renderer = useRef<ReturnType<typeof createCreativeWebGL> | null>(null), active = useRef(false);
   const latest = useRef({ colors, speed, intensity, height, interactive, dither: resolvedDither, pixelSize: resolvedPixel, appearance, resolved, enabled, isMuted, started, volume });
@@ -34,9 +35,18 @@ export function AnimeFire({ colors = FIRE_COLORS, speed = 0.6, intensity = 1, he
     const audio = createFireAudio(); session.current = audio;
     const effect = createCreativeWebGL(canvas.current, ANIME_FIRE_FRAGMENT, (frame) => {
       const config = latest.current, p = pointer.current, smoothing = frame.reduced ? 1 : Math.min(1, frame.delta * 7);
-      p.x += (p.tx - p.x) * smoothing; p.y += (p.ty - p.y) * smoothing;
-      return { uAppearance: ["polished", "pixel", "neobrutalism", "retro-os", "terminal"].indexOf(config.appearance), uTime: frame.time, uTheme: config.resolved === "dark" ? 1 : 0, uPointer: [p.x, p.y], uColors: [0, 1, 2].flatMap((index) => creativeColor(config.colors[index] || FIRE_COLORS[index])), uSpeed: clamp(config.speed, 0, 5), uIntensity: clamp(config.intensity, 0, 3), uHeight: clamp(config.height, 0.05, 1), uInteractive: config.interactive ? 1 : 0, uDither: config.dither ? 1 : 0, uPixelSize: clamp(config.pixelSize, 1, 20) };
+      p.x += (p.tx - p.x) * smoothing; p.y += (p.ty - p.y) * smoothing; p.pull += (p.targetPull - p.pull) * smoothing;
+      return {
+        uAppearance: ["polished", "pixel", "neobrutalism", "retro-os", "terminal"].indexOf(config.appearance),
+        uTime: frame.time * clamp(config.speed, 0, 5), uTheme: config.resolved === "dark" ? 1 : 0,
+        uPointer: [p.x, p.y], uPointerActive: config.interactive ? p.pull : 0,
+        uEmber: linearColor(config.colors[0] || FIRE_COLORS[0]), uFlame: linearColor(config.colors[1] || FIRE_COLORS[1]), uCore: linearColor(config.colors[2] || FIRE_COLORS[2]),
+        uBase: linearColor(config.resolved === "dark" ? "#08090c" : "#fcfbf9"), uIgnite: 1,
+        uIntensity: clamp(config.intensity, 0, 3), uHeight: clamp(config.height, .05, 1),
+        uDither: config.dither ? 1 : 0, uPixelSize: clamp(config.pixelSize, 1, 20),
+      };
     }, {
+      renderBudget: { maxPixels: 768_000, maxFps: 30, maxDpr: 1.5 },
       onState: (ready) => { if (root.current) root.current.dataset.renderer = ready ? "webgl" : "fallback"; },
     });
     const stopObserving = observeCreativeVisibility(root.current!, (visible) => {
@@ -51,12 +61,12 @@ export function AnimeFire({ colors = FIRE_COLORS, speed = 0.6, intensity = 1, he
     session.current?.unlock(); setStarted(true); setEnabled(true); setMuted(false);
     if (active.current) session.current?.start(volume * intensity);
   };
-  return <div className={cn("creative-surface anime-fire", className)} ref={root} data-theme={resolved} data-appearance={appearance} onPointerDown={() => { if (enabled && !isMuted && !started) start(); }}>
-    <div className="anime-fire-fallback" aria-hidden="true"><svg viewBox="0 0 360 360" preserveAspectRatio="none"><path d="M0 360V317Q24 308 21 272Q48 298 52 238Q88 278 84 202Q115 240 134 176Q160 196 164 134Q183 172 178 222Q212 185 220 254Q250 214 259 281Q284 253 291 296Q326 265 360 320V360Z" fill={colors[0] || FIRE_COLORS[0]} stroke="#77313a" strokeWidth="5"/><path d="M22 360Q32 319 64 300Q96 319 108 263Q142 283 157 222Q189 245 183 293Q220 269 242 317Q268 300 294 334Q330 310 347 360Z" fill={colors[1] || FIRE_COLORS[1]}/><path d="M77 360Q115 324 138 307Q159 321 168 284Q187 319 211 320Q220 346 257 360Z" fill={colors[2] || FIRE_COLORS[2]}/></svg></div>
-    <canvas ref={canvas} role="img" aria-label="Original cel-shaded fire" tabIndex={interactive ? 0 : -1}
-      onPointerMove={(event) => { if (!interactive) return; const box = event.currentTarget.getBoundingClientRect(); pointer.current.tx = clamp((event.clientX - box.left) / box.width, 0, 1); pointer.current.ty = 1 - clamp((event.clientY - box.top) / box.height, 0, 1); if (root.current?.dataset.motion === "reduced") renderer.current?.redraw(); }}
-      onPointerLeave={() => { pointer.current.tx = 0.5; pointer.current.ty = 0.12; }}
-      onKeyDown={(event) => { if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return; event.preventDefault(); if (event.key === "ArrowLeft") pointer.current.tx -= 0.06; else if (event.key === "ArrowRight") pointer.current.tx += 0.06; else if (event.key === "ArrowUp") pointer.current.ty += 0.06; else pointer.current.ty -= 0.06; renderer.current?.redraw(); }} />
+  return <div className={cn("creative-surface anime-fire", className)} ref={root} data-renderer="fallback" data-theme={resolved} data-appearance={appearance} onPointerDown={() => { if (enabled && !isMuted && !started) start(); }}>
+    <div className="anime-fire-fallback" aria-hidden="true" style={{ "--fire-ember": colors[0] || FIRE_COLORS[0], "--fire-flame": colors[1] || FIRE_COLORS[1], "--fire-core": colors[2] || FIRE_COLORS[2] } as CSSProperties} />
+    <canvas ref={canvas} role="img" aria-label="Animated cel-shaded fire" tabIndex={interactive ? 0 : -1}
+      onPointerMove={(event) => { if (!interactive) return; const box = event.currentTarget.getBoundingClientRect(); pointer.current.tx = clamp((event.clientX - box.left) / box.width, 0, 1); pointer.current.ty = 1 - clamp((event.clientY - box.top) / box.height, 0, 1); pointer.current.targetPull = 1; if (canvas.current?.dataset.motion === "reduced") renderer.current?.redraw(); }}
+      onPointerLeave={() => { pointer.current.targetPull = 0; if (canvas.current?.dataset.motion === "reduced") renderer.current?.redraw(); }}
+      onKeyDown={(event) => { if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return; event.preventDefault(); pointer.current.targetPull = 1; if (event.key === "ArrowLeft") pointer.current.tx = clamp(pointer.current.tx - .06, 0, 1); else if (event.key === "ArrowRight") pointer.current.tx = clamp(pointer.current.tx + .06, 0, 1); else if (event.key === "ArrowUp") pointer.current.ty = clamp(pointer.current.ty + .06, 0, 1); else pointer.current.ty = clamp(pointer.current.ty - .06, 0, 1); renderer.current?.redraw(); }} />
     <button type="button" className="creative-button shader-sound-toggle" aria-label={started && enabled && !isMuted ? "Sound on, mute fire sound" : "Sound off, enable fire sound"} aria-pressed={started && enabled && !isMuted} onClick={() => { if (!started || !enabled || isMuted) start(); else { setMuted(true); session.current?.stop(); } }}><CreativeIcon name={started && enabled && !isMuted ? "speaker" : "muted"} width="15" height="15" />{started && enabled && !isMuted ? "Sound on" : "Sound off"}</button>
   </div>;
 }

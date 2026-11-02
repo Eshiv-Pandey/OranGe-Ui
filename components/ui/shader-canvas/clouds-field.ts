@@ -37,113 +37,21 @@ export function cloudGeometry(settings: ShaderSettings) {
 export const CLOUD_FIELD_GLSL = `
 uniform vec4 uCloudLobes[84];
 uniform float uCloudShapes[84];
+uniform int uCloudLobeCount;
 uniform float uSpeed, uScale, uCoverage, uDensity, uBillow, uSoftness;
 uniform float uSunAngle, uLightIntensity, uSeed;
 uniform vec3 uSkyColor, uCloudColor, uShadowColor;
-float cloudHash(vec3 p) {
-  p = fract(p*.1031); p += dot(p,p.yzx+33.33); return fract((p.x+p.y)*p.z);
+
+float cloudHash(vec2 p) {
+  p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+45.32);
+  return fract(p.x*p.y);
 }
-float cloudNoise(vec3 p) {
-  vec3 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f);
-  return mix(mix(mix(cloudHash(i),cloudHash(i+vec3(1,0,0)),f.x),
-    mix(cloudHash(i+vec3(0,1,0)),cloudHash(i+vec3(1,1,0)),f.x),f.y),
-    mix(mix(cloudHash(i+vec3(0,0,1)),cloudHash(i+vec3(1,0,1)),f.x),
-    mix(cloudHash(i+vec3(0,1,1)),cloudHash(i+vec3(1,1,1)),f.x),f.y),f.z);
-}
-float cloudUnion(float a,float b,float width) {
-  float h=max(width-abs(a-b),0.0)/width; return min(a,b)-h*h*width*.25;
-}
-float cloudLobe(vec3 p,int index,float billow) {
-  vec4 lobe=uCloudLobes[index]; float stretch=uCloudShapes[index];
-  vec3 q=(p-lobe.xyz)/vec3(1,stretch,1); float radius=lobe.w*billow;
-  float field=length(q)-radius;
-  bool crown=index<21 || (index>=28 && index<35);
-  // These smaller lobes sit on the OUTER rim, not on the front-facing texture.
-  // Restrict work to the silhouette band and its two nearest nested cap groups.
-  if(crown && abs(q.z)<radius*.72 && dot(q.xy,q.xy)>radius*radius*.61) {
-    float count=10.0+mod(float(index),4.0), arc=6.2831853/count;
-    float nearest=floor(atan(q.y,q.x)/arc);
-    for(int neighbor=0;neighbor<2;neighbor++) {
-      float sector=mod(nearest+float(neighbor),count);
-      float variation=cloudHash(vec3(float(index)+.7,sector+.3,uSeed+17.0));
-      float angle=(sector+(variation-.5)*.30)*arc;
-      vec3 center=vec3(cos(angle),sin(angle),0)*radius*(.95+.055*variation);
-      vec3 cap=q-center; cap.z*=.58;
-      float capRadius=radius*(.15+.10*cloudHash(vec3(sector,float(index),uSeed+31.0)));
-      field=cloudUnion(field,length(cap)-capRadius,radius*.014);
-      // A smaller offset cap interrupts the broad rim without moving its parent.
-      float smallAngle=angle+arc*(.22+.14*variation);
-      vec3 smallCap=q-vec3(cos(smallAngle),sin(smallAngle),0)*radius*(1.035+.045*variation);
-      smallCap.z*=.70;
-      float smallRadius=radius*(.07+.025*cloudHash(vec3(float(index),sector,uSeed+53.0)));
-      field=cloudUnion(field,length(smallCap)-smallRadius,radius*.01);
-    }
-  }
-  // Put nested caps in front of the crown and shoulder as well as around them.
-  // Their depth produces separate lit contours and short contact shadows;
-  // adding only silhouette bumps leaves the parent face as one smooth mass.
-  if(crown && q.z<radius*.10 && q.z>-radius*1.4 && dot(q.xy,q.xy)<radius*radius*1.3) {
-    float count=5.0+mod(float(index),3.0), arc=6.2831853/count;
-    float nearest=floor(atan(q.y,q.x)/arc);
-    for(int neighbor=0;neighbor<2;neighbor++) {
-      float sector=mod(nearest+float(neighbor),count);
-      float variation=cloudHash(vec3(float(index),sector,uSeed+71.0));
-      float angle=(sector+(variation-.5)*.36)*arc;
-      float offset=radius*(.46+.16*variation);
-      vec3 center=vec3(cos(angle)*offset,sin(angle)*offset,-radius*(.66+.10*variation));
-      float capRadius=radius*(.32+.10*cloudHash(vec3(sector,float(index),uSeed+83.0)));
-      field=cloudUnion(field,length(q-center)-capRadius,radius*.018);
-    }
-  }
-  return field*min(stretch,1.0);
-}
-float cloudField(vec3 position,float time) {
-  if(uCoverage<.001 || uDensity<.001) return 8.0;
-  vec3 p=position;
-  // The nearer banks and the distant tower drift at different rates.
-  p.x+=sin(time*.13+p.z*.12)*(.18+.055*(2.0-p.z));
-  p.y+=sin(time*.11+p.z*.5)*.025;
-  float field=10.0, expansion=(uCoverage-.62)*.7;
-  for(int group=0;group<12;group++) {
-    int root=group*7; vec4 mainLobe=uCloudLobes[root];
-    float bound=length(p-mainLobe.xyz)-mainLobe.w*1.65;
-    if(bound>field+.24+abs(expansion)) continue;
-    // A small interior core joins the outer lobes without painting its envelope.
-    float mass=cloudLobe(p,root,.73);
-    for(int child=1;child<7;child++)
-      mass=cloudUnion(mass,cloudLobe(p,root+child,.88+uBillow*.2),.055);
-    field=cloudUnion(field,mass,.095);
-  }
-  field-=expansion;
-  if(field>.24) return field;
-  // Medium convection follows the nested volumes. Fine erosion stays small.
-  vec3 q=p+vec3(uSeed*.19,time*.007,uSeed*.37);
-  // Convection must not erase the smaller caps around the distant crown.
-  float crown=smoothstep(.05,.55,p.y);
-  float convect=(cloudNoise(q*7.1)-.5)*mix(.14,.022,crown);
-  float fold=(cloudNoise(q*19.7+vec3(0,time*.012,0))-.5)*mix(.032,.008,crown);
-  float edge=(cloudNoise(q*47.9)-.5)*.009;
-  return field+convect+fold+edge;
-}
-float cloudDensity(float field) {
-  float edge=.003+uSoftness*.015;
-  return (1.0-smoothstep(-edge,edge,field))*uDensity;
-}
-vec3 cloudNormal(vec3 p,float time) {
-  float e=.006;
-  return normalize(vec3(cloudField(p+vec3(e,0,0),time)-cloudField(p-vec3(e,0,0),time),
-    cloudField(p+vec3(0,e,0),time)-cloudField(p-vec3(0,e,0),time),
-    cloudField(p+vec3(0,0,e),time)-cloudField(p-vec3(0,0,e),time))+.00001);
-}
-float cloudSunlight(vec3 p,vec3 light,float time) {
-  // A close sample resolves cap contacts before the wider bank-shadow samples.
-  float optical=cloudDensity(cloudField(p+light*.045,time))*.32, distance=.035;
-  // Sample beyond the immediate lobe to pick up shadows from adjoining billows.
-  for(int i=0;i<4;i++) {
-    float stride=.12*pow(2.0,float(i)); distance+=stride;
-    optical+=cloudDensity(cloudField(p+light*distance,time))*stride*3.4;
-  }
-  return exp(-optical);
+vec3 cloudNoise(vec2 p) {
+  vec2 i=floor(p), f=fract(p), u=f*f*(3.0-2.0*f), du=6.0*f*(1.0-f);
+  float a=cloudHash(i), b=cloudHash(i+vec2(1,0));
+  float c=cloudHash(i+vec2(0,1)), d=cloudHash(i+1.0), crossTerm=a-b-c+d;
+  return vec3(a+(b-a)*u.x+(c-a)*u.y+crossTerm*u.x*u.y,
+    du*vec2(b-a+crossTerm*u.y,c-a+crossTerm*u.x));
 }
 void main() {
   vec2 uv=sourceUv(), xy=(uv-.5)*vec2(uCssSize.x/uCssSize.y,1)*3.9/uScale;
@@ -151,32 +59,53 @@ void main() {
   vec3 sky=pow(uSkyColor,vec3(2.2))*mix(1.08,.80,clamp(uv.y,0.0,1.0));
   vec3 sunColor=pow(uCloudColor,vec3(2.2)), shadeColor=pow(uShadowColor,vec3(2.2));
   sky=mix(sky,sunColor,.032*pow(1.0-clamp(uv.y,0.0,1.0),2.0));
-  vec3 light=normalize(vec3(-cos(uSunAngle)*.8,sin(uSunAngle)*.85+.25,-.40));
-  vec3 color=vec3(0), origin=vec3(xy,-3.0), normal=vec3(0,0,-1);
-  float transmittance=1.0, travel=cloudHash(vec3(gl_FragCoord.xy,7))*.009;
-  bool foundSurface=false;
-  for(int i=0;i<84;i++) {
-    vec3 point=origin+vec3(0,0,travel); float field=cloudField(point,time);
-    if(field>.065) { travel+=clamp(field*.7,.035,.32); }
-    else {
-      // Resolve thin crowns before taking larger steps through an opaque core.
-      float density=cloudDensity(field), stride=(foundSurface?.012:.006)+smoothstep(.02,.13,-field)*.034;
-      if(density>.004) {
-        if(!foundSurface) { normal=cloudNormal(point,time); foundSurface=true; }
-        float sunlight=cloudSunlight(point,light,time), diffuse=max(dot(normal,light),0.0);
-        float rim=1.0-abs(normal.z); rim*=rim;
-        float ambient=(.08+.12*(normal.y*.5+.5))*mix(.5,1.0,sunlight);
-        // Block direct diffuse light inside blue recesses, preserving sunny caps.
-        float lit=clamp(ambient+uLightIntensity*sunlight*(.53+diffuse*.24+rim*.07),0.0,.91);
-        vec3 contactShade=shadeColor*mix(.62,1.0,sunlight);
-        vec3 scatter=mix(contactShade,sunColor,lit);
-        // Thin grazing caps need enough optical depth to retain a clear lit edge.
-        float alpha=1.0-exp(-density*stride*(14.0+rim*42.0));
-        color+=transmittance*alpha*scatter; transmittance*=1.0-alpha;
-      }
-      travel+=stride;
-    }
-    if(transmittance<.008 || travel>6.2) break;
+  if(uCoverage<.001 || uDensity<.001) {
+    fragColor=vec4(pow(clamp(sky,0.0,1.0),vec3(1.0/2.2)),1); return;
   }
-  fragColor=vec4(pow(clamp(color+sky*transmittance,0.0,1.0),vec3(1.0/2.2)),1);
+
+  // Intersect the visible caps analytically, once per lobe. The old density
+  // marcher evaluated this entire field again at every view and shadow step.
+  // A uniform loop bound also avoids large driver-unrolled shader programs.
+  vec2 texturePoint=xy+vec2(uSeed*.19,uSeed*.37+time*.008);
+  vec3 broad=cloudNoise(texturePoint*10.7), fine=cloudNoise(texturePoint*29.1);
+  float fineWeight=1.0-smoothstep(.16,.42,29.1*3.9/(uScale*uResolution.y));
+  float detail=(broad.x-.5)*.018+(fine.x-.5)*.005*fineWeight;
+  vec2 detailSlope=broad.yz*(10.7*.018)+fine.yz*(29.1*.005*fineWeight);
+  vec2 warp=vec2(cloudNoise(texturePoint*5.3).x,cloudNoise(texturePoint*5.3+19.0).x)-.5;
+  vec2 point=xy+warp*.045;
+  float surface=10.0, edgeDistance=10.0, thickness=0.0;
+  vec2 slope=vec2(0);
+  float expansion=(uCoverage-.62)*.7;
+  for(int index=0;index<uCloudLobeCount;index++) {
+    vec4 lobe=uCloudLobes[index];
+    float stretch=uCloudShapes[index];
+    bool root=index%7==0;
+    float radius=max(.025,lobe.w*(root?.88:(.85+uBillow*.28))+expansion);
+    vec2 drift=vec2(sin(time*.13+lobe.z*.12)*(.18+.055*(2.0-lobe.z)),
+      sin(time*.11+lobe.z*.5)*.025);
+    vec2 q=(point+drift-lobe.xy)/vec2(1,stretch);
+    // Most projected caps do not cover this pixel. Reject before sqrt.
+    if(any(greaterThan(abs(q),vec2(radius+.06)))) continue;
+    float distance=length(q), edge=distance-radius+detail;
+    edgeDistance=min(edgeDistance,edge);
+    if(edge>.04) continue;
+    float depth=sqrt(max(0.0,radius*radius-distance*distance));
+    float front=lobe.z-depth, blend=clamp(.5+.5*(surface-front)/.09,0.0,1.0);
+    slope=mix(slope,q/(max(depth,.035)*vec2(1,stretch)),blend);
+    surface=mix(surface,front,blend)-.09*blend*(1.0-blend);
+    thickness=max(thickness,depth*2.0);
+  }
+
+  // Analytic slopes stay smooth at every render scale. Screen derivatives
+  // would quantize normals into 2-by-2 pixel blocks on low-resolution canvases.
+  vec3 normal=normalize(vec3(slope+detailSlope*1.7,-1.0));
+  vec3 light=normalize(vec3(-cos(uSunAngle)*.8,sin(uSunAngle)*.85+.25,-.55));
+  float diffuse=max(dot(normal,light),0.0);
+  float ambient=.19+.12*(normal.y*.5+.5);
+  float lit=clamp(ambient+uLightIntensity*(.23+diffuse*.58),0.0,.97);
+  vec3 cloud=mix(shadeColor*.83,sunColor,lit);
+  float feather=.006+uSoftness*.085;
+  float alpha=(1.0-smoothstep(-feather,feather,edgeDistance));
+  alpha*=1.0-exp(-uDensity*(3.0+thickness*5.0));
+  fragColor=vec4(pow(clamp(mix(sky,cloud,alpha),0.0,1.0),vec3(1.0/2.2)),1);
 }`;

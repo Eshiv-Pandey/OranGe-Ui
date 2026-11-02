@@ -24,7 +24,7 @@ import { DriftingClouds } from "./components/ui/drifting-clouds";
 | `density` | `0.75` | `0..1`; optical density. Zero clears the sky. |
 | `billow` | `0.6` | `0..1`; size of the nested cloud lobes. |
 | `softness` | `0.2` | `0..1`; softness of cloud edges. |
-| `sunAngle` | `35` | `0..360` degrees; changes the light and self-shadow direction. |
+| `sunAngle` | `35` | `0..360` degrees; changes the direction of light on the cloud caps. |
 | `lightIntensity` | `1` | `0..2`; sunlight intensity. |
 | `seed` | `7` | `0..1000`; reproducible internal billow structure. |
 | `skyColor` | `#087bbd` | Sky tint, as a three- or six-digit hex color. |
@@ -37,11 +37,15 @@ import { DriftingClouds } from "./components/ui/drifting-clouds";
 
 The renderer pauses when offscreen or in a hidden tab and renders a still frame for reduced motion. A server-rendered CSS gradient in the chosen sky/cloud/shadow palette remains available until WebGL2 is ready or when the context is unavailable. The rendering is procedural and does not use a photograph as a texture.
 
-The density field has twelve connected root volumes and seventy-two uneven outer lobes. The roots keep the tower connected across seeds; outer lobes, folds and fine erosion define its visible surface. Smaller uneven caps articulate both the front faces and silhouettes of the crown and shoulder. Only the two nearest nested cap groups are evaluated in each region, and grazing-angle optical depth keeps their edges clear. Higher volumes recede behind nearer side and lower banks. Adaptive view marching resolves the surface. A close sun sample separates cap contacts, while four expanding samples account for shadows cast by neighboring billows. Direct diffuse light respects that occlusion, separating recessed blue pockets from sunlit caps. Surface normals and light scattering operate in linear color space before display conversion.
+The field has twelve connected root volumes and seventy-two uneven outer lobes. Each projected cap is intersected analytically in a single bounded pass, with cheap bounds checks before evaluating its surface. Smoothly joined front surfaces provide normals for directional light; seeded noise and its analytic gradients add fine detail without blocky screen derivatives. This is an approximation of cloud volume, with no nested view marching or shadow marching. Colors are shaded in linear light before display conversion.
 
-Drift stays within a bounded region even during long sessions. The shader caps view traversal at 84 steps and exits early once the cloud becomes opaque or the ray leaves the field. `renderScale` controls the fill cost; use a lower value for many simultaneous previews. The shared renderer owns context restoration, resize, cleanup and frame capture.
+Drift stays within a bounded region even during long sessions. The source module limits rendering to 360,000 pixels and 30 frames per second. The limit remains in force on high-DPR screens and when `renderScale` is 1. Resolution changes preserve the canvas aspect ratio. Controls, paused edits and explicit captures still redraw immediately. The shared renderer owns context restoration, resize, cleanup and frame capture.
 
-## Verification, 1 November 2026
+## Performance correction, 2 November 2026
+
+The previous nested shader could freeze navigation during compilation and overload the GPU during playback. It was replaced with the analytic pass described above. The current development-browser regression covers animation, lighting and coverage edits, reduced motion, context loss/restoration, repeated sidebar navigation, all five appearances, and a 2200 by 1400 viewport at DPR 3. The pixel budget also holds with render scale set to 1. Current evidence is under `out/iteration/effects-fix/`; the retained evidence below describes the older renderer.
+
+## Historical verification, 1 November 2026
 
 - All five focused tests in `tests/drifting-clouds.test.tsx` pass on the final material. They cover SSR output and caller colors in all five appearances, accessible naming and style forwarding, malformed numeric settings, deterministic seed changes, live demo edits and pause propagation without renderer replacement, and compact thumbnail reuse.
 - The final `clouds.ts`, `clouds-field.ts` and shared `renderer.ts` hashes match `out/iteration/clouds/silhouette-report.json`. Its 600 by 900 portrait and 960 by 620 desktop captures pass deterministic still-frame, animation, one-hour shader-time sample, and seed/billow/softness/scale checks with no WebGL errors. Earlier captures and shader sources are preserved in the adjacent evidence archives.

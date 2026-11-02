@@ -15,13 +15,14 @@ export function creativeColor(value: string): [number, number, number] {
 }
 
 /** An original shared WebGL lifecycle, including actual context restoration. */
-export function createCreativeWebGL(canvas: HTMLCanvasElement, fragmentSource: string, uniforms: (frame: CreativeShaderFrame) => CreativeUniforms, options: { onState?: (ready: boolean) => void; onActive?: (active: boolean) => void } = {}) {
+export function createCreativeWebGL(canvas: HTMLCanvasElement, fragmentSource: string, uniforms: (frame: CreativeShaderFrame) => CreativeUniforms, options: { onState?: (ready: boolean) => void; onActive?: (active: boolean) => void; renderBudget?: { maxPixels: number; maxFps: number; maxDpr: number } } = {}) {
   let gl: WebGLRenderingContext | null = null;
   try { gl = canvas.getContext("webgl", { alpha: false, antialias: false, preserveDrawingBuffer: true }); } catch {}
   if (!gl) { options.onState?.(false); return { available: false, redraw() {}, destroy() {} }; }
   const context = gl;
   let program: WebGLProgram | null = null, buffer: WebGLBuffer | null = null, lost = false, destroyed = false;
   let width = 1, height = 1, reduced = true, time = 0;
+  let lastPaintTime = -Infinity;
   const locations = new Map<string, WebGLUniformLocation | null>();
   const compile = (type: number, source: string) => {
     const shader = context.createShader(type); if (!shader) throw new Error("Shader unavailable");
@@ -64,9 +65,12 @@ export function createCreativeWebGL(canvas: HTMLCanvasElement, fragmentSource: s
     context.drawArrays(context.TRIANGLES, 0, 6);
   };
   const resize = () => {
-    const box = canvas.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+    const box = canvas.getBoundingClientRect(), dpr = Math.min(options.renderBudget?.maxDpr ?? 2, window.devicePixelRatio || 1);
     width = Math.max(1, box.width); height = Math.max(1, box.height);
-    canvas.width = Math.max(1, Math.round(width * dpr)); canvas.height = Math.max(1, Math.round(height * dpr)); paint();
+    const ratio = Math.min(dpr, Math.sqrt((options.renderBudget?.maxPixels ?? Infinity) / (width * height)));
+    const nextWidth = Math.max(1, Math.floor(width * ratio)), nextHeight = Math.max(1, Math.floor(height * ratio));
+    if (canvas.width !== nextWidth || canvas.height !== nextHeight) { canvas.width = nextWidth; canvas.height = nextHeight; }
+    paint();
   };
   const onLost = (event: Event) => { event.preventDefault(); lost = true; options.onState?.(false); };
   const onRestored = () => { if (destroyed) return; lost = false; program = null; buffer = null; locations.clear(); initialize(); resize(); };
@@ -75,7 +79,13 @@ export function createCreativeWebGL(canvas: HTMLCanvasElement, fragmentSource: s
   const observer = typeof ResizeObserver === "function" ? new ResizeObserver(resize) : null; observer?.observe(canvas);
   if (!observer) window.addEventListener("resize", resize);
   const activity = createMotionActivity(canvas, {
-    onFrame: (frame) => { time = frame.time; paint(frame.delta / 1000); },
+    onFrame: (frame) => {
+      time = frame.time;
+      if (time - lastPaintTime < 1000 / (options.renderBudget?.maxFps ?? Infinity) - 1) return;
+      const delta = Number.isFinite(lastPaintTime) ? Math.min(.05, (time - lastPaintTime) / 1000) : 0;
+      lastPaintTime = time;
+      paint(delta);
+    },
     onStatus: (status) => { reduced = status === "reduced"; options.onActive?.(status === "running"); paint(); },
   });
   const releaseCapture = registerCanvasFrame(canvas, paint);
@@ -85,7 +95,10 @@ export function createCreativeWebGL(canvas: HTMLCanvasElement, fragmentSource: s
     destroy() {
       destroyed = true; releaseCapture(); activity.destroy(); observer?.disconnect(); if (!observer) window.removeEventListener("resize", resize);
       canvas.removeEventListener("webglcontextlost", onLost); canvas.removeEventListener("webglcontextrestored", onRestored);
-      dispose(); context.getExtension("WEBGL_lose_context")?.loseContext();
+      // React can immediately reuse this canvas when replaying effects in
+      // development. Delete our resources, but leave its browser-owned context
+      // usable for the next owner. Forcing loss here strands that next mount.
+      dispose();
     },
   };
 }
