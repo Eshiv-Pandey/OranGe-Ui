@@ -25,7 +25,7 @@ export function PlayerControls({ player }: { player: AudioPlayer }) {
 export function PlayerVolume({ player, showSlider = true }: { player: AudioPlayer; showSlider?: boolean }) {
   return <div className="creative-volume">
     <button type="button" className="creative-icon-button" aria-label={player.muted ? "Unmute" : "Mute"} aria-pressed={player.muted} onClick={player.toggleMute}><CreativeIcon name={player.muted ? "muted" : "speaker"} /></button>
-    {showSlider && <input aria-label="Volume" type="range" min="0" max="1" step="0.01" value={player.volume} onChange={(event) => player.setVolume(Number(event.target.value))} />}
+    {showSlider && <input aria-label="Volume" type="range" min="0" max="1" step="0.01" value={player.volume} style={{ "--volume": player.volume * 100 + "%" } as React.CSSProperties} onChange={(event) => player.setVolume(Number(event.target.value))} />}
   </div>;
 }
 

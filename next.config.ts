@@ -24,6 +24,7 @@ const privateFiles = ["./AGENTS.md", "./USER_INSTRUCTIONS.md", "./CONTRIBUTION_R
 const config: NextConfig = {
   poweredByHeader: false,
   redirects: async () => [
+    { source: "/components/shader-canvas", destination: "/components/grain-gradient", permanent: true },
     { source: "/components/livery-editor", destination: "/components/open-wheel-car", permanent: true },
     { source: "/components/helmet-editor", destination: "/components/helmet", permanent: true },
   ],

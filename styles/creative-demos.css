@@ -1,6 +1,15 @@
 .creative-demo .creative-demo-preview > .anime-fire, .creative-demo .creative-demo-preview > .grain-gradient { width: 100%; }
 .creative-demo .anime-fire .shader-sound-toggle { top: 16px; bottom: auto; }
+.creative-demo .grain-gradient .shader-export { top: 16px; left: 16px; right: auto; bottom: auto; }
+.creative-demo .grain-gradient .shader-feedback { bottom: 74px; }
 .creative-demo .creative-controls { --creative-line: var(--line); }
+.workspace-view .frosted-glass-stage { max-height: calc(var(--workbench-height) - 146px); }
+.frost-background-upload { display: grid; gap: 8px; }
+.frost-background-upload input { width: 100%; font-size: 11px; }
+.frost-background-upload small { color: var(--creative-muted); line-height: 1.6; }
+@container frosted-glass (max-width: 540px) {
+  .workspace-view .frosted-glass-stage { max-height: calc(var(--workbench-height) - 220px); }
+}
 .creative-demo-loading { display: flex; align-items: center; justify-content: center; min-height: 280px; color: var(--muted); font-size: 12px; }
 .component-notes { margin-top: 38px; }
 .component-notes h2 { font-size: 21px; margin: 0 0 14px; }

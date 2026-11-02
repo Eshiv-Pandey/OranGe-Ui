@@ -4,21 +4,27 @@ import { useState } from "react";
 import type { Appearance } from "../ui/appearance";
 import { CreativeWorkbench } from "../ui/creative-editor-slot";
 import { FlowingGrass } from "../ui/flowing-grass";
+import { MEADOW_PALETTES } from "../ui/nature-palettes";
+import { PaletteShelf } from "./palette-shelf";
 import { useCreativeTheme, type CreativeTheme } from "../ui/creative-surface";
 import { ShaderRange as Range, ShaderCheck as Check, ShaderColor as Color, ShaderSelect as Select } from "./shader-demo-controls";
 import "../../styles/creative-demos.css";
 
 export default function FlowingGrassDemo({ appearance = "polished", thumbnail = false }: { appearance?: Appearance; thumbnail?: boolean }) {
   const resolved = useCreativeTheme();
-  const [speed, setSpeed] = useState(.7), [wind, setWind] = useState(.7), [gust, setGust] = useState(.6), [direction, setDirection] = useState(32);
+  const [speed, setSpeed] = useState(.7), [wind, setWind] = useState(.7), [gust, setGust] = useState(.6), [direction, setDirection] = useState(62);
   const [density, setDensity] = useState(80), [length, setLength] = useState(1.25), [seed, setSeed] = useState(7), [renderScale, setRenderScale] = useState(.8);
-  const [color, setColor] = useState("#76aa3c"), [tip, setTip] = useState("#d5ee94"), [shadow, setShadow] = useState("#071f16");
+  const [color, setColor] = useState("#76aa3c"), [tip, setTip] = useState("#e3ed9d"), [shadow, setShadow] = useState("#17351d");
+  const [flowers, setFlowers] = useState(.55), [sunlight, setSunlight] = useState(1.2);
   const [paused, setPaused] = useState(false), [pointer, setPointer] = useState(true), [radius, setRadius] = useState(.22), [strength, setStrength] = useState(1), [theme, setTheme] = useState<CreativeTheme>("auto");
   const preview = <FlowingGrass appearance={appearance} theme={theme} speed={speed} windStrength={wind} gustSpeed={gust}
-    direction={direction} density={density} bladeLength={length} seed={seed} color={color} tipColor={tip} shadowColor={shadow}
+    direction={direction} density={density} bladeLength={length} seed={seed} color={color} tipColor={tip} shadowColor={shadow} flowers={flowers} sunlight={sunlight}
     renderScale={thumbnail ? .5 : renderScale} paused={paused} interaction={{ warp: pointer, radius, strength }} />;
   return <div className={"creative-surface " + (thumbnail ? "creative-thumbnail" : "creative-demo")} data-theme={resolved}>
     {thumbnail ? preview : <CreativeWorkbench preview={preview}>
+      <PaletteShelf id="meadow" presets={Object.entries(MEADOW_PALETTES).map(([key, palette]) => ({ name: ({ sunroom: "Sunroom", clover: "Clover field", lateSummer: "Late summer", silverMorning: "Silver morning" })[key]!, colors: Object.values(palette) }))} colors={[color, tip, shadow]} onChange={([grass, light, shade]) => { setColor(grass); setTip(light); setShadow(shade); }} />
+      <Range label="Wildflowers" value={flowers} onChange={setFlowers} />
+      <Range label="Meadow sunlight" value={sunlight} onChange={setSunlight} min={.4} max={1.6} />
       <Range label="Wind speed" value={speed} onChange={setSpeed} max={3} />
       <Range label="Wind strength" value={wind} onChange={setWind} max={2} />
       <Range label="Gust speed" value={gust} onChange={setGust} max={2} />

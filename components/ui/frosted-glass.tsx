@@ -14,6 +14,8 @@ export type FrostedGlassProps = {
   background?: string | ReactNode; frostBlur?: number; tint?: string; grain?: number; brushSize?: number;
   brushSoftness?: number; regrowMs?: number; text?: string; font?: string; onClear?: () => void; showResetButton?: boolean;
   condensationDrips?: boolean; muted?: boolean; volume?: number; theme?: CreativeTheme; appearance?: Appearance; className?: string;
+  /** Put the actions alongside a tall pane; stacks naturally in narrow containers. */
+  controlsPosition?: "bottom" | "side";
 };
 type PointerPath = { last: FrostPoint; midpoint: FrostPoint };
 function paintCoveredImage(context: CanvasRenderingContext2D, source: HTMLImageElement | HTMLCanvasElement, width: number, height: number) {
@@ -31,7 +33,7 @@ function paintCssBackground(context: CanvasRenderingContext2D, background: strin
   context.fillRect(0, 0, width, height);
 }
 
-export function FrostedGlass({ background = BOTANICAL_GARDEN, frostBlur = 22, tint = "rgba(220,232,229,0.52)", grain = 0.28, brushSize = 48, brushSoftness = 0.7, regrowMs = 0, text = "", font = "italic bold 94px Georgia", onClear, showResetButton = true, condensationDrips = false, muted = true, volume = 0.2, theme = "auto", appearance = "polished", className }: FrostedGlassProps) {
+export function FrostedGlass({ background = BOTANICAL_GARDEN, frostBlur = 22, tint = "rgba(220,232,229,0.52)", grain = 0.28, brushSize = 48, brushSoftness = 0.7, regrowMs = 0, text = "", font = "italic bold 94px Georgia", onClear, showResetButton = true, condensationDrips = false, muted = true, volume = 0.2, theme = "auto", appearance = "polished", className, controlsPosition = "bottom" }: FrostedGlassProps) {
   const root = useRef<HTMLDivElement>(null), stage = useRef<HTMLDivElement>(null), canvas = useRef<HTMLCanvasElement>(null), source = useRef<HTMLImageElement>(null), backdrop = useRef<HTMLDivElement>(null);
   const mask = useRef<HTMLCanvasElement | null>(null), renderer = useRef<ReturnType<typeof createCreativeCanvas> | null>(null), audio = useRef<ReturnType<typeof createCreativeSound> | null>(null);
   const paths = useRef(new Map<number, PointerPath>()), dirty = useRef(true), reset = useRef(true), holes = useRef(false), keyboard = useRef<FrostPoint>({ x: 140, y: 160, pressure: 0.7 });
@@ -109,7 +111,8 @@ export function FrostedGlass({ background = BOTANICAL_GARDEN, frostBlur = 22, ti
     return { x: event.clientX - box.left, y: event.clientY - box.top, pressure: event.pointerType === "pen" || event.pointerType === "touch" ? event.pressure || 0.55 : 0.7 };
   };
   const isImage = typeof background === "string" && !background.includes("gradient(") && !/^(#|rgb|hsl|transparent|[a-z]+$)/i.test(background);
-  return <div className={cn("creative-surface frosted-glass", className)} ref={root} data-theme={resolved} data-appearance={appearance}>
+  return <div className={cn("creative-surface frosted-glass", className)} ref={root} data-theme={resolved} data-appearance={appearance} data-controls={controlsPosition}>
+    <div className="frosted-glass-layout">
     <div ref={stage} className="frosted-glass-stage">
       <div ref={backdrop} className="frosted-glass-background" style={typeof background === "string" && !isImage ? { background } : undefined}>{isImage ? <img ref={source} src={background as string} alt="" onLoad={() => { dirty.current = true; renderer.current?.redraw(); }} /> : typeof background !== "string" ? background : null}</div>
       <div className="frosted-glass-initial" aria-hidden="true" style={{ backdropFilter: "blur(" + frostBlur + "px)", background: tint } as CSSProperties} />
@@ -124,6 +127,7 @@ export function FrostedGlass({ background = BOTANICAL_GARDEN, frostBlur = 22, ti
           const next = { ...previous, x: clamp(previous.x + dx, 0, stage.current.clientWidth), y: clamp(previous.y + dy, 0, stage.current.clientHeight) }; brush(previous, previous, next); keyboard.current = next;
         }} />
     </div>
-    <div className="frosted-glass-footer"><span>Draw on the glass to reveal the garden.</span><div className="creative-actions"><button type="button" className="creative-icon-button" aria-label={isMuted ? "Unmute wipe sound" : "Mute wipe sound"} aria-pressed={isMuted} onClick={() => { if (isMuted) audio.current?.unlock(); setMuted(!isMuted); }}><CreativeIcon name={isMuted ? "muted" : "speaker"} /></button><button type="button" className="creative-button" onClick={clearGlass}>Clear glass</button>{showResetButton && <button type="button" className="creative-button" onClick={resetGlass}><CreativeIcon name="refresh" width="13" height="13" />Reset frost</button>}</div></div>
+    <div className="frosted-glass-footer"><span>Draw to let the light in.</span><div className="creative-actions"><button type="button" className="creative-icon-button" aria-label={isMuted ? "Unmute wipe sound" : "Mute wipe sound"} aria-pressed={isMuted} onClick={() => { if (isMuted) audio.current?.unlock(); setMuted(!isMuted); }}><CreativeIcon name={isMuted ? "muted" : "speaker"} /></button><button type="button" className="creative-button" onClick={clearGlass}>Clear glass</button>{showResetButton && <button type="button" className="creative-button" onClick={resetGlass}><CreativeIcon name="refresh" width="13" height="13" />Reset frost</button>}</div></div>
+    </div>
   </div>;
 }

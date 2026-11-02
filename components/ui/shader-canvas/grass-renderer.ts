@@ -13,11 +13,11 @@ export function createGrassRenderer(canvas: HTMLCanvasElement, read: () => Grass
   const gl = canvas.getContext("webgl2", { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: "low-power" });
   if (!gl) { state(false); return { redraw() {}, destroy() {} }; }
   let leaves: Program | null = null, ground: Program | null = null, vao: WebGLVertexArrayObject | null = null, buffer: WebGLBuffer | null = null;
-  let fieldKey = "", count = 0, raf = 0, previous = 0, time = 0, disposed = false, lost = false, visible = !window.IntersectionObserver;
+  let fieldKey = "", count = 0, raf = 0, previous = 0, lastFrame = 0, time = 0, disposed = false, lost = false, visible = !window.IntersectionObserver;
   let cssWidth = 1, cssHeight = 1, tx = .5, ty = .5, px = .5, py = .5, vx = 0, vy = 0, velocityX = 0, velocityY = 0, active = 0, targetActive = 0, scroll = 0;
   const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const canAnimate = () => !disposed && !lost && visible && !document.hidden && !motion.matches && !read().paused;
-  const stop = () => { cancelAnimationFrame(raf); raf = 0; previous = 0; };
+  const stop = () => { cancelAnimationFrame(raf); raf = 0; previous = 0; lastFrame = 0; };
 
   function program(vertexSource: string, fragmentSource: string): Program {
     const handle = gl!.createProgram();
@@ -69,7 +69,7 @@ export function createGrassRenderer(canvas: HTMLCanvasElement, read: () => Grass
     const dpr = Math.min(window.devicePixelRatio || 1, 2.5), scale = clamp(config.renderScale, .25, 1, 1);
     const max = Math.min(gl!.getParameter(gl!.MAX_TEXTURE_SIZE), 4096);
     // Bound fill cost even when a large canvas is used on a high-density screen.
-    const budget = Math.min(1, Math.sqrt(2400000 / (cssWidth * cssHeight * dpr * dpr * scale * scale)));
+    const budget = Math.min(1, Math.sqrt(900000 / (cssWidth * cssHeight * dpr * dpr * scale * scale)));
     const width = Math.max(1, Math.min(max, Math.round(cssWidth * dpr * scale * budget)));
     const height = Math.max(1, Math.min(max, Math.round(cssHeight * dpr * scale * budget)));
     if (canvas.width !== width || canvas.height !== height) { canvas.width = width; canvas.height = height; }
@@ -106,6 +106,7 @@ export function createGrassRenderer(canvas: HTMLCanvasElement, read: () => Grass
         gl!.useProgram(pass.handle);
         uniform(pass, "uResolution", [canvas.width, canvas.height]); uniform(pass, "uCssSize", [cssWidth, cssHeight]);
         uniform(pass, "uDirection", settings.direction * Math.PI / 180); uniform(pass, "uSeed", settings.seed);
+        uniform(pass, "uSunlight", settings.sunlight); uniform(pass, "uFlowers", settings.flowers);
         uniform(pass, "uGrassColor", grassRgb(settings.color)); uniform(pass, "uTipColor", grassRgb(settings.tipColor)); uniform(pass, "uShadowColor", grassRgb(settings.shadowColor));
         if (pass === ground) { gl!.disable(gl!.BLEND); gl!.drawArrays(gl!.TRIANGLES, 0, 3); }
         else {
@@ -122,7 +123,7 @@ export function createGrassRenderer(canvas: HTMLCanvasElement, read: () => Grass
     } catch { stop(); releaseGpu(); state(false); return; }
     if (canAnimate() && !raf) raf = requestAnimationFrame(frame);
   }
-  function frame(now: number) { raf = 0; if (canAnimate()) draw(now, true); }
+  function frame(now: number) { raf = 0; if (!canAnimate()) return; if (lastFrame && now - lastFrame < 1000 / 30 - 1) { raf = requestAnimationFrame(frame); return; } lastFrame = now; draw(now, true); }
   function redraw() { if (!document.hidden) draw(performance.now(), false); if (!canAnimate()) stop(); }
   // Foregrounding refreshes static frames too, without restarting their animation.
   function visibility() { if (visible && !document.hidden) redraw(); else stop(); }

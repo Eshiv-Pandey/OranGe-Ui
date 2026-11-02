@@ -164,17 +164,25 @@ components:
     textColor: "{colors.ink-light}"
     rounded: "{rounded.small}"
     padding: "4px 6px 4px 4px"
-  playground-dock:
-    backgroundColor: "color-mix(in srgb, var(--surface) 72%, transparent)"
+  palette-swatch:
+    backgroundColor: "transparent"
     textColor: "{colors.muted-light}"
+    padding: "0px"
+  palette-swatch-selected:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink-light}"
+    padding: "0px"
+  playground-dock:
+    backgroundColor: "color-mix(in srgb, var(--surface) 48%, transparent)"
+    textColor: "{colors.ink-light}"
     rounded: "{rounded.pill}"
-    padding: "6px"
+    padding: "4px"
   playground-tab-selected:
     backgroundColor: "{colors.ink-light}"
     textColor: "{colors.surface-light}"
     typography: "{typography.label}"
     rounded: "{rounded.pill}"
-    padding: "10px 16px"
+    padding: "7px 14px"
   landing-navigation:
     backgroundColor: "{colors.reference-nav-glass}"
     textColor: "#f1f2f7"
@@ -258,6 +266,8 @@ The component workspace uses a fixed navigation rail (240px, or 64px collapsed),
 
 At widths up to 800px, the stage sits above the inspector and the navigation moves to its mobile controls. The stage has a minimum height (340px), the workbench follows the compact viewport, and the inspector body remains bounded (maximum 420px). Keep all three dock labels and the documentation link in one row.
 
+FrostedGlass owns the container that reflows its optional side actions below the pane. This layout travels with the installed component and responds to the space available inside an embed, independently of the library workspace.
+
 The landscape follows its own reference composition: central figure and river, top-center navigation, lower-left title, right-side action and lower divider/copy. At widths up to 700px, the text and action stack below the focal image area. Preserve that responsive relationship without imposing its composition on library pages. See [the landing surface brief](.impeccable/surfaces/app-page-tsx.md) and [the playground surface brief](.impeccable/surfaces/components-library-component-detail-tsx.md).
 
 **The Preview First Rule.** Keep the preview visible while editing, reserve space for its dock, and give the inspector its own scroll region when the layout is side by side.
@@ -266,11 +276,11 @@ The landscape follows its own reference composition: central figure and river, t
 
 Depth is material-specific. Polished controls and standard cards use subtle ambient shadows. Pixelated and Neobrutalism use solid offset shadows. Retro OS uses opposing light and dark bevels. Terminal uses fine lines and flat surfaces. The workspace stage and inspector rely on tone and borders rather than ornamental shadow.
 
-The landscape's image carries its depth. Navigation and its main action use a restrained blur (16px); the playground dock uses a stronger blur with saturation (22px, 1.4). The sidecar records the exact shadow and motion vocabulary, which the frontmatter schema cannot represent.
+The landscape's image carries its depth. Navigation and its main action use a restrained blur (16px); the playground dock uses a stronger blur with saturation (24px, 1.55). GlassPlayer and FrostedGlass retain their own translucent component materials. The sidecar records the exact shadow and motion vocabulary, which the frontmatter schema cannot represent.
 
 Transitions provide brief state feedback. Pixelated and Retro OS/Terminal retain their stepped timing where authored. Reduced-motion rules remove decorative CSS animation and transitions, and canvas components retain their static presentation. Landscape movement remains localized to flowers, grass, mist and small sparkles; the fixed person is protected.
 
-**The Scoped Glass Rule.** Use glass on the landscape navigation and action, and on the playground dock. Keep the inspector's field boundaries and neutral surfaces intact.
+**The Scoped Glass Rule.** Use glass on the landscape navigation and action, the playground dock, and components whose own material is glass. Keep the inspector's field boundaries and neutral surfaces intact.
 
 ## Shapes
 
@@ -310,13 +320,19 @@ Badges are compact passive labels, with optional dots and semantic tones. Do not
 
 Library navigation keeps brand and search stationary while the component list scrolls. The active entry uses readable text and a visible neutral boundary. The landing navigation retains its compact five-item arrangement with the orange logo at the center.
 
-The playground dock contains Preview, Usage and Source, followed by the documentation link. Selected tabs invert ink and surface; unselected tabs use muted text with clear hover and focus feedback. Keep the implemented arrow-key, Home and End behavior. A component entry starts in Preview, while explicit documentation navigation remains reachable.
+The playground dock contains Preview, Usage and Source, followed by the documentation link. Its shorter frame preserves a minimum height (44px) and compact tab targets (34px). Selected tabs invert ink and surface; unselected tabs use ink with clear hover and focus feedback. Keep the implemented arrow-key, Home and End behavior. A component entry starts in Preview, while explicit documentation navigation remains reachable.
+
+### Color studies
+
+The shared palette shelf presents named color strips in two columns, with an accent outline and pressed state identifying a selected study. Fire, gradient, meadow and sky editors share this pattern while keeping their individual color fields. Custom studies are named, saved and removable on the current device, with storage feedback presented as status text. Component study colors remain editable artwork, not workspace theme tokens.
+
+The public gradient editor is GrainGradient. ShaderCanvas remains an installable composition engine, while its former catalogue route leads to that single editor.
 
 ### Landscape and nature surfaces
 
 Use the existing cleaned photographic plate and masks for the landscape, preserving the recognizable river, fixed central figure, restrained type and orange logo. Keep scene motion subtle and localized; navigation, copy and the pause control remain HTML. The previous landing remains a separate visual surface at `/classic`.
 
-FlowingGrass uses overlapping, rooted blades with directional wind and local interaction. DriftingClouds uses connected cumulus forms, lit rims and shaded volume over blue sky. Their material, color controls and appearance APIs belong to the component examples, while the inspector remains consistent. Keep static presentation and motion preferences part of the component contract.
+SeasonTree uses layered foliage and a continuous, tapered branching form on a transparent canvas, so the chosen preview surface remains visible around the artwork. FlowingGrass uses fine, overlapping rooted blades, sunlight, optional flowers, directional wind and local interaction. DriftingClouds uses bounded cloud volume with lit edges and interior shadow. Their material, color controls and appearance APIs belong to the component examples, while the inspector remains consistent. Keep static presentation and motion preferences part of the component contract.
 
 ## Do's and Don'ts
 

@@ -30,14 +30,14 @@ const textNotes = [
   "Override --font-hindi-display and --font-hinglish-display for your own licensed or premium fonts without changing the component API. Transliteration is phonetic with a common-word dictionary, rather than translation.",
 ];
 export const CREATIVE_COMPONENTS: ComponentDefinition[] = [
-  definition("season-tree", "SeasonTree", undefined, "An original animated tree that moves through blossom, summer, autumn, maple and winter.", '<SeasonTree season="yellow" showPicker />', "Tab through the season picker; Enter or Space changes season.", [
-    ["season / onSeasonChange", "TreeSeason / callback", "yellow", "Controlled or local pink, green, yellow, red or winter season."],
+  definition("season-tree", "SeasonTree", "polished", "An illustrated seasonal tree with intricate branches, rich foliage and falling leaves on a transparent canvas.", '<SeasonTree season="red" showPicker />', "Tab through the season picker; Enter or Space changes season.", [
+    ["season / onSeasonChange", "TreeSeason / callback", "red", "Controlled or local pink, green, yellow, red or winter season."],
     ["showPicker", "boolean", "true", "Built-in season picker."],
-    ["windStrength / fallRate", "number / number", "0.6 / 1", "Canopy sway, drift and falling leaves per second."],
-    ["pixelSize", "number", "Appearance-specific", "Canvas resolution; defaults to 3 in Pixelated and 1 in other appearances."],
+    ["windStrength / fallRate", "number / number", "0.6 / 2.5", "Canopy sway, drift and falling leaves per second. At most 45 leaves are in flight."],
+    ["pixelSize", "number", "Not set", "Optional lower canvas resolution. The default retains smooth illustrated detail."],
     ["background", "string", "transparent", "Custom backdrop or transparent."],
-    ["paused / size", "boolean / number | string", "false / 340", "Freeze decorative motion; responsive maximum width."],
-  ], ["All foliage and branch geometry is procedural and original. Seasons change density, shapes, sky, ground and separate foliage/falling palettes. Reduced motion retains a settled tree."]),
+    ["paused / size", "boolean / number | string", "false / 480", "Freeze decorative motion; responsive maximum width."],
+  ], ["Curved branches and thousands of individually shaped leaves are original procedural artwork. Three cached layers keep the canopy detailed without repainting every leaf on each frame. The background is transparent, with no ground slab. Seasons change foliage density and separate canopy/falling palettes; reduced motion retains a settled tree."]),
   definition("retro-player", "RetroPlayer", "retro-os", "A sticker-covered pocket player with a working click wheel and real music.", "<RetroPlayer tracks={CREATIVE_PLAYLIST} showEarbuds />", "Wheel buttons use Enter/Space. Focus the ring and use arrows to seek or change volume. Sticker arrows move, plus/minus resize, Delete removes.", [
     tracks, ["autoPlay", "boolean", "false", "Starts only after a gesture inside the player."],
     ["bodyColor / screenColor", "string / string", "#e6e5df / #f6f5ee", "Customize body and screen colors."],
@@ -105,12 +105,13 @@ export const CREATIVE_COMPONENTS: ComponentDefinition[] = [
     ["grainStyle / vignette / posterize / dither", "film | dots | noise / number / number / boolean", "film / 0 / 0 / false", "Texture, edge shading, band count and Bayer print."],
     ["showFullscreenButton", "boolean", "true", "Expand to the viewport. Escape or Exit full screen returns to the editor."],
     ["mode / showPoints / showExportButton / paused", "mesh | radial | conic / boolean / boolean / boolean", "mesh / false / true / false", "Shape, editable handles, export and manual pause."],
-  ], ["An independent original shader with more than four colors, named Indian-festival palettes, radial/conic modes and mesh points. No referenced gradient source is used.", "Reduced motion keeps a static field. Hidden frames pause; context restoration and a fallback image export are supported."]),
+  ], ["The single gradient playground combines flowing color, grain and editable mesh points. Color studies can be customized and saved on this device. Existing ShaderCanvas imports and registry installation remain available for custom source/effect pipelines; the old showcase URL redirects here.", "An independent original shader with more than four colors, named Indian-festival palettes, radial/conic modes and mesh points. No referenced gradient source is used.", "Reduced motion keeps a static field. Hidden frames pause; context restoration and a fallback image export are supported."]),
   definition("hindi-text", "HindiText", "polished", "Your words in a licensed Hindi display face, with offline transliteration and exports.", '<HindiText text="रंगों की दुनिया" />', "Type, paste, toggle transliteration, style your lettering and export using native controls.", textRows, textNotes, { customizerPreview: true }),
   definition("hinglish-text", "HinglishText", "polished", "Mixed Latin and Devanagari lettering with one visual voice and an original patterned backdrop.", '<HinglishText text="good वक्त" />', "Type mixed-script text, choose styling and use PNG/SVG export buttons.", textRows, textNotes, { customizerPreview: true }),
   definition("frosted-glass", "FrostedGlass", "polished", "Write through grainy glass to reveal the sharp garden beneath.", '<FrostedGlass text={"MAKE\\nROOM\\nFOR JOY"} />', "Pointer, touch and pen write. Arrows draw, Space clears, R resets. Reset, clear and mute are visible buttons.", [
     ["background", "string | ReactNode", "Original garden", "Image, CSS color/gradient or GrainGradient component."],
-    ["frostBlur / tint / grain", "number / string / number", "18 / translucent green / 0.18", "Blur, tint and fine grain."],
+    ["frostBlur / tint / grain", "number / string / number", "22 / translucent green / 0.28", "Blur, tint and fine grain."],
+    ["controlsPosition", "bottom | side", "bottom", "Side keeps the actions beside a tall glass pane and stacks them in a narrow container. The playground uses side."],
     ["brushSize / brushSoftness", "number / number", "48 / 0.7", "Pressure-aware diameter and feathered edge."],
     ["regrowMs", "number", "0", "Regrowth duration; 0 preserves clear strokes."],
     ["text / font", "string / string", "Empty / italic bold 66px Georgia", "Initial text cutout, including line breaks."],

@@ -7,6 +7,7 @@ import type { ShaderCanvasProps } from "./shader-canvas/types";
 import { grassRgb, normalizeGrassSettings, type GrassSettings } from "./shader-canvas/grass";
 import { createGrassRenderer } from "./shader-canvas/grass-renderer";
 import "../../styles/shader-canvas.css";
+export { MEADOW_PALETTES } from "./nature-palettes";
 
 export type FlowingGrassProps = Omit<ShaderCanvasProps, "source" | "modules" | "effects"> & Partial<GrassSettings>;
 

@@ -2,14 +2,14 @@
 import { readFile } from "node:fs/promises";
 import { strFromU8 } from "fflate";
 import { expect, it } from "vitest";
-import { components, componentsInCollection } from "../lib/components";
+import { components, componentsInCollection, findComponent } from "../lib/components";
 import { CREATIVE_COMPONENTS } from "../lib/creative-components";
 import { collectComponentSource, CREATIVE_AUDIO_ASSETS, CREATIVE_FONT_ASSETS } from "../lib/source-bundle";
 import { componentRegistryItem, registryAssetSource } from "../lib/component-registry";
 import { APPEARANCE_VALUES } from "../components/ui/appearance";
 
-for (const appearance of APPEARANCE_VALUES) for (const slug of ["anime-fire", "season-tree"]) it(`${slug} is discoverable and portable in ${appearance}`, async () => {
-  const component = componentsInCollection(appearance).find((item) => item.slug === slug)!;
+for (const appearance of APPEARANCE_VALUES) for (const slug of ["anime-fire", "season-tree"]) it(`${slug} remains portable in ${appearance}`, async () => {
+  const component = components.find((item) => item.slug === slug)!;
   expect(component).toBeDefined();
   const bundle = await collectComponentSource(component, appearance);
   expect(strFromU8(bundle.files["Example.tsx"])).toContain(`appearance="${appearance}"`);
@@ -17,12 +17,26 @@ for (const appearance of APPEARANCE_VALUES) for (const slug of ["anime-fire", "s
   expect(registry.files.some((file) => file.content.includes(`appearance="${appearance}"`))).toBe(true);
 }, 30_000);
 
-it("registers all 86 unique components and keeps creative pieces in their intended collections", () => {
-  expect(components).toHaveLength(86); expect(new Set(components.map(({ slug }) => slug)).size).toBe(86); expect(CREATIVE_COMPONENTS).toHaveLength(14);
+it("shows one gradient editor and keeps the shader engine installable", () => {
+  expect(components).toHaveLength(85); expect(new Set(components.map(({ slug }) => slug)).size).toBe(85); expect(CREATIVE_COMPONENTS).toHaveLength(14);
+  expect(components.some(({ slug }) => slug === "shader-canvas")).toBe(false);
+  expect(findComponent("shader-canvas")?.file).toBe("components/ui/shader-canvas.tsx");
   expect(components.some(({slug}) => slug === "livery-editor" || slug === "helmet-editor")).toBe(false);
   expect(componentsInCollection("pixel").filter((component) => component.collection).map(({ slug }) => slug)).toEqual([]);
   expect(componentsInCollection("retro-os").filter((component) => component.collection).map(({ slug }) => slug)).toEqual(["retro-player", "retro-camera"]);
-  expect(componentsInCollection("polished").filter((component) => component.collection)).toHaveLength(10);
+  expect(componentsInCollection("polished").filter((component) => component.collection)).toHaveLength(11);
+  expect(findComponent("season-tree")?.collection).toBe("polished");
+});
+
+it("includes the cloud lookup and complete reference license in ZIP and registry sources", async () => {
+  const component = findComponent("drifting-clouds")!;
+  const bundle = await collectComponentSource(component, "polished");
+  expect(bundle.files["components/ui/shader-canvas/clouds-noise.ts"]).toBeDefined();
+  expect(bundle.files["components/ui/nature-palettes.ts"]).toBeDefined();
+  const license = strFromU8(bundle.files["THIRD_PARTY_NOTICES.md"]);
+  expect(license).toContain("Shader Sky"); expect(license).toContain("Permission is hereby granted");
+  const registry = await componentRegistryItem(component, "polished");
+  expect(registry.files.some(({ path, content }) => path.endsWith("THIRD_PARTY_NOTICES.md") && content.includes("Shader Sky"))).toBe(true);
 });
 for (const component of CREATIVE_COMPONENTS) it("ships portable dependencies and a real example for " + component.name, async () => {
   const bundle = await collectComponentSource(component, component.collection ?? "polished");

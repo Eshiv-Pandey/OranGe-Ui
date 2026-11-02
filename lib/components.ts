@@ -1186,9 +1186,11 @@ export const components: ComponentDefinition[] = [
     ]
   }
 ];
-components.push(...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS);
+components.push(...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"));
 export function componentsInCollection(appearance: Appearance) { return components.filter((component) => !component.collection || component.collection === appearance); }
-export function findComponent(slug: string) { return components.find((component) => component.slug === slug); }
+// ShaderCanvas remains installable as the low-level engine behind the effects.
+// Its former showcase is now part of the single gradient playground.
+export function findComponent(slug: string) { return components.find((component) => component.slug === slug) ?? SHADER_COMPONENTS.find((component) => component.slug === slug); }
 export function componentUsage(component: ComponentDefinition, appearance: Appearance) {
   if (component.slug === "avatar-editor") return '"use client";\n\nimport { useState } from "react";\nimport { AvatarEditor } from "./components/ui/avatar-editor";\nimport { generateAvatarConfig } from "./lib/avatar/index";\n\nexport default function Example() {\n  const [config, setConfig] = useState(() => generateAvatarConfig("user-42"));\n  return <AvatarEditor appearance="' + appearance + '" seed="user-42" value={config} onChange={setConfig} />;\n}\n';
   const imports = [`import { ${component.name === "Toast" ? "Toast, ToastProvider" : component.name} } from "./${component.file.replace(/\.tsx$/, "")}";`];

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import type { Appearance } from "./appearance";
 import { createCreativeCanvas, useCreativeTheme, clamp, type CreativeTheme, type CreativeSize } from "./creative-surface";
-import { createSeasonFoliage, paintTreeBranches, seededTreeRandom, TREE_PALETTES, TREE_SEASONS, type TreeSeason, type TreeTile } from "./season-tree-art";
+import { createTreeLayers, paintTreeLeaf, seededTreeRandom, TREE_HEIGHT, TREE_WIDTH, TREE_PALETTES, TREE_SEASONS, type TreeSeason } from "./season-tree-art";
 import "../../styles/season-tree.css";
 
 export type SeasonTreeProps = {
@@ -12,78 +12,61 @@ export type SeasonTreeProps = {
   windStrength?: number; fallRate?: number; pixelSize?: number; background?: string; paused?: boolean;
   size?: CreativeSize; theme?: CreativeTheme; appearance?: Appearance; className?: string;
 };
-type FallingLeaf = { x: number; y: number; rotation: number; speed: number; drift: number; color: string };
+type FallingLeaf = { x: number; y: number; rotation: number; speed: number; drift: number; color: string; size: number; phase: number };
 
-export function SeasonTree({ season, onSeasonChange, showPicker = true, windStrength = 0.6, fallRate = 1, pixelSize, background, paused = false, size = 340, theme = "auto", appearance = "polished", className }: SeasonTreeProps) {
-  const [localSeason, setLocalSeason] = useState<TreeSeason>("yellow"), activeSeason = season ?? localSeason;
+export function SeasonTree({ season, onSeasonChange, showPicker = true, windStrength = .6, fallRate = 2.5, pixelSize, background, paused = false, size = 480, theme = "auto", appearance = "polished", className }: SeasonTreeProps) {
+  const [localSeason, setLocalSeason] = useState<TreeSeason>("red"), activeSeason = season ?? localSeason;
   const resolved = useCreativeTheme(theme), canvas = useRef<HTMLCanvasElement>(null);
-  const latest = useRef({ season: activeSeason, windStrength, fallRate, paused, resolved, background, appearance });
+  const latest = useRef({ season: activeSeason, windStrength, fallRate, paused, background });
   const redraw = useRef<(() => void) | null>(null);
-  useEffect(() => { latest.current = { season: activeSeason, windStrength, fallRate, paused, resolved, background, appearance }; redraw.current?.(); }, [activeSeason, windStrength, fallRate, paused, resolved, background, appearance]);
+  useEffect(() => { latest.current = { season: activeSeason, windStrength, fallRate, paused, background }; redraw.current?.(); }, [activeSeason, windStrength, fallRate, paused, background]);
   useEffect(() => {
     const element = canvas.current; if (!element) return;
-    let currentSeason = latest.current.season, foliage = createSeasonFoliage(currentSeason), previous: TreeTile[] = [], transition = 1, clock = 0, spawn = 0;
-    const random = seededTreeRandom(872), falling: FallingLeaf[] = [], ground: FallingLeaf[] = [];
+    let currentSeason = latest.current.season, art = createTreeLayers(currentSeason), previous: ReturnType<typeof createTreeLayers> | null = null, transition = 1, clock = 0, spawn = 0, accumulated = 0;
+    const random = seededTreeRandom(872), falling: FallingLeaf[] = [];
+    const addLeaf = (initial = false) => {
+      const origin = art.foliage[Math.floor(random() * art.foliage.length)], palette = TREE_PALETTES[currentSeason];
+      falling.push({ x: origin?.x ?? 100 + random() * 700, y: initial ? 450 + random() * 420 : currentSeason === "winter" ? random() * 80 : origin?.y ?? 100, rotation: random() * 6.28, speed: 25 + random() * 36, drift: random() * 26 - 18, color: palette.fallen[Math.floor(random() * 3)], size: 3 + random() * 4, phase: random() * 6.28 });
+    };
+    if (latest.current.fallRate > 0) for (let i = 0; i < 10; i++) addLeaf(true);
     const renderer = createCreativeCanvas(element, (context, frame) => {
       const config = latest.current;
       if (currentSeason !== config.season) {
-        previous = foliage; foliage = createSeasonFoliage(config.season); currentSeason = config.season; transition = frame.reduced || config.paused ? 1 : 0;
-        falling.length = 0; ground.length = 0;
+        previous?.destroy(); previous = art; art = createTreeLayers(config.season); currentSeason = config.season; transition = frame.reduced || config.paused ? 1 : 0;
+        falling.length = 0; spawn = 0;
       }
-      const seconds = !frame.reduced && !config.paused ? frame.delta / 1000 : 0;
-      clock += seconds; transition = Math.min(1, transition + seconds * 2.3);
-      const palette = TREE_PALETTES[currentSeason], wind = clamp(config.windStrength, 0, 4);
+      accumulated += frame.delta;
+      if (frame.delta && (config.paused || frame.reduced || accumulated < 1000 / 30)) return;
+      const seconds = !frame.reduced && !config.paused ? Math.min(accumulated / 1000, .1) : 0;
+      accumulated = 0; clock += seconds; transition = Math.min(1, transition + seconds * 1.8);
+      const wind = clamp(config.windStrength, 0, 4);
       context.clearRect(0, 0, frame.width, frame.height);
-      context.save(); context.scale(frame.width / 128, frame.height / 138);
-      if (config.background && config.background !== "transparent") { context.fillStyle = config.background; context.fillRect(0, 0, 128, 138); }
-      context.fillStyle = palette.ground; context.fillRect(15, 122, 101, 2); context.fillRect(23, 124, 80, 3);
-      context.fillStyle = currentSeason === "winter" ? "#edf8ff" : "#f1af5b"; context.fillRect(40, 126, 46, 2);
-      const paintFoliage = (tiles: TreeTile[], opacity: number, front: boolean) => {
-        context.globalAlpha = opacity;
-        for (const leaf of tiles) {
-          if ((leaf.layer > 0.83) !== front) continue;
-          const sway = Math.round(Math.sin(clock * 1.2 + leaf.y * 0.04) * wind * (leaf.y < 70 ? 0.8 : 0.3));
-          context.fillStyle = leaf.color;
-          if (config.appearance === "polished") {
-            context.beginPath(); context.ellipse(leaf.x + sway + leaf.w / 2, leaf.y + leaf.h / 2, leaf.w * .65, leaf.h * .65, -.4, 0, Math.PI * 2); context.fill();
-          } else if (config.appearance === "terminal") {
-            context.lineWidth = .55; context.strokeStyle = leaf.color;
-            context.strokeRect(Math.round((leaf.x + sway) / 3) * 3, Math.round(leaf.y / 3) * 3, 2, 2);
-          } else {
-            context.fillRect(leaf.x + sway, leaf.y, leaf.w, leaf.h);
-            if (config.appearance === "neobrutalism" && leaf.layer > .65) { context.strokeStyle = "#30233d"; context.lineWidth = .5; context.strokeRect(leaf.x + sway, leaf.y, leaf.w, leaf.h); }
-            if (config.appearance === "retro-os" && leaf.layer > .7) { context.fillStyle = "#ffffff80"; context.fillRect(leaf.x + sway, leaf.y, 1, 1); }
-            if (currentSeason === "red" && leaf.layer > .7) context.fillRect(leaf.x + sway + 2, leaf.y - 2, 2, leaf.h + 4);
-          }
-        }
-        context.globalAlpha = 1;
-      };
-      if (transition < 1) paintFoliage(previous, 1 - transition, false);
-      paintFoliage(foliage, transition, false); paintTreeBranches(context, currentSeason === "winter");
-      if (transition < 1) paintFoliage(previous, (1 - transition) * 0.9, true);
-      paintFoliage(foliage, transition, true);
-      spawn += seconds * clamp(config.fallRate, 0, 15);
-      while (spawn >= 1 && falling.length < 45) {
-        spawn--;
-        const origin = foliage[Math.floor(random() * foliage.length)];
-        falling.push({ x: origin?.x ?? 20 + random() * 90, y: currentSeason === "winter" ? random() * 35 : origin?.y ?? 40, rotation: random() * 6, speed: 10 + random() * 10, drift: random() * 2 - 1, color: palette.fallen[Math.floor(random() * 3)] });
+      context.save(); context.scale(frame.width / TREE_WIDTH, frame.height / TREE_HEIGHT);
+      if (config.background && config.background !== "transparent") { context.fillStyle = config.background; context.fillRect(0, 0, TREE_WIDTH, TREE_HEIGHT); }
+      const paint = (tree: typeof art, opacity: number) => tree.layers.forEach((layer, i) => {
+        context.save(); context.globalAlpha = opacity;
+        context.translate(490, 825); context.rotate(Math.sin(clock * .72 + i * .4) * wind * .0025 * (i + 1)); context.translate(-490, -825);
+        context.drawImage(layer, 0, 0); context.restore();
+      });
+      if (previous && transition < 1) paint(previous, 1 - transition);
+      paint(art, transition);
+      if (previous && transition === 1) { previous.destroy(); previous = null; }
+      spawn = Math.min(2, spawn + seconds * clamp(config.fallRate, 0, 15));
+      while (spawn >= 1 && falling.length < 45) { spawn--; addLeaf(); }
+      for (let i = falling.length - 1; i >= 0; i--) {
+        const leaf = falling[i];
+        leaf.y += seconds * leaf.speed; leaf.x += seconds * (leaf.drift + Math.sin(clock * 1.5 + leaf.phase) * wind * 24); leaf.rotation += seconds * .9;
+        context.globalAlpha = Math.min(1, Math.max(0, (TREE_HEIGHT - leaf.y) / 70));
+        paintTreeLeaf(context, { ...leaf, w: leaf.size, h: leaf.size * (.4 + Math.abs(Math.cos(clock * 1.7 + leaf.phase)) * .3) });
+        if (leaf.y > TREE_HEIGHT || leaf.x < -15 || leaf.x > TREE_WIDTH + 15) falling.splice(i, 1);
       }
-      for (let index = falling.length - 1; index >= 0; index--) {
-        const leaf = falling[index];
-        leaf.y += seconds * leaf.speed; leaf.x += seconds * (leaf.drift + Math.sin(leaf.y / 7) * wind * 3); leaf.rotation += seconds * 1.4;
-        context.save(); context.translate(Math.round(leaf.x), Math.round(leaf.y)); context.rotate(leaf.rotation); context.fillStyle = leaf.color;
-        context.fillRect(-1, -1, currentSeason === "winter" ? 2 : 4, 2); context.restore();
-        if (leaf.y >= 121) { ground.push({ ...leaf, y: 123 + random() * 3 }); if (ground.length > 28) ground.shift(); falling.splice(index, 1); }
-      }
-      const settled = ground.length ? ground : [{ x: 39, y: 120, rotation: 0, speed: 0, drift: 0, color: palette.fallen[0] }, { x: 92, y: 120, rotation: 0, speed: 0, drift: 0, color: palette.fallen[1] }];
-      for (const leaf of settled) { context.fillStyle = leaf.color; context.fillRect(Math.round(leaf.x), Math.round(leaf.y), 4, 2); }
       context.restore();
-    }, { pixelSize: pixelSize ?? (appearance === "pixel" ? 3 : 1) });
+    }, { pixelSize });
     redraw.current = renderer.redraw;
-    return () => { redraw.current = null; renderer.destroy(); };
-  }, [pixelSize, appearance]);
+    return () => { redraw.current = null; renderer.destroy(); art.destroy(); previous?.destroy(); };
+  }, [pixelSize]);
   return <div className={cn("creative-surface season-tree", className)} data-theme={resolved} data-appearance={appearance} style={{ "--tree-size": typeof size === "number" ? size + "px" : size } as CSSProperties}>
     <canvas ref={canvas} className="season-tree-canvas" role="img" aria-label={TREE_SEASONS.find((item) => item.value === activeSeason)?.label + " tree with falling leaves"} />
-    {showPicker && <div className="season-tree-picker" role="group" aria-label="Tree season">{TREE_SEASONS.map(({ value, label }) => <button key={value} type="button" aria-pressed={activeSeason === value} onClick={() => { if (season === undefined) setLocalSeason(value); onSeasonChange?.(value); }}><span style={{ background: TREE_PALETTES[value].leaves[0] }} aria-hidden="true" />{label}</button>)}</div>}
+    {showPicker && <div className="season-tree-picker" role="group" aria-label="Tree season">{TREE_SEASONS.map(({ value, label }) => <button key={value} type="button" aria-pressed={value === activeSeason} onClick={() => { if (season === undefined) setLocalSeason(value); onSeasonChange?.(value); }}><span style={{ backgroundColor: TREE_PALETTES[value].leaves[3] }} />{label}</button>)}</div>}
   </div>;
 }

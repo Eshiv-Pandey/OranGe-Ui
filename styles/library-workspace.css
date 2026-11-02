@@ -23,14 +23,14 @@
 .workspace-view .creative-workbench > .creative-demo-preview > :is(.grain-gradient, .anime-fire, .shader-canvas, .flowing-water):not([data-fullscreen]) { width: 100%; height: var(--workbench-height); max-height: none; border-radius: 0; }
 .workspace-view .creative-workbench:has(.grain-gradient, .anime-fire, .shader-canvas, .flowing-water) > .creative-demo-preview { padding: 0; }
 .workspace-view .code-block { width: 100%; min-height: 100%; max-height: none; background: transparent; padding: 28px 28px 100px; }
-.workspace-stage-toolbar { position: absolute; z-index: 6; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 5px; width: max-content; max-width: calc(100% - 28px); min-height: 54px; padding: 6px; border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent); border-radius: 999px; background: color-mix(in srgb, var(--surface) 72%, transparent); backdrop-filter: blur(22px) saturate(1.4); }
+.workspace-stage-toolbar { position: absolute; z-index: 6; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 5px; width: max-content; max-width: calc(100% - 28px); min-height: 44px; padding: 4px; border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent); border-radius: 999px; background: color-mix(in srgb, var(--surface) 48%, transparent); backdrop-filter: blur(24px) saturate(1.55); -webkit-backdrop-filter: blur(24px) saturate(1.55); }
 .workspace-stage-toolbar [role="tablist"] { display: flex; gap: 3px; }
 .workspace-stage-toolbar button, .workspace-inspector-heading button, .workspace-install-links button { min-height: 36px; padding: 8px 10px; border: 0; background: transparent; color: var(--muted); font-size: 12px; cursor: pointer; }
-.workspace-stage-toolbar button { display: inline-flex; align-items: center; gap: 7px; min-height: 42px; padding: 10px 16px; border-radius: 999px; font-weight: 500; }
+.workspace-stage-toolbar button { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 7px 14px; border-radius: 999px; font-weight: 500; color: var(--ink); }
 .workspace-stage-toolbar svg { width: 17px; height: 17px; flex: none; }
 .workspace-stage-toolbar button[aria-selected="true"] { background: var(--ink); color: var(--surface); }
 .workspace-stage-toolbar button:not([aria-selected="true"]):hover, .workspace-inspector-heading button:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 8%, transparent); }
-.workspace-docs-link { display: grid; place-items: center; width: 40px; height: 40px; margin-left: 2px; color: var(--muted); border-radius: 50%; text-decoration: none; }
+.workspace-docs-link { display: grid; place-items: center; width: 34px; height: 34px; margin-left: 2px; color: var(--ink); border-radius: 50%; text-decoration: none; }
 .workspace-docs-link:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); color: var(--ink); }
 .workspace-inspector { min-width: 0; min-height: 0; display: flex; flex-direction: column; border: 1px solid color-mix(in srgb, var(--line) 65%, transparent); border-radius: 16px; overflow: hidden; background: var(--surface); }
 .workspace-inspector-heading { display: flex; align-items: center; gap: 6px; padding: 20px 18px 16px; flex: none; }
@@ -137,10 +137,10 @@
   .workspace-stage { min-height: 340px; }
   .workspace-view { overflow: hidden; }
   .workspace-view > .detail-demo { min-height: var(--workbench-height); }
-  .workspace-stage-toolbar { bottom: 12px; gap: 2px; padding: 5px; min-height: 50px; }
-  .workspace-stage-toolbar button { gap: 5px; min-height: 38px; padding: 9px 10px; font-size: 11px; }
+  .workspace-stage-toolbar { bottom: 12px; gap: 2px; padding: 4px; min-height: 44px; }
+  .workspace-stage-toolbar button { gap: 5px; min-height: 34px; padding: 7px 10px; font-size: 11px; }
   .workspace-stage-toolbar svg { width: 15px; height: 15px; }
-  .workspace-docs-link { width: 32px; height: 38px; }
+  .workspace-docs-link { width: 30px; height: 34px; }
   .workspace-inspector { min-height: 240px; border-radius: 16px; }
   .workspace-inspector-body { max-height: 420px; }
   .workspace-view .artwork-customizer-preview { padding: 24px 16px 84px; }

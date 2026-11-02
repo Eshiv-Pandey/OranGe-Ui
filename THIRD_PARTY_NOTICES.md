@@ -20,7 +20,17 @@ The source registry does not state a copyright year. No year is inferred here.
 
 The registry does not state a copyright year. No year is inferred here.
 
-## MIT License for LiveOrb and Shader Anime Fire
+## DriftingClouds shader
+
+`components/ui/shader-canvas/clouds-field.ts` and `clouds-noise.ts` adapt **Shader Sky** by **jay sharma (@radiumcoders)**.
+
+- Component and MIT designation: https://21st.dev/@radiumcoders/components/shader-sky
+- Author's source registry: https://www.23rd.dev/r/shader-sky.json
+- Integrated on 2 November 2026. Retains texture-based noise, the cloud height profile and atmospheric scattering. The local version uses a 24-step bounded march, a single coarse lighting probe, a lower pixel/frame budget, editable sun direction and the shared renderer lifecycle. The color studies and editor are original to this project.
+
+The registry does not state a copyright year. No year is inferred here.
+
+## MIT License for LiveOrb, Shader Anime Fire and Shader Sky
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

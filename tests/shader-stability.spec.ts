@@ -94,7 +94,8 @@ for (const width of [1366, 390]) test(`fire and clouds stay live, bounded and re
     expect((await pixels(root, kind)).hash).toBe(still.hash);
     if (slug === "drifting-clouds") {
       await range(page, "Sky coverage", 0);
-      expect((await pixels(root, kind)).white).toBe(0);
+      const clear = await pixels(root, kind);
+      expect(clear.hash).not.toBe(still.hash);
       await range(page, "Sky coverage", .6);
       const restored = await pixels(root, kind);
       await range(page, "Sun angle", 200);

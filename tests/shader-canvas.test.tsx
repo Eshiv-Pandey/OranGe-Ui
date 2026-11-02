@@ -79,8 +79,21 @@ it("caps cloud pixels on a large high-DPR screen and throttles high-refresh fram
   const draws = h.draws.length;
   h.frame(now + 8); h.frame(now + 16); h.frame(now + 24);
   expect(h.draws).toHaveLength(draws);
-  h.frame(now + 34);
+  h.frame(now + 43);
   expect(h.draws).toHaveLength(draws + 1);
   renderer.destroy();
   expect(h.queue.size).toBe(0);
+});
+
+it("allocates lookup textures once, reuses them through edits, and releases them with the program", () => {
+  const h = harness(), data = vi.fn(() => new Uint8Array(16));
+  const sourceModule = { ...clouds, textures: { uCloudNoise: { width: 2, height: 2, data, repeat: true } } };
+  let config: ShaderCanvasProps = { source: { type: "clouds" }, modules: [sourceModule] };
+  const renderer = createShaderRenderer(h.canvas, () => config, vi.fn());
+  for (let i = 0; i < 20; i++) { config = { ...config, source: { type: "clouds", coverage: i / 20 } }; renderer.redraw(); }
+  expect(data).toHaveBeenCalledOnce();
+  expect(h.uniforms.get("uCloudNoise")).toBe(1);
+  renderer.destroy();
+  expect(h.gl.deleteTexture).toHaveBeenCalledTimes(3);
+  expect(h.gl.deleteProgram).toHaveBeenCalledOnce();
 });

@@ -3,7 +3,7 @@ import { renderToString } from "react-dom/server";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { DriftingClouds } from "../components/ui/drifting-clouds";
 import { clouds } from "../components/ui/shader-canvas/clouds";
-import { cloudGeometry } from "../components/ui/shader-canvas/clouds-field";
+import { cloudNoiseTexels } from "../components/ui/shader-canvas/clouds-noise";
 import { createShaderRenderer } from "../components/ui/shader-canvas/renderer";
 import type { ShaderCanvasProps } from "../components/ui/shader-canvas/types";
 import DriftingCloudsDemo from "../components/library/drifting-clouds-demo";
@@ -34,18 +34,19 @@ it("clamps malformed physical settings before they reach GLSL", () => {
   expect(clouds.uniforms.uCloudColor.value({ cloudColor: "#fff" })).toEqual([1, 1, 1]);
 });
 
-it("keeps the connected cloud layout reproducible when previews use different seeds", () => {
-  const first = cloudGeometry({ seed: 7 });
-  const second = cloudGeometry({ seed: 31 });
-  const again = cloudGeometry({ seed: 7 });
-  expect(first).toEqual(again);
-  expect(first.lobes).not.toEqual(second.lobes);
-  expect(first.lobes).toHaveLength(84 * 4); expect(first.shapes).toHaveLength(84);
-  expect(first.lobes.every(Number.isFinite)).toBe(true);
-  for (let group = 0; group < 12; group++) {
-    const root = group * 7 * 4;
-    expect(first.lobes.slice(root, root + 4)).toEqual(second.lobes.slice(root, root + 4));
+it("keeps the volumetric lookup repeatable and continuous between adjacent depth slices", () => {
+  const first = cloudNoiseTexels();
+  expect(first).toEqual(cloudNoiseTexels());
+  expect(first).toHaveLength(256 * 256 * 4);
+  expect(new Set(first.filter((_, i) => i % 4 === 0)).size).toBeGreaterThan(200);
+  for (const [x, y] of [[0, 0], [255, 255], [17, 90]]) {
+    const pixel = (y * 256 + x) * 4;
+    const nextSlice = (((y + 239) & 255) * 256 + ((x + 37) & 255)) * 4;
+    expect(first[pixel]).toBe(first[nextSlice + 1]);
+    expect(first[pixel + 3]).toBe(255);
   }
+  expect(clouds.renderBudget!.maxPixels).toBeLessThanOrEqual(360000);
+  expect(clouds.renderBudget!.maxFps).toBeLessThanOrEqual(30);
 });
 
 it("edits cloud shape, lighting, colors and pause state without replacing the renderer", () => {

@@ -37,12 +37,13 @@ export function GlassPlayer({ tracks, liked, onLike, onShare, blur = 26, volume 
     <div className="glass-player" role="group" aria-label="Glass music player">
       <img className="glass-player-cover" src={cover} alt={player.track ? "Cover for " + player.track.title : "Original blue cover"} />
       <div className="glass-player-top">
-        <div className="glass-artist-pill"><img src={player.track?.avatar || cover} alt="" /><div><strong>{player.track?.artist || "Your artist"}</strong><span>{player.track?.title || "Add a playlist"}</span></div></div>
         <button type="button" className="creative-icon-button" aria-label="Share track" disabled={!player.track} onClick={() => void share()}><CreativeIcon name="share" /></button>
-        <button type="button" className="creative-icon-button" aria-label={isLiked ? "Unlike track" : "Like track"} aria-pressed={isLiked} onClick={() => { if (liked === undefined) setLocalLiked(!isLiked); onLike?.(!isLiked); }}><CreativeIcon name="heart" /></button>
+        <button type="button" className="creative-icon-button" aria-label={isLiked ? "Unlike track" : "Like track"} disabled={!player.track} aria-pressed={isLiked} onClick={() => { if (liked === undefined) setLocalLiked(!isLiked); onLike?.(!isLiked); }}><CreativeIcon name="heart" /></button>
       </div>
-      <PlayerVolume player={player} showSlider={false} />
-      <div className="glass-player-bottom"><PlayerProgress player={player} /><PlayerControls player={player} /><PlayerFeedback player={player} /></div>
+      <div className="glass-player-bottom">
+        <div className="glass-player-track"><div className="creative-track-copy"><strong>{player.track?.title || "Your next favourite"}</strong><span>{player.track?.artist || "Add a playlist"}</span></div><PlayerVolume player={player} showSlider={false} /></div>
+        <PlayerProgress player={player} /><PlayerControls player={player} /><PlayerFeedback player={player} />
+      </div>
     </div>
     {message && <p className="creative-feedback glass-player-message" role="status">{message}</p>}
   </div>;

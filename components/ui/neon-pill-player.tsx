@@ -36,13 +36,11 @@ export function NeonPillPlayer({ tracks, glowColor = "#ce72ef", expandOn = "hove
       {expanded && <span className="creative-play-morph" data-playing={player.playing}><CreativeIcon name="play" /><CreativeIcon name="pause" /></span>}
     </button>
     <div className="neon-pill-copy" inert={!expanded}>
-      <span className="neon-now-playing">NOW PLAYING</span>
       <div className="creative-track-copy"><strong>{player.track?.title || "Your next favourite"}</strong><span>{player.track?.artist || "Add a playlist"}</span></div>
       <PlayerProgress player={player} compact />
       <div className="neon-expanded-actions">
-        <CreativeIcon name="music" width="12" height="12" />
-        <button type="button" className="creative-icon-button" aria-label="Previous track" onClick={player.previous}><CreativeIcon name="previous" /></button>
-        <button type="button" className="creative-icon-button" aria-label="Next track" onClick={player.next}><CreativeIcon name="next" /></button>
+        <button type="button" className="creative-icon-button" aria-label="Previous track" disabled={!player.track} onClick={player.previous}><CreativeIcon name="previous" /></button>
+        <button type="button" className="creative-icon-button" aria-label="Next track" disabled={!player.track} onClick={player.next}><CreativeIcon name="next" /></button>
       </div>
       <PlayerFeedback player={player} />
     </div>

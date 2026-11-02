@@ -1,13 +1,15 @@
 import { clamp, hexRgb, type ShaderModule } from "./types";
-import { CLOUD_FIELD_GLSL, cloudGeometry } from "./clouds-field";
+import { CLOUD_FIELD_GLSL } from "./clouds-field";
+import { cloudNoiseTexels } from "./clouds-noise";
 
-/** Connected cumulus caps with analytic surfaces and directional lighting. */
+/** Texture-backed cloud volume with a bounded primary march and a single light probe. */
 export const clouds: ShaderModule = {
   id: "clouds", kind: "source",
-  renderBudget: { maxPixels: 360_000, maxFps: 30 },
-  defaults: { speed: .35, scale: 1, coverage: .62, density: .75, billow: .6, softness: .2, sunAngle: 35, lightIntensity: 1, seed: 7, skyColor: "#087bbd", cloudColor: "#fffdf7", shadowColor: "#6d95b6" },
+  renderBudget: { maxPixels: 220_000, maxFps: 24 },
+  textures: { uCloudNoise: { width: 256, height: 256, data: cloudNoiseTexels, repeat: true } },
+  defaults: { speed: .35, scale: 1, coverage: .62, density: .75, billow: .6, softness: .2, sunAngle: 35, lightIntensity: 1, seed: 7, skyColor: "#2777bf", horizonColor: "#b4d8ef", cloudColor: "#fff9ed", shadowColor: "#788fab" },
   uniforms: {
-    uCloudLobeCount: { type: "int", value: () => 84 },
+    uMarchSteps: { type: "int", value: () => 24 },
     uSpeed: { type: "float", value: (s) => clamp(s.speed, 0, 3, .35) },
     uScale: { type: "float", value: (s) => clamp(s.scale, .5, 2.5, 1) },
     uCoverage: { type: "float", value: (s) => clamp(s.coverage, 0, 1, .62) },
@@ -18,10 +20,9 @@ export const clouds: ShaderModule = {
     uLightIntensity: { type: "float", value: (s) => clamp(s.lightIntensity, 0, 2, 1) },
     uSeed: { type: "float", value: (s) => clamp(s.seed, 0, 1000, 7) },
     uSkyColor: { type: "vec3", value: (s) => hexRgb(s.skyColor) },
+    uHorizonColor: { type: "vec3", value: (s) => hexRgb(s.horizonColor ?? "#b4d8ef") },
     uCloudColor: { type: "vec3", value: (s) => hexRgb(s.cloudColor) },
     uShadowColor: { type: "vec3", value: (s) => hexRgb(s.shadowColor) },
-    uCloudLobes: { type: "vec4[]", value: (s) => cloudGeometry(s).lobes },
-    uCloudShapes: { type: "float[]", value: (s) => cloudGeometry(s).shapes },
   },
   fragment: CLOUD_FIELD_GLSL,
 };

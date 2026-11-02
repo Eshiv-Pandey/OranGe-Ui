@@ -128,7 +128,7 @@ export async function collectComponentSource(component: ComponentDefinition, app
   if (files["components/ui/creative-playlist.ts"]) for (const asset of CREATIVE_AUDIO_ASSETS) await include(asset);
   files["Example.tsx"] = strToU8(example);
   await include("LICENSE");
-  const attributedComponents = [files["components/ui/live-orb.tsx"] && "LiveOrb", files["components/ui/anime-fire-shader.ts"] && "Shader Anime Fire"].filter(Boolean);
+  const attributedComponents = [files["components/ui/live-orb.tsx"] && "LiveOrb", files["components/ui/anime-fire-shader.ts"] && "Shader Anime Fire", files["components/ui/shader-canvas/clouds-field.ts"] && "Shader Sky"].filter(Boolean);
   if (attributedComponents.length) await include("THIRD_PARTY_NOTICES.md");
   const dependencies = [...external].sort();
   const devDependencies = external.has("three") ? ["@types/three"] : [];

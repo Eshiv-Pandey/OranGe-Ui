@@ -10,3 +10,14 @@
 .frosted-glass-footer { display: grid; gap: 12px; padding-top: 16px; color: var(--creative-muted); font-size: 11px; }
 .frosted-glass-footer .creative-actions { justify-content: space-between; }
 .frosted-glass-footer .creative-button { min-height: 36px; padding: 7px 11px; font-size: 11px; }
+.frosted-glass[data-controls="side"] { width: min(100%, 580px); container: frosted-glass / inline-size; }
+.frosted-glass[data-controls="side"] .frosted-glass-layout { display: grid; grid-template-columns: minmax(0, 420px) 120px; gap: 24px; align-items: center; }
+.frosted-glass[data-controls="side"] .frosted-glass-footer { padding: 0; gap: 20px; line-height: 1.6; }
+.frosted-glass[data-controls="side"] .creative-actions { flex-direction: column; align-items: stretch; gap: 10px; }
+.frosted-glass[data-controls="side"] .creative-actions > button { justify-content: center; }
+.frosted-glass[data-controls="side"] .creative-icon-button { align-self: flex-start; }
+@container frosted-glass (max-width: 540px) {
+  .frosted-glass[data-controls="side"] .frosted-glass-layout { width: min(100%, 330px); margin-inline: auto; grid-template-columns: 1fr; gap: 16px; }
+  .frosted-glass[data-controls="side"] .frosted-glass-footer { gap: 10px; }
+  .frosted-glass[data-controls="side"] .creative-actions { flex-direction: row; align-items: center; }
+}

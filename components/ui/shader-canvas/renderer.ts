@@ -3,7 +3,7 @@ import { registerCanvasFrame } from "../canvas-frame";
 import { SHADER_MODULES } from "./modules";
 import { clamp, type ShaderCanvasProps, type ShaderModule, type ShaderSettings, type ShaderUniform, type UniformValue } from "./types";
 
-type Pass = { module: ShaderModule; program: WebGLProgram; locations: Map<string, WebGLUniformLocation | null> };
+type Pass = { module: ShaderModule; program: WebGLProgram; locations: Map<string, WebGLUniformLocation | null>; textures: { name: string; handle: WebGLTexture }[] };
 type Target = { texture: WebGLTexture; framebuffer: WebGLFramebuffer };
 /** One RAF and two reusable targets for the entire ordered pipeline. */
 export function createShaderRenderer(canvas: HTMLCanvasElement, read: () => ShaderCanvasProps, state: (ready: boolean) => void) {
@@ -24,16 +24,30 @@ export function createShaderRenderer(canvas: HTMLCanvasElement, read: () => Shad
   }
   function compile(module: ShaderModule): Pass {
     const vertex = shader(gl!.VERTEX_SHADER, VERTEX);
+    const textures: Pass["textures"] = [];
     let fragment: WebGLShader | null = null, program: WebGLProgram | null = null;
     try {
       fragment = shader(gl!.FRAGMENT_SHADER, HEADER + module.fragment); program = gl!.createProgram();
       if (!program) throw new Error("Program allocation failed");
       gl!.attachShader(program, vertex); gl!.attachShader(program, fragment); gl!.linkProgram(program);
       if (!gl!.getProgramParameter(program, gl!.LINK_STATUS)) throw new Error(gl!.getProgramInfoLog(program) || "Program link failed");
-      return { module, program, locations: new Map() };
-    } catch (error) { if (program) gl!.deleteProgram(program); throw error; }
+      for (const [name, source] of Object.entries(module.textures || {})) {
+        const handle = gl!.createTexture();
+        if (!handle) throw new Error("Lookup texture allocation failed");
+        textures.push({ name, handle });
+        gl!.activeTexture(gl!.TEXTURE0 + textures.length);
+        gl!.bindTexture(gl!.TEXTURE_2D, handle);
+        gl!.texImage2D(gl!.TEXTURE_2D, 0, gl!.RGBA8, source.width, source.height, 0, gl!.RGBA, gl!.UNSIGNED_BYTE, source.data());
+        gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_MIN_FILTER, gl!.LINEAR);
+        gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_MAG_FILTER, gl!.LINEAR);
+        gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_WRAP_S, source.repeat ? gl!.REPEAT : gl!.CLAMP_TO_EDGE);
+        gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_WRAP_T, source.repeat ? gl!.REPEAT : gl!.CLAMP_TO_EDGE);
+      }
+      return { module, program, locations: new Map(), textures };
+    } catch (error) { textures.forEach(({ handle }) => gl!.deleteTexture(handle)); if (program) gl!.deleteProgram(program); throw error; }
     finally { gl!.deleteShader(vertex); if (fragment) gl!.deleteShader(fragment); }
   }
+  function releasePass(pass: Pass) { pass.textures.forEach(({ handle }) => gl!.deleteTexture(handle)); gl!.deleteProgram(pass.program); }
   function pipeline(config: ShaderCanvasProps) {
     const modules = new Map([...SHADER_MODULES, ...(config.modules || [])].map((module) => [module.id, module]));
     const requested = [config.source || { type: "gradient" }, ...(config.effects || [])];
@@ -46,8 +60,8 @@ export function createShaderRenderer(canvas: HTMLCanvasElement, read: () => Shad
     if (nextSignature !== signature) {
       const next: Pass[] = [];
       try { selected.forEach((module) => next.push(compile(module))); }
-      catch (error) { next.forEach((pass) => gl!.deleteProgram(pass.program)); throw error; }
-      passes.forEach((pass) => gl!.deleteProgram(pass.program)); passes = next; signature = nextSignature;
+      catch (error) { next.forEach(releasePass); throw error; }
+      passes.forEach(releasePass); passes = next; signature = nextSignature;
     }
     passes.forEach((pass, i) => { pass.module = selected[i]; });
     return requested;
@@ -62,6 +76,7 @@ export function createShaderRenderer(canvas: HTMLCanvasElement, read: () => Shad
     const width = Math.max(1, Math.floor(cssWidth * ratio)), height = Math.max(1, Math.floor(cssHeight * ratio));
     if (canvas.width === width && canvas.height === height && targets.length === 2) return;
     canvas.width = width; canvas.height = height; clearTargets();
+    gl!.activeTexture(gl!.TEXTURE0);
     for (let i = 0; i < 2; i++) {
       const texture = gl!.createTexture(), framebuffer = gl!.createFramebuffer();
       if (!texture || !framebuffer) { if (texture) gl!.deleteTexture(texture); if (framebuffer) gl!.deleteFramebuffer(framebuffer); throw new Error("Framebuffer allocation failed"); }
@@ -94,6 +109,7 @@ export function createShaderRenderer(canvas: HTMLCanvasElement, read: () => Shad
       passes.forEach((pass, i) => {
         gl!.useProgram(pass.program); gl!.bindFramebuffer(gl!.FRAMEBUFFER, i === passes.length - 1 ? null : targets[i % 2].framebuffer);
         gl!.activeTexture(gl!.TEXTURE0); gl!.bindTexture(gl!.TEXTURE_2D, i ? targets[(i - 1) % 2].texture : null);
+        pass.textures.forEach(({ name, handle }, index) => { gl!.activeTexture(gl!.TEXTURE0 + index + 1); gl!.bindTexture(gl!.TEXTURE_2D, handle); uniform(pass, name, "int", index + 1); });
         uniform(pass, "uInput", "int", 0); uniform(pass, "uResolution", "vec2", [canvas.width, canvas.height]); uniform(pass, "uCssSize", "vec2", [cssWidth, cssHeight]);
         uniform(pass, "uTime", "float", clock); uniform(pass, "uPointer", "vec2", [px, py]); uniform(pass, "uVelocity", "vec2", [vx, vy]);
         uniform(pass, "uPointerActive", "float", motion.matches ? 0 : active); uniform(pass, "uRadius", "float", clamp(interaction.radius, .05, 1, .22));
@@ -142,7 +158,7 @@ export function createShaderRenderer(canvas: HTMLCanvasElement, read: () => Shad
   const releaseCapture = registerCanvasFrame(canvas, () => draw(performance.now(), false));
   onScroll(); redraw();
   return { redraw, destroy() {
-    disposed = true; releaseCapture(); stop(); resizeObserver?.disconnect(); intersection?.disconnect(); clearTargets(); passes.forEach((pass) => gl.deleteProgram(pass.program)); gl.deleteVertexArray(vao);
+    disposed = true; releaseCapture(); stop(); resizeObserver?.disconnect(); intersection?.disconnect(); clearTargets(); passes.forEach(releasePass); gl.deleteVertexArray(vao);
     canvas.removeEventListener("pointermove", position); canvas.removeEventListener("pointerdown", down); canvas.removeEventListener("pointerleave", leave); canvas.removeEventListener("pointerup", up); canvas.removeEventListener("pointercancel", leave);
     canvas.removeEventListener("webglcontextlost", onLost); canvas.removeEventListener("webglcontextrestored", onRestored);
     document.removeEventListener("visibilitychange", visibility); window.removeEventListener("resize", redraw); window.removeEventListener("scroll", onScroll); motion.removeEventListener("change", onMotion);

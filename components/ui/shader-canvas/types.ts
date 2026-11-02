@@ -10,6 +10,8 @@ export type ShaderModule = {
   id: string; kind: "source" | "effect"; fragment: string; uniforms: Record<string, ShaderUniform>; defaults: ShaderSettings;
   /** Upper bounds apply even on high-DPR screens and when renderScale is 1. */
   renderBudget?: { maxPixels: number; maxFps: number };
+  /** Immutable lookup textures, allocated once per program and restored with it. */
+  textures?: Record<string, { width: number; height: number; data: () => Uint8Array; repeat?: boolean }>;
 };
 export type ShaderSource = { type: "gradient" | "noise" | (string & {}); colors?: readonly string[]; softness?: number; speed?: number; scale?: number; warp?: number; seed?: number; saturation?: number; grain?: number; [key: string]: unknown };
 export type ShaderEffect =

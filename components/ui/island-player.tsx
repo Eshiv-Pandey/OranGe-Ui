@@ -28,7 +28,7 @@ export function IslandPlayer({ tracks, index, onTrackChange, showOutputIcon = tr
     </div>
     <PlayerProgress player={player} />
     <div className="island-player-bottom">
-      <PlayerVolume player={player} showSlider={false} />
+      <PlayerVolume player={player} />
       <PlayerControls player={player} />
       {showOutputIcon && <button type="button" className="creative-icon-button island-player-output" aria-label="Choose audio output" onClick={async () => setOutput(await player.selectOutput())}><CreativeIcon name="output" /></button>}
     </div>
