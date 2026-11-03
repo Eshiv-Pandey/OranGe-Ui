@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Rebuild SeasonTree with a broad sunlit blossom crown, layered foliage, sculpted bark and natural snow resting on bare winter branches. Spring is the new default.
+- Replace the third-party LiveOrb with Emberling, an original SVG character with folded flame facets, a curious gaze, three color treatments and a complete static rendering. Redirect the former component route. Remove the `LiveOrb` / `createLiveOrb` exports and old import path; migrate to `Emberling` from `components/ui/emberling`.
+- Make NeonPillPlayer a black capsule that closely hugs its cover, starts collapsed and retains its height while expanding. Preserve keyboard, touch and real playback controls.
+- Remove GlassPlayer's outer blurred backdrop, expose song panel opacity through `infoOpacity`, and add a reduced-motion-aware heart splash when liking a song. The legacy `blur` prop remains a deprecated no-op.
+
 - Expand the catalogue to 86 components with editable FlowingGrass and DriftingClouds in all five appearances.
 - Open component links at the playground, with a full-height preview and floating glass Preview, Usage and Source dock.
 - Give the editor exact numeric and color inputs, independent scrolling and separate API documentation.

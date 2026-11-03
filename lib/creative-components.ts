@@ -30,14 +30,14 @@ const textNotes = [
   "Override --font-hindi-display and --font-hinglish-display for your own licensed or premium fonts without changing the component API. Transliteration is phonetic with a common-word dictionary, rather than translation.",
 ];
 export const CREATIVE_COMPONENTS: ComponentDefinition[] = [
-  definition("season-tree", "SeasonTree", "polished", "An illustrated seasonal tree with intricate branches, rich foliage and falling leaves on a transparent canvas.", '<SeasonTree season="red" showPicker />', "Tab through the season picker; Enter or Space changes season.", [
-    ["season / onSeasonChange", "TreeSeason / callback", "red", "Controlled or local pink, green, yellow, red or winter season."],
+  definition("season-tree", "SeasonTree", "polished", "A broad seasonal tree with sunlit blossom clusters, sculpted bark and snow-covered winter branches.", '<SeasonTree season="pink" showPicker />', "Tab through the season picker; Enter or Space changes season.", [
+    ["season / onSeasonChange", "TreeSeason / callback", "pink", "Controlled or local pink, green, yellow, red or winter season."],
     ["showPicker", "boolean", "true", "Built-in season picker."],
     ["windStrength / fallRate", "number / number", "0.6 / 2.5", "Canopy sway, drift and falling leaves per second. At most 45 leaves are in flight."],
     ["pixelSize", "number", "Not set", "Optional lower canvas resolution. The default retains smooth illustrated detail."],
     ["background", "string", "transparent", "Custom backdrop or transparent."],
     ["paused / size", "boolean / number | string", "false / 480", "Freeze decorative motion; responsive maximum width."],
-  ], ["Curved branches and thousands of individually shaped leaves are original procedural artwork. Three cached layers keep the canopy detailed without repainting every leaf on each frame. The background is transparent, with no ground slab. Seasons change foliage density and separate canopy/falling palettes; reduced motion retains a settled tree."]),
+  ], ["Curved branches and thousands of individually shaped leaves are original procedural artwork. Three cached layers keep the canopy detailed without repainting every leaf on each frame. The background is transparent, with no ground slab. Spring opens with pink blossoms. Winter has bare tapered branches, snow resting along their upper edges, and falling snow. Seasons change foliage density and separate canopy/falling palettes; reduced motion retains a settled tree."]),
   definition("retro-player", "RetroPlayer", "retro-os", "A sticker-covered pocket player with a working click wheel and real music.", "<RetroPlayer tracks={CREATIVE_PLAYLIST} showEarbuds />", "Wheel buttons use Enter/Space. Focus the ring and use arrows to seek or change volume. Sticker arrows move, plus/minus resize, Delete removes.", [
     tracks, ["autoPlay", "boolean", "false", "Starts only after a gesture inside the player."],
     ["bodyColor / screenColor", "string / string", "#e6e5df / #f6f5ee", "Customize body and screen colors."],
@@ -81,15 +81,15 @@ export const CREATIVE_COMPONENTS: ComponentDefinition[] = [
     ["showOutputIcon", "boolean", "true", "Output selection where supported, browser/system guidance otherwise."],
     ["size", "number | string", "420", "Responsive width."], volume,
   ], playerNotes, { usageImports: sampleImports }),
-  definition("glass-player", "GlassPlayer", "polished", "Full-bleed cover art, a blurred backdrop, and music, like and share controls.", "<GlassPlayer tracks={CREATIVE_PLAYLIST} blur={26} />", "Like, share, transport and mute are buttons; arrows scrub the native slider.", [
+  definition("glass-player", "GlassPlayer", "polished", "Edge-to-edge cover art, a translucent song panel, and a heart splash when you like a track.", "<GlassPlayer tracks={CREATIVE_PLAYLIST} infoOpacity={0.42} />", "Like, share, transport and mute are buttons; arrows scrub the native slider.", [
     tracks, ["liked / onLike", "boolean / callback", "false", "Controlled or local animated like preference."],
     ["onShare", "(track: AudioTrack) => void | Promise<void>", "Web Share or copied link", "Application-owned share action."],
-    ["blur / size", "number / number | string", "26 / 340", "Cover-derived backdrop blur and width."], volume,
-  ], [...playerNotes, "Share uses onShare or Web Share, with a copied-link fallback. Like is controlled through liked/onLike or works locally."], { usageImports: sampleImports }),
-  definition("neon-pill-player", "NeonPillPlayer", "polished", "A glowing compact player that opens on hover, keyboard focus or touch.", '<NeonPillPlayer tracks={CREATIVE_PLAYLIST} expandOn="hover" />', "Focus opens hover details; Enter activates cover/play. Tab reaches controls, Escape collapses. Touch opens with a tap and closes outside.", [
+    ["infoOpacity / size", "number / number | string", "0.42 / 380", "Song panel opacity from 0 to 1, and responsive width. No outer backdrop."], volume,
+  ], [...playerNotes, "Share uses onShare or Web Share, with a copied-link fallback. Like is controlled through liked/onLike or works locally. Liking triggers a short heart-and-droplet splash, disabled for reduced motion."], { usageImports: sampleImports }),
+  definition("neon-pill-player", "NeonPillPlayer", "polished", "A black capsule that hugs its glowing cover and expands horizontally on hover, focus or touch.", '<NeonPillPlayer tracks={CREATIVE_PLAYLIST} expandOn="hover" />', "Focus opens hover details; Enter activates cover/play. Tab reaches controls, Escape collapses. Touch opens with a tap and closes outside.", [
     tracks, ["glowColor", "string", "#ce72ef", "Cover and progress glow."],
     ["expandOn / defaultExpanded", "hover | click / boolean", "hover / false", "Expansion mode and initial state."], volume,
-  ], [...playerNotes, "Starts minimized with the original glowing cover and equalizer. A generic original music icon replaces service branding."], { usageImports: sampleImports }),
+  ], [...playerNotes, "Starts minimized with a glowing cover and equalizer. The capsule keeps the same height when it expands; its edge sits four pixels from the cover. Playback continues when it collapses."], { usageImports: sampleImports }),
   definition("anime-fire", "AnimeFire", undefined, "Flowing cel-shaded flames with a bright core, rising sparks and optional crackle.", "<AnimeFire speed={0.6} intensity={1} height={0.45} />", "Arrows move the focused canvas attraction point. The visible sound toggle starts or mutes synthesized crackle.", [
     ["colors", "readonly string[]", "Ember / flame / core", "Three cel-band colors."],
     ["speed / intensity / height", "number / number / number", "0.6 / 1 / 0.45", "Exact compatible motion, flame strength and normalized-height defaults."],

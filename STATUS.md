@@ -1,5 +1,20 @@
 # oRangeUi status
 
+## Tree, character and player refinements
+
+The four component refinements are implemented and verified as of 3 November 2026 on `feat/next-iteration`.
+
+- SeasonTree now opens in spring with a broad, balanced blossom crown, separate illuminated foliage clusters and sculpted bark. Winter has fine bare branches and snow resting along upper-facing limbs. Branch bases share a continuous wood undercoat, with lighting and bark blended through their junctions. The canvas remains transparent and artwork is cached between season changes.
+- Emberling replaces the third-party LiveOrb implementation with original folded-flame SVG geometry, a curious gaze, floating cinders and Ember, Custom and Prism treatments. The full character renders before hydration, fits mobile, and respects reduced motion and visibility. The former component page redirects to `/components/emberling`; catalogue names, public exports and downloads use Emberling.
+- NeonPillPlayer starts collapsed on a black background. Its capsule sits four pixels from the cover vertically and retains the same height when expanded. Hover, focus, touch, Escape and real playback controls are verified.
+- GlassPlayer has edge-to-edge cover art, no outer blurred backdrop, a translucent song panel with `infoOpacity`, and a short heart-and-droplet splash when liking a track. Reduced motion suppresses the burst, while controlled liking and sharing remain functional.
+- ESLint, TypeScript, copy checks and production build `vgrg4vc7Uxfl2rW03x2_a` pass. The affected unit/source run covers 57 passing cases; 80 standalone examples compile and bundle across all five appearances. Eight focused browser cases pass. Final tree changes received fresh behavior, source-bundle, production build, bundle isolation and trace checks.
+- Desktop 1440x1000 and mobile 390x844 captures cover both themes, spring/winter, all Emberling treatments, collapsed/expanded Neon and the Glass heart splash. The 16-observation pass and four final tree observations contain no runtime errors or horizontal overflow. The unchanged workspace install-command button retains a pre-existing accessibility label-content-name-mismatch finding. Physical-device frame rates remain unmeasured.
+
+The independent reviewer scored the winter branch-junction fix resolved and returned `ship` at that scope; the spring tree and three other refinements were accepted in the initial review.
+
+Local evidence is indexed by `out/rework-nov3/verification-summary.json`. The preview runs at `http://127.0.0.1:3108`.
+
 ## Landing motion correction
 
 The landing motion correction is verified as of 2 November 2026 on `feat/next-iteration`.

@@ -22,8 +22,8 @@
 svg.detail-mark { width: 28px; height: 28px; flex-shrink: 0; fill: currentColor; }
 .keyboard-note > svg { width: 24px; height: 24px; flex-shrink: 0; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; }
 .library-topline { justify-content: flex-end; }
-.detail-demo.demo-live-orb > * { max-width: 1000px; }
-.tile-live-orb .thumbnail-inner { display: grid; place-items: center; }
+.detail-demo.demo-emberling > * { max-width: 1000px; }
+.tile-emberling .thumbnail-inner { display: grid; place-items: center; }
 @media (max-width: 1100px) { .header-tool-label { display: none; } .library-header > nav { gap: 16px; } }
 @media (max-width: 720px) {
   .library-header { gap: 10px; }

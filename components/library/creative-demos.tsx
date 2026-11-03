@@ -41,8 +41,8 @@ function Panel({ preview, children }: { preview: ReactNode; children?: ReactNode
   return <CreativeWorkbench preview={preview}>{children}</CreativeWorkbench>;
 }
 function SeasonDemo({ appearance }: { appearance: Appearance }) {
-  const [wind, setWind] = useState(.6), [fall, setFall] = useState(2.5), [paused, setPaused] = useState(false), [season, setSeason] = useState<TreeSeason>("red");
-  return <Panel preview={<SeasonTree appearance={appearance} season={season} showPicker={false} size={540} windStrength={wind} fallRate={fall} paused={paused} />}><label>Season<select value={season} onChange={(event) => setSeason(event.target.value as TreeSeason)}>{TREE_SEASONS.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label><Range label="Wind" value={wind} onChange={setWind} max={3} /><Range label="Falling leaves" value={fall} onChange={setFall} max={6} /><Check label="Pause tree" value={paused} onChange={setPaused} /></Panel>;
+  const [wind, setWind] = useState(.6), [fall, setFall] = useState(2.5), [paused, setPaused] = useState(false), [season, setSeason] = useState<TreeSeason>("pink");
+  return <Panel preview={<SeasonTree appearance={appearance} season={season} showPicker={false} size={540} windStrength={wind} fallRate={fall} paused={paused} />}><label>Season<select aria-label="Season" value={season} onChange={(event) => setSeason(event.target.value as TreeSeason)}>{TREE_SEASONS.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label><Range label="Wind" value={wind} onChange={setWind} max={3} /><Range label="Falling leaves" value={fall} onChange={setFall} max={6} /><Check label="Pause tree" value={paused} onChange={setPaused} /></Panel>;
 }
 function RetroDemo() {
   const [body, setBody] = useState("#e6e5df"), [screen, setScreen] = useState("#f6f5ee"), [earbuds, setEarbuds] = useState(true);
@@ -74,12 +74,12 @@ function IslandDemo() {
   return <Panel preview={<IslandPlayer tracks={CREATIVE_PLAYLIST} volume={volume} showOutputIcon={output} />}><Range label="Player volume" value={volume} onChange={setVolume} /><Check label="Output button" value={output} onChange={setOutput} /></Panel>;
 }
 function GlassDemo() {
-  const [volume, setVolume] = useState(0.65), [blur, setBlur] = useState(26), [liked, setLiked] = useState(false);
-  return <Panel preview={<GlassPlayer tracks={CREATIVE_PLAYLIST} volume={volume} blur={blur} liked={liked} onLike={setLiked} />}><Range label="Backdrop blur" value={blur} onChange={setBlur} max={50} step={1} /><Range label="Player volume" value={volume} onChange={setVolume} /><Check label="Liked" value={liked} onChange={setLiked} /></Panel>;
+  const [volume, setVolume] = useState(0.65), [infoOpacity, setInfoOpacity] = useState(0.42), [liked, setLiked] = useState(false);
+  return <Panel preview={<GlassPlayer tracks={CREATIVE_PLAYLIST} volume={volume} infoOpacity={infoOpacity} liked={liked} onLike={setLiked} />}><Range label="Song panel opacity" value={infoOpacity} onChange={setInfoOpacity} min={0.1} max={0.8} step={0.05} /><Range label="Player volume" value={volume} onChange={setVolume} /><Check label="Liked" value={liked} onChange={setLiked} /></Panel>;
 }
 function NeonDemo() {
   const [color, setColor] = useState("#ce72ef"), [expand, setExpand] = useState<"hover" | "click">("hover"), [volume, setVolume] = useState(0.65);
-  return <Panel preview={<NeonPillPlayer defaultExpanded tracks={CREATIVE_PLAYLIST} glowColor={color} expandOn={expand} volume={volume} />}><Color label="Glow color" value={color} onChange={setColor} /><Select label="Expand on" value={expand} onChange={setExpand} options={["hover", "click"]} /><Range label="Player volume" value={volume} onChange={setVolume} /><p className="creative-feedback">Hover or focus to open. On touch, tap to expand and tap outside to close.</p></Panel>;
+  return <Panel preview={<NeonPillPlayer tracks={CREATIVE_PLAYLIST} glowColor={color} expandOn={expand} volume={volume} />}><Color label="Glow color" value={color} onChange={setColor} /><Select label="Expand on" value={expand} onChange={setExpand} options={["hover", "click"]} /><Range label="Player volume" value={volume} onChange={setVolume} /><p className="creative-feedback">Hover or focus to open. On touch, tap to expand and tap outside to close.</p></Panel>;
 }
 function FireDemo({ appearance }: { appearance: Appearance }) {
   const [colors, setColors] = useState(["#e44322", "#ff881a", "#ffd34b"]), [speed, setSpeed] = useState(0.6), [intensity, setIntensity] = useState(1), [height, setHeight] = useState(0.45), [dither, setDither] = useState(appearance === "retro-os"), [interactive, setInteractive] = useState(true), [volume, setVolume] = useState(0.3), [pixel, setPixel] = useState(appearance === "pixel" ? 5 : appearance === "terminal" ? 3 : 1);
@@ -125,7 +125,7 @@ function Thumbnail({ slug, appearance }: { slug: string; appearance: Appearance 
     case "tilt-stamp-3d": return <TiltStamp3D {...a} />;
     case "island-player": return <IslandPlayer {...a} tracks={CREATIVE_PLAYLIST} muted />;
     case "glass-player": return <GlassPlayer {...a} tracks={CREATIVE_PLAYLIST} muted />;
-    case "neon-pill-player": return <NeonPillPlayer {...a} tracks={CREATIVE_PLAYLIST} defaultExpanded muted />;
+    case "neon-pill-player": return <NeonPillPlayer {...a} tracks={CREATIVE_PLAYLIST} muted />;
     case "anime-fire": return <AnimeFire {...a} interactive />;
     case "grain-gradient": return <GrainGradient {...a} interactive showExportButton={false} showFullscreenButton={false} />;
     case "hindi-text": return <HindiText {...a} editable={false} showControls={false} />;

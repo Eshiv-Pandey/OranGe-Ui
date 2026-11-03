@@ -52,8 +52,8 @@ import { RaceProgress } from "../ui/race-progress";
 import * as LaunchForms from "./launch-forms-demos";
 import { NavigationDemo, NAVIGATION_DEMO_SLUGS } from "./navigation-demos";
 import { AIDemo, AI_DEMO_SLUGS } from "./ai-demos";
-import { LiveOrb } from "../ui/live-orb";
-import { LiveOrbDemo } from "./live-orb-demo";
+import { Emberling } from "../ui/emberling";
+import { EmberlingDemo } from "./emberling-demo";
 
 const CreativeDemo = lazy(() => import("./creative-demos"));
 const ShaderCanvasDemo = lazy(() => import("./shader-canvas-demo"));
@@ -94,7 +94,7 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
     case "flowing-water": return <Suspense fallback={<ShaderFallback kind="water" />}><FlowingWaterDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
     case "flowing-grass": return <Suspense fallback={<ShaderFallback kind="grass" />}><FlowingGrassDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
     case "drifting-clouds": return <Suspense fallback={<ShaderFallback kind="clouds" />}><DriftingCloudsDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
-    case "live-orb": return thumbnail ? <LiveOrb {...a} size={160} interactive blink /> : <LiveOrbDemo appearance={appearance} />;
+    case "emberling": return thumbnail ? <Emberling {...a} size={160} interactive blink /> : <EmberlingDemo appearance={appearance} />;
     case "label": return <LaunchForms.LabelDemo {...a} />;
     case "kbd": return <LaunchForms.KbdDemo {...a} />;
     case "form": return <LaunchForms.FormDemo {...a} />;

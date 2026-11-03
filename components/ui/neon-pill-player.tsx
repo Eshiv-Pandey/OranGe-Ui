@@ -17,7 +17,7 @@ export type NeonPillPlayerProps = {
 
 export function NeonPillPlayer({ tracks, glowColor = "#ce72ef", expandOn = "hover", defaultExpanded = false, volume = 0.65, muted = false, theme = "auto", appearance = "polished", className }: NeonPillPlayerProps) {
   const player = useAudioPlayer({ tracks, volume, muted }), resolved = useCreativeTheme(theme);
-  const [expanded, setExpanded] = useState(defaultExpanded), root = useRef<HTMLDivElement>(null), touch = useRef(false);
+  const [expanded, setExpanded] = useState(defaultExpanded), root = useRef<HTMLDivElement>(null), coverButton = useRef<HTMLButtonElement>(null), touch = useRef(false);
   useCreativeMotion(root);
   useEffect(() => {
     const outside = (event: PointerEvent) => { if (!root.current?.contains(event.target as Node)) setExpanded(false); };
@@ -25,25 +25,27 @@ export function NeonPillPlayer({ tracks, glowColor = "#ce72ef", expandOn = "hove
     return () => document.removeEventListener("pointerdown", outside);
   }, []);
   return <div ref={root} className={cn("creative-surface neon-pill-player", className)} data-expanded={expanded} data-theme={resolved} data-appearance={appearance} style={{ "--neon-glow": glowColor } as CSSProperties} role="group" aria-label="Neon pill music player"
-    onPointerEnter={(event) => { if (expandOn === "hover" && event.pointerType !== "touch") setExpanded(true); }}
+    onPointerEnter={(event) => { touch.current = event.pointerType === "touch"; if (expandOn === "hover" && !touch.current) setExpanded(true); }}
     onPointerLeave={() => { if (expandOn === "hover" && !root.current?.contains(document.activeElement)) setExpanded(false); }}
-    onFocusCapture={() => { if (expandOn === "hover") setExpanded(true); }}
+    onFocusCapture={() => { if (expandOn === "hover" && !touch.current) setExpanded(true); }}
     onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setExpanded(false); }}
-    onKeyDown={(event) => { if (event.key === "Escape") setExpanded(false); }}>
-    <button type="button" className="neon-cover-button" aria-label={expanded ? player.playing ? "Pause" : "Play" : "Expand music player"} aria-expanded={expanded} onPointerDown={(event) => { touch.current = event.pointerType === "touch"; }}
-      onClick={() => { if (!expanded && (touch.current || expandOn === "click")) setExpanded(true); else player.toggle(); }}>
+    onKeyDown={(event) => { touch.current = false; if (event.key === "Escape") { coverButton.current?.focus(); setExpanded(false); } }}>
+    <button ref={coverButton} type="button" className="neon-cover-button" aria-label={expanded ? player.playing ? "Pause" : "Play" : "Expand music player"} aria-expanded={expanded} onPointerDown={(event) => { touch.current = event.pointerType === "touch"; }}
+      onClick={() => { if (!expanded) setExpanded(true); else player.toggle(); }}>
       <img src={player.track?.cover || SAMPLE_COVERS[2]} alt="" />
       {expanded && <span className="creative-play-morph" data-playing={player.playing}><CreativeIcon name="play" /><CreativeIcon name="pause" /></span>}
     </button>
     <div className="neon-pill-copy" inert={!expanded}>
-      <div className="creative-track-copy"><strong>{player.track?.title || "Your next favourite"}</strong><span>{player.track?.artist || "Add a playlist"}</span></div>
-      <PlayerProgress player={player} compact />
-      <div className="neon-expanded-actions">
-        <button type="button" className="creative-icon-button" aria-label="Previous track" disabled={!player.track} onClick={player.previous}><CreativeIcon name="previous" /></button>
-        <button type="button" className="creative-icon-button" aria-label="Next track" disabled={!player.track} onClick={player.next}><CreativeIcon name="next" /></button>
+      <div className="neon-pill-track">
+        <div className="creative-track-copy"><strong>{player.track?.title || "Your next favourite"}</strong><span>{player.track?.artist || "Add a playlist"}</span></div>
+        <div className="neon-expanded-actions">
+          <button type="button" className="creative-icon-button" aria-label="Previous track" disabled={!player.track} onClick={player.previous}><CreativeIcon name="previous" /></button>
+          <button type="button" className="creative-icon-button" aria-label="Next track" disabled={!player.track} onClick={player.next}><CreativeIcon name="next" /></button>
+        </div>
       </div>
-      <PlayerFeedback player={player} />
+      <PlayerProgress player={player} compact />
     </div>
     <div className="neon-pill-end"><PlayerEqualizer player={player} /><PlayerVolume player={player} showSlider={false} /></div>
+    {expanded && <div className="neon-pill-feedback"><PlayerFeedback player={player} /></div>}
   </div>;
 }

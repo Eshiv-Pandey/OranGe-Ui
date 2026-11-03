@@ -157,8 +157,9 @@ test("creative collection search, navigation, copy and source routes", async ({ 
 test("season picker replaces the whole settled tree", async ({ page }) => {
   const demo = await open(page, "season-tree"), canvas = demo.locator("canvas");
   const states: string[] = [];
-  for (const button of await demo.locator(".season-tree-picker button").all()) {
-    await button.click(); await expect(button).toHaveAttribute("aria-pressed", "true");
+  const picker = page.getByRole("combobox", { name: "Season", exact: true });
+  for (const season of ["pink", "green", "yellow", "red", "winter"]) {
+    await picker.selectOption(season); await expect(picker).toHaveValue(season);
     states.push(await canvas.evaluate((element: HTMLCanvasElement) => element.toDataURL()));
   }
   expect(new Set(states).size).toBe(5);
@@ -181,13 +182,14 @@ for (const slug of ["retro-player", "island-player", "glass-player", "neon-pill-
   await expect(demo.getByRole("button", { name: "Unmute", exact: true })).toHaveAttribute("aria-pressed", "true");
   await demo.getByRole("button", { name: "Pause", exact: true }).first().click();
   await page.getByRole("tab", { name: "Usage", exact: true }).click();
-  expect(await page.evaluate(() => window.__creativeTest.audio.filter((audio) => audio.tagName === "AUDIO").every((audio) => audio.paused && !audio.getAttribute("src")))).toBe(true);
+  await page.getByRole("link", { name: "Button", exact: true }).first().click();
+  await expect.poll(() => page.evaluate(() => window.__creativeTest.audio.filter((audio) => audio.tagName === "AUDIO").every((audio) => audio.paused && !audio.getAttribute("src")))).toBe(true);
 });
 
 test("neon touch expansion preserves playback until an explicit play tap", async ({ page }) => {
   await page.setViewportSize({ width: 380, height: 844 });
   const demo = await open(page, "neon-pill-player"), pill = demo.locator(".neon-pill-player");
-  await page.getByRole("heading", { name: "NeonPillPlayer", exact: true }).click();
+  await page.locator(".workspace-stage").click({ position: { x: 10, y: 10 } });
   await expect(pill).toHaveAttribute("data-expanded", "false");
   const session = await page.context().newCDPSession(page);
   const rect = (await demo.locator(".neon-cover-button").boundingBox())!;
@@ -197,15 +199,15 @@ test("neon touch expansion preserves playback until an explicit play tap", async
   expect(await page.evaluate(() => window.__creativeTest.plays)).toBe(0);
   await demo.getByRole("button", { name: "Play", exact: true }).click();
   await expect(demo.getByRole("button", { name: "Pause", exact: true })).toBeVisible();
-  await page.getByRole("heading", { name: "NeonPillPlayer", exact: true }).click();
+  await page.locator(".workspace-stage").click({ position: { x: 10, y: 10 } });
   await expect(pill).toHaveAttribute("data-expanded", "false");
 });
 
 test("glass player controlled like and share fallback", async ({ page }) => {
   const demo = await open(page, "glass-player");
   await demo.getByRole("button", { name: "Like track", exact: true }).click();
-  await expect(demo.getByRole("checkbox", { name: "Liked", exact: true })).toBeChecked();
-  await demo.getByRole("checkbox", { name: "Liked", exact: true }).uncheck();
+  await expect(page.getByRole("checkbox", { name: "Liked", exact: true })).toBeChecked();
+  await page.getByRole("checkbox", { name: "Liked", exact: true }).uncheck();
   await expect(demo.getByRole("button", { name: "Like track", exact: true })).toHaveAttribute("aria-pressed", "false");
   await demo.getByRole("button", { name: "Share track", exact: true }).click();
   await expect(demo).toContainText("Link copied.");

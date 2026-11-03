@@ -1173,16 +1173,16 @@ export const components: ComponentDefinition[] = [
   ...NAVIGATION_COMPONENTS,
   ...AI_COMPONENTS,
   {
-    slug: "live-orb", name: "LiveOrb",
-    demo: [{ t: 0, action: "move", to: { x: 25, y: 35 } }, { t: 850, action: "move", to: { x: 75, y: 40 } }, { t: 1600, action: "move", to: "center" }, { t: 2300, action: "click" }, { t: 3400, action: "leave" }], category: "AI & chat", customizerPreview: true,
-    description: "A curious WebGL sphere with pointer-following eyes and three material previews.",
-    file: "components/ui/live-orb.tsx", usage: '<LiveOrb appearance="polished" size={200} interactive blink />',
-    keyboard: "A named decorative character with no focus stop. Native size, color and checkbox controls customize the demo. Motion pauses offscreen and in hidden tabs, and reduced motion holds a settled frame. A CSS face remains visible when WebGL is unavailable.",
+    slug: "emberling", name: "Emberling",
+    demo: [{ t: 0, action: "move", to: { x: 25, y: 35 } }, { t: 850, action: "move", to: { x: 75, y: 40 } }, { t: 1600, action: "move", to: "center" }, { t: 3400, action: "leave" }], category: "AI & chat", customizerPreview: true,
+    description: "A little folded flame with a curious gaze, warm facets and floating cinders.",
+    file: "components/ui/emberling.tsx", usage: '<Emberling appearance="polished" size={200} interactive blink />',
+    keyboard: "A named decorative character with no focus stop. Native size, color and checkbox controls customize the demo. Motion pauses offscreen and in hidden tabs; reduced motion holds a settled pose. The full SVG character is visible before hydration.",
     props: [
-      { name: "size", type: "number", defaultValue: "280", description: "Sphere edge length in CSS pixels." },
-      { name: "variant / theme", type: "white | black | webgl | custom / light | dark | auto", defaultValue: "follows theme / auto", description: "Default material contrasts with the page. Theme follows HTML classes, data-theme and the system preference." },
-      { name: "color / eyeColor / colors", type: "string / string / string[]", defaultValue: "Preset colors", description: "Custom body and eye colors, or the WebGL wash stops." },
-      { name: "interactive / blink", type: "boolean", defaultValue: "true / true", description: "Pointer-following gaze and occasional blinking. Idle glances continue when pointer interaction is disabled." }
+      { name: "size", type: "number", defaultValue: "200", description: "Responsive character width in CSS pixels, clamped from 48 to 640." },
+      { name: "variant / theme", type: "ember | custom | prism / light | dark | auto", defaultValue: "ember / auto", description: "Warm ember, a custom shell, or three colored folds. Theme follows HTML classes, data-theme and system preference." },
+      { name: "color / eyeColor / colors", type: "string / string / readonly string[]", defaultValue: "Warm ember palette", description: "Custom shell and eye colors, or three colors for the prism folds." },
+      { name: "interactive / blink", type: "boolean / boolean", defaultValue: "true / true", description: "Smoothed pointer-following gaze and occasional blinking. Both respect reduced motion." }
     ]
   }
 ];
@@ -1190,7 +1190,7 @@ components.push(...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) 
 export function componentsInCollection(appearance: Appearance) { return components.filter((component) => !component.collection || component.collection === appearance); }
 // ShaderCanvas remains installable as the low-level engine behind the effects.
 // Its former showcase is now part of the single gradient playground.
-export function findComponent(slug: string) { return components.find((component) => component.slug === slug) ?? SHADER_COMPONENTS.find((component) => component.slug === slug); }
+export function findComponent(slug: string) { return components.find((component) => component.slug === (slug === "live-orb" ? "emberling" : slug)) ?? SHADER_COMPONENTS.find((component) => component.slug === slug); }
 export function componentUsage(component: ComponentDefinition, appearance: Appearance) {
   if (component.slug === "avatar-editor") return '"use client";\n\nimport { useState } from "react";\nimport { AvatarEditor } from "./components/ui/avatar-editor";\nimport { generateAvatarConfig } from "./lib/avatar/index";\n\nexport default function Example() {\n  const [config, setConfig] = useState(() => generateAvatarConfig("user-42"));\n  return <AvatarEditor appearance="' + appearance + '" seed="user-42" value={config} onChange={setConfig} />;\n}\n';
   const imports = [`import { ${component.name === "Toast" ? "Toast, ToastProvider" : component.name} } from "./${component.file.replace(/\.tsx$/, "")}";`];

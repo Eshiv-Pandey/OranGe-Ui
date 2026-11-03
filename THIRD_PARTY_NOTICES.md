@@ -1,15 +1,5 @@
 # Third-party notices
 
-## LiveOrb
-
-`components/ui/live-orb.tsx` is LiveOrb by **jay sharma (@radiumcoders)**.
-
-- Component and MIT designation: https://21st.dev/@radiumcoders/components/live-orb
-- Author's source registry: https://www.23rd.dev/r/live-orb.json
-- Integrated from the source supplied in the project brief. The two malformed warning string literals were repaired. Local integration adds stylesheet and appearance metadata; the shader and interaction engine are retained.
-
-The source registry does not state a copyright year. No year is inferred here.
-
 ## AnimeFire shader
 
 `components/ui/anime-fire-shader.ts` adapts **Shader Anime Fire** by **jay sharma (@radiumcoders)**.
@@ -30,7 +20,7 @@ The registry does not state a copyright year. No year is inferred here.
 
 The registry does not state a copyright year. No year is inferred here.
 
-## MIT License for LiveOrb, Shader Anime Fire and Shader Sky
+## MIT License for Shader Anime Fire and Shader Sky
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -121,7 +121,7 @@ The docs header provides custom accent colors, readable palette tokens and Copy 
 | Overlays and feedback | Dialog, Sheet, Popover, Tooltip, Toast, Alert, Progress, Skeleton, HoverCard |
 | Content and layout | Badge, Avatar, AvatarGroup, AvatarEditor, Card, StatCard, Separator, Table, EmptyState, Kbd, ScrollArea, Carousel, CodeBlock |
 | Play | MascotAvatar, CharacterAvatar, Helmet, MiniDriver, GamerBoy, OpenWheelCar, Superbike, RaceStartLights, RaceProgress |
-| AI and chat | ChatMessage, PromptInput, ToolCallCard, AgentStatus, ThinkingIndicator, ModelPicker, Markdown, LiveOrb |
+| AI and chat | ChatMessage, PromptInput, ToolCallCard, AgentStatus, ThinkingIndicator, ModelPicker, Markdown, Emberling |
 | Shader scenes | ShaderCanvas, FlowingWater, FlowingGrass, DriftingClouds |
 
 There are 86 public catalogue components. Table already provides sorting and pagination. Form uses Zod validation; FileUpload selects local files and leaves uploading to the consuming app. AI components expose application-owned callbacks. The chat demo streams a fixed local response and makes no model request. Markdown supports GFM with safe URL handling and raw HTML omitted.
@@ -138,7 +138,9 @@ The Batch 2 references guided layout and materials. That batch's shipped illustr
 
 The landscape landing uses the owner's supplied base image, cleaned to remove the original interface, with derived flower, cloud, grass and person masks. [LANDING_SCENE.md](LANDING_SCENE.md) documents its configuration, asset origins, mask export recipe and rendering limits. The reusable nature components use procedural shaders; their public APIs are described in [FLOWING_GRASS.md](FLOWING_GRASS.md) and [DRIFTING_CLOUDS.md](DRIFTING_CLOUDS.md).
 
-LiveOrb is by jay sharma (@radiumcoders), distributed under MIT. Its shader and interaction engine are retained, with the supplied warning-string repairs and local stylesheet/appearance integration. Full attribution travels with the component; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Emberling is an original folded-flame character with a curious gaze, softly floating cinders and customizable facets. It renders as SVG before hydration and respects reduced motion. The former LiveOrb page redirects to Emberling. The `LiveOrb` and `createLiveOrb` exports and `components/ui/live-orb` import path have been removed. Update component imports to `Emberling` from `components/ui/emberling`, replace `<LiveOrb />` with `<Emberling />`, and use the new `ember`, `custom` or `prism` variants. Old source-download and registry slugs resolve to the replacement, not an API compatibility wrapper.
+
+SeasonTree opens in spring with a broad, layered blossom crown. Winter shows bare branches with settled snow. NeonPillPlayer starts as a black capsule around its cover and equalizer, then expands horizontally without changing height. GlassPlayer uses edge-to-edge cover art and a translucent song panel controlled by `infoOpacity` (default `0.42`); liking a track releases a short heart splash. The legacy `GlassPlayer.blur` prop is accepted as a deprecated no-op because the outer backdrop is gone. Remove it from existing usage and use `infoOpacity` to adjust the song panel.
 
 ## Infinite Avatar
 
@@ -368,7 +370,7 @@ On machines with limited memory, use `npm run test:serial`. It runs one Vitest w
 | `npm run test:mascot` | Characters, chat states, gaze lifecycle, keyboard behavior, and portable exports |
 | `npm run test:artwork-customizers` | Character, helmet, and driver customizers, viewport captures, keyboard controls, motion, and decoded SVG/PNG exports |
 | `npm run test:motorsport` | Motorsport layouts, editors, portable exports, live vehicle physics, race lights, and progress controls |
-| `npm run test:launch` | Launch viewports, accessibility, forms, navigation, AI components, theme tools, copying, LiveOrb and SEO |
+| `npm run test:launch` | Launch viewports, accessibility, forms, navigation, AI components, theme tools, copying, Emberling and SEO |
 
 Run the bundle and trace checks after `npm run build` finishes, with no build running. Replace `<build-id>` with the value in `.next/BUILD_ID` and keep that build unchanged during verification. Reports are written under `out/iteration/`. Standalone bundle sizes exclude host React and React DOM; Next.js totals include every emitted chunk, rather than one route's initial transfer.
 

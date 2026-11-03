@@ -146,5 +146,5 @@
   .workspace-view .artwork-customizer-preview { padding: 24px 16px 84px; }
   .workspace-view .artwork-customizer-artwork > * { max-height: 290px; width: auto; }
   .workspace-view .artwork-customizer-artwork > .mini-driver { width: min(100%, 200px); max-height: none; }
-  .workspace-controls .live-orb-controls { gap: 20px; }
+  .workspace-controls .emberling-controls { gap: 20px; }
 }

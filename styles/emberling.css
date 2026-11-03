@@ -1,0 +1,24 @@
+@import "./library-base.css";
+
+.emberling { position: relative; flex: none; max-width: 100%; aspect-ratio: 240 / 260; isolation: isolate; }
+.emberling > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.emberling-float { animation: emberling-float 4.8s ease-in-out infinite; }
+.emberling-shell { filter: drop-shadow(0 8px 5px #1d141d26); }
+.emberling-shadow { transform-origin: 121px 237px; animation: emberling-shadow 4.8s ease-in-out infinite; }
+.emberling-eyes { transform-origin: 122px 144px; }
+.emberling[data-blink="true"] .emberling-eyes { animation: emberling-blink 5.6s linear infinite; }
+.emberling-cinder { opacity: .8; animation: emberling-cinder 4.8s ease-in-out infinite; }
+.emberling-cinder-two { animation-delay: -2.4s; }
+.emberling[data-appearance="pixel"] > svg { shape-rendering: crispEdges; }
+.emberling-demo { width: 100%; }
+.emberling-demo .artwork-customizer-artwork { min-height: 300px; }
+.emberling-figures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; justify-content: center; gap: 24px; width: min(100%, 660px); }
+.emberling-figures figure { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 14px; margin: 0; min-width: 0; }
+.emberling-figures figcaption { color: var(--muted); font-size: 12px; }
+.emberling-controls { display: grid; gap: 16px; }
+@keyframes emberling-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-7px) rotate(1deg); } }
+@keyframes emberling-shadow { 50% { transform: scaleX(.85); opacity: .65; } }
+@keyframes emberling-blink { 0%, 43%, 47%, 100% { transform: scaleY(1); } 45% { transform: scaleY(.12); } }
+@keyframes emberling-cinder { 0%, 100% { transform: translateY(0); opacity: .4; } 50% { transform: translateY(-8px); opacity: 1; } }
+@media (max-width: 700px) { .emberling-demo .artwork-customizer-artwork { min-height: 200px; } .emberling-figures { gap: 8px; } }
+@media (prefers-reduced-motion: reduce) { .emberling *, .emberling[data-blink="true"] .emberling-eyes { animation: none; } }

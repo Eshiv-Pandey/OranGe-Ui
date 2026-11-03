@@ -51,11 +51,11 @@ it("retains the ZIP layout and binary fonts while registry payloads embed fonts 
   });
 });
 
-it("carries the full LiveOrb notice through transitive bundles and registry entries", async () => {
-  const notice = "# Third-party notices\n\nLiveOrb attribution\nMIT License\nCopyright original author\nPermission is hereby granted ...\nTHE SOFTWARE IS PROVIDED AS IS.\n";
+it("carries the full borrowed shader notice through transitive bundles and registry entries", async () => {
+  const notice = "# Third-party notices\n\nShader Sky attribution\nMIT License\nCopyright original author\nPermission is hereby granted ...\nTHE SOFTWARE IS PROVIDED AS IS.\n";
   await withSourceFixture({
-    "components/ui/fixture.tsx": 'export { LiveOrb as Fixture } from "./live-orb";',
-    "components/ui/live-orb.tsx": 'import { cn } from "@/lib/utils"; import "../../styles/library-base.css"; export function LiveOrb() { return cn("orb"); }',
+    "components/ui/fixture.tsx": 'export { cloudField as Fixture } from "./shader-canvas/clouds-field";',
+    "components/ui/shader-canvas/clouds-field.ts": 'import { cn } from "@/lib/utils"; import "../../../styles/library-base.css"; export function cloudField() { return cn("cloud"); }',
     "lib/utils.ts": 'export function cn(value: string) { return value; }', "THIRD_PARTY_NOTICES.md": notice,
   }, async (_directory, component) => {
     const files = await componentFiles(component, "polished"); expect(strFromU8(files["THIRD_PARTY_NOTICES.md"])).toBe(notice);
@@ -66,7 +66,7 @@ it("carries the full LiveOrb notice through transitive bundles and registry entr
 });
 
 it("does not add a third-party notice to unrelated components", async () => {
-  await withSourceFixture({ "THIRD_PARTY_NOTICES.md": "LiveOrb attribution" }, async (_directory, component) => {
+  await withSourceFixture({ "THIRD_PARTY_NOTICES.md": "Shader Sky attribution" }, async (_directory, component) => {
     expect(Object.keys(await componentFiles(component, "polished"))).not.toContain("THIRD_PARTY_NOTICES.md");
   });
 });

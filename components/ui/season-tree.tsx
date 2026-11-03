@@ -15,7 +15,7 @@ export type SeasonTreeProps = {
 type FallingLeaf = { x: number; y: number; rotation: number; speed: number; drift: number; color: string; size: number; phase: number };
 
 export function SeasonTree({ season, onSeasonChange, showPicker = true, windStrength = .6, fallRate = 2.5, pixelSize, background, paused = false, size = 480, theme = "auto", appearance = "polished", className }: SeasonTreeProps) {
-  const [localSeason, setLocalSeason] = useState<TreeSeason>("red"), activeSeason = season ?? localSeason;
+  const [localSeason, setLocalSeason] = useState<TreeSeason>("pink"), activeSeason = season ?? localSeason;
   const resolved = useCreativeTheme(theme), canvas = useRef<HTMLCanvasElement>(null);
   const latest = useRef({ season: activeSeason, windStrength, fallRate, paused, background });
   const redraw = useRef<(() => void) | null>(null);
@@ -45,7 +45,7 @@ export function SeasonTree({ season, onSeasonChange, showPicker = true, windStre
       if (config.background && config.background !== "transparent") { context.fillStyle = config.background; context.fillRect(0, 0, TREE_WIDTH, TREE_HEIGHT); }
       const paint = (tree: typeof art, opacity: number) => tree.layers.forEach((layer, i) => {
         context.save(); context.globalAlpha = opacity;
-        context.translate(490, 825); context.rotate(Math.sin(clock * .72 + i * .4) * wind * .0025 * (i + 1)); context.translate(-490, -825);
+        context.translate(450, 850); context.rotate(Math.sin(clock * .72 + i * .4) * wind * .0014 * (i + 1)); context.translate(-450, -850);
         context.drawImage(layer, 0, 0); context.restore();
       });
       if (previous && transition < 1) paint(previous, 1 - transition);
@@ -57,7 +57,9 @@ export function SeasonTree({ season, onSeasonChange, showPicker = true, windStre
         const leaf = falling[i];
         leaf.y += seconds * leaf.speed; leaf.x += seconds * (leaf.drift + Math.sin(clock * 1.5 + leaf.phase) * wind * 24); leaf.rotation += seconds * .9;
         context.globalAlpha = Math.min(1, Math.max(0, (TREE_HEIGHT - leaf.y) / 70));
-        paintTreeLeaf(context, { ...leaf, w: leaf.size, h: leaf.size * (.4 + Math.abs(Math.cos(clock * 1.7 + leaf.phase)) * .3) });
+        if (currentSeason === "winter") {
+          context.fillStyle = leaf.color; context.beginPath(); context.arc(leaf.x, leaf.y, leaf.size * .3, 0, Math.PI * 2); context.fill();
+        } else paintTreeLeaf(context, { ...leaf, w: leaf.size, h: leaf.size * (.4 + Math.abs(Math.cos(clock * 1.7 + leaf.phase)) * .3), blossom: currentSeason === "pink" });
         if (leaf.y > TREE_HEIGHT || leaf.x < -15 || leaf.x > TREE_WIDTH + 15) falling.splice(i, 1);
       }
       context.restore();
@@ -66,7 +68,7 @@ export function SeasonTree({ season, onSeasonChange, showPicker = true, windStre
     return () => { redraw.current = null; renderer.destroy(); art.destroy(); previous?.destroy(); };
   }, [pixelSize]);
   return <div className={cn("creative-surface season-tree", className)} data-theme={resolved} data-appearance={appearance} style={{ "--tree-size": typeof size === "number" ? size + "px" : size } as CSSProperties}>
-    <canvas ref={canvas} className="season-tree-canvas" role="img" aria-label={TREE_SEASONS.find((item) => item.value === activeSeason)?.label + " tree with falling leaves"} />
+    <canvas ref={canvas} className="season-tree-canvas" role="img" aria-label={activeSeason === "winter" ? "Winter tree with snow on its bare branches" : TREE_SEASONS.find((item) => item.value === activeSeason)?.label + " tree with falling " + (activeSeason === "pink" ? "blossoms" : "leaves")} />
     {showPicker && <div className="season-tree-picker" role="group" aria-label="Tree season">{TREE_SEASONS.map(({ value, label }) => <button key={value} type="button" aria-pressed={value === activeSeason} onClick={() => { if (season === undefined) setLocalSeason(value); onSeasonChange?.(value); }}><span style={{ backgroundColor: TREE_PALETTES[value].leaves[3] }} />{label}</button>)}</div>}
   </div>;
 }
