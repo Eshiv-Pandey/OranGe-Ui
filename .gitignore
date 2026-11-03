@@ -29,3 +29,4 @@ references/landing3.png
 .impeccable/hook.cache.json
 .impeccable/live/*
 !.impeccable/live/config.json
+.impeccable/review/reference-expansion/

@@ -1,5 +1,19 @@
 # oRangeUi status
 
+## Reference component expansion
+
+Six Pinterest-inspired components and ten interaction components are implemented and verified as of 3 November 2026 on `feat/next-iteration`. The catalogue contains 101 unique entries: 85 existing entries and 16 additions. [REFERENCE_EXPANSION.md](REFERENCE_EXPANSION.md) maps the request to each component and records the source policy and checks.
+
+- BloomTrail, HumanAvatar, JournalStack, PhotoGarland, BubbleWrap and FilmStrip add editable sticker portraits, flowers, layered paper, clipped photographs and poppable bubbles. Human avatars have a separate navigation category. The existing Avatar family is unchanged.
+- FocusCards, DraggableCards, CipherText, WiggleText, FlipBoard, HaloButton, FloatingDock and MorphInput add the requested card, text, button, dock and input interactions. LiquidMetal and FluidColorPicker use independent rendering and interaction designs. All new implementation code is original; six licensed sample photographs travel with the portable source.
+- Production build `neVH4702AKcm-mTdyqqOT`, TypeScript, ESLint, 67 affected behavior/source cases and 85 standalone examples pass. The final caption change received a 28-case component refresh and fresh compilation/bundling of the 40 examples in its affected download batches.
+- All 11 browser cases are covered by passing full and focused results. Desktop/mobile captures cover both themes. The final accessibility scan has zero violations across 32 preview observations, and eight refreshed journal/card observations have no overflow or runtime errors. Exports, interactions, shader context restoration, reduced motion and static fallbacks are covered.
+- Final bundle isolation, source tracing and live downloads pass. Each source route retains 269 public files plus 12 runtime files. ZIP and registry responses include the final correction, six photos and license notes.
+
+The independent reviewer returned `ship` for the caption correction and scored it resolved; visual work was accepted in its initial review. The documentation comparison preserves the incumbent product and design system. Evidence is indexed by `out/iteration/reference-expansion/verification-summary.json`. Physical-device frame rates and user visual acceptance remain unmeasured.
+
+The production preview runs at `http://127.0.0.1:3116`.
+
 ## Tree, character and player refinements
 
 The four component refinements are implemented and verified as of 3 November 2026 on `feat/next-iteration`.

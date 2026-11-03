@@ -9,13 +9,14 @@ export type ComponentSourceBundle = { files: Record<string, Uint8Array>; depende
 export const BUNDLED_FONTS = ["geist-latin.woff2", "pixelify-sans-latin.woff2", "OFL-Geist.txt", "OFL-PixelifySans.txt"] as const;
 export const CREATIVE_FONT_ASSETS = ["public/fonts/desi/yatra-one.woff2", "public/fonts/desi/baloo-2.woff2", "public/fonts/desi/OFL-yatra-one.txt", "public/fonts/desi/OFL-baloo-2.txt", "public/fonts/desi/README.md"] as const;
 export const CREATIVE_AUDIO_ASSETS = ["public/audio/orangeui/sunroom.wav", "public/audio/orangeui/blue-hour.wav", "public/audio/orangeui/pocket-garden.wav", "public/audio/orangeui/LICENSE.txt", "public/audio/orangeui/CC0-1.0.txt"] as const;
+export const KEEPSAKE_PHOTO_ASSETS = ["summit.jpg", "road.jpg", "lake.jpg", "water.jpg", "forest.jpg", "mist.jpg", "NOTICE.md"].map((name) => `public/photos/keepsakes/${name}`);
 
 function allowedSource(relative: string): boolean {
   return /^(?:components\/ui\/|lib\/avatar\/).+\.tsx?$/.test(relative)
     || /^styles\/.+\.css$/.test(relative)
     || relative === "lib/utils.ts"
     || BUNDLED_FONTS.some((name) => relative === `public/fonts/${name}`)
-    || [...CREATIVE_FONT_ASSETS, ...CREATIVE_AUDIO_ASSETS].some((name) => relative === name)
+    || [...CREATIVE_FONT_ASSETS, ...CREATIVE_AUDIO_ASSETS, ...KEEPSAKE_PHOTO_ASSETS].some((name) => relative === name)
     || relative === "LICENSE" || relative === "THIRD_PARTY_NOTICES.md";
 }
 
@@ -25,6 +26,7 @@ function sourceScope(relative: string): string {
   if (relative.startsWith("styles/")) return "styles";
   if (relative.startsWith("public/fonts/")) return "public/fonts";
   if (relative.startsWith("public/audio/")) return "public/audio";
+  if (relative.startsWith("public/photos/keepsakes/")) return "public/photos/keepsakes";
   return relative;
 }
 
@@ -81,6 +83,8 @@ export async function collectComponentSource(component: ComponentDefinition, app
               ? await realpath(path.join(root, "public/fonts", normalized.slice("public/fonts/".length)))
               : normalized.startsWith("public/audio/")
                 ? await realpath(path.join(root, "public/audio", normalized.slice("public/audio/".length)))
+              : normalized.startsWith("public/photos/keepsakes/")
+                ? await realpath(path.join(root, "public/photos/keepsakes", normalized.slice("public/photos/keepsakes/".length)))
               : normalized === "THIRD_PARTY_NOTICES.md"
                 ? await realpath(path.join(root, "THIRD_PARTY_NOTICES.md"))
                 : await realpath(path.join(root, "LICENSE"));
@@ -104,6 +108,8 @@ export async function collectComponentSource(component: ComponentDefinition, app
               ? await readFile(path.join(root, "public/fonts", normalized.slice("public/fonts/".length)))
             : normalized.startsWith("public/audio/")
               ? await readFile(path.join(root, "public/audio", normalized.slice("public/audio/".length)))
+              : normalized.startsWith("public/photos/keepsakes/")
+                ? await readFile(path.join(root, "public/photos/keepsakes", normalized.slice("public/photos/keepsakes/".length)))
               : normalized === "THIRD_PARTY_NOTICES.md"
                 ? await readFile(path.join(root, "THIRD_PARTY_NOTICES.md"))
                 : await readFile(path.join(root, "LICENSE"));
@@ -126,6 +132,7 @@ export async function collectComponentSource(component: ComponentDefinition, app
   for (const font of BUNDLED_FONTS) await include("public/fonts/" + font);
   if (files["components/ui/styled-text.tsx"]) for (const asset of CREATIVE_FONT_ASSETS) await include(asset);
   if (files["components/ui/creative-playlist.ts"]) for (const asset of CREATIVE_AUDIO_ASSETS) await include(asset);
+  if (files["components/ui/keepsake-photos.ts"]) for (const asset of KEEPSAKE_PHOTO_ASSETS) await include(asset);
   files["Example.tsx"] = strToU8(example);
   await include("LICENSE");
   const attributedComponents = [files["components/ui/anime-fire-shader.ts"] && "Shader Anime Fire", files["components/ui/shader-canvas/clouds-field.ts"] && "Shader Sky"].filter(Boolean);
@@ -169,6 +176,7 @@ Components assign unique SVG definition IDs automatically. If you insert several
   ].filter(Boolean).join("\n");
   files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n" + extraNotes);
   if (component.notes?.length) files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n## Creative component\n\n" + (component.collection ? "This component retains its " + component.collection + " material. " : "Choose any of the five appearances. ") + "Theme follows live HTML dark/light classes, data-theme, then the system preference.\n\n" + (component.notes ?? []).join("\n\n") + "\n\nMerge the included public/ folder into your public assets, including audio/ for the original sample playlist and fonts/desi/ for display lettering. Retain all included license and credit files.\n");
+  if (files["components/ui/keepsake-photos.ts"]) files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n## Demonstration photographs\n\nCopy public/photos/keepsakes/ into your public directory. The six small landscape images are demonstration content under the Unsplash license. Keep their NOTICE.md with redistributed samples. Supply your own photos/items for production content.\n");
   return { files, dependencies, devDependencies };
 }
 export async function componentFiles(component: ComponentDefinition, appearance: Appearance) { return (await collectComponentSource(component, appearance)).files; }

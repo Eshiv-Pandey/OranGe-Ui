@@ -5,10 +5,11 @@ import { NAVIGATION_COMPONENTS } from "./navigation-components";
 import { AI_COMPONENTS } from "./ai-components";
 import { CREATIVE_COMPONENTS } from "./creative-components";
 import { SHADER_COMPONENTS } from "./shader-components";
-export type ComponentCategory = "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play" | "AI & chat";
+import { REFERENCE_COMPONENTS } from "./reference-components";
+export type ComponentCategory = "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play" | "AI & chat" | "Human avatars";
 export type PropDoc = { name: string; type: string; defaultValue: string; description: string };
 export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string; customizerPreview?: boolean; usageImports?: string[]; usageSetup?: string; collection?: Appearance; notes?: string[]; demo?: DemoStep[] };
-export const componentCategories: ComponentCategory[] = ["Forms & actions", "Navigation & disclosure", "Overlays & feedback", "Content & layout", "Play", "AI & chat"];
+export const componentCategories: ComponentCategory[] = ["Forms & actions", "Navigation & disclosure", "Overlays & feedback", "Human avatars", "Content & layout", "Play", "AI & chat"];
 export const components: ComponentDefinition[] = [
   {
     "slug": "button",
@@ -1186,7 +1187,7 @@ export const components: ComponentDefinition[] = [
     ]
   }
 ];
-components.push(...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"));
+components.push(...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS);
 export function componentsInCollection(appearance: Appearance) { return components.filter((component) => !component.collection || component.collection === appearance); }
 // ShaderCanvas remains installable as the low-level engine behind the effects.
 // Its former showcase is now part of the single gradient playground.

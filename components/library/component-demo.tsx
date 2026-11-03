@@ -3,6 +3,7 @@
 import { CreativeWorkbench } from "../ui/creative-editor-slot";
 import { lazy, Suspense, useState } from "react";
 import { CREATIVE_COMPONENT_SLUGS } from "../../lib/creative-components";
+import { REFERENCE_COMPONENT_SLUGS } from "../../lib/reference-components";
 import type { Appearance } from "../ui/appearance";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -54,15 +55,18 @@ import { NavigationDemo, NAVIGATION_DEMO_SLUGS } from "./navigation-demos";
 import { AIDemo, AI_DEMO_SLUGS } from "./ai-demos";
 import { Emberling } from "../ui/emberling";
 import { EmberlingDemo } from "./emberling-demo";
+import HumanAvatarDemo from "./human-avatar-demo";
+import ReferenceTextDemo from "./reference-text-demo";
 
 const CreativeDemo = lazy(() => import("./creative-demos"));
+const ReferenceDemo = lazy(() => import("./reference-demos"));
 const ShaderCanvasDemo = lazy(() => import("./shader-canvas-demo"));
 const FlowingWaterDemo = lazy(() => import("./flowing-water-demo"));
 const FlowingGrassDemo = lazy(() => import("./flowing-grass-demo"));
 const DriftingCloudsDemo = lazy(() => import("./drifting-clouds-demo"));
-function ShaderFallback({ kind = "gradient" }: { kind?: "gradient" | "water" | "grass" | "clouds" }) {
-  const colors = { gradient: "#ff4d00,#ff1e56,#ad32ff,#38f2ff,#ffb900", water: "#001d31,#067b83,#23989f", grass: "#071f16,#76aa3c,#d5ee94", clouds: "#087bbd,#fffdf7,#6d95b6" };
-  return <div data-preview-pending className="shader-canvas" data-renderer="fallback" role="img" aria-label={`${kind} preview`} style={{ width: "100%", height: 460, borderRadius: 14, background: `linear-gradient(125deg,${colors[kind]})` }} />;
+function ShaderFallback({ kind = "gradient" }: { kind?: "gradient" | "water" | "grass" | "clouds" | "metal" }) {
+  const colors = { gradient: "#ff4d00,#ff1e56,#ad32ff,#38f2ff,#ffb900", water: "#001d31,#067b83,#23989f", grass: "#071f16,#76aa3c,#d5ee94", clouds: "#087bbd,#fffdf7,#6d95b6", metal: "#e4e5df,#d6dee0,#f6f3e7,#d6dee0,#e4e5df" };
+  return <div data-preview-pending className={`shader-canvas${kind === "metal" ? " liquid-metal" : ""}`} data-renderer="fallback" role="img" aria-label={`${kind} preview`} style={{ width: "100%", height: 460, borderRadius: 14, background: `linear-gradient(125deg,${colors[kind]})` }} />;
 }
 const projects = [
   { id: "1", name: "Orange studio", status: "Live", members: 8 },
@@ -87,6 +91,9 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   const status = <p className="demo-feedback" role="status">{feedback || "Try it. Every example is interactive."}</p>;
   const action = <Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Ready for a fresh start." : "Project created in this preview."); }}>{saved ? "Start again" : "Create project"}</Button>;
   if (CREATIVE_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing preview...</div>}><CreativeDemo slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+  if (slug === "human-avatar") return <HumanAvatarDemo appearance={appearance} thumbnail={thumbnail} />;
+  if (slug === "cipher-text" || slug === "wiggle-text" || slug === "flip-board") return <ReferenceTextDemo kind={slug} appearance={appearance} thumbnail={thumbnail} />;
+  if (REFERENCE_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={slug === "liquid-metal" ? <ShaderFallback kind="metal" /> : <div className="creative-demo-loading" data-preview-pending>Preparing preview...</div>}><ReferenceDemo slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if ((NAVIGATION_DEMO_SLUGS as readonly string[]).includes(slug)) return <NavigationDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   if ((AI_DEMO_SLUGS as readonly string[]).includes(slug)) return <AIDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   switch (slug) {

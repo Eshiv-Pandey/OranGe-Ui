@@ -1,0 +1,10 @@
+@import "./library-base.css";
+.human-avatar { display: inline-block; max-width: 100%; height: auto; flex-shrink: 0; overflow: visible; vertical-align: middle; filter: drop-shadow(0 4px 2px rgb(0 0 0 / .12)); }
+.human-gaze { transition: transform 160ms cubic-bezier(.16, 1, .3, 1); }
+.human-eyes { transform-origin: 100px 108px; animation: human-blink 7s infinite; }
+.human-avatar[data-motion="paused"] .human-eyes, .human-avatar[data-motion="reduced"] .human-eyes { animation: none; }
+.human-avatar[data-appearance="pixel"] { image-rendering: pixelated; filter: drop-shadow(3px 3px 0 rgb(0 0 0 / .2)); }
+.human-avatar[data-appearance="neobrutalism"] { filter: drop-shadow(5px 5px 0 #171717); }
+.human-avatar[data-appearance="terminal"] { filter: grayscale(1); }
+@keyframes human-blink { 0%, 43%, 47%, 100% { transform: scaleY(1); } 45% { transform: scaleY(.08); } }
+@media (prefers-reduced-motion: reduce) { .human-eyes { animation: none; } .human-gaze { transition: none; transform: none !important; } }

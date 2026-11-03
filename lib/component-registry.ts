@@ -33,7 +33,8 @@ export function registryAssetSource(source: string, files: Readonly<Record<strin
   let result = source;
   for (const [asset, bytes] of Object.entries(files)) {
     const mime = asset.startsWith("public/fonts/") && asset.endsWith(".woff2") ? "font/woff2"
-      : asset.startsWith("public/audio/") && asset.endsWith(".wav") ? "audio/wav" : undefined;
+      : asset.startsWith("public/audio/") && asset.endsWith(".wav") ? "audio/wav"
+      : asset.startsWith("public/photos/keepsakes/") && asset.endsWith(".jpg") ? "image/jpeg" : undefined;
     if (!mime) continue;
     const url = "/" + asset.slice("public/".length);
     if (!result.includes('"' + url + '"') && !result.includes("'" + url + "'")) continue;
@@ -44,7 +45,8 @@ export function registryAssetSource(source: string, files: Readonly<Record<strin
 }
 
 function destination(source: string, slug: string): string | undefined {
-  if (source.endsWith(".woff2") || source.endsWith(".wav") || source === "README.md") return undefined;
+  if (source.endsWith(".woff2") || source.endsWith(".wav") || source.endsWith(".jpg") || source === "README.md") return undefined;
+  if (source === "public/photos/keepsakes/NOTICE.md") return "licenses/KEEPSAKE_PHOTOS.md";
   if (source.startsWith("public/fonts/desi/")) return source.endsWith("README.md") ? "licenses/DISPLAY_FONT_CREDITS.md" : "licenses/" + source.split("/").at(-1);
   if (source.startsWith("public/audio/orangeui/")) return "licenses/Orange-sessions-" + source.split("/").at(-1);
   if (source === "Example.tsx") return `examples/${slug}.tsx`;
