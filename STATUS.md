@@ -1,5 +1,19 @@
 # oRangeUi status
 
+## Component feedback refinements
+
+The requested component corrections are implemented and verified as of 4 November 2026 on `feat/next-iteration`. The catalogue remains at 101 entries.
+
+- Emberling now presents original Fire, Water and Aqua characters with continuously animated contours, pointer gaze and six expressions. Fluid orb mode restores a moving pigment wash behind the new faces. Custom and Prism colors, static rendering and reduced-motion behavior remain available.
+- The workspace uses its full preview width and height. BloomTrail, DraggableCards, BubbleWrap, PhotoGarland and LiquidMetal occupy the complete stage. Mobile previews have no inherited sticky offset, characters fit their grid columns, and component controls clear the view dock.
+- BubbleWrap has clear film highlights, collapsed creases and gesture-gated pop audio enabled by default. PhotoGarland has a transparent background, continuous wires, correctly attached clips and softer shadows. HumanAvatar has bold head-only art, eight hair silhouettes, six expressions and a visible randomize action.
+- IslandPlayer and NeonPillPlayer sample real audible frequency bands and settle on pause or mute. FloatingDock uses damped magnification with separate layout slots. LiquidMetal uses a continuous folded surface with moving studio reflections.
+- ESLint, TypeScript, copy checks, 64 affected unit/source cases and seven download batches pass. Those download batches compile and bundle 140 standalone examples across all five appearances.
+- All 13 browser cases are covered by passing full and focused results. Forty desktop/mobile preview observations across both themes have zero accessibility violations or runtime errors. The final grid correction received a fresh production build and passing mobile layout and elemental animation checks.
+- Final production build `FyhRupKxIsVzrU3BpdxpY`, bundle isolation and source tracing pass. Each source route contains 271 public files plus 12 runtime files. Review assets and verification details are indexed by `out/iteration/component-feedback/verification-summary.json`.
+
+The updated production preview runs at `http://127.0.0.1:3122`. Physical-device frame rates and speaker output were not separately measured.
+
 ## Reference component expansion
 
 Six Pinterest-inspired components and ten interaction components are implemented and verified as of 3 November 2026 on `feat/next-iteration`. The catalogue contains 101 unique entries: 85 existing entries and 16 additions. [REFERENCE_EXPANSION.md](REFERENCE_EXPANSION.md) maps the request to each component and records the source policy and checks.

@@ -8,7 +8,7 @@
 .focus-card-copy strong { font: 500 clamp(19px, 2.3vw, 27px)/1.14 var(--font-body), sans-serif; letter-spacing: -.03em; }
 .focus-card-copy > span { font-size: 11px; line-height: 1.45; color: #f1f1e6; }
 .draggable-cards { width: 100%; max-width: 740px; }
-.draggable-cards-stage { position: relative; height: clamp(340px, 37vw, 460px); overflow: hidden; border-radius: var(--ix-radius); background: color-mix(in srgb, var(--creative-ink) 5%, var(--creative-paper)); }
+.draggable-cards-stage { position: relative; isolation: isolate; height: clamp(340px, 37vw, 460px); overflow: hidden; border-radius: var(--ix-radius); background: color-mix(in srgb, var(--creative-ink) 5%, var(--creative-paper)); }
 .draggable-card { position: absolute; width: clamp(145px, 34%, 238px); padding: 10px 10px 22px; border: 0; border-radius: var(--ix-radius); background: #f9f4e9; color: #252c28; box-shadow: 0 14px 22px rgb(0 0 0 / .2); transform: translate(-50%, -50%) rotate(var(--card-angle)); transition: transform .5s var(--ix-ease), box-shadow .5s var(--ix-ease); text-align: left; cursor: grab; touch-action: none; user-select: none; }
 .draggable-card[data-held="true"] { cursor: grabbing; box-shadow: 0 24px 30px rgb(0 0 0 / .3); transform: translate(-50%, -50%) rotate(0) scale(1.015); }
 .draggable-card img { display: block; width: 100%; aspect-ratio: .9; object-fit: cover; border-radius: max(0px, calc(var(--ix-radius) - 7px)); pointer-events: none; }

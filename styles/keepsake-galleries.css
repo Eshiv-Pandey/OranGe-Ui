@@ -15,21 +15,23 @@
 .journal-stack-controls > span > span { color: #c7cddd; }
 .journal-stack .ix-icon { border: 0; background: #f4efdf; color: #28354e; }
 .journal-empty { padding-top: 100px; text-align: center; }
-.interaction-surface.photo-garland { width: 100%; max-width: 740px; overflow: hidden; border-radius: var(--ix-radius); background: radial-gradient(ellipse at 40% 30%, #9c7d56, #67563d 65%, #514530); color: #f8f0de; }
-.photo-garland[data-theme="dark"] { background: radial-gradient(ellipse at 40% 30%, #403a30, #252824 65%, #161d1a); }
-.photo-garland-stage { position: relative; width: 100%; aspect-ratio: 640 / 470; min-height: 300px; }
-.garland-wire { position: absolute; width: 100%; height: 100%; color: #8c806a; }
-.garland-photo { position: absolute; width: var(--photo-width); padding: 7px 7px 9px; border: 0; border-radius: 1px; background: #f7f0dc; color: #2c3028; box-shadow: 0 10px 16px rgb(20 15 7 / .36); transform: translateX(-50%) rotate(var(--photo-rotation)); transform-origin: 50% -6px; cursor: pointer; text-align: center; transition: box-shadow .25s, scale .25s; }
-.photo-garland[data-sway="true"] .garland-photo { animation: garland-sway 6s ease-in-out infinite alternate; animation-delay: var(--photo-delay); }
-.garland-photo:hover, .garland-photo:focus-visible, .garland-photo[aria-pressed="true"] { scale: 1.06; z-index: 3; box-shadow: 0 15px 24px rgb(20 15 7 / .4); }
-.garland-photo img { display: block; width: 100%; aspect-ratio: .85; object-fit: cover; }
-.garland-photo > span:last-child { display: block; margin-top: 7px; font: italic clamp(9px, 1.1vw, 13px)/1.25 Georgia, serif; }
+.interaction-surface.photo-garland { width: 100%; max-width: 860px; overflow: hidden; background: transparent; color: var(--creative-ink); }
+.photo-garland-stage { position: relative; width: 100%; aspect-ratio: 1.15; min-height: 370px; }
+.garland-wire { position: absolute; width: 100%; height: 100%; color: #777b71; }
+.photo-garland[data-theme="dark"] .garland-wire { color: #a9a694; }
+.garland-photo { position: absolute; width: var(--photo-width); padding: 8px 8px 10px; border: 0; border-radius: 1px; background: #fffdf7; color: #38362e; box-shadow: 2px 12px 13px -6px #17201b33, 0 1px 2px #17201b24; transform: translateX(-50%) rotate(var(--photo-rotation)); transform-origin: 50% -12px; cursor: pointer; text-align: center; transition: box-shadow .25s, scale .25s; }
+.photo-garland[data-sway="true"] .garland-photo { animation: garland-sway 7s ease-in-out infinite alternate; animation-delay: var(--photo-delay); }
+.garland-photo:hover, .garland-photo:focus-visible, .garland-photo[aria-pressed="true"] { scale: 1.025; z-index: 3; box-shadow: 3px 17px 20px -5px #17201b42, 0 1px 2px #17201b24; }
+.garland-photo img { display: block; width: 100%; aspect-ratio: .96; object-fit: cover; box-shadow: inset 0 1px 2px #141b1833; }
+.garland-photo > span:last-child { display: block; margin-top: 10px; min-height: 20px; font: italic clamp(10px, 1.1vw, 14px)/1.25 Georgia, serif; }
 .keepsake-clip { position: absolute; left: calc(50% - 3px); top: -10px; width: 6px; height: 20px; border: 1px solid #8c7861; background: linear-gradient(90deg, #b4a17d, #ead8af 45%, #a28b64); border-radius: 1px; z-index: 2; }
-.garland-bulb { position: absolute; top: -20px; left: calc(50% - 4px); width: 8px; height: 12px; background: #71604a; border-radius: 5px 5px 3px 3px; }
-.photo-garland[data-lights="true"] .garland-bulb { background: #fff7d8; box-shadow: 0 0 6px 3px #fff2c0, 0 0 26px 12px rgb(255 204 116 / .36); }
+.garland-photo .keepsake-clip { z-index: 2; top: -20px; left: calc(50% - 5px); width: 10px; height: 29px; border: 1px solid #bfa982; border-radius: 2px; background: linear-gradient(90deg, #d9c69f, #f0dfb7 36%, #c9b187 40%, #ecd7ad 58%, #b39b75); box-shadow: 1px 2px 2px #1d211c26; }
+.garland-photo .keepsake-clip::after { content: ""; position: absolute; left: -1px; right: -1px; top: 13px; height: 3px; border-block: 1px solid #826e4f; background: #a89574; }
+.garland-light { position: absolute; width: 4px; height: 7px; border-radius: 2px 2px 3px 3px; transform: translate(-50%, -1px); background: #b7ac92; }
+.photo-garland[data-lights="true"] .garland-light { background: #fff6d9; box-shadow: 0 0 3px 1px #ffdc8fcc, 0 0 12px 4px #ffc56555, 0 4px 22px 8px #f4c07518; }
 .garland-caption { display: grid; gap: 6px; min-height: 76px; padding: 6px 22px 22px; text-align: center; }
 .garland-caption strong { font: italic 20px/1.25 Georgia, serif; }
-.garland-caption span { font-size: 12px; color: #f3e9d2; }
+.garland-caption span { font-size: 12px; color: var(--creative-muted); }
 .keepsake-empty { padding: 60px 20px; text-align: center; }
 .film-strip { display: grid; grid-template-columns: minmax(190px, 1.1fr) 1fr; align-items: center; width: 100%; max-width: 710px; padding: 14px 22px; border-radius: var(--ix-radius); background: #f3f0e9; color: #34352f; }
 .film-strip[data-theme="dark"] { background: #272b28; color: #f4eee0; }
@@ -50,5 +52,5 @@
 .film-strip-caption h2 { max-width: 9ch; margin: 0 0 32px; font: italic clamp(28px, 3vw, 43px)/1.08 Georgia, serif; letter-spacing: -.025em; }
 .film-strip-caption strong { font-size: 13px; }
 .film-strip-caption p { max-width: 22ch; font-size: 12px; line-height: 1.5; }
-@keyframes garland-sway { from { rotate: -1.5deg; } to { rotate: 1.5deg; } }
+@keyframes garland-sway { from { rotate: -.6deg; } to { rotate: .6deg; } }
 @media (max-width: 480px) { .journal-stack { padding-top: 24px; }.journal-stack-stage { height: 290px; }.journal-page { width: 68%; }.journal-page-title { font-size: 19px; }.photo-garland-stage { min-height: 325px; }.garland-photo { padding: 4px 4px 7px; }.garland-caption { padding-inline: 12px; }.film-strip { grid-template-columns: minmax(155px, 1.1fr) 1fr; padding: 8px; }.film-strip-line { padding-left: 30px; padding-right: 14px; }.film-strip-line::before { left: 29px; }.film-strip-caption { padding-left: 6px; }.film-strip-caption h2 { font-size: 29px; }.film-strip-scroll { height: 460px; } }

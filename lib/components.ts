@@ -1176,13 +1176,15 @@ export const components: ComponentDefinition[] = [
   {
     slug: "emberling", name: "Emberling",
     demo: [{ t: 0, action: "move", to: { x: 25, y: 35 } }, { t: 850, action: "move", to: { x: 75, y: 40 } }, { t: 1600, action: "move", to: "center" }, { t: 3400, action: "leave" }], category: "AI & chat", customizerPreview: true,
-    description: "A little folded flame with a curious gaze, warm facets and floating cinders.",
-    file: "components/ui/emberling.tsx", usage: '<Emberling appearance="polished" size={200} interactive blink />',
-    keyboard: "A named decorative character with no focus stop. Native size, color and checkbox controls customize the demo. Motion pauses offscreen and in hidden tabs; reduced motion holds a settled pose. The full SVG character is visible before hydration.",
+    description: "Living fire and water friends with flowing contours, expressive eyes and a fluid orb mode.",
+    file: "components/ui/emberling.tsx", usage: '<Emberling appearance="polished" variant="ember" expression="happy" size={220} interactive blink />',
+    keyboard: "Tab to a friend and press Enter or Space to change its expression. Native controls choose the body style, expression, colors and motion. Motion pauses offscreen and in hidden tabs; reduced motion holds a settled pose. The full SVG character is visible before hydration.",
     props: [
-      { name: "size", type: "number", defaultValue: "200", description: "Responsive character width in CSS pixels, clamped from 48 to 640." },
-      { name: "variant / theme", type: "ember | custom | prism / light | dark | auto", defaultValue: "ember / auto", description: "Warm ember, a custom shell, or three colored folds. Theme follows HTML classes, data-theme and system preference." },
-      { name: "color / eyeColor / colors", type: "string / string / readonly string[]", defaultValue: "Warm ember palette", description: "Custom shell and eye colors, or three colors for the prism folds." },
+      { name: "size", type: "number", defaultValue: "220", description: "Responsive character width in CSS pixels, clamped from 48 to 640." },
+      { name: "variant / theme", type: "ember | water | aqua | custom | prism / light | dark | auto", defaultValue: "ember / auto", description: "Fire, two water characters, a custom color or a flowing prism. Theme follows the page palette." },
+      { name: "shape / expression", type: "character | orb / happy | calm | excited | wink | surprised | grumpy", defaultValue: "character / happy", description: "Choose a full elemental character or an orb with a moving WebGL pigment wash, with six distinct eye and mouth expressions. Orb mode keeps a static color fallback when WebGL is unavailable." },
+      { name: "animate / speed", type: "boolean / number", defaultValue: "true / 1", description: "Continuously deform the flame or water contour. Motion speed is clamped from 0.1 to 3. Reduced motion overrides animation." },
+      { name: "color / eyeColor / colors", type: "string / string / readonly string[]", defaultValue: "Variant palette", description: "Custom body and eye colors, or three colors for the prism material." },
       { name: "interactive / blink", type: "boolean / boolean", defaultValue: "true / true", description: "Smoothed pointer-following gaze and occasional blinking. Both respect reduced motion." }
     ]
   }

@@ -36,16 +36,39 @@ export function PlayerEqualizer({ player }: { player: AudioPlayer }) {
   useEffect(() => {
     const element = reference.current;
     if (!element) return;
-    const bars = [...element.children] as HTMLElement[], bins = new Uint8Array(32);
-    const reset = () => bars.forEach((bar, index) => bar.style.setProperty("--bar", String([0.2, 0.45, 0.7, 0.35, 0.2][index])));
+    const bars = [...element.children] as HTMLElement[];
+    const rest = [0.24, 0.48, 0.76, 0.48, 0.24], levels = [...rest];
+    let bins = new Uint8Array(0);
+    const reset = () => bars.forEach((bar, index) => { levels[index] = rest[index]; bar.style.setProperty("--bar", String(rest[index])); });
     reset();
     const activity = createMotionActivity(element, {
-      onFrame: ({ time }) => {
-        const analyser = current.current.getAnalyser();
-        analyser?.getByteFrequencyData(bins);
+      onFrame: ({ time, delta }) => {
+        const state = current.current, analyser = state.getAnalyser();
+        const audible = state.playing && !state.loading && !state.muted && state.volume > 0;
+        if (analyser && audible) {
+          if (bins.length !== analyser.frequencyBinCount) bins = new Uint8Array(analyser.frequencyBinCount);
+          analyser.getByteFrequencyData(bins);
+        }
+        // Bass, low mids, voice, presence and treble. Average energy, not a
+        // handful of arbitrary bins far above the notes in the sample tracks.
+        const bands = [45, 180, 520, 1500, 4200, 12000];
         bars.forEach((bar, index) => {
-          const height = !current.current.playing ? [0.2, 0.45, 0.7, 0.35, 0.2][index] : analyser ? Math.max(0.15, bins[index * 3 + 2] / 255) : 0.2 + Math.abs(Math.sin(time / 190 + index * 1.8)) * 0.75;
-          bar.style.setProperty("--bar", height.toFixed(3));
+          let height = rest[index];
+          if (audible && analyser) {
+            const hzPerBin = analyser.context.sampleRate / analyser.fftSize;
+            const first = Math.max(1, Math.floor(bands[index] / hzPerBin));
+            const last = Math.min(bins.length, Math.max(first + 1, Math.ceil(bands[index + 1] / hzPerBin)));
+            let energy = 0, peak = 0;
+            for (let bin = first; bin < last; bin++) { const value = bins[bin] / 255; energy += value * value; peak = Math.max(peak, value); }
+            height = 0.08 + Math.min(0.92, (Math.sqrt(energy / Math.max(1, last - first)) * 0.65 + peak * 0.35) ** 1.5 * 1.25);
+          } else if (audible) {
+            // Remote audio without CORS cannot enter Web Audio. Its documented
+            // playback indicator still follows play, pause, buffering and mute.
+            height = 0.16 + Math.abs(Math.sin(time / (130 + index * 27) + index * 1.8)) * 0.8;
+          }
+          const response = 1 - Math.exp(-delta / (height > levels[index] ? 38 : 110));
+          levels[index] += (height - levels[index]) * response;
+          bar.style.setProperty("--bar", levels[index].toFixed(3));
         });
       },
       onStatus: (status) => { if (status !== "running") reset(); },

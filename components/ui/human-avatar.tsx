@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, type CSSProperties, type SVGProps } from "react";
 import type { Appearance } from "./appearance";
@@ -6,8 +6,8 @@ import { seedValue, bounded } from "./interaction-utils";
 import { useMotionActivity } from "./use-motion-activity";
 import "../../styles/human-avatar.css";
 
-export const HUMAN_HAIR = ["wave", "crop", "curls", "bob", "bun"] as const;
-export const HUMAN_EXPRESSIONS = ["happy", "calm", "determined", "wink"] as const;
+export const HUMAN_HAIR = ["wave", "crop", "curls", "bob", "bun", "spike", "sweep", "cap"] as const;
+export const HUMAN_EXPRESSIONS = ["happy", "calm", "determined", "wink", "surprised", "sleepy"] as const;
 export type HumanHair = typeof HUMAN_HAIR[number];
 export type HumanExpression = typeof HUMAN_EXPRESSIONS[number];
 export type HumanAvatarProps = Omit<SVGProps<SVGSVGElement>, "color"> & {
@@ -17,53 +17,71 @@ export type HumanAvatarProps = Omit<SVGProps<SVGSVGElement>, "color"> & {
 };
 
 const hairBack: Record<HumanHair, string> = {
-  wave: "M43 121C25 105 30 81 39 65 24 46 48 29 65 31 75 7 105 20 118 25 141 8 173 31 163 51 192 63 179 85 162 98L159 139 133 148 53 144Z",
-  crop: "M39 110C26 87 39 62 45 58 32 49 38 32 59 34 60 20 81 21 92 29 110 8 127 22 135 29 159 18 173 35 164 53 180 75 171 92 158 111Z",
-  curls: "M38 121C19 112 21 94 32 87 17 71 29 53 45 54 37 35 56 22 71 28 77 8 99 12 106 25 120 8 143 20 144 36 168 23 181 44 167 60 190 71 182 94 165 98 183 119 165 138 145 133L53 140Z",
-  bob: "M33 139C30 112 30 82 39 60 45 31 64 19 96 19 133 15 158 34 166 67 175 98 171 136 166 150L137 160 49 156Z",
-  bun: "M37 123C30 98 29 73 43 54 23 32 41 12 61 18 73 1 97 9 100 27 133 18 163 32 168 64 176 84 167 111 158 127Z",
+  wave: "M40 129C23 121 15 105 24 91 6 77 18 55 35 49 21 34 33 23 49 28 47 11 64 17 74 21 91 9 107 6 124 10 121 25 139 20 151 28 176 28 190 54 175 73 190 90 179 122 159 141L139 153 44 147Z",
+  crop: "M35 123 30 97 38 66 29 53 48 53 45 30 63 37 76 17 89 33 107 15 118 31 142 20 145 40 164 38 169 67 167 123 144 155 48 153Z",
+  curls: "M33 132C13 125 13 103 28 98 8 89 14 66 33 64 19 45 35 27 52 34 52 12 73 9 84 26 94 7 117 10 121 28 138 9 160 24 155 43 179 35 191 59 176 73 197 87 184 109 169 110 183 134 164 151 145 142L58 156Z",
+  bob: "M30 145C18 124 26 99 24 78 21 43 47 20 76 16 123 0 162 22 171 62 186 82 177 133 164 154L139 168 43 164 30 160Z",
+  bun: "M38 125C21 111 24 86 36 68 20 56 19 35 36 26 26 8 49 1 60 16 78-1 98 16 89 33 124 10 160 34 165 64 182 81 174 123 155 143L52 153Z",
+  spike: "M39 129 18 117 30 99 9 84 36 67 20 49 53 47 46 22 75 34 90 8 109 29 136 9 138 35 172 24 160 53 185 67 169 86 185 110 160 139 139 155 50 148Z",
+  sweep: "M34 132C22 119 21 101 29 84 16 68 33 53 44 47 35 37 32 22 40 15 61 34 90 5 111 9 110 26 123 27 143 22 172 22 184 51 175 74 195 87 182 117 162 131 161 152 142 159 131 159L41 150Z",
+  cap: "M35 136C18 122 25 100 30 83 20 61 42 40 61 36 87 14 116 23 133 36 166 30 180 53 170 73 187 91 175 124 158 139L147 155 44 151Z",
 };
 const hairFront: Record<HumanHair, string> = {
-  wave: "M43 77C47 42 77 32 112 36 137 35 158 48 163 76L153 97 140 69C116 78 103 69 94 50 86 69 66 78 43 77Z",
-  crop: "M44 78 47 50 62 42 70 56 82 39 97 52 112 35 125 53 143 43 158 65 157 88 146 74 138 61 122 68 110 55 96 67 81 59 67 73Z",
-  curls: "M41 80C29 65 42 46 56 52 50 32 76 27 83 44 90 24 114 31 114 48 132 29 151 43 143 58 164 47 176 70 159 84 154 97 140 90 138 76 121 84 110 71 97 77 80 66 67 79 54 70 48 86Z",
-  bob: "M39 89C38 48 59 30 96 28 133 23 162 48 162 87L146 103 145 64C123 71 112 59 109 47 103 67 80 82 52 82L50 132 35 137Z",
-  bun: "M41 84C38 53 56 34 86 33 115 28 150 41 160 63L162 90 148 101 140 64C118 76 96 69 90 51 82 72 63 82 41 84Z",
+  wave: "M36 91C32 74 43 55 59 50 73 57 93 48 106 31 105 55 129 63 149 55 162 64 161 94 155 112L144 120 141 81C126 86 105 77 96 63 79 82 61 90 48 85L46 109Z",
+  crop: "M39 83 42 60 62 63 65 44 84 58 99 41 111 57 130 45 140 63 155 63 159 98 147 115 140 83 125 78 107 81 94 72 77 80 61 73Z",
+  curls: "M35 89C21 75 32 56 49 61 39 42 61 30 74 47 74 24 99 24 108 44 120 27 145 39 139 57 162 41 177 63 158 81 166 102 151 117 140 105L137 84C125 92 112 83 111 73 95 84 80 80 75 70 62 81 50 77 44 97Z",
+  bob: "M28 98C22 49 58 24 93 25 133 18 166 47 164 87L158 132 140 144 144 76C124 84 103 67 102 48 86 78 64 91 43 93L45 143 26 142Z",
+  bun: "M34 92C27 62 52 39 82 36 115 24 150 45 159 70L161 99 147 122 139 80C115 82 93 70 88 52 78 77 57 91 39 91Z",
+  spike: "M34 87 42 64 63 66 70 47 91 64 106 39 120 62 142 50 149 70 161 77 157 111 144 124 140 88 125 78 106 83 92 70 72 86 57 78 43 99Z",
+  sweep: "M31 93C22 71 44 49 71 44 92 40 106 23 105 16 130 20 138 39 132 54 149 48 167 60 162 84L159 118 144 128 139 82C126 88 116 82 110 67 92 92 63 101 40 92L44 117Z",
+  cap: "M35 91 42 62 66 59 73 46 87 59 106 46 115 65 139 61 157 82 158 114 145 124 139 87 123 87 105 75 89 87 68 82 49 101Z",
 };
+const hairAccent: Record<HumanHair, string> = {
+  wave: "M116 27C130 33 144 30 150 41L154 57C141 45 131 53 121 47Z",
+  crop: "M48 47 62 49 65 34 82 48 94 35 97 51 82 63 68 58 57 65Z",
+  curls: "M40 57C35 42 54 36 61 47 63 28 81 30 86 46 94 30 111 40 107 51 118 39 132 51 126 62 112 68 96 62 86 59 71 67 61 60 48 67Z",
+  bob: "M116 35C135 36 150 50 154 68L150 122 145 129 147 75C131 65 122 55 116 35Z",
+  bun: "M41 30C42 21 52 19 57 27 63 16 79 18 79 30 71 38 55 42 46 37Z",
+  spike: "M109 30 130 16 132 40 157 33 148 49 170 65 154 65 141 56 125 67Z",
+  sweep: "M48 49C72 47 103 29 106 17 119 23 124 34 122 43 108 60 81 69 56 66Z",
+  cap: "M58 45C67 11 128 8 151 41L157 67 138 74 112 55 87 55Z",
+};
+const FACE = "M52 80C73 58 115 55 143 74L151 102C170 83 188 93 185 112 183 130 172 140 155 137 145 165 122 178 90 175 58 172 37 154 39 128L42 100Z";
 
-/** Original sticker portraits. Seeds choose parts, never fetch an external avatar. */
-export function HumanAvatar({ seed = "orange-friend", size = 160, hair, expression, skinTone = "#fff0dc", hairColor = "#1c1c20", accentColor = "#ff7552", glasses = false, sticker = true, interactive = true, appearance = "polished", className, style, ...props }: HumanAvatarProps) {
+/** Original head-only portraits with bold silhouettes and cutout ink eyes. */
+export function HumanAvatar({ seed = "orange-friend", size = 160, hair, expression, skinTone = "#fffdf7", hairColor = "#101114", accentColor = "#ff754f", glasses = false, sticker = true, interactive = true, appearance = "polished", className, style, ...props }: HumanAvatarProps) {
   const root = useRef<SVGSVGElement>(null), gaze = useRef<SVGGElement>(null);
   const hash = seedValue(seed), selectedHair = hair ?? HUMAN_HAIR[hash % HUMAN_HAIR.length], mood = expression ?? HUMAN_EXPRESSIONS[(hash >>> 5) % HUMAN_EXPRESSIONS.length];
-  useMotionActivity(root);
+  useMotionActivity(root, { onStatus: (status) => { if (status === "reduced" && gaze.current) gaze.current.style.transform = "none"; } });
   const look = (x: number, y: number) => { if (gaze.current) gaze.current.style.transform = `translate(${x}px, ${y}px)`; };
-  return <svg {...props} ref={root} className={["human-avatar", className].filter(Boolean).join(" ")} data-appearance={appearance} data-expression={mood} viewBox="0 0 200 200" width={bounded(size, 24, 1024, 160)} height={bounded(size, 24, 1024, 160)} role="img" aria-label={props["aria-label"] ?? `Human avatar with ${selectedHair} hair, ${mood} expression`} style={{ "--human-accent": accentColor, ...style } as CSSProperties}
-    onPointerMove={(event) => { props.onPointerMove?.(event); if (!interactive || root.current?.dataset.motion === "reduced") return; const box = event.currentTarget.getBoundingClientRect(); look(bounded((event.clientX - box.left) / box.width * 8 - 4, -4, 4), bounded((event.clientY - box.top) / box.height * 5 - 2.5, -2.5, 2.5)); }}
+  const sleepy = mood === "sleepy", happy = mood === "happy";
+  return <svg {...props} ref={root} className={["human-avatar", className].filter(Boolean).join(" ")} data-appearance={appearance} data-expression={mood} data-hair={selectedHair} viewBox="0 0 200 200" width={bounded(size, 24, 1024, 160)} height={bounded(size, 24, 1024, 160)} role="img" aria-label={props["aria-label"] ?? `Human avatar with ${selectedHair} hair, ${mood} expression`} style={{ "--human-accent": accentColor, ...style } as CSSProperties}
+    onPointerMove={(event) => { props.onPointerMove?.(event); if (!interactive || root.current?.dataset.motion !== "running") return; const box = event.currentTarget.getBoundingClientRect(); look(bounded((event.clientX - box.left) / box.width * 6 - 3, -3, 3), bounded((event.clientY - box.top) / box.height * 4 - 2, -2, 2)); }}
     onPointerLeave={(event) => { props.onPointerLeave?.(event); look(0, 0); }}>
     <title>{props["aria-label"] ?? `An original ${mood} human sticker portrait`}</title>
     <g className="human-silhouette" strokeLinejoin="round" strokeLinecap="round">
-      {sticker && <path d={hairBack[selectedHair] + "M44 130Q40 176 97 184 151 185 164 133Z"} stroke="#fffdf6" strokeWidth="19" fill="#fffdf6" />}
-      <path d={hairBack[selectedHair]} fill={hairColor} stroke="#17171b" strokeWidth="5" />
-      <path d="M72 155v20q27 17 53-1v-23" fill={skinTone} stroke="#17171b" strokeWidth="5" />
-      <path d="M54 182q17-15 27-9l19 10 20-10q12-7 31 9" fill={accentColor} stroke="#17171b" strokeWidth="5" />
-      <path d="M51 99c-21-17-29 8-11 22l13 2m98-24c21-17 29 8 11 22l-13 2" fill={skinTone} stroke="#17171b" strokeWidth="5" />
-      <path d="M51 77q-9 21-4 48c4 31 21 45 52 45 34 0 51-18 55-45l-4-50q-49-43-99 2Z" fill={skinTone} stroke="#17171b" strokeWidth="5" />
-      <path d="M41 107q8-3 8 6m111-6q-8-3-8 6" fill="none" stroke="#17171b" strokeWidth="3" />
-      <path d={hairFront[selectedHair]} fill={hairColor} stroke="#17171b" strokeWidth="4" />
-      <path d={selectedHair === "crop" ? "m112 39 12 17 16-7" : selectedHair === "curls" ? "M121 39q16-11 19 7" : "M116 37q24 3 33 21"} stroke={accentColor} strokeWidth="9" fill="none" />
-      <g ref={gaze} className="human-gaze" fill="#17171b">
+      {sticker && <path d={hairBack[selectedHair] + FACE} stroke="#fffefb" strokeWidth="15" fill="#fffefb" />}
+      <path d={hairBack[selectedHair]} fill={hairColor} stroke="#101114" strokeWidth="6" />
+      <path d="M44 102C25 94 22 119 40 130L48 123Z" fill={skinTone} stroke="#101114" strokeWidth="6" />
+      <path d={FACE} fill={skinTone} stroke="#101114" strokeWidth="6.5" />
+      <path d="M169 103c-11-2-13 8-8 13m8-11-4 8M33 110l6 8" fill="none" stroke="#101114" strokeWidth="4.5" />
+      <path d={hairFront[selectedHair]} fill={hairColor} stroke="#101114" strokeWidth="4" />
+      <path d={hairAccent[selectedHair]} fill={accentColor} />
+      {selectedHair === "cap" && <><path d="M57 44C66 11 127 8 151 41L157 65" fill="none" stroke="#101114" strokeWidth="6" /><path d="M76 23q24-8 40 8l9 20-45-2Z" fill={skinTone} /><path d="m56 48 43 1 29 14-38 10-43-8Z" fill={accentColor} stroke="#101114" strokeWidth="5" /></>}
+      <g ref={gaze} className="human-gaze" fill="#101114">
         <g className="human-eyes">
-          <ellipse cx="76" cy="108" rx="5" ry={mood === "calm" ? 6 : 10} />
-          {mood === "wink" ? <path d="m117 105 12 5-12 4" fill="none" stroke="#17171b" strokeWidth="4" /> : <ellipse cx="124" cy="108" rx="5" ry={mood === "calm" ? 6 : 10} />}
-          {mood !== "calm" && <><circle cx="77" cy="105" r="1.4" fill="#fffdf6" />{mood !== "wink" && <circle cx="125" cy="105" r="1.4" fill="#fffdf6" />}</>}
+          {sleepy && <><ellipse cx="74" cy="116" rx="14" ry="18" fill="none" stroke="#101114" strokeWidth="2.5" /><ellipse cx="119" cy="113" rx="14" ry="18" fill="none" stroke="#101114" strokeWidth="2.5" /></>}
+          <ellipse cx="74" cy="116" rx={mood === "surprised" ? 10 : 8.5} ry={sleepy ? 10 : 13.5} />
+          {mood === "wink" ? <path d="m109 114 17-3-10 8" fill="none" stroke="#101114" strokeWidth="5" /> : <ellipse cx="119" cy="113" rx={mood === "surprised" ? 10 : 8.5} ry={sleepy ? 10 : 13.5} />}
+          {!sleepy && <><path d="m76 109 8 8-10-1Z" fill={skinTone} />{mood !== "wink" && <path d="m121 106 8 8-10-1Z" fill={skinTone} />}</>}
+          {sleepy && <path d="M58 101h32m12-3h32" stroke={skinTone} strokeWidth="13" />}
         </g>
-        <path d={mood === "determined" ? "m64 89 20 7m32 0 19-9" : mood === "happy" ? "M65 90q9-5 18 0m32 0q9-5 18 0" : "m66 92 17-1m33 0 16 1"} stroke="#17171b" strokeWidth="4" fill="none" />
-        <path d="m99 110-5 16 9 2" stroke="#17171b" strokeWidth="3" fill="none" />
+        <path d={mood === "determined" ? "m61 94 24 9m20-3 24-14" : happy || mood === "surprised" ? "M61 96q9-10 21-6m25-1q12-9 24 0" : "m63 96 18 1m25-3 20-4"} stroke="#101114" strokeWidth={mood === "determined" ? 6 : 4.5} fill="none" />
+        <path d="M94 120q-7 2-5 8l6 1" stroke="#101114" strokeWidth="3.5" fill="none" />
       </g>
-      <ellipse cx="63" cy="131" rx="9" ry="4" fill={accentColor} opacity=".45" /><ellipse cx="137" cy="131" rx="9" ry="4" fill={accentColor} opacity=".45" />
-      {mood === "happy" ? <path d="M81 137q19 10 38 0c-5 24-31 25-38 0Z" fill="#17171b" stroke="#17171b" strokeWidth="3" /> : <path d={mood === "determined" ? "M85 145q15-9 30 0" : "M86 140q15 13 30-1"} fill="none" stroke="#17171b" strokeWidth="4" />}
-      {mood === "happy" && <path d="M87 141q13 4 25 0l-4 7H91Z" fill="#fffdf6" />}
-      {glasses && <g fill="none" stroke="#17171b" strokeWidth="4"><rect x="57" y="96" width="36" height="28" rx="9" /><rect x="107" y="96" width="36" height="28" rx="9" /><path d="M93 105q7-5 14 0m-64-3 14 3m86 0 13-3" /></g>}
+      {happy ? <><path d="M62 139q30-7 62-5l-2 18q-29 16-56 2Z" fill="#101114" stroke="#101114" strokeWidth="4" /><path d="m68 141 49-2-1 8-46 3Z" fill={skinTone} /></> : mood === "surprised" ? <ellipse cx="96" cy="149" rx="8" ry="10" fill="#101114" /> : <path d={mood === "determined" ? "M81 151q15-10 29-4" : sleepy ? "m87 147 12-2" : "M82 147q14 4 25-3"} fill="none" stroke="#101114" strokeWidth="4.5" />}
+      <path d="m134 135 5 2m-7 4 5 1" stroke="#101114" strokeWidth="2.5" />
+      {glasses && <g fill="none" stroke="#101114" strokeWidth="4.5"><rect x="54" y="102" width="37" height="29" rx="9" transform="rotate(3 72 115)" /><rect x="101" y="98" width="36" height="29" rx="9" transform="rotate(-4 119 113)" /><path d="M91 111q5-4 10-1m-65-2 18 2m83-4 20-5" /></g>}
     </g>
   </svg>;
 }

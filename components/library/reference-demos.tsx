@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import type { Appearance } from "../ui/appearance";
 import { components } from "../../lib/components";
 import { CreativeWorkbench } from "../ui/creative-editor-slot";
@@ -35,6 +35,9 @@ function useDemoPhotos() {
 }
 
 const BLOOM_PALETTES = { meadow: ["#b55235", "#d8a643", "#768753", "#647eb3", "#d4899d"], citrus: ["#eb6c3b", "#e8ae35", "#e8ca67", "#648758", "#ab6d43"], blue: ["#4c7196", "#7f9ebc", "#a8bcca", "#788e66", "#dfc47e"] };
+function subscribeSmallScreen(listener: () => void) { const query = window.matchMedia("(max-width: 800px)"); query.addEventListener("change", listener); return () => query.removeEventListener("change", listener); }
+const readSmallScreen = () => window.matchMedia("(max-width: 800px)").matches;
+const serverSmallScreen = () => false;
 function BloomDemo({ appearance, thumbnail }: DemoProps) {
   const [seed, setSeed] = useState("wildflower"), [density, setDensity] = useState(65), [size, setSize] = useState(15), [palette, setPalette] = useState<keyof typeof BLOOM_PALETTES>("meadow");
   return <Demo thumbnail={thumbnail} preview={<BloomTrail appearance={appearance} seed={seed} density={density} flowerSize={size} colors={BLOOM_PALETTES[palette]} />}><label>Arrangement seed<input value={seed} onChange={(event) => setSeed(event.target.value)} /></label><Range label="Starting flowers" value={density} onChange={setDensity} min={0} max={140} step={1} /><Range label="Flower size" value={size} onChange={setSize} min={6} max={30} step={1} /><Select label="Petal palette" value={palette} options={["meadow", "citrus", "blue"]} onChange={setPalette} /></Demo>;
@@ -46,7 +49,8 @@ function GalleryDemo({ appearance, thumbnail, kind }: DemoProps & { kind: "journ
   return <Demo thumbnail={thumbnail} preview={preview}><Range label="Photo count" value={Math.min(count, photos.length)} onChange={setCount} min={1} max={Math.max(1, photos.length)} step={1} />{(kind === "journal-stack" || kind === "film-strip") && <label>Collection title<input value={label} onChange={(event) => setLabel(event.target.value)} /></label>}{kind === "photo-garland" && <><Check label="Warm lights" value={lights} onChange={setLights} /><Check label="Gentle sway" value={sway} onChange={setSway} /></>}{editor}{selected && <p className="creative-feedback creative-wide" role="status">Selected: {selected}</p>}</Demo>;
 }
 function BubbleDemo({ appearance, thumbnail }: DemoProps) {
-  const { photos, editor } = useDemoPhotos(), [rows, setRows] = useState(9), [columns, setColumns] = useState(12), [sound, setSound] = useState(false), [volume, setVolume] = useState(.25), [showImage, setShowImage] = useState(true), [image, setImage] = useState("2");
+  const { photos, editor } = useDemoPhotos(), [rows, setRows] = useState(9), [customColumns, setColumns] = useState<number | null>(null), [sound, setSound] = useState(true), [volume, setVolume] = useState(.65), [showImage, setShowImage] = useState(false), [image, setImage] = useState("2");
+  const small = useSyncExternalStore(subscribeSmallScreen, readSmallScreen, serverSmallScreen), columns = customColumns ?? (small ? 6 : 9);
   const photo = photos[Math.min(photos.length - 1, Number(image))];
   return <Demo thumbnail={thumbnail} preview={<BubbleWrap appearance={appearance} rows={rows} columns={columns} sound={sound} volume={volume} image={showImage ? photo.src : ""} imageAlt={photo.alt} />}><Range label="Bubble rows" value={rows} onChange={setRows} min={2} max={16} step={1} /><Range label="Bubble columns" value={columns} onChange={setColumns} min={3} max={18} step={1} /><Check label="Show photograph" value={showImage} onChange={setShowImage} /><label>Photograph<select value={image} onChange={(event) => setImage(event.target.value)}>{photos.map((photo, index) => <option key={photo.id} value={String(index)}>{photo.title}</option>)}</select></label><Check label="Pop sound" value={sound} onChange={setSound} /><Range label="Pop volume" value={volume} onChange={setVolume} />{editor}</Demo>;
 }

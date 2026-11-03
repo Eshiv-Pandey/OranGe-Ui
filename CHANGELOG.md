@@ -2,8 +2,13 @@
 
 ## Unreleased
 
+- Fill the workspace with component previews, including the complete BloomTrail, DraggableCards, BubbleWrap, PhotoGarland and LiquidMetal fields. Remove the inherited mobile preview offset and keep component controls clear of the view dock.
+- Rebuild BubbleWrap with clear plastic highlights, collapsed creases and an audible plastic pop on the first interaction. Sound starts enabled and remains gesture-gated.
+- Redraw HumanAvatar as expressive head-only stickers, add eight hair silhouettes and six expressions, and expose Randomize avatar in the playground.
+- Make the IslandPlayer and NeonPillPlayer meters follow audible frequency bands, with quick attack, natural decay and settled pause/mute states.
+- Give PhotoGarland a transparent stage, continuous hanging wires, aligned wooden clips and restrained photo shadows. Rework FloatingDock with spring magnification that grows each layout slot, and LiquidMetal with a continuous reflective surface and moving studio lights.
 - Rebuild SeasonTree with a broad sunlit blossom crown, layered foliage, sculpted bark and natural snow resting on bare winter branches. Spring is the new default.
-- Replace the third-party LiveOrb with Emberling, an original SVG character with folded flame facets, a curious gaze, three color treatments and a complete static rendering. Redirect the former component route. Remove the `LiveOrb` / `createLiveOrb` exports and old import path; migrate to `Emberling` from `components/ui/emberling`.
+- Replace the third-party LiveOrb with Emberling: original Fire, Water and Aqua characters, continuously moving contours, pointer gaze, six expressions and an optional fluid orb with a WebGL pigment wash. Custom and Prism colors remain available. Motion respects reduced-motion preferences and visibility. Redirect the former component route. Remove the `LiveOrb` / `createLiveOrb` exports and old import path; migrate to `Emberling` from `components/ui/emberling`.
 - Make NeonPillPlayer a black capsule that closely hugs its cover, starts collapsed and retains its height while expanding. Preserve keyboard, touch and real playback controls.
 - Remove GlassPlayer's outer blurred backdrop, expose song panel opacity through `infoOpacity`, and add a reduced-motion-aware heart splash when liking a song. The legacy `blur` prop remains a deprecated no-op.
 

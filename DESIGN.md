@@ -334,6 +334,14 @@ Use the existing cleaned photographic plate and masks for the landscape, preserv
 
 SeasonTree uses layered foliage and a continuous, tapered branching form on a transparent canvas, so the chosen preview surface remains visible around the artwork. FlowingGrass uses fine, overlapping rooted blades, sunlight, optional flowers, directional wind and local interaction. DriftingClouds uses bounded cloud volume with lit edges and interior shadow. Their material, color controls and appearance APIs belong to the component examples, while the inspector remains consistent. Keep static presentation and motion preferences part of the component contract.
 
+### Elemental characters and interactive fields
+
+Emberling's Fire, Water and Aqua variants follow the owner's character references with original vector artwork, expressive faces and continuously changing flame or water contours. Fluid orb mode uses a moving pigment wash under the same face. HumanAvatar uses bold head-only silhouettes, cutout ink eyes and restrained accent color, with a visible randomize action. These artwork palettes belong to the components and do not become workspace colors.
+
+The workspace supplies the complete available preview area. BloomTrail, DraggableCards, BubbleWrap, PhotoGarland and LiquidMetal extend across that area, while individual controls and portraits retain useful proportions. Component actions sit above the shared view dock. Mobile previews start at the top of their stage without inherited sticky offsets.
+
+BubbleWrap uses transparent film, narrow highlights and collapsed creases. Its short pressure pop starts only after interaction. PhotoGarland has no opaque background; a continuous sagging wire supports each clip and its photograph. FloatingDock reserves room for each magnifying icon. LiquidMetal derives reflections from a continuous surface, and compact player meters respond to real audio frequency bands.
+
 ## Do's and Don'ts
 
 ### Do:

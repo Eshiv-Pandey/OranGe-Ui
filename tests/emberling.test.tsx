@@ -11,7 +11,7 @@ afterEach(() => { cleanup(); delete document.documentElement.dataset.theme; docu
 describe("Emberling", () => {
   it("renders complete, named artwork before hydration without a graphics context", () => {
     const html = renderToString(<Emberling size={96} />);
-    expect(html).toContain('aria-label="Emberling, a curious folded-flame character"');
+    expect(html).toContain('aria-label="Fire elemental with a happy expression"');
     expect(html).toContain("<svg"); expect(html).toContain("<path");
     expect(html).not.toContain("<canvas"); expect(html).not.toContain("NaN");
   });

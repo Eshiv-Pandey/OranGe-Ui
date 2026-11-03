@@ -40,6 +40,14 @@ GrainGradient is the single public gradient catalogue editor. Its common control
 - FrostedGlass places its actions beside the tall pane when space permits. Its own inline-size container stacks those actions below the pane at 540px and below, so the installed component retains the behavior outside the library. The playground provides a local background image picker alongside garden, gradient and flow choices. The image stays in the browser; removing it restores the garden. Clear, reset, sound and keyboard drawing remain component controls.
 - AnimeFire retains its restored animation and gains the shared palette shelf without changing its material contract.
 
+## Component feedback refinement, 4 November 2026
+
+- All previews use the full workspace stage. BloomTrail, DraggableCards, BubbleWrap, PhotoGarland and LiquidMetal fill its width and height. Remove inherited sticky offsets on mobile, fit character grids within their columns and keep component actions above the view dock.
+- Emberling has original Fire, Water and Aqua bodies with continuous contour animation, six expressions and pointer gaze. Its optional fluid orb maps a moving WebGL pigment wash onto a sphere behind the same expressive face. Both forms retain reduced-motion behavior and static presentation.
+- HumanAvatar follows the supplied head-only sticker reference with bold ink, cutout eyes, varied hair and small color accents. The randomize action is visible beside the portrait and updates the editable seed and settings.
+- BubbleWrap uses clear film edges and flattened creases, with gesture-gated pop audio enabled by default. PhotoGarland keeps a transparent background, sagging wires and precisely attached clips. Their material colors are intentional artwork colors outside shared editor tokens.
+- FloatingDock magnification enlarges layout slots with damped springs, preserving separation. LiquidMetal uses a continuous folded surface with reflected studio light. Player meters sample meaningful audible bands and settle on pause, buffering or mute.
+
 ## Scope boundaries
 
 This extension ships no new raster assets. Canvas artwork, generated shader texture data and user-selected local photos do not create a new repository raster asset. Preserve existing raster provenance. The landing composition, all five component appearances, neutral theme tokens and typography remain incumbent decisions. Review advisories and one-off decorative colors do not become shared design tokens.

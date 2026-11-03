@@ -120,7 +120,10 @@ export class AudioPlayerEngine {
       const context = this.lease?.context;
       if (!context) return;
       const source = context.createMediaElementSource(this.audio), analyser = context.createAnalyser();
-      analyser.fftSize = 64; analyser.smoothingTimeConstant = 0.85;
+      // A 64-sample FFT puts almost all music into its first two bins.
+      // Resolve the audible bands so compact meters can follow the actual track.
+      analyser.fftSize = 1024; analyser.smoothingTimeConstant = 0.55;
+      analyser.minDecibels = -85; analyser.maxDecibels = -18;
       source.connect(analyser); analyser.connect(context.destination);
       this.source = source; this.analyser = analyser;
     } catch {
