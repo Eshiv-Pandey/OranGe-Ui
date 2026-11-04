@@ -14,8 +14,8 @@
 .emberling-cinder-two { animation-duration: 2.6s; animation-delay: -1.2s; }
 .emberling-cinder-three { animation-duration: 1.8s; animation-delay: -.6s; }
 .emberling[data-variant="water"] .emberling-cinder, .emberling[data-variant="aqua"] .emberling-cinder { animation-name: elemental-droplet; animation-duration: 3.5s; }
-.elemental-arm-left { transform-origin: 81px 216px; transition: transform .4s cubic-bezier(.16, 1, .3, 1); }
-.elemental-character-button:hover .elemental-arm-left { animation: elemental-wave .7s ease-in-out 3; }
+.elemental-arm-left { transform-origin: 0 0; }
+
 .emberling[data-appearance="pixel"] > svg { shape-rendering: crispEdges; }
 .emberling[data-appearance="terminal"] { filter: grayscale(1); }
 .emberling[data-animate="false"] *, .emberling[data-motion="reduced"] * { animation: none !important; }

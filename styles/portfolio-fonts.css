@@ -1,0 +1,4 @@
+@font-face { font-family: "Doto"; src: url("/fonts/portfolio/doto.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Portfolio Geist Mono"; src: url("/fonts/portfolio/geist-mono.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Portfolio Devanagari"; src: url("/fonts/portfolio/noto-devanagari.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+.portfolio-scope { --portfolio-font-pixel: "oRange Pixel", monospace; --portfolio-font-devanagari: "Portfolio Devanagari", sans-serif; }

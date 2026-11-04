@@ -27,6 +27,7 @@ Open `http://localhost:3000`. The main routes are:
 | `/components/flowing-water` | Flowing teal water with adjustable sun reflections and ripples |
 | `/components/flowing-grass` | Grass with editable wind, blades, colors and pointer interaction |
 | `/components/drifting-clouds` | Cumulus clouds with editable shape, sunlight and drift |
+| `/portfolio` | Original portfolio banner, footer, animated truck and sticker socials together |
 | `/docs` | Installation, theming, and Infinite Avatar guide |
 | `/api/components/[slug]?style=retro-os` | Download a component source ZIP |
 
@@ -40,6 +41,7 @@ Start with this README, then read:
 4. [REVAMP_PLAN.md](REVAMP_PLAN.md) for the landing-page design history.
 5. [COMPONENT_FOLLOWUP.md](COMPONENT_FOLLOWUP.md) for the sidebar, five-appearance fire/tree and artwork follow-up.
 6. [SIX_TASK_UPDATE.md](SIX_TASK_UPDATE.md) for the playground, editor, nature materials and landscape landing update.
+7. [PORTFOLIO_COMPONENTS.md](PORTFOLIO_COMPONENTS.md) for the four portfolio exports, installation, typed props and validation.
 
 The older plans describe earlier milestones. The current catalogue spans five appearances, with new work tracked in STATUS.md.
 

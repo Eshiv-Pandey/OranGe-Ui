@@ -139,3 +139,9 @@ export type { KeepsakePhoto } from "./components/ui/keepsake-photos";
 export * from "./components/ui/audio-orb";
 export * from "./components/ui/vinyl-player";
 export * from "./components/ui/wave-player";
+
+export { PortfolioBanner, type PortfolioBannerProps } from "./components/ui/portfolio-banner";
+export { PortfolioFooter, type PortfolioFooterProps, type PortfolioFooterLink, type PortfolioFooterLinkGroup } from "./components/ui/portfolio-footer";
+export { AnimatedTruck, type AnimatedTruckProps } from "./components/ui/animated-truck";
+export { StickerSocialIcons, type StickerSocialIconsProps, type StickerProfile } from "./components/ui/sticker-social-icons";
+export type { SocialProfile } from "./components/ui/portfolio/social-hover-card";

@@ -1,11 +1,11 @@
 import { clamp, hexRgb, type ShaderModule } from "./types";
 
-/** A ray-marched mercury sculpture with fusing droplets and reflected studio lights. */
+/** Ray-marched chrome loops with open centers and reflected studio lights. */
 export const liquidMetal: ShaderModule = {
   id: "liquid-metal", kind: "source", defaults: {}, renderBudget: { maxPixels: 240_000, maxFps: 24 },
   uniforms: {
     uMetal: { type: "vec3", value: (s) => hexRgb(s.color) }, uBackdrop: { type: "vec3", value: (s) => hexRgb(s.background) },
-    uSpeed: { type: "float", value: (s) => clamp(s.speed, 0, 3, .35) }, uRibbonCount: { type: "int", value: (s) => Math.round(clamp(s.ribbons, 1, 5, 3)) },
+    uSpeed: { type: "float", value: (s) => clamp(s.speed, 0, 3, .35) }, uRibbonCount: { type: "int", value: (s) => Math.round(clamp(s.ribbons, 1, 5, 2)) },
     uTwist: { type: "float", value: (s) => clamp(s.twist, 0, 2, 1) }, uRoughness: { type: "float", value: (s) => clamp(s.roughness, 0, 1, .25) },
     uSheen: { type: "float", value: (s) => clamp(s.sheen, 0, 1, .2) }, uFollow: { type: "float", value: (s) => s.interactive === false ? 0 : 1 },
   },
@@ -24,20 +24,33 @@ float smoothMetal(float a, float b, float k) {
   float h = clamp(.5 + .5 * (b - a) / k, 0.0, 1.0);
   return mix(b, a, h) - k * h * (1.0 - h);
 }
+float metalRing(vec3 p, float offset, float phase) {
+  float t = uTime * uSpeed;
+  p.x -= offset;
+  float tilt = .42 * sin(phase + t * .18);
+  p.yz = mat2(cos(tilt), -sin(tilt), sin(tilt), cos(tilt)) * p.yz;
+  float angle = atan(p.y, p.x);
+  float radius = .67 + sin(angle * 2.0 + phase + t * .25) * .085 * uTwist;
+  float tube = .17 + .055 * sin(angle * 3.0 + phase - t * .3);
+  vec2 q = vec2(length(p.xy / vec2(1.12, .82)) - radius, p.z - sin(angle * 2.0 + t * .2 + phase) * .18 * uTwist);
+  return length(q) * .8 - tube;
+}
 float metalShape(vec3 p) {
   float t = uTime * uSpeed;
-  float spin = t * .24;
+  float spin = sin(t * .16) * .25;
   p.xz = mat2(cos(spin), -sin(spin), sin(spin), cos(spin)) * p.xz;
-  p.y += sin(p.x * 2.6 + t * .5) * uTwist * .12;
-  float d = length(p / vec3(.72, .86, .64)) * .64 - .64;
-  for (int i = 0; i < 5; i++) {
+  p.xy = mat2(cos(-.35), -sin(-.35), sin(-.35), cos(-.35)) * p.xy;
+  float d = metalRing(p, 0.0, .5);
+  for (int i = 1; i < 5; i++) {
     if (i >= uRibbonCount) break;
-    float angle = float(i) * 2.399 + t * .18;
-    vec3 center = vec3(cos(angle) * .69, sin(angle * 1.3 + t * .36) * .56, sin(angle) * .38);
-    float bead = length(p - center) - (.32 + sin(float(i) + t * .3) * .04);
-    d = smoothMetal(d, bead, .29 + uTwist * .08);
+    float signX = mod(float(i), 2.0) < .5 ? -1.0 : 1.0;
+    vec3 q = p;
+    q.y += signX * .16;
+    q.z += sin(float(i) * 1.8 + t * .15) * .15;
+    float ring = metalRing(q, signX * (.53 + float(i - 1) * .09), float(i) * 1.4);
+    d = smoothMetal(d, ring, .10 + uTwist * .025);
   }
-  return d + sin(p.x * 5.0 + t * .4) * sin(p.y * 4.0 - t * .3) * .014;
+  return d;
 }
 vec3 metalNormal(vec3 p) {
   vec2 e = vec2(.002, 0);
@@ -51,9 +64,9 @@ vec3 metalStudio(vec3 ray) {
   float strip = smoothstep(.8 - soft, .8 + soft, angle) * (1.0 - smoothstep(1.05 - soft, 1.05 + soft, angle));
   float ceiling = smoothstep(.15, .6, ray.y + lamp.y);
   float horizon = 1.0 - smoothstep(.04, .2 + uRoughness * .2, abs(ray.y + .3));
-  vec3 room = mix(vec3(.022), vec3(.32), ray.y * .5 + .5);
-  room += ribbon * (1.0 - smoothstep(.6, .9, abs(ray.y))) * vec3(1.6, 1.65, 1.7);
-  room += strip * vec3(1.25) + ceiling * .55 + horizon * .5;
+  vec3 room = mix(vec3(.006), vec3(.18), ray.y * .5 + .5);
+  room += ribbon * (1.0 - smoothstep(.6, .9, abs(ray.y))) * vec3(2.6, 2.65, 2.7);
+  room += strip * vec3(2.1) + ceiling * .75 + horizon * .35;
   return room;
 }
 void main() {
@@ -62,7 +75,7 @@ void main() {
   vec2 p = (uv - .5) * vec2(aspect, 1.0);
   vec2 framed = p / min(aspect, 1.0);
   vec3 origin = vec3(0, 0, 3.8);
-  vec3 ray = normalize(vec3(framed * 3.4, -3.8));
+  vec3 ray = normalize(vec3(framed * 4.3, -3.8));
   float travel = 0.0;
   float distanceToSurface = 1.0;
   float minimumDistance = 100.0, closestTravel = 0.0;
@@ -88,7 +101,7 @@ void main() {
     chrome += pow(max(dot(reflected, normalize(vec3(-.7, .8, 1))), 0.0), 75.0) * 1.3;
     vec3 film = .5 + .5 * cos(vec3(0, 2.1, 4.2) + normal.x * 4.0 + normal.y * 5.0);
     chrome += (film - .5) * uSheen * fresnel * .2;
-    color = mix(background, chrome / (1.0 + chrome * .22), coverage);
+    color = mix(background, pow(max(chrome, vec3(0.0)) / (1.0 + max(chrome, vec3(0.0))), vec3(.72)), coverage);
   }
   fragColor = vec4(clamp(color, 0.0, 1.0), 1.0);
 }`,

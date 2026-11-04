@@ -93,6 +93,28 @@ typography:
     fontWeight: 600
     lineHeight: 1.5
     letterSpacing: "-.015em"
+  portfolio-body:
+    fontFamily: "oRange Geist, sans-serif"
+    fontSize: "16px"
+    lineHeight: 1.5
+  portfolio-clock:
+    fontFamily: "Doto, monospace"
+    fontSize: "20px"
+    fontWeight: 700
+    letterSpacing: ".15em"
+  portfolio-clock-wide:
+    fontFamily: "Doto, monospace"
+    fontSize: "24px"
+    fontWeight: 700
+    letterSpacing: ".15em"
+  portfolio-handle:
+    fontFamily: "Portfolio Geist Mono, monospace"
+    fontSize: "11.5px"
+    lineHeight: 1
+  portfolio-pixel:
+    fontFamily: "oRange Pixel, monospace"
+  portfolio-devanagari:
+    fontFamily: "Portfolio Devanagari, sans-serif"
 rounded:
   square: "0px"
   small: "8px"
@@ -237,6 +259,8 @@ The shared palette places warm orange against near-neutral paper, charcoal and b
 - **Focus:** a neutral keyboard outline in each palette, independent of the selected accent. Components with their own material may inherit their readable foreground for focus.
 - **Reference white, soft, rule, ground and sky:** the landscape's text, divider and backdrop roles. Its glass colors retain the source CSS alpha values rather than becoming opaque surface colors.
 
+The portfolio exports preserve the source palette in `styles/portfolio-tokens.css`, under their own `--portfolio-*` variables. Marigold, indigo, teal, rose, maroon and cream keep their source light and dark pairs. The footer retains its terracotta frame, printed card, ink, muted copy, rules and monument colors. These are component artwork materials; they do not replace or extend the shared workspace palette.
+
 **The Appearance and Palette Rule.** Choose component appearance separately from light or dark palette; preserve both controls and their independent effects.
 
 **The Accent Contrast Rule.** Use the live semantic accent variables for text and button foregrounds. The theme utility derives readable values when the accent changes.
@@ -246,6 +270,8 @@ The shared palette places warm orange against near-neutral paper, charcoal and b
 ## Typography
 
 Geist is the shared interface family. The app serves it through `next/font` and `--font-body`; downloadable library CSS also supplies the local `oRange Geist` face. Pixelify Sans uses `--font-display` with the local `oRange Pixel` alias in library CSS. The terminal stack is Cascadia Code, SFMono-Regular, Consolas, Liberation Mono and monospace. Retro OS uses Arial and Helvetica.
+
+The `portfolio-*` typography entries are source-specific roles and aliases. Portfolio components use the existing `oRange Geist` body and `oRange Pixel` Pixelify Sans face, Doto for the clock, and `Portfolio Geist Mono` for profile handles. The source's Noto Sans Devanagari asset is served as `Portfolio Devanagari` through `--portfolio-font-devanagari`; it is retained for supplied Devanagari content without inventing another shared type scale. `styles/portfolio-fonts.css` records the exact self-hosted aliases. Font-detector warnings for these required source faces are intentional component use, not a new generic workspace family.
 
 | Role | Application |
 | --- | --- |
@@ -259,7 +285,7 @@ Geist is the shared interface family. The app serves it through `next/font` and 
 
 The system uses role-specific sizes rather than one universal type ratio. Long descriptions remain in the body family; code and editable hex values use monospace. Landscape mobile sizing is scoped in `styles/reference-landing.css`.
 
-**The Readable Controls Rule.** Keep editor labels, values and documentation readable at working density. Pixel typography belongs to the pixel appearance and established brand treatments.
+**The Readable Controls Rule.** Keep editor labels, values and documentation readable at working density. Pixel typography belongs to the pixel appearance, established brand treatments and source-specific authored components that require it.
 
 ## Layout
 
@@ -272,6 +298,8 @@ At widths up to 800px, the stage sits above the inspector and the navigation mov
 FrostedGlass owns the container that reflows its optional side actions below the pane. This layout travels with the installed component and responds to the space available inside an embed, independently of the library workspace.
 
 The landscape follows its own reference composition: central figure and river, top-center navigation, lower-left title, right-side action and lower divider/copy. At widths up to 700px, the text and action stack below the focal image area. Preserve that responsive relationship without imposing its composition on library pages. See [the landing surface brief](.impeccable/surfaces/app-page-tsx.md) and [the playground surface brief](.impeccable/surfaces/components-library-component-detail-tsx.md).
+
+PortfolioBanner is absolute within a positioned parent that reserves the same height. The source component default is 22vh; the homepage composition at `/portfolio` uses 26vh. PortfolioFooter follows its host width, with explicit host inset configuration for optional full bleed. Its source two-column phone layout keeps Connect With Me across both columns, becoming four columns at 768px. Sticker rows wrap and remain centered on phones; tiles are 44px on phones and 48px from 640px. These relationships belong to the portfolio exports and their composition.
 
 **The Preview First Rule.** Keep the preview visible while editing, reserve space for its dock, and give the inspector its own scroll region when the layout is side by side.
 
@@ -345,7 +373,9 @@ SeasonTree uses layered foliage and a continuous, tapered branching form on a tr
 
 ### Elemental characters and interactive fields
 
-Emberling's Fire, Water and Aqua variants follow the owner's character references with original vector artwork, expressive faces and strongly changing head contours. The bodies stay planted while the head's flame or water silhouette flows. Fluid orb mode uses a moving pigment wash under the same face. HumanAvatar uses bold head-only silhouettes, cutout ink eyes and restrained accent color, with a visible randomize action. These artwork palettes belong to the components and do not become workspace colors.
+Emberling's Fire, Water and Aqua variants follow the owner's character references with original vector artwork, expressive faces and strongly changing head contours. The bodies stay planted while the head's flame or water silhouette flows. Its two resting arms use matching mirrored geometry; hover or click briefly raises and waves one arm, and leaving the character restores the resting pose. Waving is interaction-only and respects disabled animation and reduced motion. Fluid orb mode uses a moving pigment wash under the same face. HumanAvatar uses bold head-only silhouettes, cutout ink eyes and restrained accent color, with a visible randomize action. These artwork palettes belong to the components and do not become workspace colors.
+
+Helmet and MiniDriver retain a fixed side hinge at artwork coordinates (178, 111). The visor opens through 68 degrees around that hinge, preserving its attached construction. Open-state Helmet SVG export uses a square frame with extra headroom (`-36 -72 312 312`) so the raised visor is included; the closed frame remains `0 0 240 240`. The hinge, opening angle and export framing are component geometry, not shared shape tokens.
 
 The workspace supplies the complete available preview area. BloomTrail, DraggableCards, BubbleWrap, PhotoGarland and LiquidMetal extend across that area, while individual controls and portraits retain useful proportions. Component actions sit above the shared view dock. Mobile previews start at the top of their stage without inherited sticky offsets.
 
@@ -355,13 +385,23 @@ PhotoGarland places up to 18 photos on separated, responsive rows with sagging w
 
 FloatingDock has monochrome, icon-only shortcut slots with labels revealed on hover or focus. Damped springs enlarge the layout slots as well as their icons, preserving separation. This component is distinct from the shared glass playground view dock.
 
-LiquidMetal is a ray-marched mercury sculpture with smoothly fusing droplets, smooth contours and studio reflections. Its framing adapts to the stage's aspect ratio. Finish, tint, fusion, roughness, sheen, speed, pointer lighting and pause remain controllable, with the existing parameter API preserved. Its renderer caps the backing image at 240,000 pixels and motion at 24 frames per second; these are effect budgets, not shared design tokens.
+LiquidMetal is a ray-marched sculpture of broad, flowing chrome loops with open centers, smooth contours and high-contrast studio reflections. The ring forms flow and blend where they meet while keeping their hollow centers visible. Its framing adapts to the stage's aspect ratio. Finish, tint, fusion, roughness, sheen, speed, pointer lighting and pause remain controllable, with the existing parameter API preserved. Its renderer caps the backing image at 240,000 pixels and motion at 24 frames per second; these are effect budgets, not shared design tokens.
+
+### Portfolio source components
+
+PortfolioBanner, PortfolioFooter, AnimatedTruck and StickerSocialIcons are source-preserving exports of the current portfolio's authored materials. `docs/portfolio-source.json` records the source files and their hashes; `PORTFOLIO_COMPONENTS.md` carries installation and composition details. Keep the original art, palette pairs, fonts, sticker SVGs, animation relationships and mobile layout together when installing or editing these components.
+
+The banner retains its nebula, marigold petals, interactive pixel field, Doto clock and original transparent lorry. The footer is a printed card mounted on a terracotta board, ending in its SVG monument skyline and a truck scaled to that skyline. AnimatedTruck retains the artwork's 570:328 proportions, contact shadow, separate driving and suspension layers, and five staggered exhaust puffs. The banner truck uses `clamp(76px, 8vw, 140px)` over 18 seconds; the footer truck uses 15% over 14 seconds. An interactive truck parks in view for keyboard focus.
+
+StickerSocialIcons retains the original physical sticker silhouettes, local material colors, rotations and SVG marks. Optional profile cards open on focus as well as hover; a profile without card data remains a labeled link. Reduced motion retains visible still artwork. These authored components keep the library's theme, accessibility and installation conventions without creating a new library-wide visual world.
 
 ### Audio orb and players
 
-AudioOrb is a standalone soft sphere with continuously moving pigments. Real audio energy supplied through `getAnalyser` or `audioLevel` changes the flow; the demo connects it to the shared audio engine. Offscreen and hidden-tab motion pauses, reduced motion retains a still, and unavailable WebGL retains a styled fallback.
+AudioOrb is a shiny crystal sphere with flowing internal color, a bright specular highlight and a luminous rim. Real audio energy supplied through `getAnalyser` or `audioLevel` changes the flow. Optional `tracks` and `showControls` connect Play music to the shared playback engine and Listen to local microphone analysis. Microphone activation requires a user gesture, reports denied permission and stops its media tracks on stop, hide and unmount. Offscreen and hidden-tab motion pauses, reduced motion retains a still, and unavailable WebGL retains a styled fallback.
 
-VinylPlayer combines a neutral rounded body, a large cropped photographic record, playback-driven rotation, an audio meter and clear timing. Its responsive copy area preserves the metadata and transport space. WavePlayer uses a wide photographic cover, pale blue controls and a wavy scrubber that shows actual track progress; the waveform retains its width beside smaller mobile icons. Both demos use real shared playback and local licensed photo covers. Player meters sample audible frequency bands and settle on pause, buffering or mute. IslandPlayer and NeonPillPlayer retain readable pale metadata and controls on their dark bodies in either workspace palette.
+VinylPlayer combines a neutral rounded body, a large cropped photographic record, playback-driven rotation, an audio meter and clear timing. Its responsive copy area preserves the metadata and transport space. Hovering the disk or focusing it with the keyboard expands the cover across the full card; tapping toggles the expanded state. Expansion pauses rotation, removes the dimming and hides the grooves and spindle. The authored 550ms transition changes the disk's position, width, height and radius to match the full-card reference; this is a scoped artwork transition, not a shared control-motion rule. Reduced motion keeps the state change without the transition.
+
+WavePlayer uses a wide photographic cover, pale blue controls in light mode and neutral controls in dark mode. Its scrubber reveals waves only along the played portion up to the actual playhead; the unplayed portion remains a straight, quieter line. The native range retains seeking and keyboard access, and the waveform retains its width beside smaller mobile icons. Both demos use real shared playback and local licensed photo covers. Player meters sample audible frequency bands and settle on pause, buffering or mute. IslandPlayer and NeonPillPlayer retain readable pale metadata and controls on their dark bodies in either workspace palette.
 
 ## Do's and Don'ts
 

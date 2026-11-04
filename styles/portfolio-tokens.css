@@ -1,0 +1,58 @@
+.portfolio-scope {
+  --portfolio-desi-marigold: #e9a208;
+  --portfolio-desi-indigo: #243a8e;
+  --portfolio-desi-teal: #0e7c7b;
+  --portfolio-desi-rose: #c2185b;
+  --portfolio-desi-maroon: #b3202c;
+  --portfolio-desi-cream: #f7f0e2;
+}
+.portfolio-scope[data-theme="dark"] {
+  --portfolio-desi-marigold: #f0b53a;
+  --portfolio-desi-indigo: #5b73d4;
+  --portfolio-desi-teal: #2aa6a3;
+  --portfolio-desi-rose: #e2547f;
+  --portfolio-desi-maroon: #d95661;
+  --portfolio-desi-cream: #e8ddc6;
+}
+.portfolio-scope {
+  --portfolio-fx-frame: #9c4a38;
+  --portfolio-fx-frame-edge: #7d382a;
+  --portfolio-fx-card: #fcf3ec;
+  --portfolio-fx-ink: #3d2621;
+  --portfolio-fx-muted: #8d6d63;
+  --portfolio-fx-rule: #e6d3c8;
+  --portfolio-fx-accent: #9c4a38;
+  --portfolio-fx-accent-ink: #fdf6f1;
+  --portfolio-fx-sand: #e2b478;
+  --portfolio-fx-sand-d: #bb884a;
+  --portfolio-fx-stone: #ded4cd;
+  --portfolio-fx-stone-d: #bcaea6;
+  --portfolio-fx-white: #f0ece9;
+  --portfolio-fx-red: #bf2f3a;
+  --portfolio-fx-red-d: #96202a;
+  --portfolio-fx-amber: #ee9f4e;
+  --portfolio-fx-amber-d: #cf742a;
+  --portfolio-fx-brown: #6d4634;
+  --portfolio-fx-ground: #d8c2b3;
+}
+.portfolio-scope[data-theme="dark"] {
+  --portfolio-fx-frame: #2e1712;
+  --portfolio-fx-frame-edge: #45241c;
+  --portfolio-fx-card: #150f0d;
+  --portfolio-fx-ink: #efe4dc;
+  --portfolio-fx-muted: #a68b80;
+  --portfolio-fx-rule: #39281f;
+  --portfolio-fx-accent: #c4552f;
+  --portfolio-fx-accent-ink: #1a0f0b;
+  --portfolio-fx-sand: #a97c45;
+  --portfolio-fx-sand-d: #7b5729;
+  --portfolio-fx-stone: #6d645f;
+  --portfolio-fx-stone-d: #4d4642;
+  --portfolio-fx-white: #8d8580;
+  --portfolio-fx-red: #932a33;
+  --portfolio-fx-red-d: #6b1c23;
+  --portfolio-fx-amber: #b06f2f;
+  --portfolio-fx-amber-d: #83501d;
+  --portfolio-fx-brown: #402a20;
+  --portfolio-fx-ground: #2b1d17;
+}

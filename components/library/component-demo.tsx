@@ -2,6 +2,7 @@
 
 import { CreativeWorkbench } from "../ui/creative-editor-slot";
 import { lazy, Suspense, useState } from "react";
+import { PORTFOLIO_COMPONENT_SLUGS } from "../../lib/portfolio-components";
 import { CREATIVE_COMPONENT_SLUGS } from "../../lib/creative-components";
 import { REFERENCE_COMPONENT_SLUGS } from "../../lib/reference-components";
 import type { Appearance } from "../ui/appearance";
@@ -58,6 +59,7 @@ import { EmberlingDemo } from "./emberling-demo";
 import HumanAvatarDemo from "./human-avatar-demo";
 import ReferenceTextDemo from "./reference-text-demo";
 
+const PortfolioDemos = lazy(() => import("./portfolio-demos"));
 const CreativeDemo = lazy(() => import("./creative-demos"));
 const ReferenceDemo = lazy(() => import("./reference-demos"));
 const ShaderCanvasDemo = lazy(() => import("./shader-canvas-demo"));
@@ -90,6 +92,7 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   const [validated, setValidated] = useState(false);
   const status = <p className="demo-feedback" role="status">{feedback || "Try it. Every example is interactive."}</p>;
   const action = <Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Ready for a fresh start." : "Project created in this preview."); }}>{saved ? "Start again" : "Create project"}</Button>;
+  if (PORTFOLIO_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing portfolio preview...</div>}><PortfolioDemos slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if (CREATIVE_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing preview...</div>}><CreativeDemo slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if (slug === "human-avatar") return <HumanAvatarDemo appearance={appearance} thumbnail={thumbnail} />;
   if (slug === "cipher-text" || slug === "wiggle-text" || slug === "flip-board") return <ReferenceTextDemo kind={slug} appearance={appearance} thumbnail={thumbnail} />;

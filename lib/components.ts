@@ -1,3 +1,4 @@
+import { PORTFOLIO_COMPONENTS } from "./portfolio-components";
 import type { DemoStep } from "../components/library/use-demo-player";
 import type { Appearance } from "../components/ui/appearance";
 import { launchFormComponents } from "./launch-form-components";
@@ -1189,7 +1190,7 @@ export const components: ComponentDefinition[] = [
     ]
   }
 ];
-components.push(...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS);
+components.push(...PORTFOLIO_COMPONENTS, ...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS);
 export function componentsInCollection(appearance: Appearance) { return components.filter((component) => !component.collection || component.collection === appearance); }
 // ShaderCanvas remains installable as the low-level engine behind the effects.
 // Its former showcase is now part of the single gradient playground.

@@ -34,6 +34,8 @@ export function registryAssetSource(source: string, files: Readonly<Record<strin
   for (const [asset, bytes] of Object.entries(files)) {
     const mime = asset.startsWith("public/fonts/") && asset.endsWith(".woff2") ? "font/woff2"
       : asset.startsWith("public/audio/") && asset.endsWith(".wav") ? "audio/wav"
+      : asset.startsWith("public/portfolio/") && asset.endsWith(".webp") ? "image/webp"
+      : asset.startsWith("public/portfolio/") && asset.endsWith(".png") ? "image/png"
       : asset.startsWith("public/photos/keepsakes/") && asset.endsWith(".jpg") ? "image/jpeg" : undefined;
     if (!mime) continue;
     const url = "/" + asset.slice("public/".length);
@@ -45,7 +47,9 @@ export function registryAssetSource(source: string, files: Readonly<Record<strin
 }
 
 function destination(source: string, slug: string): string | undefined {
-  if (source.endsWith(".woff2") || source.endsWith(".wav") || source.endsWith(".jpg") || source === "README.md") return undefined;
+  if (source.endsWith(".woff2") || source.endsWith(".wav") || source.endsWith(".jpg") || source.endsWith(".webp") || source.endsWith(".png") || source === "README.md") return undefined;
+  if (source === "public/portfolio/NOTICE.md") return "licenses/PORTFOLIO_ARTWORK.md";
+  if (source.startsWith("public/fonts/portfolio/")) return "licenses/" + source.split("/").at(-1);
   if (source === "public/photos/keepsakes/NOTICE.md") return "licenses/KEEPSAKE_PHOTOS.md";
   if (source.startsWith("public/fonts/desi/")) return source.endsWith("README.md") ? "licenses/DISPLAY_FONT_CREDITS.md" : "licenses/" + source.split("/").at(-1);
   if (source.startsWith("public/audio/orangeui/")) return "licenses/Orange-sessions-" + source.split("/").at(-1);
@@ -54,7 +58,7 @@ function destination(source: string, slug: string): string | undefined {
   if (source === "THIRD_PARTY_NOTICES.md") return "licenses/THIRD_PARTY_NOTICES.md";
   if (source === "public/fonts/OFL-Geist.txt") return "licenses/OFL-Geist.txt";
   if (source === "public/fonts/OFL-PixelifySans.txt") return "licenses/OFL-PixelifySans.txt";
-  if (/^(?:components\/ui\/|lib\/avatar\/).+\.tsx?$/.test(source) || source === "lib/utils.ts" || /^styles\/.+\.css$/.test(source)) return source;
+  if (/^(?:components\/ui\/|lib\/avatar\/).+\.tsx?$/.test(source) || source === "lib/utils.ts" || /^styles\/.+\.(?:css|css\.d\.ts)$/.test(source)) return source;
   throw new Error("Unsupported file in registry payload");
 }
 

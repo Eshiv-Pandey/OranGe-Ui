@@ -1,0 +1,42 @@
+.stage { position: relative; display: inline-block; flex-shrink: 0; width: 64px; height: 64px; perspective: 240px; }
+.character { position: absolute; inset: 0; opacity: 0; transform-origin: 50% 85%; }
+.face { width: 100%; height: 100%; }
+.pupil { position: absolute; top: 57%; width: 7px; height: 9px; background: #18181b; border-radius: 50%; }
+.left { left: 28%; }
+.right { left: 68%; }
+.shadow { position: absolute; left: 20%; right: 20%; bottom: -3px; height: 5px; background: #0003; border-radius: 50%; opacity: 0; }
+.stage[data-visible="true"] .character { animation: visit 11s infinite; }
+.stage[data-visible="true"] .pupil { animation: look 11s infinite; }
+.stage[data-visible="true"] .shadow { animation: shadow 11s infinite; }
+.stage[data-paused="true"] .character { opacity: 1; transform: none; animation: none; }
+.stage[data-paused="true"] .pupil { transform: none; animation: none; }
+.stage[data-paused="true"] .shadow { opacity: .7; transform: none; animation: none; }
+@keyframes visit {
+  0%, 3% { transform: translate(0, -180px) rotate(-12deg); opacity: 0; }
+  5% { opacity: 1; }
+  12% { transform: translate(0, 5px) scale(1.1, .9) rotate(3deg); opacity: 1; animation-timing-function: ease-out; }
+  17% { transform: translate(0, -12px) scale(.96, 1.04) rotate(-3deg); }
+  23%, 27% { transform: translate(0, 0) scale(1) rotate(0); }
+  32%, 39% { transform: translate(-4px, 0) rotate(-8deg) rotateY(-12deg); }
+  44%, 51% { transform: translate(4px, 0) rotate(8deg) rotateY(12deg); }
+  56%, 63% { transform: translate(0, 0) rotate(0); opacity: 1; }
+  67% { transform: translate(-5px, 2px) rotate(-10deg); opacity: 1; }
+  77% { transform: translate(140px, -45px) rotate(25deg) scale(.75); opacity: 0; }
+  78%, 100% { transform: translate(140px, -45px); opacity: 0; }
+}
+@keyframes look {
+  0%, 27% { transform: translateX(0); }
+  32%, 39% { transform: translateX(-5px); }
+  44%, 51% { transform: translateX(5px); }
+  56%, 100% { transform: translateX(0); }
+}
+@keyframes shadow {
+  0%, 5%, 78%, 100% { opacity: 0; transform: scale(.4); }
+  12%, 23%, 63% { opacity: .7; transform: scale(1); }
+  17% { opacity: .35; transform: scale(.7); }
+  67% { opacity: .5; transform: scale(.8); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .character { opacity: 1; transform: none; animation: none !important; }
+  .pupil, .shadow { animation: none !important; }
+}

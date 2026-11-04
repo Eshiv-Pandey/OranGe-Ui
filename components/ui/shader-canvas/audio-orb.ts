@@ -16,6 +16,7 @@ uniform float uSpeed;
 uniform float uEnergy;
 void main() {
   vec2 p = (sourceUv() - .5) * 2.0;
+  p /= .94 + uEnergy * .055;
   float t = uTime * uSpeed;
   float radius = length(p);
   float z = sqrt(max(0.0, 1.0 - dot(p, p)));
@@ -27,9 +28,18 @@ void main() {
   vec3 color = mix(uColors[0], uColors[1], smoothstep(-.6, .65, flow.x + flow.y * .5));
   color = mix(color, uColors[2], smoothstep(.08, .9, sin(flow.y * 1.8 - flow.x + t * .37)) * .85);
   color = mix(color, uColors[3 % uColorCount], smoothstep(.25, .95, cos(flow.x * 1.6 + flow.y * 1.1 + t * .48)) * .8);
-  float shade = .62 + .38 * z;
+  float shade = .42 + .58 * z;
   color *= shade;
-  color += vec3(.16) * pow(max(dot(normalize(vec3(-.45, -.6, 1.0)), normalize(vec3(p, z))), 0.0), 4.0);
+  vec3 n = normalize(vec3(p, z));
+  float rim = pow(1.0 - z, 3.0);
+  color = mix(color, vec3(.78, .94, 1.0), rim * .72);
+  float highlight = pow(max(dot(normalize(vec3(-.4, -.48, 1.0)), n), 0.0), 65.0);
+  float longLight = exp(-pow((p.x + .25) * 13.0, 2.0) - pow((p.y + .43) * 3.5, 2.0));
+  color += vec3(.98, .99, 1.0) * highlight * 1.5;
+  color += vec3(.8, .92, 1.0) * longLight * .4;
+  color += pow(max(dot(normalize(vec3(.7, .5, .4)), n), 0.0), 18.0) * vec3(.65, .4, .9) * .6;
+  color += sin(z * 14.0 + flow.y * 4.0 + t * .3) * .035;
+
   color += uEnergy * .05;
   float edge = 1.0 - smoothstep(.96, 1.0, radius);
   fragColor = vec4(color, edge);

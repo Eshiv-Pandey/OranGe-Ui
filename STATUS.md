@@ -1,5 +1,16 @@
 # oRangeUi status
 
+## Portfolio extraction and player corrections
+
+Implemented and verified on 4 November 2026 on `feat/next-iteration`. The catalogue now contains 108 unique entries. [PORTFOLIO_COMPONENTS.md](PORTFOLIO_COMPONENTS.md) records installation, props, source provenance and validation.
+
+- PortfolioBanner, PortfolioFooter, AnimatedTruck and StickerSocialIcons are reusable typed exports built from the current read-only portfolio files. Source artwork, scoped theme tokens, SVG geometry, fonts, responsive layout, hover cards and separate truck motion layers are preserved. Each has a catalogue demo, portable registry/ZIP installation and supporting assets. `/portfolio` shows the banner and footer together at the full available width.
+- WavePlayer keeps unplayed progress straight. VinylPlayer expands its disk image across the player on hover/focus/tap. AudioOrb uses a shiny crystal shader with music playback and local gesture-enabled microphone analysis. Emberling waves only on character interaction and has matching arms. The helmet visor opens around its fixed hinge. LiquidMetal uses flowing chrome loops with open centers and studio reflections.
+- Nebula rendering loads when visible, caps pixels and frame rate, pauses offscreen, and cleans up graphics resources. Petals resize with their container. Reduced motion and graphics fallbacks retain usable content, and a paused favicon stays visible.
+- Normal TypeScript, ESLint, copy and production build checks pass. Focused results cover 78 component/source/registry cases and 20 compiled and bundled installation examples. All 20 production browser cases are covered by passing full and focused runs, including 320, 390, 768 and 1440px in both themes, focus, callbacks, optional cards, reduced motion, playback/listening, complete visor export bounds and horizontal overflow. The reviewer scored all three material corrections resolved. Physical phones have not been tested.
+
+The combined preview is `/portfolio`. Validation receipts are local under `out/portfolio/`.
+
 ## Component feedback refinements
 
 The requested component corrections are implemented and verified as of 4 November 2026 on `feat/next-iteration`. The catalogue remains at 101 entries.

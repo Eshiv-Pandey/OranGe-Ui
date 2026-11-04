@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type CSSProperties } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import type { AppearanceProps } from "./appearance";
 import { useCreativeTheme, useCreativeMotion, type CreativeTheme } from "./creative-surface";
 import { useAudioPlayer, audioTime, type AudioTrack } from "./use-audio-player";
@@ -10,10 +10,10 @@ import "../../styles/reference-players.css";
 
 export type VinylPlayerProps = AppearanceProps & { tracks: readonly AudioTrack[]; volume?: number; muted?: boolean; size?: number | string; theme?: CreativeTheme };
 export function VinylPlayer({ tracks, volume = .65, muted = false, size = 360, theme = "auto", appearance = "polished", className }: VinylPlayerProps) {
-  const player = useAudioPlayer({ tracks, volume, muted }), resolved = useCreativeTheme(theme), root = useRef<HTMLDivElement>(null);
+  const player = useAudioPlayer({ tracks, volume, muted }), resolved = useCreativeTheme(theme), root = useRef<HTMLDivElement>(null), [expanded, setExpanded] = useState(false);
   useCreativeMotion(root);
-  return <div ref={root} className={["creative-surface vinyl-player", className].filter(Boolean).join(" ")} data-theme={resolved} data-appearance={appearance} data-playing={player.playing} role="group" aria-label="Vinyl music player" style={{ "--vinyl-size": typeof size === "number" ? `${size}px` : size } as CSSProperties}>
-    <button className="vinyl-record" type="button" aria-label={player.playing ? "Pause record" : "Play record"} onClick={player.toggle} disabled={!player.track}>
+  return <div ref={root} className={["creative-surface vinyl-player", className].filter(Boolean).join(" ")} data-theme={resolved} data-appearance={appearance} data-playing={player.playing} data-cover-expanded={expanded} role="group" aria-label="Vinyl music player" style={{ "--vinyl-size": typeof size === "number" ? `${size}px` : size } as CSSProperties}>
+    <button className="vinyl-record" type="button" aria-label={expanded ? "Collapse album artwork" : "Expand album artwork"} aria-pressed={expanded} onClick={() => setExpanded(!expanded)}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={player.track?.cover ?? KEEPSAKE_PHOTOS[4].src} alt="" draggable="false" />
       <span className="vinyl-grooves" aria-hidden="true" /><span className="vinyl-spindle" aria-hidden="true" />

@@ -24,16 +24,20 @@
     "test:mascot": "playwright test --config=playwright.mascot.config.ts",
     "test:artwork-customizers": "playwright test --config=playwright.artwork-customizers.config.ts",
     "test:motorsport": "playwright test --config=playwright.motorsport.config.ts",
-    "test:rework": "playwright test --config=playwright.rework.config.ts"
+    "test:rework": "playwright test --config=playwright.rework.config.ts",
+    "test:portfolio": "playwright test --config=playwright.portfolio.config.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "fflate": "^0.8.3",
+    "framer-motion": "^14.9.1",
+    "lucide-react": "^1.68.0",
     "next": "^16.0.0",
     "radix-ui": "^1.8.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-icons": "^5.7.0",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
     "three": "^0.186.1",

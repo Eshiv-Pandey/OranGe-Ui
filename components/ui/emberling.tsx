@@ -26,6 +26,7 @@ export function Emberling({ size = 220, variant = "ember", color = "#ef6d50", ey
   const id = useId().replace(/:/g, ""), resolved = useCreativeTheme(theme);
   const root = useRef<HTMLDivElement>(null), face = useRef<SVGGElement>(null), character = useRef<SVGGElement>(null);
   const shell = useRef<SVGPathElement>(null), core = useRef<SVGPathElement>(null), clip = useRef<SVGPathElement>(null);
+  const waveUntil = useRef(0), arm = useRef<SVGGElement>(null);
   const gaze = useRef({ x: 0, y: 0, targetX: 0, targetY: 0, at: -10000 });
   const water = variant === "water" || variant === "aqua", simple = variant === "aqua", orb = shape === "orb";
   const body = variant === "custom" ? color : variant === "prism" ? colors[0] || "#9075ea" : water ? simple ? "#159cdb" : "#58cdec" : "#f24450";
@@ -52,6 +53,9 @@ export function Emberling({ size = 220, variant = "ember", color = "#ef6d50", ey
   }, [interactive]);
 
   function draw(time: number, delta: number, still = false) {
+    const waving = !still && interactive && animate && performance.now() < waveUntil.current;
+    root.current?.setAttribute("data-waving", String(waving));
+    arm.current?.setAttribute("transform", waving ? `rotate(${(70 + Math.sin(time / 1000 * 12) * 16).toFixed(2)} 87 215)` : "rotate(0 87 215)");
     const t = time / 1000 * clamp(speed, .1, 3), outline = elementalShape(t, water, orb);
     shell.current?.setAttribute("d", outline); clip.current?.setAttribute("d", outline);
     core.current?.setAttribute("d", elementalShape(t + .7, water, orb));
@@ -70,7 +74,7 @@ export function Emberling({ size = 220, variant = "ember", color = "#ef6d50", ey
   useEffect(() => { if (!animate) draw(0, 0, true); }, [animate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const outline = elementalShape(0, water, orb), closed = expression === "calm" || expression === "grumpy";
-  return <div ref={root} className={cn("emberling", className)} role="img" aria-label={`${name} elemental with a ${expression} expression`} data-slot="emberling" data-theme={resolved} data-appearance={appearance} data-blink={blink} data-variant={variant} data-shape={shape} data-animate={animate} data-expression={expression} style={{ width: clamp(size, 48, 640), "--ember-color": body } as CSSProperties}>
+  return <div ref={root} className={cn("emberling", className)} role="img" aria-label={`${name} elemental with a ${expression} expression`} data-slot="emberling" data-theme={resolved} data-appearance={appearance} onPointerEnter={() => { waveUntil.current = performance.now() + 2100; }} onPointerLeave={() => { waveUntil.current = 0; }} onClick={() => { waveUntil.current = performance.now() + 2100; }} data-blink={blink} data-variant={variant} data-shape={shape} data-animate={animate} data-expression={expression} style={{ width: clamp(size, 48, 640), "--ember-color": body } as CSSProperties}>
     {orb && <div className="elemental-orb-layer" aria-hidden="true"><ShaderCanvas modules={ORB_MODULES} source={{ type: "elemental-orb", colors: [body, inner, center], speed }} paused={!animate} theme={resolved} appearance={appearance} /></div>}
     <svg viewBox={orb ? "0 25 240 240" : "0 0 240 300"} aria-hidden="true" focusable="false">
       <defs>
@@ -81,8 +85,6 @@ export function Emberling({ size = 220, variant = "ember", color = "#ef6d50", ey
       <g ref={character}>
         {!orb && <g stroke={water ? "#138bb5" : variant === "ember" ? "#f34c50" : body} strokeWidth="2" strokeLinejoin="round" fill={feet}>
           <path d="M91 191C82 211 83 234 82 252L80 271Q94 280 107 270L112 254 130 254 135 272Q149 280 161 269L158 247C162 223 155 205 148 194Z" />
-          <path className="elemental-arm elemental-arm-left" d="M86 211C74 213 63 207 56 196 51 187 41 190 39 199 34 195 28 199 30 207 33 223 62 237 81 235Z" />
-          <path className="elemental-arm elemental-arm-right" d="M153 210C170 213 183 225 182 234 180 246 166 244 157 233Z" />
           {simple && <path d="M119 223C100 234 94 254 118 256 142 257 136 234 119 223Z" fill="#45d7e9" stroke="none" />}
         </g>}
         <path ref={shell} className="emberling-shell" d={outline} fill={orb ? "none" : `url(#${id}-shell)`} />
@@ -101,6 +103,10 @@ export function Emberling({ size = 220, variant = "ember", color = "#ef6d50", ey
             {!simple && <g stroke={water ? "#c2f2ff" : "#f77136"} strokeWidth="2" strokeLinecap="round" opacity=".7"><path d="m72 169 4-2m-2 7 5-3m84-1 4 2m-5 3 4 2" /></g>}
           </g>
         </g>
+        {!orb && <g stroke={water ? "#138bb5" : variant === "ember" ? "#f34c50" : body} strokeWidth="2" strokeLinejoin="round" fill={feet}>
+          <g ref={arm} className="elemental-arm-left"><path className="elemental-arm" d="M87 210C70 213 57 225 58 234 60 246 74 244 83 233Z" /></g>
+          <path className="elemental-arm elemental-arm-right" d="M153 210C170 213 183 225 182 234 180 246 166 244 157 233Z" />
+        </g>}
         <g className="emberling-cinder emberling-cinder-one" fill={water ? body : "#fb6e49"}><path d={water ? "M35 70C21 61 18 78 28 80Q40 82 35 70Z" : "M43 60q-12-9-4-19 8 8 4 19Z"} /></g>
         <g className="emberling-cinder emberling-cinder-two" fill={water ? inner : "#ffc746"}><path d={water ? "M190 49C181 37 192 26 201 32 214 40 202 53 190 49Z" : "M199 61q-5-10 3-17 6 10-3 17Z"} /></g>
         <g className="emberling-cinder emberling-cinder-three" fill={body}><circle cx="218" cy="120" r="3" /></g>

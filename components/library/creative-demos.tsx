@@ -16,8 +16,6 @@ import { NeonPillPlayer } from "../ui/neon-pill-player";
 import { AudioOrb } from "../ui/audio-orb";
 import { VinylPlayer } from "../ui/vinyl-player";
 import { WavePlayer } from "../ui/wave-player";
-import { useAudioPlayer } from "../ui/use-audio-player";
-import { PlayerControls, PlayerFeedback } from "../ui/creative-player-parts";
 import { KEEPSAKE_PHOTOS } from "../ui/keepsake-photos";
 import { AnimeFire } from "../ui/anime-fire";
 import { GrainGradient, GRAIN_PRESETS, type GrainGradientProps } from "../ui/grain-gradient";
@@ -123,9 +121,8 @@ function FrostDemo() {
 const PHOTO_PLAYLIST = CREATIVE_PLAYLIST.map((track, index) => ({ ...track, cover: KEEPSAKE_PHOTOS[[4, 7, 6][index % 3]].src }));
 function OrbDemo({ appearance }: { appearance: Appearance }) {
   const [speed, setSpeed] = useState(.6), [paused, setPaused] = useState(false), [palette, setPalette] = useState("Lagoon");
-  const player = useAudioPlayer({ tracks: CREATIVE_PLAYLIST });
   const palettes: Record<string, string[]> = { Lagoon: ["#7dc8bc", "#387aab", "#cb9bf1", "#efbf7e"], Ember: ["#edc256", "#f47b43", "#663ba1", "#f6a8bd"], Iris: ["#8c96e7", "#373273", "#bce4bf", "#de90bb"] };
-  return <Panel preview={<div className="audio-orb-demo"><AudioOrb appearance={appearance} colors={palettes[palette]} speed={speed} paused={paused} getAnalyser={player.getAnalyser} audioActive={player.playing && !player.loading && !player.muted && player.volume > 0} /><div className="creative-track-copy"><strong>{player.track?.title}</strong><span>{player.playing ? "Listening to the music" : "Play a track to wake the colors"}</span></div><PlayerControls player={player} /><PlayerFeedback player={player} /></div>}><Select label="Orb palette" value={palette} options={Object.keys(palettes)} onChange={setPalette} /><Range label="Flow speed" value={speed} onChange={setSpeed} min={0} max={2} step={.1} /><Check label="Pause orb animation" value={paused} onChange={setPaused} /></Panel>;
+  return <Panel preview={<div className="audio-orb-demo"><AudioOrb appearance={appearance} colors={palettes[palette]} speed={speed} paused={paused} tracks={CREATIVE_PLAYLIST} showControls /></div>}><Select label="Orb palette" value={palette} options={Object.keys(palettes)} onChange={setPalette} /><Range label="Flow speed" value={speed} onChange={setSpeed} min={0} max={2} step={.1} /><Check label="Pause orb animation" value={paused} onChange={setPaused} /></Panel>;
 }
 function ReferencePlayerDemo({ kind, appearance }: { kind: "vinyl" | "wave"; appearance: Appearance }) {
   const [volume, setVolume] = useState(.65), [muted, setMuted] = useState(false);

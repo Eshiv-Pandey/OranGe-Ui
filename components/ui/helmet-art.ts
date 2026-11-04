@@ -84,7 +84,7 @@ export function helmetSvgBody(input: HelmetConfig, id: string, options: HelmetRe
   const opening = "M28 130C61 116 119 117 176 123L181 143C166 159 139 168 103 169L38 167L27 159L29 145Z";
   const visorPath = "M38 81C75 74 129 82 176 98C187 100 191 109 186 119C180 131 169 141 151 143C106 145 71 130 22 140C12 141 14 132 18 122Z";
   const pivotX = 178, pivotY = 111;
-  const visorTransform = options.portable && parts.visorOpen ? ` transform="rotate(30 ${pivotX} ${pivotY})"` : "";
+  const visorTransform = options.portable && parts.visorOpen ? ` transform="rotate(68 ${pivotX} ${pivotY})"` : "";
   const defs = `<defs><clipPath id="${ns}-shell"><path d="${shellPath}"/></clipPath><clipPath id="${ns}-opening"><path d="${opening}"/></clipPath><clipPath id="${ns}-visor-clip"><path d="${visorPath}"/></clipPath>
     <linearGradient id="${ns}-paint" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="${light}"/><stop offset=".14" stop-color="${shell}"/><stop offset=".78" stop-color="${shell}"/><stop offset="1" stop-color="${dark}"/></linearGradient>
     <linearGradient id="${ns}-chrome" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="${light}"/><stop offset=".3" stop-color="${shell}"/><stop offset=".46" stop-color="#f3f5ec"/><stop offset=".5" stop-color="${ink}"/><stop offset=".7" stop-color="${shell}"/><stop offset="1" stop-color="${light}"/></linearGradient>
@@ -110,5 +110,7 @@ export function helmetSvgBody(input: HelmetConfig, id: string, options: HelmetRe
 /** Portable, settled frame with explicit colors and no animation or external files. */
 export function helmetToSvgString(config: HelmetConfig, size = 256, options: Omit<HelmetRenderOptions, "portable"> & { id?: string } = {}): string {
   const pixels = artworkDimension(size, 256);
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="${pixels}" height="${pixels}" shape-rendering="${options.appearance === "pixel" ? "crispEdges" : "auto"}" role="img" aria-label="Original motorsport helmet">${helmetSvgBody(config, options.id ?? "helmet-export", { ...options, portable: true })}</svg>`;
+  // The raised visor extends above the shell. Keep its settled export inside a square frame.
+  const viewBox = normalizeHelmetConfig(config).parts.visorOpen ? "-36 -72 312 312" : "0 0 240 240";
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" width="${pixels}" height="${pixels}" shape-rendering="${options.appearance === "pixel" ? "crispEdges" : "auto"}" role="img" aria-label="Original motorsport helmet">${helmetSvgBody(config, options.id ?? "helmet-export", { ...options, portable: true })}</svg>`;
 }
