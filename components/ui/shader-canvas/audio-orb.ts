@@ -16,19 +16,23 @@ uniform float uSpeed;
 uniform float uEnergy;
 void main() {
   vec2 p = (sourceUv() - .5) * 2.0;
-  p /= .94 + uEnergy * .055;
+  float angle = atan(p.y, p.x);
+  float ripple = (sin(angle * 5.0 + uTime * 1.8) + sin(angle * 3.0 - uTime * 2.1)) * uEnergy * .014;
+  p /= .85 + uEnergy * .11 + ripple;
   float t = uTime * uSpeed;
   float radius = length(p);
   float z = sqrt(max(0.0, 1.0 - dot(p, p)));
   vec3 sphere = vec3(p, z);
-  float turn = t * .3;
+  float turn = t * .3 + uEnergy * .45;
   sphere.xz = mat2(cos(turn), -sin(turn), sin(turn), cos(turn)) * sphere.xz;
   vec2 flow = sphere.xy;
-  flow += vec2(sin(sphere.y * 2.1 + t * .62), cos(sphere.x * 1.8 - t * .48)) * (.32 + uEnergy * .24);
+  flow += vec2(sin(sphere.y * 2.1 + t * .62 + uEnergy), cos(sphere.x * 1.8 - t * .48)) * (.32 + uEnergy * .65);
   vec3 color = mix(uColors[0], uColors[1], smoothstep(-.6, .65, flow.x + flow.y * .5));
   color = mix(color, uColors[2], smoothstep(.08, .9, sin(flow.y * 1.8 - flow.x + t * .37)) * .85);
   color = mix(color, uColors[3 % uColorCount], smoothstep(.25, .95, cos(flow.x * 1.6 + flow.y * 1.1 + t * .48)) * .8);
-  float shade = .42 + .58 * z;
+  float luminance = dot(color, vec3(.2126, .7152, .0722));
+  color = max(vec3(0.0), mix(vec3(luminance), color, 1.25));
+  float shade = .68 + .32 * z;
   color *= shade;
   vec3 n = normalize(vec3(p, z));
   float rim = pow(1.0 - z, 3.0);
@@ -40,7 +44,7 @@ void main() {
   color += pow(max(dot(normalize(vec3(.7, .5, .4)), n), 0.0), 18.0) * vec3(.65, .4, .9) * .6;
   color += sin(z * 14.0 + flow.y * 4.0 + t * .3) * .035;
 
-  color += uEnergy * .05;
+  color += uEnergy * .13;
   float edge = 1.0 - smoothstep(.96, 1.0, radius);
   fragColor = vec4(color, edge);
 }`,

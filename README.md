@@ -27,7 +27,7 @@ Open `http://localhost:3000`. The main routes are:
 | `/components/flowing-water` | Flowing teal water with adjustable sun reflections and ripples |
 | `/components/flowing-grass` | Grass with editable wind, blades, colors and pointer interaction |
 | `/components/drifting-clouds` | Cumulus clouds with editable shape, sunlight and drift |
-| `/portfolio` | Original portfolio banner, footer, animated truck and sticker socials together |
+| `/portfolio` | Portfolio artwork with a sample footer, animated truck and sticker socials together |
 | `/docs` | Installation, theming, and Infinite Avatar guide |
 | `/api/components/[slug]?style=retro-os` | Download a component source ZIP |
 

@@ -120,9 +120,9 @@ function FrostDemo() {
 }
 const PHOTO_PLAYLIST = CREATIVE_PLAYLIST.map((track, index) => ({ ...track, cover: KEEPSAKE_PHOTOS[[4, 7, 6][index % 3]].src }));
 function OrbDemo({ appearance }: { appearance: Appearance }) {
-  const [speed, setSpeed] = useState(.6), [paused, setPaused] = useState(false), [palette, setPalette] = useState("Lagoon");
-  const palettes: Record<string, string[]> = { Lagoon: ["#7dc8bc", "#387aab", "#cb9bf1", "#efbf7e"], Ember: ["#edc256", "#f47b43", "#663ba1", "#f6a8bd"], Iris: ["#8c96e7", "#373273", "#bce4bf", "#de90bb"] };
-  return <Panel preview={<div className="audio-orb-demo"><AudioOrb appearance={appearance} colors={palettes[palette]} speed={speed} paused={paused} tracks={CREATIVE_PLAYLIST} showControls /></div>}><Select label="Orb palette" value={palette} options={Object.keys(palettes)} onChange={setPalette} /><Range label="Flow speed" value={speed} onChange={setSpeed} min={0} max={2} step={.1} /><Check label="Pause orb animation" value={paused} onChange={setPaused} /></Panel>;
+  const [speed, setSpeed] = useState(.6), [paused, setPaused] = useState(false), [palette, setPalette] = useState("Lagoon"), [sensitivity, setSensitivity] = useState(1.6);
+  const palettes: Record<string, string[]> = { Lagoon: ["#13f4da", "#1d8bff", "#ef41ff", "#ffe866"], Ember: ["#ffda24", "#ff641e", "#a444ff", "#ff498e"], Iris: ["#a37bff", "#386aff", "#42ffb2", "#ff64dc"] };
+  return <Panel preview={<div className="audio-orb-demo"><AudioOrb appearance={appearance} colors={palettes[palette]} speed={speed} sensitivity={sensitivity} paused={paused} tracks={CREATIVE_PLAYLIST} showControls /></div>}><Select label="Orb palette" value={palette} options={Object.keys(palettes)} onChange={setPalette} /><Range label="Audio sensitivity" value={sensitivity} onChange={setSensitivity} min={.25} max={4} step={.05} /><Range label="Flow speed" value={speed} onChange={setSpeed} min={0} max={2} step={.1} /><Check label="Pause orb animation" value={paused} onChange={setPaused} /></Panel>;
 }
 function ReferencePlayerDemo({ kind, appearance }: { kind: "vinyl" | "wave"; appearance: Appearance }) {
   const [volume, setVolume] = useState(.65), [muted, setMuted] = useState(false);

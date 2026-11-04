@@ -14,33 +14,35 @@ export type AudioOrbProps = AppearanceProps & {
   colors?: readonly string[]; size?: number | string; speed?: number; paused?: boolean;
   audioLevel?: number; getAnalyser?: () => AnalyserNode | null; audioActive?: boolean;
   theme?: CreativeTheme; label?: string;
-  tracks?: readonly AudioTrack[]; showControls?: boolean;
+  tracks?: readonly AudioTrack[]; showControls?: boolean; sensitivity?: number;
 };
 const MODULES = [audioOrb];
-const COLORS = ["#7dc8bc", "#387aab", "#cb9bf1", "#efbf7e"];
+const COLORS = ["#13f4da", "#1d8bff", "#ef41ff", "#ffe866"];
 
 /** Crystal reflections respond to playback or gesture-enabled local microphone analysis. */
-export function AudioOrb({ colors = COLORS, size = 320, speed = .6, paused = false, audioLevel = 0, getAnalyser, audioActive = true, theme = "auto", label = "Animated audio-reactive gradient orb", appearance = "polished", className, tracks, showControls = Boolean(tracks?.length) }: AudioOrbProps) {
+export function AudioOrb({ colors = COLORS, size = 320, speed = .6, paused = false, audioLevel = 0, getAnalyser, audioActive = true, theme = "auto", label = "Animated audio-reactive gradient orb", appearance = "polished", className, tracks, sensitivity = 1.6, showControls = Boolean(tracks?.length) }: AudioOrbProps) {
   const player = useAudioPlayer({ tracks: tracks ?? [] }), microphone = useAudioInput();
   const [mode, setMode] = useState<"play" | "listen">("play");
   const active = showControls ? mode === "listen" ? microphone.listening : player.playing && !player.loading && !player.muted && player.volume > 0 : audioActive;
   const analyserSource = showControls ? mode === "listen" ? microphone.getAnalyser : player.getAnalyser : getAnalyser;
-  const bins = useRef(new Uint8Array(0)), energy = useRef(0), resolved = useCreativeTheme(theme);
+  const bins = useRef(new Uint8Array(0)), energy = useRef(0), visualRef = useRef<HTMLDivElement>(null), resolved = useCreativeTheme(theme);
   const level = () => {
     const analyser = active ? analyserSource?.() : null;
     let next = active ? clamp(audioLevel, 0, 1) : 0;
     if (analyser) {
       if (bins.current.length !== analyser.frequencyBinCount) bins.current = new Uint8Array(analyser.frequencyBinCount);
       analyser.getByteFrequencyData(bins.current);
-      const end = Math.max(2, Math.min(bins.current.length, Math.ceil(2400 / (analyser.context.sampleRate / analyser.fftSize))));
+      const end = Math.max(2, Math.min(bins.current.length, Math.ceil(5000 / (analyser.context.sampleRate / analyser.fftSize))));
       let sum = 0;
       for (let index = 1; index < end; index++) sum += (bins.current[index] / 255) ** 2;
-      next = Math.min(1, Math.sqrt(sum / (end - 1)) * 1.8);
+      next = Math.sqrt(sum / (end - 1)) * 2.6;
     }
-    energy.current += (next - energy.current) * (next > energy.current ? .3 : .12);
+    next = Math.pow(clamp(next * clamp(sensitivity, .25, 4), 0, 1), .75);
+    energy.current += (next - energy.current) * (next > energy.current ? .55 : .15);
+    visualRef.current?.style.setProperty("--orb-energy", energy.current.toFixed(4));
     return energy.current;
   };
-  const visual = <div className={["creative-surface audio-orb", className].filter(Boolean).join(" ")} data-theme={resolved} data-appearance={appearance} data-audio-active={active} style={{ width: typeof size === "number" ? clamp(size, 64, 720) : size, "--orb-one": colors[0] ?? COLORS[0], "--orb-two": colors[1] ?? COLORS[1], "--orb-three": colors[2] ?? COLORS[2] } as CSSProperties}>
+  const visual = <div ref={visualRef} className={["creative-surface audio-orb", className].filter(Boolean).join(" ")} data-theme={resolved} data-appearance={appearance} data-audio-active={active} style={{ width: typeof size === "number" ? clamp(size, 64, 720) : size, "--orb-one": colors[0] ?? COLORS[0], "--orb-two": colors[1] ?? COLORS[1], "--orb-three": colors[2] ?? COLORS[2] } as CSSProperties}>
     <span className="audio-orb-aura" aria-hidden="true" />
     <ShaderCanvas modules={MODULES} source={{ type: "audio-orb", colors, speed, audioLevel: level }} paused={paused} label={label} theme={resolved} appearance={appearance} />
   </div>;

@@ -25,11 +25,6 @@
     "sourceSha256": "6b479c9a00505a7c5bb9a54f549c4886aa6af5b349661348da8b8c6b81244335"
   },
   {
-    "source": "src/components/FooterFavicon.tsx",
-    "destination": "components/ui/portfolio/footer-favicon.tsx",
-    "sourceSha256": "b135f5bd2e76948e60226dcb774833e86c7e10763f4baa1e49e1a65400002edd"
-  },
-  {
     "source": "src/components/desi/MonumentSkyline.tsx",
     "destination": "components/ui/portfolio/monument-skyline.tsx",
     "sourceSha256": "f2e242e39e21cd735a01e39c792edeb2ccd74d64af58b5b699a3c06120ce32a6"
@@ -50,11 +45,6 @@
     "sourceSha256": "fbd83e2342a28bffbacf646fae8a9bbbf32199e2d7c324a84748eced085bd18b"
   },
   {
-    "source": "src/components/footer-favicon.module.css",
-    "destination": "styles/portfolio-favicon.module.css",
-    "sourceSha256": "2a053ca467772e1345d83fe0906afc7a6077f3609becc6da38550cebb3546d0e"
-  },
-  {
     "source": "src/components/pixel-perfect/social-hover-card.tsx",
     "destination": "components/ui/portfolio/social-hover-card.tsx",
     "sourceSha256": "eb9af5b0e8b16cb735bcda8dc9206a7783316b096225a2142d528e9daa2d929b"
@@ -68,11 +58,6 @@
     "source": "public/images/truck-art.webp",
     "destination": "public/portfolio/truck-art.webp",
     "sourceSha256": "c8c2252d90d87443dc180ff6e1f563c90e1918b569b24d8a0b757ad69cd3f511"
-  },
-  {
-    "source": "public/images/favicon-red.png",
-    "destination": "public/portfolio/favicon-red.png",
-    "sourceSha256": "b2060db09952fa55ecac816de5ae7ebfe9d44dd5477d85be1ef3110d85c60bb4"
   },
   {
     "source": "src/components/HeroBanner.tsx",

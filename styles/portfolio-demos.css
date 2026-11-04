@@ -2,6 +2,10 @@
 .portfolio-demo { width:100%; min-width:0; max-width:none; grid-template-columns:minmax(0,1fr); }
 .portfolio-demo .artwork-customizer-preview { position:static; }
 .portfolio-demo .artwork-customizer-artwork { display:block; padding:0; width:100%; min-height:300px; background:var(--portfolio-demo-paper); }
+/* Full-width scenes need their authored height inside the generic artwork preview. */
+.workspace-view:has(.portfolio-demo) { overflow:auto; }
+.workspace-view .portfolio-demo .artwork-customizer-artwork { display:block; flex:none; min-height:300px; }
+.workspace-view .portfolio-demo .artwork-customizer-artwork > * { width:100%; max-height:none; }
 .portfolio-banner-container { position:relative; width:100%; min-width:0; }
 .portfolio-demo .portfolio-footer { margin-top:0; }
 .portfolio-social-demo { display:grid; place-items:center; min-height:320px; padding:24px; }
