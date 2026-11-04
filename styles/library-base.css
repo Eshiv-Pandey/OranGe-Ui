@@ -9,7 +9,7 @@
 .ui button, .ui input, .ui textarea, .ui select { font: inherit; }
 .ui button { cursor: pointer; }
 .ui button:disabled, .ui [data-disabled] { cursor: not-allowed; }
-:where(.ui, .pixel-button, .stat-card):focus-visible, .ui :focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+:where(.ui, .pixel-button, .stat-card):focus-visible, .ui :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 .pixel-type { font-family: var(--font-display), monospace; font-weight: 600; line-height: 1.05; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .ui[data-appearance="polished"] { --ui-radius: 14px; --ui-small-radius: 8px; --ui-panel-radius: 22px; --ui-border: 1px solid var(--line); --ui-shadow: var(--soft-shadow); --ui-ease: var(--motion-ease); }

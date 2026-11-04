@@ -19,13 +19,13 @@ it("embeds usable JPEGs in registry installs instead of depending on this server
   const registry = await componentRegistryItem(findComponent("photo-garland")!, "polished");
   const photos = registry.files.find((file) => file.path.endsWith("keepsake-photos.ts"))!.content;
   expect(photos).not.toContain('"/photos/keepsakes/');
-  const data = [...photos.matchAll(/data:image\/jpeg;base64,([A-Za-z0-9+/=]+)/g)]; expect(data).toHaveLength(6);
+  const data = [...photos.matchAll(/data:image\/jpeg;base64,([A-Za-z0-9+/=]+)/g)]; expect(data).toHaveLength(12);
   for (const match of data) expect([...Buffer.from(match[1], "base64").subarray(0, 2)]).toEqual([255, 216]);
   expect(registry.files.find((file) => file.path.endsWith("KEEPSAKE_PHOTOS.md"))?.content).toContain("Unsplash");
 });
 
 it("caps metal rendering and normalizes invalid numeric shader settings", () => {
-  expect(liquidMetal.renderBudget).toEqual({ maxPixels: 600_000, maxFps: 30 });
+  expect(liquidMetal.renderBudget).toEqual({ maxPixels: 240_000, maxFps: 24 });
   expect(liquidMetal.uniforms.uRibbonCount.value({ ribbons: 100 })).toBe(5);
   expect(liquidMetal.uniforms.uSpeed.value({ speed: Number.NaN })).toBe(.35);
   expect(liquidMetal.uniforms.uRoughness.value({ roughness: -3 })).toBe(0);

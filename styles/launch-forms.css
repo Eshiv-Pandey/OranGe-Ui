@@ -122,3 +122,8 @@
 .ui[data-appearance="terminal"] .ui-stepper-step { border-top-style: dashed; }
 .ui[data-appearance="terminal"] .ui-stepper-marker { border-radius: 0; }
 @media (max-width: 420px) { .ui-otp-cells { gap: 5px; } .ui-otp-cell { height: 44px; font-size: 18px; } .ui-stepper li { flex-basis: 120px; } }
+
+.ui-calendar-selectors { display: flex; align-items: center; justify-content: center; gap: 4px; min-width: 0; }
+.ui-calendar-selectors select { min-width: 0; padding: 6px 4px; border: 0; border-radius: var(--ui-small-radius); background: var(--surface); color: var(--ink); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+.ui-calendar-selectors .ui-sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

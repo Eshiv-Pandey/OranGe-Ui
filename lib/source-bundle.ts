@@ -9,7 +9,7 @@ export type ComponentSourceBundle = { files: Record<string, Uint8Array>; depende
 export const BUNDLED_FONTS = ["geist-latin.woff2", "pixelify-sans-latin.woff2", "OFL-Geist.txt", "OFL-PixelifySans.txt"] as const;
 export const CREATIVE_FONT_ASSETS = ["public/fonts/desi/yatra-one.woff2", "public/fonts/desi/baloo-2.woff2", "public/fonts/desi/OFL-yatra-one.txt", "public/fonts/desi/OFL-baloo-2.txt", "public/fonts/desi/README.md"] as const;
 export const CREATIVE_AUDIO_ASSETS = ["public/audio/orangeui/sunroom.wav", "public/audio/orangeui/blue-hour.wav", "public/audio/orangeui/pocket-garden.wav", "public/audio/orangeui/LICENSE.txt", "public/audio/orangeui/CC0-1.0.txt"] as const;
-export const KEEPSAKE_PHOTO_ASSETS = ["summit.jpg", "road.jpg", "lake.jpg", "water.jpg", "forest.jpg", "mist.jpg", "NOTICE.md"].map((name) => `public/photos/keepsakes/${name}`);
+export const KEEPSAKE_PHOTO_ASSETS = ["summit.jpg", "road.jpg", "lake.jpg", "water.jpg", "forest.jpg", "mist.jpg", "coast.jpg", "city.jpg", "desert.jpg", "flowers.jpg", "ocean.jpg", "night.jpg", "NOTICE.md"].map((name) => `public/photos/keepsakes/${name}`);
 
 function allowedSource(relative: string): boolean {
   return /^(?:components\/ui\/|lib\/avatar\/).+\.tsx?$/.test(relative)
@@ -176,7 +176,7 @@ Components assign unique SVG definition IDs automatically. If you insert several
   ].filter(Boolean).join("\n");
   files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n" + extraNotes);
   if (component.notes?.length) files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n## Creative component\n\n" + (component.collection ? "This component retains its " + component.collection + " material. " : "Choose any of the five appearances. ") + "Theme follows live HTML dark/light classes, data-theme, then the system preference.\n\n" + (component.notes ?? []).join("\n\n") + "\n\nMerge the included public/ folder into your public assets, including audio/ for the original sample playlist and fonts/desi/ for display lettering. Retain all included license and credit files.\n");
-  if (files["components/ui/keepsake-photos.ts"]) files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n## Demonstration photographs\n\nCopy public/photos/keepsakes/ into your public directory. The six small landscape images are demonstration content under the Unsplash license. Keep their NOTICE.md with redistributed samples. Supply your own photos/items for production content.\n");
+  if (files["components/ui/keepsake-photos.ts"]) files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n## Demonstration photographs\n\nCopy public/photos/keepsakes/ into your public directory. The twelve small landscape images are demonstration content under the Unsplash license. Keep their NOTICE.md with redistributed samples. Supply your own photos/items for production content.\n");
   return { files, dependencies, devDependencies };
 }
 export async function componentFiles(component: ComponentDefinition, appearance: Appearance) { return (await collectComponentSource(component, appearance)).files; }

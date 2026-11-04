@@ -19,8 +19,8 @@ colors:
   ink-dark: "#ededed"
   muted-dark: "#a3a3a3"
   line-dark: "#ededed33"
-  focus-light: "#a64500"
-  focus-dark: "#ff821f"
+  focus-light: "#525252"
+  focus-dark: "#d4d4d4"
   error-light: "#b32c2c"
   error-dark: "#ffa6a0"
   accent-lime-light: "#d1ed89"
@@ -218,7 +218,7 @@ Component appearances are independent of palette. Polished, Pixelated, Neobrutal
 
 ## Colors
 
-The shared palette places warm orange against near-neutral paper, charcoal and black. The frontmatter records the baseline CSS values from `styles/tokens.css`; component token entries show the default polished light treatment. At runtime, semantic CSS variables select the active palette, while `lib/theme.ts` derives hover, accent text, focus and on-accent foreground values. Preserve those live bindings in new components.
+The shared palette places warm orange against near-neutral paper, charcoal and black. The frontmatter records the baseline CSS values from `styles/tokens.css`; component token entries show the default polished light treatment. At runtime, semantic CSS variables select the active palette, while `lib/theme.ts` derives hover, accent text and on-accent foreground values and keeps focus neutral in each palette. Preserve those live bindings in new components.
 
 ### Primary
 
@@ -228,17 +228,20 @@ The shared palette places warm orange against near-neutral paper, charcoal and b
 ### Secondary
 
 - **Lime, mint, amber, sky and coral:** the existing soft illustration and state accents. Their light and dark token pairs stay together. Mint, amber and coral also distinguish success, warning and danger badges.
-- **Error and focus:** semantic feedback colors, with separate light and dark baseline values. Error treatment includes text and field structure rather than color alone.
+- **Error:** semantic feedback with separate light and dark baseline values. Error treatment includes text and field structure rather than color alone.
 
 ### Neutral
 
 - **Cream, surface and soft surface:** page, panel and inset layers in each palette. The historical `cream` token is neutral paper in light mode and black in dark mode.
 - **Ink, muted and line:** primary content, secondary content and visible boundaries. Keep each palette's values paired.
+- **Focus:** a neutral keyboard outline in each palette, independent of the selected accent. Components with their own material may inherit their readable foreground for focus.
 - **Reference white, soft, rule, ground and sky:** the landscape's text, divider and backdrop roles. Its glass colors retain the source CSS alpha values rather than becoming opaque surface colors.
 
 **The Appearance and Palette Rule.** Choose component appearance separately from light or dark palette; preserve both controls and their independent effects.
 
-**The Accent Contrast Rule.** Use the live semantic accent variables for text, focus and foregrounds. The theme utility derives readable values when the accent changes.
+**The Accent Contrast Rule.** Use the live semantic accent variables for text and button foregrounds. The theme utility derives readable values when the accent changes.
+
+**The Neutral Focus Rule.** Keep shared keyboard focus neutral in light and dark palettes; changing the accent must preserve the focus role.
 
 ## Typography
 
@@ -310,11 +313,17 @@ Text fields keep a visible frame, label, focus ring and space for help or error 
 
 The inspector groups controls under clear section labels, keeps Customize separate from API reference, and leaves installation actions at the bottom. Its neutral panels do not borrow the landscape material.
 
+Calendar pairs its date grid with native month and year selectors. Keep their labels, date limits, disabled states and existing arrow-key date navigation. Selected dates retain the accent while keyboard focus uses the shared neutral outline.
+
 **The Editable Value Rule.** Show editable numbers and colors as real fields with labels and focus feedback. Present API descriptions as reading content.
 
 ### Badges and cards
 
 Badges are compact passive labels, with optional dots and semantic tones. Do not imply button behavior on a passive status label. Cards combine a heading, optional eyebrow, content and an optional divided footer. Standard cards inherit appearance-specific surfaces and depth; do not add hover movement to a static card.
+
+### Alerts and sheets
+
+Alerts use outlined SVG status symbols beside the title and message; the polished treatment has a quiet border and no decorative shadow. Sheets separate the header, generously spaced field groups and a divided footer, keeping actions reachable below the content. Both retain their established appearance variants.
 
 ### Navigation and playground dock
 
@@ -336,11 +345,23 @@ SeasonTree uses layered foliage and a continuous, tapered branching form on a tr
 
 ### Elemental characters and interactive fields
 
-Emberling's Fire, Water and Aqua variants follow the owner's character references with original vector artwork, expressive faces and continuously changing flame or water contours. Fluid orb mode uses a moving pigment wash under the same face. HumanAvatar uses bold head-only silhouettes, cutout ink eyes and restrained accent color, with a visible randomize action. These artwork palettes belong to the components and do not become workspace colors.
+Emberling's Fire, Water and Aqua variants follow the owner's character references with original vector artwork, expressive faces and strongly changing head contours. The bodies stay planted while the head's flame or water silhouette flows. Fluid orb mode uses a moving pigment wash under the same face. HumanAvatar uses bold head-only silhouettes, cutout ink eyes and restrained accent color, with a visible randomize action. These artwork palettes belong to the components and do not become workspace colors.
 
 The workspace supplies the complete available preview area. BloomTrail, DraggableCards, BubbleWrap, PhotoGarland and LiquidMetal extend across that area, while individual controls and portraits retain useful proportions. Component actions sit above the shared view dock. Mobile previews start at the top of their stage without inherited sticky offsets.
 
-BubbleWrap uses transparent film, narrow highlights and collapsed creases. Its short pressure pop starts only after interaction. PhotoGarland has no opaque background; a continuous sagging wire supports each clip and its photograph. FloatingDock reserves room for each magnifying icon. LiquidMetal derives reflections from a continuous surface, and compact player meters respond to real audio frequency bands.
+BubbleWrap uses transparent film, narrow highlights and collapsed creases. It defaults to 16 rows and 18 columns; optional fit packing adjusts rows to the available stage and is enabled in the full-height demo. Its short pressure pop starts only after interaction.
+
+PhotoGarland places up to 18 photos on separated, responsive rows with sagging wires and attached clips. Its transparent backdrop preserves the preview surface. JournalStack presents real two-page spreads with a central spine, layered paper edges, photographs and notes. Its fan navigation supports clicks, swipes and the existing keyboard controls. Both use the twelve local licensed sample photos, whose embedded source metadata and `public/photos/keepsakes/NOTICE.md` travel with the assets.
+
+FloatingDock has monochrome, icon-only shortcut slots with labels revealed on hover or focus. Damped springs enlarge the layout slots as well as their icons, preserving separation. This component is distinct from the shared glass playground view dock.
+
+LiquidMetal is a ray-marched mercury sculpture with smoothly fusing droplets, smooth contours and studio reflections. Its framing adapts to the stage's aspect ratio. Finish, tint, fusion, roughness, sheen, speed, pointer lighting and pause remain controllable, with the existing parameter API preserved. Its renderer caps the backing image at 240,000 pixels and motion at 24 frames per second; these are effect budgets, not shared design tokens.
+
+### Audio orb and players
+
+AudioOrb is a standalone soft sphere with continuously moving pigments. Real audio energy supplied through `getAnalyser` or `audioLevel` changes the flow; the demo connects it to the shared audio engine. Offscreen and hidden-tab motion pauses, reduced motion retains a still, and unavailable WebGL retains a styled fallback.
+
+VinylPlayer combines a neutral rounded body, a large cropped photographic record, playback-driven rotation, an audio meter and clear timing. Its responsive copy area preserves the metadata and transport space. WavePlayer uses a wide photographic cover, pale blue controls and a wavy scrubber that shows actual track progress; the waveform retains its width beside smaller mobile icons. Both demos use real shared playback and local licensed photo covers. Player meters sample audible frequency bands and settle on pause, buffering or mute. IslandPlayer and NeonPillPlayer retain readable pale metadata and controls on their dark bodies in either workspace palette.
 
 ## Do's and Don'ts
 

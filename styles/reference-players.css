@@ -1,0 +1,52 @@
+@import "./creative-surface.css";
+@import "./creative-players.css";
+.vinyl-player { container-type: inline-size; --equalizer-color: #66676c; width: min(100%,var(--vinyl-size,360px)); aspect-ratio: .86; position: relative; overflow: hidden; border-radius: 48px; background: linear-gradient(145deg,#eeedef,#d7d6da); color: #171719; box-shadow: 0 14px 30px -23px #00000066; }
+.vinyl-player[data-theme="dark"] { background: linear-gradient(145deg,#353539,#202024); color: #f5f3f7; --equalizer-color: #b8b6be; }
+.vinyl-record { position: absolute; top: -53%; left: -7%; width: 114%; aspect-ratio: 1; padding: 0; border: 0; border-radius: 50%; overflow: hidden; background: #222; box-shadow: 0 12px 22px -10px #0006; }
+.vinyl-record img { display: block; width: 100%; height: 100%; object-fit: cover; animation: vinyl-spin 24s linear infinite; animation-play-state: paused; filter: brightness(.75); }
+.vinyl-player[data-playing="true"][data-motion="running"] .vinyl-record img { animation-play-state: running; }
+.vinyl-grooves { position: absolute; inset: 3%; border: 1px solid #ffffff12; border-radius: 50%; box-shadow: inset 0 0 0 12px #00000010, inset 0 0 0 14px #ffffff08, inset 0 0 0 28px #00000008, inset 0 0 0 30px #ffffff08; }
+.vinyl-spindle { position: absolute; left: 36%; top: 36%; width: 28%; height: 28%; border: 2px solid #e4e2e8; border-radius: 50%; background: radial-gradient(circle,#323238 0 4%,#d2d1d8 5% 25%,#aeacb7 26% 38%,#dad9df 39% 42%,#bab8c4 43% 60%,#dedde2 61% 65%,#b4b2bf 66%); }
+.vinyl-copy { position: absolute; inset: 49% 7% 4%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; min-width: 0; }
+.vinyl-copy > * { flex-shrink: 0; }
+.vinyl-copy .creative-equalizer { margin-bottom: 10px; height: 18px; }
+.vinyl-copy .creative-equalizer i { height: 18px; }
+.vinyl-artist { line-height: 1.25; font-size: 17px; opacity: .65; }
+.vinyl-copy > strong { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-top: 5px; line-height: 1.25; font-size: 19px; letter-spacing: -.03em; }
+.vinyl-progress { appearance: none; width: 38px !important; height: 3px; margin: 10px 0 6px; border-radius: 4px; background: linear-gradient(90deg,currentColor var(--progress),#88888855 var(--progress)); cursor: pointer; }
+.vinyl-progress::-webkit-slider-thumb { appearance: none; width: 4px; height: 6px; background: currentColor; border-radius: 2px; }
+.vinyl-progress::-moz-range-thumb { width: 4px; height: 6px; border: 0; background: currentColor; }
+.vinyl-time { line-height: 1.2; font-size: 22px; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.vinyl-time > span:last-child { opacity: .4; }
+.vinyl-copy .creative-transport { gap: 16px; margin-top: 8px; }
+.vinyl-copy .creative-transport button { width: 32px; height: 32px; }
+.vinyl-copy .creative-player-feedback { font-size: 10px; text-align: center; }
+.wave-player { width: min(100%,var(--wave-size,680px)); position: relative; overflow: hidden; border-radius: 36px; background: #173c49; color: #d7f1fb; --creative-ink: #d7f1fb; --creative-muted: #c4e2ee; --creative-paper: #173c49; }
+.wave-cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.wave-content { position: relative; padding: 26px 30px 20px; background: linear-gradient(90deg,#082b3fba,#092e4399); }
+.wave-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.wave-top > svg { width: 30px; height: 30px; }
+.wave-device { display: flex; align-items: center; gap: 9px; min-height: 40px; padding: 8px 16px; border: 0; border-radius: 999px; background: #b8dfef; color: #173747; font-size: 14px; }
+.wave-main { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin: 26px 0 24px; }
+.wave-main > div { min-width: 0; }
+.wave-main strong, .wave-main span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wave-main strong { font-size: clamp(20px,3vw,27px); line-height: 1.2; font-weight: 550; letter-spacing: -.025em; }
+.wave-main span { margin-top: 5px; font-size: 18px; color: #c6e1ed; }
+.wave-play { display: grid; place-items: center; flex: none; width: 58px; height: 58px; padding: 0; border: 0; border-radius: 18px; background: #bce8fa; color: #112e3d; }
+.wave-play svg { width: 26px; height: 26px; }
+.wave-bottom { display: flex; align-items: center; gap: 18px; }
+.wave-bottom .creative-icon-button { width: 40px; height: 40px; }
+.wave-bottom .creative-icon-button svg { width: 25px; height: 25px; }
+.wave-progress { flex: 1; position: relative; min-width: 0; height: 40px; }
+.wave-progress > svg { position: absolute; top: 5px; left: 0; width: 100%; height: 30px; }
+.wave-progress path { stroke: #d7f1fb; stroke-width: 3; fill: none; }
+.wave-progress .wave-rest { opacity: .32; }
+.wave-progress input { appearance: none; position: relative; width: 100%; height: 40px; margin: 0; background: transparent; cursor: pointer; }
+.wave-progress input::-webkit-slider-thumb { appearance: none; width: 6px; height: 28px; border-radius: 4px; background: #d7f1fb; }
+.wave-progress input::-moz-range-thumb { width: 6px; height: 28px; border: 0; border-radius: 4px; background: #d7f1fb; }
+.wave-save[aria-pressed="true"] svg { fill: #d7f1fb; }
+@keyframes vinyl-spin { to { rotate: 360deg; } }
+@media (max-width: 480px) { .vinyl-player { border-radius: 36px; }.vinyl-copy > strong { font-size: 17px; }.vinyl-artist { font-size: 15px; }.vinyl-time { font-size: 20px; }.wave-player { border-radius: 26px; }.wave-content { padding: 20px; }.wave-bottom { gap: 7px; }.wave-device { padding: 7px 11px; font-size: 12px; }.wave-main span { font-size: 14px; }.wave-main { margin: 20px 0; }.wave-play { width: 48px; height: 48px; border-radius: 15px; }.wave-bottom .creative-icon-button { width: 32px; }.wave-bottom .creative-icon-button svg { width: 22px; } }
+@media (prefers-reduced-motion: reduce) { .vinyl-record img { animation: none; } }
+
+@container (max-width: 320px) { .vinyl-copy { inset: 46% 7% 4%; }.vinyl-copy .creative-equalizer { height: 12px; margin-bottom: 6px; }.vinyl-copy .creative-equalizer i { height: 12px; }.vinyl-artist { font-size: 14px; }.vinyl-copy > strong { font-size: 16px; }.vinyl-time { font-size: 18px; }.vinyl-progress { margin-top: 8px; }.vinyl-copy .creative-transport { margin-top: 6px; } }

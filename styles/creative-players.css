@@ -95,3 +95,7 @@
 }
 [data-motion="reduced"] .glass-heart-burst { display: none; }
 @media (prefers-reduced-motion: reduce) { .neon-pill-player, .neon-pill-copy, .creative-play-morph svg { transition: none; } .glass-heart-burst { display: none; } .glass-like-icon { animation: none !important; } }
+
+:is(.island-player, .neon-pill-player)[data-theme] { --creative-ink: #faf7f2; --creative-muted: #c6c0c4; --creative-paper: #111113; color: #faf7f2; }
+:is(.island-player, .neon-pill-player) .creative-icon-button { color: inherit; }
+.island-player .creative-play-button { color: #151414; }

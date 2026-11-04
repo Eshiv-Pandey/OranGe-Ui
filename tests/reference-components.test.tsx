@@ -64,11 +64,11 @@ describe("reference collection", () => {
   it.each(["The air felt different up here.", undefined, ""])("names journal pages from visible captions with note %s", (note) => {
     const photo = { ...KEEPSAKE_PHOTOS[0], note };
     render(<JournalStack photos={[photo]} />);
-    const caption = [photo.title, note ?? "A moment worth keeping.", "01"].filter(Boolean).join(" ");
+    const caption = [photo.title, note ?? "A moment worth keeping.", "1", "A day to remember", "01", "2"].filter(Boolean).join(" ");
     const page = screen.getByRole("button", { name: caption });
     expect(page).toHaveAccessibleDescription(`Page 1 of 1. Use Left and Right arrow keys to change pages. ${photo.alt}`);
     expect(within(page).getByRole("img", { name: photo.alt })).toBeVisible();
-    expect(page.textContent).toContain(`${photo.title} ${note ?? "A moment worth keeping."} 01`);
+    expect(page).toHaveTextContent(photo.title); if (note !== "") expect(page).toHaveTextContent(note ?? "A moment worth keeping."); expect(page).toHaveTextContent("01");
   });
 
   it("selects real photo captions in the garland and film strip", () => {

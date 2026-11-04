@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-02T07:19:45.156Z",
+  "generatedAt": "2026-11-04T05:26:41.408Z",
   "title": "Design System: oRangeUi",
   "extensions": {
     "colorMeta": {
@@ -262,31 +262,31 @@
       "focus-light": {
         "role": "neutral",
         "displayName": "focus light",
-        "canonical": "#a64500",
+        "canonical": "#525252",
         "tonalRamp": [
-          "oklch(0.150 0.1437 46.13)",
-          "oklch(0.264 0.1437 46.13)",
-          "oklch(0.379 0.1437 46.13)",
-          "oklch(0.493 0.1437 46.13)",
-          "oklch(0.607 0.1437 46.13)",
-          "oklch(0.721 0.1437 46.13)",
-          "oklch(0.836 0.1437 46.13)",
-          "oklch(0.950 0.1437 46.13)"
+          "oklch(0.150 0.0000 0.00)",
+          "oklch(0.264 0.0000 0.00)",
+          "oklch(0.379 0.0000 0.00)",
+          "oklch(0.493 0.0000 0.00)",
+          "oklch(0.607 0.0000 0.00)",
+          "oklch(0.721 0.0000 0.00)",
+          "oklch(0.836 0.0000 0.00)",
+          "oklch(0.950 0.0000 0.00)"
         ]
       },
       "focus-dark": {
         "role": "neutral",
         "displayName": "focus dark",
-        "canonical": "#ff821f",
+        "canonical": "#d4d4d4",
         "tonalRamp": [
-          "oklch(0.150 0.1805 51.73)",
-          "oklch(0.264 0.1805 51.73)",
-          "oklch(0.379 0.1805 51.73)",
-          "oklch(0.493 0.1805 51.73)",
-          "oklch(0.607 0.1805 51.73)",
-          "oklch(0.721 0.1805 51.73)",
-          "oklch(0.836 0.1805 51.73)",
-          "oklch(0.950 0.1805 51.73)"
+          "oklch(0.150 0.0000 0.00)",
+          "oklch(0.264 0.0000 0.00)",
+          "oklch(0.379 0.0000 0.00)",
+          "oklch(0.493 0.0000 0.00)",
+          "oklch(0.607 0.0000 0.00)",
+          "oklch(0.721 0.0000 0.00)",
+          "oklch(0.836 0.0000 0.00)",
+          "oklch(0.950 0.0000 0.00)"
         ]
       },
       "error-light": {
@@ -701,7 +701,7 @@
       "refersTo": "button-primary",
       "description": "A native action with distinct hover, focus and press feedback.",
       "html": "<button type=\"button\" class=\"ds-button ds-primary\">Explore components</button>",
-      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border:1px solid transparent;border-radius:var(--radius-control,14px);background:var(--primary,#ff6a00);color:var(--on-primary,#171717);font:650 14px/1.4 var(--font-body,Arial),sans-serif;box-shadow:0 2px 2px #17171710,inset 0 1px 0 #ffffff30;cursor:pointer;transition:background 180ms,box-shadow 180ms,transform 180ms cubic-bezier(.2,.7,.2,1)}.ds-button:hover{background:var(--primary-hover,#ff821f);box-shadow:0 6px 16px #17171715;transform:translateY(-2px)}.ds-button:focus-visible{outline:3px solid var(--focus,#a64500);outline-offset:3px}.ds-button:active{transform:translateY(1px);box-shadow:none}.ds-button:disabled{background:var(--surface-soft,#f2f2f2);color:var(--muted,#666);cursor:not-allowed}.ds-secondary{background:var(--surface,#fff);color:var(--ink,#171717);border-color:var(--line,#1717172b);box-shadow:var(--soft-shadow,0 3px 8px #17171709)}.ds-ghost{background:transparent;color:var(--ink,#171717);box-shadow:none}.ds-secondary:hover,.ds-ghost:hover{background:var(--surface-soft,#f2f2f2)}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border:1px solid transparent;border-radius:var(--radius-control,14px);background:var(--primary,#ff6a00);color:var(--on-primary,#171717);font:650 14px/1.4 var(--font-body,Arial),sans-serif;box-shadow:0 2px 2px #17171710,inset 0 1px 0 #ffffff30;cursor:pointer;transition:background 180ms,box-shadow 180ms,transform 180ms cubic-bezier(.2,.7,.2,1)}.ds-button:hover{background:var(--primary-hover,#ff821f);box-shadow:0 6px 16px #17171715;transform:translateY(-2px)}.ds-button:focus-visible{outline:3px solid var(--focus,#525252);outline-offset:3px}.ds-button:active{transform:translateY(1px);box-shadow:none}.ds-button:disabled{background:var(--surface-soft,#f2f2f2);color:var(--muted,#666);cursor:not-allowed}.ds-secondary{background:var(--surface,#fff);color:var(--ink,#171717);border-color:var(--line,#1717172b);box-shadow:var(--soft-shadow,0 3px 8px #17171709)}.ds-ghost{background:transparent;color:var(--ink,#171717);box-shadow:none}.ds-secondary:hover,.ds-ghost:hover{background:var(--surface-soft,#f2f2f2)}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
     },
     {
       "name": "Button: secondary",
@@ -709,7 +709,7 @@
       "refersTo": "button-secondary",
       "description": "A native action with distinct hover, focus and press feedback.",
       "html": "<button type=\"button\" class=\"ds-button ds-secondary\">Explore components</button>",
-      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border:1px solid transparent;border-radius:var(--radius-control,14px);background:var(--primary,#ff6a00);color:var(--on-primary,#171717);font:650 14px/1.4 var(--font-body,Arial),sans-serif;box-shadow:0 2px 2px #17171710,inset 0 1px 0 #ffffff30;cursor:pointer;transition:background 180ms,box-shadow 180ms,transform 180ms cubic-bezier(.2,.7,.2,1)}.ds-button:hover{background:var(--primary-hover,#ff821f);box-shadow:0 6px 16px #17171715;transform:translateY(-2px)}.ds-button:focus-visible{outline:3px solid var(--focus,#a64500);outline-offset:3px}.ds-button:active{transform:translateY(1px);box-shadow:none}.ds-button:disabled{background:var(--surface-soft,#f2f2f2);color:var(--muted,#666);cursor:not-allowed}.ds-secondary{background:var(--surface,#fff);color:var(--ink,#171717);border-color:var(--line,#1717172b);box-shadow:var(--soft-shadow,0 3px 8px #17171709)}.ds-ghost{background:transparent;color:var(--ink,#171717);box-shadow:none}.ds-secondary:hover,.ds-ghost:hover{background:var(--surface-soft,#f2f2f2)}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border:1px solid transparent;border-radius:var(--radius-control,14px);background:var(--primary,#ff6a00);color:var(--on-primary,#171717);font:650 14px/1.4 var(--font-body,Arial),sans-serif;box-shadow:0 2px 2px #17171710,inset 0 1px 0 #ffffff30;cursor:pointer;transition:background 180ms,box-shadow 180ms,transform 180ms cubic-bezier(.2,.7,.2,1)}.ds-button:hover{background:var(--primary-hover,#ff821f);box-shadow:0 6px 16px #17171715;transform:translateY(-2px)}.ds-button:focus-visible{outline:3px solid var(--focus,#525252);outline-offset:3px}.ds-button:active{transform:translateY(1px);box-shadow:none}.ds-button:disabled{background:var(--surface-soft,#f2f2f2);color:var(--muted,#666);cursor:not-allowed}.ds-secondary{background:var(--surface,#fff);color:var(--ink,#171717);border-color:var(--line,#1717172b);box-shadow:var(--soft-shadow,0 3px 8px #17171709)}.ds-ghost{background:transparent;color:var(--ink,#171717);box-shadow:none}.ds-secondary:hover,.ds-ghost:hover{background:var(--surface-soft,#f2f2f2)}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
     },
     {
       "name": "Button: ghost",
@@ -717,7 +717,7 @@
       "refersTo": "button-ghost",
       "description": "A native action with distinct hover, focus and press feedback.",
       "html": "<button type=\"button\" class=\"ds-button ds-ghost\">Explore components</button>",
-      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border:1px solid transparent;border-radius:var(--radius-control,14px);background:var(--primary,#ff6a00);color:var(--on-primary,#171717);font:650 14px/1.4 var(--font-body,Arial),sans-serif;box-shadow:0 2px 2px #17171710,inset 0 1px 0 #ffffff30;cursor:pointer;transition:background 180ms,box-shadow 180ms,transform 180ms cubic-bezier(.2,.7,.2,1)}.ds-button:hover{background:var(--primary-hover,#ff821f);box-shadow:0 6px 16px #17171715;transform:translateY(-2px)}.ds-button:focus-visible{outline:3px solid var(--focus,#a64500);outline-offset:3px}.ds-button:active{transform:translateY(1px);box-shadow:none}.ds-button:disabled{background:var(--surface-soft,#f2f2f2);color:var(--muted,#666);cursor:not-allowed}.ds-secondary{background:var(--surface,#fff);color:var(--ink,#171717);border-color:var(--line,#1717172b);box-shadow:var(--soft-shadow,0 3px 8px #17171709)}.ds-ghost{background:transparent;color:var(--ink,#171717);box-shadow:none}.ds-secondary:hover,.ds-ghost:hover{background:var(--surface-soft,#f2f2f2)}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border:1px solid transparent;border-radius:var(--radius-control,14px);background:var(--primary,#ff6a00);color:var(--on-primary,#171717);font:650 14px/1.4 var(--font-body,Arial),sans-serif;box-shadow:0 2px 2px #17171710,inset 0 1px 0 #ffffff30;cursor:pointer;transition:background 180ms,box-shadow 180ms,transform 180ms cubic-bezier(.2,.7,.2,1)}.ds-button:hover{background:var(--primary-hover,#ff821f);box-shadow:0 6px 16px #17171715;transform:translateY(-2px)}.ds-button:focus-visible{outline:3px solid var(--focus,#525252);outline-offset:3px}.ds-button:active{transform:translateY(1px);box-shadow:none}.ds-button:disabled{background:var(--surface-soft,#f2f2f2);color:var(--muted,#666);cursor:not-allowed}.ds-secondary{background:var(--surface,#fff);color:var(--ink,#171717);border-color:var(--line,#1717172b);box-shadow:var(--soft-shadow,0 3px 8px #17171709)}.ds-ghost{background:transparent;color:var(--ink,#171717);box-shadow:none}.ds-secondary:hover,.ds-ghost:hover{background:var(--surface-soft,#f2f2f2)}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
     },
     {
       "name": "Text field",
@@ -725,7 +725,7 @@
       "refersTo": "input",
       "description": "A labelled field with a visible boundary and keyboard focus.",
       "html": "<label class=\"ds-field\">Project name<input class=\"ds-input\" placeholder=\"Your next project\"></label>",
-      "css": ".ds-field{display:grid;gap:8px;color:var(--ink,#171717);font:600 14px/1.5 var(--font-body,Arial),sans-serif}.ds-input{min-width:0;min-height:48px;padding:12px 15px;border:1px solid var(--line,#1717172b);border-radius:var(--radius-control,14px);background:var(--surface,#fff);color:inherit;font:400 16px/1.5 var(--font-body,Arial),sans-serif;cursor:text}.ds-input:hover{border-color:var(--muted,#666)}.ds-input:focus-visible{outline:3px solid var(--focus,#a64500);outline-offset:3px}.ds-input::placeholder{color:var(--muted,#666)}"
+      "css": ".ds-field{display:grid;gap:8px;color:var(--ink,#171717);font:600 14px/1.5 var(--font-body,Arial),sans-serif}.ds-input{min-width:0;min-height:48px;padding:12px 15px;border:1px solid var(--line,#1717172b);border-radius:var(--radius-control,14px);background:var(--surface,#fff);color:inherit;font:400 16px/1.5 var(--font-body,Arial),sans-serif;cursor:text}.ds-input:hover{border-color:var(--muted,#666)}.ds-input:focus-visible{outline:3px solid var(--focus,#525252);outline-offset:3px}.ds-input::placeholder{color:var(--muted,#666)}"
     },
     {
       "name": "Badge",
@@ -749,7 +749,7 @@
       "refersTo": "editor-number",
       "description": "Editable values use real number fields.",
       "html": "<label class=\"ds-value\">Grass density<input type=\"number\" value=\"80\" min=\"35\" max=\"160\" step=\"1\"></label>",
-      "css": ".ds-value{display:flex;align-items:center;justify-content:space-between;gap:20px;color:var(--ink,#171717);font:500 12px/1.5 var(--font-body,Arial),sans-serif}.ds-value input{width:76px;min-height:34px;padding:6px 7px;border:1px solid var(--line,#1717172b);border-radius:7px;background:var(--surface,#fff);color:inherit;text-align:right;font:inherit;font-variant-numeric:tabular-nums;cursor:text}.ds-value input:hover{border-color:var(--muted,#666)}.ds-value input:focus-visible{outline:2px solid var(--focus,#a64500);outline-offset:3px}"
+      "css": ".ds-value{display:flex;align-items:center;justify-content:space-between;gap:20px;color:var(--ink,#171717);font:500 12px/1.5 var(--font-body,Arial),sans-serif}.ds-value input{width:76px;min-height:34px;padding:6px 7px;border:1px solid var(--line,#1717172b);border-radius:7px;background:var(--surface,#fff);color:inherit;text-align:right;font:inherit;font-variant-numeric:tabular-nums;cursor:text}.ds-value input:hover{border-color:var(--muted,#666)}.ds-value input:focus-visible{outline:2px solid var(--focus,#525252);outline-offset:3px}"
     },
     {
       "name": "Playground dock",
@@ -757,7 +757,7 @@
       "refersTo": "playground-dock",
       "description": "A compact glass dock floats over the preview with visible view labels and documentation access.",
       "html": "<div class=\"ds-dock\" role=\"group\" aria-label=\"Playground views\"><div class=\"ds-dock-tabs\"><button type=\"button\" class=\"ds-selected\">Preview</button><button type=\"button\">Usage</button><button type=\"button\">Source</button></div><a href=\"/components/flowing-water#component-api\" class=\"ds-docs\" aria-label=\"Read component documentation\"><svg viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M10 4c-3-2-6-2-8-1v13c2-1 5-1 8 1 3-2 6-2 8-1V3c-2-1-5-1-8 1Zm0 0v13\"/></svg></a></div>",
-      "css": ".ds-dock{display:inline-flex;align-items:center;gap:5px;min-height:44px;padding:4px;border:1px solid color-mix(in srgb,var(--ink,#171717) 18%,transparent);border-radius:999px;background:color-mix(in srgb,var(--surface,#fff) 48%,transparent);backdrop-filter:blur(24px) saturate(1.55);-webkit-backdrop-filter:blur(24px) saturate(1.55)}.ds-dock-tabs{display:flex;gap:3px}.ds-dock button{min-height:34px;padding:7px 14px;border:0;border-radius:999px;background:transparent;color:var(--ink,#171717);font:500 12px/1.5 var(--font-body,Arial),sans-serif;cursor:pointer}.ds-dock .ds-selected{background:var(--ink,#171717);color:var(--surface,#fff)}.ds-dock button:not(.ds-selected):hover,.ds-dock .ds-docs:hover{background:color-mix(in srgb,var(--ink,#171717) 8%,transparent);color:var(--ink,#171717)}.ds-dock .ds-docs{display:grid;place-items:center;width:34px;height:34px;margin-left:2px;color:var(--ink,#171717);border-radius:50%;text-decoration:none}.ds-docs svg{width:17px;height:17px}.ds-dock button:focus-visible,.ds-dock a:focus-visible{outline:2px solid var(--focus,#a64500);outline-offset:3px}@media(max-width:800px){.ds-dock{gap:2px}.ds-dock button{padding:7px 10px;font-size:11px}.ds-dock .ds-docs{width:30px}.ds-docs svg{width:15px;height:15px}}"
+      "css": ".ds-dock{display:inline-flex;align-items:center;gap:5px;min-height:44px;padding:4px;border:1px solid color-mix(in srgb,var(--ink,#171717) 18%,transparent);border-radius:999px;background:color-mix(in srgb,var(--surface,#fff) 48%,transparent);backdrop-filter:blur(24px) saturate(1.55);-webkit-backdrop-filter:blur(24px) saturate(1.55)}.ds-dock-tabs{display:flex;gap:3px}.ds-dock button{min-height:34px;padding:7px 14px;border:0;border-radius:999px;background:transparent;color:var(--ink,#171717);font:500 12px/1.5 var(--font-body,Arial),sans-serif;cursor:pointer}.ds-dock .ds-selected{background:var(--ink,#171717);color:var(--surface,#fff)}.ds-dock button:not(.ds-selected):hover,.ds-dock .ds-docs:hover{background:color-mix(in srgb,var(--ink,#171717) 8%,transparent);color:var(--ink,#171717)}.ds-dock .ds-docs{display:grid;place-items:center;width:34px;height:34px;margin-left:2px;color:var(--ink,#171717);border-radius:50%;text-decoration:none}.ds-docs svg{width:17px;height:17px}.ds-dock button:focus-visible,.ds-dock a:focus-visible{outline:2px solid var(--focus,#525252);outline-offset:3px}@media(max-width:800px){.ds-dock{gap:2px}.ds-dock button{padding:7px 10px;font-size:11px}.ds-dock .ds-docs{width:30px}.ds-docs svg{width:15px;height:15px}}"
     },
     {
       "name": "Landscape navigation",
@@ -773,7 +773,7 @@
       "refersTo": "palette-swatch",
       "description": "A shared palette shelf pairs named, selectable artwork studies with local custom-palette controls.",
       "html": "<fieldset class=\"ds-palette\"><legend>Color studies</legend><div class=\"ds-palette-grid\"><button type=\"button\" class=\"ds-palette-swatch\" aria-label=\"Use Sunroom palette\" aria-pressed=\"true\"><span class=\"ds-palette-strip\" aria-hidden=\"true\"><i style=\"background:#76aa3c\"></i><i style=\"background:#e3ed9d\"></i><i style=\"background:#17351d\"></i></span><span>Sunroom</span></button><button type=\"button\" class=\"ds-palette-swatch\" aria-label=\"Use Clover field palette\" aria-pressed=\"false\"><span class=\"ds-palette-strip\" aria-hidden=\"true\"><i style=\"background:#55965a\"></i><i style=\"background:#d5e8a1\"></i><i style=\"background:#12362b\"></i></span><span>Clover field</span></button></div><div class=\"ds-palette-save\"><input type=\"text\" aria-label=\"Palette name\" maxlength=\"32\" placeholder=\"Name your palette\"><button type=\"button\" disabled>Save</button></div></fieldset>",
-      "css": ".ds-palette{min-width:0;margin:0;padding:0;border:0;color:var(--creative-ink,var(--ink,#171717));font-family:var(--font-body,Arial),sans-serif}.ds-palette legend{margin-bottom:14px;font-size:12px;font-weight:600}.ds-palette-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}.ds-palette-swatch{display:grid;gap:7px;width:100%;padding:0;color:var(--creative-muted,var(--muted,#666));text-align:left;font:11px/1.5 var(--font-body,Arial),sans-serif;border:0;background:transparent;cursor:pointer}.ds-palette-strip{display:flex;height:28px;border-radius:6px;overflow:hidden;outline:1px solid #8883;outline-offset:2px;transition:outline-color .18s}.ds-palette-strip i{flex:1}.ds-palette-swatch[aria-pressed=true]{color:var(--creative-ink,var(--ink,#171717))}.ds-palette-swatch[aria-pressed=true] .ds-palette-strip{outline:2px solid var(--creative-accent,var(--primary,#ff6a00))}.ds-palette-swatch:hover .ds-palette-strip{outline-color:var(--creative-ink,var(--ink,#171717))}.ds-palette-save{display:flex;gap:6px;margin-top:18px}.ds-palette-save input{min-width:0;width:100%;padding:8px 9px;border:1px solid var(--creative-line,var(--line,#1717172b));border-radius:6px;background:transparent;color:inherit;font:11px var(--font-body,Arial),sans-serif}.ds-palette-save input::placeholder{color:var(--creative-muted,var(--muted,#666))}.ds-palette-save button{border:1px solid var(--creative-line,var(--line,#1717172b));border-radius:6px;background:var(--creative-paper,var(--surface-soft,#f2f2f2));color:inherit;padding:6px 12px;font:11px var(--font-body,Arial),sans-serif;cursor:pointer}.ds-palette-save button:disabled{opacity:.5;cursor:not-allowed}.ds-palette :focus-visible{outline:3px solid var(--creative-accent,var(--primary,#ff6a00));outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-palette-strip{transition:none}}"
+      "css": ".ds-palette{min-width:0;margin:0;padding:0;border:0;color:var(--creative-ink,var(--ink,#171717));font-family:var(--font-body,Arial),sans-serif}.ds-palette legend{margin-bottom:14px;font-size:12px;font-weight:600}.ds-palette-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}.ds-palette-swatch{display:grid;gap:7px;width:100%;padding:0;color:var(--creative-muted,var(--muted,#666));text-align:left;font:11px/1.5 var(--font-body,Arial),sans-serif;border:0;background:transparent;cursor:pointer}.ds-palette-strip{display:flex;height:28px;border-radius:6px;overflow:hidden;outline:1px solid #8883;outline-offset:2px;transition:outline-color .18s}.ds-palette-strip i{flex:1}.ds-palette-swatch[aria-pressed=true]{color:var(--creative-ink,var(--ink,#171717))}.ds-palette-swatch[aria-pressed=true] .ds-palette-strip{outline:2px solid var(--creative-accent,var(--primary,#ff6a00))}.ds-palette-swatch:hover .ds-palette-strip{outline-color:var(--creative-ink,var(--ink,#171717))}.ds-palette-save{display:flex;gap:6px;margin-top:18px}.ds-palette-save input{min-width:0;width:100%;padding:8px 9px;border:1px solid var(--creative-line,var(--line,#1717172b));border-radius:6px;background:transparent;color:inherit;font:11px var(--font-body,Arial),sans-serif}.ds-palette-save input::placeholder{color:var(--creative-muted,var(--muted,#666))}.ds-palette-save button{border:1px solid var(--creative-line,var(--line,#1717172b));border-radius:6px;background:var(--creative-paper,var(--surface-soft,#f2f2f2));color:inherit;padding:6px 12px;font:11px var(--font-body,Arial),sans-serif;cursor:pointer}.ds-palette-save button:disabled{opacity:.5;cursor:not-allowed}.ds-palette :focus-visible{outline:3px solid currentColor;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-palette-strip{transition:none}}"
     }
   ],
   "narrative": {
@@ -794,7 +794,12 @@
       },
       {
         "name": "The Accent Contrast Rule",
-        "body": "Use the live semantic accent variables for text, focus and foregrounds. The theme utility derives readable values when the accent changes.",
+        "body": "Use the live semantic accent variables for text and button foregrounds. The theme utility derives readable values when the accent changes.",
+        "section": "colors"
+      },
+      {
+        "name": "The Neutral Focus Rule",
+        "body": "Keep shared keyboard focus neutral in light and dark palettes; changing the accent must preserve the focus role.",
         "section": "colors"
       },
       {

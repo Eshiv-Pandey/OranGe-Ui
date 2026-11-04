@@ -53,11 +53,18 @@ export function Calendar({ value, defaultValue = "", onValueChange, month, defau
     else if (event.key === "PageUp" || event.key === "PageDown") { event.preventDefault(); const delta = (event.key === "PageUp" ? -1 : 1) * (event.shiftKey ? 12 : 1); navigate(addCalendarMonths(date, delta), delta < 0 ? -1 : 1); }
   }
   const previous = visibleMonth ? addCalendarMonths(visibleMonth, -1) : "", next = visibleMonth ? addCalendarMonths(visibleMonth, 1) : "";
+  const year = Number(visibleMonth.slice(0, 4)), monthNumber = visibleMonth.slice(5, 7);
+  const firstYear = lower ? Number(lower.slice(0, 4)) : Math.max(1, year - 100);
+  const lastYear = upper ? Number(upper.slice(0, 4)) : Math.min(9999, year + 100);
   return <section className={uiClass("ui-calendar ui-surface", className)} data-appearance={appearance} aria-label={label} data-disabled={disabled || undefined}>
     {visibleMonth ? <>
       <header className="ui-calendar-header">
         <button type="button" className="ui-icon-button" aria-label="Previous month" disabled={disabled || Boolean(lower && previous.slice(0, 7) < lower.slice(0, 7))} onClick={() => show(previous)}><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12 5-5 5 5 5"/></svg></button>
-        <h3 id={heading} aria-live="polite">{formatCalendarDate(visibleMonth, locale, { month: "long", year: "numeric" })}</h3>
+        <div className="ui-calendar-selectors">
+          <h3 id={heading} className="ui-sr-only" aria-live="polite">{formatCalendarDate(visibleMonth, locale, { month: "long", year: "numeric" })}</h3>
+          <select aria-label="Calendar month" value={monthNumber} disabled={disabled} onChange={(event) => show(`${String(year).padStart(4, "0")}-${event.target.value}-01`)}>{Array.from({ length: 12 }, (_, index) => { const number = String(index + 1).padStart(2, "0"); const candidate = `${String(year).padStart(4, "0")}-${number}-01`; return <option key={number} value={number} disabled={Boolean(lower && candidate.slice(0, 7) < lower.slice(0, 7) || upper && candidate.slice(0, 7) > upper.slice(0, 7))}>{formatCalendarDate(candidate, locale, { month: "long" })}</option>; })}</select>
+          <select aria-label="Calendar year" value={year} disabled={disabled} onChange={(event) => show(`${event.target.value.padStart(4, "0")}-${monthNumber}-01`)}>{Array.from({ length: Math.max(0, lastYear - firstYear + 1) }, (_, index) => <option key={firstYear + index} value={firstYear + index}>{firstYear + index}</option>)}</select>
+        </div>
         <button type="button" className="ui-icon-button" aria-label="Next month" disabled={disabled || Boolean(upper && next.slice(0, 7) > upper.slice(0, 7))} onClick={() => show(next)}><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5"/></svg></button>
       </header>
       <table ref={grid} role="grid" aria-labelledby={heading} className="ui-calendar-grid"><thead><tr>{dates.slice(0, 7).map((date) => <th key={date} scope="col" aria-label={formatCalendarDate(date, locale, { weekday: "long" })}>{formatCalendarDate(date, locale, { weekday: "short" })}</th>)}</tr></thead>

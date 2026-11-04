@@ -7,14 +7,23 @@ import { bounded, seededRandom } from "./interaction-utils";
 import { InteractionIcon } from "./interaction-icons";
 import "../../styles/bubble-wrap.css";
 
-export type BubbleWrapProps = AppearanceProps & { rows?: number; columns?: number; image?: string; imageAlt?: string; sound?: boolean; volume?: number; onPop?: (index: number, total: number) => void; onReset?: () => void; theme?: CreativeTheme };
-export function BubbleWrap({ rows = 9, columns = 12, image = "", imageAlt = "Photograph beneath the bubble wrap", sound = true, volume = .65, onPop, onReset, theme = "auto", appearance = "polished", className }: BubbleWrapProps) {
-  const rowCount = Math.round(bounded(rows, 2, 16, 9)), columnCount = Math.round(bounded(columns, 3, 18, 12)), total = rowCount * columnCount;
+export type BubbleWrapProps = AppearanceProps & { rows?: number; columns?: number; fit?: boolean; image?: string; imageAlt?: string; sound?: boolean; volume?: number; onPop?: (index: number, total: number) => void; onReset?: () => void; theme?: CreativeTheme };
+export function BubbleWrap({ rows = 16, columns = 18, fit = false, image = "", imageAlt = "Photograph beneath the bubble wrap", sound = true, volume = .65, onPop, onReset, theme = "auto", appearance = "polished", className }: BubbleWrapProps) {
+  const [gridRatio, setGridRatio] = useState(0);
+  const columnCount = Math.round(bounded(columns, 3, 24, 18));
+  const rowCount = fit && gridRatio > 0 ? Math.round(bounded(columnCount * gridRatio, 2, 32)) : Math.round(bounded(rows, 2, 24, 16));
+  const total = rowCount * columnCount;
   const [popped, setPopped] = useState<Set<number>>(() => new Set()), livePopped = useRef(new Set<number>()), [active, setActive] = useState(0);
   const grid = useRef<HTMLDivElement>(null), buttons = useRef<(HTMLButtonElement | null)[]>([]), audio = useRef<AudioContext | null>(null), voices = useRef(0), painting = useRef(false);
   const previousPoint = useRef<{ x: number; y: number } | null>(null);
   const resolved = useCreativeTheme(theme), id = useId(), count = [...popped].filter((index) => index < total).length;
   useEffect(() => () => { if (audio.current) void audio.current.close(); }, []);
+  useEffect(() => {
+    const element = grid.current;
+    if (!fit || !element || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(([entry]) => { if (entry.contentRect.width > 0) setGridRatio(entry.contentRect.height / entry.contentRect.width); });
+    observer.observe(element); return () => observer.disconnect();
+  }, [fit]);
   function pop(index: number) {
     if (index < 0 || index >= total || livePopped.current.has(index)) return;
     livePopped.current.add(index); setPopped(new Set(livePopped.current));

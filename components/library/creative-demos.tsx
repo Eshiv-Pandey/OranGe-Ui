@@ -13,6 +13,12 @@ import { TiltStamp3D } from "../ui/tilt-stamp-3d";
 import { IslandPlayer } from "../ui/island-player";
 import { GlassPlayer } from "../ui/glass-player";
 import { NeonPillPlayer } from "../ui/neon-pill-player";
+import { AudioOrb } from "../ui/audio-orb";
+import { VinylPlayer } from "../ui/vinyl-player";
+import { WavePlayer } from "../ui/wave-player";
+import { useAudioPlayer } from "../ui/use-audio-player";
+import { PlayerControls, PlayerFeedback } from "../ui/creative-player-parts";
+import { KEEPSAKE_PHOTOS } from "../ui/keepsake-photos";
 import { AnimeFire } from "../ui/anime-fire";
 import { GrainGradient, GRAIN_PRESETS, type GrainGradientProps } from "../ui/grain-gradient";
 import { HindiText } from "../ui/hindi-text";
@@ -114,6 +120,17 @@ function FrostDemo() {
     <Range label="Brush size" value={brush} onChange={setBrush} min={8} max={100} step={1} /><Range label="Brush softness" value={softness} onChange={setSoftness} /><Range label="Frost blur" value={blur} onChange={setBlur} min={0} max={40} step={1} /><Range label="Frost grain" value={grain} onChange={setGrain} /><Range label="Regrow duration" value={regrow} onChange={setRegrow} min={0} max={10000} step={1000} /><Color label="Frost tint" value={tint} onChange={setTint} /><Check label="Condensation drips" value={drips} onChange={setDrips} />
   </Panel>;
 }
+const PHOTO_PLAYLIST = CREATIVE_PLAYLIST.map((track, index) => ({ ...track, cover: KEEPSAKE_PHOTOS[[4, 7, 6][index % 3]].src }));
+function OrbDemo({ appearance }: { appearance: Appearance }) {
+  const [speed, setSpeed] = useState(.6), [paused, setPaused] = useState(false), [palette, setPalette] = useState("Lagoon");
+  const player = useAudioPlayer({ tracks: CREATIVE_PLAYLIST });
+  const palettes: Record<string, string[]> = { Lagoon: ["#7dc8bc", "#387aab", "#cb9bf1", "#efbf7e"], Ember: ["#edc256", "#f47b43", "#663ba1", "#f6a8bd"], Iris: ["#8c96e7", "#373273", "#bce4bf", "#de90bb"] };
+  return <Panel preview={<div className="audio-orb-demo"><AudioOrb appearance={appearance} colors={palettes[palette]} speed={speed} paused={paused} getAnalyser={player.getAnalyser} audioActive={player.playing && !player.loading && !player.muted && player.volume > 0} /><div className="creative-track-copy"><strong>{player.track?.title}</strong><span>{player.playing ? "Listening to the music" : "Play a track to wake the colors"}</span></div><PlayerControls player={player} /><PlayerFeedback player={player} /></div>}><Select label="Orb palette" value={palette} options={Object.keys(palettes)} onChange={setPalette} /><Range label="Flow speed" value={speed} onChange={setSpeed} min={0} max={2} step={.1} /><Check label="Pause orb animation" value={paused} onChange={setPaused} /></Panel>;
+}
+function ReferencePlayerDemo({ kind, appearance }: { kind: "vinyl" | "wave"; appearance: Appearance }) {
+  const [volume, setVolume] = useState(.65), [muted, setMuted] = useState(false);
+  return <Panel preview={kind === "vinyl" ? <VinylPlayer appearance={appearance} tracks={PHOTO_PLAYLIST} volume={volume} muted={muted} /> : <WavePlayer appearance={appearance} tracks={PHOTO_PLAYLIST} volume={volume} muted={muted} />}><Range label="Player volume" value={volume} onChange={setVolume} /><Check label="Mute playback" value={muted} onChange={setMuted} /></Panel>;
+}
 function Thumbnail({ slug, appearance }: { slug: string; appearance: Appearance }) {
   const a = { appearance };
   switch (slug) {
@@ -123,6 +140,9 @@ function Thumbnail({ slug, appearance }: { slug: string; appearance: Appearance 
     case "swing-keychain": return <SwingKeychain {...a} />;
     case "custom-stamp": return <CustomStamp {...a} editable={false} />;
     case "tilt-stamp-3d": return <TiltStamp3D {...a} />;
+    case "audio-orb": return <AudioOrb {...a} size={220} />;
+    case "vinyl-player": return <VinylPlayer {...a} tracks={PHOTO_PLAYLIST} muted size={250} />;
+    case "wave-player": return <WavePlayer {...a} tracks={PHOTO_PLAYLIST} muted />;
     case "island-player": return <IslandPlayer {...a} tracks={CREATIVE_PLAYLIST} muted />;
     case "glass-player": return <GlassPlayer {...a} tracks={CREATIVE_PLAYLIST} muted />;
     case "neon-pill-player": return <NeonPillPlayer {...a} tracks={CREATIVE_PLAYLIST} muted />;
@@ -136,6 +156,6 @@ function Thumbnail({ slug, appearance }: { slug: string; appearance: Appearance 
 }
 export default function CreativeDemo({ slug, appearance = "polished", thumbnail = false }: { slug: string; appearance?: Appearance; thumbnail?: boolean }) {
   const theme = useCreativeTheme();
-  const demos: Record<string, ReactNode> = { "season-tree": <SeasonDemo appearance={appearance} />, "retro-player": <RetroDemo />, "retro-camera": <CameraDemo />, "swing-keychain": <KeychainDemo />, "custom-stamp": <StampDemo />, "tilt-stamp-3d": <TiltDemo />, "island-player": <IslandDemo />, "glass-player": <GlassDemo />, "neon-pill-player": <NeonDemo />, "anime-fire": <FireDemo appearance={appearance} />, "grain-gradient": <GradientDemo />, "hindi-text": <HindiText />, "hinglish-text": <HinglishText />, "frosted-glass": <FrostDemo /> };
+  const demos: Record<string, ReactNode> = { "audio-orb": <OrbDemo appearance={appearance} />, "vinyl-player": <ReferencePlayerDemo kind="vinyl" appearance={appearance} />, "wave-player": <ReferencePlayerDemo kind="wave" appearance={appearance} />, "season-tree": <SeasonDemo appearance={appearance} />, "retro-player": <RetroDemo />, "retro-camera": <CameraDemo />, "swing-keychain": <KeychainDemo />, "custom-stamp": <StampDemo />, "tilt-stamp-3d": <TiltDemo />, "island-player": <IslandDemo />, "glass-player": <GlassDemo />, "neon-pill-player": <NeonDemo />, "anime-fire": <FireDemo appearance={appearance} />, "grain-gradient": <GradientDemo />, "hindi-text": <HindiText />, "hinglish-text": <HinglishText />, "frosted-glass": <FrostDemo /> };
   return <div className={"creative-surface " + (thumbnail ? "creative-thumbnail" : "creative-demo")} data-theme={theme}>{thumbnail ? <Thumbnail slug={slug} appearance={appearance} /> : slug === "hindi-text" || slug === "hinglish-text" ? <Panel preview={demos[slug]} /> : demos[slug]}</div>;
 }

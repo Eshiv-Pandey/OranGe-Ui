@@ -6,7 +6,7 @@
 .interaction-surface[data-appearance="retro-os"] { --ix-radius: 3px; --ix-edge: 2px outset #d8d8d8; --ix-shadow: 3px 4px 12px rgb(0 0 0 / .22); font-family: Arial, sans-serif; }
 .interaction-surface[data-appearance="terminal"] { --ix-radius: 2px; --ix-edge: 1px dashed var(--creative-line); --ix-shadow: none; font-family: var(--font-mono), monospace; }
 .interaction-surface :where(button, input, select) { font: inherit; }
-.interaction-surface :where(button, a, input):focus-visible { outline: 3px solid var(--focus, #a64500); outline-offset: 4px; }
+.interaction-surface :where(button, a, input):focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 .interaction-surface ::selection { background: var(--ix-accent); color: #171717; }
 .ix-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 8px 14px; color: var(--creative-ink); border: var(--ix-edge); border-radius: var(--ix-radius); background: var(--creative-paper); cursor: pointer; }
 .ix-button:hover:not(:disabled) { background: color-mix(in srgb, var(--creative-ink) 8%, var(--creative-paper)); }

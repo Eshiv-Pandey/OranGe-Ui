@@ -6,7 +6,7 @@
 .creative-surface button, .creative-surface input, .creative-surface select, .creative-surface textarea { font: inherit; }
 .creative-surface button { cursor: pointer; touch-action: manipulation; }
 .creative-surface button:disabled { cursor: not-allowed; opacity: .45; }
-.creative-surface :focus-visible, .creative-surface:focus-visible { outline: 3px solid var(--creative-accent); outline-offset: 4px; }
+.creative-surface :focus-visible, .creative-surface:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 .creative-surface ::selection { background: var(--creative-accent); color: var(--creative-paper); }
 .creative-surface input, .creative-surface textarea { caret-color: var(--creative-accent); }
 .creative-surface input[type="range"] { accent-color: var(--creative-accent); width: 100%; min-width: 0; cursor: pointer; }

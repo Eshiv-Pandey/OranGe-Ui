@@ -18,13 +18,13 @@ for (const appearance of APPEARANCE_VALUES) for (const slug of ["anime-fire", "s
 }, 30_000);
 
 it("shows one gradient editor and keeps the shader engine installable", () => {
-  expect(components).toHaveLength(101); expect(new Set(components.map(({ slug }) => slug)).size).toBe(101); expect(CREATIVE_COMPONENTS).toHaveLength(14);
+  expect(components).toHaveLength(104); expect(new Set(components.map(({ slug }) => slug)).size).toBe(104); expect(CREATIVE_COMPONENTS).toHaveLength(17);
   expect(components.some(({ slug }) => slug === "shader-canvas")).toBe(false);
   expect(findComponent("shader-canvas")?.file).toBe("components/ui/shader-canvas.tsx");
   expect(components.some(({slug}) => slug === "livery-editor" || slug === "helmet-editor")).toBe(false);
   expect(componentsInCollection("pixel").filter((component) => component.collection).map(({ slug }) => slug)).toEqual([]);
   expect(componentsInCollection("retro-os").filter((component) => component.collection).map(({ slug }) => slug)).toEqual(["retro-player", "retro-camera"]);
-  expect(componentsInCollection("polished").filter((component) => component.collection)).toHaveLength(11);
+  expect(componentsInCollection("polished").filter((component) => component.collection)).toHaveLength(14);
   expect(findComponent("season-tree")?.collection).toBe("polished");
 });
 

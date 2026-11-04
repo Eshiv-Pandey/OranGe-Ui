@@ -135,3 +135,7 @@ export * from "./components/ui/fluid-color-picker";
 export { fluidColorToHex, hexToFluidColor } from "./components/ui/fluid-color";
 export { KEEPSAKE_PHOTOS } from "./components/ui/keepsake-photos";
 export type { KeepsakePhoto } from "./components/ui/keepsake-photos";
+
+export * from "./components/ui/audio-orb";
+export * from "./components/ui/vinyl-player";
+export * from "./components/ui/wave-player";

@@ -23,12 +23,24 @@ export function JournalStack({ photos = KEEPSAKE_PHOTOS, value, defaultValue = 2
         const offset = index - current;
         if (Math.abs(offset) > 4) return null;
         const pageId = `${id}-page-${index}`;
-        return <button key={photo.id} type="button" className="journal-page" aria-labelledby={`${pageId}-title ${pageId}-note ${pageId}-stamp`} aria-describedby={`${pageId}-guidance ${pageId}-photo`} aria-pressed={index === current} tabIndex={index === current ? 0 : -1} style={{ "--page-offset": offset, "--page-depth": Math.abs(offset), "--page-side": Math.sign(offset), "--page-color": photo.color ?? "#8b9ca0", zIndex: 20 - Math.abs(offset) } as CSSProperties} onClick={() => { if (!swiped.current) change(index); swiped.current = false; }}>
-          {/* Native images keep the installed component independent of Next.js. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img id={`${pageId}-photo`} src={photo.src} alt={photo.alt} draggable="false" />
-          <span id={`${pageId}-title`} className="journal-page-title">{photo.title}</span>{" "}<span id={`${pageId}-note`} className="journal-page-note">{photo.note ?? "A moment worth keeping."}</span>{" "}
-          <span id={`${pageId}-stamp`} className="journal-page-stamp">{String(index + 1).padStart(2, "0")}</span>
+        return <button key={photo.id} type="button" className="journal-page" aria-labelledby={`${pageId}-title ${pageId}-note ${pageId}-left-number ${pageId}-postmark ${pageId}-stamp ${pageId}-right-number`} aria-describedby={`${pageId}-guidance ${pageId}-photo`} aria-pressed={index === current} tabIndex={index === current ? 0 : -1} style={{ "--page-offset": offset, "--page-depth": Math.abs(offset), "--page-side": Math.sign(offset), "--page-color": photo.color ?? "#8b9ca0", zIndex: 20 - Math.abs(offset) } as CSSProperties} onClick={() => { if (!swiped.current) change(index); swiped.current = false; }}>
+          <span className="journal-spread">
+            <span className="journal-leaf journal-leaf-left">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img id={`${pageId}-photo`} src={photo.src} alt={photo.alt} draggable="false" />
+              <span className="journal-paper-note"><span id={`${pageId}-title`} className="journal-page-title">{photo.title}</span>{" "}<span id={`${pageId}-note`} className="journal-page-note">{photo.note ?? "A moment worth keeping."}</span>{" "}</span>
+              <span id={`${pageId}-left-number`} className="journal-page-number">{index * 2 + 1}</span>{" "}
+            </span>
+            <span className="journal-leaf journal-leaf-right">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={photos[(index + 1) % photos.length].src} alt={photos.length > 1 ? photos[(index + 1) % photos.length].alt : ""} draggable="false" />
+              <span className="journal-tape" aria-hidden="true" />
+              <span id={`${pageId}-postmark`} className="journal-postmark">A day to remember</span>{" "}
+              <span id={`${pageId}-stamp`} className="journal-page-stamp">{String(index + 1).padStart(2, "0")}</span>{" "}
+              <span id={`${pageId}-right-number`} className="journal-page-number">{index * 2 + 2}</span>{" "}
+            </span>
+            <span className="journal-spine" aria-hidden="true" />
+          </span>
           <span id={`${pageId}-guidance`} className="ix-sr">Page {index + 1} of {photos.length}. Use Left and Right arrow keys to change pages.</span>
         </button>;
       })}

@@ -32,7 +32,7 @@ export function accentTokens(value: string, dark: boolean) {
   // Retro OS panels are the lowest-contrast neutral surface in each palette.
   const text = readableAccent(accent, dark ? "#1f1f1f" : "#e5e5e5", dark);
   const onPrimary = contrastRatio(accent, "#171717") >= 4.5 ? "#171717" : contrastRatio(accent, "#ffffff") >= 4.5 ? "#ffffff" : "#000000";
-  return { "--primary": accent, "--primary-hover": mix(accent, onPrimary === "#ffffff" ? "#000000" : "#ffffff", .12), "--on-primary": onPrimary, "--primary-text": text, "--focus": text };
+  return { "--primary": accent, "--primary-hover": mix(accent, onPrimary === "#ffffff" ? "#000000" : "#ffffff", .12), "--on-primary": onPrimary, "--primary-text": text, "--focus": dark ? "#d4d4d4" : "#525252" };
 }
 export function themeCss(accent: string, appearance: Appearance) {
   const block = (selector: string, dark: boolean) => `${selector} {\n${Object.entries(accentTokens(accent, dark)).map(([name, value]) => `  ${name}: ${value};`).join("\n")}\n}`;

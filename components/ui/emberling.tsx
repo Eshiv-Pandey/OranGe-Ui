@@ -61,7 +61,7 @@ export function Emberling({ size = 220, variant = "ember", color = "#ef6d50", ey
     const ease = still ? 1 : 1 - Math.exp(-delta / 95);
     look.x += (x - look.x) * ease; look.y += (y - look.y) * ease;
     face.current?.setAttribute("transform", `translate(${look.x.toFixed(2)} ${look.y.toFixed(2)})`);
-    character.current?.setAttribute("transform", `translate(0 ${still || orb ? 0 : (Math.sin(t * 2) * (water ? 3.5 : 1.8)).toFixed(2)})`);
+    character.current?.setAttribute("transform", "translate(0 0)");
   }
   useMotionActivity(root, {
     onFrame: ({ time, delta }) => { if (animate) draw(time, delta); },

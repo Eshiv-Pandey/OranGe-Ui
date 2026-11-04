@@ -276,3 +276,16 @@ describe("rating and stepper", () => {
     expect(container.querySelector('[aria-current="step"]')).toHaveTextContent("Review"); expect(screen.getAllByText(", completed")).toHaveLength(2);
   });
 });
+
+
+it("jumps between years and months while preserving date bounds", () => {
+  const changed = vi.fn();
+  const { rerender } = render(<Calendar defaultMonth="2024-02-01" min="2020-06-01" max="2030-09-30" onMonthChange={changed} />);
+  fireEvent.change(screen.getByRole("combobox", { name: "Calendar year" }), { target: { value: "2028" } });
+  expect(changed).toHaveBeenLastCalledWith("2028-02-01");
+  expect(screen.getByRole("button", { name: "Tuesday, February 29, 2028" })).toBeEnabled();
+  fireEvent.change(screen.getByRole("combobox", { name: "Calendar year" }), { target: { value: "2020" } });
+  expect(changed).toHaveBeenLastCalledWith("2020-06-01");
+  rerender(<Calendar month="2024-02-01" disabled />);
+  expect(screen.getByRole("combobox", { name: "Calendar year" })).toBeDisabled();
+});
