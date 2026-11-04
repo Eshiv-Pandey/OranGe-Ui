@@ -333,7 +333,7 @@ export function BannerParticles({ count = settings.particleCount, paused = false
 
         ctx.transform(vecU.x, vecU.y, vecV.x, vecV.y, 0, 0);
 
-        
+
 
         // Add a slight opacity for visual blending
 
@@ -427,4 +427,3 @@ export function BannerParticles({ count = settings.particleCount, paused = false
   );
 
 }
-
