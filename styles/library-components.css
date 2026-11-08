@@ -126,6 +126,7 @@
 .ui-sheet .ui-slider-field { padding-top: 12px; }
 .ui-popover { width: min(340px, calc(100vw - 32px)); max-height: var(--radix-popover-content-available-height); overflow: auto; padding: 24px; animation: ui-fade 130ms; }
 .ui-popover .ui-overlay-title { font-size: 18px; }
+.ui-popover:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; border-color: var(--focus); box-shadow: none; }
 .ui-tooltip { z-index: 100; max-width: min(300px, calc(100vw - 32px)); padding: 10px 14px; border-radius: var(--ui-small-radius); background: var(--ink); color: var(--cream); box-shadow: var(--ui-shadow); font-size: 12px; animation: ui-fade 130ms; }
 .ui-tooltip-arrow { fill: var(--ink); }
 .ui-tooltip[data-appearance="pixel"] { border: 2px solid var(--cream); }

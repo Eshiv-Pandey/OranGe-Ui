@@ -8,6 +8,7 @@ import { ShaderCanvas } from "./shader-canvas";
 import { audioOrb } from "./shader-canvas/audio-orb";
 import { clamp, useCreativeTheme, type CreativeTheme } from "./creative-surface";
 import type { AppearanceProps } from "./appearance";
+import { usePointerGaze } from "./use-pointer-gaze";
 import "../../styles/audio-orb.css";
 
 export type AudioOrbProps = AppearanceProps & {
@@ -15,17 +16,19 @@ export type AudioOrbProps = AppearanceProps & {
   audioLevel?: number; getAnalyser?: () => AnalyserNode | null; audioActive?: boolean;
   theme?: CreativeTheme; label?: string;
   tracks?: readonly AudioTrack[]; showControls?: boolean; sensitivity?: number;
+  eyeColor?: string; showEyes?: boolean; interactive?: boolean; blink?: boolean;
 };
 const MODULES = [audioOrb];
-const COLORS = ["#13f4da", "#1d8bff", "#ef41ff", "#ffe866"];
+const COLORS = ["#f58b6b", "#74d7bb", "#8094e8"];
 
 /** Crystal reflections respond to playback or gesture-enabled local microphone analysis. */
-export function AudioOrb({ colors = COLORS, size = 320, speed = .6, paused = false, audioLevel = 0, getAnalyser, audioActive = true, theme = "auto", label = "Animated audio-reactive gradient orb", appearance = "polished", className, tracks, sensitivity = 1.6, showControls = Boolean(tracks?.length) }: AudioOrbProps) {
+export function AudioOrb({ colors = COLORS, size = 320, speed = .6, paused = false, audioLevel = 0, getAnalyser, audioActive = true, theme = "auto", label = "Audio-reactive companion orb", appearance = "polished", className, tracks, sensitivity = 1.6, eyeColor = "#1d2328", showEyes = true, interactive = true, blink = true, showControls = Boolean(tracks?.length) }: AudioOrbProps) {
   const player = useAudioPlayer({ tracks: tracks ?? [] }), microphone = useAudioInput();
   const [mode, setMode] = useState<"play" | "listen">("play");
   const active = showControls ? mode === "listen" ? microphone.listening : player.playing && !player.loading && !player.muted && player.volume > 0 : audioActive;
   const analyserSource = showControls ? mode === "listen" ? microphone.getAnalyser : player.getAnalyser : getAnalyser;
   const bins = useRef(new Uint8Array(0)), energy = useRef(0), visualRef = useRef<HTMLDivElement>(null), resolved = useCreativeTheme(theme);
+  usePointerGaze(visualRef, { seed: "audio-companion", interactive: interactive && showEyes, blink: blink && showEyes, paused });
   const level = () => {
     const analyser = active ? analyserSource?.() : null;
     let next = active ? clamp(audioLevel, 0, 1) : 0;
@@ -43,8 +46,11 @@ export function AudioOrb({ colors = COLORS, size = 320, speed = .6, paused = fal
     return energy.current;
   };
   const visual = <div ref={visualRef} className={["creative-surface audio-orb", className].filter(Boolean).join(" ")} data-theme={resolved} data-appearance={appearance} data-audio-active={active} style={{ width: typeof size === "number" ? clamp(size, 64, 720) : size, "--orb-one": colors[0] ?? COLORS[0], "--orb-two": colors[1] ?? COLORS[1], "--orb-three": colors[2] ?? COLORS[2] } as CSSProperties}>
-    <span className="audio-orb-aura" aria-hidden="true" />
-    <ShaderCanvas modules={MODULES} source={{ type: "audio-orb", colors, speed, audioLevel: level }} paused={paused} label={label} theme={resolved} appearance={appearance} />
+    <ShaderCanvas transparent modules={MODULES} source={{ type: "audio-orb", colors, speed, audioLevel: level, eyeColor, showEyes, look: () => [Number(visualRef.current?.style.getPropertyValue("--gaze-x")) || 0, -(Number(visualRef.current?.style.getPropertyValue("--gaze-y")) || 0)], blinkScale: () => Number(visualRef.current?.style.getPropertyValue("--blink-scale") || 1) }} paused={paused} label={label} theme={resolved} appearance={appearance} />
+    {showEyes && <svg className="audio-orb-eyes" viewBox="0 0 240 240" aria-hidden="true" style={{ color: eyeColor }}>
+      <g className="audio-orb-gaze"><g className="audio-orb-blink" style={{ transformOrigin: "91px 120px" }}><circle cx="91" cy="120" r="7" fill="currentColor"/></g>
+      <g className="audio-orb-blink" style={{ transformOrigin: "149px 120px" }}><circle cx="149" cy="120" r="7" fill="currentColor"/></g></g>
+    </svg>}
   </div>;
   if (!showControls) return visual;
   return <div className="audio-orb-widget" data-mode={mode}>{visual}<div className="audio-orb-actions">

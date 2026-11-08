@@ -1,0 +1,22 @@
+@import "./library-base.css";
+
+.wall-switch-field { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+.wall-switch-field > label { font-size: 14px; font-weight: 600; cursor: pointer; }
+.wall-switch-field > .ui-help { margin: -6px 0 0; max-width: 28ch; }
+.wall-switch { display: flex; flex-direction: column; align-items: center; justify-content: space-between; width: var(--wall-switch-size); max-width: 100%; aspect-ratio: .72; padding: 12px 22px; border: 1px solid #c4c1b9; border-radius: 12px; background: linear-gradient(135deg, #fffef9, #e5e2d9); box-shadow: inset 0 2px 2px #ffffff, inset 0 -2px 3px #b8b5ae, 0 12px 18px #00000024; color: #5b5b55; perspective: 500px; }
+.wall-switch-screw { position: relative; width: 9px; height: 9px; flex: none; border-radius: 50%; background: linear-gradient(130deg, #c5c5bd, #f8f7ef 50%, #a9a99f); box-shadow: inset 0 1px 2px #00000030; }
+.wall-switch-screw::after { content: ""; position: absolute; inset: 4px 1px; height: 1px; background: #85857b; transform: rotate(-25deg); }
+.wall-switch-recess { display: block; width: 100%; height: 72%; padding: 4px; border-radius: 7px; background: #494941; box-shadow: inset 0 2px 4px #00000070, 0 1px 0 #ffffff; perspective: 400px; }
+.wall-switch-rocker { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: space-between; width: 100%; height: 100%; padding: 16px 0; border-radius: 4px; background: linear-gradient(#fffef8 0%, #eeece3 46%, #d2d0c7 100%); box-shadow: 0 -5px 6px #00000045, inset 0 -1px 1px #b1aea5; transform: rotateX(-13deg); transform-origin: center; transition: transform 180ms var(--ui-ease), box-shadow 180ms var(--ui-ease); font: 500 13px/1 var(--font-body); }
+.wall-switch-indicator { width: 20px; height: 3px; border-radius: 2px; background: #9c998e; box-shadow: inset 0 1px 2px #00000035; transition: background 180ms; }
+.wall-switch[data-state="checked"] .wall-switch-rocker { transform: rotateX(13deg); box-shadow: 0 5px 6px #00000055, inset 0 1px 1px #ffffff; }
+.wall-switch[data-state="checked"] .wall-switch-indicator { background: #ec8a20; box-shadow: inset 0 1px 1px #ffeab0; }
+.wall-switch:focus-visible { outline: 2px solid var(--focus); outline-offset: 5px; }
+.wall-switch:disabled { opacity: .5; cursor: not-allowed; }
+.wall-switch-field[data-disabled] label { cursor: not-allowed; }
+.wall-switch-field[data-appearance="pixel"] .wall-switch, .wall-switch-field[data-appearance="terminal"] .wall-switch { border-radius: 0; }
+.wall-switch-field[data-appearance="pixel"] .wall-switch { border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--shadow-color); }
+.wall-switch-field[data-appearance="neobrutalism"] .wall-switch { border: 2px solid var(--ink); border-radius: 6px; box-shadow: 4px 4px 0 var(--ink); }
+.wall-switch-field[data-appearance="retro-os"] .wall-switch { border-radius: 0; border: 2px outset #dedbd1; }
+.wall-switch-field[data-appearance="terminal"] .wall-switch { background: var(--surface); color: var(--ink); border-color: var(--muted); box-shadow: none; }
+@media (prefers-reduced-motion: reduce) { .wall-switch-rocker, .wall-switch-indicator { transition: none; } }

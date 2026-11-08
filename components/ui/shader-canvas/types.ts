@@ -23,6 +23,8 @@ export type ShaderInteraction = { warp?: boolean; ripple?: boolean; pixelProximi
 export type ShaderCanvasProps = {
   source?: ShaderSource; effects?: readonly ShaderEffect[]; interaction?: ShaderInteraction;
   renderScale?: number; paused?: boolean; appearance?: Appearance; theme?: CreativeTheme;
+  /** Allow transparent source pixels for isolated artwork such as AudioOrb. */
+  transparent?: boolean;
   className?: string; style?: CSSProperties; label?: string; modules?: readonly ShaderModule[];
 };
 export type ShaderPreset = Pick<ShaderCanvasProps, "source" | "effects" | "interaction">;

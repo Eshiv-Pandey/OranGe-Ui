@@ -6,6 +6,8 @@ export * from "./components/ui/select";
 export * from "./components/ui/checkbox";
 export * from "./components/ui/radio-group";
 export * from "./components/ui/switch";
+export * from "./components/ui/wall-switch";
+export * from "./components/ui/endless-film";
 export * from "./components/ui/slider";
 export * from "./components/ui/toggle";
 export * from "./components/ui/toggle-group";

@@ -52,6 +52,9 @@ import { Superbike } from "../ui/superbike";
 import { RaceStartLights } from "../ui/race-start-lights";
 import { RaceProgress } from "../ui/race-progress";
 import * as LaunchForms from "./launch-forms-demos";
+import { WallSwitchDemo } from "./wall-switch-demo";
+import { EndlessFilmDemo } from "./endless-film-demo";
+import { StickerSocialDemo } from "./sticker-social-demo";
 import { NavigationDemo, NAVIGATION_DEMO_SLUGS } from "./navigation-demos";
 import { AIDemo, AI_DEMO_SLUGS } from "./ai-demos";
 import { Emberling } from "../ui/emberling";
@@ -92,12 +95,15 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   const [validated, setValidated] = useState(false);
   const status = <p className="demo-feedback" role="status">{feedback || "Try it. Every example is interactive."}</p>;
   const action = <Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Ready for a fresh start." : "Project created in this preview."); }}>{saved ? "Start again" : "Create project"}</Button>;
+  if (slug === "sticker-social-icons") return <StickerSocialDemo appearance={appearance} thumbnail={thumbnail} />;
   if (PORTFOLIO_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing portfolio preview...</div>}><PortfolioDemos slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if (CREATIVE_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing preview...</div>}><CreativeDemo slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if (slug === "human-avatar") return <HumanAvatarDemo appearance={appearance} thumbnail={thumbnail} />;
   if (slug === "cipher-text" || slug === "wiggle-text" || slug === "flip-board") return <ReferenceTextDemo kind={slug} appearance={appearance} thumbnail={thumbnail} />;
   if (REFERENCE_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={slug === "liquid-metal" ? <ShaderFallback kind="metal" /> : <div className="creative-demo-loading" data-preview-pending>Preparing preview...</div>}><ReferenceDemo slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if ((NAVIGATION_DEMO_SLUGS as readonly string[]).includes(slug)) return <NavigationDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
+  if (slug === "wall-switch") return <WallSwitchDemo appearance={appearance} />;
+  if (slug === "endless-film") return <EndlessFilmDemo appearance={appearance} thumbnail={thumbnail} />;
   if ((AI_DEMO_SLUGS as readonly string[]).includes(slug)) return <AIDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   switch (slug) {
     case "shader-canvas": return <Suspense fallback={<ShaderFallback />}><ShaderCanvasDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;

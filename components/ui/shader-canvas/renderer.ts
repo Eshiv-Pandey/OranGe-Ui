@@ -7,7 +7,7 @@ type Pass = { module: ShaderModule; program: WebGLProgram; locations: Map<string
 type Target = { texture: WebGLTexture; framebuffer: WebGLFramebuffer };
 /** One RAF and two reusable targets for the entire ordered pipeline. */
 export function createShaderRenderer(canvas: HTMLCanvasElement, read: () => ShaderCanvasProps, state: (ready: boolean) => void) {
-  const gl = canvas.getContext("webgl2", { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: "low-power" });
+  const gl = canvas.getContext("webgl2", { alpha: Boolean(read().transparent), premultipliedAlpha: false, antialias: false, depth: false, stencil: false, powerPreference: "low-power" });
   if (!gl) { state(false); return { redraw() {}, destroy() {} }; }
   let passes: Pass[] = [], targets: Target[] = [], signature = "", raf = 0, time = 0, previous = 0, disposed = false, lost = false, visible = !window.IntersectionObserver;
   let lastFrame = 0;

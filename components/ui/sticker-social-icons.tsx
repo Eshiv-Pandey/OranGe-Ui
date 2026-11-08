@@ -6,6 +6,7 @@ import { StickerTile } from "./portfolio/sticker-tile";
 import SocialHoverCard, { type SocialProfile } from "./portfolio/social-hover-card";
 import styles from "../../styles/portfolio-social.module.css";
 import "../../styles/portfolio.css";
+export { SOCIAL_STICKER_PRESETS } from "./portfolio/social-sticker-presets";
 
 export type StickerProfile = {
   name: string; href: string; Icon: ComponentType<SVGProps<SVGSVGElement>>;

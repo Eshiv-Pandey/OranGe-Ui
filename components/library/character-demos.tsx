@@ -5,7 +5,7 @@ import type { Appearance } from "../ui/appearance";
 import { ArtworkCustomizer, CustomizerColor, CustomizerRange, CustomizerSelect, CustomizerToggle } from "../ui/artwork-customizer";
 import { Input } from "../ui/input";
 import { CharacterAvatar } from "../ui/character-avatar";
-import { CHARACTER_FACES, CHARACTER_GLASSES, CHARACTER_HAIR, CHARACTER_OUTFITS, CHARACTER_PALETTES, characterToSvgString, generateCharacterConfig, normalizeCharacterConfig, type CharacterConfig } from "../ui/character-art";
+import { CHARACTER_FACES, CHARACTER_GLASSES, CHARACTER_MALE_HAIR, CHARACTER_FEMALE_HAIR, CHARACTER_OUTFITS, CHARACTER_PALETTES, CHARACTER_FACIAL_HAIR, characterToSvgString, generateCharacterConfig, normalizeCharacterConfig } from "../ui/character-art";
 import { Helmet } from "../ui/helmet";
 import { HELMET_FINISHES, HELMET_PALETTES, HELMET_PATTERNS, generateHelmetConfig, helmetToSvgString, normalizeHelmetConfig, type HelmetConfig } from "../ui/helmet-art";
 import { MiniDriver } from "../ui/mini-driver";
@@ -29,9 +29,10 @@ function MotionFields({ preview }: { preview: ReturnType<typeof usePreviewOption
   return <><CustomizerRange label="Preview size" min={120} max={400} step={8} value={preview.size} onChange={preview.setSize} formatValue={(value) => `${value}px`} /><CustomizerToggle label="Follow pointer" checked={preview.interactive} onChange={preview.setInteractive} /><CustomizerToggle label="Blink" checked={preview.blink} onChange={preview.setBlink} /><p className="artwork-customizer-note">Motion pauses off screen and in hidden tabs. Your system&apos;s reduced motion setting keeps the artwork still.</p></>;
 }
 
-function portraitPreset(seed: string | number) {
-  const config = generateCharacterConfig(seed);
-  return seed === "orangeui:portrait" ? normalizeCharacterConfig({ ...config, colors: CHARACTER_PALETTES[0].colors, parts: { ...config.parts, hair: "swept", glasses: "round", outfit: "jacket" } }) : config;
+function portraitPreset(seed: string | number, gender: "male" | "female" = "male") {
+  const config = generateCharacterConfig(seed, gender);
+  const generated = normalizeCharacterConfig(config);
+  return seed === "orangeui:portrait" ? normalizeCharacterConfig({ ...generated, colors: CHARACTER_PALETTES[0].colors, parts: { ...generated.parts, hair: "swept", glasses: "round", outfit: "jacket", facialHair: gender === "male" ? "stubble" : "none" } }) : generated;
 }
 
 function helmetPreset(seed: string | number) {
@@ -43,11 +44,12 @@ export function CharacterDemo({ appearance }: { appearance: Appearance }) {
   const [seed, setSeed] = useState("orangeui:portrait");
   const [config, setConfig] = useState(() => portraitPreset(seed));
   const preview = usePreviewOptions();
-  return <ArtworkCustomizer value={config} onChange={setConfig} normalizeConfig={normalizeCharacterConfig} generateConfig={portraitPreset} seed={seed} appearance={appearance} filename="character-avatar" label="Customize your character" previewCaption="Move the pointer to turn the portrait." renderPreview={(value, style) => <CharacterAvatar config={value} seed={seed} size={preview.size} interactive={preview.interactive} blink={preview.blink} appearance={style} />} configToSvg={(value, opts) => characterToSvgString(value, 512, opts)} tabs={[
+  const gender = config.parts.gender === "male" ? "male" : "female";
+  return <ArtworkCustomizer value={config} onChange={setConfig} normalizeConfig={normalizeCharacterConfig} generateConfig={(nextSeed) => portraitPreset(nextSeed, gender)} seed={seed} appearance={appearance} filename="character-avatar" label="Customize your character" previewCaption="Move the pointer to turn the portrait." renderPreview={(value, style) => <CharacterAvatar config={value} seed={seed} size={preview.size} interactive={preview.interactive} blink={preview.blink} appearance={style} />} configToSvg={(value, opts) => characterToSvgString(value, 512, opts)} tabs={[
     { id: "parts", label: "Parts", render: ({ value, update }) => <>
-      <Input appearance={appearance} label="Character seed" value={seed} onChange={(event) => { setSeed(event.target.value); setConfig(portraitPreset(event.target.value)); }} />
-      {([['hair', CHARACTER_HAIR], ['glasses', CHARACTER_GLASSES], ['outfit', CHARACTER_OUTFITS], ['face', CHARACTER_FACES]] as const).map(([key, values]) => <CustomizerSelect key={key} label={colorLabel(key)} value={value.parts[key]} options={options(values as readonly string[])} onChange={(next) => update({ parts: { ...value.parts, [key]: next } as CharacterConfig['parts'] })} />)}
+      <div className="customizer-part-grid"><CustomizerSelect label="Gender" value={gender} options={options(["male", "female"] as const)} onChange={(next) => update({ parts: portraitPreset(seed, next as "male" | "female").parts })} />{([['hair', gender === "male" ? CHARACTER_MALE_HAIR : CHARACTER_FEMALE_HAIR], ['glasses', CHARACTER_GLASSES], ['outfit', CHARACTER_OUTFITS], ['face', CHARACTER_FACES], ...(gender === "male" ? [['facialHair', CHARACTER_FACIAL_HAIR] as const] : [])] as const).map(([key, values]) => <CustomizerSelect key={key} label={colorLabel(key)} value={value.parts[key as keyof typeof value.parts] as string} options={options(values as readonly string[])} onChange={(next) => update({ parts: { ...value.parts, [key]: next } as typeof value.parts })} />)}</div>
       <CustomizerToggle label="Background accents" checked={value.parts.accents} onChange={(accents) => update({ parts: { ...value.parts, accents } })} /><CustomizerToggle label="Earring" checked={value.parts.earring} onChange={(earring) => update({ parts: { ...value.parts, earring } })} />
+      <details className="customizer-seed"><summary>Character seed</summary><Input appearance={appearance} label="Character seed" value={seed} onChange={(event) => { setSeed(event.target.value); setConfig(portraitPreset(event.target.value, gender)); }} /></details>
     </> },
     { id: "colors", label: "Colors", render: ({ value, update }) => <><CustomizerSelect label="Character palette" value={String(CHARACTER_PALETTES.findIndex((item) => JSON.stringify(item.colors) === JSON.stringify(value.colors)))} options={[{ value: "-1", label: "Custom colors", disabled: true }, ...CHARACTER_PALETTES.map((item, index) => ({ value: String(index), label: item.name }))]} onChange={(index) => update({ colors: { ...CHARACTER_PALETTES[Number(index)].colors } })} /><ColorFields value={value.colors} onChange={(colors) => update({ colors })} /></> },
     { id: "motion", label: "Motion", render: () => <MotionFields preview={preview} /> },
