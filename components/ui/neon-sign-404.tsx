@@ -150,37 +150,48 @@ export type NeonSign404Props = {
   sound?: boolean; pixelated?: boolean; appearance?: Appearance; className?: string; style?: CSSProperties;
 };
 
+const signFaces: Record<string, string> = {
+  "4": "M56 12H79V87H94V109H79V139H57V109H8Q4 109 7 102L52 17Q54 12 56 12ZM57 51L35 87H57Z",
+  "0": "M49 11C19 11 12 27 12 74S19 138 49 138 87 124 87 74 81 11 49 11ZM49 36C63 36 65 50 65 74S63 113 49 113 35 100 35 74 36 36 49 36Z",
+};
+
 export function NeonSign404({ digits = "404", color, borderColor, glow = .8, flicker = true, flickerInterval, size = "md", sound = false, pixelated = false, appearance, className, style }: NeonSign404Props) {
   const characters = Array.from(digits.toUpperCase()).slice(0, 8);
-  const root = useRef<HTMLDivElement>(null), id = useId().replaceAll(":", "");
+  const root = useRef<HTMLDivElement>(null), id = useId().replace(/:/g, "");
   const off = useNeonFlicker(characters.length, { enabled: flicker, flickerInterval, sound, element: root });
-  const height = Math.max(1, characters.length) * 154 + 94, pixel = pixelated || appearance === "pixel";
+  const height = Math.max(1, characters.length) * 176 + 100, pixel = pixelated || appearance === "pixel";
   const strength = Math.max(0, Math.min(1, glow)), width = typeof size === "number" ? Math.max(100, Math.min(700, size)) : { sm: 180, md: 260, lg: 340 }[size];
   const variables = { "--neon-strength": strength, "--neon-width": `${width}px`, ...(color ? { "--neon-color": color } : {}), ...(borderColor ? { "--neon-border-color": borderColor } : {}), ...style } as CSSProperties;
-  const border = `M174 32H111L96 47V${height - 40}L110 ${height - 25}H174Q185 ${height - 25} 178 ${height - 34}Q169 ${height - 45} 167 ${height - 37}M190 ${height - 25}H245L260 ${height - 40}V47L245 32H190Q179 32 187 42Q195 52 199 43M174 32Q184 32 176 42Q168 52 164 43M190 ${height - 25}Q179 ${height - 25} 187 ${height - 34}Q195 ${height - 45} 199 ${height - 37}`;
+  const border = `M207 34H143Q137 34 133 40L121 54V${height - 51}Q121 ${height - 45} 128 ${height - 38}L141 ${height - 26}H205Q215 ${height - 26} 207 ${height - 38}Q200 ${height - 49} 197 ${height - 40}M224 ${height - 26}H283L301 ${height - 43}V53L284 35H225Q215 35 224 48Q233 60 235 50M207 34Q218 34 209 49Q201 62 199 51M224 ${height - 26}Q214 ${height - 26} 223 ${height - 40}Q232 ${height - 51} 235 ${height - 42}`;
   return <div ref={root} className={cn("neon-sign", className)} style={variables} data-off-count={off.length} data-pixel={pixel}>
     <span className="sr-only">{digits} neon sign</span>
-    <svg viewBox={`0 0 320 ${height}`} aria-hidden="true" focusable="false">
+    <svg viewBox={`0 0 360 ${height}`} aria-hidden="true" focusable="false">
       <defs>
         <filter id={`${id}-bloom`} x="-150%" y="-80%" width="400%" height="260%" colorInterpolationFilters="sRGB"><feGaussianBlur stdDeviation={pixel ? 3 : 12} result="wide" /><feGaussianBlur in="SourceGraphic" stdDeviation={pixel ? 1 : 3} result="tight" /><feMerge><feMergeNode in="wide" /><feMergeNode in="tight" /></feMerge></filter>
-        <linearGradient id={`${id}-panel`} x2="1" y2="1"><stop stopColor="#202329" /><stop offset=".45" stopColor="#0b0e10" /><stop offset="1" stopColor="#161419" /></linearGradient>
-        <radialGradient id={`${id}-spill`}><stop stopColor="var(--neon-tube)" stopOpacity=".2" /><stop offset="1" stopColor="var(--neon-tube)" stopOpacity="0" /></radialGradient>
-        <pattern id={`${id}-brick`} width="66" height="46" patternUnits="userSpaceOnUse"><rect width="66" height="46" fill="#14100e" /><path d="M0 0H66M0 23H66M0 46H66M32 0V23M0 23V46M66 23V46" stroke="#050505" strokeWidth="3" /></pattern>
+        <linearGradient id={`${id}-panel`} x2="1" y2="1"><stop stopColor="#13201b" /><stop offset=".25" stopColor="#090f0c" /><stop offset=".74" stopColor="#080908" /><stop offset="1" stopColor="#18332b" /></linearGradient>
+        <radialGradient id={`${id}-spill`}><stop stopColor="var(--neon-tube)" stopOpacity=".46" /><stop offset="1" stopColor="var(--neon-tube)" stopOpacity="0" /></radialGradient>
+        <linearGradient id={`${id}-brick-light`}><stop stopColor="#5c1c0e" /><stop offset=".5" stopColor="#32110c" /><stop offset="1" stopColor="#100c0a" /></linearGradient>
+        <pattern id={`${id}-brick`} width="72" height="42" patternUnits="userSpaceOnUse" patternTransform="skewY(20)"><rect width="72" height="42" fill={`url(#${id}-brick-light)`} /><path d="M0 0H72M0 21H72M0 42H72M36 0V21M0 21V42M72 21V42" stroke="#080706" strokeWidth="2.5" /><path d="M2 3H34M39 3H70M3 24H68" stroke="#a74524" strokeOpacity=".2" /></pattern>
       </defs>
-      <rect width="70" height={height} fill={`url(#${id}-brick)`} /><ellipse className="neon-sign-spill" cx="144" cy={height / 2} rx="145" ry={height / 2} fill={`url(#${id}-spill)`} style={{ opacity: strength * (1 - off.length / Math.max(1, characters.length) * .55) }} />
-      <path d="M52 72H103V86H52ZM51 78V130H62V84M52 365H100V378H52Z" fill="#17191c" />
-      <path d={`M112 24H246L271 49V${height - 39}L247 ${height - 15}H111L85 ${height - 40}V49Z`} fill="#000" transform="translate(5 7)" />
-      <path d={`M112 24H246L271 49V${height - 39}L247 ${height - 15}H111L85 ${height - 40}V49Z`} fill={`url(#${id}-panel)`} />
+      <rect width="106" height={height} fill={`url(#${id}-brick)`} /><ellipse className="neon-sign-spill" cx="140" cy={height / 2} rx="200" ry={height / 2} fill={`url(#${id}-spill)`} style={{ opacity: strength * (1 - off.length / Math.max(1, characters.length) * .55) }} />
+      <path d={`M62 14H89V${height - 22}H62ZM58 109H134V122H58ZM58 ${height - 170}H134V${height - 157}H58Z`} fill="#080a09" /><path d="M66 17H80V102H66Z" fill="#592112" opacity=".5" />
+      <g transform="translate(0 14) skewY(-3)">
+      <path d={`M143 24H285L313 51V${height - 47}L288 ${height - 15}H140L109 ${height - 42}V50Z`} fill="#142c23" transform="translate(8 3)" />
+      <path d={`M143 24H285L313 51V${height - 47}L288 ${height - 15}H140L109 ${height - 42}V50Z`} fill={`url(#${id}-panel)`} />
+      <path d={`M317 58V${height - 48}`} className="neon-sign-border-glow" filter={`url(#${id}-bloom)`} /><path d={`M317 58V${height - 48}`} className="neon-sign-edge" />
       <path d={border} className="neon-sign-border-glow" filter={`url(#${id}-bloom)`} /><path d={border} className="neon-sign-border" /><path d={border} className="neon-sign-border-core" />
       {characters.map((character, index) => {
-        const path = tubes[character], mask = pixels[character], isOff = off.includes(index);
-        const artwork = pixel && mask ? mask.flatMap((row, y) => Array.from(row).map((bit, x) => bit === "1" ? <rect key={`${x}-${y}`} x={12 + x * 16} y={12 + y * 17} width="14" height="15" /> : null)) : path ? <path d={path} /> : <text x="50" y="104" textAnchor="middle" fontSize="100">{character}</text>;
-        return <g key={`${index}-${character}`} transform={`translate(129 ${62 + index * 154})`} className="neon-sign-digit" data-off={isOff}>
+        const path = signFaces[character] ?? tubes[character], mask = pixels[character], isOff = off.includes(index);
+        const artwork = pixel && mask ? mask.flatMap((row, y) => Array.from(row).map((bit, x) => bit === "1" ? <rect key={`${x}-${y}`} x={12 + x * 16} y={12 + y * 17} width="14" height="15" /> : null)) : path ? <path d={path} fillRule="evenodd" /> : <text x="50" y="104" textAnchor="middle" fontSize="100">{character}</text>;
+        return <g key={`${index}-${character}`} transform={`translate(142 ${63 + index * 176}) scale(1.4 1.08)`} className="neon-sign-digit" data-off={isOff}>
+          {!pixel && signFaces[character] && <><g className="neon-sign-letter-depth" transform="translate(7 6)">{artwork}</g><g className="neon-sign-face">{artwork}</g></>}
           <g className="neon-sign-glow" filter={`url(#${id}-bloom)`}>{artwork}</g>
           <g className="neon-sign-glass">{artwork}</g><g className="neon-sign-core">{artwork}</g>
+          {!pixel && signFaces[character] && <g className="neon-sign-curl"><path d={character === "4" ? "M57 139Q42 134 46 144Q52 151 55 142" : "M77 128Q91 136 83 144Q74 149 76 136"} /></g>}
         </g>;
       })}
-      <circle cx="105" cy="56" r="2" fill="#717171" /><circle cx="249" cy={height - 50} r="2" fill="#717171" />
+      <circle cx="129" cy="63" r="1.7" fill="#577265" /><circle cx="294" cy={height - 56} r="1.7" fill="#577265" />
+      </g>
     </svg>
   </div>;
 }

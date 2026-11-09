@@ -74,7 +74,7 @@ it("provides the requested chai recovery copy, named art and configurable destin
   expect(screen.getByRole("img")).toHaveAccessibleName("Chai being poured into a glass");
   expect(screen.getByRole("link", { name: "Take me home" })).toHaveAttribute("href", "/welcome");
   expect(screen.getByRole("link", { name: "Report a broken link" })).toHaveAttribute("href", "/feedback");
-  expect(screen.getByRole("slider", { name: /Tilt the kettle/ })).toBeVisible();
+  expect(screen.queryByRole("slider")).not.toBeInTheDocument();
 });
 
 it("exposes keyboard-operable pavilion controls and custom navigation", () => {

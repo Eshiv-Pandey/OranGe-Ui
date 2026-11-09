@@ -3,6 +3,7 @@
 .wall-switch-field { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
 .wall-switch-field > label { font-size: 14px; font-weight: 600; cursor: pointer; }
 .wall-switch-field > .ui-help { margin: -6px 0 0; max-width: 28ch; }
+.wall-switch-demo { align-items: center; text-align: center; }
 .wall-switch { position: relative; display: grid; place-items: center; width: var(--wall-switch-size); max-width: 100%; aspect-ratio: 1; padding: 0; border: 1px solid #d3d2ce; border-radius: 9px; background: linear-gradient(165deg, #fcfcfa, #e9e8e4); box-shadow: inset 0 1px 0 #fff, inset 0 -2px 1px #c9c8c3, 0 3px 2px #00000016, 0 14px 22px -8px #00000038; color: #72716c; perspective: 700px; }
 .wall-switch::before { content: ""; position: absolute; inset: 7px; border: 1px solid #ffffff70; border-radius: 5px; pointer-events: none; }
 .wall-switch-recess { display: block; width: 56%; height: 76%; padding: 2px; border-radius: 5px; background: #b6b5ae; box-shadow: inset 0 2px 3px #00000040, 0 1px 0 #fff; perspective: 700px; }
@@ -20,4 +21,9 @@
 .wall-switch-field[data-appearance="retro-os"] .wall-switch { border-radius: 0; border: 2px outset #dedbd1; }
 .wall-switch-field[data-appearance="terminal"] .wall-switch { background: var(--surface); color: var(--ink); border-color: var(--muted); box-shadow: none; }
 .wall-switch-field[data-appearance="terminal"] .wall-switch::before { border-color: var(--line); }
+.wall-switch-canvas { position: absolute; inset: -28px; width: calc(100% + 56px); height: calc(100% + 56px); pointer-events: none; opacity: 0; }
+.wall-switch[data-renderer="webgl"] { border-color: transparent; background: transparent; box-shadow: none; }
+.wall-switch[data-renderer="webgl"]::before, .wall-switch[data-renderer="webgl"] .wall-switch-recess { visibility: hidden; }
+.wall-switch[data-renderer="webgl"] .wall-switch-canvas { opacity: 1; }
+.wall-switch[data-renderer="webgl"]:focus-visible { box-shadow: none; }
 @media (prefers-reduced-motion: reduce) { .wall-switch-rocker, .wall-switch-indicator { transition: none; } }

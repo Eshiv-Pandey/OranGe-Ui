@@ -14,10 +14,10 @@ export const SCENE_COMPONENTS: ComponentDefinition[] = [
   },
   { slug: "chai-break-404", name: "ChaiBreak404", category: "Content & layout", collection: "polished", customizerPreview: true,
     description: "An Indian chai-break recovery page with poster lettering and a kettle that pours into a filling glass.", file: "components/ui/chai-break-404.tsx", usage: '<ChaiBreak404 speed={1} grain={0.035} />',
-    keyboard: "Drag the kettle or focus Tilt the kettle and use the arrow keys. Release to return to the automatic pour. Hover the glass to boost steam. Home and report links have visible focus rings. Reduced motion shows a full glass; motion pauses offscreen and in hidden tabs.",
+    keyboard: "The automatic pour needs no input. Drag the kettle to change its angle and release to ease back into the sequence. Hover the glass to boost steam. Home and report links have visible focus rings. Reduced motion shows a full glass; motion pauses offscreen and in hidden tabs.",
     props: [
       { name: "speed / grain", type: "number / number", defaultValue: "1 / 0.035", description: "A 12-second cycle divided by speed (0.25 to 3), and turbulence opacity (0 to 0.15)." },
-      { name: "interactive / sound", type: "boolean / boolean", defaultValue: "true / false", description: "Pointer and keyboard tilt controls; optional procedural pouring sound after a gesture." },
+      { name: "interactive / sound", type: "boolean / boolean", defaultValue: "true / false", description: "Pointer kettle dragging and steam hover; optional procedural pouring sound after a gesture. No tilt slider is shown." },
       { name: "homeHref / reportHref", type: "string / string", defaultValue: "/ / project issue tracker", description: "Recovery link destinations. The component never submits a report automatically." }, motion,
     ], notes: ["ChaiPour is exported independently for an illustration without the recovery copy. CSS variables include --chai-cream, --chai-red, --chai-gold, --chai-gold-shadow, --chai-gold-light, --chai-teal, --chai-yellow, --chai-tea and --chai-tea-light. The locally bundled Yatra One display face is licensed under SIL OFL.", "The site 404 route renders this component. All illustrations are original inline SVG, with no raster assets."],
   },
