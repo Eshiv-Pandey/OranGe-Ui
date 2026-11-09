@@ -30,7 +30,11 @@ for (const width of [320, 390, 900, 1440]) {
       if (slug === "pavilion-footer") {
         const light = live.getByRole("button", { name: "Light the pavilion" }); await light.focus(); await light.press("Space");
         await expect(live.getByRole("button", { name: "Dim the pavilion" })).toHaveAttribute("aria-pressed", "true");
-        await expect(live.getByRole("button", { name: "Send the birds" })).toBeDisabled();
+        await expect(live.getByRole("button", { name: "Send the birds" })).toHaveCount(0);
+        await expect(live.locator(".pavilion-neighbor")).toHaveCount(3);
+        const top = live.getByRole("link", { name: "Back to top" });
+        const text = (await top.locator("span").boundingBox())!, arrow = (await top.locator("svg").boundingBox())!;
+        expect(Math.abs(text.y + text.height / 2 - arrow.y - arrow.height / 2)).toBeLessThan(1);
       }
       if (slug === "wall-switch") {
         const button = live.getByRole("switch", { name: "Studio light" });
@@ -84,7 +88,19 @@ test("chai enters the rim from above and eases back after a kettle drag", async 
   await page.emulateMedia({ reducedMotion: "reduce" }); await expect(stream).toHaveCSS("opacity", "0");
 });
 
-test("pavilion eases pointer movement, returns birds and keeps lights usable with reduced motion", async ({ page }) => {
+test("full-page chai reveals a steam 404 only after the glass fills", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 }); await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/chai-steam-recovery-check");
+  const scene = page.locator(".chai-pour-fullscreen"), cloud = scene.locator(".chai-cloud-404"), main = page.locator(".chai-recovery");
+  await expect(cloud).toHaveCSS("opacity", "0");
+  const canvas = (await scene.boundingBox())!, pageBounds = (await main.boundingBox())!;
+  expect(canvas.width).toBeCloseTo(pageBounds.width, 0); expect(canvas.height).toBeCloseTo(pageBounds.height, 0);
+  await expect(scene).toHaveAttribute("data-poured", "true", { timeout: 11000 }); await expect(cloud).toHaveCSS("opacity", "1");
+  await expect(main.locator(".chai-stall-sign")).toHaveText("चाय");
+  await page.emulateMedia({ reducedMotion: "reduce" }); await expect(cloud).toHaveCSS("opacity", "1");
+});
+
+test("pavilion eases pointer movement, flies birds automatically and keeps lights usable with reduced motion", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1100 }); await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/components/pavilion-footer?style=polished");
   const live = page.getByTestId("live-demo"), scene = live.locator(".pavilion-footer-scene"), art = live.locator(".pavilion-building");
@@ -94,10 +110,12 @@ test("pavilion eases pointer movement, returns birds and keeps lights usable wit
   await expect.poll(async () => Math.abs(await art.evaluate(el => (el as SVGGElement).transform.baseVal.consolidate()!.matrix.e) - 3.2)).toBeLessThan(.05);
   await page.mouse.move(box.x - 12, box.y);
   await expect.poll(() => art.evaluate(el => { const matrix = (el as SVGGElement).transform.baseVal.consolidate()!.matrix; return Math.hypot(matrix.e, matrix.f); })).toBeLessThan(.001);
-  const birds = live.getByRole("button", { name: "Send the birds" }); await birds.click(); await expect(birds).toBeDisabled();
-  await expect(live.getByRole("status")).toHaveText("Birds in flight.");
-  await expect(birds).toBeEnabled({ timeout: 6000 }); await expect(live.getByRole("status")).toHaveText("Birds have returned.");
-  await page.emulateMedia({ reducedMotion: "reduce" }); await expect(birds).toBeDisabled();
+  const bird = live.locator(".pavilion-bird").first(), wing = bird.locator(".pavilion-bird-near-wing");
+  await expect(live.getByRole("button", { name: "Send the birds" })).toHaveCount(0);
+  const flight = await bird.getAttribute("transform"), flap = await wing.getAttribute("transform");
+  await page.waitForTimeout(220); expect(await bird.getAttribute("transform")).not.toBe(flight); expect(await wing.getAttribute("transform")).not.toBe(flap);
+  await page.emulateMedia({ reducedMotion: "reduce" }); await expect(live.locator(".pavilion-footer")).toHaveAttribute("data-flight", "reduced");
+  const resting = await bird.getAttribute("transform"); await page.waitForTimeout(160); await expect(bird).toHaveAttribute("transform", resting!);
   await expect(art).toHaveAttribute("transform", "translate(0 0)");
   await live.getByRole("button", { name: "Light the pavilion" }).press("Space");
   await expect(live.locator(".pavilion-footer")).toHaveAttribute("data-lit", "true");

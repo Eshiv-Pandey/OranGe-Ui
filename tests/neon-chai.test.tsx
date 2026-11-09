@@ -83,6 +83,7 @@ it("exposes keyboard-operable pavilion controls and custom navigation", () => {
   act(() => { light.click(); }); expect(light).toHaveAttribute("aria-pressed", "true");
   expect(document.querySelector("footer")).toHaveAttribute("data-lit", "true");
   expect(screen.getByRole("link", { name: "Our work" })).toHaveAttribute("href", "/work");
-  act(() => { screen.getByRole("button", { name: "Send the birds" }).click(); });
-  expect(document.querySelector(".pavilion-birds")).toHaveClass("pavilion-birds-flying");
+  expect(screen.queryByRole("button", { name: "Send the birds" })).not.toBeInTheDocument();
+  expect(document.querySelectorAll(".pavilion-bird")).toHaveLength(4);
+  expect(document.querySelectorAll(".pavilion-neighbor")).toHaveLength(3);
 });

@@ -6,12 +6,12 @@ Mode: Experience. Preserve the neutral library shell and the real recovery/navig
 
 THESIS: Show each requested scene at its intended scale, with coherent material and convincing motion.
 
-OWN-WORLD: The user's neon reference has a tall hanging sign, warm orange letter faces inside hot outlined tubes, clipped teal edging and a brick wall receiving the spill. The chai scene retains cream, a red poster, golden kettle, teal/yellow sleeves and clear glass. The pavilion retains the supplied mint sky, blue ornamental dome, arched balconies, moon and birds.
+OWN-WORLD: The user's neon reference has a tall hanging sign, warm orange letter faces inside hot outlined tubes, clipped teal edging and a brick wall receiving the spill. Chai fills its page with cream, brass, block-print sleeves, Devanagari lettering, marigold toran and a clear glass. The pavilion retains the supplied mint sky, ornamental indigo architecture, scalloped arches, moon and birds, with three neighboring buildings in softer blues.
 
-STORY: Try the complete neon recovery page, watch chai enter through the glass rim, and use the pavilion's real navigation, lamp and bird controls.
+STORY: Watch chai enter through the rim, then see 404 condense into steam above the full glass. The pavilion's birds fly automatically with separate paths and articulated wings. Real recovery links, footer navigation, lighting and Back to top stay immediately usable.
 
-FIRST VIEWPORT: One neon 404 scene replaces the size samples. Chai's poster and pouring scene lead beside its recovery copy. Pavilion artwork has enough detail and space to read as the reference architecture.
+FIRST VIEWPORT: One neon 404 scene replaces the size samples. Chai's animation spans the whole stage with readable recovery copy over it. The central pavilion is symmetric around its dome, columns, arches, balconies and steps; three smaller blue neighbors make a skyline.
 
-FORM: Reference-pinned extension, using the four verified Pinterest references in out/iteration/scene-reference. The latest user instruction removes the original size-sample demo and kettle slider. The wall switch is separately rebuilt with real solid geometry and lighting while retaining native switch semantics.
+FORM: Reference-pinned extension, using the four verified Pinterest references in out/iteration/scene-reference. The user's latest direction adds Indian character across the chai scene and a post-pour steam 404. Pavilion flight is automatic, with no bird control. Full-page art remains original inline SVG and CSS. The wall switch retains its solid model and native semantics.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

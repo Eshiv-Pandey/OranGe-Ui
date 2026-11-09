@@ -13,7 +13,7 @@ export const SCENE_COMPONENTS: ComponentDefinition[] = [
     ], notes: ["useNeonFlicker(count, { enabled, flickerInterval, startup, sound, active, element }) returns the currently unlit indices. Pass a ref as element for intersection-based pausing. NeonNotFound is also exported for the complete recovery layout. The actual site uses the ChaiBreak404 design.", "Original SVG artwork; no reference photographs ship."],
   },
   { slug: "chai-break-404", name: "ChaiBreak404", category: "Content & layout", collection: "polished", customizerPreview: true,
-    description: "An Indian chai-break recovery page with poster lettering and a kettle that pours into a filling glass.", file: "components/ui/chai-break-404.tsx", usage: '<ChaiBreak404 speed={1} grain={0.035} />',
+    description: "A full-page Indian chai scene with Devanagari lettering, brass detail and a steam-cloud 404 after the pour.", file: "components/ui/chai-break-404.tsx", usage: '<ChaiBreak404 speed={1} grain={0.035} />',
     keyboard: "The automatic pour needs no input. Drag the kettle to change its angle and release to ease back into the sequence. Hover the glass to boost steam. Home and report links have visible focus rings. Reduced motion shows a full glass; motion pauses offscreen and in hidden tabs.",
     props: [
       { name: "speed / grain", type: "number / number", defaultValue: "1 / 0.035", description: "A 12-second cycle divided by speed (0.25 to 3), and turbulence opacity (0 to 0.15)." },
@@ -22,8 +22,8 @@ export const SCENE_COMPONENTS: ComponentDefinition[] = [
     ], notes: ["ChaiPour is exported independently for an illustration without the recovery copy. CSS variables include --chai-cream, --chai-red, --chai-gold, --chai-gold-shadow, --chai-gold-light, --chai-teal, --chai-yellow, --chai-tea and --chai-tea-light. The locally bundled Yatra One display face is licensed under SIL OFL.", "The site 404 route renders this component. All illustrations are original inline SVG, with no raster assets."],
   },
   { slug: "pavilion-footer", name: "PavilionFooter", category: "Content & layout", collection: "polished", customizerPreview: true,
-    description: "A blue ornamental pavilion footer with real navigation, a lamp switch and birds you can send across the sky.", file: "components/ui/pavilion-footer.tsx", usage: '<PavilionFooter title={"A little wonder.\\nA place to return."} />',
-    keyboard: "Tab follows navigation and reaches Light the pavilion and Send the birds. Enter or Space toggles the light or launches the flight. Back to top scrolls to the beginning. Reduced motion disables flight and pointer parallax; the light switch remains usable.",
+    description: "A symmetric blue pavilion surrounded by three neighboring buildings and automatically flying birds.", file: "components/ui/pavilion-footer.tsx", usage: '<PavilionFooter title={"A little wonder.\\nA place to return."} />',
+    keyboard: "Tab follows navigation and reaches Light the pavilion. Enter or Space toggles the light. Birds fly automatically with no flight control. Back to top scrolls to the beginning and focuses the heading. Reduced motion rests the birds and pointer parallax; the light switch remains usable.",
     props: [
       { name: "title / brand / linkGroups", type: "string / ReactNode / readonly PavilionFooterLinkGroup[]", defaultValue: "Library copy / oRangeUi / library links", description: "Your heading, home wordmark and titled groups of label/href links." },
       { name: "pixelated / interactive / defaultLit", type: "boolean / boolean / boolean", defaultValue: "false / true / false", description: "Stepped pavilion geometry and pixel lettering; scene interaction; initial lamp state." }, motion,

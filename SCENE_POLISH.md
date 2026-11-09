@@ -19,3 +19,15 @@ Start a production preview after building:
 ```powershell
 npm run start -- --hostname 127.0.0.1 --port 3134
 ```
+
+## Full-page chai and automatic pavilion flight, November 9, 2026
+
+ChaiBreak404 now places its animation across the whole page, with a brass kettle bearing Hindi lettering, block-print sleeves, bangles, marigold toran and floral borders. ChaiPour exposes `fullscreen`, which ChaiBreak404 always enables. The pour still enters from above the glass rim, with tea and foam clipped inside. After pouring, a soft steam-cloud 404 appears above the full glass. Pointer dragging and eased release remain available; recovery copy and links stay readable in HTML. Reduced motion retains a still full glass and cloud.
+
+PavilionFooter now has a symmetric central pavilion and three smaller neighbors in different softer blues. Four birds fly automatically on separate paths with articulated wingbeats, bodies, tails and intermittent glides. This replaces the earlier launch-and-return behavior recorded above; no flight control is shown. Visibility-aware scheduling pauses offscreen and hidden-tab motion. Reduced motion rests birds and parallax, while lighting and navigation remain usable. Back to top aligns its text and arrow and retains heading focus after scrolling.
+
+ChaiYatra is a local CSS alias for the existing SIL OFL licensed Yatra One asset at `public/fonts/desi/yatra-one.woff2`. Scene artwork colors and lettering sizes remain component-specific. This extension introduces no new font or shared palette change.
+
+Verification for this extension: 8 unit/source tests and 7 affected browser tests pass across 320, 390, 900 and 1440 pixels. Forty affected source examples compile and bundle across all five appearances without diagnostics. Type checking, lint, copy checking, production build, bundle budgets and source traces pass. Desktop and mobile finish review found no visible or source blocker. These are the existing verified checks; this documentation pass did not rerun them.
+
+Production build: `CLmGpYdTrn-V_GX4WPqXe`. Preview: http://127.0.0.1:3134
