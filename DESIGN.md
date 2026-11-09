@@ -427,3 +427,5 @@ WavePlayer uses a wide photographic cover, pale blue controls in light mode and 
 - **Don't** present API documentation as editable controls.
 - **Don't** remove the palette, appearance, focus or reduced-motion behavior when restyling a component.
 - **Don't** use em dashes in project copy.
+
+The November 9 control refinement gives PromptInput, Combobox and Command one neutral focus edge on their visible shell. Rating highlights the focused star's hit area while the native radio stays visually hidden. Selected stars communicate the rating without another selection frame. Calendar month and year navigation use compact themed Select menus with bounded scrolling. WallSwitch uses a screwless square plate, a narrow recessed rocker and two restrained tilt positions. InputOTP's playground exposes numeric and alphanumeric formats. Playground notifications fit inside the stage and reserve clearance above its floating dock; narrow toasts place their action below the message.

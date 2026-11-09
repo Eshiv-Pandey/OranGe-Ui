@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
 import { uiClass, type AppearanceProps } from "./appearance";
+import { Select } from "./select";
 import { addCalendarDays, addCalendarMonths, calendarDate, calendarDays, calendarMonth, clampCalendarDate, formatCalendarDate, isCalendarDate, localToday } from "./calendar-date";
 import "../../styles/launch-forms.css";
 
@@ -62,8 +63,8 @@ export function Calendar({ value, defaultValue = "", onValueChange, month, defau
         <button type="button" className="ui-icon-button" aria-label="Previous month" disabled={disabled || Boolean(lower && previous.slice(0, 7) < lower.slice(0, 7))} onClick={() => show(previous)}><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12 5-5 5 5 5"/></svg></button>
         <div className="ui-calendar-selectors">
           <h3 id={heading} className="ui-sr-only" aria-live="polite">{formatCalendarDate(visibleMonth, locale, { month: "long", year: "numeric" })}</h3>
-          <select aria-label="Calendar month" value={monthNumber} disabled={disabled} onChange={(event) => show(`${String(year).padStart(4, "0")}-${event.target.value}-01`)}>{Array.from({ length: 12 }, (_, index) => { const number = String(index + 1).padStart(2, "0"); const candidate = `${String(year).padStart(4, "0")}-${number}-01`; return <option key={number} value={number} disabled={Boolean(lower && candidate.slice(0, 7) < lower.slice(0, 7) || upper && candidate.slice(0, 7) > upper.slice(0, 7))}>{formatCalendarDate(candidate, locale, { month: "long" })}</option>; })}</select>
-          <select aria-label="Calendar year" value={year} disabled={disabled} onChange={(event) => show(`${event.target.value.padStart(4, "0")}-${monthNumber}-01`)}>{Array.from({ length: Math.max(0, lastYear - firstYear + 1) }, (_, index) => <option key={firstYear + index} value={firstYear + index}>{firstYear + index}</option>)}</select>
+          <Select label="Calendar month" appearance={appearance} contentClassName="ui-calendar-selector-popup" value={monthNumber} disabled={disabled} onValueChange={(number) => show(`${String(year).padStart(4, "0")}-${number}-01`)} options={Array.from({ length: 12 }, (_, index) => { const number = String(index + 1).padStart(2, "0"), candidate = `${String(year).padStart(4, "0")}-${number}-01`; return { value: number, label: formatCalendarDate(candidate, locale, { month: "long" }), disabled: Boolean(lower && candidate.slice(0, 7) < lower.slice(0, 7) || upper && candidate.slice(0, 7) > upper.slice(0, 7)) }; })} />
+          <Select label="Calendar year" appearance={appearance} contentClassName="ui-calendar-selector-popup" value={String(year)} disabled={disabled} onValueChange={(nextYear) => show(`${nextYear.padStart(4, "0")}-${monthNumber}-01`)} options={Array.from({ length: Math.max(0, lastYear - firstYear + 1) }, (_, index) => ({ value: String(firstYear + index), label: String(firstYear + index) }))} />
         </div>
         <button type="button" className="ui-icon-button" aria-label="Next month" disabled={disabled || Boolean(upper && next.slice(0, 7) > upper.slice(0, 7))} onClick={() => show(next)}><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5"/></svg></button>
       </header>

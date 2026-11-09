@@ -17,9 +17,7 @@ export function WallSwitch({ label, description, size = 152, appearance = "polis
   const details = [describedBy, description && `${fieldId}-help`].filter(Boolean).join(" ") || undefined;
   return <div className={uiClass("wall-switch-field", className)} data-appearance={appearance} data-disabled={props.disabled || undefined}>
     <Primitive.Root {...props} id={fieldId} aria-describedby={details} className="wall-switch" style={{ "--wall-switch-size": `${Math.max(96, Math.min(240, size))}px` } as CSSProperties}>
-      <span className="wall-switch-screw" aria-hidden="true" />
       <span className="wall-switch-recess" aria-hidden="true"><span className="wall-switch-rocker"><span className="wall-switch-on">I</span><span className="wall-switch-indicator" /><span className="wall-switch-off">O</span></span></span>
-      <span className="wall-switch-screw" aria-hidden="true" />
     </Primitive.Root>
     <label htmlFor={fieldId}>{label}</label>
     {description && <p id={`${fieldId}-help`} className="ui-help">{description}</p>}

@@ -12,6 +12,7 @@ import { Combobox } from "../ui/combobox";
 import { Calendar } from "../ui/calendar";
 import { DatePicker } from "../ui/date-picker";
 import { InputOTP } from "../ui/input-otp";
+import { Select } from "../ui/select";
 import { FileUpload } from "../ui/file-upload";
 import { Rating } from "../ui/rating";
 import { Stepper } from "../ui/stepper";
@@ -27,7 +28,11 @@ export function FormDemo({ appearance }: DemoProps) {
 export function ComboboxDemo({ appearance }: DemoProps) { return <Combobox appearance={appearance} label="Your role" defaultValue="design" options={[{ value: "design", label: "Designer", description: "Interfaces and experiences", keywords: ["ui", "ux"] }, { value: "engineering", label: "Engineer", description: "Applications and systems", keywords: ["developer", "code"] }, { value: "research", label: "Researcher", description: "Evidence and experiments" }, { value: "operations", label: "Operations", description: "Processes and delivery" }]} description="Type to filter, then use the arrow keys to choose." />; }
 export function CalendarDemo({ appearance }: DemoProps) { return <Calendar appearance={appearance} defaultValue="2026-11-12" weekStartsOn={1} />; }
 export function DatePickerDemo({ appearance }: DemoProps) { return <DatePicker appearance={appearance} label="Review date" defaultValue="2026-11-12" description="Choose a day for your next review." />; }
-export function InputOTPDemo({ appearance }: DemoProps) { const [complete, setComplete] = useState(false); return <div className="demo-stack"><InputOTP appearance={appearance} label="Verification code" onValueChange={(value) => setComplete(value.length === 6)} description="Enter or paste a six-digit code." /><p className="ui-help" role="status">{complete ? "All six digits entered." : "Waiting for six digits."}</p></div>; }
+export function InputOTPDemo({ appearance }: DemoProps) {
+  const [mode, setMode] = useState<"numeric" | "alphanumeric">("numeric"), [code, setCode] = useState("");
+  const characters = mode === "numeric" ? "digits" : "characters";
+  return <div className="demo-stack"><Select appearance={appearance} label="Code format" value={mode} onValueChange={(next) => { setMode(next as "numeric" | "alphanumeric"); setCode(""); }} options={[{ value: "numeric", label: "Numbers only" }, { value: "alphanumeric", label: "Letters and numbers" }]} /><InputOTP appearance={appearance} mode={mode} value={code} label="Verification code" onValueChange={setCode} description={mode === "numeric" ? "Enter or paste a six-digit code." : "Enter six letters or numbers, such as A2B3C4."} /><p className="ui-help" role="status">{code.length === 6 ? `All six ${characters} entered.` : `Waiting for six ${characters}.`}</p></div>;
+}
 export function FileUploadDemo({ appearance }: DemoProps) { return <FileUpload appearance={appearance} label="Project files" accept=".png,.jpg,.jpeg,.pdf" maxFiles={3} maxBytes={5 * 1024 * 1024} description="Selected files stay on your device in this demo." />; }
 export function RatingDemo({ appearance }: DemoProps) { return <Rating appearance={appearance} label="How was your experience?" defaultValue={3} clearable description="Choose between one and five stars." />; }
 export function StepperDemo({ appearance }: DemoProps) {

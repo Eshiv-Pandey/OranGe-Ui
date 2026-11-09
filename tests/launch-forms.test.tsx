@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { renderToString } from "react-dom/server";
-import { describe, expect, it, vi } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 import { Label } from "../components/ui/label";
 import { Kbd } from "../components/ui/kbd";
@@ -18,6 +18,12 @@ import { Stepper } from "../components/ui/stepper";
 
 const options = [{ value: "alpha", label: "Alpha", keywords: ["first"] }, { value: "beta", label: "Beta", disabled: true }, { value: "gamma", label: "Gamma", description: "Third option" }];
 const steps = [{ id: "account", label: "Account" }, { id: "details", label: "Details", disabled: true }, { id: "review", label: "Review" }, { id: "finish", label: "Finish" }];
+const originalScrollIntoView = Object.getOwnPropertyDescriptor(Element.prototype, "scrollIntoView");
+beforeAll(() => { Object.defineProperty(Element.prototype, "scrollIntoView", { configurable: true, value: vi.fn() }); });
+afterAll(() => {
+  if (originalScrollIntoView) Object.defineProperty(Element.prototype, "scrollIntoView", originalScrollIntoView);
+  else delete (Element.prototype as Partial<Element>).scrollIntoView;
+});
 
 describe("form primitives", () => {
   it("associates native labels and preserves keyboard semantics", () => {
@@ -278,14 +284,21 @@ describe("rating and stepper", () => {
 });
 
 
-it("jumps between years and months while preserving date bounds", () => {
-  const changed = vi.fn();
+it("jumps between years and months while preserving date bounds", async () => {
+  const changed = vi.fn(), user = userEvent.setup();
   const { rerender } = render(<Calendar defaultMonth="2024-02-01" min="2020-06-01" max="2030-09-30" onMonthChange={changed} />);
-  fireEvent.change(screen.getByRole("combobox", { name: "Calendar year" }), { target: { value: "2028" } });
+  screen.getByRole("combobox", { name: "Calendar year" }).focus();
+  await user.keyboard("{Enter}{Home}{ArrowDown>8/}{Enter}");
   expect(changed).toHaveBeenLastCalledWith("2028-02-01");
   expect(screen.getByRole("button", { name: "Tuesday, February 29, 2028" })).toBeEnabled();
-  fireEvent.change(screen.getByRole("combobox", { name: "Calendar year" }), { target: { value: "2020" } });
+  screen.getByRole("combobox", { name: "Calendar year" }).focus();
+  await user.keyboard("{Enter}{Home}{Enter}");
   expect(changed).toHaveBeenLastCalledWith("2020-06-01");
+  screen.getByRole("combobox", { name: "Calendar month" }).focus();
+  await user.keyboard("{Enter}");
+  expect(screen.getByRole("option", { name: /^January$/ })).toHaveAttribute("data-disabled");
+  await user.keyboard("{Home}{ArrowDown>3/}{Enter}");
+  expect(changed).toHaveBeenLastCalledWith("2020-09-01");
   rerender(<Calendar month="2024-02-01" disabled />);
   expect(screen.getByRole("combobox", { name: "Calendar year" })).toBeDisabled();
 });

@@ -35,6 +35,7 @@
 .workspace-view .code-block { width: 100%; min-height: 100%; max-height: none; background: transparent; padding: 28px 28px 100px; }
 .workspace-stage-toolbar { position: absolute; z-index: 6; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 5px; width: max-content; max-width: calc(100% - 28px); min-height: 44px; padding: 4px; border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent); border-radius: 999px; background: color-mix(in srgb, var(--surface) 48%, transparent); backdrop-filter: blur(24px) saturate(1.55); -webkit-backdrop-filter: blur(24px) saturate(1.55); }
 .workspace-stage-toolbar [role="tablist"] { display: flex; gap: 3px; }
+.workspace-view .ui-toast-viewport { position: absolute; bottom: 88px; right: 24px; width: min(420px, calc(100% - 48px)); max-height: calc(100% - 112px); }
 .workspace-stage-toolbar button, .workspace-inspector-heading button, .workspace-install-links button { min-height: 36px; padding: 8px 10px; border: 0; background: transparent; color: var(--muted); font-size: 12px; cursor: pointer; }
 .workspace-stage-toolbar button { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 7px 14px; border-radius: 999px; font-weight: 500; color: var(--ink); }
 .workspace-stage-toolbar svg { width: 17px; height: 17px; flex: none; }
