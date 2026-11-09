@@ -58,7 +58,7 @@ for (const width of [320, 390, 900, 1440]) for (const theme of ["light", "dark"]
         await expect(page.locator(".endless-film-footer [role=status]")).toContainText("Take the long way");
         await page.getByRole("button", { name: "Select Off the clock", exact: true }).click();
         await expect(page.locator(".endless-film-footer [role=status]")).toContainText("Off the clock");
-        expect(await page.locator(".endless-film-frame").count()).toBeGreaterThan(6);
+        await expect(page.locator('.endless-film-stage')).toHaveAttribute('data-renderer', 'webgl');
       }
       if (route.endsWith("race-start-lights")) {
         await expect(page.locator(".race-start-gantry")).toContainText("START / FINISH");
@@ -76,17 +76,17 @@ for (const width of [320, 390, 900, 1440]) for (const theme of ["light", "dark"]
 test("film motion reacts to pointer and pauses with controls", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/components/endless-film");
-  const frame = page.locator(".endless-film-frame").nth(3);
+  const frame = page.locator(".endless-film");
   await expect(page.locator(".endless-film")).toHaveAttribute("data-motion", "running");
-  const first = await frame.getAttribute("transform");
-  await expect.poll(() => frame.getAttribute("transform")).not.toBe(first);
+  const first = await frame.getAttribute("data-phase");
+  await expect.poll(() => frame.getAttribute("data-phase")).not.toBe(first);
   await page.getByRole("button", { name: "Pause film", exact: true }).click();
-  const still = await frame.getAttribute("transform"); await page.waitForTimeout(200);
-  expect(await frame.getAttribute("transform")).toBe(still);
+  const still = await frame.getAttribute("data-phase"); await page.waitForTimeout(200);
+  expect(await frame.getAttribute("data-phase")).toBe(still);
   const stage = (await page.locator(".endless-film-stage").boundingBox())!;
   await page.mouse.move(stage.x + stage.width / 2, stage.y + stage.height / 2); await page.mouse.down();
   await page.mouse.move(stage.x + stage.width / 2 + 80, stage.y + stage.height / 2, { steps: 5 }); await page.mouse.up();
-  expect(await frame.getAttribute("transform")).not.toBe(still);
+  expect(await frame.getAttribute("data-phase")).not.toBe(still);
   await page.getByRole("button", { name: "Play film", exact: true }).click();
-  const resumed = await frame.getAttribute("transform"); await expect.poll(() => frame.getAttribute("transform")).not.toBe(resumed);
+  const resumed = await frame.getAttribute("data-phase"); await expect.poll(() => frame.getAttribute("data-phase")).not.toBe(resumed);
 });

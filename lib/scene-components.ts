@@ -13,7 +13,7 @@ export const SCENE_COMPONENTS: ComponentDefinition[] = [
     ], notes: ["useNeonFlicker(count, { enabled, flickerInterval, startup, sound, active, element }) returns the currently unlit indices. Pass a ref as element for intersection-based pausing. NeonNotFound is also exported for the complete recovery layout. The actual site uses the ChaiBreak404 design.", "Original SVG artwork; no reference photographs ship."],
   },
   { slug: "chai-break-404", name: "ChaiBreak404", category: "Content & layout", collection: "polished", customizerPreview: true,
-    description: "A full-page Indian chai scene with Devanagari lettering, brass detail and a steam-cloud 404 after the pour.", file: "components/ui/chai-break-404.tsx", usage: '<ChaiBreak404 speed={1} grain={0.035} />',
+    description: "A full-page Indian chai scene with block-print sleeves, brass detail and a defined steam-cloud 404 after the pour.", file: "components/ui/chai-break-404.tsx", usage: '<ChaiBreak404 speed={1} grain={0.035} />',
     keyboard: "The automatic pour needs no input. Drag the kettle to change its angle and release to ease back into the sequence. Hover the glass to boost steam. Home and report links have visible focus rings. Reduced motion shows a full glass; motion pauses offscreen and in hidden tabs.",
     props: [
       { name: "speed / grain", type: "number / number", defaultValue: "1 / 0.035", description: "A 12-second cycle divided by speed (0.25 to 3), and turbulence opacity (0 to 0.15)." },

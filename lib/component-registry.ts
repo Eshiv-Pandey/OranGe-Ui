@@ -50,6 +50,7 @@ function destination(source: string, slug: string): string | undefined {
   if (source.endsWith(".woff2") || source.endsWith(".wav") || source.endsWith(".jpg") || source.endsWith(".webp") || source.endsWith(".png") || source === "README.md") return undefined;
   if (source === "public/portfolio/NOTICE.md") return "licenses/PORTFOLIO_ARTWORK.md";
   if (source.startsWith("public/fonts/portfolio/")) return "licenses/" + source.split("/").at(-1);
+  if (source.startsWith("public/fonts/film/")) return source.endsWith("NOTICE.md") ? "licenses/FILM_FONT_CREDITS.md" : "licenses/" + source.split("/").at(-1);
   if (source === "public/photos/keepsakes/NOTICE.md") return "licenses/KEEPSAKE_PHOTOS.md";
   if (source.startsWith("public/fonts/desi/")) return source.endsWith("README.md") ? "licenses/DISPLAY_FONT_CREDITS.md" : "licenses/" + source.split("/").at(-1);
   if (source.startsWith("public/audio/orangeui/")) return "licenses/Orange-sessions-" + source.split("/").at(-1);

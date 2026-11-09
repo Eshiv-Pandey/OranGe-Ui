@@ -1,34 +1,43 @@
-type Point = { x: number; y: number; distance: number; angle: number };
-const curves = [
-  [[-150, 0], [130, 50], [470, 30], [680, 220]],
-  [[680, 220], [940, 510], [170, 340], [190, 540]],
-  [[190, 540], [190, 790], [850, 640], [1050, 730]],
+export const FILM_FRAME_SPACING = 148;
+export type FilmPoint = { x: number; y: number; z: number; distance: number; angle: number; nx: number; ny: number; nz: number };
+const knots = [
+  [-650, 380, -90], [-340, 270, -40], [-200, 45, 50], [-320, -170, 70],
+  [-150, -280, 120], [100, -80, 120], [320, 180, 10], [450, 210, -40],
+  [320, -40, -90], [170, -230, -70], [390, -210, 20], [660, -20, 20],
 ] as const;
 
-/** Equal-distance sampling keeps every photograph the same size around a bend. */
+/** A smooth, spatial film loop. Distance drives both photos and perforations. */
 export function createFilmPath(compact = false) {
-  const points: Point[] = [], scale = compact ? .56 : 1;
-  let distance = 0;
-  for (const curve of curves) for (let index = points.length ? 1 : 0; index <= 180; index++) {
-    const t = index / 180, u = 1 - t;
-    const x = scale * (u ** 3 * curve[0][0] + 3 * u * u * t * curve[1][0] + 3 * u * t * t * curve[2][0] + t ** 3 * curve[3][0]);
-    const y = u ** 3 * curve[0][1] + 3 * u * u * t * curve[1][1] + 3 * u * t * t * curve[2][1] + t ** 3 * curve[3][1];
-    const dx = scale * (3 * u * u * (curve[1][0] - curve[0][0]) + 6 * u * t * (curve[2][0] - curve[1][0]) + 3 * t * t * (curve[3][0] - curve[2][0]));
-    const dy = 3 * u * u * (curve[1][1] - curve[0][1]) + 6 * u * t * (curve[2][1] - curve[1][1]) + 3 * t * t * (curve[3][1] - curve[2][1]);
-    const previous = points.at(-1);
-    if (previous) distance += Math.hypot(x - previous.x, y - previous.y);
-    points.push({ x, y, distance, angle: Math.atan2(dy, dx) * 180 / Math.PI });
+  const points: FilmPoint[] = [], scale = compact ? .5 : 1;
+  function position(t: number) {
+    const segment = Math.min(knots.length - 2, Math.floor(t)), u = t - segment;
+    const a = knots[Math.max(0, segment - 1)], b = knots[segment], c = knots[segment + 1], d = knots[Math.min(knots.length - 1, segment + 2)];
+    const coordinate = (axis: 0 | 1 | 2) => .5 * ((2 * b[axis]) + (-a[axis] + c[axis]) * u + (2 * a[axis] - 5 * b[axis] + 4 * c[axis] - d[axis]) * u * u + (-a[axis] + 3 * b[axis] - 3 * c[axis] + d[axis]) * u * u * u);
+    return { x: coordinate(0) * scale, y: coordinate(1), z: coordinate(2) };
   }
-  const line = (offset: number) => points.map((point, index) => {
-    const angle = point.angle * Math.PI / 180;
-    return `${index ? "L" : "M"}${(point.x - Math.sin(angle) * offset).toFixed(2)} ${(point.y + Math.cos(angle) * offset).toFixed(2)}`;
-  }).join(" ");
+  let distance = 0;
+  const count = 720, extent = knots.length - 1;
+  for (let index = 0; index <= count; index++) {
+    const t = index / count * extent, point = position(t);
+    const before = position(Math.max(0, t - .002)), after = position(Math.min(extent, t + .002));
+    const dx = after.x - before.x, dy = after.y - before.y, dz = after.z - before.z;
+    const tangentLength = Math.hypot(dx, dy, dz) || 1, tx = dx / tangentLength, ty = dy / tangentLength, tz = dz / tangentLength;
+    const horizontal = Math.hypot(tx, ty) || 1, ax = -ty / horizontal, ay = tx / horizontal;
+    const bx = -tz * ay, by = tz * ax, bz = tx * ay - ty * ax;
+    const progress = index / count;
+    const twist = Math.sin(progress * Math.PI * 4 - .3) * .72 + 1.75 * Math.exp(-Math.pow((progress - .64) / .105, 2));
+    const nx = ax * Math.cos(twist) + bx * Math.sin(twist), ny = ay * Math.cos(twist) + by * Math.sin(twist), nz = bz * Math.sin(twist);
+    const previous = points.at(-1);
+    if (previous) distance += Math.hypot(point.x - previous.x, point.y - previous.y, point.z - previous.z);
+    points.push({ ...point, distance, nx, ny, nz, angle: Math.atan2(dy, dx) * 180 / Math.PI });
+  }
   function at(value: number) {
     let low = 0, high = points.length - 1;
     while (low < high) { const middle = (low + high) >>> 1; if (points[middle].distance < value) low = middle + 1; else high = middle; }
     const point = points[low], previous = points[Math.max(0, low - 1)];
     const t = Math.max(0, Math.min(1, (value - previous.distance) / (point.distance - previous.distance || 1)));
-    return { x: previous.x + (point.x - previous.x) * t, y: previous.y + (point.y - previous.y) * t, angle: previous.angle + (point.angle - previous.angle) * t };
+    const mix = (key: keyof FilmPoint) => previous[key] + (point[key] - previous[key]) * t;
+    return { x: mix('x'), y: mix('y'), z: mix('z'), nx: mix('nx'), ny: mix('ny'), nz: mix('nz'), angle: mix('angle') };
   }
-  return { length: distance, center: line(0), edges: [line(-48), line(48)], at };
+  return { length: distance, points, at };
 }

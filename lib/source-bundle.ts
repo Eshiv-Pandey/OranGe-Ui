@@ -8,6 +8,7 @@ import { externalPackage, relativeSourceImport, rewriteSourceImports, sourceAlia
 export type ComponentSourceBundle = { files: Record<string, Uint8Array>; dependencies: string[]; devDependencies: string[] };
 export const BUNDLED_FONTS = ["geist-latin.woff2", "pixelify-sans-latin.woff2", "OFL-Geist.txt", "OFL-PixelifySans.txt"] as const;
 export const CREATIVE_FONT_ASSETS = ["public/fonts/desi/yatra-one.woff2", "public/fonts/desi/baloo-2.woff2", "public/fonts/desi/OFL-yatra-one.txt", "public/fonts/desi/OFL-baloo-2.txt", "public/fonts/desi/README.md"] as const;
+export const FILM_FONT_ASSETS = ["public/fonts/film/cormorant-garamond-italic-latin.woff2", "public/fonts/film/OFL-cormorant-garamond.txt", "public/fonts/film/NOTICE.md"] as const;
 export const PORTFOLIO_ASSETS = ["public/portfolio/truck-art.webp", "public/portfolio/NOTICE.md", "public/fonts/portfolio/doto.woff2", "public/fonts/portfolio/geist-mono.woff2", "public/fonts/portfolio/noto-devanagari.woff2", "public/fonts/portfolio/OFL-doto.txt", "public/fonts/portfolio/OFL-geist-mono.txt", "public/fonts/portfolio/OFL-noto-devanagari.txt"] as const;
 export const CREATIVE_AUDIO_ASSETS = ["public/audio/orangeui/sunroom.wav", "public/audio/orangeui/blue-hour.wav", "public/audio/orangeui/pocket-garden.wav", "public/audio/orangeui/LICENSE.txt", "public/audio/orangeui/CC0-1.0.txt"] as const;
 export const KEEPSAKE_PHOTO_ASSETS = ["summit.jpg", "road.jpg", "lake.jpg", "water.jpg", "forest.jpg", "mist.jpg", "coast.jpg", "city.jpg", "desert.jpg", "flowers.jpg", "ocean.jpg", "night.jpg", "NOTICE.md"].map((name) => `public/photos/keepsakes/${name}`);
@@ -17,7 +18,7 @@ function allowedSource(relative: string): boolean {
     || /^styles\/.+\.(?:css|css\.d\.ts)$/.test(relative)
     || relative === "lib/utils.ts"
     || BUNDLED_FONTS.some((name) => relative === `public/fonts/${name}`)
-    || [...CREATIVE_FONT_ASSETS, ...CREATIVE_AUDIO_ASSETS, ...KEEPSAKE_PHOTO_ASSETS, ...PORTFOLIO_ASSETS].some((name) => relative === name)
+    || [...CREATIVE_FONT_ASSETS, ...FILM_FONT_ASSETS, ...CREATIVE_AUDIO_ASSETS, ...KEEPSAKE_PHOTO_ASSETS, ...PORTFOLIO_ASSETS].some((name) => relative === name)
     || relative === "LICENSE" || relative === "THIRD_PARTY_NOTICES.md";
 }
 
@@ -142,6 +143,7 @@ export async function collectComponentSource(component: ComponentDefinition, app
   for (const font of BUNDLED_FONTS) await include("public/fonts/" + font);
   if (files["components/ui/styled-text.tsx"]) for (const asset of CREATIVE_FONT_ASSETS) await include(asset);
   if (files["styles/chai-break-404.css"]) for (const asset of CREATIVE_FONT_ASSETS) await include(asset);
+  if (files["styles/endless-film.css"]) for (const asset of FILM_FONT_ASSETS) await include(asset);
   if (files["components/ui/creative-playlist.ts"]) for (const asset of CREATIVE_AUDIO_ASSETS) await include(asset);
   if (files["components/ui/keepsake-photos.ts"]) for (const asset of KEEPSAKE_PHOTO_ASSETS) await include(asset);
   if (files["styles/portfolio.css"]) for (const asset of PORTFOLIO_ASSETS) await include(asset);

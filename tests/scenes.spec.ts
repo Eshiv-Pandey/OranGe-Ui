@@ -96,7 +96,7 @@ test("full-page chai reveals a steam 404 only after the glass fills", async ({ p
   const canvas = (await scene.boundingBox())!, pageBounds = (await main.boundingBox())!;
   expect(canvas.width).toBeCloseTo(pageBounds.width, 0); expect(canvas.height).toBeCloseTo(pageBounds.height, 0);
   await expect(scene).toHaveAttribute("data-poured", "true", { timeout: 11000 }); await expect(cloud).toHaveCSS("opacity", "1");
-  await expect(main.locator(".chai-stall-sign")).toHaveText("चाय");
+  await expect(main.locator(".chai-stall-sign, .chai-kettle-lettering")).toHaveCount(0);
   await page.emulateMedia({ reducedMotion: "reduce" }); await expect(cloud).toHaveCSS("opacity", "1");
 });
 
