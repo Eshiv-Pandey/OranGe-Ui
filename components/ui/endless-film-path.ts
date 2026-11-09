@@ -1,9 +1,9 @@
 export const FILM_FRAME_SPACING = 148;
 export type FilmPoint = { x: number; y: number; z: number; distance: number; angle: number; nx: number; ny: number; nz: number };
 const knots = [
-  [-650, 380, -90], [-340, 270, -40], [-200, 45, 50], [-320, -170, 70],
-  [-150, -280, 120], [100, -80, 120], [320, 180, 10], [450, 210, -40],
-  [320, -40, -90], [170, -230, -70], [390, -210, 20], [660, -20, 20],
+  [-650, 350, -35], [-360, 240, -20], [-250, 20, 15], [-330, -170, 25],
+  [-160, -260, 40], [80, -80, 40], [260, 180, 0], [430, 190, -30],
+  [460, -20, -45], [340, -200, -25], [460, -230, 5], [680, -90, 10],
 ] as const;
 
 /** A smooth, spatial film loop. Distance drives both photos and perforations. */
@@ -25,7 +25,7 @@ export function createFilmPath(compact = false) {
     const horizontal = Math.hypot(tx, ty) || 1, ax = -ty / horizontal, ay = tx / horizontal;
     const bx = -tz * ay, by = tz * ax, bz = tx * ay - ty * ax;
     const progress = index / count;
-    const twist = Math.sin(progress * Math.PI * 4 - .3) * .72 + 1.75 * Math.exp(-Math.pow((progress - .64) / .105, 2));
+    const twist = Math.sin(progress * Math.PI * 3 - .3) * .16 + .22 * Math.exp(-Math.pow((progress - .67) / .16, 2));
     const nx = ax * Math.cos(twist) + bx * Math.sin(twist), ny = ay * Math.cos(twist) + by * Math.sin(twist), nz = bz * Math.sin(twist);
     const previous = points.at(-1);
     if (previous) distance += Math.hypot(point.x - previous.x, point.y - previous.y, point.z - previous.z);

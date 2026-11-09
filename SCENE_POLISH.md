@@ -53,3 +53,23 @@ Preview: http://127.0.0.1:3134. Start after building:
 ```powershell
 npm run start -- --hostname 127.0.0.1 --port 3134
 ```
+
+## Film clarity and chai continuity, November 10, 2026
+
+This correction supersedes the earlier paper and olive EndlessFilm background and chai placement, stream and steam-digit descriptions. Earlier verification statements remain specific to their historical builds.
+
+EndlessFilm now uses pure black (#000) in both host palettes, with a light foreground and focus edge independent of the host theme. A matte front (roughness 0.94, metalness 0, no clearcoat), gentler lighting, shallow twist and fewer obscuring folds keep photographs clear. The shared photograph/perforation atlas, path-distance feed, controls, vertical touch scrolling and context-loss fallback/recovery remain.
+
+Chai's resize observer matches the full-page SVG to the actual page aspect. Original hands and block-print sleeves reach the upper-left and lower-right page corners, with the mobile outer-right sleeve clear of recovery copy. Three independent steam 404 glyphs use 108-unit spacing and unclipped blur while retaining rounded cloud material. The external stream uses rendered transformation matrices to meet the rim; a clipped interior stream continues to the animated tea and foam surface. Both streams follow the pouring state and reduced-motion visibility. Kettle dragging and eased release remain, and both Hindi labels stay removed.
+
+ChaiYatra and FilmCormorant remain unchanged licensed component font aliases. Original Indian SVG artwork and existing photograph provenance remain; no new raster assets or shared design tokens are introduced. The shared library palette, type ramp, appearances, focus and motion conventions continue to govern the shell.
+
+Verification: production build FLXVD8YScewi9-2qSnaaB, scoped ESLint, TypeScript, 7 current unit/source tests and 12 targeted browser tests pass. Browser checks at 320, 390 and 1440 pixels cover black backgrounds and readable focus in both palettes, stream joins and liquid-surface endpoints within 1px, corners, copy clearance, digit gaps, wheel-driven photograph pixels, page/preview scroll, pause, drag, selection, vertical touch scrolling, context loss/recovery, kettle interaction and steam reveal. Bundle budgets and source traces pass against the same build. The historical 60-example compilation batch was not rerun.
+
+All eight final captures in .impeccable/review/scene-clarity/confirmation were validated. Independent review resolves all five requested corrections: film clarity, black background, separated steam digits, the interior pour and corner anchoring. Its disposition is ship for that fix list; this does not claim a new whole-surface audit. This documentation pass records the supplied verification without rerunning it.
+
+Live preview: http://127.0.0.1:3134. Start after building:
+
+```powershell
+npm run start -- --hostname 127.0.0.1 --port 3134
+```

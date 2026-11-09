@@ -8,17 +8,17 @@ export async function createEndlessFilmRenderer(canvas: HTMLCanvasElement, photo
   const THREE = await import('three');
   if (signal.aborted || !photos.length) return null;
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setClearColor(0x000000, 0); renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.08;
+  renderer.setClearColor(0x000000, 1); renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1;
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.VSMShadowMap;
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(40, 1, 1, 3000);
   camera.position.set(0, 45, 1060); camera.lookAt(0, 0, 0);
-  scene.add(new THREE.HemisphereLight(0xfff8ea, 0x756a59, 2.15));
-  const key = new THREE.DirectionalLight(0xffedcf, 3.2);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x9a9a9a, 2.5));
+  const key = new THREE.DirectionalLight(0xfff6e8, 1.35);
   key.position.set(-350, 480, 650); key.castShadow = true; key.shadow.mapSize.set(512, 512); key.shadow.radius = 4; key.shadow.blurSamples = 8;
   Object.assign(key.shadow.camera, { left: -800, right: 800, top: 650, bottom: -650, near: 1, far: 1800 });
   key.shadow.bias = -.0005; key.shadow.normalBias = 1.1; scene.add(key);
-  const fill = new THREE.DirectionalLight(0xe7f0f5, 1.2); fill.position.set(500, -80, 700); scene.add(fill);
+  const fill = new THREE.DirectionalLight(0xf3f7ff, .8); fill.position.set(500, -80, 700); scene.add(fill);
   const groundGeometry = new THREE.PlaneGeometry(2400, 1600), groundMaterial = new THREE.ShadowMaterial({ opacity: .16 });
   const ground = new THREE.Mesh(groundGeometry, groundMaterial); ground.position.z = -185; ground.receiveShadow = true; scene.add(ground);
   const atlas = document.createElement('canvas'), cellWidth = 256, cellHeight = 200;
@@ -50,7 +50,7 @@ export async function createEndlessFilmRenderer(canvas: HTMLCanvasElement, photo
     texture.needsUpdate = true;
   }
   paintAtlas();
-  const frontMaterial = new THREE.MeshPhysicalMaterial({ map: texture, color: 0xffffff, roughness: .4, metalness: .08, clearcoat: .55, clearcoatRoughness: .25, alphaTest: .45, side: THREE.FrontSide });
+  const frontMaterial = new THREE.MeshStandardMaterial({ map: texture, color: 0xffffff, roughness: .94, metalness: 0, alphaTest: .45, side: THREE.FrontSide });
   const backMaterial = new THREE.MeshStandardMaterial({ map: texture, color: 0x32271e, roughness: .62, alphaTest: .45, side: THREE.BackSide });
   const depthMaterial = new THREE.MeshDepthMaterial({ map: texture, alphaTest: .45, depthPacking: THREE.RGBADepthPacking, side: THREE.DoubleSide });
   const front = new THREE.Mesh(geometry, frontMaterial), back = new THREE.Mesh(geometry, backMaterial);
