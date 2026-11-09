@@ -55,6 +55,7 @@ import * as LaunchForms from "./launch-forms-demos";
 import { WallSwitchDemo } from "./wall-switch-demo";
 import { EndlessFilmDemo } from "./endless-film-demo";
 import { StickerSocialDemo } from "./sticker-social-demo";
+import { SceneDemo } from "./scene-demos";
 import { NavigationDemo, NAVIGATION_DEMO_SLUGS } from "./navigation-demos";
 import { AIDemo, AI_DEMO_SLUGS } from "./ai-demos";
 import { Emberling } from "../ui/emberling";
@@ -104,6 +105,7 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   if ((NAVIGATION_DEMO_SLUGS as readonly string[]).includes(slug)) return <NavigationDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   if (slug === "wall-switch") return <WallSwitchDemo appearance={appearance} />;
   if (slug === "endless-film") return <EndlessFilmDemo appearance={appearance} thumbnail={thumbnail} />;
+  if (["neon-sign-404", "chai-break-404", "pavilion-footer"].includes(slug)) return <SceneDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   if ((AI_DEMO_SLUGS as readonly string[]).includes(slug)) return <AIDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   switch (slug) {
     case "shader-canvas": return <Suspense fallback={<ShaderFallback />}><ShaderCanvasDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;

@@ -1,4 +1,5 @@
 import { WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT } from "./physical-components";
+import { SCENE_COMPONENTS } from "./scene-components";
 import { PORTFOLIO_COMPONENTS } from "./portfolio-components";
 import type { DemoStep } from "../components/library/use-demo-player";
 import type { Appearance } from "../components/ui/appearance";
@@ -1191,7 +1192,7 @@ export const components: ComponentDefinition[] = [
     ]
   }
 ];
-components.push(WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT, ...PORTFOLIO_COMPONENTS, ...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS);
+components.push(WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT, ...SCENE_COMPONENTS, ...PORTFOLIO_COMPONENTS, ...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS);
 export function componentsInCollection(appearance: Appearance) { return components.filter((component) => !component.collection || component.collection === appearance); }
 // ShaderCanvas remains installable as the low-level engine behind the effects.
 // Its former showcase is now part of the single gradient playground.

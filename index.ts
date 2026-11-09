@@ -147,3 +147,6 @@ export { PortfolioFooter, type PortfolioFooterProps, type PortfolioFooterLink, t
 export { AnimatedTruck, type AnimatedTruckProps } from "./components/ui/animated-truck";
 export { StickerSocialIcons, type StickerSocialIconsProps, type StickerProfile } from "./components/ui/sticker-social-icons";
 export type { SocialProfile } from "./components/ui/portfolio/social-hover-card";
+export * from "./components/ui/neon-sign-404";
+export * from "./components/ui/chai-break-404";
+export * from "./components/ui/pavilion-footer";
