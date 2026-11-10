@@ -4,7 +4,7 @@
 .chai-recovery { --chai-cream: #efebdd; --chai-red: #8a0a14; --chai-gold: #e0a21b; --chai-ink: #35241b; position: relative; isolation: isolate; display: grid; align-items: end; min-height: max(760px, 100svh); width: 100%; padding: 48px clamp(32px, 5vw, 80px) 56px; overflow: hidden; background: var(--chai-cream); color: var(--chai-ink); container-type: inline-size; }
 .chai-recovery-grain { position: absolute; inset: 0; z-index: -1; pointer-events: none; mix-blend-mode: multiply; }.chai-recovery .chai-grain { opacity: 0; }
 .chai-page-ornament { position: absolute; inset: 20px; z-index: 1; border: 1px solid #bb985b50; border-radius: 2px; pointer-events: none; color: #a78046; }
-.chai-page-ornament > svg:first-child { position: absolute; top: -20px; left: -20px; width: calc(100% + 40px); height: 80px; }
+.chai-page-ornament > svg:first-child { position: absolute; top: -10px; left: -8px; width: calc(100% + 16px); height: 108px; overflow: visible; }
 .chai-border-flower { position: absolute; right: 18px; bottom: 18px; width: clamp(64px, 10cqw, 120px); height: auto; opacity: .45; }
 .chai-recovery-art { position: absolute; inset: 0; pointer-events: none; }
 .chai-recovery-art .chai-pour { height: 100%; pointer-events: auto; }
@@ -32,4 +32,5 @@
   .chai-recovery p, .chai-report { margin-inline: auto; }
   .chai-border-flower { width: 60px; bottom: 90px; }
 }
+@media (max-width: 650px) { .chai-recovery { min-height: max(920px, 100svh); } }
 @media (prefers-reduced-motion: reduce) { .chai-recovery *, .chai-recovery *::before { transition: none; }.chai-steam { transform: none; opacity: .75 !important; }.chai-kettle { cursor: default; }.chai-tea { transform: translateY(19.5px); }.chai-foam { transform: translateY(311.5px); opacity: 1 !important; }.chai-stream, .chai-interior-stream { opacity: 0 !important; }.chai-cloud-404 { opacity: 1; transform: none; filter: none; } }

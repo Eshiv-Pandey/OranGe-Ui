@@ -12,6 +12,7 @@ beforeEach(() => {
   Object.defineProperty(document, "visibilityState", { configurable: true, value: "visible" });
   vi.stubGlobal("matchMedia", () => ({ get matches() { return reduced; }, addEventListener: (_: string, callback: () => void) => { mediaChange = callback; }, removeEventListener: vi.fn() }));
   vi.stubGlobal("IntersectionObserver", undefined);
+  vi.stubGlobal("ResizeObserver", class { observe() {} disconnect() {} });
   vi.stubGlobal("requestAnimationFrame", vi.fn(() => 1)); vi.stubGlobal("cancelAnimationFrame", vi.fn());
   vi.spyOn(Math, "random").mockReturnValue(.5);
 });

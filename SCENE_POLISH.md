@@ -73,3 +73,21 @@ Live preview: http://127.0.0.1:3134. Start after building:
 ```powershell
 npm run start -- --hostname 127.0.0.1 --port 3134
 ```
+
+## Chai timing, hand grips and film sharpness, November 10, 2026
+
+This correction replaces the earlier repeating pour and simultaneous stream visibility. The kettle's gripping hand now rotates with it, with curled fingertips, nails, palm creases, cuff detail and softer sleeve folds. The glass hand wraps around its sides with distinct fingers and thumb. The fuller upper toran uses layered marigold petals, hanging leaves and tassels, positioned inside the page edge. Mobile artwork retains clearance above recovery copy.
+
+Chai releases only after at least 28 degrees of tilt. Its leading edge travels from the spout over 420ms and continues inside the glass over another 140ms before adding volume. The descending jet meets the rendered rim; the interior stream stays clipped and ends at the current tea surface. Liquid already released completes its journey after cutoff. The full glass retains its volume after the kettle returns. Dragging, eased release, visibility suspension and the reduced-motion still remain available.
+
+EndlessFilm keeps its pure black background, matte material, shallow curves and existing controls. Its canvas now supports DPR 2 within a 2,500,000-pixel budget, with shared atlas cells up to 640 by 500 pixels, bounded by the device's maximum texture size. Photographs, frame edges and sprockets use the same higher-resolution atlas. Automatic painting remains capped at 30fps.
+
+Verification in this continuation: 12 unit and source checks pass. Two affected download batches compile and bundle 40 examples across all five appearances with zero diagnostics. The broad browser run passed 33 of 34 cases; one mobile timing test advanced its frozen clock before hydration. After waiting for the motion observer to become active, all four new timing and DPR checks passed. They passed again on final production build `ykrtnJvTX2zNj3g9CQbqV`. Together, these runs cover all 34 targeted cases, including scrolling, dragging, selection, retained volume, reduced motion, stream joins, responsive copy clearance and graphics fallback/recovery. Type checking, scoped ESLint, copy checks, production build, bundle budgets and source traces pass. The build generates 129 pages. This is affected coverage, not a whole-catalogue rerun.
+
+Desktop and mobile inspection and confirmation captures are under `.impeccable/review/chai-film-craft/`. The in-thread finish review accepts the four requested corrections at that scope. The mechanical detector reported the existing component font alias and local artwork styles, already described in DESIGN.md and SCENE_COMPONENTS.md; no new shared token or font was introduced. Physical-phone performance and user visual acceptance remain unverified.
+
+Preview: http://127.0.0.1:3134. The server was restarted against the final build. Start command:
+
+```powershell
+npm.cmd run start -- --hostname 127.0.0.1 --port 3134
+```

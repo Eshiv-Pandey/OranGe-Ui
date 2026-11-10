@@ -21,7 +21,8 @@ export async function createEndlessFilmRenderer(canvas: HTMLCanvasElement, photo
   const fill = new THREE.DirectionalLight(0xf3f7ff, .8); fill.position.set(500, -80, 700); scene.add(fill);
   const groundGeometry = new THREE.PlaneGeometry(2400, 1600), groundMaterial = new THREE.ShadowMaterial({ opacity: .16 });
   const ground = new THREE.Mesh(groundGeometry, groundMaterial); ground.position.z = -185; ground.receiveShadow = true; scene.add(ground);
-  const atlas = document.createElement('canvas'), cellWidth = 256, cellHeight = 200;
+  // Keep the authored 256-unit layout, but rasterize photographs and sprockets at display density.
+  const atlas = document.createElement('canvas'), cellWidth = Math.min(640, Math.floor(renderer.capabilities.maxTextureSize / photos.length)), cellHeight = Math.round(cellWidth * 200 / 256), atlasScale = cellWidth / 256;
   atlas.width = cellWidth * photos.length; atlas.height = cellHeight;
   const context = atlas.getContext('2d');
   if (!context) { renderer.dispose(); groundGeometry.dispose(); groundMaterial.dispose(); return null; }
@@ -30,11 +31,14 @@ export async function createEndlessFilmRenderer(canvas: HTMLCanvasElement, photo
   let selected = 0, phase = 0, destroyed = false, available = true, compact: boolean | undefined;
   let path = createFilmPath(), geometry = new THREE.BufferGeometry();
   function paintAtlas() {
+    context!.setTransform(1, 0, 0, 1, 0, 0);
     context!.clearRect(0, 0, atlas.width, atlas.height);
+    context!.setTransform(atlasScale, 0, 0, atlasScale, 0, 0);
+    context!.imageSmoothingEnabled = true; context!.imageSmoothingQuality = 'high';
     photos.forEach((photo, index) => {
-      const x = index * cellWidth, edge = context!.createLinearGradient(0, 0, 0, cellHeight);
+      const x = index * 256, edge = context!.createLinearGradient(0, 0, 0, 200);
       edge.addColorStop(0, '#776249'); edge.addColorStop(.06, '#24211c'); edge.addColorStop(.94, '#24211c'); edge.addColorStop(1, '#806649');
-      context!.fillStyle = edge; context!.fillRect(x, 0, cellWidth, cellHeight);
+      context!.fillStyle = edge; context!.fillRect(x, 0, 256, 200);
       context!.fillStyle = photo.color ?? '#6a6655'; context!.fillRect(x + 24, 35, 208, 130);
       const image = images[index];
       if (image.complete && image.naturalWidth) {
@@ -48,6 +52,7 @@ export async function createEndlessFilmRenderer(canvas: HTMLCanvasElement, photo
       context!.globalCompositeOperation = 'source-over';
     });
     texture.needsUpdate = true;
+    canvas.parentElement?.setAttribute('data-texture-size', `${atlas.width}x${atlas.height}`);
   }
   paintAtlas();
   const frontMaterial = new THREE.MeshStandardMaterial({ map: texture, color: 0xffffff, roughness: .94, metalness: 0, alphaTest: .45, side: THREE.FrontSide });
@@ -77,7 +82,7 @@ export async function createEndlessFilmRenderer(canvas: HTMLCanvasElement, photo
     if (destroyed) return;
     const bounds = canvas.getBoundingClientRect(), width = Math.max(1, bounds.width), height = Math.max(1, bounds.height), nextCompact = width < 480;
     if (compact !== nextCompact) { compact = nextCompact; rebuild(compact); }
-    const pixelRatio = Math.min(1.5, window.devicePixelRatio || 1, Math.sqrt(480000 / (width * height)));
+    const pixelRatio = Math.min(2, window.devicePixelRatio || 1, Math.sqrt(2500000 / (width * height)));
     renderer.setPixelRatio(pixelRatio); renderer.setSize(width, height, false); camera.aspect = width / height; camera.position.z = compact ? 1080 : 1060; camera.updateProjectionMatrix(); paint();
   }
   const sizing = new ResizeObserver(resize); sizing.observe(canvas); const raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2();
