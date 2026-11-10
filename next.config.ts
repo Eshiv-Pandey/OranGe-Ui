@@ -30,7 +30,7 @@ const config: NextConfig = {
     { source: "/components/livery-editor", destination: "/components/open-wheel-car", permanent: true },
     { source: "/components/helmet-editor", destination: "/components/helmet", permanent: true },
   ],
-  outputFileTracingIncludes: { "/api/components/*": downloadableSource, "/r/*": downloadableSource },
-  outputFileTracingExcludes: { "/api/components/*": privateFiles, "/r/*": privateFiles },
+  outputFileTracingIncludes: { "/api/components/*": downloadableSource, "/api/blocks/*": downloadableSource, "/r/*": downloadableSource },
+  outputFileTracingExcludes: { "/api/components/*": privateFiles, "/api/blocks/*": privateFiles, "/r/*": privateFiles },
 };
 export default config;

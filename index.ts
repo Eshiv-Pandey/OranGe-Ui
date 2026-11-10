@@ -150,3 +150,12 @@ export type { SocialProfile } from "./components/ui/portfolio/social-hover-card"
 export * from "./components/ui/neon-sign-404";
 export * from "./components/ui/chai-break-404";
 export * from "./components/ui/pavilion-footer";
+export * from "./components/ui/blocks/auth";
+export * from "./components/ui/blocks/heroes";
+export * from "./components/ui/blocks/navigation";
+export * from "./components/ui/blocks/marketing";
+export * from "./components/ui/blocks/content";
+export * from "./components/ui/blocks/forms";
+export * from "./components/ui/blocks/workspace";
+export * from "./components/ui/blocks/templates";
+export type { BlockProps, BlockAction, BlockLink } from "./components/ui/blocks/shared";
