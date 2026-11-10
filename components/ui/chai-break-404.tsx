@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import type { Appearance } from "./appearance";
 import { useMotionActivity } from "./use-motion-activity";
 import { advanceChaiFlow, chaiFlowDashes, chaiFlowSpans, chaiJet, createChaiFlow } from "./chai-pour-physics";
+import { GlassHand, KettleHand } from "./chai-hand-art";
 import "../../styles/chai-break-404.css";
 
 export type ChaiPourProps = { speed?: number; grain?: number; interactive?: boolean; sound?: boolean; fullscreen?: boolean; className?: string; style?: CSSProperties; };
@@ -18,11 +19,15 @@ export function ChaiPour({ speed = 1, grain = .035, interactive = true, sound = 
   const audio = useRef<AudioContext | null>(null), [steamBoost, setSteamBoost] = useState(false);
   const [size, setSize] = useState({ width: 720, height: 550 });
   const width = fullscreen ? size.width : 720, height = fullscreen ? size.height : 550, compact = fullscreen && width === 420;
-  const kettleLayout = compact ? { x: -26, y: 195, scale: .72 } : { x: 0, y: fullscreen ? -55 : 0, scale: 1 };
-  const glassScale = compact ? .9 : 1, glassCenter = compact ? width * .68 : 478, glassRim = fullscreen ? height * (compact ? .46 : .59) : 336;
+  const glassScale = compact ? .9 : fullscreen ? Math.min(1, height / 400) : 1, glassCenter = compact ? width * .68 : 478, glassRim = fullscreen ? height * (compact ? .46 : .59) : 336;
+  // Fit the hand and a gravity drop above the rim, even on short, wide pages.
+  const kettleScale = compact ? .72 : fullscreen ? Math.min(1, (glassRim - 80 * glassScale - 24) / 252) : 1;
+  const kettleLayout = { x: compact ? -26 : 0, y: compact ? Math.min(195, glassRim - 110 * glassScale - 286 * kettleScale) : fullscreen ? 24 - 34 * kettleScale : -60, scale: kettleScale };
+  const reachDistance = Math.max(0, glassCenter - 90 * glassScale - kettleLayout.x - 239 * kettleScale);
   const glassX = glassCenter - 478 * glassScale, glassY = glassRim - 291 * glassScale;
   const localX = (x: number) => (x - glassX) / glassScale, localY = (y: number) => (y - glassY) / glassScale;
-  const leftSleeve = fullscreen ? 'M-240 -320H72C83 -140 86 38 119 71Q136 78 137 101L119 134Q103 183 66 204C-5 244 -146 282 -240 320Z' : 'M0 67Q60 51 119 71Q136 78 137 101L119 134Q103 183 66 204Q34 225 0 239Z';
+  const sleeveLeft = -(kettleLayout.x + reachDistance + 30) / kettleScale;
+  const leftSleeve = fullscreen ? `M${sleeveLeft} -320H72C83 -140 86 38 119 71Q136 78 137 101L119 134Q103 183 66 204C-5 244 -146 282 ${sleeveLeft} 320Z` : 'M0 67Q60 51 119 71Q136 78 137 101L119 134Q103 183 66 204Q34 225 0 239Z';
   const rightSleeve = !fullscreen ? 'M720 290 659 296 613 335 618 409 668 447 720 457Z' : compact
     ? `M613 335L${localX(width + 120)} ${localY(glassRim + 120)}V${localY(height + 120)}H${localX(width - 12)}Q${localX(width - 16)} ${localY(glassRim + 160)} 618 409Z`
     : `M613 335L${localX(width + 140)} ${localY(height + 120)}L${localX(width - 30)} ${localY(height + 150)}L618 409Z`;
@@ -60,7 +65,7 @@ export function ChaiPour({ speed = 1, grain = .035, interactive = true, sound = 
     const x = 130 + 205 * Math.cos(radians) - 103 * Math.sin(radians), y = 95 + 205 * Math.sin(radians) + 103 * Math.cos(radians);
     kettle.current?.setAttribute("transform", `rotate(${angle.toFixed(2)} 130 95)`);
     const reach = current.current.reach;
-    arm.current?.setAttribute('transform', `translate(${kettleLayout.x + reach * 145 * kettleLayout.scale} ${kettleLayout.y - reach * 28 * kettleLayout.scale}) scale(${kettleLayout.scale})`);
+    arm.current?.setAttribute('transform', `translate(${kettleLayout.x + reach * reachDistance} ${kettleLayout.y - reach * 28 * kettleLayout.scale}) scale(${kettleLayout.scale})`);
     // Use the rendered assemblies so the stream still meets the rim after responsive placement.
     const inverse = stream.current?.getScreenCTM?.()?.inverse(), kettleMatrix = kettle.current?.getScreenCTM?.(), rimMatrix = rim.current?.getScreenCTM?.();
     const start = inverse && kettleMatrix ? new DOMPoint(335, 198).matrixTransform(kettleMatrix).matrixTransform(inverse) : { x, y };
@@ -124,6 +129,7 @@ export function ChaiPour({ speed = 1, grain = .035, interactive = true, sound = 
         <filter id={`${id}-grain`}><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3" stitchTiles="stitch" /><feColorMatrix type="saturate" values="0" /></filter>
         <clipPath id={`${id}-glass`}><path d="M427 291Q478 279 529 291L516 425Q478 443 440 425Z" /></clipPath>
         <linearGradient id={`${id}-chai`} x2="0" y2="1"><stop stopColor="var(--chai-tea-light, #c98a6a)" /><stop offset="1" stopColor="var(--chai-tea, #b5683f)" /></linearGradient>
+        <linearGradient id={`${id}-skin`} x1=".2" y1="0" x2=".65" y2="1"><stop stopColor="#f3c6a0" /><stop offset=".5" stopColor="#e9b18b" /><stop offset="1" stopColor="#d89a76" /></linearGradient>
         <pattern id={`${id}-cloth`} width="26" height="28" patternUnits="userSpaceOnUse"><path d="M13 5Q3 12 13 21Q23 12 13 5ZM13 8V18M8 13H18" fill="none" stroke="#f6e8bb" strokeWidth="1" /><circle cx="0" cy="0" r="2" fill="#f6e8bb" /></pattern>
         <filter id={`${id}-steam-soft`} filterUnits="userSpaceOnUse" x="-45" y="-40" width="180" height="180"><feGaussianBlur stdDeviation="1.7" /></filter>
         <clipPath id={`${id}-sleeve`}><path d={rightSleeve} /></clipPath>
@@ -137,7 +143,7 @@ export function ChaiPour({ speed = 1, grain = .035, interactive = true, sound = 
       <path d={leftSleeve} fill={`url(#${id}-cloth)`} opacity=".24" />
       <path d="M16 163Q58 131 93 124M42 186Q78 173 100 143M68 69Q89 89 112 92" fill="none" stroke="#146365" strokeWidth="1.4" strokeLinecap="round" />
       <g ref={kettle} data-kettle="true" className="chai-kettle">
-        <path d="M166 86C170 99 176 118 187 119Q198 119 195 108L188 91M190 82C195 101 198 116 209 117Q220 116 216 103L211 84M213 80Q221 98 232 106Q244 110 245 98L230 80" fill="#d69977" stroke="#664735" strokeWidth="1.2" strokeLinejoin="round" />
+        <KettleHand id={id} part="back" />
         <path d="M162 148C149 78 254 58 275 141L258 143C243 83 173 94 178 149Z" fill="var(--chai-gold-shadow, #b87b0e)" />
         <path d="M169 145C160 95 239 76 264 140L256 141C239 91 176 107 180 145Z" fill="var(--chai-gold-light, #f3c34b)" />
         <path d="M262 235Q294 244 307 219L324 195Q337 188 341 200L327 207Q315 267 262 268Z" fill="var(--chai-gold-shadow, #b87b0e)" />
@@ -149,16 +155,7 @@ export function ChaiPour({ speed = 1, grain = .035, interactive = true, sound = 
         <path d="M151 162Q207 135 261 158 217 177 151 162Z" fill="var(--chai-gold-light, #f3c34b)" />
         <path d="M201 139 205 121Q211 115 220 123L219 144Z" fill="#292420" /><ellipse cx="213" cy="123" rx="8" ry="5" fill="#151414" />
         <path d="M175 267Q207 279 239 266M180 275Q208 285 234 276" fill="none" stroke="#b57b19" strokeWidth="1.5" />
-        <g className="chai-kettle-grip" stroke="#664735" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M112 76C140 73 159 63 181 63C195 59 214 61 229 69C241 77 252 91 259 104Q264 114 256 118Q249 120 244 109L232 92Q225 88 219 88Q215 101 220 111Q222 121 213 122Q204 121 201 110L192 93Q185 94 181 99Q182 108 189 115Q197 123 189 128Q181 132 175 124L162 108Q146 111 129 119Z" fill="#eab08a" />
-          <path d="M132 109Q148 107 161 99Q168 98 176 103L184 115Q190 120 185 124Q179 128 172 119L160 107Q145 116 132 119Z" fill="#cc8e6b" stroke="none" />
-          <path d="M142 82Q164 73 185 74Q205 69 226 82" fill="none" stroke="#f8cfaa" strokeWidth="5" />
-          <path d="M174 81Q184 82 192 89M199 76Q209 80 215 88M230 78Q232 85 237 91M173 112 180 109M204 110 213 108" fill="none" />
-          <path d="M246 103Q250 98 255 104L258 110Q255 115 251 112Z" fill="#f3c7a3" strokeWidth=".8" />
-          <path d="M180 119Q184 115 188 119L189 123Q185 127 182 124Z" fill="#f3c7a3" strokeWidth=".7" />
-          <path d="M108 72Q118 70 122 78L125 89Q129 94 128 103L135 114Q128 123 119 128Q109 123 111 116L115 106Q109 94 113 85Z" fill="#36b8b7" stroke="#146365" />
-          <path d="M115 79Q113 88 118 94M119 104Q125 108 124 117" fill="none" stroke="#0b8d91" />
-        </g>
+        <KettleHand id={id} part="front" />
       </g>
       </g>
       <path ref={stream} d="M335 198Q393 206 478 336" className="chai-stream" stroke={`url(#${id}-chai)`} fill="none" strokeLinecap="round" strokeWidth="3.8" pathLength="1" opacity="0" />
@@ -169,10 +166,7 @@ export function ChaiPour({ speed = 1, grain = .035, interactive = true, sound = 
       <path d="M624 328 646 315 670 364 656 375Z" fill="#f9e465" />
       <path d={rightSleeve} fill={`url(#${id}-cloth)`} opacity=".5" />
       </g>
-      <path d="M616 338C595 335 576 339 557 330Q535 311 520 316L505 337Q479 347 452 336Q434 333 427 348C414 372 425 406 442 426Q466 445 499 431L550 405Q581 399 619 401Z" fill="#e9b08b" stroke="#664735" strokeWidth="1.2" strokeLinejoin="round" />
-      <path d="M445 416Q469 435 502 417L549 391Q581 385 615 386L619 400Q580 399 550 405L499 431Q466 445 442 426Z" fill="#cb8c69" />
-      <path d="M543 348Q569 353 600 350L607 370Q570 376 540 363Z" fill="#f4c6a5" />
-      <path d="M527 366Q526 385 507 393M536 376Q533 390 518 396M563 393Q590 391 606 392" fill="none" stroke="#9a6045" strokeWidth="1.2" strokeLinecap="round" />
+      <GlassHand id={id} part="back" />
       <path d="M601 340Q617 366 606 398M608 339Q624 368 613 398" fill="none" stroke="#b97819" strokeWidth="3" /><path d="M603 340Q619 366 608 398" fill="none" stroke="#f8d063" strokeWidth="1.2" />
       <path d="M427 291Q478 279 529 291L516 425Q478 443 440 425Z" fill="#fff" opacity=".2" />
       <g clipPath={`url(#${id}-glass)`}>
@@ -183,16 +177,7 @@ export function ChaiPour({ speed = 1, grain = .035, interactive = true, sound = 
       <path className="chai-glass-wall" d="M432 295 446 420Q473 432 512 422L524 296Q479 312 432 295Z" fill="none" stroke="#fff" strokeOpacity=".65" strokeWidth="2" />
       <path d="M443 309 450 406 456 408 452 311ZM507 311 501 395 505 393 514 307Z" fill="#fff" opacity=".45" />
       <ellipse ref={rim} className="chai-glass-rim" cx="478" cy="291" rx="50" ry="8" fill="none" stroke="#fff" strokeOpacity=".7" strokeWidth="2" />
-      <g className="chai-glass-grip" fill="#e9b08b" stroke="#664735" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M432 312Q427 302 419 309Q413 317 418 327Q422 334 435 333L437 325Z" />
-        <path d="M435 342Q429 333 421 340Q414 348 419 358Q425 365 437 361L439 354Z" />
-        <path d="M439 372Q431 364 425 372Q419 381 425 390Q431 397 442 392L443 383Z" />
-        <path d="M446 401Q438 394 433 402Q429 411 437 418Q444 422 451 416L451 410Z" />
-        <path d="M524 323Q510 307 502 314Q495 321 503 333Q509 343 519 350L528 342Q520 336 518 331Z" />
-        <path d="M420 314Q425 309 430 315L432 322Q427 328 422 322ZM422 343Q428 337 433 344L435 351Q430 357 424 351ZM427 376Q432 369 437 376L440 382Q436 388 430 383ZM437 406Q440 399 445 405L448 411Q443 417 439 412Z" fill="#f3c7a3" strokeWidth=".7" />
-        <path d="M504 317Q507 313 513 318L519 324Q517 330 511 327Z" fill="#f3c7a3" strokeWidth=".7" />
-        <path d="M519 342Q524 351 533 356M422 328 428 329M423 359 430 360M429 390 436 392" fill="none" stroke="#9a6045" />
-      </g>
+      <GlassHand id={id} part="front" />
       <g ref={steam} className="chai-steam" opacity="0" onPointerEnter={() => setSteamBoost(true)} onPointerLeave={() => setSteamBoost(false)}><path d="M457 278C441 259 473 250 457 230S465 200 460 187M482 277C501 259 468 249 485 229S480 200 489 182M506 277C521 260 494 248 511 233S505 208 515 200" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" /></g>
       <rect x="424" y="282" width="110" height="158" fill="transparent" onPointerEnter={() => setSteamBoost(true)} onPointerLeave={() => setSteamBoost(false)} />
       </g>

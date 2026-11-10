@@ -91,3 +91,15 @@ Preview: http://127.0.0.1:3134. The server was restarted against the final build
 ```powershell
 npm.cmd run start -- --hostname 127.0.0.1 --port 3134
 ```
+
+## Chai gravity drop and hand layering, November 10, 2026
+
+The reported 1535 by 773 viewport exposed a flat pour: the spout was 0.07 pixels below the rim. Kettle placement now fits the hand and a downward drop into the available space above the glass. On short desktop pages, the kettle scales with that space so its grip stays visible and its body stays clear of recovery copy. The sleeve remains anchored to the upper-left edge throughout the motion. Stream travel, the clipped interior pour, retained volume, dragging and reduced motion remain available.
+
+Original hand artwork now separates the palm and far fingers behind each object from the curled fingertips and opposing thumb in front. Softer shading, smaller nails and restrained creases replace the heavy finger outlines. The handle passes between the grip layers, and the glass remains between its palm and foreground fingers. This preserves the existing brass, cream, block-print and marigold scene without adding raster assets, fonts or shared tokens.
+
+Final production build `YzZT66oJQ-T5YALXBQQmW`, TypeScript, scoped ESLint, copy checks, bundle budgets and source traces pass. All 13 targeted browser cases pass, including six layout checks at 320, 390, 768, 1366, 1535 and 1920 pixels. Those checks assert a downward drop, spout and rim connections, visible grip, sleeve anchoring, clear copy and retained volume. Existing timing, reduced-motion and film DPR cases also pass. Twelve behavior/source cases passed during this correction; the final portable-source batch compiles and bundles 20 examples across five appearances with zero diagnostics. This is affected verification, not a whole-catalogue run.
+
+The bounded finish review opened the final desktop/mobile captures and the six-width contact sheet in `out/iteration/chai-pour-grip-confirmation/`. Its disposition is ship for the reported pour and hand corrections. This is an in-thread review; user visual acceptance and physical-device testing remain unverified. The mechanical design scan returned no findings.
+
+Preview: http://127.0.0.1:3134/chai-preview

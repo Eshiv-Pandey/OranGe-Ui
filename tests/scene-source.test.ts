@@ -17,6 +17,7 @@ it("packages all scene implementations, palette CSS and the licensed poster font
     }
     if (slug === "chai-break-404") {
       expect(bundle.files["components/ui/chai-pour-physics.ts"]).toBeDefined();
+      expect(bundle.files["components/ui/chai-hand-art.tsx"]).toBeDefined();
       expect(bundle.files["public/fonts/desi/yatra-one.woff2"]).toBeDefined();
       expect(bundle.files["public/fonts/desi/OFL-yatra-one.txt"]).toBeDefined();
       const item = await componentRegistryItem(definition, "polished");
