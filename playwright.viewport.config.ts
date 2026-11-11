@@ -19,7 +19,7 @@ export default defineConfig({
     trace: "retain-on-failure",
   },
   webServer: process.env.PLAYWRIGHT_BASE_URL ? undefined : {
-    command: `npm run start -- --hostname 127.0.0.1 --port ${port}`,
+    command: `node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port ${port}`,
     url: managedUrl,
     timeout: 120_000,
     reuseExistingServer: false,

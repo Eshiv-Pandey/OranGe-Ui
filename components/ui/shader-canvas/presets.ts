@@ -1,0 +1,4 @@
+import type { ShaderPreset } from "./types";
+export const orangeSunset = { source: { type: "gradient", colors: ["#ff4d00", "#ff1e56", "#ad32ff", "#38f2ff", "#ffb900"], softness: .3, speed: .4, saturation: 1.35, grain: .15 }, effects: [] } satisfies ShaderPreset;
+export const pixelDream = { source: { type: "gradient", colors: ["#ff37a5", "#762bff", "#33f5ff", "#ffbf00"], speed: .3, softness: .35 }, effects: [{ type: "pixelate", size: 6 }, { type: "dither", mode: "blueNoise", strength: .65 }] } satisfies ShaderPreset;
+export const gameboyNoise = { source: { type: "noise", colors: ["#101f0a", "#8bac0f", "#d7ef92"], speed: .4, scale: 3, warp: 1.2, seed: 12 }, effects: [{ type: "pixelate", size: 5 }, { type: "dither", mode: "bayer4", strength: .8 }, { type: "palette", preset: "gameboy" }] } satisfies ShaderPreset;

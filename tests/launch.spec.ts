@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Locator, type Page, type TestInfo } from "@playwright/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { components, type ComponentDefinition } from "../lib/components";
+import { components, componentsInCollection, type ComponentDefinition } from "../lib/components";
 import { APPEARANCE_VALUES, type Appearance } from "../components/ui/appearance";
 import { editColor } from "./browser-artwork-helpers";
 
@@ -15,7 +15,7 @@ const viewports = [
 const newSlugs = [
   "label", "kbd", "form", "combobox", "calendar", "date-picker", "input-otp", "file-upload", "rating", "stepper",
   "navigation-menu", "navbar", "sidebar", "context-menu", "hover-card", "scroll-area", "carousel", "code-block",
-  "chat-message", "prompt-input", "tool-call-card", "agent-status", "thinking-indicator", "model-picker", "markdown", "live-orb",
+  "chat-message", "prompt-input", "tool-call-card", "agent-status", "thinking-indicator", "model-picker", "markdown", "emberling",
 ] as const;
 const newComponents = components.filter(({ slug }) => newSlugs.includes(slug as typeof newSlugs[number]));
 const chunks = <T,>(items: readonly T[], size = 5) => Array.from({ length: Math.ceil(items.length / size) }, (_, index) => items.slice(index * size, (index + 1) * size));
@@ -219,12 +219,13 @@ for (const viewport of viewports) for (const route of ["/", "/components", "/doc
   await expect(page.getByRole("heading", { level: 1 })).toBeInViewport({ ratio: 1 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
   if (route === "/components") {
-    await expect(page.locator(".component-tile")).toHaveCount(70);
+    await expect(page.locator(".component-tile")).toHaveCount(componentsInCollection("polished").length);
+    await expect(page.locator(".creative-thumbnail")).toHaveCount(componentsInCollection("polished").filter((component) => component.collection).length);
     const tiles = await page.locator(".component-thumbnail .thumbnail-inner").evaluateAll((items) => items.map((item) => {
       const frame = item.parentElement!.getBoundingClientRect(), rect = item.getBoundingClientRect();
-      return { visible: rect.width > 0 && rect.height > 0, fits: rect.left >= frame.left - 1 && rect.right <= frame.right + 1 && rect.top >= frame.top - 1 && rect.bottom <= frame.bottom + 1 };
+      return { name: item.closest(".component-tile")?.querySelector("h2")?.textContent, visible: rect.width > 0 && rect.height > 0, fits: rect.left >= frame.left - 1 && rect.right <= frame.right + 1 && rect.top >= frame.top - 1 && rect.bottom <= frame.bottom + 1, width: rect.width, height: rect.height, frameWidth: frame.width, frameHeight: frame.height };
     }));
-    expect(tiles.every(({ visible, fits }) => visible && fits)).toBe(true);
+    expect(tiles.filter(({ visible, fits }) => !visible || !fits)).toEqual([]);
   }
   if (viewport.width === 1366) {
     await metadata(page, route);
@@ -236,7 +237,7 @@ for (const viewport of viewports) for (const route of ["/", "/components", "/doc
   if (route === "/components" && (viewport.width === 1366 || viewport.width === 390)) {
     const folder = `${evidence}/catalogue-tiles/${viewport.width}x${viewport.height}`;
     await mkdir(folder, { recursive: true });
-    for (const slug of ["command", "table", "mascot-avatar", "calendar", "carousel", "avatar-editor"]) {
+    for (const slug of ["command", "table", "mascot-avatar", "calendar", "carousel", "avatar-editor", "tilt-stamp-3d"]) {
       const tileScreenshot = `${folder}/${slug}.png`;
       await page.locator(`.component-tile.tile-${slug}`).screenshot({ path: tileScreenshot, animations: "disabled" });
       await info.attach(`${slug} catalogue tile ${viewport.width}`, { path: tileScreenshot, contentType: "image/png" });
@@ -245,7 +246,7 @@ for (const viewport of viewports) for (const route of ["/", "/components", "/doc
   expect(errors).toEqual([]);
 });
 
-for (const [index, slug] of ["form", "date-picker", "navbar", "code-block", "prompt-input", "markdown", "live-orb"].entries()) test(`launch clipboard ${slug} prompt usage source and install are exact`, async ({ page, context }) => {
+for (const [index, slug] of ["form", "date-picker", "navbar", "code-block", "prompt-input", "markdown", "emberling"].entries()) test(`launch clipboard ${slug} prompt usage source and install are exact`, async ({ page, context }) => {
   const appearance = APPEARANCE_VALUES[index % APPEARANCE_VALUES.length];
   const component = components.find((entry) => entry.slug === slug)!;
   await open(page, slug, appearance);
@@ -335,11 +336,11 @@ for (const viewport of [viewports[0], viewports[3]]) test(`launch global theme a
     await expect(page.locator("html")).toHaveAttribute("data-theme", palette);
     await expect.poll(() => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--primary").trim())).toBe("#777777");
   }
-  const searchTrigger = page.getByRole("button", { name: "Search Ctrl K", exact: true });
+  const searchTrigger = page.getByRole("button", { name: "Search docs Ctrl K", exact: true });
   await searchTrigger.focus();
   for (const shortcut of ["Control+k", "Meta+k"] as const) {
     await page.keyboard.press(shortcut);
-    const searchDialog = page.getByRole("dialog", { name: "Find a component", exact: true });
+    const searchDialog = page.getByRole("dialog", { name: "Search docs", exact: true });
     await expect(searchDialog).toBeVisible();
     const search = searchDialog.getByRole("combobox", { name: "Search all components", exact: true });
     await expect(search).toBeFocused();
@@ -378,141 +379,56 @@ test("launch theme copy failure keeps both palette definitions selectable", asyn
   expect(await text.evaluate((element) => { const area = element as HTMLTextAreaElement; return area.selectionEnd - area.selectionStart === area.value.length; })).toBe(true);
 });
 
-async function observeOrbDraws(page: Page) {
-  await page.addInitScript(() => {
-    const observed = window as typeof window & { __launchOrbDraws: number };
-    observed.__launchOrbDraws = 0;
-    const original = WebGLRenderingContext.prototype.drawArrays;
-    WebGLRenderingContext.prototype.drawArrays = function (mode, first, count) {
-      if (this.canvas instanceof HTMLCanvasElement && this.canvas.closest('[data-slot="live-orb"]')) observed.__launchOrbDraws += 1;
-      return original.call(this, mode, first, count);
-    };
-  });
-}
-
-const orbDraws = (page: Page) => page.evaluate(() => (window as typeof window & { __launchOrbDraws: number }).__launchOrbDraws);
-
-async function orbPixels(page: Page, orb: Locator) {
-  const image = await orb.screenshot({ animations: "disabled" });
-  return page.evaluate(async (data) => {
-    const source = new Image();
-    source.src = `data:image/png;base64,${data}`;
-    await source.decode();
-    const canvas = document.createElement("canvas");
-    canvas.width = source.naturalWidth;
-    canvas.height = source.naturalHeight;
-    const context = canvas.getContext("2d")!;
-    context.drawImage(source, 0, 0);
-    // The body below the eyes is a stable rendered color in both materials.
-    return [...context.getImageData(Math.floor(canvas.width / 2), Math.floor(canvas.height * .7), 1, 1).data];
-  }, image.toString("base64"));
-}
-
-test("launch LiveOrb WebGL paints visible faces and pointer motion changes the rendered gaze", async ({ page }, info) => {
+test("launch Emberling follows the pointer and pauses when hidden", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.addInitScript(() => localStorage.setItem("orangeui-palette", "light"));
-  await observeOrbDraws(page);
-  const demo = await open(page, "live-orb");
-  const orbs = demo.getByRole("img", { name: "Orb character", exact: true });
-  await expect(orbs).toHaveCount(3);
-  await expect.poll(() => orbDraws(page)).toBeGreaterThan(6);
-  await expect(demo.locator('[data-slot="live-orb"] > div')).toHaveCount(0);
-  const auto = orbs.nth(0);
-  expect((await orbPixels(page, auto)).slice(0, 3).every((channel) => channel < 60)).toBe(true);
-  const bounds = (await auto.boundingBox())!;
+  await open(page, "emberling");
+  const character = page.locator('.emberling-figures .emberling').first();
+  await expect(character).toHaveAttribute("data-motion", "running");
+  const face = character.locator('.emberling-face');
+  const bounds = (await character.boundingBox())!;
   await page.mouse.move(bounds.x - 40, bounds.y + bounds.height / 2);
-  // Let the authored gaze easing settle before comparing actual pixels.
-  await page.waitForTimeout(350);
-  const left = await auto.screenshot({ animations: "disabled" });
+  await expect.poll(async () => face.getAttribute("transform")).toMatch(/translate\(-[1-7]/);
   await page.mouse.move(bounds.x + bounds.width + 40, bounds.y + bounds.height / 2);
-  await page.waitForTimeout(350);
-  const right = await auto.screenshot({ animations: "disabled" });
-  expect(right.equals(left), "The visible capsule eyes move with the pointer").toBe(false);
-  await page.getByRole("button", { name: "Dark mode", exact: true }).click();
-  await expect.poll(async () => (await orbPixels(page, auto)).slice(0, 3).every((channel) => channel > 210)).toBe(true);
-  const path = `${evidence}/live-orb-webgl-dark.png`;
-  await page.screenshot({ path, animations: "disabled" });
-  await info.attach("Rendered WebGL materials in dark mode", { path, contentType: "image/png" });
-  await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
-  await expect(auto).not.toBeInViewport();
-  await page.waitForTimeout(150);
-  const paused = await orbDraws(page);
-  await page.waitForTimeout(350);
-  expect(await orbDraws(page), "Offscreen WebGL rendering is suspended").toBe(paused);
+  await expect.poll(async () => face.getAttribute("transform")).toMatch(/translate\([1-7]/);
+  await page.getByRole("checkbox", { name: "Follow pointer", exact: true }).uncheck();
+  await expect.poll(async () => face.getAttribute("transform")).toBe("translate(0.00 0.00)");
+  await character.evaluate((element) => { element.style.visibility = 'hidden'; element.style.position = 'fixed'; element.style.top = '-1000px'; });
+  await expect(character).toHaveAttribute("data-motion", "paused");
 });
 
-test("launch LiveOrb reduced motion remains painted and redraws after a theme or size change", async ({ page }) => {
+test("launch Emberling reduced motion keeps the artwork and editable colors", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.addInitScript(() => localStorage.setItem("orangeui-palette", "light"));
-  await observeOrbDraws(page);
-  const demo = await open(page, "live-orb");
-  const auto = demo.getByRole("img", { name: "Orb character", exact: true }).first();
-  await expect.poll(() => orbDraws(page)).toBeGreaterThan(0);
-  await page.waitForTimeout(200);
-  const settled = await orbDraws(page);
-  await page.waitForTimeout(400);
-  expect(await orbDraws(page), "Reduced motion does not leave an animation loop running").toBe(settled);
-  expect((await orbPixels(page, auto)).slice(0, 3).every((channel) => channel < 60)).toBe(true);
-  await page.getByRole("button", { name: "Dark mode", exact: true }).click();
-  await expect.poll(async () => (await orbPixels(page, auto)).slice(0, 3).every((channel) => channel > 210)).toBe(true);
-  await expect.poll(() => orbDraws(page)).toBeGreaterThan(settled);
-  const size = demo.getByRole("slider", { name: "Orb size", exact: true });
-  await size.press("Home");
-  await size.press("ArrowRight");
+  await open(page, "emberling");
+  const characters = page.locator('.emberling-figures .emberling');
+  await expect(characters).toHaveCount(3);
+  await expect(characters.first()).toHaveAttribute("data-motion", "reduced");
+  const face = characters.first().locator('.emberling-face');
+  const before = await face.getAttribute("transform");
+  await page.mouse.move(600, 200);
+  expect(await face.getAttribute("transform")).toBe(before);
+  await editColor(page.getByLabel("Body color", { exact: true }).filter({ visible: true }), "#ee8844");
+  await expect(characters.nth(1)).toHaveCSS("--ember-color", "#ee8844");
+  await editColor(page.getByLabel("Eye color", { exact: true }).filter({ visible: true }), "#123456");
+  await expect(characters.nth(1).locator('.emberling-eyes')).toHaveAttribute("fill", "#123456");
+  const size = page.getByRole("slider", { name: "Character size", exact: true });
+  await size.press("Home"); await size.press("ArrowRight");
   await expect(size).toHaveValue("68");
-  await expect.poll(async () => (await auto.boundingBox())?.width).toBe(68);
-  await expect(auto).toBeVisible();
-  expect((await orbPixels(page, auto)).slice(0, 3).every((channel) => channel > 210)).toBe(true);
+  await expect(characters.first()).toHaveCSS("width", "68px");
+  await page.getByRole("button", { name: "Reset demo", exact: true }).click();
+  await expect(page.getByRole("slider", { name: "Character size", exact: true })).toHaveValue("180");
 });
 
-test("launch LiveOrb WebGL fallback preserves faces colors controls and theme changes", async ({ page }, info) => {
-  await page.setViewportSize(viewports[3]);
-  await page.addInitScript(() => {
-    localStorage.setItem("orangeui-palette", "light");
-    const getContext = HTMLCanvasElement.prototype.getContext;
-    Object.defineProperty(HTMLCanvasElement.prototype, "getContext", {
-      configurable: true,
-      value: function (this: HTMLCanvasElement, kind: string, options?: unknown) {
-        if (["webgl", "webgl2", "experimental-webgl"].includes(kind)) return null;
-        return getContext.call(this, kind as "2d", options);
-      },
-    });
-  });
-  const demo = await open(page, "live-orb", "terminal");
-  const orbs = demo.getByRole("img", { name: "Orb character", exact: true });
-  const faces = demo.locator('[data-slot="live-orb"] > div');
-  await expect(orbs).toHaveCount(3);
-  await expect(faces).toHaveCount(3);
-  await expect(faces.first()).toHaveCSS("background-color", "rgb(24, 24, 27)");
-  for (let index = 0; index < 3; index++) {
-    await expect(faces.nth(index)).toBeVisible();
-    await expect(faces.nth(index).locator("span")).toHaveCount(2);
-  }
-  await page.getByRole("button", { name: "Dark mode", exact: true }).click();
-  await expect(faces.first()).toHaveCSS("background-color", "rgb(244, 244, 245)");
-  await editColor(demo.locator('input[type="color"]').nth(0), "#ee8844");
-  await expect(faces.nth(1)).toHaveCSS("background-color", "rgb(238, 136, 68)");
-  await editColor(demo.locator('input[type="color"]').nth(1), "#123456");
-  await expect(faces.nth(1).locator("span").first()).toHaveCSS("background-color", "rgb(18, 52, 86)");
-  await demo.getByText("WebGL colors", { exact: true }).click();
-  await editColor(demo.getByLabel("Wash color 1", { exact: true }).filter({ visible: true }), "#abcdef");
-  await expect(faces.nth(2)).toHaveCSS("background-image", /rgb\(171, 205, 239\)/);
-  for (const label of ["Follow pointer", "Blink"]) {
-    const checkbox = demo.getByRole("checkbox", { name: label, exact: true });
-    await checkbox.uncheck();
-    await expect(checkbox).not.toBeChecked();
-  }
-  await page.evaluate(() => scrollTo(0, 0));
-  const primary = demo.locator("[data-main-preview]");
-  const geometry = await geometryOf(primary);
-  expect(geometry.fullyVisible).toBe(true);
-  expect(geometry.horizontalOverflow).toBe(false);
-  const path = `${evidence}/live-orb-fallback-mobile.png`;
-  await page.screenshot({ path, animations: "disabled" });
-  await info.attach("CSS fallback faces without WebGL", { path, contentType: "image/png" });
-  await page.getByRole("button", { name: "Reset demo", exact: true }).click();
-  await expect(demo.getByRole("checkbox", { name: "Follow pointer", exact: true })).toBeChecked();
-  await expect(demo.getByRole("slider", { name: "Orb size", exact: true })).toHaveValue("120");
+test("launch Emberling stays visible without JavaScript and its former page redirects", async ({ browser, baseURL, request }) => {
+  const redirect = await request.get('/components/live-orb?style=terminal', { maxRedirects: 0 });
+  expect(redirect.status()).toBe(308);
+  expect(redirect.headers().location).toBe('/components/emberling?style=terminal');
+  const context = await browser.newContext({ javaScriptEnabled: false, baseURL, viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  await page.goto('/components/emberling');
+  const characters = page.getByRole('img', { name: 'Emberling, a curious folded-flame character', exact: true });
+  await expect(characters.first()).toBeVisible();
+  await expect(characters.first().locator('svg')).toBeVisible();
+  await context.close();
 });
 
 test("launch SEO serves the complete sitemap robots and a 1200 by 630 OG image", async ({ page, request }, info) => {

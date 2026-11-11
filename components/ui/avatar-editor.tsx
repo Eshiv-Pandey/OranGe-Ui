@@ -9,6 +9,7 @@ import { avatarToPng } from "../../lib/avatar/png";
 import { AVATAR_PATTERNS, AVATAR_SHAPES, type AvatarConfig, type AvatarCustomColors, type AvatarPattern, type AvatarShape } from "../../lib/avatar/types";
 import { uiClass, type AppearanceProps } from "./appearance";
 import { Avatar } from "./avatar";
+import { WorkbenchInspector } from "./workbench-inspector";
 import { Button } from "./button";
 import { Tabs } from "./tabs";
 import { AvatarCharacters } from "./avatar-characters";
@@ -92,12 +93,10 @@ function GlyphAvatarEditor({ value, onChange, seed = DEFAULT_AVATAR_SEED, appear
       </div>
       <Button appearance={appearance} variant="secondary" aria-pressed={activeAnimation} disabled={reduced} onClick={() => setAnimate(!animate)}>Animate</Button>
       {reduced && <p className="ui-help">Animation is off with reduced motion.</p>}
-      <div className="avatar-editor-context" role="group" aria-label="Avatar in context">
-        <p>In context</p>
-        <div>{[16, 32, 64, 128].map((size) => <figure key={size}><Avatar config={current} size={size} appearance={appearance} animate={activeAnimation} aria-label={`Avatar at ${size} pixels`} /><figcaption>{size} px</figcaption></figure>)}</div>
-      </div>
+
     </div>
 
+    <WorkbenchInspector><div className="avatar-editor-settings">
     <div className="avatar-editor-pickers">
       <fieldset className="avatar-editor-fieldset">
         <legend>Palette <span>{avatarPalettes.length} gradients</span></legend>
@@ -137,6 +136,10 @@ function GlyphAvatarEditor({ value, onChange, seed = DEFAULT_AVATAR_SEED, appear
       </div>
     </div>
 
+      <div className="avatar-editor-context" role="group" aria-label="Avatar in context">
+        <p>In context</p>
+        <div>{[16, 32, 64, 128].map((size) => <figure key={size}><Avatar config={current} size={size} appearance={appearance} animate={activeAnimation} aria-label={`Avatar at ${size} pixels`} /><figcaption>{size} px</figcaption></figure>)}</div>
+      </div>
     <div className="avatar-editor-actions">
       <Button appearance={appearance} onClick={() => { onChange(normalizeAvatarConfig({ ...generateAvatarConfig(`${seed}:${JSON.stringify(current)}:shuffle`), shape: current.shape })); setFeedback("A new combination, ready to make yours."); }}>Randomize avatar</Button>
       <Button appearance={appearance} variant="secondary" onClick={() => { onChange(generateAvatarConfig(seed)); setAnimate(false); setFeedback("Avatar reset."); }}>Reset to default</Button>
@@ -147,5 +150,6 @@ function GlyphAvatarEditor({ value, onChange, seed = DEFAULT_AVATAR_SEED, appear
       <p className="ui-help" role="status">{feedback}</p>
       <details className="avatar-editor-config"><summary>Configuration</summary><pre className="avatar-config" tabIndex={0} aria-label="Avatar configuration"><code>{JSON.stringify(current, null, 2)}</code></pre></details>
     </div>
+    </div></WorkbenchInspector>
   </div>;
 }

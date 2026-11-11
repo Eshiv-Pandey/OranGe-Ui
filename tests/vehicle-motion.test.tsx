@@ -1,6 +1,6 @@
 import { StrictMode, useRef } from "react";
 import { renderToString } from "react-dom/server";
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createVehicleMotion, getVehicleMotionFrame, restVehicleMotion, stepVehicleMotion, vehicleMotionStyles, type VehicleMotionInput, type VehicleMotionOptions, type VehicleMotionState } from "../components/ui/vehicle-motion";
 import { useVehicleMotion, type UseVehicleMotionOptions } from "../components/ui/use-vehicle-motion";
@@ -251,7 +251,7 @@ function Vehicle({ onRender, ...options }: UseVehicleMotionOptions & { onRender?
   const ref = useRef<SVGSVGElement>(null);
   useVehicleMotion(ref, options);
   onRender?.();
-  return <svg ref={ref} role="img" aria-label="Test vehicle" />;
+  return <svg ref={ref} tabIndex={options.keyboardControls ? 0 : undefined} role="img" aria-label="Test vehicle" />;
 }
 
 describe("vehicle React motion lifecycle", () => {
@@ -353,5 +353,44 @@ describe("vehicle React motion lifecycle", () => {
     expect(renderToString(<Vehicle speed={1} kind="bike" />)).toContain("Test vehicle");
     expect(matchMedia).not.toHaveBeenCalled();
     expect(browser.queue.size).toBe(0);
+  });
+
+  it("drives with both key layouts only while focused and releases held keys on blur", () => {
+    render(<><Vehicle speed={0} kind="bike" keyboardControls /><input aria-label="Other control" /></>);
+    const svg = screen.getByRole("img");
+    const advance = (start: number, end: number) => act(() => { for (let time = start; time <= end; time += 16) browser.frame(time); });
+    act(() => { browser.intersection(true); browser.frame(0); });
+    fireEvent.keyDown(svg, { key: "w" });
+    advance(16, 320);
+    expect(Number(svg.style.getPropertyValue("--vehicle-speed"))).toBe(0);
+    act(() => svg.focus());
+    fireEvent.keyDown(svg, { key: "w" }); fireEvent.keyDown(svg, { key: "d" });
+    advance(336, 1440);
+    const speed = Number(svg.style.getPropertyValue("--vehicle-speed"));
+    expect(speed).toBeGreaterThan(.1);
+    expect(Number(svg.style.getPropertyValue("--vehicle-steering"))).toBeGreaterThan(.95);
+    expect(parseFloat(svg.style.getPropertyValue("--vehicle-lean"))).toBeGreaterThan(0);
+    fireEvent.keyUp(svg, { key: "w" }); fireEvent.keyUp(svg, { key: "d" });
+    fireEvent.keyDown(svg, { key: "ArrowDown" }); fireEvent.keyDown(svg, { key: "ArrowLeft" });
+    advance(1456, 1904);
+    expect(Number(svg.style.getPropertyValue("--vehicle-speed"))).toBeLessThan(speed);
+    expect(Number(svg.style.getPropertyValue("--vehicle-steering"))).toBeLessThan(-.8);
+    act(() => screen.getByRole("textbox").focus());
+    expect(fireEvent.keyDown(screen.getByRole("textbox"), { key: "ArrowUp" })).toBe(true);
+    advance(1920, 4000);
+    expect(Number(svg.style.getPropertyValue("--vehicle-speed"))).toBeLessThan(.01);
+    expect(Math.abs(Number(svg.style.getPropertyValue("--vehicle-steering")))).toBeLessThan(.001);
+  });
+
+  it("does not consume driving keys when disabled or reduced motion is active", () => {
+    const view = render(<Vehicle speed={0} keyboardControls />);
+    const svg = screen.getByRole("img");
+    act(() => { browser.intersection(true); svg.focus(); browser.reduce(true); });
+    expect(fireEvent.keyDown(svg, { key: "ArrowUp" })).toBe(true);
+    expect(browser.queue.size).toBe(0);
+    act(() => browser.reduce(false));
+    view.rerender(<Vehicle speed={0} keyboardControls={false} />);
+    expect(svg).not.toHaveAttribute("tabindex");
+    expect(fireEvent.keyDown(svg, { key: "w" })).toBe(true);
   });
 });

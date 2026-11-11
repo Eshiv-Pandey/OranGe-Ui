@@ -43,10 +43,10 @@
 .ui-prompt-input { width: 100%; min-width: 0; }
 .ui-prompt-label { display: block; margin-bottom: 8px; font-weight: 600; }
 .ui-prompt-surface { padding: 12px; }
-.ui-prompt-surface:focus-within { outline: 2px solid var(--focus); outline-offset: 3px; }
+.ui-prompt-surface:has(.ui-prompt-textarea:focus) { border-color: var(--focus); outline: 2px solid var(--focus); outline-offset: -2px; }
 .ui-prompt-surface[data-invalid="true"] { border-color: var(--error); }
 .ui-prompt-textarea { display: block; width: 100%; min-width: 0; min-height: 88px; max-height: 320px; padding: 4px 6px 12px; resize: vertical; field-sizing: content; border: 0; border-radius: 0; background: transparent; color: var(--ink); caret-color: var(--primary-text); line-height: 1.65; }
-.ui-prompt-textarea:focus-visible { outline: none; }
+.ui .ui-prompt-textarea:focus-visible { outline: none; box-shadow: none; }
 .ui-prompt-textarea::placeholder { color: var(--muted); opacity: 1; }
 .ui-prompt-input[data-disabled] { opacity: .65; }
 .ui-prompt-toolbar { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }

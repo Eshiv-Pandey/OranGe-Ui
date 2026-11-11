@@ -1,14 +1,23 @@
+import { WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT } from "./physical-components";
+import { SCENE_COMPONENTS } from "./scene-components";
+import { PORTFOLIO_COMPONENTS } from "./portfolio-components";
+import type { DemoStep } from "../components/library/use-demo-player";
 import type { Appearance } from "../components/ui/appearance";
 import { launchFormComponents } from "./launch-form-components";
 import { NAVIGATION_COMPONENTS } from "./navigation-components";
 import { AI_COMPONENTS } from "./ai-components";
-export type ComponentCategory = "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play" | "AI & chat";
+import { CREATIVE_COMPONENTS } from "./creative-components";
+import { SHADER_COMPONENTS } from "./shader-components";
+import { REFERENCE_COMPONENTS } from "./reference-components";
+import { STICKER_PACK_COMPONENT } from "./sticker-components";
+export type ComponentCategory = "Buttons & actions" | "Galleries & photography" | "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play" | "AI & chat" | "Human avatars";
 export type PropDoc = { name: string; type: string; defaultValue: string; description: string };
-export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string; customizerPreview?: boolean; usageImports?: string[]; usageSetup?: string };
-export const componentCategories: ComponentCategory[] = ["Forms & actions", "Navigation & disclosure", "Overlays & feedback", "Content & layout", "Play", "AI & chat"];
+export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string; customizerPreview?: boolean; usageImports?: string[]; usageSetup?: string; collection?: Appearance; notes?: string[]; demo?: DemoStep[] };
+export const componentCategories: ComponentCategory[] = ["Buttons & actions", "Galleries & photography", "Forms & actions", "Navigation & disclosure", "Overlays & feedback", "Human avatars", "Content & layout", "Play", "AI & chat"];
 export const components: ComponentDefinition[] = [
   {
     "slug": "button",
+    demo: [{ t: 0, action: "move", to: "button:not(:disabled)" }, { t: 800, action: "hover" }, { t: 1800, action: "click" }, { t: 3000, action: "leave" }],
     "name": "Button",
     "category": "Forms & actions",
     "description": "A tactile action with clear loading, disabled, and link states.",
@@ -241,6 +250,7 @@ export const components: ComponentDefinition[] = [
   },
   {
     "slug": "toggle",
+    demo: [{ t: 0, action: "move", to: "button[aria-pressed]" }, { t: 700, action: "hover" }, { t: 1400, action: "click" }, { t: 2600, action: "click" }, { t: 3200, action: "leave" }],
     "name": "Toggle",
     "category": "Forms & actions",
     "description": "A pressable control that remembers its state.",
@@ -1074,12 +1084,15 @@ export const components: ComponentDefinition[] = [
   },
   {
     "slug": "mini-driver", "name": "MiniDriver", "category": "Play", "customizerPreview": true,
-    "description": "A small original driver with a curious helmet, breathing body and friendly wave.",
+    "description": "A front-facing driver with expressive eyes, free hands and automatic waves and thumbs up.",
     "props": [
+      { name: "autoGestures", type: "boolean", defaultValue: "true", description: "Alternates relaxed hands, a wave and a thumbs up while visible. Reduced motion retains a settled pose." },
+      { name: "paused / onPausedChange", type: "boolean / callback", defaultValue: "false", description: "Freeze and resume gestures, blinking and gaze. A supplied paused prop is controlled." },
+      { name: "showControls", type: "boolean", defaultValue: "false", description: "Show the Thumbs up and Pause animation buttons below the driver. Clicking the driver waves hello." },
       { "name": "seed / config", "type": "string | number / MiniDriverConfig", "defaultValue": "orangeui:driver", "description": "Stable suit and nested helmet identity, with saved configuration taking priority." },
       { "name": "size", "type": "number", "defaultValue": "280", "description": "Full-body height in CSS pixels. Width is three quarters of the height." },
       { "name": "colors / parts", "type": "Partial<MiniDriverColors> / Partial<MiniDriverParts>", "defaultValue": "Generated", "description": "Suit, panels, gloves, boots and zip colors; suit panels, boot shape and belt. CSS variables use --driver-." },
-      { "name": "helmet", "type": "Partial helmet number, colors and parts", "defaultValue": "From config", "description": "Override the exact Helmet geometry reused by the driver, including visor and finish." },
+      { "name": "helmet", "type": "Partial helmet number, colors and parts", "defaultValue": "From config", "description": "Set the front-facing helmet number, paint, visor position and finish. The separate Helmet component retains its side profile." },
       { "name": "interactive / blink", "type": "boolean", "defaultValue": "true", "description": "Enable pointer turns, wave activation and blinking. One shared gaze host controls the complete figure." },
       { "name": "onWave", "type": "() => void", "defaultValue": "Not set", "description": "Called when a wave is requested by click or keyboard." }
     ],
@@ -1114,25 +1127,28 @@ export const components: ComponentDefinition[] = [
     slug: "open-wheel-car", name: "OpenWheelCar", category: "Play", customizerPreview: true,
     description: "An original open-wheel car with responsive suspension, rotating wheels and a scrolling track.",
     props: [
+      { name: "keyboardControls", type: "boolean", defaultValue: "true", description: "Focus the vehicle for WASD or arrow controls. W / Up accelerates, S / Down brakes, A D / Left Right steer. Escape releases control." },
       { name: "speed", type: "number, 0..1", defaultValue: "0.45", description: "Target velocity. Bounded acceleration and braking drive spring pitch, suspension and wheel rotation." },
       { name: "seed / config", type: "string | number / VehicleConfig", defaultValue: "orangeui:open-wheel", description: "Stable sponsor-free livery and fictional number. Saved configuration takes precedence." },
       { name: "livery / number / tireCompound", type: "Partial<VehicleLivery> / string | number / soft | medium | hard | wet", defaultValue: "Generated", description: "Override base, accent, stripe, pattern, short number and tire markings." },
       { name: "size / track / theme", type: "number / boolean / light | dark", defaultValue: "640 / true / follows page", description: "Width in CSS pixels, optional track and scene palette. The 640:260 ratio is preserved. CSS colors use --vehicle-." }
     ],
-    keyboard: "The car is a named image. Customizer tabs, native fields and action buttons support the keyboard. Reduced motion settles the car; hidden and offscreen motion pauses.",
+    keyboard: "Click or Tab to focus the vehicle. W / Up accelerates, S / Down brakes, and A D / Left Right steer. Escape or blur releases control. Input fields keep native keyboard behavior. Motion pauses while hidden and becomes static with reduced motion.",
     usage: '<OpenWheelCar appearance="polished" seed="tidal-run" speed={0.65} number="247" />', file: "components/ui/open-wheel-car.tsx"
   },
   {
     slug: "superbike", name: "Superbike", category: "Play", customizerPreview: true,
     description: "An original superbike with braking dive, launch lift and a rider that tucks into speed.",
     props: [
+      { name: "keyboardControls", type: "boolean", defaultValue: "true", description: "Focus the vehicle for WASD or arrow controls. W / Up accelerates, S / Down brakes, A D / Left Right steer. Escape releases control." },
       { name: "speed / lean", type: "number, 0..1 / number, -1..1", defaultValue: "0.4 / 0", description: "Target speed and projected corner lean, up to 24 degrees. Wheel travel follows speed, with blur at high velocity." },
       { name: "wheelie", type: "boolean", defaultValue: "false", description: "Allows one brief front lift when accelerating from a complete stop." },
+      { name: "rider", type: "boolean", defaultValue: "true", description: "Show the animated rider or expose the full bike silhouette." },
       { name: "seed / config / livery", type: "string | number / VehicleConfig / Partial<VehicleLivery>", defaultValue: "orangeui:superbike", description: "Stable colors and parts with explicit overrides for base, accent, stripe and pattern." },
       { name: "number / tireCompound", type: "string | number / soft | medium | hard | wet", defaultValue: "Generated", description: "Fictional one-to-three-digit identity and tire markings." },
       { name: "size / track / theme", type: "number / boolean / light | dark", defaultValue: "640 / true / follows page", description: "Responsive width, optional track, and scene palette. CSS colors use --vehicle-." }
     ],
-    keyboard: "The bike is a named image. Use the customizer keyboard controls to change speed, lean and livery. Motion pauses when hidden and becomes static with reduced motion.",
+    keyboard: "Click or Tab to focus the vehicle. W / Up accelerates, S / Down brakes, and A D / Left Right steer. Escape or blur releases control. Input fields keep native keyboard behavior. Motion pauses while hidden and becomes static with reduced motion.",
     usage: '<Superbike appearance="polished" seed="orchard-run" speed={0.6} lean={0.3} wheelie />', file: "components/ui/superbike.tsx"
   },
   {
@@ -1158,52 +1174,31 @@ export const components: ComponentDefinition[] = [
     keyboard: "The progressbar announces its label and value without adding a focus stop. Demo fields and buttons adjust progress with the keyboard. Reduced motion removes travel transitions.",
     usage: '<RaceProgress appearance="polished" label="Preparing the workspace" value={64} vehicle="car" />', file: "components/ui/race-progress.tsx"
   },
-  {
-    slug: "livery-editor", name: "LiveryEditor", category: "Play", customizerPreview: true,
-    description: "Create a sponsor-free livery, try it in motion and export a settled vehicle.",
-    props: [
-      { name: "value / onChange", type: "VehicleConfig / (config: VehicleConfig) => void", defaultValue: "required", description: "Controlled livery, fictional number and tire compound. Save the normalized JSON in your own application." },
-      { name: "seed", type: "string | number", defaultValue: "orangeui:motorsport", description: "Identity used by Reset and deterministic Randomize. Changing the seed does not replace the controlled value." },
-      { name: "vehicle / defaultSpeed", type: "car | bike / number, 0..1", defaultValue: "user can choose / 0.45", description: "Optionally fix the vehicle and set its starting target speed. Motion and scene controls remain local preferences." }
-    ],
-    keyboard: "Arrow keys, Home and End move between tabs. Native sliders, selects and colors update the preview. Buttons randomize, reset, copy JSON or download SVG/PNG; clipboard failures expose selectable JSON.",
-    usage: '<LiveryEditor appearance="polished" value={config} onChange={setConfig} />', file: "components/ui/livery-editor.tsx"
-  },
-  {
-    slug: "helmet-editor", name: "HelmetEditor", category: "Play", customizerPreview: true,
-    description: "A reusable helmet playground for colors, finishes, visor position and portable exports.",
-    props: [
-      { name: "value / onChange", type: "HelmetConfig / (config: HelmetConfig) => void", defaultValue: "required", description: "Controlled helmet identity. Visor clicks write the new position back through onChange." },
-      { name: "seed", type: "string | number", defaultValue: "orangeui:helmet", description: "Used by Reset and Randomize while the parent owns the current config." },
-      { name: "label", type: "string", defaultValue: "Customize your helmet", description: "Visible heading and accessible name of the editor." }
-    ],
-    keyboard: "Tabs and native fields work with the keyboard. Enter or Space flips the focused helmet visor. Copy config and SVG/PNG export include the selected parts, colors and visor position.",
-    usage: '<HelmetEditor appearance="polished" value={config} onChange={setConfig} />', file: "components/ui/helmet-editor.tsx"
-  },
   ...launchFormComponents,
   ...NAVIGATION_COMPONENTS,
   ...AI_COMPONENTS,
   {
-    slug: "live-orb", name: "LiveOrb", category: "AI & chat", customizerPreview: true,
-    description: "A curious WebGL sphere with pointer-following eyes and three material previews.",
-    file: "components/ui/live-orb.tsx", usage: '<LiveOrb appearance="polished" size={200} interactive blink />',
-    keyboard: "A named decorative character with no focus stop. Native size, color and checkbox controls customize the demo. Motion pauses offscreen and in hidden tabs, and reduced motion holds a settled frame. A CSS face remains visible when WebGL is unavailable.",
+    slug: "emberling", name: "Emberling",
+    demo: [{ t: 0, action: "move", to: { x: 25, y: 35 } }, { t: 850, action: "move", to: { x: 75, y: 40 } }, { t: 1600, action: "move", to: "center" }, { t: 3400, action: "leave" }], category: "AI & chat", customizerPreview: true,
+    description: "Living fire and water friends with flowing contours, expressive eyes and a fluid orb mode.",
+    file: "components/ui/emberling.tsx", usage: '<Emberling appearance="polished" variant="ember" expression="happy" size={220} interactive blink />',
+    keyboard: "Tab to a friend and press Enter or Space to change its expression. Native controls choose the body style, expression, colors and motion. Motion pauses offscreen and in hidden tabs; reduced motion holds a settled pose. The full SVG character is visible before hydration.",
     props: [
-      { name: "size", type: "number", defaultValue: "280", description: "Sphere edge length in CSS pixels." },
-      { name: "variant / theme", type: "white | black | webgl | custom / light | dark | auto", defaultValue: "follows theme / auto", description: "Default material contrasts with the page. Theme follows HTML classes, data-theme and the system preference." },
-      { name: "color / eyeColor / colors", type: "string / string / string[]", defaultValue: "Preset colors", description: "Custom body and eye colors, or the WebGL wash stops." },
-      { name: "interactive / blink", type: "boolean", defaultValue: "true / true", description: "Pointer-following gaze and occasional blinking. Idle glances continue when pointer interaction is disabled." }
+      { name: "size", type: "number", defaultValue: "220", description: "Responsive character width in CSS pixels, clamped from 48 to 640." },
+      { name: "variant / theme", type: "ember | water | aqua | custom | prism / light | dark | auto", defaultValue: "ember / auto", description: "Fire, two water characters, a custom color or a flowing prism. Theme follows the page palette." },
+      { name: "shape / expression", type: "character | orb / happy | calm | excited | wink | surprised | grumpy", defaultValue: "character / happy", description: "Choose a full elemental character or an orb with a moving WebGL pigment wash, with six distinct eye and mouth expressions. Orb mode keeps a static color fallback when WebGL is unavailable." },
+      { name: "animate / speed", type: "boolean / number", defaultValue: "true / 1", description: "Continuously deform the flame or water contour. Motion speed is clamped from 0.1 to 3. Reduced motion overrides animation." },
+      { name: "color / eyeColor / colors", type: "string / string / readonly string[]", defaultValue: "Variant palette", description: "Custom body and eye colors, or three colors for the prism material." },
+      { name: "interactive / blink", type: "boolean / boolean", defaultValue: "true / true", description: "Smoothed pointer-following gaze and occasional blinking. Both respect reduced motion." }
     ]
   }
 ];
-export function findComponent(slug: string) { return components.find((component) => component.slug === slug); }
+components.push(WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT, ...SCENE_COMPONENTS, ...PORTFOLIO_COMPONENTS, ...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS, STICKER_PACK_COMPONENT);
+export function componentsInCollection(appearance: Appearance) { return components.filter((component) => !component.collection || component.collection === appearance); }
+// ShaderCanvas remains installable as the low-level engine behind the effects.
+// Its former showcase is now part of the single gradient playground.
+export function findComponent(slug: string) { return components.find((component) => component.slug === (slug === "live-orb" ? "emberling" : slug)) ?? SHADER_COMPONENTS.find((component) => component.slug === slug); }
 export function componentUsage(component: ComponentDefinition, appearance: Appearance) {
-  if (component.slug === "livery-editor" || component.slug === "helmet-editor") {
-    const livery = component.slug === "livery-editor";
-    const generator = livery ? "generateVehicleConfig" : "generateHelmetConfig";
-    const seed = livery ? "orangeui:motorsport" : "orangeui:helmet";
-    return `"use client";\n\nimport { useState } from "react";\nimport { ${component.name} } from "./${component.file.replace(/\.tsx$/, "")}";\nimport { ${generator} } from "./components/ui/${livery ? "vehicle-art" : "helmet-art"}";\n\nexport default function Example() {\n  const [config, setConfig] = useState(() => ${generator}("${seed}"));\n  return <${component.name} appearance="${appearance}" seed="${seed}" value={config} onChange={setConfig} />;\n}\n`;
-  }
   if (component.slug === "avatar-editor") return '"use client";\n\nimport { useState } from "react";\nimport { AvatarEditor } from "./components/ui/avatar-editor";\nimport { generateAvatarConfig } from "./lib/avatar/index";\n\nexport default function Example() {\n  const [config, setConfig] = useState(() => generateAvatarConfig("user-42"));\n  return <AvatarEditor appearance="' + appearance + '" seed="user-42" value={config} onChange={setConfig} />;\n}\n';
   const imports = [`import { ${component.name === "Toast" ? "Toast, ToastProvider" : component.name} } from "./${component.file.replace(/\.tsx$/, "")}";`];
   if (component.usage.includes("<Button") && component.name !== "Button") imports.push('import { Button } from "./components/ui/button";');

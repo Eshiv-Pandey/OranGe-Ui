@@ -1,5 +1,10 @@
 "use client";
-import { useState } from "react";
+
+import { CreativeWorkbench } from "../ui/creative-editor-slot";
+import { lazy, Suspense, useState } from "react";
+import { PORTFOLIO_COMPONENT_SLUGS } from "../../lib/portfolio-components";
+import { CREATIVE_COMPONENT_SLUGS } from "../../lib/creative-components";
+import { REFERENCE_COMPONENT_SLUGS } from "../../lib/reference-components";
 import type { Appearance } from "../ui/appearance";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -47,11 +52,29 @@ import { Superbike } from "../ui/superbike";
 import { RaceStartLights } from "../ui/race-start-lights";
 import { RaceProgress } from "../ui/race-progress";
 import * as LaunchForms from "./launch-forms-demos";
+import { WallSwitchDemo } from "./wall-switch-demo";
+import { EndlessFilmDemo } from "./endless-film-demo";
+import { StickerSocialDemo } from "./sticker-social-demo";
+import { StickerPackDemo } from "./sticker-pack-demo";
+import { SceneDemo } from "./scene-demos";
 import { NavigationDemo, NAVIGATION_DEMO_SLUGS } from "./navigation-demos";
 import { AIDemo, AI_DEMO_SLUGS } from "./ai-demos";
-import { LiveOrb } from "../ui/live-orb";
-import { LiveOrbDemo } from "./live-orb-demo";
+import { Emberling } from "../ui/emberling";
+import { EmberlingDemo } from "./emberling-demo";
+import HumanAvatarDemo from "./human-avatar-demo";
+import ReferenceTextDemo from "./reference-text-demo";
 
+const PortfolioDemos = lazy(() => import("./portfolio-demos"));
+const CreativeDemo = lazy(() => import("./creative-demos"));
+const ReferenceDemo = lazy(() => import("./reference-demos"));
+const ShaderCanvasDemo = lazy(() => import("./shader-canvas-demo"));
+const FlowingWaterDemo = lazy(() => import("./flowing-water-demo"));
+const FlowingGrassDemo = lazy(() => import("./flowing-grass-demo"));
+const DriftingCloudsDemo = lazy(() => import("./drifting-clouds-demo"));
+function ShaderFallback({ kind = "gradient" }: { kind?: "gradient" | "water" | "grass" | "clouds" | "metal" }) {
+  const colors = { gradient: "#ff4d00,#ff1e56,#ad32ff,#38f2ff,#ffb900", water: "#001d31,#067b83,#23989f", grass: "#071f16,#76aa3c,#d5ee94", clouds: "#087bbd,#fffdf7,#6d95b6", metal: "#e4e5df,#d6dee0,#f6f3e7,#d6dee0,#e4e5df" };
+  return <div data-preview-pending className={`shader-canvas${kind === "metal" ? " liquid-metal" : ""}`} data-renderer="fallback" role="img" aria-label={`${kind} preview`} style={{ width: "100%", height: 460, borderRadius: 14, background: `linear-gradient(125deg,${colors[kind]})` }} />;
+}
 const projects = [
   { id: "1", name: "Orange studio", status: "Live", members: 8 },
   { id: "2", name: "Pocket garden", status: "Draft", members: 3 },
@@ -74,10 +97,24 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   const [validated, setValidated] = useState(false);
   const status = <p className="demo-feedback" role="status">{feedback || "Try it. Every example is interactive."}</p>;
   const action = <Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Ready for a fresh start." : "Project created in this preview."); }}>{saved ? "Start again" : "Create project"}</Button>;
+  if (slug === "sticker-social-icons") return <StickerSocialDemo appearance={appearance} thumbnail={thumbnail} />;
+  if (slug === "sticker-pack") return <StickerPackDemo appearance={appearance} thumbnail={thumbnail} />;
+  if (PORTFOLIO_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing portfolio preview...</div>}><PortfolioDemos slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+  if (CREATIVE_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing preview...</div>}><CreativeDemo slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+  if (slug === "human-avatar") return <HumanAvatarDemo appearance={appearance} thumbnail={thumbnail} />;
+  if (slug === "cipher-text" || slug === "wiggle-text" || slug === "flip-board") return <ReferenceTextDemo kind={slug} appearance={appearance} thumbnail={thumbnail} />;
+  if (REFERENCE_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={slug === "liquid-metal" ? <ShaderFallback kind="metal" /> : <div className="creative-demo-loading" data-preview-pending>Preparing preview...</div>}><ReferenceDemo slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if ((NAVIGATION_DEMO_SLUGS as readonly string[]).includes(slug)) return <NavigationDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
+  if (slug === "wall-switch") return <WallSwitchDemo appearance={appearance} />;
+  if (slug === "endless-film") return <EndlessFilmDemo appearance={appearance} thumbnail={thumbnail} />;
+  if (["neon-sign-404", "chai-break-404", "pavilion-footer"].includes(slug)) return <SceneDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   if ((AI_DEMO_SLUGS as readonly string[]).includes(slug)) return <AIDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   switch (slug) {
-    case "live-orb": return thumbnail ? <LiveOrb {...a} size={160} interactive={false} blink={false} /> : <LiveOrbDemo appearance={appearance} />;
+    case "shader-canvas": return <Suspense fallback={<ShaderFallback />}><ShaderCanvasDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+    case "flowing-water": return <Suspense fallback={<ShaderFallback kind="water" />}><FlowingWaterDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+    case "flowing-grass": return <Suspense fallback={<ShaderFallback kind="grass" />}><FlowingGrassDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+    case "drifting-clouds": return <Suspense fallback={<ShaderFallback kind="clouds" />}><DriftingCloudsDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+    case "emberling": return thumbnail ? <Emberling {...a} size={160} interactive blink /> : <EmberlingDemo appearance={appearance} />;
     case "label": return <LaunchForms.LabelDemo {...a} />;
     case "kbd": return <LaunchForms.KbdDemo {...a} />;
     case "form": return <LaunchForms.FormDemo {...a} />;
@@ -88,14 +125,14 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
     case "file-upload": return <LaunchForms.FileUploadDemo {...a} />;
     case "rating": return <LaunchForms.RatingDemo {...a} />;
     case "stepper": return <LaunchForms.StepperDemo {...a} />;
-    case "open-wheel-car": case "livery-editor": return thumbnail ? <OpenWheelCar {...a} speed={0} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
-    case "superbike": return thumbnail ? <Superbike {...a} speed={0} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
-    case "helmet-editor": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive={false} /></div> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "open-wheel-car": case "livery-editor": return thumbnail ? <OpenWheelCar {...a} speed={70} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "superbike": return thumbnail ? <Superbike {...a} speed={70} size={320} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
+    case "helmet-editor": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive /></div> : <MotorsportDemo slug={slug} appearance={appearance} />;
     case "race-start-lights": return thumbnail ? <RaceStartLights {...a} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
     case "race-progress": return thumbnail ? <RaceProgress {...a} label="Pit lane preparation" value={64} /> : <MotorsportDemo slug={slug} appearance={appearance} />;
-    case "character-avatar": return thumbnail ? <div className="thumbnail-artwork"><CharacterAvatar {...a} size={190} interactive={false} /></div> : <CharacterDemo appearance={appearance} />;
-    case "helmet": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive={false} /></div> : <HelmetDemo appearance={appearance} />;
-    case "mini-driver": return thumbnail ? <div className="thumbnail-artwork"><MiniDriver {...a} size={215} interactive={false} /></div> : <MiniDriverDemo appearance={appearance} />;
+    case "character-avatar": return thumbnail ? <div className="thumbnail-artwork"><CharacterAvatar {...a} size={190} interactive /></div> : <CharacterDemo appearance={appearance} />;
+    case "helmet": return thumbnail ? <div className="thumbnail-artwork"><Helmet {...a} size={210} interactive /></div> : <HelmetDemo appearance={appearance} />;
+    case "mini-driver": return thumbnail ? <div className="thumbnail-artwork"><MiniDriver {...a} size={215} interactive /></div> : <MiniDriverDemo appearance={appearance} />;
     case "button": return <div className="demo-stack"><div className="demo-row"><Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Removed from favourites." : "Saved to favourites."); }} aria-pressed={saved}>{saved ? "Saved!" : "Save a little joy"}</Button><Button {...a} variant="secondary" onClick={() => { setSaved(false); setFeedback("Ready to go again."); }}>Reset</Button></div><div className="demo-row"><Button {...a} variant="ghost" onClick={() => setFeedback("A little detail, a big difference.")}>Learn more</Button><Button {...a} disabled>Unavailable</Button></div>{status}</div>;
     case "input": return <form className="demo-stack" noValidate onSubmit={(event) => { event.preventDefault(); setValidated(true); setFeedback(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "Looks good. Ready to go!" : "Check your email address."); }}><Input {...a} label="Your email" type="email" placeholder="you@example.com" value={value} onChange={(event) => { setValue(event.target.value); setValidated(false); }} error={validated && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "Enter a valid email address." : undefined} description="A little room for your next idea." required /><Button {...a} type="submit">Try validation</Button>{status}</form>;
     case "textarea": return <div className="demo-stack"><Textarea {...a} label="Your next big idea" placeholder="It all starts with a little thought..." value={value} maxLength={200} onChange={(event) => setValue(event.target.value)} description={`${value.length} of 200 characters`} /><Button {...a} onClick={() => setFeedback(value.trim() ? "Draft saved in this preview." : "Write a little something first.")}>Save draft</Button>{status}</div>;
@@ -113,7 +150,7 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
     case "dropdown-menu": return <div className="demo-stack"><DropdownMenu {...a} trigger={<Button {...a} variant="secondary">Project actions ↓</Button>} label="Orange studio" items={[{ value: "duplicate", label: "Duplicate project" }, { value: "favourite", label: "Add to favourites" }, { value: "transfer", label: "Transfer (unavailable)", disabled: true }, { value: "archive", label: "Archive project", destructive: true, separatorBefore: true }]} onAction={(next) => setFeedback(next === "duplicate" ? "Project duplicated in this preview." : next === "favourite" ? "Added to favourites." : "Archived in this preview. Reset to restore.")} />{status}</div>;
     case "command": return <Command {...a} items={[{ value: "project", label: "Create project", description: "Give a little idea a home", keywords: ["new"] }, { value: "search", label: "Find a component", description: "Your next building block" }, { value: "theme", label: "Change appearance", description: "Find your favourite palette", keywords: ["theme", "dark", "light"] }, { value: "invite", label: "Invite team (unavailable)", disabled: true }]} />;
     case "dialog": return <div className="demo-stack"><Dialog {...a} open={open} onOpenChange={setOpen} trigger={<Button {...a}>Create a workspace</Button>} title="Room for your next idea." description="Give your workspace a name. You can change it any time."><form className="demo-stack" onSubmit={(event) => { event.preventDefault(); setOpen(false); setFeedback(`${value || "Orange studio"} created in this preview.`); }}><Input {...a} label="Workspace name" placeholder="Orange studio" value={value} onChange={(event) => setValue(event.target.value)} required /><Button {...a} type="submit">Create workspace</Button></form></Dialog>{status}</div>;
-    case "sheet": return <div className="demo-stack"><Sheet {...a} trigger={<Button {...a} variant="secondary">Workspace preferences</Button>} title="A space that feels like you." description="Little adjustments for a better working day."><Switch {...a} label="Quiet hours" defaultChecked /><Switch {...a} label="Weekly round-up" /><Slider {...a} label="Preview size" defaultValue={[60]} /></Sheet><p className="demo-feedback">Your workspace, with room to adjust.</p></div>;
+    case "sheet": return <div className="demo-stack"><Sheet {...a} trigger={<Button {...a} variant="secondary">Workspace preferences</Button>} title="A space that feels like you." description="Little adjustments for a better working day."><Switch {...a} label="Quiet hours" description="Pause nonessential notifications." defaultChecked /><Switch {...a} label="Weekly round-up" description="A summary of your week, every Friday." /><Slider {...a} label="Preview size" defaultValue={[60]} formatValue={(value) => `${value}%`} /></Sheet><p className="demo-feedback">Your workspace, with room to adjust.</p></div>;
     case "popover": return <div className="demo-stack"><Popover {...a} open={open} onOpenChange={setOpen} trigger={<Button {...a} variant="secondary">Edit project name</Button>} title="The little details"><form className="demo-stack" onSubmit={(event) => { event.preventDefault(); setOpen(false); setFeedback(`Project renamed to ${value}.`); }}><Input {...a} label="Project name" value={value} placeholder="Pocket garden" required onChange={(event) => setValue(event.target.value)} /><Button {...a} type="submit">Save name</Button></form></Popover>{status}</div>;
     case "tooltip": return <div className="demo-stack"><Tooltip {...a} content="Your project runs in Mumbai."><Button {...a} variant="secondary">Deployment region</Button></Tooltip><p className="demo-feedback">Hover or focus for a little more context.</p></div>;
     case "toast": return <ToastProvider><div className="demo-stack"><Button {...a} onClick={() => { setOpen(true); setFeedback("Changes saved in this preview."); }}>Save changes</Button>{status}</div><Toast {...a} open={open} onOpenChange={setOpen} title="A little progress, saved." description="Your workspace is up to date." tone="success" action={{ label: "Undo", onClick: () => setFeedback("Changes undone.") }} /></ToastProvider>;
@@ -138,12 +175,10 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
 function MascotDemo({ appearance }: { appearance: Appearance }) {
   const [mascot, setMascot] = useState<MascotKind>("dune-hopper");
   const [state, setState] = useState<MascotState>("idle");
-  return <div className="demo-stack mascot-demo">
-    <MascotAvatar seed="studio-helper" mascot={mascot} state={state} size={176} appearance={appearance} aria-label={`Mascot preview, ${state}`} />
-    <div className="avatar-editor-selects">
+  return <div className="creative-surface creative-demo mascot-demo"><CreativeWorkbench preview={<MascotAvatar seed="studio-helper" mascot={mascot} state={state} size={300} appearance={appearance} aria-label={`Mascot preview, ${state}`} />}><div className="avatar-editor-selects">
       <Select appearance={appearance} label="Character" value={mascot} onValueChange={(value) => setMascot(value as MascotKind)} options={MASCOT_OPTIONS.map(({ value, label }) => ({ value, label }))} />
       <Select appearance={appearance} label="Chat state" value={state} onValueChange={(value) => setState(value as MascotState)} options={["idle", "thinking", "talking", "error"].map((value) => ({ value, label: value[0].toUpperCase() + value.slice(1) }))} />
     </div>
-    <p className="demo-feedback">Move your pointer, then click the character to say hello.</p>
+    <p className="demo-feedback">Move your pointer, then click the character to say hello.</p></CreativeWorkbench>
   </div>;
 }

@@ -1,0 +1,10 @@
+@font-face { font-family: "Orange Hindi Display"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/desi/yatra-one.woff2") format("woff2"); }
+@font-face { font-family: "Orange Hinglish Display"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("/fonts/desi/baloo-2.woff2") format("woff2"); }
+:root { --font-hindi-display: "Orange Hindi Display"; --font-hinglish-display: "Orange Hinglish Display"; }
+.styled-text { width: min(100%, 460px); }
+.styled-text-output { display: block; width: 100%; height: auto; }
+.styled-text-input { display: grid; gap: 7px; margin-top: 18px; color: var(--creative-muted); font-size: 12px; }
+.styled-text-input textarea { width: 100%; resize: vertical; padding: 10px 12px; border: 1px solid var(--creative-line); border-radius: 8px; background: var(--creative-paper); color: var(--creative-ink); font: 15px/1.6 var(--font-body), sans-serif; min-width: 0; }
+.styled-text-actions { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-top: 12px; }
+.styled-text-actions > label { display: flex; align-items: center; gap: 5px; color: var(--creative-muted); font-size: 11px; }
+.styled-text-actions .creative-button { font-size: 11px; padding: 6px 10px; }

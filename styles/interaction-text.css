@@ -1,0 +1,20 @@
+@import "./interaction-foundation.css";
+.interaction-surface.cipher-text { display: inline-block; max-width: 100%; font: 500 clamp(28px, 4.4vw, 62px)/1.2 var(--font-mono), monospace; letter-spacing: -.025em; white-space: pre-wrap; overflow-wrap: anywhere; }
+.interaction-surface.wiggle-text { display: inline-block; position: relative; max-width: 100%; padding: 12px; font: 650 clamp(32px, 5vw, 72px)/1.1 var(--font-body), sans-serif; letter-spacing: -.035em; white-space: pre-wrap; text-wrap: balance; overflow-wrap: anywhere; }
+.wiggle-text > span { display: inline-block; }.wiggle-definitions { position: absolute; pointer-events: none; }
+.flip-board { width: 100%; max-width: 780px; }
+.flip-board-housing { display: grid; grid-template-columns: repeat(var(--flap-columns), minmax(0, 1fr)); gap: 4px; padding: clamp(12px, 2vw, 24px); border: 2px solid #3b3d38; border-radius: var(--ix-radius); background: #121510; box-shadow: 0 17px 32px rgb(0 0 0 / .2), inset 0 1px 1px #5d5f56; }
+.flap-cell { position: relative; display: block; aspect-ratio: .66; perspective: 160px; container-type: inline-size; border-radius: 3px; background: linear-gradient(#292d26 48%, #1c211c 50%, #30342c); color: #e6f0c7; box-shadow: 0 1px 1px #000; font: 500 clamp(12px, 3vw, 45px)/1 var(--font-mono), monospace; }
+.flap-letter { position: absolute; inset: 0; display: grid; place-items: center; font-size: 95cqw; }
+.flap-seam { position: absolute; z-index: 3; top: calc(50% - 1px); left: 0; right: 0; height: 2px; background: #0b100b; box-shadow: 0 1px 0 rgb(255 255 255 / .05); }
+.flap-moving, .flap-arriving { position: absolute; left: 0; right: 0; height: 50%; overflow: hidden; background: #2b3026; backface-visibility: hidden; font-size: 95cqw; }
+.flap-moving { top: 0; z-index: 4; transform-origin: bottom; animation: flap-out .38s ease-in forwards; animation-delay: var(--flap-delay); }
+.flap-arriving { bottom: 0; z-index: 4; background: #292e26; transform-origin: top; animation: flap-in .4s var(--ix-ease) both; animation-delay: calc(var(--flap-delay) + .25s); }
+.flap-moving > span, .flap-arriving > span { position: absolute; inset: 0; height: 200%; display: grid; place-items: center; }
+.flap-arriving > span { top: -100%; }
+.flip-board-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }
+.flip-board-controls .ix-button { font-size: 12px; }
+@keyframes flap-out { to { transform: rotateX(-180deg); } }
+@keyframes flap-in { from { transform: rotateX(90deg); } to { transform: rotateX(0); } }
+@media (max-width: 480px) { .flip-board-housing { gap: 2px; padding: 10px; }.flip-board-controls { flex-wrap: wrap; }.flip-board-controls > .ix-caption { font-size: 11px; }.interaction-surface.cipher-text { font-size: 32px; }.interaction-surface.wiggle-text { font-size: 46px; } }
+@media (prefers-reduced-motion: reduce) { .flap-moving, .flap-arriving { display: none; }.wiggle-text > span { filter: none !important; } }

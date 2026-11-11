@@ -1,0 +1,35 @@
+@import "./library-base.css";
+
+.neon-sign { --neon-tube: var(--neon-color, #ff4a1c); --neon-border: var(--neon-border-color, #19e6b0); width: var(--neon-width, 260px); max-width: 100%; flex-shrink: 0; background: #050505; }
+.neon-sign > svg { display: block; width: 100%; height: auto; overflow: visible; }
+.neon-sign-digit g { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.neon-sign-digit .neon-sign-letter-depth { fill: #b62e09; stroke: #b5300e; stroke-width: 3; }
+.neon-sign-digit .neon-sign-face { fill: var(--neon-tube); stroke: none; opacity: .9; }
+.neon-sign-glow { stroke: var(--neon-tube); stroke-width: 10; opacity: var(--neon-strength, .8); }
+.neon-sign-glass { stroke: var(--neon-tube); stroke-width: 6; }
+.neon-sign-core { stroke: var(--neon-core, #ffe1a8); stroke-width: 2; }
+.neon-sign-curl { stroke: var(--neon-core, #ffe1a8); stroke-width: 2; filter: drop-shadow(0 0 3px var(--neon-tube)); }
+.neon-sign-digit[data-off="true"] .neon-sign-glow { opacity: 0; }
+.neon-sign-digit[data-off="true"] .neon-sign-glass { stroke: var(--neon-unlit, #483a32); }
+.neon-sign-digit[data-off="true"] .neon-sign-core { stroke: var(--neon-unlit-core, #685148); opacity: .45; }
+.neon-sign-digit[data-off="true"] :is(.neon-sign-face, .neon-sign-letter-depth) { fill: #201611; stroke: #2b1b14; opacity: .8; }
+.neon-sign-digit[data-off="true"] .neon-sign-curl { stroke: var(--neon-unlit-core, #685148); filter: none; }
+.neon-sign-edge { stroke: var(--neon-border); stroke-width: 1.6; stroke-linecap: round; fill: none; }
+.neon-sign-border, .neon-sign-border-core, .neon-sign-border-glow { fill: none; stroke: var(--neon-border); stroke-linecap: round; stroke-linejoin: round; stroke-width: 3.5; }
+.neon-sign-border-core { stroke: var(--neon-border-core, #d3fff3); stroke-width: .9; }
+.neon-sign-border-glow { stroke-width: 8; opacity: var(--neon-strength, .8); }
+.neon-sign[data-pixel="true"] .neon-sign-digit { shape-rendering: crispEdges; }
+.neon-sign[data-pixel="true"] .neon-sign-digit g { fill: var(--neon-tube); stroke-width: 0; font-family: var(--font-display), monospace; }
+.neon-sign[data-pixel="true"] .neon-sign-digit .neon-sign-core { fill: var(--neon-core, #ffd2a0); transform: scale(.92); transform-origin: 50px 70px; opacity: .8; }
+.neon-sign[data-pixel="true"] .neon-sign-digit[data-off="true"] g { fill: var(--neon-unlit, #483a32); }
+.neon-recovery { --neon-border-color: #19e6b0; display: flex; align-items: center; justify-content: center; gap: clamp(32px, 7vw, 100px); min-height: 100svh; width: 100%; padding: clamp(24px, 6vw, 80px); color: #f3eee5; background: #050505; }
+.neon-recovery-copy { max-width: 440px; font-family: var(--font-body), sans-serif; }
+.neon-recovery h1 { margin: 0; font-size: clamp(30px, 3.5vw, 48px); line-height: 1.12; font-weight: 500; letter-spacing: -.035em; text-wrap: balance; }
+.neon-recovery p { margin: 24px 0 32px; color: #b4afa6; font-size: 16px; line-height: 1.7; }
+.neon-home { display: flex; align-items: center; justify-content: space-between; gap: 32px; width: fit-content; padding: 14px 20px; border: 1px solid var(--neon-border-color); color: var(--neon-border-color); border-radius: 4px; text-decoration: none; transition: box-shadow .2s; }
+.neon-home:hover { box-shadow: 0 0 22px #19e6b050; }
+.neon-report { display: block; width: fit-content; margin-top: 24px; color: #b4afa6; font-size: 13px; text-underline-offset: 5px; }
+.neon-recovery a:focus-visible { outline: 3px solid #baffeb; outline-offset: 6px; }
+.neon-recovery ::selection { background: #19e6b0; color: #050505; }
+@media (max-width: 640px) { .neon-recovery { flex-direction: column; gap: 28px; }.neon-recovery > .neon-sign { width: 180px; }.neon-recovery-copy { text-align: center; }.neon-home, .neon-report { margin-inline: auto; } }
+@media (prefers-reduced-motion: reduce) { .neon-home { transition: none; } }

@@ -25,7 +25,7 @@
   --grass-front: #385c2b;
   --on-grass: #fffaf0;
   --error: #b32c2c;
-  --focus: #a64500;
+  --focus: #525252;
   --grid: #17171708;
   --shadow-color: #171717;
   --border-color: #171717;
@@ -80,7 +80,7 @@
     --grass-mid: #3c5d2d;
     --grass-front: #263f26;
     --error: #ffa6a0;
-    --focus: #ff821f;
+    --focus: #d4d4d4;
     --grid: #ffffff08;
     --shadow-color: #000000;
     --border-color: #d4d4d4;
@@ -115,7 +115,7 @@
   --grass-mid: #3c5d2d;
   --grass-front: #263f26;
   --error: #ffa6a0;
-  --focus: #ff821f;
+  --focus: #d4d4d4;
   --grid: #ffffff08;
   --shadow-color: #000000;
   --border-color: #d4d4d4;

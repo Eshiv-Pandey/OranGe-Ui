@@ -26,8 +26,9 @@ export function RaceStartLights({ running = false, sequenceKey = 0, intervalMs =
     return () => connection.destroy();
   }, [store]);
   return <div ref={ref} className={uiClass("race-start-lights", className)} data-appearance={appearance} data-motion="paused" data-phase={snapshot.phase} role="group" aria-label={label.trim() || "Race start"}>
+    <div className="race-start-gantry" aria-hidden="true"><span className="race-start-gantry-title">START / FINISH</span><span className="race-start-gantry-brand">oRangeUi</span></div>
     <div className="race-start-housing" aria-hidden="true">
-      {[1, 2, 3, 4, 5].map((light) => <span className="race-start-lamp" data-lit={light <= snapshot.lit} key={light}><span className="race-start-lens" /></span>)}
+      {[1, 2, 3, 4, 5].map((light) => <span className="race-start-lamp" data-lit={light <= snapshot.lit} key={light}><span className="race-start-lens race-start-lens-upper" /><span className="race-start-lens" /><span className="race-start-lamp-number">{light}</span></span>)}
     </div>
     <span className="race-start-status" role="status" aria-live="polite" aria-atomic="true">{snapshot.message}</span>
   </div>;

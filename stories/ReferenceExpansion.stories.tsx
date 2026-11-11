@@ -1,0 +1,22 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ReferenceDemo from "../components/library/reference-demos";
+
+const meta = { title: "Library/Reference expansion", component: ReferenceDemo, args: { slug: "human-avatar", appearance: "polished", thumbnail: false }, argTypes: { appearance: { control: "select", options: ["polished", "pixel", "neobrutalism", "retro-os", "terminal"] } }, parameters: { layout: "padded" } } satisfies Meta<typeof ReferenceDemo>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export const HumanAvatar: Story = { args: { slug: "human-avatar" } };
+export const BloomTrail: Story = { args: { slug: "bloom-trail" } };
+export const JournalStack: Story = { args: { slug: "journal-stack" } };
+export const PhotoGarland: Story = { args: { slug: "photo-garland" } };
+export const BubbleWrap: Story = { args: { slug: "bubble-wrap" } };
+export const FilmStrip: Story = { args: { slug: "film-strip" } };
+export const FocusCards: Story = { args: { slug: "focus-cards" } };
+export const DraggableCards: Story = { args: { slug: "draggable-cards" } };
+export const CipherText: Story = { args: { slug: "cipher-text" } };
+export const WiggleText: Story = { args: { slug: "wiggle-text" } };
+export const FlipBoard: Story = { args: { slug: "flip-board" } };
+export const HaloButton: Story = { args: { slug: "halo-button" } };
+export const FloatingDock: Story = { args: { slug: "floating-dock" } };
+export const MorphInput: Story = { args: { slug: "morph-input" } };
+export const LiquidMetal: Story = { args: { slug: "liquid-metal" } };
+export const FluidColorPicker: Story = { args: { slug: "fluid-color-picker" } };

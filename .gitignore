@@ -17,6 +17,10 @@ out/storybook-avatar-tests/
 out/landing-tests/
 out/avatar/browser/*test-results/
 out/iteration/
+out/reference-images/
+out/batch-2/
+out/rework*/
+out/rework-*.cjs
 references/landing1.png
 references/landing3.png
 
@@ -25,3 +29,5 @@ references/landing3.png
 .impeccable/hook.cache.json
 .impeccable/live/*
 !.impeccable/live/config.json
+.impeccable/review/reference-expansion/
+.impeccable/review/stickers/

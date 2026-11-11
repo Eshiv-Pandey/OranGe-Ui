@@ -154,7 +154,7 @@ describe("artwork customizer", () => {
     expect(writeText).toHaveBeenCalledWith(stableConfigJson(generate("default")));
     expect(screen.getByRole("alert")).toHaveTextContent("Clipboard unavailable");
     expect(screen.getByRole("textbox", { name: "Configuration JSON" })).toBeVisible();
-    expect(screen.getByRole("textbox")).toHaveValue(stableConfigJson(generate("default")));
+    expect(screen.getByRole("textbox", { name: "Configuration JSON" })).toHaveValue(stableConfigJson(generate("default")));
   });
 
   it("reports SVG renderer failures instead of pretending an export succeeded", async () => {

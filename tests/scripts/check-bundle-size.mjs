@@ -7,7 +7,7 @@ import { build } from "vite";
 const requested = process.argv[process.argv.indexOf("--build-id") + 1];
 const buildId = (await readFile(".next/BUILD_ID", "utf8")).trim();
 assert(process.argv.includes("--build-id") && requested === buildId, "Pass the current verified launch build ID");
-const names = ["button", "avatar", "open-wheel-car", "markdown", "live-orb"];
+const names = ["button", "avatar", "open-wheel-car", "markdown", "emberling", "audio-orb", "vinyl-player", "wave-player", "liquid-metal"];
 const bundle = await build({
   resolve: { alias: { "@": process.cwd() } },
   configFile: false, logLevel: "error", esbuild: { jsx: "automatic" }, css: { postcss: { plugins: [] } },
@@ -29,7 +29,7 @@ function reachable(entry, visited = new Set()) {
 const entries = bundle.output.filter((item) => item.type === "chunk" && item.isEntry).map((entry) => {
   const included = [...reachable(entry)].map((name) => chunks.get(name));
   const modules = included.flatMap((chunk) => Object.keys(chunk.modules));
-  if (entry.name === "button") assert(!modules.some((id) => /(?:live-orb|react-markdown|[\\/]three[\\/])/.test(id)), "Button must not pull in optional visual or Markdown engines");
+  if (entry.name === "button") assert(!modules.some((id) => /(?:emberling|audio-orb|vinyl-player|wave-player|liquid-metal|react-markdown|[\\/]three[\\/])/.test(id)), "Button must not pull in optional visual or Markdown engines");
   return { name: entry.name, minifiedBytes: included.reduce((sum, item) => sum + Buffer.byteLength(item.code), 0), gzipBytes: included.reduce((sum, item) => sum + gzipSync(item.code).length, 0), moduleCount: modules.length, chunks: included.map((item) => item.fileName) };
 });
 async function walk(directory) {

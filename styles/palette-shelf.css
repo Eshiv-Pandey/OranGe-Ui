@@ -1,0 +1,22 @@
+.palette-shelf { min-width: 0; margin: 0; padding: 0; border: 0; }
+.palette-shelf legend { margin-bottom: 14px; color: var(--creative-ink); font-size: 12px; font-weight: 600; }
+.palette-shelf-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 10px; }
+.palette-swatch { display: grid; gap: 7px; width: 100%; padding: 0; color: var(--creative-muted); text-align: left; font: 11px/1.5 var(--font-body), sans-serif; border: 0; background: transparent; cursor: pointer; }
+.palette-swatch-strip { display: flex; height: 28px; border-radius: 6px; overflow: hidden; outline: 1px solid #8883; outline-offset: 2px; transition: outline-color .18s; }
+.palette-swatch-strip i { flex: 1; }
+.palette-swatch[aria-pressed="true"] { color: var(--creative-ink); }
+.palette-swatch[aria-pressed="true"] .palette-swatch-strip { outline: 2px solid var(--creative-accent); }
+.palette-swatch:hover .palette-swatch-strip { outline-color: var(--creative-ink); }
+.palette-save { display: flex; gap: 6px; margin-top: 18px; }
+.palette-save input { min-width: 0; width: 100%; padding: 8px 9px; border: 1px solid var(--creative-line); border-radius: 6px; background: transparent; color: var(--creative-ink); font: inherit; font-size: 11px; }
+.palette-save input::placeholder { color: var(--creative-muted); }
+.palette-save button { border: 1px solid var(--creative-line); border-radius: 6px; background: var(--creative-paper); color: var(--creative-ink); padding: 6px 12px; font: inherit; font-size: 11px; cursor: pointer; }
+.palette-save button:disabled { opacity: .5; cursor: not-allowed; }
+.palette-saved { display: grid; gap: 10px; margin-top: 18px; }
+.palette-saved > span { font-size: 10px; color: var(--creative-muted); }
+.palette-saved > div { display: grid; grid-template-columns: 1fr 30px; gap: 10px; align-items: center; }
+.palette-saved .palette-swatch { grid-template-columns: 76px 1fr; align-items: center; }
+.palette-saved .palette-swatch-strip { height: 20px; }
+.palette-remove { display: grid; place-items: center; width: 30px; height: 30px; border: 0; border-radius: 6px; background: transparent; color: var(--creative-muted); cursor: pointer; }
+.palette-message { margin: 10px 0 0; font-size: 11px; line-height: 1.6; color: var(--creative-muted); }
+.workspace-controls .palette-shelf { padding-top: 0; border-top: 0; }

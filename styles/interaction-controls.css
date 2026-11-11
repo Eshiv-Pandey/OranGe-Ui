@@ -1,0 +1,44 @@
+@import "./interaction-foundation.css";
+.halo-button { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 52px; max-width: 100%; padding: 2px; border: 0; border-radius: 999px; background: color-mix(in srgb, var(--creative-ink) 15%, var(--creative-paper)); color: var(--creative-ink); cursor: pointer; overflow: hidden; isolation: isolate; }
+.halo-ring { position: absolute; inset: -250%; z-index: -1; background: conic-gradient(from 0deg, transparent 0 56%, var(--halo-color) 74%, #fff7d5 81%, var(--halo-color) 88%, transparent 100%); transform: rotate(var(--halo-angle, 0rad)); transition: transform .25s var(--ix-ease), opacity .2s; animation: halo-orbit 5s linear infinite; }
+.halo-button:not(:hover):not(:focus-visible) .halo-ring { opacity: .55; animation-play-state: paused; }
+.halo-content { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 48px; padding: 12px 25px; border-radius: inherit; background: var(--creative-paper); font-weight: 550; }
+.halo-button:active:not(:disabled) .halo-content { background: color-mix(in srgb, var(--halo-color) 9%, var(--creative-paper)); }
+.halo-button:disabled .halo-ring { animation: none; opacity: .2; }
+.halo-button[data-appearance="pixel"], .halo-button[data-appearance="terminal"], .halo-button[data-appearance="retro-os"] { border-radius: var(--ix-radius); }
+.halo-button[data-appearance="neobrutalism"] { border-radius: 6px; box-shadow: 4px 4px 0 var(--creative-ink); }
+.halo-spinner { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: halo-orbit .7s linear infinite; }
+ .floating-dock { --dock-ink: #171717; --dock-paper: #f4f4f4; display: inline-flex; align-items: flex-end; max-width: 100%; min-height: 150px; padding-top: 48px; }
+.floating-dock[data-theme="dark"] { --dock-ink: #f5f5f5; --dock-paper: #191919; }
+.floating-dock ul { --dock-base: 48; position: relative; display: flex; align-items: flex-end; gap: 16px; width: max-content; max-width: 100%; margin: 0; padding: 18px 22px 22px; border-radius: 18px; background: var(--dock-paper); box-shadow: 0 8px 22px -12px #00000040; list-style: none; }
+.floating-dock li { position: relative; flex: 0 1 var(--dock-size,48px); width: var(--dock-size,48px); min-width: 30px; height: var(--dock-size,48px); }
+.floating-dock-item { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 0; border: 0; border-radius: 4px; background: transparent; color: var(--dock-ink); cursor: pointer; text-decoration: none; outline-offset: 5px; }
+.dock-icon { display: grid; place-items: center; width: 100%; height: 100%; }
+.dock-icon svg { width: 60%; height: 60%; display: block; stroke-width: 1.6; }
+.floating-dock-item:active .dock-icon { scale: .92; }
+.floating-dock-item:disabled { cursor: not-allowed; opacity: .35; }
+.dock-active-dot { position: absolute; bottom: -9px; width: 3px; height: 3px; border-radius: 50%; background: var(--dock-ink); opacity: 0; }
+.floating-dock li[data-active="true"] .dock-active-dot { opacity: 1; }
+.dock-tooltip { position: absolute; z-index: 4; bottom: calc(100% + 19px); left: 50%; padding: 6px 10px; border-radius: 6px; background: var(--dock-ink); color: var(--dock-paper); font-size: 12px; line-height: 1.3; white-space: nowrap; transform: translateX(-50%) translateY(4px); opacity: 0; pointer-events: none; transition: opacity .15s, transform .15s; }
+.floating-dock-item:hover .dock-tooltip, .floating-dock-item:focus-visible .dock-tooltip { opacity: 1; transform: translateX(-50%); }
+.floating-dock[data-appearance="pixel"] ul, .floating-dock[data-appearance="terminal"] ul { border-radius: 0; }
+.floating-dock[data-appearance="neobrutalism"] ul { border-radius: 6px; box-shadow: 4px 4px 0 var(--dock-ink); }
+.floating-dock[data-appearance="retro-os"] ul { border: 2px outset var(--dock-paper); border-radius: 3px; }
+.morph-input { width: 100%; max-width: 440px; }
+.morph-input-label { display: block; margin-bottom: 20px; text-align: center; font-size: 15px; font-weight: 500; }
+.morph-defs { position: absolute; pointer-events: none; }
+.morph-input-form { position: relative; display: flex; align-items: center; height: 58px; width: 58px; margin-inline: auto; isolation: isolate; transition: width .65s cubic-bezier(.2, 1.45, .4, 1); }
+.morph-input[data-open="true"] .morph-input-form { width: 100%; }
+.morph-input-fluid { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.morph-input-fluid i { position: absolute; top: 0; bottom: 0; left: 0; width: 58px; border-radius: 50%; background: var(--creative-ink); }
+.morph-input-fluid i + i { left: auto; right: 0; width: 58px; border-radius: 29px; transition: width .65s var(--ix-ease); }
+.morph-input[data-open="true"] .morph-input-fluid i + i { width: calc(100% - 30px); }
+.morph-input-trigger { flex: none; display: grid; place-items: center; width: 58px; height: 58px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--creative-paper); cursor: pointer; }
+.morph-input-field { display: flex; align-items: center; min-width: 0; flex: 1; padding-right: 7px; animation: morph-field-in .4s var(--ix-ease) both; }
+.morph-input .morph-input-field input { width: 100%; min-width: 0; height: 44px; padding: 0 6px; border: 0; outline-offset: 0; background: transparent; color: var(--creative-paper); caret-color: var(--creative-paper); font-size: 14px; }
+.morph-input-field input::placeholder { color: color-mix(in srgb, var(--creative-paper) 80%, transparent); }
+.morph-input-field button { display: grid; place-items: center; flex: none; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 50%; background: var(--creative-paper); color: var(--creative-ink); cursor: pointer; }
+@keyframes halo-orbit { to { rotate: 360deg; } }
+@keyframes morph-field-in { from { opacity: 0; clip-path: inset(0 100% 0 0); } to { opacity: 1; clip-path: inset(0); } }
+@media (max-width: 480px) { .floating-dock ul { --dock-base: 38; gap: 10px; padding-inline: 12px; }.floating-dock li { flex-basis: var(--dock-size, 38px); width: var(--dock-size, 38px); height: var(--dock-size, 38px); }.morph-input .morph-input-field input { font-size: 16px; } }
+@media (prefers-reduced-motion: reduce) { .floating-dock-item { transform: none; } }

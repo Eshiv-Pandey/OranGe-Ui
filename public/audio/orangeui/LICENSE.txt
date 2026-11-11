@@ -1,0 +1,8 @@
+Orange sessions: Sunroom, Blue hour, Pocket garden
+Original synthesized recordings created for oRangeUi, 2026.
+The authors dedicate these recordings to the public domain under CC0 1.0.
+You may use, modify and distribute them, including commercially, without attribution.
+No third-party recording, melody, sample or reference artwork was used.
+The reproducible generator source is tools/generate-creative-assets.py, under the repo MIT license.
+Full CC0 legal text: CC0-1.0.txt in this folder.
+https://creativecommons.org/publicdomain/zero/1.0/

@@ -116,6 +116,26 @@ describe("helmet and driver interaction", () => {
     act(() => intersections[0](false)); expect(host).toHaveAttribute("data-motion", "paused");
   });
 
+  it("keeps both eyes visible, supports thumbs up and exposes a controlled pause", async () => {
+    const user = userEvent.setup(), onPausedChange = vi.fn();
+    const { container, rerender } = render(<MiniDriver showControls paused={false} onPausedChange={onPausedChange} />);
+    expect(container.querySelectorAll(".driver-eye-blink")).toHaveLength(2);
+    expect(container.querySelectorAll(".helmet-interior-face")).toHaveLength(0);
+    const originalSvg = container.querySelector(".mini-driver-svg");
+    await user.click(screen.getByRole("button", { name: "Thumbs up" }));
+    expect(screen.getByRole("status")).toHaveTextContent("gives a thumbs up");
+    expect(container.querySelector(".mini-driver")).toHaveAttribute("data-gesture", "thumbs-up");
+    expect(container.querySelector(".mini-driver-svg")).toBe(originalSvg);
+    expect(container.querySelector(".driver-hand-thumb")?.closest(".mini-driver-arm-wave")).toBeNull();
+    expect(container.querySelector(".driver-hand-thumb")?.closest(".mini-driver-arm-thumb")).not.toBeNull();
+    await user.click(screen.getByRole("button", { name: "Pause animation" }));
+    expect(onPausedChange).toHaveBeenCalledWith(true);
+    expect(container.querySelector(".mini-driver")).toHaveAttribute("data-paused", "false");
+    rerender(<MiniDriver showControls paused onPausedChange={onPausedChange} />);
+    expect(container.querySelector(".mini-driver")).toHaveAttribute("data-paused", "true");
+    expect(screen.getByRole("button", { name: "Resume animation" })).toHaveAttribute("aria-pressed", "true");
+  });
+
   it("respects reduced motion and exposes a static image when interactivity is disabled", () => {
     vi.stubGlobal("matchMedia", vi.fn(() => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() })));
     const { container } = render(<><Helmet interactive={false} blink={false} /><MiniDriver interactive={false} /></>);

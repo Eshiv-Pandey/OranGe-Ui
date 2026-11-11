@@ -3,9 +3,17 @@ import { expect, test, type Page } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
 test.use({ reducedMotion: "reduce" });
+const artifacts = "out/iteration/six-task/classic/browser";
+test.beforeAll(async () => { await mkdir(artifacts, { recursive: true }); });
+
+function classicUrl() {
+  const baseURL = test.info().project.use.baseURL;
+  if (!baseURL) throw new Error("Configure a Playwright baseURL for the classic landing checks.");
+  return new URL("/classic", baseURL).href;
+}
 
 async function ready(page: Page) {
-  await page.goto("http://127.0.0.1:3107/");
+  await page.goto(classicUrl());
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Play with pixels.Ship with polish.");
   await page.evaluate(() => document.fonts.ready);
   await expect(page.getByRole("button", { name: "Save a little joy" })).toBeVisible();
@@ -28,6 +36,9 @@ for (const width of [1440, 768, 390, 360]) {
   for (const theme of ["light", "dark"] as const) {
     test(`${width}px ${theme} page has no accessibility violations or layout shift`, async ({ browser }) => {
       const context = await browser.newContext({ viewport: { width, height: 1000 }, colorScheme: theme, reducedMotion: "reduce" });
+      // The catalogue defaults to dark. Select the saved palette explicitly so
+      // this matrix exercises both palettes instead of relying on OS preference.
+      await context.addInitScript((palette) => localStorage.setItem("orangeui-palette", palette), theme);
       const page = await context.newPage();
       const errors: string[] = [];
       page.on("pageerror", (error) => errors.push(error.message));
@@ -44,9 +55,8 @@ for (const width of [1440, 768, 390, 360]) {
       await expect(page.locator(".stat-card-grid .stat-card")).toHaveCount(5);
       const results = await new AxeBuilder({ page }).analyze();
       const dimensions = await page.evaluate(() => ({ viewport: innerWidth, document: document.documentElement.scrollWidth, shift: (window as Window & { layoutShifts?: number[] }).layoutShifts?.reduce((sum, value) => sum + value, 0) ?? 0, displayFont: getComputedStyle(document.querySelector("h1")!).fontFamily, colorScheme: getComputedStyle(document.documentElement).colorScheme }));
-      await mkdir("out", { recursive: true });
-      await page.screenshot({ path: `out/landing-${width}-${theme}.png`, fullPage: true, animations: "disabled" });
-      await writeFile(`out/landing-${width}-${theme}-a11y.json`, JSON.stringify({ width, theme, violations: results.violations, dimensions, fonts, errors }, null, 2) + "\n");
+      await page.screenshot({ path: `${artifacts}/landing-${width}-${theme}.png`, fullPage: true, animations: "disabled" });
+      await writeFile(`${artifacts}/landing-${width}-${theme}-a11y.json`, JSON.stringify({ width, theme, violations: results.violations, dimensions, fonts, errors }, null, 2) + "\n");
       expect(results.violations).toEqual([]);
       expect(dimensions.document).toBeLessThanOrEqual(width);
       expect(dimensions.shift).toBeLessThan(0.01);
@@ -179,7 +189,7 @@ for (const deviceScaleFactor of [1, 2]) {
       observations.push({ kind, hotspot, fallback, sources: decoded });
     }
     await mkdir("out", { recursive: true });
-    await writeFile(`out/cursors-dpr-${deviceScaleFactor}.json`, JSON.stringify({ deviceScaleFactor, cursors: observations }, null, 2) + "\n");
+    await writeFile(`${artifacts}/cursors-dpr-${deviceScaleFactor}.json`, JSON.stringify({ deviceScaleFactor, cursors: observations }, null, 2) + "\n");
     await context.close();
   });
 }
@@ -187,7 +197,7 @@ for (const deviceScaleFactor of [1, 2]) {
 test("touch devices use native cursors", async ({ browser }) => {
   const touch = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   const touchPage = await touch.newPage();
-  await touchPage.goto("http://127.0.0.1:3107/");
+  await touchPage.goto(classicUrl());
   expect(await touchPage.locator("body").evaluate((element) => getComputedStyle(element).cursor)).toBe("auto");
   expect(await touchPage.locator(".stat-card--linked").first().evaluate((element) => getComputedStyle(element).cursor)).toBe("auto");
   await touch.close();
@@ -262,13 +272,21 @@ test("hero pauses rendering manually, offscreen, and while the tab is hidden", a
   await pause.click();
   await expect(page.locator(".hero-static")).toHaveCSS("opacity", "0");
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
-  await page.screenshot({ path: "out/hero-webgl-desktop.png" });
+  await page.screenshot({ path: `${artifacts}/hero-webgl-desktop.png` });
 });
 
 test("dark toggle persists and reduced motion uses a static hero", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
   await ready(page);
   const toggle = page.getByRole("button", { name: "Dark mode" });
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  expect(await page.evaluate(() => localStorage.getItem("orangeui-palette"))).toBeNull();
+  await toggle.click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
   await toggle.click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await page.reload();
@@ -328,7 +346,7 @@ test("unavailable graphics and context loss preserve the original static scene",
 test("static content and component links are usable before JavaScript loads", async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto("/");
+  await page.goto(classicUrl());
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.locator(".hero-heading")).toHaveCSS("opacity", "1");
   await expect(page.locator(".hero-static")).toBeVisible();
@@ -347,7 +365,7 @@ test("touch composition keeps the console controls usable and disables pointer m
   await page.locator(".motion-toggle").tap();
   await expect(page.locator(".hero-static")).toHaveCSS("opacity", "0");
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
-  await page.screenshot({ path: "out/hero-webgl-mobile.png" });
+  await page.screenshot({ path: `${artifacts}/hero-webgl-mobile.png` });
   await page.getByRole("button", { name: "Play console demo" }).tap();
   const dimensions = await page.locator(".console-button").evaluateAll((buttons) => buttons.map((button) => {
     const bounds = button.getBoundingClientRect();
@@ -363,7 +381,7 @@ test("touch composition keeps the console controls usable and disables pointer m
   await expect(page.locator(".console-board")).toHaveAttribute("data-player", "3,1");
   const result = await new AxeBuilder({ page }).include(".coming-soon").analyze();
   expect(result.violations).toEqual([]);
-  await page.locator(".handheld").screenshot({ path: "out/console-playing-mobile.png" });
+  await page.locator(".handheld").screenshot({ path: `${artifacts}/console-playing-mobile.png` });
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
   await context.close();
 });

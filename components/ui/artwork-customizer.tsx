@@ -3,6 +3,8 @@
 import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { uiClass, type Appearance, type AppearanceProps } from "./appearance";
 import { Button } from "./button";
+import { WorkbenchInspector } from "./workbench-inspector";
+import { EditorColor, EditorRange } from "./editor-controls";
 import { downloadArtwork, normalizeSvgColor, prepareSvgExport, stableConfigJson, svgToPng, type SvgExportOptions } from "./svg-export";
 import "../../styles/artwork-customizer.css";
 
@@ -76,7 +78,7 @@ export function ArtworkCustomizer<T extends object>({ value, onChange, normalize
       <div className="artwork-customizer-artwork" data-main-preview="">{renderPreview(current, appearance)}</div>
       {previewCaption && <div className="artwork-customizer-caption">{previewCaption}</div>}
     </div>
-    <div className="artwork-customizer-settings">
+    <WorkbenchInspector><div className="artwork-customizer-settings">
       <div className="artwork-customizer-heading"><h3>{label}</h3>{description && <p>{description}</p>}</div>
       {activeTab && <>
         <div className="artwork-customizer-tabs" role="tablist" aria-label={`${label} options`}>
@@ -98,19 +100,16 @@ export function ArtworkCustomizer<T extends object>({ value, onChange, normalize
         <label className="sr-only" htmlFor={`${id}-config`}>Configuration JSON</label>
         <textarea id={`${id}-config`} readOnly value={json} rows={5} spellCheck={false} onFocus={(event) => event.currentTarget.select()} />
       </details>
-    </div>
+    </div></WorkbenchInspector>
   </section>;
 }
 
 export function CustomizerColor({ label, value, onChange }: { label: string; value: string; onChange: (color: string) => void }) {
-  const id = useId();
-  const color = normalizeSvgColor(value);
-  return <label className="customizer-field customizer-color" htmlFor={id}><span>{label}</span><span><input id={id} type="color" aria-label={label} value={color} onChange={(event) => onChange(normalizeSvgColor(event.target.value))} /><code>{color}</code></span></label>;
+  return <EditorColor label={label} value={normalizeSvgColor(value)} onChange={(next) => onChange(normalizeSvgColor(next))} />;
 }
 
 export function CustomizerRange({ label, value, onChange, min = 0, max = 1, step = 0.01, formatValue = String }: { label: string; value: number; onChange: (value: number) => void; min?: number; max?: number; step?: number; formatValue?: (value: number) => string }) {
-  const id = useId();
-  return <div className="customizer-field customizer-range"><label htmlFor={id}>{label}<output htmlFor={id} aria-hidden="true">{formatValue(value)}</output></label><input id={id} type="range" min={min} max={max} step={step} value={value} aria-valuetext={formatValue(value)} onChange={(event) => onChange(Number(event.target.value))} /></div>;
+  return <EditorRange label={label} value={value} onChange={onChange} min={min} max={max} step={step} formatValue={formatValue} />;
 }
 
 export function CustomizerSelect<T extends string>({ label, value, options, onChange }: { label: string; value: T; options: readonly { value: T; label: string; disabled?: boolean }[]; onChange: (value: T) => void }) {

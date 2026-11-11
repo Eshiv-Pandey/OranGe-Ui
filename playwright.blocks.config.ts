@@ -1,0 +1,2 @@
+import { defineConfig } from "@playwright/test";
+export default defineConfig({ testDir: "./tests", testMatch: /blocks\.spec\.ts$/, outputDir: "out/iteration/blocks-browser-results", timeout: 240000, expect: { timeout: 15000 }, fullyParallel: false, workers: 1, reporter: [["list"], ["json", { outputFile: "out/iteration/blocks-browser-report.json" }]], use: { baseURL: "http://127.0.0.1:3140", browserName: "chromium", launchOptions: { args: ["--disable-gpu"] }, reducedMotion: "reduce", trace: "retain-on-failure" } });

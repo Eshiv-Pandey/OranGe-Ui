@@ -2,7 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { unzipSync, strFromU8 } from "fflate";
-import { components } from "../lib/components";
+import { components, componentsInCollection } from "../lib/components";
 import { APPEARANCES, APPEARANCE_VALUES } from "../components/ui/appearance";
 
 test.use({ reducedMotion: "reduce" });
@@ -28,13 +28,14 @@ function activeChoiceAudit(page: Page, selector: ".ui-select-content" | ".ui-men
 }
 
 for (const theme of ["light", "dark"] as const) for (const appearance of APPEARANCE_VALUES) {
-  test(`all ${components.length} components render with accessible ${appearance} styling in ${theme}`, async ({ page }) => {
+  const collection = componentsInCollection(appearance);
+  test(`all ${collection.length} components render with accessible ${appearance} styling in ${theme}`, async ({ page }) => {
     test.setTimeout(300_000); await page.setViewportSize({ width: 1440, height: 1100 });
     await page.addInitScript((palette) => localStorage.setItem("orangeui-palette", palette), theme);
     const errors: string[] = []; page.on("pageerror", (error) => errors.push(error.message));
     const observations = [];
     await mkdir(`out/library/${appearance}-${theme}`, { recursive: true });
-    for (const c of components) {
+    for (const c of collection) {
       const demo = await open(page, c.slug, appearance);
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(c.name + "✦");
       await expect(demo.locator(`[data-appearance="${appearance}"]`).first()).toBeVisible();
@@ -53,7 +54,7 @@ for (const theme of ["light", "dark"] as const) for (const appearance of APPEARA
 
 for (const width of [1440, 768, 390, 360]) test(`catalogue search and category flow at ${width}px`, async ({ page }) => {
   await page.setViewportSize({ width, height: 1000 });
-  await page.goto("/components?style=pixel"); await expect(page.locator(".component-tile")).toHaveCount(components.length);
+  await page.goto("/components?style=pixel"); await expect(page.locator(".component-tile")).toHaveCount(componentsInCollection("pixel").length);
   if (width < 721) {
     const theme = page.getByRole("button", { name: "Dark mode" });
     await expect(theme.locator("svg")).toBeVisible();
@@ -66,7 +67,7 @@ for (const width of [1440, 768, 390, 360]) test(`catalogue search and category f
   await search.fill("gamer"); await expect(page.locator(".component-tile")).toHaveCount(1); await expect(page.locator(".component-tile")).toContainText("GamerBoy");
   await search.fill("not-here"); await expect(page.getByRole("heading", { name: "A little too specific?" })).toBeVisible();
   await page.getByRole("button", { name: "Clear filters" }).click(); await page.getByRole("button", { name: "Play", exact: true }).click();
-  await expect(page.locator(".component-tile")).toHaveCount(1); await page.locator(".component-tile").getByRole("link", { name: "GamerBoy" }).click();
+  await expect(page.locator(".component-tile")).toHaveCount(componentsInCollection("pixel").filter((component) => component.category === "Play").length); await page.locator(".component-tile").getByRole("link", { name: "GamerBoy" }).click();
   await expect(page).toHaveURL(/gamer-boy\?style=pixel/); await expect(page.getByTestId("live-demo").locator(".gamer-boy-device")).toHaveAttribute("data-appearance", "pixel");
   await page.getByRole("button", { name: "Polished", exact: true }).click(); await expect(page).toHaveURL(/style=polished/);
   await page.reload(); await expect(page.getByRole("button", { name: "Polished", exact: true })).toHaveAttribute("aria-pressed", "true");
@@ -200,7 +201,7 @@ for (const width of [360, 768]) for (const theme of ["light", "dark"] as const) 
   const observations = [];
   const folder = `out/library/responsive-${width}-${theme}`;
   await mkdir(folder, { recursive: true });
-  for (const appearance of APPEARANCE_VALUES) for (const component of components) {
+  for (const appearance of APPEARANCE_VALUES) for (const component of componentsInCollection(appearance)) {
     await open(page, component.slug, appearance);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
     expect.soft(overflow, `${component.slug} ${appearance} fits at ${width}px`).toBe(false);

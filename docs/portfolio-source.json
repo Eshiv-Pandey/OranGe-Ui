@@ -1,0 +1,157 @@
+[
+  {
+    "source": "src/components/NebulaBackground.tsx",
+    "destination": "components/ui/portfolio/nebula-background.tsx",
+    "sourceSha256": "c4623c3cd696c9b798277afd1d0c5662fe69be41497b37fdd62f891fb1538cfc"
+  },
+  {
+    "source": "src/components/BannerParticles.tsx",
+    "destination": "components/ui/portfolio/banner-particles.tsx",
+    "sourceSha256": "f9304803ed040a7a5c86671aad2dc99e232b498c565ab4fa50dddcf54c39c248"
+  },
+  {
+    "source": "src/components/WildPixelField.tsx",
+    "destination": "components/ui/portfolio/wild-pixel-field.tsx",
+    "sourceSha256": "886efcb49fdf18ea5c5f57e0b1c51627a9f5b8de96e702928fe503c1c9dc1f88"
+  },
+  {
+    "source": "src/lib/wild-pixels.ts",
+    "destination": "components/ui/portfolio/wild-pixels.ts",
+    "sourceSha256": "133e0d0e3bdafd54306b440d17bc6821413e096e132762e11ffa669bfffe6bca"
+  },
+  {
+    "source": "src/components/CurrentTime.tsx",
+    "destination": "components/ui/portfolio/current-time.tsx",
+    "sourceSha256": "6b479c9a00505a7c5bb9a54f549c4886aa6af5b349661348da8b8c6b81244335"
+  },
+  {
+    "source": "src/components/desi/MonumentSkyline.tsx",
+    "destination": "components/ui/portfolio/monument-skyline.tsx",
+    "sourceSha256": "f2e242e39e21cd735a01e39c792edeb2ccd74d64af58b5b699a3c06120ce32a6"
+  },
+  {
+    "source": "src/components/StickerTile.tsx",
+    "destination": "components/ui/portfolio/sticker-tile.tsx",
+    "sourceSha256": "dd7c80ac4c5e8eaeb95cfc404609421d4d33cf86affd63678ca234c8b23c74be"
+  },
+  {
+    "source": "src/components/social-links.module.css",
+    "destination": "styles/portfolio-social.module.css",
+    "sourceSha256": "8c53f777fc2cfec9994c0074a9a3b8a06e7d667c746b88bd7072395fc53317a6"
+  },
+  {
+    "source": "src/components/wild-pixels.module.css",
+    "destination": "styles/portfolio-wild.module.css",
+    "sourceSha256": "fbd83e2342a28bffbacf646fae8a9bbbf32199e2d7c324a84748eced085bd18b"
+  },
+  {
+    "source": "src/components/pixel-perfect/social-hover-card.tsx",
+    "destination": "components/ui/portfolio/social-hover-card.tsx",
+    "sourceSha256": "eb9af5b0e8b16cb735bcda8dc9206a7783316b096225a2142d528e9daa2d929b"
+  },
+  {
+    "source": "src/lib/socials.ts",
+    "destination": "components/ui/portfolio/demo-socials.ts",
+    "sourceSha256": "21744c03f1c130644ae43878af03f65582d0e9bf3221417858afd272f08f1b0d"
+  },
+  {
+    "source": "public/images/truck-art.webp",
+    "destination": "public/portfolio/truck-art.webp",
+    "sourceSha256": "c8c2252d90d87443dc180ff6e1f563c90e1918b569b24d8a0b757ad69cd3f511"
+  },
+  {
+    "source": "src/components/HeroBanner.tsx",
+    "sourceSha256": "c0c05f1c2ad53a602c665d6708a72722c5c21cb385b4a73b697e3a653726ad8d",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/components/Footer.tsx",
+    "sourceSha256": "f8c7a821b75edea291fe531bab454541559b9ae241e95a7e5f0581ffaeb158d1",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/components/TruckRoad.tsx",
+    "sourceSha256": "f2d58ec7d7f3f73e940a58191e7664cce2f8b3e6a54d4b09a8b98d63120daa0a",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/components/SocialLinks.tsx",
+    "sourceSha256": "4eb37b5ee8ff25ee042549f15b35aa9ed32455a1d0a609d92f6a1032512d550f",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/app/page.tsx",
+    "sourceSha256": "d83ab5bdc645c4db358dd1844e5cbc0a51d8d7296d49e533ed8b26372c2ab5bd",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/app/globals.css",
+    "sourceSha256": "8f9831f7a2b85aaf9c612c0b333c2c0314ac0a3b8b2a572eb6774146e199ac05",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/app/layout.tsx",
+    "sourceSha256": "e5423c63e8b6c536e1e36ea6c3d8d79007e4f501d441ebe30957ececd8d4aee4",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/components/theme-provider.tsx",
+    "sourceSha256": "3a162bd8a0c44fb84bb0caf1df55438b05ba4f0c1b5f635890f87d22e720e868",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/components/desi/section.tsx",
+    "sourceSha256": "eff8b6c99f80afc820ddd01e4797dda2e06a4ffd6a0dca41636c927f89b77965",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/lib/cursor-mode.ts",
+    "sourceSha256": "2234a6cfdd42ebe872f37f6b4de957a62709c2ffae10c03bf06a7323a7b7d5de",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/lib/sections.ts",
+    "sourceSha256": "5660cd2aeb64eb259a778501c8f53a15cf61935b78930ae2077a7aa7255f9de5",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/lib/site.ts",
+    "sourceSha256": "052042e7b37d63e74f1af86a10744222941720a21873c84db4b4041611174067",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/hooks/use-reduced-motion.ts",
+    "sourceSha256": "49a9bb5444f76c663b594ac46b1df80be4efeec2c9bc79182ef0369778d02b9a",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "next.config.ts",
+    "sourceSha256": "1147be1f485277e7261d8b5d1a99dc03f2881afcfaa3270f3a082ba46b705c68",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "package.json",
+    "sourceSha256": "5d77fb52591364bba748197c29ec561886716605ecf30b054b7d2da2fc2c1d00",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/components/WildCursor.tsx",
+    "sourceSha256": "e8481e884c37a73a10e95b8ed5942531263f87b8d113accb41e5ea2aee7469f0",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/components/PixelTrail.tsx",
+    "sourceSha256": "bb5e6a49437986f65f31511308d846bbb265b273dc9d849d2b55eb9e2ade1114",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/components/pixel-trail.module.css",
+    "sourceSha256": "8f173cd4bf79d3757018337787853cf593e0dab3ec3571bc78c432848dbb673c",
+    "purpose": "Current source composition and configuration inspected for the port"
+  },
+  {
+    "source": "src/components/CursorEffects.tsx",
+    "sourceSha256": "0e9b4fee77e7d37a4f3bdb4208dc877be34ee9a414bb476c0561e005aa84adfb",
+    "purpose": "Current source composition and configuration inspected for the port"
+  }
+]

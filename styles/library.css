@@ -116,13 +116,17 @@
 .detail-section-title .library-kicker { margin-bottom: 6px; font-size: 10px; }
 .install-command { overflow-x: auto; padding: 18px 22px; background: var(--surface-soft); border: 1px solid var(--line); border-radius: 10px; font-size: 12px; line-height: 1.8; }
 .props-scroll { overflow: auto; }
-.props-table { border-collapse: collapse; width: 100%; font-size: 12px; text-align: left; }
+.props-scroll-hint { display: none; }
+.props-table { border-collapse: collapse; width: 100%; min-width: 680px; font-size: 12px; text-align: left; }
 .props-table td, .props-table th { border-bottom: 1px solid var(--line); vertical-align: top; padding: 16px 14px; }
 .props-table thead { background: var(--surface-soft); }
 .props-table th { font-weight: 600; }
+.props-table tbody th { min-width: 160px; white-space: nowrap; }
 .props-table code { font-size: 11px; overflow-wrap: anywhere; }
 .props-table td { color: var(--muted); min-width: 180px; }
+.props-table td:last-child { min-width: 240px; }
 .props-table small { display: block; margin-top: 6px; color: var(--muted); }
+@media (max-width: 720px) { .props-scroll-hint { display: block; margin-bottom: 12px; color: var(--muted); font-size: 12px; } }
 .keyboard-note { display: flex; align-items: flex-start; gap: 22px; padding: 28px; border: 1px solid var(--line); border-radius: 12px; margin: 40px 0; background: var(--surface-soft); }
 .keyboard-note > span { font-size: 24px; }
 .keyboard-note h2 { font-size: 15px; margin-bottom: 8px; font-weight: 600; }

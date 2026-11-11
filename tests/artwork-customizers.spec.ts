@@ -8,7 +8,7 @@ const viewports = [{ width: 1366, height: 768 }, { width: 1440, height: 900 }, {
 const artworks = [
   { slug: "character-avatar", name: "CharacterAvatar", label: "Customize your character", seedLabel: "Character seed", host: ".character-avatar", tabs: ["Parts", "Colors", "Motion"], colorsTab: "Colors", colorLabel: "Accent", pngHeight: 512, svgWidth: 512, pupil: ".character-pupil" },
   { slug: "helmet", name: "Helmet", label: "Customize your helmet", seedLabel: "Helmet seed", host: ".helmet", tabs: ["Design", "Colors", "Motion"], colorsTab: "Colors", colorLabel: "Shell", pngHeight: 512, svgWidth: 512, pupil: ".helmet-pupil" },
-  { slug: "mini-driver", name: "MiniDriver", label: "Customize your driver", seedLabel: "Driver seed", host: ".mini-driver", tabs: ["Suit", "Helmet", "Helmet colors", "Motion"], colorsTab: "Suit", colorLabel: "Suit", pngHeight: 640, svgWidth: 480, pupil: ".helmet-pupil" },
+  { slug: "mini-driver", name: "MiniDriver", label: "Customize your driver", seedLabel: "Driver seed", host: ".mini-driver", tabs: ["Suit", "Helmet", "Helmet colors", "Motion"], colorsTab: "Suit", colorLabel: "Suit", pngHeight: 640, svgWidth: 480, pupil: ".driver-pupil" },
 ] as const;
 type Artwork = typeof artworks[number];
 
@@ -228,7 +228,7 @@ for (const artwork of artworks) test(`${artwork.slug} actual gaze, blink, keyboa
   const editor = await openCustomizer(page, artwork), art = host(editor, artwork);
   await expect(art).toHaveAttribute("data-motion", "running");
   if (artwork.slug !== "character-avatar") {
-    const button = art.getByRole("button"); await button.focus(); await button.press("Space"); await expect(button).toBeFocused();
+    const button = art.locator(".helmet-button, .mini-driver-button"); await button.focus(); await button.press("Space"); await expect(button).toBeFocused();
     if (artwork.slug === "helmet") { await expect(art).toHaveAttribute("data-visor-open", "true"); await expect(button).toHaveAttribute("aria-pressed", "true"); }
     else { await expect(art.getByRole("status")).toHaveText("The little driver waves hello."); await button.press("Enter"); await expect(art.getByRole("status")).toHaveText("The little driver waves again."); }
   }
@@ -238,7 +238,17 @@ for (const artwork of artworks) test(`${artwork.slug} actual gaze, blink, keyboa
   expect(await art.locator(artwork.pupil).first().evaluate((element) => getComputedStyle(element).transform)).not.toBe("none");
   await page.mouse.move(Math.max(0, rect!.x - 60), rect!.y + rect!.height / 2);
   await expect.poll(() => art.evaluate((element) => Number((element as HTMLElement).style.getPropertyValue("--gaze-x")))).toBeLessThan(-.8);
-  await expect.poll(() => art.evaluate((element) => Number((element as HTMLElement).style.getPropertyValue("--blink-scale"))), { timeout: 8000, intervals: [25] }).toBeLessThan(.5);
+  const blinkMinimum = await art.evaluate((element) => new Promise<number>((resolve) => {
+    let minimum = 1;
+    const finish = () => { observer.disconnect(); clearTimeout(timer); resolve(minimum); };
+    const observer = new MutationObserver(() => {
+      minimum = Math.min(minimum, Number((element as HTMLElement).style.getPropertyValue("--blink-scale") || 1));
+      if (minimum < .5) finish();
+    });
+    const timer = setTimeout(finish, 8000);
+    observer.observe(element, { attributes: true, attributeFilter: ["style"] });
+  }));
+  expect(blinkMinimum).toBeLessThan(.5);
   await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight)); await expect(art).toHaveAttribute("data-motion", "paused");
   const clock = await art.evaluate((element) => (element as HTMLElement).style.getPropertyValue("--motion-clock"));
   await page.evaluate(async () => { for (let index = 0; index < 12; index++) await new Promise<void>((resolve) => requestAnimationFrame(() => resolve())); });

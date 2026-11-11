@@ -17,10 +17,17 @@ Open `http://localhost:3000`. The main routes are:
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Landing page, interactive playground, and GamerBoy |
+| `/` | Animated landscape landing with a static fallback |
+| `/classic` | Original landing, interactive playground, and GamerBoy |
+| `/pricing` | MIT license and free-use information |
 | `/components` | Searchable component catalogue |
 | `/components?style=terminal` | Direct link to an appearance |
 | `/components/[slug]` | Live preview, usage, source, props, and keyboard guidance |
+| `/components/shader-canvas` | Gradient and noise playground with ordered effects and pointer interactions |
+| `/components/flowing-water` | Flowing teal water with adjustable sun reflections and ripples |
+| `/components/flowing-grass` | Grass with editable wind, blades, colors and pointer interaction |
+| `/components/drifting-clouds` | Cumulus clouds with editable shape, sunlight and drift |
+| `/portfolio` | Portfolio artwork with a sample footer, animated truck and sticker socials together |
 | `/docs` | Installation, theming, and Infinite Avatar guide |
 | `/api/components/[slug]?style=retro-os` | Download a component source ZIP |
 
@@ -32,6 +39,9 @@ Start with this README, then read:
 2. [STATUS.md](STATUS.md) for measured verification results, saved evidence, and outstanding work.
 3. [LIBRARY_PLAN.md](LIBRARY_PLAN.md) for the earlier component-library architecture and discovery flow.
 4. [REVAMP_PLAN.md](REVAMP_PLAN.md) for the landing-page design history.
+5. [COMPONENT_FOLLOWUP.md](COMPONENT_FOLLOWUP.md) for the sidebar, five-appearance fire/tree and artwork follow-up.
+6. [SIX_TASK_UPDATE.md](SIX_TASK_UPDATE.md) for the playground, editor, nature materials and landscape landing update.
+7. [PORTFOLIO_COMPONENTS.md](PORTFOLIO_COMPONENTS.md) for the four portfolio exports, installation, typed props and validation.
 
 The older plans describe earlier milestones. The current catalogue spans five appearances, with new work tracked in STATUS.md.
 
@@ -102,7 +112,7 @@ Appearance and color theme are independent. Set `data-theme="dark"` or `data-the
 
 Customize colors in `styles/tokens.css`. Shared appearance rules load through `styles/library-base.css`, including in source downloads. Font URLs resolve from `/fonts/`; adjust them when deploying under a base path.
 
-The docs header provides custom accent colors, readable palette tokens and Copy theme. Accent preferences persist locally across routes. Use Ctrl+K or Command+K to search and open a component.
+The docs header provides custom accent colors, readable palette tokens and Copy theme. Accent preferences persist locally across routes. Use Ctrl+K or Command+K to search and open a component or the setup guide. The sidebar keeps the logo, collapse control and Search docs visible while its list scrolls. Collapsed state persists locally, and mobile navigation opens in a sheet.
 
 ### Component inventory
 
@@ -112,12 +122,27 @@ The docs header provides custom accent colors, readable palette tokens and Copy 
 | Navigation and disclosure | Accordion, Tabs, Breadcrumb, Pagination, DropdownMenu, Command, NavigationMenu, Navbar, Sidebar, ContextMenu |
 | Overlays and feedback | Dialog, Sheet, Popover, Tooltip, Toast, Alert, Progress, Skeleton, HoverCard |
 | Content and layout | Badge, Avatar, AvatarGroup, AvatarEditor, Card, StatCard, Separator, Table, EmptyState, Kbd, ScrollArea, Carousel, CodeBlock |
-| Play | MascotAvatar, CharacterAvatar, Helmet, MiniDriver, GamerBoy, OpenWheelCar, Superbike, RaceStartLights, RaceProgress, LiveryEditor, HelmetEditor |
-| AI and chat | ChatMessage, PromptInput, ToolCallCard, AgentStatus, ThinkingIndicator, ModelPicker, Markdown, LiveOrb |
+| Play | MascotAvatar, CharacterAvatar, Helmet, MiniDriver, GamerBoy, OpenWheelCar, Superbike, RaceStartLights, RaceProgress |
+| AI and chat | ChatMessage, PromptInput, ToolCallCard, AgentStatus, ThinkingIndicator, ModelPicker, Markdown, Emberling |
+| Shader scenes | ShaderCanvas, FlowingWater, FlowingGrass, DriftingClouds |
 
-There are 70 public catalogue components. Table already provides sorting and pagination. Form uses Zod validation; FileUpload selects local files and leaves uploading to the consuming app. AI components expose application-owned callbacks. The chat demo streams a fixed local response and makes no model request. Markdown supports GFM with safe URL handling and raw HTML omitted.
+There are 86 public catalogue components. Table already provides sorting and pagination. Form uses Zod validation; FileUpload selects local files and leaves uploading to the consuming app. AI components expose application-owned callbacks. The chat demo streams a fixed local response and makes no model request. Markdown supports GFM with safe URL handling and raw HTML omitted.
 
-LiveOrb is by jay sharma (@radiumcoders), distributed under MIT. Its shader and interaction engine are retained, with the supplied warning-string repairs and local stylesheet/appearance integration. Full attribution travels with the component; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+### Creative components
+
+Batch 2 adds SeasonTree, RetroPlayer, RetroCamera, SwingKeychain, CustomStamp, TiltStamp3D, IslandPlayer, GlassPlayer, NeonPillPlayer, AnimeFire, GrainGradient, HindiText, HinglishText and FrostedGlass. AnimeFire and SeasonTree support all five appearances, including catalogue previews and source downloads. The two pocket devices retain Retro OS materials; the other creative pieces retain Polished materials.
+
+All four players share real playback, seeking and audio state through useAudioPlayer. Original Orange sessions recordings are dedicated to CC0 1.0, with complete notices in public/audio/orangeui/. Source ZIPs include their public assets; registry examples embed sample audio for portability. Camera access and every sound require a user gesture. Decorative animation observes visibility and reduced motion.
+
+HindiText and HinglishText share the StyledText generator. Yatra One and Baloo 2 use SIL OFL 1.1, with font files and credits in public/fonts/desi/. Override --font-hindi-display and --font-hinglish-display to swap licensed fonts without changing the API. Users own the text they create. Roman-to-Hindi transliteration runs locally. Stamp and lettering editors export standalone SVG or PNG.
+
+The Batch 2 references guided layout and materials. That batch's shipped illustrations, decals, shader code and audio are original; its reference artwork, characters, lettering and brand marks are excluded. See BATCH_2_PLAN.md and the component pages for APIs, keyboard guidance and license details.
+
+The landscape landing uses the owner's supplied base image, cleaned to remove the original interface, with derived flower, cloud, grass and person masks. [LANDING_SCENE.md](LANDING_SCENE.md) documents its configuration, asset origins, mask export recipe and rendering limits. The reusable nature components use procedural shaders; their public APIs are described in [FLOWING_GRASS.md](FLOWING_GRASS.md) and [DRIFTING_CLOUDS.md](DRIFTING_CLOUDS.md).
+
+Emberling is an original folded-flame character with a curious gaze, softly floating cinders and customizable facets. It renders as SVG before hydration and respects reduced motion. The former LiveOrb page redirects to Emberling. The `LiveOrb` and `createLiveOrb` exports and `components/ui/live-orb` import path have been removed. Update component imports to `Emberling` from `components/ui/emberling`, replace `<LiveOrb />` with `<Emberling />`, and use the new `ember`, `custom` or `prism` variants. Old source-download and registry slugs resolve to the replacement, not an API compatibility wrapper.
+
+SeasonTree opens in spring with a broad, layered blossom crown. Winter shows bare branches with settled snow. NeonPillPlayer starts as a black capsule around its cover and equalizer, then expands horizontally without changing height. GlassPlayer uses edge-to-edge cover art and a translucent song panel controlled by `infoOpacity` (default `0.42`); liking a track releases a short heart splash. The legacy `GlassPlayer.blur` prop is accepted as a deprecated no-op because the outer backdrop is gone. Remove it from existing usage and use `infoOpacity` to adjust the song panel.
 
 ## Infinite Avatar
 
@@ -294,7 +319,9 @@ import { MiniDriver } from "@/components/ui/mini-driver";
 <MiniDriver seed="little-pit-crew" helmet={{ number: "318" }} />
 ```
 
-The shared `usePointerGaze` hook eases normalized pointer coordinates, starts seeded idle glances after three seconds, and manages blinking. It pauses when off screen or the tab is hidden and settles with reduced motion. Helmet uses a native button to flip its visor, with optional `visorOpen` and `onVisorOpenChange` control. MiniDriver uses one gaze host for its full body and helmet; keyboard or pointer activation triggers a wave. Noninteractive helmets and drivers are named images.
+CharacterAvatar offers seven hair styles, seven outfits, four face shapes, three glasses choices and six vivid palettes. Hair and clothing have separate layered silhouettes; saved version-1 configurations remain supported.
+
+The shared `usePointerGaze` hook eases normalized pointer coordinates, starts seeded idle glances after three seconds, and manages blinking. It pauses when off screen or the tab is hidden and settles with reduced motion. Helmet uses a native button to flip its visor, with optional `visorOpen` and `onVisorOpenChange` control. MiniDriver uses one gaze host for its full body and front-facing helmet. Its eyes remain visible, and automatic gestures alternate a wave, a thumbs up and relaxed hands. Set `autoGestures={false}` to keep only direct reactions. Keyboard or pointer activation triggers a wave. `showControls` adds Thumbs up and Pause animation buttons; `paused` and `onPausedChange` support application-controlled pausing. Noninteractive helmets and drivers are named images.
 
 Pure config and SVG helpers live in `components/ui/character-art`, `helmet-art`, and `mini-driver-art`. Use `characterToSvgString`, `helmetToSvgString`, or `miniDriverToSvgString` on the server for settled portable artwork. Pass the result to `svgToPng` from `components/ui/svg-export` in a browser when PNG is needed. `size` is the square width for the portrait and helmet, and the full height for the 3:4 driver. Theme parts with `--character-*`, `--helmet-*`, and `--driver-*` color variables; pass explicit config colors when exporting those changes.
 
@@ -308,13 +335,15 @@ The reusable controlled `ArtworkCustomizer` provides a sticky preview, accessibl
 import { OpenWheelCar } from "@/components/ui/open-wheel-car";
 import { Superbike } from "@/components/ui/superbike";
 
-<OpenWheelCar speed={0.7} number="247" livery={{ base: "#247b83", pattern: "sweep" }} />
+<OpenWheelCar speed={0.7} number="247" livery={{ base: "#007dff", pattern: "sweep" }} />
 <Superbike speed={0.5} lean={0.3} wheelie tireCompound="medium" />
 ```
 
 Both vehicles accept a saved `VehicleConfig` from `generateVehicleConfig(seed)`, partial `livery` overrides (`base`, `accent`, `stripe`, `pattern`), a fictional `number`, `tireCompound`, `size`, `track`, and optional `theme`. Patterns are `solid`, `sweep`, `split`, and `chevron`; compounds are `soft`, `medium`, `hard`, and `wet`. Width defaults to 640px and preserves the 640:260 ratio. Set `track={false}` for a transparent cutout. Without an explicit `theme`, scene colors follow the page and system preference.
 
-`LiveryEditor` controls `value: VehicleConfig` and `onChange`. Omit its `vehicle` prop to offer both vehicles, or set `car` or `bike` to fix the preview. Motion and scene choices are local preferences, separate from saved livery. `HelmetEditor` similarly controls `HelmetConfig`, including visor clicks. Both editors randomize, reset from `seed`, copy normalized JSON, and export settled SVG/PNG. Vehicle exports are 640x260; helmet exports are 512x512. Pure `openWheelCarToSvgString` and `superbikeToSvgString` helpers work on the server and accept explicit `appearance`, `theme`, and `track` options.
+`LiveryEditor` controls `value: VehicleConfig` and `onChange`. Omit its `vehicle` prop to offer both vehicles, or set `car` or `bike` to fix the preview. Motion and scene choices are local preferences, separate from saved livery. `HelmetEditor` similarly controls `HelmetConfig`, including visor clicks. Both editors randomize, reset from `seed`, copy normalized JSON, and export settled SVG/PNG. Vehicle exports are 640x260; helmet exports are 512x512. Pure `openWheelCarToSvgString` and `superbikeToSvgString` helpers work on the server and accept explicit `appearance`, `theme`, and `track` options. Superbike also accepts `rider` to include or hide the rider in its preview and export.
+
+These editor APIs remain reusable. Their duplicate catalogue pages redirect to OpenWheelCar and Helmet; the component pages host the editing controls beside the preview. The site defaults to dark and preserves an explicit saved light preference. See [COMPONENT_REWORK.md](COMPONENT_REWORK.md) for the October 2026 artwork and editor rework.
 
 Motion freezes off screen and in hidden tabs, resumes without catching up hidden time, and settles under reduced motion. No animation library is required. The pure `vehicle-motion` module exposes the travel and suspension model separately from the `useVehicleMotion` React adapter.
 
@@ -343,7 +372,7 @@ On machines with limited memory, use `npm run test:serial`. It runs one Vitest w
 | `npm run test:mascot` | Characters, chat states, gaze lifecycle, keyboard behavior, and portable exports |
 | `npm run test:artwork-customizers` | Character, helmet, and driver customizers, viewport captures, keyboard controls, motion, and decoded SVG/PNG exports |
 | `npm run test:motorsport` | Motorsport layouts, editors, portable exports, live vehicle physics, race lights, and progress controls |
-| `npm run test:launch` | Launch viewports, accessibility, forms, navigation, AI components, theme tools, copying, LiveOrb and SEO |
+| `npm run test:launch` | Launch viewports, accessibility, forms, navigation, AI components, theme tools, copying, Emberling and SEO |
 
 Run the bundle and trace checks after `npm run build` finishes, with no build running. Replace `<build-id>` with the value in `.next/BUILD_ID` and keep that build unchanged during verification. Reports are written under `out/iteration/`. Standalone bundle sizes exclude host React and React DOM; Next.js totals include every emitted chunk, rather than one route's initial transfer.
 

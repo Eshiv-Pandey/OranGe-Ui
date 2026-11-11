@@ -1,0 +1,28 @@
+.scene-demo { display: flex; flex-direction: column; flex: 1; width: 100%; min-width: 0; container-type: inline-size; }
+.workspace-view .detail-demo:has(.scene-demo) { align-items: stretch; }
+.workspace-view .detail-demo .detail-demo-content:has(> .scene-demo) { justify-content: flex-start; padding: 0; }
+.scene-demo > :is(.chai-recovery, .neon-recovery, .pavilion-footer) { flex: 1; min-height: var(--workbench-height, 680px); padding-bottom: 88px; }
+.scene-demo .neon-recovery { padding-inline: clamp(24px, 4cqw, 48px); gap: clamp(20px, 4cqw, 48px); }
+.scene-demo .neon-recovery h1 { font-size: clamp(30px, 4.6cqw, 42px); }
+.scene-demo .neon-recovery-copy { max-width: 300px; }
+.scene-neon-thumbnail { width: 100%; display: grid; place-items: center; background: #050505; }
+.scene-neon-demo { background: #050505; }
+.scene-demo .chai-recovery { padding-inline: clamp(24px, 4cqw, 48px); }
+.scene-demo .chai-recovery p { font-size: 14px; }
+.scene-demo > .pavilion-footer { display: flex; flex-direction: column; }
+.scene-demo .pavilion-footer-top { flex: 1; }
+.scene-chai-thumbnail { pointer-events: none; }
+.scene-chai-thumbnail .chai-recovery-copy { display: none; }
+.scene-demo .scene-chai-thumbnail { min-height: auto; padding: 12px; }
+.scene-chai-thumbnail .chai-page-ornament { display: none; }
+.scene-chai-thumbnail .chai-recovery-art { position: relative; height: 220px; }
+.scene-pavilion-thumbnail :is(.pavilion-footer-nav, .pavilion-footer-bottom, .pavilion-footer-copy) { display: none; }
+.scene-pavilion-thumbnail .pavilion-footer-top { display: block; }
+.scene-pavilion-thumbnail .pavilion-footer-scene { max-width: 270px; margin-inline: auto; }
+.scene-demo .scene-pavilion-thumbnail { min-height: auto; padding: 12px; }
+@container (max-width: 650px) {
+  .scene-demo .neon-recovery { flex-direction: column; justify-content: center; padding-top: 32px; }
+  .scene-demo .neon-recovery-copy { text-align: center; }
+  .scene-demo .neon-recovery > .neon-sign { width: min(280px, 100%); }
+  .scene-demo .chai-recovery p, .scene-demo .chai-home, .scene-demo .chai-report, .scene-demo .neon-home, .scene-demo .neon-report { margin-inline: auto; }
+}

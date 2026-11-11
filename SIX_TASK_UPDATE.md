@@ -1,0 +1,43 @@
+# Playground, nature and landing update
+
+The six-task update is implemented and verified as of 2 November 2026 on `feat/next-iteration`. The catalogue now contains 86 components. The requirements below preserve the recovered, approved request.
+
+## Acceptance requirements
+
+1. Every component opens at the playground rather than retaining a previous documentation scroll position. Verify sidebar, catalogue, adjacent navigation, reload and browser history. Preview is the initial tab.
+2. The preview reaches the bottom of its stage. Preview, Usage and Source live in a floating glass dock. Documentation stays reachable. Desktop and mobile controls remain usable without clipping or obscuring the main preview.
+3. The editor has a distinct, coherent layout with clear sections, visible field boundaries, readable values and explicit cursor, hover and keyboard focus feedback. Controls change the live component and remain usable when the inspector scrolls independently. Read-only API documentation must not masquerade as editable controls.
+4. FlowingGrass matches the supplied dense, directional blade field. Wind, gusts and cursor/touch interaction work. Expose a typed API, useful controls, all appearance paths, catalogue entry, public export and portable download.
+5. A reference-based landscape landing replaces the home route, with the previous landing retained at `/classic`. One canvas renders the cleaned base image with anchored flower sway, organic cloud drift, recognizable river, hundreds of twinkling sparkles, subtle grain and vignette. The person remains crisp and fixed. Match the reference's glass navigation, orange logo, title, tagline, call to action, divider and bottom copy. Include responsive framing, DPR cap, hidden-tab pause, reduced motion, static fallback, centralized configuration, commented shaders, masks and export instructions. All links work and licensing/pricing copy stays factual.
+6. DriftingClouds matches the supplied cumulus and blue-sky reference, with editable cloud shape, motion, lighting and colors. Include typed API, controls, appearance support, catalogue entry, public export and portable download.
+
+## Verification record
+
+Evidence is retained under ignored `out/iteration/six-task/`, `out/iteration/reference-landing/`, `out/iteration/grass-v3/` and `out/iteration/clouds/`. The older ShaderCanvas milestone is separate from these results.
+
+| Requirement | Delivered behavior and evidence |
+| --- | --- |
+| 1. Start at the playground | All 86 catalogue entries were visited after scrolling to documentation and selecting Usage. Every entry returned to the top with Preview selected. Production checks also cover same-route sidebar clicks, reload, browser Back, command search, catalogue and adjacent links. Deliberate documentation links remain usable. |
+| 2. Full-height stage and glass dock | Production geometry checks verify that the live water canvas fills the desktop stage and the dock floats above its lower edge. Preview, Usage and Source support arrow keys, Home and End. Screenshots and overflow checks cover 1440, 1280, 768, 390 and 360 pixels in both palettes. |
+| 3. Clear, working editor | The inspector separates Customize from API reference, groups canvas settings and controls, and keeps installation reachable while controls scroll independently. Exact number and hex input changes the rendered preview. Cursor, focus and hover styles remain explicit. Shader appearance changes preserve the mounted canvas and edits; Reset deliberately restores the example. |
+| 4. FlowingGrass | Long, overlapping instanced blades follow directional wind, gusts and pointer/touch input. GPU transform feedback measured zero root displacement while tips moved. Ten focused unit cases and standalone WebGL checks cover deterministic geometry, settings, strict pause, reduced motion, visibility, cleanup and restoration. The final material resolves ridge continuity and light/dark balance. |
+| 5. Landscape landing | The supplied landscape is the home route, with cleaned photographic assets, anchored flower motion, bounded cloud drift, 1,400 river-weighted sparkles and a fixed person. All 5,150 tested silhouette pixels remain unchanged between motion captures. HTML navigation, factual MIT pricing and static/no-JavaScript fallback are verified. The previous landing, interactive examples and GamerBoy remain available at `/classic`. Configuration, shader comments, masks and export instructions are in [LANDING_SCENE.md](LANDING_SCENE.md). |
+| 6. DriftingClouds | The connected cumulus tower and foreground banks expose shape, motion, light and color controls. Final material checks resolve cap/rim separation and blue recesses. Five focused unit cases and standalone WebGL reports cover deterministic frames, live settings, bounded drift, input, lifecycle and fallback. |
+
+## Consolidated checks
+
+- All 509 currently collected unit/source cases have matching passing results across the full, affected and final nature runs. The initial full run's six failures are covered by the passing affected run. `retained-evidence-audit.json` compares the current collected cases, including duplicate-title counts, against those receipts; this is not a claim that every case ran again in one final invocation.
+- All 430 downloadable examples and 30 avatar utility entries typecheck and bundle without diagnostics. The final ten grass/cloud examples were refreshed after their material corrections. The retained-source audit compares 6,850 distributed source copies covering 203 current files across all 430 bundles, allowing only the documented alias-to-relative import conversion. It finds no other differences. All fourteen renderer hash observations match their current sources.
+- All 24 six-task production browser cases pass. They include the complete catalogue navigation loop, five-appearance editing and source downloads for both nature components, and 32 scoped accessibility observations across the workspace and pricing checks. A final production link check returns HTTP 200 for all seven unique home/pricing destinations, including GitHub and the linked license.
+- All 20 preserved-landing browser cases are covered by the original run and nine passing confirmation cases. The original tests assumed a light first visit, but the established app default is dark. The correction explicitly selects each saved palette and checks dark default plus saved light/dark choices after reload. Both palettes at 1440, 768, 390 and 360 pixels pass accessibility and layout-shift checks. Keyboard, cursor density, handheld game, motion suspension, unavailable graphics, no-JavaScript and emulated touch checks pass.
+- Lint, strict TypeScript, copy checks and the production build pass. The current application build is `2e6ySSZo8eGcQzw5n_6U4`. Matching bundle and source-trace receipts retain 227 public source files plus 12 runtime files for each source route, including both new nature renderers.
+- The independent workspace review returned `ship` for requirements 1-3. The landscape review returned `ship` for its composition, responsive framing, material, subject protection and localized motion. The nature closure verdict scored all four named grass/cloud material findings resolved; its `ship` applies to those findings, with separate runtime and production evidence recorded above.
+- `PRODUCT.md`, token-bearing `DESIGN.md`, `.impeccable/design.json`, both surface contracts and component guides are retained. The documentation comparison verifies them against the finished code. The existing design detector reports no findings. All six shipping landscape PNGs carry recognized provenance; metadata updates preserve their decoded pixels.
+
+## Verification limits
+
+Nature runtime checks identify ANGLE AMD Direct3D11 in headless Chrome, with emulated pointer/touch input. Cloud cold shader linking measured 59.3 seconds in the standalone harness; live edits and appearance changes reuse the program. The one-hour cloud sample injects shader time `3600`, rather than running for one wall-clock hour. Physical mobile performance and a hardware frame rate are not claimed.
+
+Landing timing was captured with headless SwiftShader and does not establish a hardware frame rate. Hidden-tab/context-loss checks use simulated browser events. The recovered work did not retain a measured comp spec, build-phase state, separate quality-bar card or hero/final diff reports. Those historical workflow gates are unassessed; the supplied image, inspected captures and scoped review verdicts are the visual evidence.
+
+The six requested changes are delivered. Supplied reference originals, test captures and personal working instructions remain local.

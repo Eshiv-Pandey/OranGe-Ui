@@ -17,9 +17,9 @@
 .pixel-field { width: 100%; min-width: 0; color: var(--ink); font-family: var(--font-body), Arial, sans-serif; }
 .pixel-field__label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; }
 .pixel-field__frame { display: flex; align-items: center; gap: 8px; min-height: 50px; border: 1px solid var(--line); border-radius: var(--radius-control); background: var(--surface); transition: border-color 180ms, box-shadow 180ms; }
-.pixel-field__frame:focus-within { outline: 3px solid var(--focus); outline-offset: 3px; border-color: var(--focus); }
+.pixel-field[data-appearance] .pixel-field__frame:focus-within { outline: 2px solid var(--focus); outline-offset: -2px; border-color: var(--focus); box-shadow: none; }
 .pixel-input { display: block; width: 100%; min-width: 0; min-height: 48px; padding: 12px 15px; border: 0; border-radius: inherit; background: transparent; color: var(--ink); font-family: inherit; font-size: 16px; line-height: 1.5; cursor: text; }
-.pixel-input:focus, .pixel-input:focus-visible { outline: none; box-shadow: none; }
+.pixel-field .pixel-input:is(:focus, :focus-visible) { outline: none; box-shadow: none; }
 .pixel-input::placeholder { color: var(--muted); opacity: 1; }
 .pixel-field__icon { display: inline-flex; align-items: center; margin-left: 15px; color: var(--muted); flex: none; }
 .pixel-field__icon svg { width: 20px; height: 20px; }
@@ -30,9 +30,10 @@
 .pixel-field__error { color: var(--error); }
 .pixel-field__error-icon { margin-right: 15px; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--error); color: var(--surface); font-size: 12px; font-weight: 800; flex: none; }
 .pixel-field[data-error] .pixel-field__frame { border-color: var(--error); }
+.pixel-field[data-appearance][data-error] .pixel-field__frame:focus-within { outline-color: var(--error); border-color: var(--error); }
 .pixel-field[data-disabled] .pixel-field__frame { background: var(--surface-soft); }
 .pixel-input:disabled { color: var(--muted); cursor: not-allowed; }
-@media (hover: hover) { .pixel-field:not([data-disabled]):not([data-error]) .pixel-field__frame:hover { border-color: var(--muted); } }
+@media (hover: hover) { .pixel-field:not([data-disabled]):not([data-error]) .pixel-field__frame:hover:not(:focus-within) { border-color: var(--muted); } }
 @media (prefers-reduced-motion: reduce) { .pixel-button, .pixel-field__frame { transition: none; } .pixel-spinner, .pixel-button[data-as-child][data-loading]::before { animation: none; } }
 
 
