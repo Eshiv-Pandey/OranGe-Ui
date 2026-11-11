@@ -10,7 +10,9 @@ const smile = (x: number, y: number) => line(`M${x} ${y}q6 7 12 0`, ink, 2.5);
 const spark = (x: number, y: number, size: number, fill: string) => p(`M${x} ${y-size}q2 ${size-2} ${size} ${size}q-${size-2} 2 -${size} ${size}q-2 -${size-2} -${size} -${size}q${size-2} -2 ${size} -${size}Z`, fill, "none");
 const dots = (items: number[][], fill: string) => items.map(([x, y, radius]) => c(x, y, radius, fill, "none")).join("");
 
-export const STICKER_CATEGORIES = ["Oddlings", "Pocket objects", "In bloom", "Out there", "Graphic joy"] as const;
+export const STICKER_CATEGORIES = ["Oddlings", "Pocket objects", "In bloom", "Out there", "Graphic joy", "Everyday"] as const;
+export const STICKER_FINISHES = ["playful", "sharp"] as const;
+export type StickerFinish = typeof STICKER_FINISHES[number];
 export type StickerCategory = typeof STICKER_CATEGORIES[number];
 type Artwork = { name: string; title: string; category: StickerCategory; tags: string; color: string; outline: string; body: string; transform: string };
 const art = <N extends string>(name: N, title: string, category: StickerCategory, tags: string, color: string, outline: string, body: string, transform = ""): Artwork & { name: N } => ({ name, title, category, tags, color, outline, body, transform });
@@ -166,6 +168,66 @@ export const STICKER_ARTWORK = [
   art("spark-bouquet", "Spark bouquet", "Graphic joy", "star sparkle abstract peach purple", "#e9a1be",
     "M56 18 65 38 86 15 83 44 110 43 91 65 115 83 85 87 88 111 63 92 43 114 42 86 15 90 33 67 13 48 42 47Z",
     p("M56 18 65 38 86 15 83 44 110 43 91 65 115 83 85 87 88 111 63 92 43 114 42 86 15 90 33 67 13 48 42 47Z", "#e9a1be") + p("M56 34 66 57 88 38 77 62 100 69 75 75 77 97 62 80 49 98 49 76 27 77 46 63 31 53 52 55Z", "#ffcf7b", "none") + c(63,67,10,"#8a75bb") + spark(63,67,5,"#fff3d6")),
+  art("essential-heart", "Essential heart", "Everyday", "love favorite like romance valentine red", "#ff5d83",
+    "M64 111 23 73C-4 47 14 16 35 17q18-1 29 17 11-18 29-17c22-1 39 30 12 56Z",
+    p("M64 111 23 73C-4 47 14 16 35 17q18-1 29 17 11-18 29-17c22-1 39 30 12 56Z", "#ff5d83") + p("M66 38q18-26 36-8c14 18 2 32-12 46l-24 25Z", "#d93f71", "none") + line("M26 39q3-11 13-9", "#ffe1e7", 5)),
+  art("four-point-spark", "Four point spark", "Everyday", "sparkle star shine magic highlight yellow", "#ffc83d",
+    "M65 10 80 45 115 62 79 79 63 117 46 80 11 63 47 46Z",
+    p("M65 10 80 45 115 62 79 79 63 117 46 80 11 63 47 46Z", "#ffc83d") + p("M65 10 64 63 115 62 79 79 63 117 64 63 11 63 47 46Z", "#ff9851", "none") + spark(64,63,10,"#fff3bd")),
+  art("approval-seal", "Approval seal", "Everyday", "verified check approved success quality badge green", "#42bf97",
+    "M64 12 76 21 92 19 96 33 110 41 106 56 116 69 106 80 107 96 92 100 84 114 68 109 55 116 43 106 27 106 24 90 12 81 18 66 12 52 25 43 26 28 42 27 51 14Z",
+    p("M64 12 76 21 92 19 96 33 110 41 106 56 116 69 106 80 107 96 92 100 84 114 68 109 55 116 43 106 27 106 24 90 12 81 18 66 12 52 25 43 26 28 42 27 51 14Z", "#42bf97") + c(64,64,35,"#c7edbb", "none") + p("M37 63 50 50 61 63 83 39 97 53 61 91Z", "#218367", "none") + line("M38 31 46 26m45 72-7 6", "#d6ffe8", 3)),
+  art("pointer-pop", "Pointer pop", "Everyday", "cursor pointer click mouse website blue", "#79aef1",
+    "M24 14 110 69 74 76 89 108 68 117 52 85 25 111Z",
+    p("M24 14 110 69 74 76 89 108 68 117 52 85 25 111Z", "#79aef1") + p("M24 14 62 65 110 69 74 76 89 108 68 117 52 85 62 65 25 111Z", "#637ae8", "none") + line("M34 34 39 71", "#e8f1ff", 4)),
+  art("thumbs-up", "Thumbs up", "Everyday", "like good yes approval hand yellow", "#ffc65a",
+    "M15 56h27l17-19 3-22q13-6 20 7 6 12-2 26h20q18 0 14 16l-9 39q-2 13-15 13H55l-13-9H15Z",
+    r(15,56,28,51,5,"#9686e6") + p("M43 57 59 37l3-22q13-6 20 7 6 12-2 26h20q18 0 14 16l-9 39q-2 13-15 13H55l-12-9Z", "#ffc65a") + line("M84 67h23M82 81h22M79 95h22", "#c48143", 2) + c(29,93,4,"#fff3bd", "none") + line("M67 23q8 7 4 18", "#fff3bd", 3)),
+  art("bright-smile", "Bright smile", "Everyday", "smile happy smiley positivity mood yellow", "#ffcf58",
+    "M112 64a48 48 0 1 1-96 0 48 48 0 0 1 96 0Z",
+    c(64,64,48,"#ffcf58") + e(47,50,5,8,ink,"none") + e(81,50,5,8,ink,"none") + p("M35 72q29 17 58 0c-4 34-54 34-58 0Z", "#fff8e7") + line("M39 80q24 10 50 0", "#e49a4c", 2) + line("M34 34q8-10 17-10", "#fff3bd", 4)),
+  art("coffee-to-go", "Coffee to go", "Everyday", "coffee cup takeaway cafe drink work caffeine orange", "#ef9a63",
+    "M28 34 32 23h15l1-10h34l2 10h14l4 11 7 10-11 62q-32 17-64 0L23 45Z",
+    p("M31 42h69l-10 66q-27 12-54 0Z", "#ef9a63") + p("M33 66h63l-5 31H38Z", "#f5d891", "none") + e(65,82,12,10,"#7e5673", "none") + line("M65 73q7 8-1 18", "#f5d891", 2) + p("M28 34 32 23h66l4 11 7 10H23Z", "#494060") + r(47,13,37,10,3,"#494060") + line("M42 49 47 60", "#fff8e7", 3)),
+  art("studio-headphones", "Studio headphones", "Everyday", "headphones music podcast audio listening purple", "#9b83ed",
+    "M17 61V54a47 47 0 0 1 94 0v33q0 12-12 14h-5q-12 0-12-12V66q0-12 11-13v-1a29 29 0 0 0-58 0v1q11 1 11 13v23q0 12-12 12h-5q-13-2-13-14Z",
+    p("M17 64V54a47 47 0 0 1 94 0v25H93V52a29 29 0 0 0-58 0v27H17Z", "#9b83ed") + r(15,54,31,49,12,"#9b83ed") + r(82,54,31,49,12,"#9b83ed") + r(34,62,12,34,5,"#494060") + r(82,62,12,34,5,"#494060") + line("M29 31q13-18 34-18", "#e4dcff", 4) + line("M23 65v19m80-19v19", "#c2b5ff", 3)),
+  art("instant-camera", "Instant camera", "Everyday", "camera photo photography capture picture cyan", "#76c7dc",
+    "M15 35h25l7-14h34l8 14h24v66H15Z",
+    p("M15 35h25l7-14h34l8 14h24v66H15Z", "#76c7dc") + p("M15 82h98v19H15Z", "#65a0c4", "none") + c(65,66,26,"#494060") + c(65,66,17,"#a9d7ed") + c(65,66,10,"#637ae8", "none") + p("M54 56q6-7 16-3l-7 15Z", "#fff8e7", "none") + r(91,43,15,9,2,"#ffcf58", "none") + line("M21 43h15", "#fff8e7", 3)),
+  art("music-note", "Music note", "Everyday", "music song note sound audio pink", "#f487b6",
+    "M49 32 108 16v65q5 15-14 22-18 6-23-7-5-14 15-20V47l-15 4v39q4 16-16 23-21 6-25-9-3-16 21-21V32Z",
+    p("M49 32 108 16v65q5 15-14 22-18 6-23-7-5-14 15-20V47l-15 4v39q4 16-16 23-21 6-25-9-3-16 21-21V32Z", "#f487b6") + p("M49 32 108 16v19L49 51Z", "#b17ce0", "none") + line("M56 38 99 26m-60 73 13-4m31-6 10-3", "#ffe1ed", 3)),
+  art("world-wide", "World wide", "Everyday", "earth globe world travel international planet green blue", "#78c4e5",
+    "M111 64a47 47 0 1 1-94 0 47 47 0 0 1 94 0Z",
+    c(64,64,47,"#78c4e5") + p("M30 31 47 20l15 4 8 13-11 9-5 17-13 5-1 16-10-7-8-22Z", "#83c997", "none") + p("M78 30 91 27l15 16-8 14-16-2-9-11Zm-5 43 22-5 11 17-17 21-17-6-4-16Z", "#83c997", "none") + line("M27 46q-7 18 1 37m72-30q3 15-3 28", "#d4f4fd", 3)),
+  art("paper-plane", "Paper plane", "Everyday", "send message plane flight travel arrow blue", "#97c4f0",
+    "M13 56 114 17 94 112 65 85 47 102 40 74Z",
+    p("M13 56 114 17 94 112 65 85 47 102 40 74Z", "#97c4f0") + p("M40 74 114 17 55 80 47 102Z", "#637ae8", "none") + p("M55 80 114 17 65 85 47 102Z", "#d6e8ff", "none") + line("M26 58 49 65", "#ffffff", 3)),
+  art("location-pin", "Location pin", "Everyday", "location map pin travel place destination red", "#ff7c80",
+    "M64 115C53 97 23 76 23 52a41 41 0 0 1 82 0c0 24-30 45-41 63Z",
+    p("M64 115C53 97 23 76 23 52a41 41 0 0 1 82 0c0 24-30 45-41 63Z", "#ff7c80") + p("M64 12q40 0 41 40c0 24-30 45-41 63V83q29-17 29-32 0-25-29-27Z", "#e95f78", "none") + c(64,52,17,"#fff8e7") + line("M35 43q4-16 17-19", "#ffe2df", 3)),
+  art("chat-pop", "Chat pop", "Everyday", "chat message conversation comment bubble purple", "#ac96ed",
+    "M16 31q0-14 15-14h66q15 0 15 14v51q0 14-15 14H59l-28 19V96q-15 0-15-14Z",
+    p("M16 31q0-14 15-14h66q15 0 15 14v51q0 14-15 14H59l-28 19V96q-15 0-15-14Z", "#ac96ed") + p("M59 80h38q15 0 15-14v16q0 14-15 14H59l-28 19V96Z", "#8b71c7", "none") + dots([[39,56,6],[64,56,6],[89,56,6]], "#fff8e7") + line("M26 31q0-5 7-5h12", "#e7dfff", 3)),
+  art("link-knot", "Link knot", "Everyday", "link chain connect connection together website purple", "#a792e8",
+    "M68 29q26-29 45-7 20 22-10 48l-14 11q-6 3-13 2-27 29-48 14-34-21-2-51l13-12q16-12 29-5Z",
+    p("M69 30q23-25 42-7 19 19-9 44L88 80q-15 11-31-3l12-13q7 6 13 0l14-14q12-11 5-18-8-8-19 4l-8 8Z", "#a792e8") + p("M76 82q-23 29-47 15-33-21-3-51l13-12q19-14 36 4L61 51q-7-8-14-1L34 63q-12 12-3 19 9 8 21-4l9-10Z", "#75b9dd") + line("M49 76 81 44", "#fff8e7", 6) + line("M36 43 44 36m48-9 8 4", "#e7dfff", 3)),
+  art("code-brackets", "Code brackets", "Everyday", "code coding developer html javascript brackets slash blue", "#7e9fe4",
+    "M25 22h78q10 0 10 10v64q0 10-10 10H25q-10 0-10-10V32q0-10 10-10Z",
+    r(15,22,98,84,10,"#7e9fe4") + p("M15 88h98v8q0 10-10 10H25q-10 0-10-10Z", "#6373bd", "none") + line("M44 45 29 63 44 80M84 45 99 63 84 80", "#fff8e7", 8) + line("M71 41 57 85", "#ffcf58", 7) + line("M26 31h19", "#dfe8ff", 3)),
+  art("bookmark-ribbon", "Bookmark ribbon", "Everyday", "save bookmark reading favorite book orange", "#fba974",
+    "M35 14h58v100L64 96l-29 18Z",
+    p("M35 14h58v100L64 96l-29 18Z", "#fba974") + p("M64 14h29v100L64 96Z", "#f28267", "none") + spark(64,47,15,"#fff3c4") + line("M43 22v44", "#ffe8d4", 3)),
+  art("peace-hand", "Peace hand", "Everyday", "peace victory two fingers hand gesture yellow", "#ffd16c",
+    "M37 60 24 25q-3-13 9-16 10-2 14 12l16 30 11-33q5-16 16-10 11 6 5 21l-9 32q14-2 19 15 7 34-15 43H48q-20-7-25-25L17 79q-5-15 6-18 7-3 14-1Z",
+    p("M37 60 24 25q-3-13 9-16 10-2 14 12l16 30 11-33q5-16 16-10 11 6 5 21l-9 32q14-2 19 15 7 34-15 43H48q-20-7-25-25L17 79q-5-15 6-18 7-3 14-1Z", "#ffd16c") + p("M48 61q3-9 14-5 13 4 13 18L62 91q-11 3-12-8Z", "#f3ac67") + p("M74 75q9-10 18 0 8 9 0 22l-14 3q-14-11-4-25Z", "#f3ac67") + line("M34 67 44 81M57 108h20M33 23l10 29M85 18 75 50", "#b9784e", 2)),
+  art("rainbow-arc", "Rainbow arc", "Everyday", "rainbow colors hope pride bright arch", "#f7949e",
+    "M13 109V64a51 51 0 0 1 102 0v45H88V65a24 24 0 0 0-48 0v44Z",
+    p("M13 109V64a51 51 0 0 1 102 0v45H98V64a34 34 0 0 0-68 0v45Z", "#f7949e") + p("M30 109V64a34 34 0 0 1 68 0v45H82V64a18 18 0 0 0-36 0v45Z", "#ffd16c") + p("M46 109V64a18 18 0 0 1 36 0v45H68V64a4 4 0 0 0-8 0v45Z", "#85c7bf") + line("M23 55q4-22 24-30", "#ffe0e6", 3)),
+  art("small-win", "Small win", "Everyday", "trophy award achievement winner success gold", "#ffcf58",
+    "M35 17h58v13h21v21q0 29-33 32l-9 14v9h21v11H35v-11h21v-9l-9-14q-33-3-33-32V30h21Z",
+    p("M35 30H14v21q0 29 33 32l4-14q-23 0-23-18v-7h11Zm58 0h21v21q0 29-33 32l-4-14q23 0 23-18v-7H89Z", "#f3a85e") + p("M35 17h58v34q0 27-21 36v19h21v11H35v-11h21V87q-21-9-21-36Z", "#ffcf58") + p("M64 17h29v34q0 27-21 36v19h21v11H64Z", "#eda443", "none") + spark(64,46,13,"#fff3bd") + line("M44 27v19q0 15 7 23", "#fff3bd", 3)),
 ] as const;
 
 export type StickerName = typeof STICKER_ARTWORK[number]["name"];
@@ -176,12 +238,141 @@ export function getSticker(name: StickerName): StickerDefinition {
   if (!result) throw new RangeError(`Unknown oRangeUi sticker: ${name}`);
   return result;
 }
-export function stickerMarkup(name: StickerName): string {
+// Sharp is an enamel-like edition: tighter white trim, precise navy contours,
+// saturated pigments and individually placed facets. The playful vectors stay intact.
+const sharpPalette: Readonly<Record<string, string>> = {
+  "#242038": "#102451", "#494060": "#15294f", "#4a386d": "#35217a", "#4d416d": "#252661",
+  "#4a416c": "#242261", "#38314d": "#182344", "#363145": "#192235", "#817995": "#55647e",
+  "#ff8251": "#ff6925", "#ff814a": "#ff6520", "#ff744a": "#ff502b", "#ff714b": "#ff5735",
+  "#ff7154": "#ff482c", "#ff876c": "#ff7043", "#ff865e": "#ff602a", "#ff957e": "#ff624e",
+  "#ff986e": "#ff752b", "#ff9b61": "#ff941d", "#ffae50": "#ffae1c", "#ff9a53": "#ff8e1d",
+  "#ffbd68": "#ffae28", "#ffca60": "#ffbd19", "#ffcc5e": "#ffca1b", "#ffcf58": "#ffd21c",
+  "#ffd468": "#ffd628", "#ffd55c": "#ffdc22", "#ffcc75": "#ffbd30", "#ffdd83": "#ffda42",
+  "#ffdfae": "#ffd975", "#ffdf82": "#ffd730", "#ffe0a3": "#ffd869", "#ffc65a": "#ffc323",
+  "#ffc83d": "#ffe019", "#ffc85e": "#ffc71c", "#ffc677": "#ffb933", "#ffc59a": "#ff9956",
+  "#f3a85e": "#e7911b", "#eda443": "#e6a00a", "#f3ac67": "#ed9c38", "#ffd16c": "#ffd429",
+  "#fc8d51": "#ff7323", "#fc8e53": "#ff7133", "#ff9b5f": "#ff8925", "#ffa151": "#ff921b",
+  "#ffb959": "#ffa823", "#ffb97b": "#ffad3f", "#ffb179": "#ff9e37", "#ffbf57": "#ffc31a",
+  "#ffcf70": "#ffdb24", "#ffcf7b": "#ffcb31", "#ffdc8d": "#ffd65a", "#ffc96b": "#ffcb22",
+  "#ffcc87": "#ffd952", "#ffce62": "#ffcf1e", "#ffc685": "#ffb84e", "#ffbd62": "#ffa527",
+  "#ff685e": "#ff342b", "#ff5d83": "#fa235c", "#d93f71": "#ce164a", "#ff7c80": "#ff415b",
+  "#e95f78": "#d42655", "#f176a0": "#ec2a7d", "#ffa0a7": "#ff557a", "#f791bd": "#ff53a1",
+  "#f3a0bf": "#ff74af", "#f6a2bc": "#ff679d", "#f68faf": "#fd477e", "#f782a6": "#f94780",
+  "#f48eaa": "#fa4a80", "#f4a0b8": "#ff76a3", "#e9a1be": "#f76eae", "#f487b6": "#fa499d",
+  "#f7949e": "#ff596a", "#ed6e64": "#ff403d", "#f392a8": "#ff508e", "#f28267": "#f2663d",
+  "#ef9a63": "#ee8533", "#fba974": "#ff9845", "#f5947d": "#ff7147", "#f49872": "#ff8b49",
+  "#f8976d": "#ff6d37", "#fa976d": "#ff8642", "#fc9666": "#ff722a", "#ffa76e": "#ff8d36",
+  "#65d4ce": "#00c7c1", "#69d1cc": "#00c8bf", "#82d4ed": "#22bbf4", "#83cfe5": "#16b7e6",
+  "#75c8dc": "#08b3db", "#88bcee": "#58a4ff", "#83b9ec": "#469aff", "#88c8d7": "#17c0dc",
+  "#78c4e5": "#28b1f2", "#76c7dc": "#14b8da", "#79aef1": "#408afa", "#97c4f0": "#69b7ff",
+  "#7e9fe4": "#4c80e7", "#75b9dd": "#20abe0", "#85c7bf": "#10c6b0", "#87c7df": "#35b9ed",
+  "#a9d7ed": "#75d4ff", "#6083bd": "#1669c9", "#65a0c4": "#178db5", "#6373bd": "#254cac",
+  "#7f98dd": "#396ce9", "#637ae8": "#3c50ff", "#949ce9": "#636cf7", "#8b85cb": "#6251d8",
+  "#a6a1e7": "#8a72fa", "#8560eb": "#7c35ff", "#ba92ff": "#8b3dff", "#b49deb": "#9864f4",
+  "#9c91ee": "#7d62f9", "#7563cf": "#6041e7", "#7963bc": "#6540c5", "#8971cf": "#8651e5",
+  "#a389db": "#9b55e6", "#bea0e6": "#b477f2", "#8c76d8": "#804be6", "#b3a1df": "#9e7bdf",
+  "#b09ee3": "#9968e8", "#b294df": "#a166e6", "#ac96ed": "#9e65f1", "#a792e8": "#a564eb",
+  "#9b83ed": "#8950ee", "#9686e6": "#7b59e7", "#b17ce0": "#933cda", "#b487ca": "#a74cce",
+  "#bd8ccf": "#b855d9", "#8b71c7": "#7e39c6", "#8c70d8": "#7a44e7", "#8270ba": "#7047c6",
+  "#8a75bb": "#8550c6", "#7660b6": "#6938b9", "#8e75bd": "#8b49c8", "#7762a6": "#674198",
+  "#8fdb6f": "#70df31", "#b9dc6c": "#b3e12d", "#b5d968": "#b5e337", "#55b88b": "#14ac73",
+  "#7dc594": "#4bc879", "#69b781": "#31b575", "#65b47b": "#32b869", "#5aaf79": "#169b5d",
+  "#4aa879": "#119c65", "#91d5ba": "#62dcb4", "#97d6b8": "#36cf92", "#83c997": "#37c982",
+  "#42bf97": "#12bb88", "#80cbaa": "#29c688", "#c3dc87": "#b2e54d", "#c7edbb": "#b4f09d",
+  "#bce19b": "#b4ed72", "#d9f29a": "#d2fc81", "#e8f2a1": "#e1ffa1", "#e49a4c": "#de931e",
+  "#fff8f0": "#ffffff", "#fff8e7": "#ffffff", "#fff3d6": "#ffffff", "#fff1d9": "#fffce7",
+  "#fff4d5": "#fffdeb", "#fff0c2": "#fff6c3", "#fff0d2": "#fff9db", "#fff0d5": "#fffbe7",
+  "#fff0d6": "#fffbe7", "#fff0d0": "#fffbd7", "#fff0c1": "#fff9d4", "#fff0c7": "#fff9d9",
+  "#fff3bd": "#fffce3", "#fff3c4": "#fffce3", "#fff2c4": "#fffbd5", "#fff1c9": "#fffbe3",
+  "#fff1cb": "#fffce8", "#ffe1e7": "#ffffff", "#ffe1ed": "#ffffff", "#d6e8ff": "#e8f3ff",
+};
+
+const sharpFacets: Readonly<Record<StickerName, string>> = {
+  "orbit-snail": p("M66 43q23-10 38 15-15-9-36-5Z", "#b6a0ff", "none"),
+  "miso-moth": p("M22 21q15-4 26 14L29 30Zm84 3q-3 14-16 25l8-23Z", "#d5a3ff", "none"),
+  "desk-gecko": p("M56 72 64 84 56 91 48 89Z", "#c4ff73", "none"),
+  "peach-axolotl": p("M39 39q10-9 24-9l-10 12Z", "#ff98b2", "none"),
+  "cloud-yak": p("M26 72q-4 14 16 19l-3 9q-19-3-19-15Z", "#008fe1", "none"),
+  "jelly-comet": p("M78 23q22 6 26 29l-16-4Z", "#ffad64", "none"),
+  "paper-koi": p("M49 29 59 51 19 62Z", "#ff916c", "none"),
+  "moss-sprite": p("M23 77 30 72 36 86 28 87Z", "#7dbd15", "none"),
+  "sun-beetle": p("M76 51q14 8 13 31l-13 9Z", "#ffec61", "none"),
+  "ribbon-seahorse": p("M53 22 63 23 57 36 53 44Z", "#71f4ec", "none"),
+  "match-day": p("M43 96 105 85 107 92 44 103Z", "#d8342a", "none"),
+  "sunday-skate": p("M34 22 42 21 48 59 36 58Z", "#ffa3d3", "none"),
+  "side-b-vinyl": p("M42 30q17-11 36-6L57 42Z", "#ffffff", "none").replace("/>", ' opacity=".14"/>'),
+  "moka-morning": p("M45 77 55 77 48 101 39 102Z", "#a58bff", "none"),
+  "fizz-can": p("M79 32 85 29 89 98 83 102Z", "#ffffff", "none").replace("/>", ' opacity=".22"/>'),
+  "mixtape": p("M23 30 34 30 27 97 21 94Z", "#d0a3ff", "none"),
+  "noodle-break": p("M87 75 96 70q-6 21-24 27Z", "#d54224", "none"),
+  "pocket-play": p("M32 72 37 72v34h-5Z", "#ffacd6", "none"),
+  "bubble-tea": p("M91 50 96 49 90 105 84 106Z", "#ffffff", "none").replace("/>", ' opacity=".22"/>'),
+  "pencil-launch": p("M71 43 77 46 48 94 44 90Z", "#2872de", "none"),
+  "checkered-daisy": p("M72 82 83 87q3 16-7 20l-7-15Z", "#f7ad0a", "none"),
+  "pepper-dance": p("M77 82q-14 18-40 19l14-11Z", "#d8231e", "none"),
+  "pear-pair": p("M83 85q9 18-11 24l-18 1 28-10Z", "#8fbe14", "none"),
+  "radish-rebel": p("M78 50q18 13 1 30l-10 9 11-22Z", "#dc1d59", "none"),
+  "tiny-terrarium": p("M91 57 96 60 99 87 93 84Z", "#ffffff", "none").replace("/>", ' opacity=".65"/>'),
+  "cactus-club": p("M41 108h47l-1 6H42Z", "#da552b", "none"),
+  "moon-shroom": p("M85 25q17 9 22 28l-14-10Z", "#c37cf4", "none"),
+  "split-leaf": p("M61 82 69 70 89 67 80 81Z", "#00825b", "none"),
+  "wildflower-post": p("M87 34h7v59H34v-6h53Z", "#ffe8b1", "none"),
+  "citrus-slice": p("M88 40q20 25 1 50l-3-4q15-22-2-42Z", "#ed700b", "none"),
+  "peach-planet": p("M76 25q24 8 29 29L86 43Z", "#ffb63d", "none"),
+  "portal-window": p("M30 100V56q-1-16 8-26L34 54v46Z", "#b3b9ff", "none"),
+  "comet-tail": p("M82 91q11-4 14-14-2 17-16 25Z", "#713ac1", "none"),
+  "crescent-nap": p("M49 91q21 10 37 0-15 17-36 9Z", "#8e43d7", "none"),
+  "star-helmet": p("M88 47q9 21 0 38l-10 8 8-24Z", "#257daa", "none"),
+  "saucer-social": p("M30 89q29 13 63 0l-7 12-41 2Z", "#7334c4", "none"),
+  "pocket-rocket": p("M75 39q15 32-2 58h-9l13-31Z", "#d64143", "none"),
+  "tiny-satellite": p("M70 62 84 49v27L70 89Z", "#d86224", "none"),
+  "solar-hug": p("M68 20 77 22 72 30 63 28Z", "#fff19c", "none"),
+  "constellation-note": p("M25 32 30 31 38 100l-5 2Z", "#a48af8", "none"),
+  "ziggy-bolt": p("M94 66 66 78 61 93Z", "#de5c0e", "none"),
+  "woven-heart": p("M98 51q7 10-5 23L66 102 61 97Z", "#c6236f", "none"),
+  "infinity-ribbon": p("M18 77q7 18 29 8l-12 8-14-7Z", "#206ed3", "none"),
+  "tidal-badge": p("M53 22q21-6 35 8L65 27Z", "#fff8bd", "none"),
+  "pinwheel-pop": p("M66 68 99 105H66Z", "#7539c6", "none"),
+  "happy-ticket": p("M97 35 104 34 107 50 101 52Z", "#dcff8f", "none"),
+  "loop-arrow": p("M59 95q27 3 36-14l7 3q-12 22-35 15Z", "#e88d17", "none"),
+  "cube-candy": p("M89 85 104 76v13L89 98Z", "#0e96b4", "none"),
+  "finish-flutter": p("M33 26 98 39l-1 6-65-13Z", "#ffffff", "none"),
+  "spark-bouquet": p("M90 78 102 81 84 83 82 99 73 87Z", "#d03992", "none"),
+  "essential-heart": p("M73 31q12-12 24-3l-9 1-10 7Z", "#ff8fb6", "none"),
+  "four-point-spark": p("M65 18 66 52 75 46Z", "#fff598", "none"),
+  "approval-seal": p("M82 22 91 23 91 34 98 40 95 46 85 39Z", "#7ef8c4", "none"),
+  "pointer-pop": p("M72 82 85 109 79 111 66 84Z", "#1654c1", "none"),
+  "thumbs-up": p("M51 103h41l-4 9H57Z", "#e4a51f", "none"),
+  "bright-smile": p("M85 24q22 17 17 46L96 55Z", "#f7b613", "none"),
+  "coffee-to-go": p("M81 51h10l-2 13H79Z", "#ce5917", "none"),
+  "studio-headphones": p("M20 83h9v13h-3q-6 0-6-6Zm79 0h9v7q0 6-6 6h-3Z", "#6724c9", "none"),
+  "instant-camera": p("M17 87h20v10H17Z", "#0e789f", "none"),
+  "music-note": p("M91 53h12v22l-12 2Z", "#cf247c", "none"),
+  "world-wide": p("M53 19q-10 3-17 12l14-4 13 7-7-10Z", "#84f8ad", "none"),
+  "paper-plane": p("M80 82 106 40 92 102Z", "#338dec", "none"),
+  "location-pin": p("M55 90 64 106 72 95 64 92Z", "#bd1747", "none"),
+  "chat-pop": p("M99 28h7v42q0 9-9 11l-7 1V75q9 0 9-7Z", "#7732c9", "none"),
+  "link-knot": p("M26 70q-4 14 8 19l7-3-10-8Z", "#087dc4", "none"),
+  "code-brackets": p("M94 26h10q5 0 5 6v9H96Z", "#81b4ff", "none"),
+  "bookmark-ribbon": p("M70 64h17v39l-17-11Z", "#e35a15", "none"),
+  "peace-hand": p("M36 98q6 11 15 14h10l-17-14Z", "#e3a520", "none"),
+  "rainbow-arc": p("M105 74h7v31h-7Z", "#dc2747", "none"),
+  "small-win": p("M38 109h20v5H38Z", "#ffea68", "none"),
+};
+
+function sharpBody(body: string): string {
+  return body.replace(/#[\da-f]{6}/gi, color => sharpPalette[color.toLowerCase()] ?? color)
+    .replace(/stroke-width="([\d.]+)"/g, (_match, width: string) => `stroke-width="${Number(width) === 2.5 ? 1.35 : Math.max(.9, Number(width) * .72)}"`)
+    .replace(/stroke-linejoin="round"/g, 'stroke-linejoin="bevel"');
+}
+
+export function stickerMarkup(name: StickerName, finish: StickerFinish = "playful"): string {
   const sticker = getSticker(name);
+  if (finish === "sharp") return `<g transform="${sticker.transform}" stroke-linecap="round" stroke-linejoin="bevel"><path d="${sticker.outline}" fill="#ffffff" stroke="#ffffff" stroke-width="6"/>${sharpBody(sticker.body)}${sharpFacets[name] ?? ""}</g>`;
   return `<g transform="${sticker.transform}" stroke-linecap="round" stroke-linejoin="round"><path d="${sticker.outline}" fill="#fff8f0" stroke="#fff8f0" stroke-width="10"/>${sticker.body}</g>`;
 }
 /** Self-contained vector: no fonts, external images, IDs, scripts or network dependencies. */
-export function stickerSvg(name: StickerName, size = 512): string {
+export function stickerSvg(name: StickerName, size = 512, finish: StickerFinish = "playful"): string {
   const pixels = Number.isFinite(size) ? Math.round(Math.max(24, Math.min(4096, size))) : 512;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${pixels}" height="${pixels}" viewBox="0 0 128 128" role="img" aria-label="${getSticker(name).title}">${stickerMarkup(name)}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${pixels}" height="${pixels}" viewBox="0 0 128 128" role="img" aria-label="${getSticker(name).title}">${stickerMarkup(name, finish)}</svg>`;
 }

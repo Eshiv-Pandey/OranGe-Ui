@@ -1,32 +1,43 @@
 "use client";
 
-import type { CSSProperties, HTMLAttributes } from "react";
+import { useState, type CSSProperties, type HTMLAttributes } from "react";
 import type { Appearance } from "./appearance";
-import { getSticker, stickerMarkup, type StickerName } from "./sticker-artwork";
+import { getSticker, stickerMarkup, type StickerName, type StickerFinish } from "./sticker-artwork";
 import "../../styles/library-base.css";
 import "../../styles/sticker-pack.css";
 
-export { STICKERS, STICKER_CATEGORIES, getSticker, stickerSvg } from "./sticker-artwork";
-export type { StickerName, StickerDefinition, StickerCategory } from "./sticker-artwork";
+export { STICKERS, STICKER_CATEGORIES, STICKER_FINISHES, getSticker, stickerSvg } from "./sticker-artwork";
+export type { StickerName, StickerDefinition, StickerCategory, StickerFinish } from "./sticker-artwork";
+export type StickerMotion = "bounce" | "wiggle" | "spin" | "none";
 export type StickerProps = Omit<HTMLAttributes<HTMLSpanElement>, "children"> & {
   name: StickerName;
   size?: number | string;
   hoverPeel?: boolean;
+  finish?: StickerFinish;
+  motion?: StickerMotion;
+  duration?: number;
+  intensity?: number;
+  shadow?: boolean;
+  interactive?: boolean;
+  animationKey?: number;
   rotate?: number;
   label?: string;
   decorative?: boolean;
   appearance?: Appearance;
 };
 
-/** A named, scalable vinyl sticker. Wrap in a button or link to give it an action. */
-export function Sticker({ name, size = 128, hoverPeel = false, rotate = 0, label, decorative = false, appearance, className = "", style, ...props }: StickerProps) {
+/** A scalable sticker. Interactive stickers animate on click, Enter or Space. */
+export function Sticker({ name, size = 128, hoverPeel = false, finish = "playful", motion = "bounce", duration = 650, intensity = 1, shadow = true, interactive = false, animationKey, rotate = 0, label, decorative = false, appearance, className = "", style, onClick, onKeyDown, ...props }: StickerProps) {
+  const [activation, setActivation] = useState(0);
   const artwork = getSticker(name);
   const dimension = typeof size === "number" ? Number.isFinite(size) ? Math.max(24, Math.min(2048, size)) : 128 : size;
   const angle = Number.isFinite(rotate) ? Math.max(-180, Math.min(180, rotate)) : 0;
-  return <span {...props} className={`orange-sticker ${className}`} data-peel={hoverPeel || undefined} data-appearance={appearance} role={decorative ? undefined : "img"} aria-label={decorative ? undefined : label || artwork.title} aria-hidden={decorative || undefined} style={{ width: dimension, "--sticker-rotation": `${angle}deg`, ...style } as CSSProperties}>
-    <span className="orange-sticker-sheet">
-      <svg className="orange-sticker-front" viewBox="0 0 128 128" aria-hidden="true" focusable="false" dangerouslySetInnerHTML={{ __html: stickerMarkup(name) }} />
-      {hoverPeel && <svg className="orange-sticker-back" viewBox="0 0 128 128" aria-hidden="true" focusable="false"><g transform={artwork.transform}><path d={artwork.outline} fill="#f1ebe2" stroke="#fff8f0" strokeWidth="10" strokeLinejoin="round" /></g></svg>}
+  const milliseconds = Number.isFinite(duration) ? Math.max(200, Math.min(2000, duration)) : 650;
+  const strength = Number.isFinite(intensity) ? Math.max(.25, Math.min(2, intensity)) : 1;
+  const pulse = activation + (animationKey || 0);
+  return <span {...props} className={`orange-sticker ${className}`} data-hover={hoverPeel || interactive || undefined} data-finish={finish} data-shadow={shadow} data-appearance={appearance} role={interactive ? "button" : decorative ? undefined : "img"} tabIndex={interactive ? 0 : props.tabIndex} aria-label={interactive ? label || `Animate ${artwork.title}` : decorative ? undefined : label || artwork.title} aria-hidden={!interactive && decorative || undefined} onClick={event => { onClick?.(event); if (interactive && !event.defaultPrevented) setActivation(value => value + 1); }} onKeyDown={event => { onKeyDown?.(event); if (interactive && !event.defaultPrevented && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); event.currentTarget.click(); } }} style={{ width: dimension, "--sticker-rotation": `${angle}deg`, "--sticker-duration": `${milliseconds}ms`, "--sticker-intensity": strength, ...style } as CSSProperties}>
+    <span key={pulse} className="orange-sticker-sheet" data-motion={pulse > 0 ? motion : undefined}>
+      <svg className="orange-sticker-front" viewBox="0 0 128 128" aria-hidden="true" focusable="false" dangerouslySetInnerHTML={{ __html: stickerMarkup(name, finish) }} />
     </span>
   </span>;
 }
@@ -87,3 +98,23 @@ export const LoopArrowSticker = named("loop-arrow");
 export const CubeCandySticker = named("cube-candy");
 export const FinishFlutterSticker = named("finish-flutter");
 export const SparkBouquetSticker = named("spark-bouquet");
+export const EssentialHeartSticker = named("essential-heart");
+export const FourPointSparkSticker = named("four-point-spark");
+export const ApprovalSealSticker = named("approval-seal");
+export const PointerPopSticker = named("pointer-pop");
+export const ThumbsUpSticker = named("thumbs-up");
+export const BrightSmileSticker = named("bright-smile");
+export const CoffeeToGoSticker = named("coffee-to-go");
+export const StudioHeadphonesSticker = named("studio-headphones");
+export const InstantCameraSticker = named("instant-camera");
+export const MusicNoteSticker = named("music-note");
+export const WorldWideSticker = named("world-wide");
+export const PaperPlaneSticker = named("paper-plane");
+export const LocationPinSticker = named("location-pin");
+export const ChatPopSticker = named("chat-pop");
+export const LinkKnotSticker = named("link-knot");
+export const CodeBracketsSticker = named("code-brackets");
+export const BookmarkRibbonSticker = named("bookmark-ribbon");
+export const PeaceHandSticker = named("peace-hand");
+export const RainbowArcSticker = named("rainbow-arc");
+export const SmallWinSticker = named("small-win");
