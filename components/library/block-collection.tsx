@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
-import { ArrowLeft, ArrowUpRight, Code2, Copy, Download, Eye, Monitor, RotateCcw, Smartphone, Tablet } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Code2, Copy, Download, Eye, MessageSquare, Monitor, RotateCcw, SlidersHorizontal, Smartphone, Tablet } from "lucide-react";
 import { type BlockCategory, type BlockDefinition } from "../../lib/blocks";
+import { blockAgentPrompt } from "../../lib/block-prompt";
 import { BlockDemo } from "./block-demo";
+import { Popover } from "../ui/popover";
 import "../../styles/blocks-library.css";
 import "../../styles/block-collection.css";
 
@@ -100,23 +102,30 @@ function CollectionEntry({ block, origin }: { block: BlockDefinition; origin: st
           <button type="button" aria-pressed={view === "preview"} aria-controls={previewId} onClick={() => changeView("preview")} aria-label={`${block.name} preview`}><Eye size={15} aria-hidden="true" />Preview</button>
           <button type="button" aria-pressed={view === "code"} aria-controls={codeId} onClick={() => changeView("code")} aria-label={`${block.name} source code`}><Code2 size={15} aria-hidden="true" />Code</button>
         </div>
-        <div className="bc-workbench-actions">
-          <button className="bc-action bc-install-action" type="button" onClick={() => copyText(install, `${block.name} install command`)} aria-label={`Copy ${block.name} install command`}><Copy size={15} aria-hidden="true" />Copy install</button>
-          <a className="bc-action" href={`/preview/blocks/${block.slug}`} target="_blank" rel="noreferrer" aria-label={`Open ${block.name} full preview in a new tab`}>Full preview<ArrowUpRight size={15} aria-hidden="true" /></a>
-        </div>
-      </div>
-
-      <div className="bc-preview" id={previewId} hidden={view !== "preview"}>
-        <div className="bc-preview-toolbar">
+        <div className="bc-preview-settings" hidden={view !== "preview"}>
           <div className="bc-width-switch" role="group" aria-label={`${block.name} preview width`}>
-            {widths.map(({ value, label, icon: Icon }) => <button type="button" key={value} aria-pressed={width === value} aria-label={`${block.name} ${label.toLowerCase()} width`} title={`${label} width`} onClick={() => setWidth(value)}><Icon size={15} aria-hidden="true" /><span>{label}</span></button>)}
+            {widths.map(({ value, label, icon: Icon }) => <button type="button" key={value} aria-pressed={width === value} aria-label={`${block.name} ${label.toLowerCase()} width`} title={`${label} width`} onClick={() => setWidth(value)}><Icon size={15} aria-hidden="true" /></button>)}
           </div>
           <div className="bc-preview-options">
-            <label htmlFor={`${controlId}-palette`}>Palette</label>
             <select id={`${controlId}-palette`} value={theme} aria-label={`${block.name} preview palette`} onChange={event => setTheme(event.target.value as "light" | "dark")}><option value="light">Light</option><option value="dark">Dark</option></select>
             <button className="bc-reset" type="button" onClick={() => setReset(value => value + 1)} aria-label={`Reset ${block.name} preview`} title="Reset preview"><RotateCcw size={15} aria-hidden="true" /></button>
           </div>
         </div>
+        <div className="bc-compact-settings" hidden={view !== "preview"}>
+          <Popover title="Preview settings" align="end" trigger={<button type="button" className="bc-action" aria-label={`${block.name} preview settings`}><SlidersHorizontal size={16} aria-hidden="true" /></button>}>
+            <div className="bc-width-switch" role="group" aria-label={`${block.name} compact preview width`}>{widths.map(({ value, label, icon: Icon }) => <button type="button" key={value} aria-pressed={width === value} onClick={() => setWidth(value)}><Icon size={16} aria-hidden="true" />{label}</button>)}</div>
+            <label className="bc-compact-palette">Palette<select value={theme} onChange={event => setTheme(event.target.value as "light" | "dark")}><option value="light">Light</option><option value="dark">Dark</option></select></label>
+            <button type="button" className="bc-action" onClick={() => setReset(value => value + 1)}><RotateCcw size={16} aria-hidden="true" />Reset preview</button>
+          </Popover>
+        </div>
+        <div className="bc-workbench-actions">
+          <button className="bc-action bc-prompt-action" type="button" onClick={() => copyText(blockAgentPrompt(block, origin, theme), `${block.name} agent prompt`)} aria-label={`Copy ${block.name} prompt for your agent`} title="Copy prompt for your coding agent"><MessageSquare size={15} aria-hidden="true" /><span>Prompt</span></button>
+          <button className="bc-action" type="button" onClick={() => copyText(install, `${block.name} install command`)} aria-label={`Copy ${block.name} install command`} title="Copy install command"><Copy size={15} aria-hidden="true" /></button>
+          <a className="bc-action" href={`/preview/blocks/${block.slug}`} target="_blank" rel="noreferrer" aria-label={`Open ${block.name} full preview in a new tab`} title="Open full preview"><ArrowUpRight size={16} aria-hidden="true" /></a>
+        </div>
+      </div>
+
+      <div className="bc-preview" id={previewId} hidden={view !== "preview"}>
         <div className="bc-preview-stage">
           <div className="bc-preview-canvas" data-theme={theme} data-width={width} style={{ maxWidth: widths.find(item => item.value === width)?.maxWidth }} role="region" aria-label={`${block.name} live preview`}>
             <BlockDemo key={reset} slug={block.slug} theme={theme} />
@@ -138,7 +147,6 @@ function CollectionEntry({ block, origin }: { block: BlockDefinition; origin: st
         </>)}
       </div>
 
-      <div className="bc-entry-footer"><span>{block.name}</span><code title={install}>{install}</code></div>
     </div>
 
     <div className="bc-copy-feedback" aria-live="polite" aria-atomic="true"><p>{copyStatus}</p></div>

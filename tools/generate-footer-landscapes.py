@@ -9,6 +9,14 @@ OUT.mkdir(parents=True, exist_ok=True)
 R = random.Random(24117)
 
 
+def blue_paper():
+    """A quiet original print texture, independent of the landscape seed."""
+    rng = random.Random(51128)
+    im = Image.new("RGBA", (256, 256), (0, 0, 0, 0))
+    im.putdata([(255, 240, 212, rng.randrange(0, 13)) for _ in range(256 * 256)])
+    im.save(OUT / "blue-hour-paper.webp", lossless=True)
+
+
 def engraving():
     w, h = 1800, 390
     blue, cream = (22, 61, 127), (250, 236, 205)
@@ -123,6 +131,7 @@ def village():
 
 
 if __name__ == "__main__":
+    blue_paper()
     engraving()
     village()
     print("Original footer landscapes saved to", OUT)

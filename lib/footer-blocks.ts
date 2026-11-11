@@ -30,6 +30,7 @@ export const FOOTER_BLOCKS: BlockDefinition[] = [
     prop("artworkSrc", "string", "Replace the decorative landscape with your own plate."),
     prop("onSubscribe", "(email: string) => void | Promise<void>", "Connect subscriptions. Submission is disabled without this callback."),
     prop("successMessage", "string", "Feedback after the callback resolves.", "You're on the list."),
+    prop("socialLinks / legalLinks", "LandscapeFooterLink[]", "Optional studio and legal navigation. Each link has a label and href.", "[]"),
   ], '<BlueHourFooter onSubscribe={async (email) => console.info(email)} />'),
   footer("studio-footer", "StudioFooter", "Sticker studio", "playful-footers", "A blue contact board with oversized script and original sticker accents.", [
     prop("office / officeHref", "string", "Office details and directions destination."),

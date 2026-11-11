@@ -7,10 +7,12 @@
 .header-version, .header-github { font-size: 11px; text-decoration: none; white-space: nowrap; color: var(--muted); }
 .header-github { padding: 10px 4px; }
 .header-version:hover, .header-github:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
-.theme-tools { max-width: min(340px, calc(100vw - 32px)); }
-.theme-swatches { display: flex; gap: 12px; margin: 0 0 20px; }
-.theme-swatches button { display: grid; place-items: center; width: 36px; height: 36px; padding: 6px; border: 1px solid var(--line); border-radius: var(--ui-small-radius); }
-.theme-swatches button[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 3px; }
+.theme-tools { max-width: min(340px, calc(100vw - 32px)); border-radius: 12px; padding: 20px; box-shadow: none; }
+.theme-tools .ui-overlay-title { font-size: 16px; }
+.theme-swatches { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 16px; }
+.theme-swatches button { display: grid; place-items: center; width: 40px; height: 40px; padding: 6px; border: 1px solid var(--line); border-radius: var(--ui-small-radius); }
+.theme-swatches button[aria-pressed="true"] { border-color: transparent; outline: none; box-shadow: none; }
+.theme-swatches button:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; box-shadow: none; }
 .theme-swatches svg { width: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
 .theme-color { display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 13px; margin-bottom: 16px; }
 .theme-color input { width: 56px; height: 42px; border: 1px solid var(--line); border-radius: var(--ui-small-radius); padding: 3px; background: var(--surface); }

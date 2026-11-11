@@ -75,18 +75,15 @@ test("compact browsing leads with previews and preserves the requested footer or
   await page.screenshot({ path: path.join(captures, "catalogue-mobile.png"), fullPage: true });
 });
 
-test("newsletter failure retries and preview controls preserve input", async ({ page }) => {
+test("newsletter preview stays clean and controls preserve input", async ({ page }) => {
   await page.goto("/blocks/category/footer");
   const entry = page.locator("#block-blue-hour-footer");
-  await entry.getByLabel("Callback result").selectOption("failure");
+  await expect(entry.getByLabel("Callback result")).toHaveCount(0);
   await entry.getByRole("textbox", { name: "Email address" }).fill("reader@example.com");
-  await entry.getByRole("button", { name: "Subscribe to studio newsletter" }).click();
-  await expect(entry.getByRole("alert")).toContainText("demo error");
   await entry.getByRole("button", { name: "BlueHourFooter source code", exact: true }).click();
   await expect(entry.getByLabel("BlueHourFooter source file", { exact: true })).toBeVisible();
   await entry.getByRole("button", { name: "BlueHourFooter preview", exact: true }).click();
   await expect(entry.getByRole("textbox", { name: "Email address" })).toHaveValue("reader@example.com");
-  await entry.getByLabel("Callback result").selectOption("success");
   await entry.getByRole("button", { name: "Subscribe to studio newsletter" }).click();
   await expect(entry.getByText("Demo complete. No email was subscribed.", { exact: true })).toBeVisible();
   await entry.getByRole("button", { name: "Reset BlueHourFooter preview", exact: true }).click();

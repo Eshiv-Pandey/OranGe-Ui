@@ -16,9 +16,9 @@ export function Select({ appearance = "polished", className, label, options, pla
     <Primitive.Root {...props}>
       <Primitive.Trigger id={id} className="ui-select-trigger" aria-labelledby={id + "-label"} aria-invalid={!!error} aria-describedby={error || description ? id + "-help" : undefined}><Primitive.Value placeholder={placeholder} /><Primitive.Icon><ChevronIcon /></Primitive.Icon></Primitive.Trigger>
       <Primitive.Portal><Primitive.Content ref={modalBackground} className={uiClass("ui-select-content ui-surface", contentClassName)} data-appearance={appearance} position="popper" sideOffset={6} collisionPadding={16}>
-        <Primitive.ScrollUpButton className="ui-select-scroll">↑</Primitive.ScrollUpButton>
+        <Primitive.ScrollUpButton className="ui-select-scroll ui-select-scroll-up"><ChevronIcon /></Primitive.ScrollUpButton>
         <Primitive.Viewport>{options.map((option) => <Primitive.Item key={option.value} value={option.value} disabled={option.disabled} className="ui-select-option"><Primitive.ItemText>{option.label}</Primitive.ItemText><Primitive.ItemIndicator><CheckIcon /></Primitive.ItemIndicator></Primitive.Item>)}</Primitive.Viewport>
-        <Primitive.ScrollDownButton className="ui-select-scroll">↓</Primitive.ScrollDownButton>
+        <Primitive.ScrollDownButton className="ui-select-scroll"><ChevronIcon /></Primitive.ScrollDownButton>
       </Primitive.Content></Primitive.Portal>
     </Primitive.Root>
     {(error || description) && <p id={id + "-help"} className={error ? "ui-error" : "ui-help"} role={error ? "alert" : undefined}>{error || description}</p>}

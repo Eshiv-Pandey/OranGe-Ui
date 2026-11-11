@@ -75,7 +75,7 @@ export async function componentRegistryItem(component: ComponentDefinition, appe
     if (!/^[a-zA-Z0-9_./-]+$/.test(relative) || relative.split("/").some((part) => part === "." || part === "..")) throw new Error("Unsafe registry target");
     let content = Buffer.from(bytes).toString("utf8");
     if (source.endsWith(".css") && /url\(["']?\/fonts\//.test(content)) content = registryBaseCss(content, bundle.files);
-    if (/\.tsx?$/.test(source)) content = registryAssetSource(content, bundle.files);
+    if (/\.(?:tsx?|css)$/.test(source)) content = registryAssetSource(content, bundle.files);
     if (source === "Example.tsx") content = relocateSource(content, source, relative);
     files.push({ path: `orangeui/${relative}`, type: "registry:file", target: `${registryRoot}/${relative}`, content });
   }

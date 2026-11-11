@@ -5,7 +5,10 @@
 .skyline-footer .portfolio-footer-connect { grid-column: auto; text-align: left; }
 .skyline-footer .portfolio-footer-contact { align-items: flex-start; }
 .skyline-footer .portfolio-footer-social { justify-content: flex-start; margin-inline: 0; flex-wrap: wrap; }
-.skyline-footer .portfolio-footer-column a { padding-block: 3px; }
+.skyline-footer .portfolio-footer-column a { min-height: 36px; padding-block: 6px; font-size: 14px; }
+.skyline-footer .portfolio-footer-heading { font-size: 13px; margin-bottom: 8px; }
+.skyline-footer .portfolio-footer-contact li, .skyline-footer .portfolio-footer-contact a { font-size: 13px; line-height: 1.6; }
+.skyline-footer .portfolio-footer-masthead { padding-bottom: 4px; }
 .skyline-footer :focus-visible { outline: 2px solid var(--portfolio-fx-ink); outline-offset: 4px; }
 .skyline-footer ::selection { color: var(--portfolio-fx-card); background: var(--portfolio-fx-ink); }
 @container skyline-footer (min-width: 480px) {

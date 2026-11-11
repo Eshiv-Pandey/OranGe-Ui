@@ -21,6 +21,8 @@ export type LandscapeFooterProps = {
   artworkSrc?: string;
   onSubscribe?: (email: string) => void | Promise<void>;
   successMessage?: string;
+  socialLinks?: LandscapeFooterLink[];
+  legalLinks?: LandscapeFooterLink[];
 };
 
 const BLUE_GROUPS: LandscapeFooterGroup[] = [
@@ -89,7 +91,7 @@ function FooterNewsletter({ onSubscribe, successMessage = "You're on the list." 
   </div>;
 }
 
-export function BlueHourFooter({ brand = "Fieldwork", groups = BLUE_GROUPS, email = "hello@fieldwork.example", description = "Objects for living. Stories for keeping.", copyright, className, id, homeHref = "/", artworkSrc, theme = "auto", onSubscribe, successMessage }: LandscapeFooterProps) {
+export function BlueHourFooter({ brand = "Fieldwork", groups = BLUE_GROUPS, email = "hello@fieldwork.example", description = "Objects for living. Stories for keeping.", copyright, className, id, homeHref = "/", artworkSrc, theme = "auto", onSubscribe, successMessage, socialLinks = [], legalLinks = [] }: LandscapeFooterProps) {
   return <div className="lf-container"><footer id={id} className={["lf-footer lf-blue-hour", className].filter(Boolean).join(" ")} data-theme={theme === "auto" ? undefined : theme}>
     <div className="lf-blue-content">
       <div className="lf-blue-columns">
@@ -102,22 +104,26 @@ export function BlueHourFooter({ brand = "Fieldwork", groups = BLUE_GROUPS, emai
         <FooterGroups groups={groups} />
         <FooterNewsletter onSubscribe={onSubscribe} successMessage={successMessage} />
       </div>
-      <div className="lf-blue-legal"><span>{copyright ?? `${new Date().getFullYear()} ${brand}`}</span><a href={`mailto:${email}`}>Let&apos;s make something lasting<ArrowUpRight size={15} aria-hidden="true" /></a></div>
+      <div className="lf-blue-legal">
+        <div className="lf-blue-details"><span>{copyright ?? `${new Date().getFullYear()} ${brand}`}</span>{socialLinks.length > 0 && <nav className="lf-social-links" aria-label="Follow the studio">{socialLinks.map(link => <a href={link.href} key={link.label + link.href}>{link.label}<ArrowUpRight size={14} aria-hidden="true" /></a>)}</nav>}</div>
+        {legalLinks.length > 0 ? <nav className="lf-legal-links" aria-label="Legal">{legalLinks.map(link => <a href={link.href} key={link.label + link.href}>{link.label}</a>)}</nav> : <a href={`mailto:${email}`}>Let&apos;s make something lasting<ArrowUpRight size={15} aria-hidden="true" /></a>}
+      </div>
     </div>
     {/* Original artwork is decorative. Footer navigation stays in readable HTML. */}
     {/* eslint-disable-next-line @next/next/no-img-element */}
-    <img className="lf-blue-landscape" src={artworkSrc ?? FOOTER_ART.blueHour} alt="" loading="lazy" decoding="async" />
+    <img className="lf-blue-landscape" src={artworkSrc ?? FOOTER_ART.blueHour} width={1800} height={390} alt="" loading="lazy" decoding="async" />
   </footer></div>;
 }
 
 export function HillsideFooter({ brand = "Bellora", groups = HILL_GROUPS, email = "hello@bellora.example", description = "A little slower. A little closer.", copyright, className, id, homeHref = "/", artworkSrc, theme = "auto" }: LandscapeFooterProps) {
   return <div className="lf-container"><footer id={id} className={["lf-footer lf-hillside", className].filter(Boolean).join(" ")} data-theme={theme === "auto" ? undefined : theme}>
     <div className="lf-hillside-scene">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="lf-hillside-landscape" src={artworkSrc ?? FOOTER_ART.hillside} alt="" loading="lazy" decoding="async" />
       <div className="lf-hillside-content">
       <div className="lf-hillside-brand"><a className="lf-hillside-wordmark" href={homeHref} aria-label={`${brand} home`}>{brand}</a><p>{description}</p></div>
+      <a className="lf-hillside-contact" href={`mailto:${email}`}>Say hello<ArrowUpRight size={18} aria-hidden="true" /></a>
       </div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="lf-hillside-landscape" src={artworkSrc ?? FOOTER_ART.hillside} width={1800} height={720} alt="" loading="lazy" decoding="async" />
     </div>
     <div className="lf-hillside-bottom">
       <div className="lf-hillside-links"><FooterGroups groups={groups} /></div>

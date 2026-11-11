@@ -17,7 +17,7 @@
 .bc-documentation-link { display: inline-flex; flex: none; align-items: center; min-height: 36px; gap: 6px; margin-top: 1px; color: var(--muted); font-size: 11px; text-decoration: none; }
 .bc-documentation-link:hover { color: var(--ink); }
 .bc-workbench { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-.bc-workbench-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.bc-workbench-toolbar { display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 8px 12px; border-bottom: 1px solid var(--line); }
 .bc-view-switch, .bc-workbench-actions, .bc-width-switch, .bc-preview-options, .bc-source-actions { display: flex; align-items: center; gap: 6px; }
 .bc-view-switch { padding: 3px; border-radius: 8px; background: var(--surface-soft); }
 .block-collection :is(button, select, textarea) { font-family: var(--font-body), sans-serif; }
@@ -29,7 +29,12 @@
 .bc-action:hover { background: var(--surface-soft); }
 .bc-install-action { border-color: var(--line); }
 .bc-preview[hidden], .bc-code[hidden] { display: none; }
-.bc-preview-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 54px; padding: 8px 14px; border-bottom: 1px solid var(--line); }
+.bc-preview-settings { display: flex; align-items: center; gap: 12px; margin-inline-start: auto; }
+.bc-preview-settings[hidden], .bc-compact-settings[hidden] { display: none; }
+.bc-compact-settings { display: none; }
+.bc-workbench-actions { margin-inline-start: auto; }
+.bc-prompt-action { border-color: var(--line); }
+.bc-compact-palette { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-block: 16px; font-size: 13px; }
 .bc-width-switch button { min-width: 38px; padding: 6px 9px; }
 .bc-width-switch button[aria-pressed="true"] { background: var(--surface-soft); color: var(--ink); }
 .bc-preview-options { gap: 9px; }
@@ -53,9 +58,6 @@
 .bc-source-code { max-width: 100%; min-height: 320px; max-height: 680px; margin: 0; padding: 24px; overflow: auto; color: var(--ink); background: var(--surface); font: 12px/1.85 var(--font-mono), monospace; tab-size: 2; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--line) var(--surface); }
 .bc-source-code:focus-visible { outline-offset: -3px; }
 .bc-source-note { padding: 14px 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; line-height: 1.7; }
-.bc-entry-footer { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-width: 0; padding: 14px 18px; border-top: 1px solid var(--line); font-size: 11px; }
-.bc-entry-footer > span { flex: none; color: var(--muted); }
-.bc-entry-footer > code { display: block; min-width: 0; color: var(--muted); font: 10px/1.6 var(--font-mono), monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bc-copy-feedback { min-height: 0; }
 .bc-copy-feedback > p:empty { display: none; }
 .bc-copy-feedback > p { margin-top: 12px; color: var(--muted); font-size: 12px; line-height: 1.7; }
@@ -88,10 +90,13 @@
   .bc-collection-entries { gap: 36px; padding-top: 20px; }
   .bc-entry-heading { gap: 12px; margin-bottom: 8px; }
   .bc-documentation-link { min-height: 32px; }
-  .bc-workbench-toolbar { flex-wrap: wrap; gap: 8px; padding: 10px; }
-  .bc-workbench-actions { flex: 1; justify-content: flex-end; gap: 3px; }
+  .bc-workbench-toolbar { gap: 6px; padding: 8px; }
+  .bc-preview-settings { display: none; }
+  .bc-compact-settings { display: block; margin-inline-start: auto; }
+  .bc-workbench-actions { margin-inline-start: 0; }
+  .bc-workbench-actions > button:not(.bc-prompt-action) { display: none; }
+  .bc-workbench-actions { gap: 3px; }
   .bc-action { padding-inline: 8px; }
-  .bc-preview-toolbar { gap: 8px; padding: 8px 10px; }
   .bc-width-switch { gap: 3px; }
   .bc-width-switch button { padding-inline: 8px; }
   .bc-width-switch button > span { display: none; }
@@ -102,13 +107,9 @@
   .bc-source-actions { justify-content: flex-end; }
   .bc-source-code { min-height: 260px; max-height: 560px; padding: 16px; font-size: 11px; }
   .bc-source-state { min-height: 260px; padding: 24px; }
-  .bc-entry-footer { gap: 16px; padding: 12px 14px; }
-  .bc-entry-footer > code { font-size: 9px; }
   .bc-copy-fallback textarea { min-height: 140px; }
 }
 @media (max-width: 400px) {
-  .bc-workbench-toolbar { flex-direction: column; align-items: stretch; }
-  .bc-view-switch { align-self: flex-start; }
-  .bc-workbench-actions { justify-content: space-between; }
-  .bc-preview-options > label { display: none; }
+  .bc-view-switch button { font-size: 0; gap: 0; width: 40px; height: 40px; padding: 8px; }
+  .bc-workbench-toolbar .bc-action { min-height: 40px; }
 }

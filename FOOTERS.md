@@ -16,7 +16,7 @@ All third-party-inspired artwork, brands and copy are original. The portfolio re
 
 ## Use and customize
 
-Open an example's documentation for its typed props, usage and registry command. Preview/Code, Full/Tablet/Phone, palette and Reset controls remain available in the collection. Changing views, width or palette preserves interaction state.
+Open an example's documentation for its typed props, usage and registry command. Each example has one control bar for Preview/Code, Full/Tablet/Phone, palette, Reset, Prompt, installation and the full preview. On narrow screens, preview settings open in a compact panel. Changing views, width or palette preserves interaction state. Prompt copies an agent instruction with this block's registry command, documentation, source endpoint and responsive integration requirements; clipboard failures expose selectable text.
 
 ```tsx
 "use client";
@@ -30,7 +30,7 @@ export default function Example() {
 
 BlueHourFooter validates email, prevents duplicate pending submissions and offers recoverable callback feedback. Submission is disabled without `onSubscribe`. The library demo never subscribes an address. Replace navigation destinations, contact details and legal copy before production use.
 
-LandscapeFooterProps accepts `brand`, `homeHref`, `groups`, `email`, `description`, `copyright`, `artworkSrc`, `theme`, `className` and `id`. BlueHourFooter also accepts `onSubscribe` and `successMessage`. StudioFooter adds office/directions and careers/contact actions. ColonyFooter adds contact/support actions. SkylineFooter accepts the existing PortfolioFooter props, with optional default brand and link groups. See `lib/footer-blocks.ts` and the source exports for the complete signatures.
+LandscapeFooterProps accepts `brand`, `homeHref`, `groups`, `email`, `description`, `copyright`, `artworkSrc`, `theme`, `className` and `id`. BlueHourFooter also accepts `onSubscribe`, `successMessage`, `socialLinks` and `legalLinks`. Its public demo has no callback-result selector; newsletter validation and honest demo feedback remain available. StudioFooter adds office/directions and careers/contact actions. ColonyFooter adds contact/support actions. SkylineFooter accepts the existing PortfolioFooter props, with optional default brand and link groups. See `lib/footer-blocks.ts` and the source exports for the complete signatures.
 
 ## Assets
 
@@ -51,3 +51,11 @@ node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3140
 ```
 
 For a memory-constrained build, set `$env:ORANGEUI_BUILD_WORKERS = '2'` before `npm run build`.
+
+## Footer and dropdown polish, 12 November 2026
+
+Blue Hour has larger serif navigation, a subtle original print texture, optional studio/legal links and a proportionate engraved landscape. Hillside separates its masthead from the painted village so the text stays clear of trees at every width. Studio, Colony, Skyline, Pavilion and Site Footer have more consistent spacing, readable links and responsive arrangements. The portfolio layout was inspected in the read-only local `E:/eshiv_pandey` project. The original artwork, fonts and notices are retained.
+
+Native select triggers share aligned arrows and one focus edge. Browsers with customizable select support also render the shared option menu; other browsers retain their platform picker. Radix select and dropdown menu highlights use a single background treatment. The shell's theme panel stays polished while its Copy theme action still exports the chosen component appearance.
+
+A dedicated production check uses only this task's changes over the committed base, protecting unrelated working-tree edits. Chromium verification covers seven footers at 320, 390, 768 and 1440 pixels in both palettes: 56 renders with loaded artwork, no horizontal content overflow, no page errors and no WCAG A/AA Axe findings. Prompt copying, source inspection, compact settings, preserved newsletter input and dropdown focus return were also verified. The existing portable-source suite compiles all 42 block examples and checks embedded images, fonts and notices. Physical device performance and native picker styling in browsers without customizable select support are outside this verification.

@@ -1,6 +1,7 @@
 /** Explicit public assets retained in portable footer installations. */
 export const FOOTER_ASSETS = [
   "public/art/footer/blue-hour-landscape.webp",
+  "public/art/footer/blue-hour-paper.webp",
   "public/art/footer/hillside-landscape.webp",
   "public/art/footer/playful-colony-sprout.webp",
   "public/art/footer/playful-colony-fold.webp",
