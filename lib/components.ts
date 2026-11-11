@@ -9,6 +9,7 @@ import { AI_COMPONENTS } from "./ai-components";
 import { CREATIVE_COMPONENTS } from "./creative-components";
 import { SHADER_COMPONENTS } from "./shader-components";
 import { REFERENCE_COMPONENTS } from "./reference-components";
+import { STICKER_PACK_COMPONENT } from "./sticker-components";
 export type ComponentCategory = "Buttons & actions" | "Galleries & photography" | "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play" | "AI & chat" | "Human avatars";
 export type PropDoc = { name: string; type: string; defaultValue: string; description: string };
 export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string; customizerPreview?: boolean; usageImports?: string[]; usageSetup?: string; collection?: Appearance; notes?: string[]; demo?: DemoStep[] };
@@ -1192,7 +1193,7 @@ export const components: ComponentDefinition[] = [
     ]
   }
 ];
-components.push(WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT, ...SCENE_COMPONENTS, ...PORTFOLIO_COMPONENTS, ...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS);
+components.push(WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT, ...SCENE_COMPONENTS, ...PORTFOLIO_COMPONENTS, ...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS, STICKER_PACK_COMPONENT);
 export function componentsInCollection(appearance: Appearance) { return components.filter((component) => !component.collection || component.collection === appearance); }
 // ShaderCanvas remains installable as the low-level engine behind the effects.
 // Its former showcase is now part of the single gradient playground.

@@ -26,7 +26,7 @@ export function Sticker({ name, size = 128, hoverPeel = false, rotate = 0, label
   return <span {...props} className={`orange-sticker ${className}`} data-peel={hoverPeel || undefined} data-appearance={appearance} role={decorative ? undefined : "img"} aria-label={decorative ? undefined : label || artwork.title} aria-hidden={decorative || undefined} style={{ width: dimension, "--sticker-rotation": `${angle}deg`, ...style } as CSSProperties}>
     <span className="orange-sticker-sheet">
       <svg className="orange-sticker-front" viewBox="0 0 128 128" aria-hidden="true" focusable="false" dangerouslySetInnerHTML={{ __html: stickerMarkup(name) }} />
-      {hoverPeel && <svg className="orange-sticker-back" viewBox="0 0 128 128" aria-hidden="true" focusable="false"><path d={artwork.outline} fill="#f1ebe2" stroke="#fff8f0" strokeWidth="10" strokeLinejoin="round" /></svg>}
+      {hoverPeel && <svg className="orange-sticker-back" viewBox="0 0 128 128" aria-hidden="true" focusable="false"><g transform={artwork.transform}><path d={artwork.outline} fill="#f1ebe2" stroke="#fff8f0" strokeWidth="10" strokeLinejoin="round" /></g></svg>}
     </span>
   </span>;
 }

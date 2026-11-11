@@ -1,0 +1,2 @@
+import { defineConfig } from "@playwright/test";
+export default defineConfig({ testDir: "./tests", testMatch: "sticker-pack.spec.ts", timeout: 120000, expect: { timeout: 15000 }, fullyParallel: false, workers: 1, outputDir: "out/iteration/stickers/test-results", reporter: [["list"], ["json", { outputFile: "out/iteration/stickers/browser-report.json" }]], use: { baseURL: "http://127.0.0.1:3150", browserName: "chromium", launchOptions: { args: ["--disable-gpu"] }, reducedMotion: "reduce", trace: "retain-on-failure" } });

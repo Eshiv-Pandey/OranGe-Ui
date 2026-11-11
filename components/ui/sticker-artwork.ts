@@ -12,8 +12,8 @@ const dots = (items: number[][], fill: string) => items.map(([x, y, radius]) => 
 
 export const STICKER_CATEGORIES = ["Oddlings", "Pocket objects", "In bloom", "Out there", "Graphic joy"] as const;
 export type StickerCategory = typeof STICKER_CATEGORIES[number];
-type Artwork = { name: string; title: string; category: StickerCategory; tags: string; color: string; outline: string; body: string };
-const art = <N extends string>(name: N, title: string, category: StickerCategory, tags: string, color: string, outline: string, body: string): Artwork & { name: N } => ({ name, title, category, tags, color, outline, body });
+type Artwork = { name: string; title: string; category: StickerCategory; tags: string; color: string; outline: string; body: string; transform: string };
+const art = <N extends string>(name: N, title: string, category: StickerCategory, tags: string, color: string, outline: string, body: string, transform = ""): Artwork & { name: N } => ({ name, title, category, tags, color, outline, body, transform });
 
 export const STICKER_ARTWORK = [
   art("orbit-snail", "Orbit snail", "Oddlings", "slow cosmic creature orange", "#ff8251",
@@ -144,7 +144,7 @@ export const STICKER_ARTWORK = [
     p("M64 37C37-2-3 40 24 72l40 39 40-39C131 41 91-3 64 37Z", "#f48eaa") + p("M27 33q10-10 21 0l49 46-14 14Z", "#ffa76e", "none") + p("M44 20q11-1 20 17L99 70 85 84 35 36Z", "#ffcc87", "none") + p("M25 73 73 27q12-9 22 0L39 85Z", "#bd8ccf", "none") + p("M51 97 102 46q4 15-7 28L64 111Z", "#b487ca", "none") + line("M38 47 52 60m14-28 19 19", "#ffe8d5", 3)),
   art("infinity-ribbon", "Infinity ribbon", "Graphic joy", "loop knot infinity blue", "#83b9ec",
     "M63 49q-31-40-49-13-20 35 9 51 22 14 42-10 29 40 51 11 22-29-8-53-22-13-45 14Z",
-    p("M63 49q-31-40-49-13-20 35 9 51 22 14 42-10 29 40 51 11 22-29-8-53-22-13-45 14Z", "#83b9ec") + p("M50 63q-19-26-24-12-7 18 6 20 7 2 18-8Zm28 0q18 26 25 14 8-16-5-21-8-3-20 7Z", "#fff8e7") + line("M56 40 79 75m-31-2 24 20", "#456caf", 3) + line("M26 34q10-4 22 8m38 44q12 8 20-3", "#d1eaf9", 3)),
+    p("M63 49q-31-40-49-13-20 35 9 51 22 14 42-10 29 40 51 11 22-29-8-53-22-13-45 14Z", "#83b9ec") + p("M50 63q-19-26-24-12-7 18 6 20 7 2 18-8Zm28 0q18 26 25 14 8-16-5-21-8-3-20 7Z", "#fff8e7") + line("M56 40 79 75m-31-2 24 20", "#456caf", 3) + line("M26 34q10-4 22 8m38 44q12 8 20-3", "#d1eaf9", 3), "translate(6 6) scale(.9)"),
   art("tidal-badge", "Tidal badge", "Graphic joy", "wave ocean blue badge", "#83cfe5",
     "M108 64a44 44 0 1 1-88 0 44 44 0 0 1 88 0Z",
     c(64,64,44,"#ffe0a3") + p("M24 66q11-27 30-26 29-3 33 24-12-15-21-1-11 17-42 3Z", "#75c8dc", "none") + p("M21 71q12 4 25-6 18-19 39 0 9 7 22 0-2 31-40 43-37-7-46-37Z", "#6083bd", "none") + p("M33 78q15 14 30 0t33 0", "none", "#fff0d0", 4) + c(76,39,8,"#f8976d", "none") + line("M52 30 55 34m-21 7 5 2", "#d89e60", 2)),
@@ -178,7 +178,7 @@ export function getSticker(name: StickerName): StickerDefinition {
 }
 export function stickerMarkup(name: StickerName): string {
   const sticker = getSticker(name);
-  return `<g stroke-linecap="round" stroke-linejoin="round"><path d="${sticker.outline}" fill="#fff8f0" stroke="#fff8f0" stroke-width="10"/>${sticker.body}</g>`;
+  return `<g transform="${sticker.transform}" stroke-linecap="round" stroke-linejoin="round"><path d="${sticker.outline}" fill="#fff8f0" stroke="#fff8f0" stroke-width="10"/>${sticker.body}</g>`;
 }
 /** Self-contained vector: no fonts, external images, IDs, scripts or network dependencies. */
 export function stickerSvg(name: StickerName, size = 512): string {
