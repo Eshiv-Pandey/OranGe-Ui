@@ -6,7 +6,7 @@ import path from "node:path";
 const captures = path.resolve(".impeccable/review/blocks");
 test("catalogue search, navigation and preview controls preserve form state", async ({ page }) => {
   await page.goto("/blocks"); await expect(page.getByRole("heading", { name: "Blocks for good pages." })).toBeVisible();
-  await page.getByLabel("Search blocks").fill("auth"); await expect(page.locator(".block-card")).toHaveCount(1); await page.locator(".block-card").click();
+  await page.getByLabel("Search blocks").fill("auth"); await expect(page.locator(".block-card")).toHaveCount(5); await page.locator('.block-card[href="/blocks/auth-panel"]').click();
   await page.getByLabel(/^Email address/).fill("alex@example.com"); await page.getByRole("button", { name: "Phone", exact: true }).click(); await expect(page.getByLabel(/^Email address/)).toHaveValue("alex@example.com");
   await page.getByLabel(/[Pp]alette/).selectOption("dark"); await expect(page.getByLabel(/^Email address/)).toHaveValue("alex@example.com");
   await page.getByRole("button", { name: "Usage", exact: true }).click(); await expect(page.locator(".block-code-view")).toContainText("AuthPanel"); await page.getByRole("button", { name: "Source", exact: true }).click(); await expect(page.getByLabel("Source file")).toBeVisible(); await expect(page.locator(".block-code-view")).toContainText("AuthPanelProps");
@@ -38,7 +38,7 @@ test("desktop and phone renders have loaded assets, keyboard access and no horiz
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1); expect(overflow, `${slug} at ${viewport.name}`).toBe(false);
       expect(await page.locator("img").evaluateAll(images => images.every(image => (image as HTMLImageElement).naturalWidth > 0)), slug).toBe(true);
       await page.screenshot({ path: path.join(captures, `${slug}-${viewport.name}.png`), fullPage: true });
-      if (slug === "catalogue" && viewport.name === "desktop") for (const block of blocks) await page.locator(`.block-card[href="/blocks/${block.slug}"]`).screenshot({ path: path.join(captures, `card-${block.slug}.png`) });
+      if (slug === "catalogue" && viewport.name === "desktop") { await page.getByRole("button", { name: "All examples", exact: true }).click(); for (const block of blocks) await page.locator(`.block-card[href="/blocks/${block.slug}"]`).screenshot({ path: path.join(captures, `card-${block.slug}.png`) }); }
       if (["editorial-hero", "product-hero", "studio-landing", "studio-workspace", "pricing-section", "testimonials", "bento-overview", "focus-widget"].includes(slug)) {
         await page.getByLabel(/[Pp]alette/).selectOption("dark"); await page.screenshot({ path: path.join(captures, `${slug}-dark-${viewport.name}.png`), fullPage: true });
       }

@@ -25,6 +25,10 @@ const privateFiles = ["./AGENTS.md", "./USER_INSTRUCTIONS.md", "./CONTRIBUTION_R
 const config: NextConfig = {
   poweredByHeader: false,
   redirects: async () => [
+    { source: "/blocks/auth", destination: "/blocks/category/auth", permanent: true },
+    { source: "/components/neon-sign-404", destination: "/blocks/neon-sign-404", permanent: true },
+    { source: "/components/chai-break-404", destination: "/blocks/chai-break-404", permanent: true },
+    { source: "/components/pavilion-footer", destination: "/blocks/pavilion-footer", permanent: true },
     { source: "/components/live-orb", destination: "/components/emberling", permanent: true },
     { source: "/components/shader-canvas", destination: "/components/grain-gradient", permanent: true },
     { source: "/components/livery-editor", destination: "/components/open-wheel-car", permanent: true },

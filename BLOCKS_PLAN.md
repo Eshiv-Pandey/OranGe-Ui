@@ -1,6 +1,6 @@
 # Original oRangeUi blocks
 
-Status: complete, including implementation, verification, finish-review corrections and design documentation, 11 November 2026.
+Baseline status: the original 30-block implementation completed verification, finish-review corrections and design documentation on 11 November 2026. The subsequent expansion begins with five Auth layouts and category collections.
 
 The brief is to examine Efferd and Watermelon UI, cover the same kinds of reusable sections, and make original polished work with consistent quality. Their component source, artwork and copy are not implementation inputs.
 
@@ -10,7 +10,17 @@ The union of the two public catalogues has 27 useful section types:
 
 Auth, Hero, Header, Footer, Features, Bento, Pricing, Testimonials, Logo Cloud, Integrations, FAQ, Contact, Newsletter, Blog, Team, Careers, Image Gallery, CTA, Announcement, Not Found, App Shell, Dashboard, Settings, Notifications, File Upload, Stats and Widgets.
 
-Each gets a complete original representative. Auth covers sign-in, signup, password recovery and verification. Two distinct heroes and composed marketing/workspace templates demonstrate how the same system works across a complete page. Variant counts do not take priority over craft.
+Each has a complete original representative. The expanded direction is at least five original examples per section, starting with Auth. Auth now has five distinct layouts covering sign-in, signup, password recovery and verification. The other categories retain their initial examples while subsequent sections are developed. Two distinct heroes and composed marketing/workspace templates show how the system works across a complete page. Quality and consistency remain the acceptance bar for every addition.
+
+## Auth expansion checkpoint
+
+- Five layouts: AuthPanel, QuietAuth, StudioAuth, ContrastAuth and PlayfulAuth.
+- Category-first discovery at `/blocks`, with large stacked previews at `/blocks/category/<slug>`.
+- Preview/Code, responsive widths, light/dark palettes, per-example Reset, source retry and manual clipboard recovery.
+- NeonNotFound and ChaiBreak404 moved into Not Found; PavilionFooter moved into Footer. Legacy component links redirect to their block pages.
+- Total: 37 original blocks in 28 categories. Only Auth has been expanded to five in this stage.
+- The 50-sticker collection has its own `feat/stickers-50` branch and separate worktree, with `STICKERS_PLAN.md` for its session handoff.
+- Current verification and design receipts are recorded separately from the baseline in `BLOCKS.md` and local `out/iteration/auth-expansion/`.
 
 ## Delivery
 

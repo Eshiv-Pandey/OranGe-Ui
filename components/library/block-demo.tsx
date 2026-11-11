@@ -2,6 +2,10 @@
 
 import { useState, type ReactNode } from "react";
 import { AuthPanel, type AuthMode } from "../ui/blocks/auth";
+import { QuietAuth, StudioAuth, ContrastAuth, PlayfulAuth } from "../ui/blocks/auth-variants";
+import { NeonNotFound } from "../ui/neon-sign-404";
+import { ChaiBreak404 } from "../ui/chai-break-404";
+import { PavilionFooter } from "../ui/pavilion-footer";
 import { EditorialHero, ProductHero } from "../ui/blocks/heroes";
 import { SiteHeader, SiteFooter, AnnouncementBar } from "../ui/blocks/navigation";
 import { FeatureStory, BentoOverview, PricingSection, TestimonialSection, LogoCloud, IntegrationDirectory, FaqSection, CallToAction } from "../ui/blocks/marketing";
@@ -13,12 +17,21 @@ import { StudioLanding, StudioWorkspace } from "../ui/blocks/templates";
 const landing = "/preview/blocks/studio-landing";
 const links = [{ label: "Our approach", href: `${landing}#about` }, { label: "Features", href: `${landing}#features` }, { label: "Plans", href: `${landing}#pricing` }];
 const serviceBlocks = new Set(["auth-panel", "integrations", "contact", "newsletter", "settings", "notifications", "file-upload", "app-shell", "studio-landing", "studio-workspace"]);
+const authBlocks = new Set(["auth-panel", "quiet-auth", "studio-auth", "contrast-auth", "playful-auth"]);
+authBlocks.forEach(slug => serviceBlocks.add(slug));
 export function BlockDemo({ slug, controls = true }: { slug: string; controls?: boolean }) {
-  const [failure, setFailure] = useState(false), [status, setStatus] = useState(""), [authMode, setAuthMode] = useState<AuthMode>("sign-in");
+  const [failure, setFailure] = useState(false), [status, setStatus] = useState(""), [authMode, setAuthMode] = useState<AuthMode>(slug === "playful-auth" ? "sign-up" : "sign-in");
   async function service() { await new Promise(resolve => setTimeout(resolve, 450)); if (failure) throw new Error("This is a demo error. Switch to Success and try again."); }
   const chosen = (plan: string, billing: string) => setStatus(`Demo: ${plan} selected with ${billing} billing. No purchase was made.`);
   let content: ReactNode;
   switch (slug) {
+    case "quiet-auth": case "studio-auth": case "contrast-auth": case "playful-auth": {
+      const Auth = { "quiet-auth": QuietAuth, "studio-auth": StudioAuth, "contrast-auth": ContrastAuth, "playful-auth": PlayfulAuth }[slug];
+      content = <Auth mode={authMode} onModeChange={setAuthMode} onSubmit={service} providers={[{ id: "passkey", label: "Continue with passkey" }, { id: "provider", label: "Demo identity provider" }]} onProvider={service} successMessage="Demo complete. No account was created or authenticated." />; break;
+    }
+    case "neon-sign-404": content = <NeonNotFound homeHref={landing} sound={false} />; break;
+    case "chai-break-404": content = <ChaiBreak404 homeHref={landing} sound={false} />; break;
+    case "pavilion-footer": content = <PavilionFooter />; break;
     case "auth-panel": content = <AuthPanel mode={authMode} onModeChange={setAuthMode} onSubmit={service} providers={[{ id: "provider", label: "Demo provider" }]} onProvider={service} successMessage="Demo complete. No account was created or authenticated." />; break;
     case "editorial-hero": content = <EditorialHero primaryAction={{ label: "Find your space", href: `${landing}#features` }} secondaryAction={{ label: "See how it works", href: `${landing}#about` }} />; break;
     case "product-hero": content = <ProductHero action={{ label: "Start a new chapter", href: `${landing}#get-started` }} />; break;
@@ -51,5 +64,5 @@ export function BlockDemo({ slug, controls = true }: { slug: string; controls?: 
     case "studio-workspace": content = <StudioWorkspace onSave={service} />; break;
     default: return <p>Preview not available.</p>;
   }
-  return <div className="block-demo">{controls && <div className="block-demo-controls"><p>Fictional Daylight demo. Actions do not send or save data.</p>{serviceBlocks.has(slug) && <label>Callback result<select value={failure ? "failure" : "success"} onChange={event => setFailure(event.target.value === "failure")}><option value="success">Success</option><option value="failure">Failure</option></select></label>}{slug === "auth-panel" && <label>Auth flow<select value={authMode} onChange={event => setAuthMode(event.target.value as AuthMode)}><option value="sign-in">Sign in</option><option value="sign-up">Create account</option><option value="recover">Recover password</option><option value="verify">Verify code</option></select></label>}</div>}{content}<div className="block-demo-status" aria-live="polite">{status && <p>{status}</p>}</div></div>;
+  return <div className="block-demo">{controls && <div className="block-demo-controls"><p>Fictional Daylight demo. Actions do not send or save data.</p>{serviceBlocks.has(slug) && <label>Callback result<select value={failure ? "failure" : "success"} onChange={event => setFailure(event.target.value === "failure")}><option value="success">Success</option><option value="failure">Failure</option></select></label>}{authBlocks.has(slug) && <label>Auth flow<select value={authMode} onChange={event => setAuthMode(event.target.value as AuthMode)}><option value="sign-in">Sign in</option><option value="sign-up">Create account</option><option value="recover">Recover password</option><option value="verify">Verify code</option></select></label>}</div>}{content}<div className="block-demo-status" aria-live="polite">{status && <p>{status}</p>}</div></div>;
 }

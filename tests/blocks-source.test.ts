@@ -10,15 +10,19 @@ import { GET as sourceGet } from "../app/api/blocks/[slug]/route";
 import { GET as registryGet } from "../app/r/[name]/route";
 
 it("covers every researched section with unique, trusted original entries", () => {
-  expect(blocks).toHaveLength(30); expect(new Set(blocks.map(block => block.slug)).size).toBe(30);
+  expect(blocks).toHaveLength(37); expect(new Set(blocks.map(block => block.slug)).size).toBe(37);
+  expect(blocks.filter(block => block.category === "Auth")).toHaveLength(5);
+  expect(blocks.filter(block => block.category === "Not Found").map(block => block.slug)).toEqual(expect.arrayContaining(["neon-sign-404", "chai-break-404"]));
+  expect(findBlock("pavilion-footer")?.category).toBe("Footer");
   for (const category of blockCategories) expect(blocks.some(block => block.category === category)).toBe(true);
   for (const slug of ["../USER_INSTRUCTIONS", "%2e%2e", "auth-panel.tsx", "AUTH-PANEL"]) expect(findBlock(slug)).toBeUndefined();
 });
-it("extracts and typechecks all thirty usage examples with complete standalone dependencies", async () => {
+it("extracts and typechecks every usage example with complete standalone dependencies", async () => {
   const root = path.resolve(".impeccable/review/blocks/install"), examples: string[] = [];
   for (const block of blocks) {
     const bundle = await blockSource(block);
-    expect(bundle.files[block.file]).toBeDefined(); expect(bundle.files["styles/blocks.css"]).toBeDefined(); expect(bundle.dependencies).toContain("lucide-react"); expect(bundle.dependencies).not.toContain("next");
+    expect(bundle.files[block.file]).toBeDefined(); expect(Object.keys(bundle.files).some(file => file.endsWith(".css"))).toBe(true); expect(bundle.dependencies).not.toContain("next");
+    if (block.file.startsWith("components/ui/blocks/")) { expect(bundle.files["styles/blocks.css"]).toBeDefined(); expect(bundle.dependencies).toContain("lucide-react"); }
     expect(strFromU8(bundle.files["README.md"])).toContain("fictional"); expect(strFromU8(bundle.files["README.md"])).not.toContain("all five appearances");
     for (const [relative, bytes] of Object.entries(bundle.files)) {
       expect(relative).not.toMatch(/AGENTS|USER_INSTRUCTIONS|CONTRIBUTION_RULES|out\/|\.env/);
@@ -34,7 +38,7 @@ it("extracts and typechecks all thirty usage examples with complete standalone d
   expect("output" in result && result.output.some(output => output.type === "chunk" && output.isEntry)).toBe(true);
 }, 90000);
 it("ships portable registry fonts and photos with notices, and truthful installation docs", async () => {
-  for (const slug of ["auth-panel", "studio-landing", "studio-workspace"]) {
+  for (const slug of ["auth-panel", "studio-auth", "contrast-auth", "studio-landing", "studio-workspace"]) {
     const item = await blockRegistryItem(findBlock(slug)!);
     expect(item.type).toBe("registry:block"); expect(item.docs).toContain("Polished"); expect(item.docs).toContain("fictional"); expect(item.docs).not.toContain("all five appearances");
     const files = item.files.map(file => file.content).join("\n"); expect(files).toContain("data:image/jpeg;base64,"); expect(files).toContain("data:font/woff2;base64,"); expect(files).not.toMatch(/url\(["']?\/fonts\//);

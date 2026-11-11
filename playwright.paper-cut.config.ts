@@ -1,0 +1,2 @@
+import { defineConfig } from "@playwright/test";
+export default defineConfig({ testDir: "./tests", testMatch: /paper-cut\.spec\.ts$/, outputDir: "out/iteration/cursor-reactive/browser-results", timeout: 120000, workers: 1, reporter: [["list"], ["json", { outputFile: "out/iteration/cursor-reactive/browser-report.json" }]], use: { baseURL: "http://127.0.0.1:3140", browserName: "chromium", reducedMotion: "no-preference", trace: "retain-on-failure" } });

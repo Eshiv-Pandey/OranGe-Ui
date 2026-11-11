@@ -1,22 +1,27 @@
 "use client";
-
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Search, ArrowUpRight } from "lucide-react";
-import { blocks, blockCategories } from "../../lib/blocks";
+import { blocks, blockCategories, blockCategoryHref, type BlockCategory } from "../../lib/blocks";
 import { Input } from "../ui/input";
 import { BlockThumbnail } from "./block-thumbnail";
 import "../../styles/blocks-library.css";
 
 export function BlockCatalogue() {
-  const [query, setQuery] = useState(""), [category, setCategory] = useState("All"), [family, setFamily] = useState("All");
-  const filtered = useMemo(() => blocks.filter(block => (category === "All" || block.category === category) && (family === "All" || block.family === family) && `${block.title} ${block.name} ${block.category} ${block.description}`.toLowerCase().includes(query.trim().toLowerCase())), [query, category, family]);
-  function clear() { setQuery(""); setCategory("All"); setFamily("All"); }
-  return <div className="blocks-catalogue"><header className="blocks-intro"><h1>Blocks for good pages.</h1><p>Original sections with room to make them yours. Explore authentication, marketing and workspace blocks, all built from the same polished system.</p><div className="blocks-intro-meta"><span>{blocks.length} considered blocks</span><span>27 section types + 2 templates</span><span>Polished / Light + dark</span></div></header>
-    <div className="blocks-filters"><Input type="search" label="Search blocks" hideLabel icon={<Search size={17} />} placeholder="Auth, hero, pricing..." value={query} onChange={event => setQuery(event.target.value)} /><label>Section<select aria-label="Block category" value={category} onChange={event => { setCategory(event.target.value); setFamily("All"); }}><option value="All">All sections</option>{blockCategories.map(item => <option key={item}>{item}</option>)}</select></label></div>
-    <div className="blocks-family-row"><div role="group" aria-label="Block family">{["All", "Marketing", "Content", "Workspace", "Templates"].map(item => <button type="button" key={item} aria-pressed={family === item} onClick={() => { setFamily(item); setCategory("All"); }}>{item}</button>)}</div><span role="status">{filtered.length} {filtered.length === 1 ? "block" : "blocks"}</span></div>
-    <div className="blocks-grid">{filtered.map(block => <Link className="block-card" key={block.slug} href={`/blocks/${block.slug}`}><BlockThumbnail block={block} /><div className="block-card-copy"><h2>{block.title}<ArrowUpRight size={18} /></h2><span>{block.category}</span><p>{block.description}</p></div></Link>)}</div>
-    {!filtered.length && <div className="blocks-empty"><h2>No blocks here yet.</h2><p>Try a different name or return to the full collection.</p><button type="button" onClick={clear}>Clear filters</button></div>}
-    <div className="blocks-catalogue-note"><p>Every block includes a live preview, typed props, a registry command and complete source. Daylight content is fictional; supply your own copy and connect callbacks to your application.</p><Link href="/docs">Read the setup guide <ArrowUpRight size={16} /></Link></div>
+  const router = useRouter();
+  const [query, setQuery] = useState(""), [view, setView] = useState("sections"), [family, setFamily] = useState("All");
+  const examples = useMemo(() => blocks.filter(block => (family === "All" || block.family === family) && `${block.title} ${block.name} ${block.category} ${block.description}`.toLowerCase().includes(query.trim().toLowerCase())), [query, family]);
+  const showExamples = view === "examples" || Boolean(query.trim());
+  function clear() { setQuery(""); setFamily("All"); }
+  return <div className="blocks-catalogue"><header className="blocks-intro"><h1>Blocks for good pages.</h1><p>Start with a section. Try its original examples at a useful scale, explore the code, and bring complete source into your project.</p><div className="blocks-intro-meta"><span>{blocks.length} original examples</span><span>{blockCategories.length} categories</span><span>Live preview / Complete source</span></div></header>
+    <div className="blocks-filters"><Input type="search" label="Search blocks" hideLabel icon={<Search size={17} />} placeholder="Auth, hero, pricing..." value={query} onChange={event => setQuery(event.target.value)} /><label>Open a section<select aria-label="Block category" value="All" onChange={event => { if (event.target.value !== "All") router.push(blockCategoryHref(event.target.value as BlockCategory)); }}><option value="All">Choose a section</option>{blockCategories.map(item => <option key={item}>{item}</option>)}</select></label></div>
+    <div className="blocks-family-row"><div role="group" aria-label="Browse blocks"><button type="button" aria-pressed={!showExamples} onClick={() => { setView("sections"); clear(); }}>Browse sections</button><button type="button" aria-pressed={showExamples} onClick={() => setView("examples")}>All examples</button></div><span role="status">{showExamples ? `${examples.length} examples` : `${blockCategories.length} sections`}</span></div>
+    {showExamples ? <><div className="blocks-family-row"><div role="group" aria-label="Block family">{["All", "Marketing", "Content", "Workspace", "Templates"].map(item => <button type="button" key={item} aria-pressed={family === item} onClick={() => setFamily(item)}>{item}</button>)}</div></div><div className="blocks-grid">{examples.map(block => <Link className="block-card" key={block.slug} href={`/blocks/${block.slug}`}><BlockThumbnail block={block} /><div className="block-card-copy"><h2>{block.title}<ArrowUpRight size={18} /></h2><span>{block.category}</span><p>{block.description}</p></div></Link>)}</div>{!examples.length && <div className="blocks-empty"><h2>No matching examples.</h2><p>Try another name or explore every section.</p><button type="button" onClick={clear}>Clear filters</button></div>}</>
+      : <div className="blocks-grid block-categories-grid">{blockCategories.map(category => {
+        const entries = blocks.filter(block => block.category === category);
+        return <Link className="block-card block-category-card" key={category} href={blockCategoryHref(category)}><div className="block-category-label"><h2>{category}</h2><span>{entries.length} {entries.length === 1 ? "example" : "examples"}</span></div><BlockThumbnail block={entries[0]} /><div className="block-category-action">Explore {category.toLowerCase()}<ArrowUpRight size={17} /></div></Link>;
+      })}</div>}
+    <div className="blocks-catalogue-note"><p>Every example includes responsive previews, documented props, registry installation and complete source. Demonstration content is illustrative; connect callbacks to your application.</p><Link href="/docs">Read the setup guide <ArrowUpRight size={16} /></Link></div>
   </div>;
 }

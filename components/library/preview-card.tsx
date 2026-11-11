@@ -4,8 +4,14 @@ import { useDemoPlayer, type DemoStep } from "./use-demo-player";
 import "../../styles/preview-card.css";
 
 export const AUTONOMOUS_PREVIEWS = new Set(["shader-canvas", "flowing-water", "flowing-grass", "drifting-clouds", "grain-gradient", "anime-fire", "season-tree", "marquee", "skeleton", "progress", "thinking-indicator", "agent-status"]);
+export const STATIC_PREVIEWS = new Set(["paper-cut"]);
+/** Static catalogue artwork consumes no playback slot. */
+export function PreviewCard({ staticPreview = false, ...props }: { children: ReactNode; demo?: DemoStep[]; autonomous?: boolean; pixel?: boolean; label: string; staticPreview?: boolean }) {
+  if (staticPreview) return <div className="component-thumbnail demo-preview" data-static="true" data-playing="false" data-motion="paused" aria-hidden="true"><div className="thumbnail-inner" inert>{props.children}</div></div>;
+  return <PlayingPreviewCard {...props} />;
+}
 /** Live subtree plus an inert DOM/canvas frame when its playback slot is paused. */
-export function PreviewCard({ children, demo, autonomous = false, pixel = false, label }: { children: ReactNode; demo?: DemoStep[]; autonomous?: boolean; pixel?: boolean; label: string }) {
+function PlayingPreviewCard({ children, demo, autonomous = false, pixel = false, label }: { children: ReactNode; demo?: DemoStep[]; autonomous?: boolean; pixel?: boolean; label: string }) {
   const { root, live, still, cursor, mounted } = useDemoPlayer(demo, autonomous);
   return <div ref={root} className="component-thumbnail demo-preview" data-pixel={pixel} data-cursor="false" role="group" tabIndex={0} aria-label={label}>
     <div ref={still} className="preview-still" hidden={mounted} inert aria-hidden="true" />

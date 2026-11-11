@@ -159,3 +159,5 @@ export * from "./components/ui/blocks/forms";
 export * from "./components/ui/blocks/workspace";
 export * from "./components/ui/blocks/templates";
 export type { BlockProps, BlockAction, BlockLink } from "./components/ui/blocks/shared";
+export * from "./components/ui/paper-cut";
+export * from "./components/ui/blocks/auth-variants";

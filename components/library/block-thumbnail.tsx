@@ -1,4 +1,4 @@
-import { Sun, Check, Folder, ArrowUpRight, Mail, Upload, Bell, Plus, Puzzle } from "lucide-react";
+import { Sun, Sparkles, Check, Folder, ArrowUpRight, Mail, Upload, Bell, Plus, Puzzle } from "lucide-react";
 import type { ReactNode } from "react";
 import type { BlockDefinition } from "../../lib/blocks";
 
@@ -11,11 +11,21 @@ function Agenda() {
   return <div className="bt-agenda"><h3>Your day, Alex.</h3><p>A little structure. Plenty of room.</p><h4>Today&apos;s small steps</h4>{["Gather yesterday's notes", "Make room for a design review", "Share the welcome page"].map((text, index) => <div key={text}><small>{["09:00", "11:00", "14:30"][index]}</small><Check /><span>{text}</span></div>)}<aside>Leave a little breathing room.</aside></div>;
 }
 
+function AuthMiniature({ slug }: { slug: string }) {
+  const layout = slug.replace("-auth", "");
+  const title = slug === "quiet-auth" ? "Welcome to your space." : slug === "studio-auth" ? "Start something good." : slug === "contrast-auth" ? "Find your flow." : slug === "playful-auth" ? "Good to meet you." : "Good to have you back.";
+  return <div className={`bt-auth bt-auth-${layout}`}>
+    {slug !== "quiet-auth" && <div className={`bt-auth-art ${slug === "studio-auth" || slug === "playful-auth" ? "" : "bt-photo bt-forest"}`}><Sun /><strong>{slug === "studio-auth" ? <>Small starts.<br />Open doors.</> : slug === "contrast-auth" ? <>A different<br />kind of bright.</> : slug === "playful-auth" ? <>Good ideas<br />start together.</> : <>A little room<br />for your next idea.</>}</strong>{slug === "studio-auth" && <div className="bt-studio-photos"><Photo scene="coast" /><Photo scene="flowers" /></div>}{slug === "playful-auth" && <span className="bt-welcome-sticker"><Sparkles /></span>}</div>}
+    <div className="bt-auth-form"><Sun /><strong>{title}</strong>{slug === "playful-auth" && <Field label="Your name" />}<Field label="Email address" /><Field label="Password" /><b>{slug === "playful-auth" ? "Create account" : "Sign in"}</b></div>
+  </div>;
+}
+
 /** Lightweight miniatures depict each original block's actual layout and sample content. */
 export function BlockThumbnail({ block }: { block: BlockDefinition }) {
+  if (["neon-sign-404", "chai-break-404", "pavilion-footer"].includes(block.slug)) return <div className="block-thumbnail block-scene-thumbnail" aria-hidden="true"><img src={`/blocks/${block.slug}.webp`} alt="" width={760} height={600} loading="lazy" decoding="async" /></div>; // eslint-disable-line @next/next/no-img-element -- Small local catalogue captures need no image service.
   let content: ReactNode;
   switch (block.category) {
-    case "Auth": content = <div className="bt-auth"><div className="bt-photo bt-forest"><Sun /><strong>A little room<br />for your next idea.</strong></div><div><Sun /><strong>Good to have<br />you back.</strong><Field label="Email address" /><Field label="Password" /><b>Sign in</b></div></div>; break;
+    case "Auth": content = <AuthMiniature slug={block.slug} />; break;
     case "Hero": content = <div className="bt-hero"><div><Brand /><strong>{block.slug === "product-hero" ? "Less juggling.\nMore doing." : "Good things need\na little room."}</strong><p>A thoughtful space for ideas and good work.</p><Action>Find your space</Action></div>{block.slug === "product-hero" ? <div className="bt-plan"><strong>A good day<br />to make progress.</strong>{["Make a little space", "Bring the team together", "Ship something thoughtful"].map(text => <span key={text}><Check />{text}</span>)}</div> : <Photo scene="desert" />}</div>; break;
     case "Header": content = <div className="bt-header"><Brand /><span>Our approach</span><span>Features</span><span>Plans</span><Action>Get in touch</Action></div>; break;
     case "Footer": content = <div className="bt-footer"><div><Brand /><h3>Make a little space<br />for good work.</h3></div><div><strong>Explore</strong><span>Our approach</span><span>Features</span><span>Plans</span></div><div><strong>Say hello</strong><span>Contact us</span><span>The journal</span><span>The team</span></div><footer>Daylight<span>Thoughtfully made, every day.</span></footer></div>; break;

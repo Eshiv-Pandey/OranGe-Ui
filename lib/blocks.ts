@@ -1,4 +1,5 @@
 import type { ComponentDefinition, PropDoc } from "./components";
+import { SCENE_COMPONENTS } from "./scene-components";
 
 export const blockCategories = ["Auth", "Hero", "Header", "Footer", "Features", "Bento", "Pricing", "Testimonials", "Logo Cloud", "Integrations", "FAQ", "Contact", "Newsletter", "Blog", "Team", "Careers", "Image Gallery", "CTA", "Announcement", "Not Found", "App Shell", "Dashboard", "Settings", "Notifications", "File Upload", "Stats", "Widgets", "Templates"] as const;
 export type BlockCategory = typeof blockCategories[number];
@@ -45,5 +46,24 @@ export const blocks: BlockDefinition[] = [
   block("studio-landing", "StudioLanding", "The Daylight studio", "Templates", "Templates", "templates", "A complete marketing composition: navigation, hero, features, plans, FAQ, newsletter, contact and footer.", [p("onSubscribe", "(email: string) => void | Promise<void>", "Connect subscriptions."), p("onContact", "(values: ContactSubmission) => void | Promise<void>", "Connect contact messages."), p("onChoosePlan", '(plan: string, billing: "monthly" | "yearly") => void', "Connect plan selection.")], '<StudioLanding onSubscribe={async (email) => console.info(email)} onContact={async (values) => console.info(values)} onChoosePlan={(plan, billing) => console.info(plan, billing)} />', native, "page"),
   block("studio-workspace", "StudioWorkspace", "A day in the studio", "Templates", "Templates", "templates", "A composed workspace and focus timer with responsive navigation and preferences.", [p("onSave", "(values: WorkspaceSettings) => void | Promise<void>", "Persist preferences.")], '<StudioWorkspace onSave={async (values) => console.info(values)} />', native, "page"),
 ];
+const authBase = blocks.find(item => item.slug === "auth-panel")!;
+blocks.push(...[
+  ["quiet-auth", "QuietAuth", "A quiet place to begin.", "A centered form with a clear task, generous spacing and a restrained sun mark."],
+  ["studio-auth", "StudioAuth", "Small starts. Open doors.", "A warm editorial welcome with licensed landscape photographs and a focused form."],
+  ["contrast-auth", "ContrastAuth", "A different kind of bright.", "A dark split welcome with a blue-green photographic panel and crisp account controls."],
+  ["playful-auth", "PlayfulAuth", "Good ideas start together.", "A mint, amber and pink signup with confident ink edges and a playful paper composition."],
+].map(([slug, name, title, description]): BlockDefinition => ({ ...authBase, slug, name, title, description,
+  props: authBase.props.filter(prop => !["quiet-auth", "playful-auth"].includes(slug) || !["imageSrc", "imageAlt"].includes(prop.name)).map(prop => prop.name === "initialMode" && slug === "playful-auth" ? { ...prop, defaultValue: "sign-up" } : prop.name === "imageSrc" && slug === "studio-auth" ? { ...prop, description: "Replace the main landscape photograph.", defaultValue: "Licensed coast photograph" } : prop),
+  file: "components/ui/blocks/auth-variants.tsx", usage: `<${name} onSubmit={async (values) => { console.log(values.mode); }} />` })));
+blocks.push(...SCENE_COMPONENTS.map((item): BlockDefinition => ({
+  ...item, name: item.slug === "neon-sign-404" ? "NeonNotFound" : item.name,
+  title: item.slug === "pavilion-footer" ? "A place to return." : item.slug === "chai-break-404" ? "A little chai. A different path." : "Closed for the night.",
+  category: item.slug === "pavilion-footer" ? "Footer" : "Not Found", family: "Marketing", preview: "page",
+  usage: item.slug === "neon-sign-404" ? '<NeonNotFound homeHref="/" sound={false} />' : item.usage,
+  notes: [...(item.notes ?? []), "This original layout belongs to Blocks. Demonstration copy is fictional and configurable; replace destinations and branding for your application."],
+})));
+export function blockCategorySlug(category: BlockCategory) { return category.toLowerCase().replaceAll(" ", "-"); }
+export function blockCategoryHref(category: BlockCategory) { return `/blocks/category/${blockCategorySlug(category)}`; }
+export function findBlockCategory(slug: string) { return blockCategories.find(category => blockCategorySlug(category) === slug); }
 export const findBlock = (slug: string) => blocks.find(item => item.slug === slug);
 export const asComponent = (entry: BlockDefinition): ComponentDefinition => ({ ...entry, category: "Content & layout" });

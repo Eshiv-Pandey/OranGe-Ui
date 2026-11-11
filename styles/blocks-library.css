@@ -44,6 +44,24 @@
 .bt-auth > div:last-child strong { font-size: 21px; margin-bottom: 4px; }
 .bt-auth > div:last-child span { font-size: 8px; color: var(--muted); }
 .bt-auth i, .bt-form i { height: 22px; border: 1px solid var(--line); border-radius: 4px; display: block; background: var(--surface); }
+.bt-auth-art { padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
+.bt-auth-quiet { display: flex; justify-content: center; align-items: center; background: var(--surface-soft); padding: 24px; }
+.bt-auth-quiet > .bt-auth-form { width: 240px; padding: 18px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.bt-auth-studio { padding: 0; gap: 10px; }
+.bt-auth-studio > .bt-auth-art { background: #f6eadb; color: #4c281c; }
+.bt-auth-art > strong { font-size: 24px; }
+.bt-studio-photos { display: grid; grid-template-columns: 1.4fr 1fr; gap: 6px; align-items: end; }
+.bt-studio-photos > .bt-photo { height: 72px; border-radius: 3px; }
+.bt-studio-photos > .bt-photo:last-child { height: 50px; }
+.bt-auth-contrast { --surface: light-dark(#f5faf7,#202127); --ink: light-dark(#182d25,#f2f3f5); --muted: light-dark(#53685e,#becbc6); --line: light-dark(#182d2534,#f2f3f534); --primary: #a2ede0; --on-primary: #132724; --primary-text: light-dark(#206658,#a2ede0); background: var(--surface); gap: 12px; }
+.bt-auth-contrast > .bt-photo { background-image: linear-gradient(0deg, #052e65da, #092f8760), url('/photos/keepsakes/forest.jpg'); color: #e6fff7; }
+.bt-auth-playful { --surface: light-dark(#fff8e8,#23342b); --ink: light-dark(#171c18,#fff8e8); --muted: light-dark(#525846,#c5ceb9); --line: light-dark(#171c1860,#fff8e870); --primary: #f8ce46; --on-primary: #171c18; --primary-text: light-dark(#765800,#f8ce46); background: light-dark(#acd5b4,#3c614a); padding: 9px; gap: 9px; }
+.bt-auth-playful > .bt-auth-art { position: relative; padding: 17px; background: #f8ce46; color: #171c18; border: 1px solid #171c18; }
+.bt-auth-playful > .bt-auth-form { padding: 16px 12px; background: var(--surface); border: 1px solid #171c18; }
+.bt-auth-playful > .bt-auth-form strong { font-size: 19px; }
+.bt-welcome-sticker { display: inline-flex; align-self: start; background: #f4a1d9; color: #171c18; border: 1px solid #171c18; border-radius: 999px; padding: 6px 10px; font-size: 7px; font-weight: 750; transform: rotate(-7deg); }
+.block-scene-thumbnail { background: #f2f2f2; display: grid; place-items: center; }
+.block-scene-thumbnail > img { width: 100%; height: 100%; object-fit: contain; }
 .bt-hero { display: grid; grid-template-columns: 1.1fr 1fr; height: 100%; padding: 28px; gap: 24px; align-items: center; }
 .bt-hero > div:first-child > svg { color: var(--primary-text); display: block; margin-bottom: 20px; }
 .bt-hero strong { font-size: 29px; display: block; }
@@ -264,6 +282,14 @@
 .bt-mini-focus > span { font-size: 31px; letter-spacing: -.035em; }
 .bt-mini-focus b { font-size: 6px; padding: 7px 4px; }
 .blocks-empty { padding: 64px 24px; text-align: center; }
+.block-categories-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.block-category-label { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:20px 20px 16px; }
+.block-category-label h2 { font-size:18px; letter-spacing:-.025em; font-weight:600; }
+.block-category-label > span { color:var(--muted); font-size:11px; }
+.block-category-card .block-thumbnail { height:220px; border-bottom:0; margin:0 14px; width:calc(100% - 28px); border-radius:8px; overflow:hidden; }
+.block-category-action { display:flex; align-items:center; justify-content:space-between; padding:18px 20px 20px; font-size:12px; color:var(--muted); }
+@media(max-width:1100px) { .block-categories-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:700px) { .block-categories-grid { grid-template-columns:1fr; } }
 .blocks-empty h2 { font-size: 25px; }
 .blocks-empty p { margin: 12px 0 20px; color: var(--muted); line-height: 1.8; }
 .blocks-empty > button { background: var(--surface-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px 20px; color: var(--ink); cursor: pointer; }
