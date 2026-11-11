@@ -1,19 +1,17 @@
-# Sticker gallery
+# Sticker gallery, editor and placement playground
 
-Mode: Experience. This is an extension of the existing neutral library workspace.
+Mode: Experience for the collection; Operate for editing and placement. This is an extension of the existing neutral library workspace.
 
 ## Direction contract
 
-Fifty original, compact vinyl stickers are the content. Five collections contain ten independently authored designs each: Oddlings, Pocket objects, In bloom, Out there, Graphic joy. Saturated flat vector colors, clean silhouettes, a warm white die-cut margin and quiet dark contour lines tie the pack together. Creature anatomy, object construction and graphic motifs vary; changing a color alone does not count as a design.
+The owner requested keeping the first fifty cartoon-like designs, introducing sharper finishes and commonly useful motifs, replacing the rejected peel animation, adding npm distribution, and building a sticker placement playground. The pack now has seventy designs and two finishes. Preserve the incumbent design system and the liked right-side preview.
 
-FIRST VIEWPORT: original artwork appears beside the short introduction and immediately in the catalogue. Use the existing Geist typography, live workspace tokens, orange accent and navigation. The gallery uses named selectable previews, category buttons with counts and a labeled search field. Selected artwork has a live size control, optional peel, code and export controls. Phones show the named catalogue below the filters first; selecting a sticker opens the full-width inspector and moves focus into it. Back to stickers closes it and returns focus to the selected card.
+FIRST VIEWPORT: expressive original stickers accompany a short introduction and a direct playground action. Collection/Playground and Sharp/Playful controls remain visible. The default collection starts with Everyday designs. Search, named categories and the selected preview remain quick to scan. At widths up to 700px, the introduction uses a compact two-line title and the categories occupy one horizontally scrollable row. Phones show the collection first and expand the inspector on selection. Desktop retains the sticker fan and the side-by-side selected preview.
 
-Signature interaction: a diagonal lower-corner vinyl fold, clipped to the actual sticker silhouette. Hovering the artwork or focusing its wrapping button reveals its pale reverse. The full artwork is the default; reduced motion and touch hover preserve it. Export files contain flat artwork with no hover effect.
+Signature interaction: click, Enter or Space presses the sticker then lets it spring and settle. Alternate wiggle, spin and no-motion choices are explicit. The complete artwork remains visible during hover; there is no diagonal clipping or fold. Reduced motion overrides animation.
 
-Visitor path: browse all fifty, narrow by category or search, select a sticker, adjust size and peel, copy React or SVG, download artwork, or install the full reusable component pack. Registry, source ZIP and component documentation remain findable.
+Editor: a native modal with a large rotation-safe stage, preview backgrounds, size, rotation, finish, animation, duration, intensity and shadow. Copy/download code reflects every editable component setting. Native Escape, focus confinement and focus restoration are required.
 
-Quality bar: the reference's compact saturated die-cut treatment and direct named browsing, plus independently authored forms. Research images never become shipping assets. Crisp portable SVG geometry is the medium of this component pack. No font dependency, picture tracing, brand likeness or third-party sticker source enters the artwork.
+Playground: a responsive placement canvas with normalized coordinates, touch/pointer dragging, keyboard movement, layers, duplicate/remove/front, undo, captions and backgrounds. Export React, standalone HTML and JSON. Per-placement settings stay intact across dragging and workspace switches. No dependency is required by the standalone HTML export.
 
-Incumbent DESIGN.md and .impeccable/design.json are preserved. Styling belongs to this surface and sticker components.
-
-FORM: short introduction and featured artwork, a collection/search bar, compact named catalogue, and a separate inspector. Desktop keeps the inspector beside the grid. Phone browsing reserves the first screen for the grid, then expands an inline inspector on selection. Code uses the expanded panel width at 11px. The lower installation section closes the surface with working source and registry paths.
+Package: orangeui-stickers contains all seventy components, ESM/CommonJS, types and standalone CSS, with React peer dependencies and no site/font dependencies. Registry installation of orangeui-stickers@0.1.0 is verified. The public versioned tarball remains an alternative npm install target.

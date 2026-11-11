@@ -106,3 +106,63 @@
   .sticker-card { min-height: 174px; }
 }
 @media (prefers-reduced-motion: reduce) { .sticker-card { transition: none; } }
+
+/* Expanded sticker workspace */
+.sticker-gallery [hidden] { display: none !important; }
+.sticker-gallery .sticker-title-wiggle { color: inherit; padding: 0; font: inherit; letter-spacing: inherit; line-height: inherit; white-space: nowrap; }
+.sticker-intro-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 20px; }
+.sticker-primary-action { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 16px; border: 0; border-radius: 8px; background: var(--ink); color: var(--surface) !important; font-size: 13px !important; }
+.sticker-primary-action:hover { opacity: .86; }
+.sticker-workspace-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 15px; border-bottom: 1px solid var(--line); }
+.sticker-view-tabs, .sticker-finish-choice { display: flex; gap: 4px; }
+.sticker-view-tabs button { display: inline-flex; align-items: center; gap: 8px; border: 0; padding: 11px 14px; border-radius: 8px; background: transparent; font-size: 13px; }
+.sticker-view-tabs button[aria-pressed="true"] { background: var(--surface-soft); font-weight: 600; }
+.sticker-view-tabs button span { color: var(--muted); font-size: 11px; }
+.sticker-finish-choice { padding: 3px; border: 1px solid var(--line); border-radius: 9px; }
+.sticker-finish-choice button { border: 0; background: transparent; border-radius: 6px; padding: 7px 13px; font-size: 12px; }
+.sticker-finish-choice button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.sticker-browse-bar { border-top: 0; flex-direction: column; align-items: stretch; gap: 13px; padding: 18px 0; }
+.sticker-search { min-width: 0; max-width: none; padding: 12px 14px; }
+.sticker-search input { font-size: 13px; }
+.sticker-categories { gap: 5px; }
+.sticker-categories button { min-height: 40px; }
+.sticker-results-heading { display: flex; gap: 10px; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
+.sticker-results-heading .sticker-result-count { margin: 0; }
+.sticker-results-heading > span { font-size: 11px; color: var(--muted); white-space: nowrap; }
+.sticker-gallery-layout { grid-template-columns: minmax(0, 1fr) 300px; }
+.sticker-card { min-height: 170px; overflow: visible; }
+.sticker-card > .orange-sticker { pointer-events: none; }
+.sticker-live-preview { position: relative; min-height: 270px; height: auto; padding: 14px 8px; }
+.sticker-peel-preview { width: min(260px,100%); min-height: 232px; height: auto; }
+.sticker-replay { position: absolute; right: 12px; bottom: 10px; display: flex; padding: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+.sticker-motion-label { display: flex; justify-content: space-between; gap: 15px; align-items: center; font-size: 12px; margin-bottom: 16px; }
+.sticker-motion-label select { padding: 7px 9px; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; font: inherit; min-width: 100px; }
+.sticker-edit-button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 11px 10px; border: 1px solid var(--line); border-radius: 7px; background: transparent; font-size: 12px !important; margin-bottom: 18px; }
+.sticker-edit-button span { font-size: 10px; color: var(--muted); margin-left: auto; }
+.sticker-edit-button:hover { background: var(--surface-soft); }
+.sticker-add-link { width: 100%; display: inline-flex; gap: 7px; justify-content: center; align-items: center; border: 0; padding: 12px 0 3px; background: transparent; font-size: 11px !important; }
+.sticker-package-download { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; font-size: 12px; }
+.sticker-registry-install { margin-top: 16px; }
+.sticker-registry-install summary { cursor: pointer; font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+@media (max-width: 1050px) { .sticker-gallery-layout { grid-template-columns: minmax(0,1fr) 264px; gap: 16px; } .sticker-results-heading > span { display: none; } }
+@media (max-width: 700px) { .sticker-gallery-layout { display: flex; } .sticker-workspace-bar { gap: 10px; } .sticker-view-tabs button { padding: 9px; font-size: 12px; } .sticker-finish-choice { margin-left: auto; } .sticker-finish-choice button { padding: 7px 9px; } .sticker-card { min-height: 166px; } .sticker-gallery-intro h1 { font-size: clamp(32px,8vw,40px); } .sticker-browse-bar { align-items: stretch; } .sticker-categories button { font-size: 11px; } }
+
+.sticker-inspector-fit { display: block; flex: none; transform-origin: center; }
+.sticker-inspector-fit .orange-sticker { max-width: none; }
+
+@media (max-width: 700px) {
+  .sticker-gallery { padding-top: 12px; }
+  .sticker-gallery-intro { margin-bottom: 20px; }
+  .sticker-gallery-intro h1 { margin-bottom: 12px; font-size: clamp(26px, 7vw, 30px); line-height: 1.08; }
+  .sticker-gallery-intro h1 .sticker-title-wiggle { font: inherit; letter-spacing: inherit; }
+  .sticker-gallery-intro p { margin-bottom: 14px; font-size: 13px; line-height: 1.5; }
+  .sticker-intro-actions { gap: 14px; }
+  .sticker-primary-action { padding: 10px 12px; }
+  .sticker-workspace-bar { gap: 8px; padding-bottom: 10px; }
+  .sticker-browse-bar { gap: 10px; padding: 12px 0; }
+  .sticker-search { padding: 10px 12px; }
+  .sticker-categories { flex-wrap: nowrap; overflow-x: auto; padding: 2px 0 6px; scrollbar-width: thin; scrollbar-color: var(--muted) var(--surface); }
+  .sticker-categories button { flex: none; }
+  .sticker-gallery-layout { margin-top: 16px; }
+  .sticker-results-heading { margin-bottom: 12px; }
+}
