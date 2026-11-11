@@ -1,15 +1,15 @@
 # Original page blocks
 
-oRangeUi includes 37 original blocks across 28 categories, including two composed templates. Start at `/blocks`, choose a category, and compare its working examples at `/blocks/category/<slug>`. Every entry has a live preview, typed prop documentation, source-file browsing, a complete ZIP and a shadcn-compatible registry command.
+oRangeUi includes 42 original blocks across 28 categories, including two composed templates. Start at `/blocks`, choose a category, and compare its working examples at `/blocks/category/<slug>`. Every entry has a live preview, typed prop documentation, source-file browsing, a complete ZIP and a shadcn-compatible registry command.
 
-Auth currently has five distinct layouts. Other categories have one to three examples; five layouts per category have not been completed.
+Auth has five distinct layouts and Footer has seven. Other categories have one to three examples; five layouts per category have not been completed.
 
 ## Start here
 
 - `/blocks/category/auth`: AuthPanel, QuietAuth, StudioAuth, ContrastAuth and PlayfulAuth, each with sign-in, signup, password recovery and six-digit verification.
 - `/blocks/category/hero`: the editorial and product openings.
 - `/blocks/category/not-found`: EmptyPage, NeonNotFound and ChaiBreak404.
-- `/blocks/category/footer`: SiteFooter and PavilionFooter.
+- `/blocks/category/footer`: BlueHourFooter, StudioFooter, ColonyFooter, HillsideFooter, SkylineFooter, PavilionFooter and SiteFooter, in that order.
 - `/blocks/category/<slug>#block-<block-slug>`: a specific example within a category. Category names use lowercase hyphenated slugs, such as `image-gallery` and `file-upload`.
 - `/blocks/<block-slug>`: dedicated documentation, typed props and usage examples.
 - `/blocks/editorial-hero` and `/blocks/product-hero`: two distinct openings.
@@ -17,7 +17,7 @@ Auth currently has five distinct layouts. Other categories have one to three exa
 - `/blocks/studio-workspace`: a responsive workspace with a daily agenda, project view, notifications, preferences and a focus timer.
 - `/preview/blocks/<slug>`: standalone previews outside the documentation shell.
 
-The catalogue starts with category cards. Search and All examples expose individual entries, while the category navigation lists each section's examples and links to their live previews.
+The catalogue starts with category cards. Search and All examples expose individual entries, while the category navigation lists each section's examples and links to their live previews. Browse and category headers keep a compact title and navigation without the oversized introductory paragraph and count panels.
 
 Each category entry has Preview and Code views, Full/Tablet/Phone widths and a light/dark host palette. Switching views, width or palette keeps the preview mounted and preserves its current form and interaction state. Each entry owns its controls; Reset deliberately starts that entry's demonstration again. This is local page state, not persistence across reloads. Auth mode changes open a fresh form for the selected flow.
 
@@ -37,6 +37,20 @@ Service-backed demos let you try successful and failed callbacks; they do not se
 
 All five share the typed auth flow and submission behavior. Supply `onSubmit`, optional `providers`/`onProvider`, and application-owned recovery and verification services. ContrastAuth and PlayfulAuth follow the inherited light/dark `color-scheme` through their own paired form palettes; their photographic and paper artwork remains scoped to each layout.
 
+## Footer layouts
+
+| Export | Detail route | Composition |
+| --- | --- | --- |
+| BlueHourFooter | `/blocks/blue-hour-footer` | Blue and cream serif navigation, an original engraved landscape and a callback-driven newsletter. |
+| StudioFooter | `/blocks/studio-footer` | Blue contact board, oversized script wordmark and original sticker accents. |
+| ColonyFooter | `/blocks/colony-footer` | Purple ground, white navigation panel and three original playful characters. |
+| HillsideFooter | `/blocks/hillside-footer` | Original painted village, quiet serif wordmark and concise navigation. |
+| SkylineFooter | `/blocks/skyline-footer` | Existing portfolio skyline and truck, configurable contact details and social links. |
+| PavilionFooter | `/blocks/pavilion-footer` | Existing authored pavilion scene and its component API. |
+| SiteFooter | `/blocks/site-footer` | Simple grouped navigation and configurable brand and copyright. |
+
+The five new layouts use typed application data and retain their local artwork and typography in both palettes. BlueHourFooter accepts `onSubscribe`; it validates the email and shows pending, success and recoverable error feedback. Submission stays disabled without a callback. SkylineFooter builds on the existing PortfolioFooter API. See [FOOTERS.md](FOOTERS.md) for integration, provenance and verification scope.
+
 ## Coverage
 
 | Section | Export |
@@ -44,7 +58,7 @@ All five share the typed auth flow and submission behavior. Supply `onSubmit`, o
 | Auth | AuthPanel, QuietAuth, StudioAuth, ContrastAuth, PlayfulAuth |
 | Hero | EditorialHero, ProductHero |
 | Header | SiteHeader |
-| Footer | SiteFooter, PavilionFooter |
+| Footer | BlueHourFooter, StudioFooter, ColonyFooter, HillsideFooter, SkylineFooter, PavilionFooter, SiteFooter |
 | Features | FeatureStory |
 | Bento | BentoOverview |
 | Pricing | PricingSection |
@@ -80,11 +94,11 @@ The existing recovery pages and pavilion footer now appear under Blocks, retaini
 | `/components/chai-break-404` | `/blocks/chai-break-404` | ChaiBreak404 |
 | `/components/pavilion-footer` | `/blocks/pavilion-footer` | PavilionFooter |
 
-`/blocks/auth` also redirects to `/blocks/category/auth`. The existing site recovery page continues to use ChaiBreak404. These are discovery moves, not newly generated scene artwork. PaperCut remains at `/components/paper-cut`; the separate sticker work is not included in the 37-block count.
+`/blocks/auth` also redirects to `/blocks/category/auth`. The existing site recovery page continues to use ChaiBreak404. These are discovery moves, not newly generated scene artwork. PaperCut remains at `/components/paper-cut`; the separate sticker work is not included in the 42-block count.
 
 ## Installation and integration
 
-Copy the installation command from a block page. It uses `/r/block-<slug>.json` and installs into the project-root `orangeui/` namespace. Keep its folders together. The example and all local dependencies are included. Registry installation embeds fonts and sample photographs as data URLs; retain the included licenses and allow the corresponding `font-src` and `img-src` data URLs in a restricted CSP.
+Copy the installation command from a block page. It uses `/r/block-<slug>.json` and installs into the project-root `orangeui/` namespace. Keep its folders together. The example and all local dependencies are included. Registry installation embeds fonts, artwork and sample photographs as data URLs; retain the included licenses and allow the corresponding `font-src` and `img-src` data URLs in a restricted CSP.
 
 ZIP downloads at `/api/blocks/<slug>` include original React/TypeScript source, imported styles, local dependencies, fonts, demonstration photographs, an example and a README. Merge the included `public/` directory into your application. The CSS imports are included; Tailwind is not required. Read text files through `/api/blocks/<slug>?format=source`.
 
@@ -98,7 +112,7 @@ Daylight is fictional. Sample organizations, people, prices, quotations and stat
 
 The category shell inherits the existing Geist typography, orange actions, semantic neutral surfaces and readable library controls. Auth examples vary layout and local artwork palettes while sharing the existing Button/Input APIs. Marketing sections vary typography, imagery and density; workspace sections prioritize clear lists and useful states. Layouts respond to the containing preview's width through container queries. Motion respects reduced-motion preferences.
 
-Auth-specific materials and the moved scene palettes remain scoped to their examples. This expansion does not redefine the shared palette, type ramp, appearance rules or design-system documents.
+Auth-specific materials, footer typography and artwork, and the moved scene palettes remain scoped to their examples. These additions preserve the shared palette, type ramp, appearance rules and design-system documents. Footer artwork and font notices are documented in [FOOTERS.md](FOOTERS.md).
 
 Efferd and the current Watermelon UI site at `https://ui.watermelon.sh/` informed the section coverage and discovery flow. Public Pinterest previews informed spacing and workspace hierarchy. Their source, components, copy and artwork were not used. The compositions and demonstration content were authored for oRangeUi.
 
@@ -122,9 +136,9 @@ The checks cover form flows and callback errors, file selection limits, billing 
 
 ### Historical 30-block baseline
 
-Verified on 11 November 2026 before the Auth/category expansion: production build, TypeScript, scoped lint, copy checks, 15 focused Vitest checks and five production Playwright suites passed. The independent review's four material corrections were scored resolved in its scoped final verdict. A separate design verification confirmed the original extension's use of the existing system and preserved its design documents. Those results remain baseline evidence; they do not certify the current 37-block expansion.
+Verified on 11 November 2026 before the Auth/category expansion: production build, TypeScript, scoped lint, copy checks, 15 focused Vitest checks and five production Playwright suites passed. The independent review's four material corrections were scored resolved in its scoped final verdict. A separate design verification confirmed the original extension's use of the existing system and preserved its design documents. Those results remain baseline evidence; they do not certify later expansions.
 
-### Current Auth/category expansion
+### Verified Auth/category checkpoint
 
 Verified on the final production build (`8_B7_32TuFYcAUNzXsoSR`): build and TypeScript, scoped lint and copy checks passed. The focused unit/source run passed 31 checks, including compilation of all 37 standalone usage examples; after the earlier correction batch, the overlapping 25 Auth/Blocks unit/source checks were refreshed and passed. Staged source/type verification also passed.
 
@@ -135,3 +149,9 @@ PaperCut's separate verification passed two production browser tests for motion,
 One design-detector run reported zero primary findings and advisories only. The builder completed its initial inspection, one correction batch and confirmation. The independent finish reviewer then identified one fix: remove the WELCOME IN eyebrow from PlayfulAuth and its miniature. That text was removed while the pink icon ornament and composition were preserved.
 
 After the reviewer fix, seven affected browser tests passed against the final build, covering state retention, all five forms in both palettes with Axe, and four category/Auth recapture matrices. These refreshes overlap the earlier 25 unique browser checks: 18 Auth/category, five Blocks and two PaperCut. The earlier unit/source and browser evidence remains covered; the refreshed tests are not added as distinct coverage totals. The local design verification records source inheritance and system preservation under `out/iteration/auth-expansion/design-verification.md`. The independent reviewer scored the single material correction resolved and returned ship at the reviewed scope.
+
+### Current footer expansion
+
+The library now contains 42 blocks, with five new footer layouts and two existing footers. Final production build `GgoJ8O1loDIOkb-3g0EBV` passed. Seven focused source/behavior checks passed, including compilation of all 42 standalone examples; staged source/type checks also passed. Four footer browser tests verified all five new layouts at 1440px and 390px in both palettes: 20 renders with no Axe violations or horizontal overflow. Endpoints, embedded widths and newsletter recovery passed, as did three affected Auth browsing/state/manual-copy checks.
+
+The independent review found one portable typography dependency in the playful footers. Their base stylesheet import is fixed; both downloaded exports loaded Geist and all artwork in a plain Vite app. See [FOOTERS.md](FOOTERS.md) for the preview command and verification scope.

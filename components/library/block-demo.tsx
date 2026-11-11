@@ -6,6 +6,9 @@ import { QuietAuth, StudioAuth, ContrastAuth, PlayfulAuth } from "../ui/blocks/a
 import { NeonNotFound } from "../ui/neon-sign-404";
 import { ChaiBreak404 } from "../ui/chai-break-404";
 import { PavilionFooter } from "../ui/pavilion-footer";
+import { BlueHourFooter, HillsideFooter } from "../ui/blocks/landscape-footers";
+import { StudioFooter, ColonyFooter } from "../ui/blocks/playful-footers";
+import { SkylineFooter } from "../ui/blocks/skyline-footer";
 import { EditorialHero, ProductHero } from "../ui/blocks/heroes";
 import { SiteHeader, SiteFooter, AnnouncementBar } from "../ui/blocks/navigation";
 import { FeatureStory, BentoOverview, PricingSection, TestimonialSection, LogoCloud, IntegrationDirectory, FaqSection, CallToAction } from "../ui/blocks/marketing";
@@ -18,13 +21,19 @@ const landing = "/preview/blocks/studio-landing";
 const links = [{ label: "Our approach", href: `${landing}#about` }, { label: "Features", href: `${landing}#features` }, { label: "Plans", href: `${landing}#pricing` }];
 const serviceBlocks = new Set(["auth-panel", "integrations", "contact", "newsletter", "settings", "notifications", "file-upload", "app-shell", "studio-landing", "studio-workspace"]);
 const authBlocks = new Set(["auth-panel", "quiet-auth", "studio-auth", "contrast-auth", "playful-auth"]);
+serviceBlocks.add("blue-hour-footer");
 authBlocks.forEach(slug => serviceBlocks.add(slug));
-export function BlockDemo({ slug, controls = true }: { slug: string; controls?: boolean }) {
+export function BlockDemo({ slug, controls = true, theme = "auto" }: { slug: string; controls?: boolean; theme?: "light" | "dark" | "auto" }) {
   const [failure, setFailure] = useState(false), [status, setStatus] = useState(""), [authMode, setAuthMode] = useState<AuthMode>(slug === "playful-auth" ? "sign-up" : "sign-in");
   async function service() { await new Promise(resolve => setTimeout(resolve, 450)); if (failure) throw new Error("This is a demo error. Switch to Success and try again."); }
   const chosen = (plan: string, billing: string) => setStatus(`Demo: ${plan} selected with ${billing} billing. No purchase was made.`);
   let content: ReactNode;
   switch (slug) {
+    case "blue-hour-footer": content = <BlueHourFooter theme={theme} homeHref={landing} groups={[{ title: "Explore", links }, { title: "Our studio", links: [{ label: "Our story", href: `${landing}#about` }, { label: "Our work", href: `${landing}#features` }, { label: "The people", href: "/preview/blocks/team" }] }, { title: "Here to help", links: [{ label: "Questions", href: `${landing}#about` }, { label: "Get in touch", href: `${landing}#contact` }, { label: "The journal", href: "/preview/blocks/journal" }] }]} onSubscribe={service} successMessage="Demo complete. No email was subscribed." />; break;
+    case "studio-footer": content = <StudioFooter theme={theme} homeHref={landing} careers={{ label: "Good people.\nGreat work.", href: "/preview/blocks/careers" }} office={"A little studio.\nNew Delhi, India."} officeHref={`${landing}#contact`} contactAction={{ label: "Start a conversation", href: `${landing}#contact` }} groups={[{ title: "Around the studio", links: [{ label: "Journal", href: "/preview/blocks/journal" }, { label: "Work", href: `${landing}#features` }, { label: "People", href: "/preview/blocks/team" }] }]} />; break;
+    case "colony-footer": content = <ColonyFooter theme={theme} homeHref={landing} groups={[{ title: "Make together", links }, { title: "Take a look", links: [{ label: "Selected work", href: `${landing}#features` }, { label: "The journal", href: "/preview/blocks/journal" }, { label: "Open roles", href: "/preview/blocks/careers" }] }, { title: "Around here", links: [{ label: "The people", href: "/preview/blocks/team" }, { label: "Questions", href: `${landing}#about` }, { label: "Get in touch", href: `${landing}#contact` }] }]} support={{ label: "Help & support", href: `${landing}#contact` }} />; break;
+    case "hillside-footer": content = <HillsideFooter theme={theme} homeHref={landing} groups={[{ title: "Explore", links: [{ label: "Places to stay", href: "/preview/blocks/image-gallery" }, { label: "Village stories", href: "/preview/blocks/journal" }, { label: "Around here", href: `${landing}#about` }] }, { title: "Plan a visit", links: [{ label: "Getting here", href: `${landing}#contact` }, { label: "Good to know", href: `${landing}#about` }, { label: "Say hello", href: `${landing}#contact` }] }]} />; break;
+    case "skyline-footer": content = <SkylineFooter theme={theme} linkGroups={[{ title: "Quick links", links: [{ name: "Projects", href: `${landing}#features` }, { name: "About", href: `${landing}#about` }, { name: "Journal", href: "/preview/blocks/journal" }, { name: "Contact", href: `${landing}#contact` }] }]} />; break;
     case "quiet-auth": case "studio-auth": case "contrast-auth": case "playful-auth": {
       const Auth = { "quiet-auth": QuietAuth, "studio-auth": StudioAuth, "contrast-auth": ContrastAuth, "playful-auth": PlayfulAuth }[slug];
       content = <Auth mode={authMode} onModeChange={setAuthMode} onSubmit={service} providers={[{ id: "passkey", label: "Continue with passkey" }, { id: "provider", label: "Demo identity provider" }]} onProvider={service} successMessage="Demo complete. No account was created or authenticated." />; break;
@@ -64,5 +73,6 @@ export function BlockDemo({ slug, controls = true }: { slug: string; controls?: 
     case "studio-workspace": content = <StudioWorkspace onSave={service} />; break;
     default: return <p>Preview not available.</p>;
   }
-  return <div className="block-demo">{controls && <div className="block-demo-controls"><p>Fictional Daylight demo. Actions do not send or save data.</p>{serviceBlocks.has(slug) && <label>Callback result<select value={failure ? "failure" : "success"} onChange={event => setFailure(event.target.value === "failure")}><option value="success">Success</option><option value="failure">Failure</option></select></label>}{authBlocks.has(slug) && <label>Auth flow<select value={authMode} onChange={event => setAuthMode(event.target.value as AuthMode)}><option value="sign-in">Sign in</option><option value="sign-up">Create account</option><option value="recover">Recover password</option><option value="verify">Verify code</option></select></label>}</div>}{content}<div className="block-demo-status" aria-live="polite">{status && <p>{status}</p>}</div></div>;
+  const isFooter = ["blue-hour-footer", "studio-footer", "colony-footer", "hillside-footer", "skyline-footer", "pavilion-footer", "site-footer"].includes(slug);
+  return <div className="block-demo">{controls && (!isFooter || serviceBlocks.has(slug)) && <div className="block-demo-controls">{!isFooter && <p>Demo content. Actions do not save data.</p>}{serviceBlocks.has(slug) && <label>Callback result<select value={failure ? "failure" : "success"} onChange={event => setFailure(event.target.value === "failure")}><option value="success">Success</option><option value="failure">Failure</option></select></label>}{authBlocks.has(slug) && <label>Auth flow<select value={authMode} onChange={event => setAuthMode(event.target.value as AuthMode)}><option value="sign-in">Sign in</option><option value="sign-up">Create account</option><option value="recover">Recover password</option><option value="verify">Verify code</option></select></label>}</div>}{content}<div className="block-demo-status" aria-live="polite">{status && <p>{status}</p>}</div></div>;
 }

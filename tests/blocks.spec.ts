@@ -5,7 +5,7 @@ import { mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
 const captures = path.resolve(".impeccable/review/blocks");
 test("catalogue search, navigation and preview controls preserve form state", async ({ page }) => {
-  await page.goto("/blocks"); await expect(page.getByRole("heading", { name: "Blocks for good pages." })).toBeVisible();
+  await page.goto("/blocks"); await expect(page.getByRole("heading", { name: "Blocks" })).toBeVisible();
   await page.getByLabel("Search blocks").fill("auth"); await expect(page.locator(".block-card")).toHaveCount(5); await page.locator('.block-card[href="/blocks/auth-panel"]').click();
   await page.getByLabel(/^Email address/).fill("alex@example.com"); await page.getByRole("button", { name: "Phone", exact: true }).click(); await expect(page.getByLabel(/^Email address/)).toHaveValue("alex@example.com");
   await page.getByLabel(/[Pp]alette/).selectOption("dark"); await expect(page.getByLabel(/^Email address/)).toHaveValue("alex@example.com");

@@ -63,7 +63,7 @@ test.beforeAll(async () => {
 test("catalogue starts with sections and opens the five-layout Auth collection", async ({ page }) => {
   await page.goto("/blocks");
   const main = page.locator("#library-main");
-  await expect(main.getByRole("heading", { level: 1, name: "Blocks for good pages." })).toBeVisible();
+  await expect(main.getByRole("heading", { level: 1, name: "Blocks" })).toBeVisible();
   await expect(main.getByRole("button", { name: "Browse sections", exact: true })).toHaveAttribute("aria-pressed", "true");
   await expect(main.getByRole("button", { name: "All examples", exact: true })).toHaveAttribute("aria-pressed", "false");
   const authCategory = main.getByRole("link").filter({ has: page.getByRole("heading", { level: 2, name: "Auth", exact: true }) });
@@ -71,7 +71,7 @@ test("catalogue starts with sections and opens the five-layout Auth collection",
   await expect(authCategory).toContainText("5 examples");
   await authCategory.click();
   await expect(page).toHaveURL(/\/blocks\/category\/auth$/);
-  await expect(main.getByRole("heading", { level: 1, name: "Auth blocks", exact: true })).toBeVisible();
+  await expect(main.getByRole("heading", { level: 1, name: "Auth", exact: true })).toBeVisible();
   await expect(main.locator("section[id^='block-']")).toHaveCount(5);
 
   for (const layout of layouts) {
@@ -409,7 +409,7 @@ for (const viewport of [
         await entryFor(page, layout.title).getByRole("combobox", { name: `${layout.name} preview palette`, exact: true }).selectOption(palette);
       }
       await readyAssets(page, page.locator(".block-collection"));
-      await page.locator("#library-main").getByRole("heading", { level: 1, name: "Auth blocks", exact: true }).scrollIntoViewIfNeeded();
+      await page.locator("#library-main").getByRole("heading", { level: 1, name: "Auth", exact: true }).scrollIntoViewIfNeeded();
       await capture(page, `auth-category-overview-${viewport.name}-${palette}.png`);
       for (const layout of layouts) {
         const entry = entryFor(page, layout.title), live = previewFor(page, layout.name);

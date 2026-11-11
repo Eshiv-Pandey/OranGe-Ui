@@ -20,14 +20,6 @@ type PreviewWidth = typeof widths[number]["value"];
 type SourceFiles = Record<string, string>;
 type CopyFallback = { text: string; label: string };
 
-const categoryIntroductions: Partial<Record<BlockCategory, string>> = {
-  Auth: "Welcoming forms for sign-in, account creation and recovery. Try the complete flows, then connect your own authentication service.",
-  Hero: "Give your page a clear opening. Explore the live layouts, try a narrower viewport and make the source your own.",
-  Footer: "A considered place to finish. Try the navigation and interactive details before bringing a footer into your project.",
-  "Not Found": "Turn a wrong turn into a way forward. Explore working recovery pages, from a quiet message to an expressive scene.",
-  Templates: "Explore complete compositions with working navigation, forms and local interactions. Each template includes its source and dependencies.",
-};
-
 function readSource(value: unknown): SourceFiles {
   if (!value || typeof value !== "object" || !("files" in value)) throw new Error("The source response is incomplete. Try again or download the ZIP.");
   const files = value.files;
@@ -98,7 +90,6 @@ function CollectionEntry({ block, origin }: { block: BlockDefinition; origin: st
     <header className="bc-entry-heading">
       <div>
         <h2 id={titleId}><a href={`#block-${block.slug}`}>{block.title}</a></h2>
-        <p>{block.description}</p>
       </div>
       <Link className="bc-documentation-link" href={`/blocks/${block.slug}`} aria-label={`${block.name} documentation and props`}>Documentation<ArrowUpRight size={15} aria-hidden="true" /></Link>
     </header>
@@ -128,7 +119,7 @@ function CollectionEntry({ block, origin }: { block: BlockDefinition; origin: st
         </div>
         <div className="bc-preview-stage">
           <div className="bc-preview-canvas" data-theme={theme} data-width={width} style={{ maxWidth: widths.find(item => item.value === width)?.maxWidth }} role="region" aria-label={`${block.name} live preview`}>
-            <BlockDemo key={reset} slug={block.slug} />
+            <BlockDemo key={reset} slug={block.slug} theme={theme} />
           </div>
         </div>
       </div>
@@ -160,8 +151,8 @@ export function BlockCollection({ category, entries }: BlockCollectionProps) {
   return <div className="block-collection">
     <Link className="bc-back" href="/blocks"><ArrowLeft size={16} aria-hidden="true" />All blocks</Link>
     <header className="bc-collection-heading">
-      <div><h1>{category} blocks</h1><p>{categoryIntroductions[category] ?? `Explore working ${category.toLowerCase()} layouts. Try their interactions, compare responsive widths and bring the complete source into your project.`}</p></div>
-      <span className="bc-collection-count">{entries.length} {entries.length === 1 ? "block" : "blocks"}<span>Polished / Light + dark</span></span>
+      <h1>{category}</h1>
+      <span className="bc-collection-count">{entries.length} {entries.length === 1 ? "example" : "examples"}</span>
     </header>
     <div className="bc-collection-entries">{entries.length ? entries.map(block => <CollectionEntry key={block.slug} block={block} origin={origin} />) : <p className="bc-empty" role="status">There are no blocks in this category yet. <Link href="/blocks">Browse all blocks.</Link></p>}</div>
   </div>;

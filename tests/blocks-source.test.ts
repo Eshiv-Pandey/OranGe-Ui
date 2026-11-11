@@ -10,7 +10,7 @@ import { GET as sourceGet } from "../app/api/blocks/[slug]/route";
 import { GET as registryGet } from "../app/r/[name]/route";
 
 it("covers every researched section with unique, trusted original entries", () => {
-  expect(blocks).toHaveLength(37); expect(new Set(blocks.map(block => block.slug)).size).toBe(37);
+  expect(blocks).toHaveLength(42); expect(new Set(blocks.map(block => block.slug)).size).toBe(42);
   expect(blocks.filter(block => block.category === "Auth")).toHaveLength(5);
   expect(blocks.filter(block => block.category === "Not Found").map(block => block.slug)).toEqual(expect.arrayContaining(["neon-sign-404", "chai-break-404"]));
   expect(findBlock("pavilion-footer")?.category).toBe("Footer");
@@ -22,7 +22,7 @@ it("extracts and typechecks every usage example with complete standalone depende
   for (const block of blocks) {
     const bundle = await blockSource(block);
     expect(bundle.files[block.file]).toBeDefined(); expect(Object.keys(bundle.files).some(file => file.endsWith(".css"))).toBe(true); expect(bundle.dependencies).not.toContain("next");
-    if (block.file.startsWith("components/ui/blocks/")) { expect(bundle.files["styles/blocks.css"]).toBeDefined(); expect(bundle.dependencies).toContain("lucide-react"); }
+    if (block.file.startsWith("components/ui/blocks/") && !["landscape-footers", "playful-footers", "skyline-footer"].some(file => block.file.endsWith(`${file}.tsx`))) { expect(bundle.files["styles/blocks.css"]).toBeDefined(); expect(bundle.dependencies).toContain("lucide-react"); }
     expect(strFromU8(bundle.files["README.md"])).toContain("fictional"); expect(strFromU8(bundle.files["README.md"])).not.toContain("all five appearances");
     for (const [relative, bytes] of Object.entries(bundle.files)) {
       expect(relative).not.toMatch(/AGENTS|USER_INSTRUCTIONS|CONTRIBUTION_RULES|out\/|\.env/);

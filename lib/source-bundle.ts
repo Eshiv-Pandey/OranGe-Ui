@@ -4,6 +4,7 @@ import { zipSync, strToU8 } from "fflate";
 import { componentUsage, type ComponentDefinition } from "./components";
 import type { Appearance } from "../components/ui/appearance";
 import { externalPackage, relativeSourceImport, rewriteSourceImports, sourceAlias, sourceImports, type SourceImport } from "./source-imports";
+import { FOOTER_ASSETS } from "./footer-assets";
 
 export type ComponentSourceBundle = { files: Record<string, Uint8Array>; dependencies: string[]; devDependencies: string[] };
 export const BUNDLED_FONTS = ["geist-latin.woff2", "pixelify-sans-latin.woff2", "OFL-Geist.txt", "OFL-PixelifySans.txt"] as const;
@@ -18,7 +19,7 @@ function allowedSource(relative: string): boolean {
     || /^styles\/.+\.(?:css|css\.d\.ts)$/.test(relative)
     || relative === "lib/utils.ts"
     || BUNDLED_FONTS.some((name) => relative === `public/fonts/${name}`)
-    || [...CREATIVE_FONT_ASSETS, ...FILM_FONT_ASSETS, ...CREATIVE_AUDIO_ASSETS, ...KEEPSAKE_PHOTO_ASSETS, ...PORTFOLIO_ASSETS].some((name) => relative === name)
+    || [...CREATIVE_FONT_ASSETS, ...FILM_FONT_ASSETS, ...CREATIVE_AUDIO_ASSETS, ...KEEPSAKE_PHOTO_ASSETS, ...PORTFOLIO_ASSETS, ...FOOTER_ASSETS].some((name) => relative === name)
     || relative === "LICENSE" || relative === "THIRD_PARTY_NOTICES.md";
 }
 
@@ -29,6 +30,7 @@ function sourceScope(relative: string): string {
   if (relative.startsWith("public/fonts/")) return "public/fonts";
   if (relative.startsWith("public/audio/")) return "public/audio";
   if (relative.startsWith("public/portfolio/")) return "public/portfolio";
+  if (relative.startsWith("public/art/footer/")) return "public/art/footer";
   if (relative.startsWith("public/photos/keepsakes/")) return "public/photos/keepsakes";
   return relative;
 }
@@ -92,6 +94,8 @@ export async function collectComponentSource(component: ComponentDefinition, app
                 ? await realpath(path.join(root, "public/audio", normalized.slice("public/audio/".length)))
               : normalized.startsWith("public/portfolio/")
                 ? await realpath(path.join(root, "public/portfolio", normalized.slice("public/portfolio/".length)))
+              : normalized.startsWith("public/art/footer/")
+                ? await realpath(path.join(root, "public/art/footer", normalized.slice("public/art/footer/".length)))
               : normalized.startsWith("public/photos/keepsakes/")
                 ? await realpath(path.join(root, "public/photos/keepsakes", normalized.slice("public/photos/keepsakes/".length)))
               : normalized === "THIRD_PARTY_NOTICES.md"
@@ -119,6 +123,8 @@ export async function collectComponentSource(component: ComponentDefinition, app
               ? await readFile(path.join(root, "public/audio", normalized.slice("public/audio/".length)))
               : normalized.startsWith("public/portfolio/")
               ? await readFile(path.join(root, "public/portfolio", normalized.slice("public/portfolio/".length)))
+            : normalized.startsWith("public/art/footer/")
+                ? await readFile(path.join(root, "public/art/footer", normalized.slice("public/art/footer/".length)))
             : normalized.startsWith("public/photos/keepsakes/")
                 ? await readFile(path.join(root, "public/photos/keepsakes", normalized.slice("public/photos/keepsakes/".length)))
               : normalized === "THIRD_PARTY_NOTICES.md"
@@ -147,6 +153,8 @@ export async function collectComponentSource(component: ComponentDefinition, app
   if (files["components/ui/creative-playlist.ts"]) for (const asset of CREATIVE_AUDIO_ASSETS) await include(asset);
   if (files["components/ui/keepsake-photos.ts"]) for (const asset of KEEPSAKE_PHOTO_ASSETS) await include(asset);
   if (files["styles/portfolio.css"]) for (const asset of PORTFOLIO_ASSETS) await include(asset);
+  if (files["styles/landscape-footers.css"] || files["styles/playful-footers.css"]) for (const asset of FOOTER_ASSETS) await include(asset);
+  if (files["styles/landscape-footers.css"]) for (const asset of FILM_FONT_ASSETS) await include(asset);
   files["Example.tsx"] = strToU8(example);
   await include("LICENSE");
   const attributedComponents = [files["components/ui/anime-fire-shader.ts"] && "Shader Anime Fire", files["components/ui/shader-canvas/clouds-field.ts"] && "Shader Sky"].filter(Boolean);

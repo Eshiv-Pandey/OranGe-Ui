@@ -22,6 +22,7 @@ function AuthMiniature({ slug }: { slug: string }) {
 
 /** Lightweight miniatures depict each original block's actual layout and sample content. */
 export function BlockThumbnail({ block }: { block: BlockDefinition }) {
+  if (["blue-hour-footer", "studio-footer", "colony-footer", "hillside-footer", "skyline-footer"].includes(block.slug)) return <div className="block-thumbnail block-scene-thumbnail" aria-hidden="true"><img src={`/blocks/${block.slug}.webp`} alt="" width={1200} height={650} loading="lazy" decoding="async" /></div>; // eslint-disable-line @next/next/no-img-element -- Original local preview captures.
   if (["neon-sign-404", "chai-break-404", "pavilion-footer"].includes(block.slug)) return <div className="block-thumbnail block-scene-thumbnail" aria-hidden="true"><img src={`/blocks/${block.slug}.webp`} alt="" width={760} height={600} loading="lazy" decoding="async" /></div>; // eslint-disable-line @next/next/no-img-element -- Small local catalogue captures need no image service.
   let content: ReactNode;
   switch (block.category) {
