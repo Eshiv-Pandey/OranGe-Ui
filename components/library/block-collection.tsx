@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
-import { ArrowLeft, ArrowUpRight, Code2, Copy, Download, Eye, MessageSquare, Monitor, RotateCcw, SlidersHorizontal, Smartphone, Tablet } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Code2, Download, Eye, MessageSquare, Monitor, RotateCcw, SlidersHorizontal, Smartphone, Tablet } from "lucide-react";
 import { type BlockCategory, type BlockDefinition } from "../../lib/blocks";
 import { blockAgentPrompt } from "../../lib/block-prompt";
 import { BlockDemo } from "./block-demo";
+import { BlockCopyButton } from "./block-copy-button";
 import { Popover } from "../ui/popover";
 import "../../styles/blocks-library.css";
 import "../../styles/block-collection.css";
@@ -35,7 +36,6 @@ function CollectionEntry({ block, origin }: { block: BlockDefinition; origin: st
   const controlId = useId();
   const [view, setView] = useState<"preview" | "code">("preview");
   const [width, setWidth] = useState<PreviewWidth>("full");
-  const [theme, setTheme] = useState<"light" | "dark">("light");
   const [reset, setReset] = useState(0);
   const [files, setFiles] = useState<SourceFiles>();
   const [file, setFile] = useState(block.file);
@@ -76,9 +76,11 @@ function CollectionEntry({ block, origin }: { block: BlockDefinition; origin: st
       await navigator.clipboard.writeText(text);
       setCopyStatus(`${label} copied.`);
       setFallback(undefined);
+      return true;
     } catch {
       setCopyStatus("Clipboard access is unavailable. Copy the selected text below.");
       setFallback({ text, label });
+      return false;
     }
   }
 
@@ -107,28 +109,26 @@ function CollectionEntry({ block, origin }: { block: BlockDefinition; origin: st
             {widths.map(({ value, label, icon: Icon }) => <button type="button" key={value} aria-pressed={width === value} aria-label={`${block.name} ${label.toLowerCase()} width`} title={`${label} width`} onClick={() => setWidth(value)}><Icon size={15} aria-hidden="true" /></button>)}
           </div>
           <div className="bc-preview-options">
-            <select id={`${controlId}-palette`} value={theme} aria-label={`${block.name} preview palette`} onChange={event => setTheme(event.target.value as "light" | "dark")}><option value="light">Light</option><option value="dark">Dark</option></select>
             <button className="bc-reset" type="button" onClick={() => setReset(value => value + 1)} aria-label={`Reset ${block.name} preview`} title="Reset preview"><RotateCcw size={15} aria-hidden="true" /></button>
           </div>
         </div>
         <div className="bc-compact-settings" hidden={view !== "preview"}>
           <Popover title="Preview settings" align="end" trigger={<button type="button" className="bc-action" aria-label={`${block.name} preview settings`}><SlidersHorizontal size={16} aria-hidden="true" /></button>}>
             <div className="bc-width-switch" role="group" aria-label={`${block.name} compact preview width`}>{widths.map(({ value, label, icon: Icon }) => <button type="button" key={value} aria-pressed={width === value} onClick={() => setWidth(value)}><Icon size={16} aria-hidden="true" />{label}</button>)}</div>
-            <label className="bc-compact-palette">Palette<select value={theme} onChange={event => setTheme(event.target.value as "light" | "dark")}><option value="light">Light</option><option value="dark">Dark</option></select></label>
             <button type="button" className="bc-action" onClick={() => setReset(value => value + 1)}><RotateCcw size={16} aria-hidden="true" />Reset preview</button>
           </Popover>
         </div>
         <div className="bc-workbench-actions">
-          <button className="bc-action bc-prompt-action" type="button" onClick={() => copyText(blockAgentPrompt(block, origin, theme), `${block.name} agent prompt`)} aria-label={`Copy ${block.name} prompt for your agent`} title="Copy prompt for your coding agent"><MessageSquare size={15} aria-hidden="true" /><span>Prompt</span></button>
-          <button className="bc-action" type="button" onClick={() => copyText(install, `${block.name} install command`)} aria-label={`Copy ${block.name} install command`} title="Copy install command"><Copy size={15} aria-hidden="true" /></button>
+          <BlockCopyButton className="bc-action bc-prompt-action" onCopy={() => copyText(blockAgentPrompt(block, origin), `${block.name} agent prompt`)} label="Prompt" icon={<MessageSquare size={15} aria-hidden="true" />} aria-label={`Copy ${block.name} prompt for your agent`} title="Copy prompt for your coding agent" />
+          <BlockCopyButton className="bc-action" onCopy={() => copyText(install, `${block.name} install command`)} label="Install command" iconOnly aria-label={`Copy ${block.name} install command`} title="Copy install command" />
           <a className="bc-action" href={`/preview/blocks/${block.slug}`} target="_blank" rel="noreferrer" aria-label={`Open ${block.name} full preview in a new tab`} title="Open full preview"><ArrowUpRight size={16} aria-hidden="true" /></a>
         </div>
       </div>
 
       <div className="bc-preview" id={previewId} hidden={view !== "preview"}>
         <div className="bc-preview-stage">
-          <div className="bc-preview-canvas" data-theme={theme} data-width={width} style={{ maxWidth: widths.find(item => item.value === width)?.maxWidth }} role="region" aria-label={`${block.name} live preview`}>
-            <BlockDemo key={reset} slug={block.slug} theme={theme} />
+          <div className="bc-preview-canvas" data-width={width} style={{ maxWidth: widths.find(item => item.value === width)?.maxWidth }} role="region" aria-label={`${block.name} live preview`}>
+            <BlockDemo key={reset} slug={block.slug} />
           </div>
         </div>
       </div>
@@ -140,7 +140,7 @@ function CollectionEntry({ block, origin }: { block: BlockDefinition; origin: st
         </div> : !files ? <div className="bc-source-state"><p role="status">Loading {block.name} source files...</p></div> : <>
           <div className="bc-source-toolbar">
             <div className="bc-file-picker"><label htmlFor={`${controlId}-source-file`}>Source file</label><select id={`${controlId}-source-file`} aria-label={`${block.name} source file`} value={selectedFile} onChange={event => setFile(event.target.value)}>{Object.keys(files).sort().map(name => <option key={name} value={name}>{name}</option>)}</select></div>
-            <div className="bc-source-actions"><button className="bc-action" type="button" onClick={() => copyText(files[selectedFile], `${block.name} source file`)} aria-label={`Copy ${block.name} ${selectedFile}`}><Copy size={15} aria-hidden="true" />Copy file</button><a className="bc-action" href={`/api/blocks/${block.slug}`} download aria-label={`Download ${block.name} source ZIP`}><Download size={15} aria-hidden="true" />ZIP</a></div>
+            <div className="bc-source-actions"><BlockCopyButton className="bc-action" onCopy={() => copyText(files[selectedFile], `${block.name} source file`)} label="Copy file" aria-label={`Copy ${block.name} ${selectedFile}`} /><a className="bc-action" href={`/api/blocks/${block.slug}`} download aria-label={`Download ${block.name} source ZIP`}><Download size={15} aria-hidden="true" />ZIP</a></div>
           </div>
           <pre className="bc-source-code" tabIndex={0} role="region" aria-label={`${block.name} ${selectedFile} source`}><code>{files[selectedFile]}</code></pre>
           <p className="bc-source-note">This is the complete source file. The ZIP also includes binary assets and their notices.</p>

@@ -10,5 +10,5 @@ export const HERO_BLOCKS: BlockDefinition[] = [
   hero("playground-hero", "PlaygroundHero", "Good company", "An oversized purple typographic opening with original character accents and playful off-axis lettering.", [prop("navigation", "BlockAction[]", "Top navigation labels and hrefs.")]),
   hero("oddkin-hero", "OddkinHero", "Oddkin", "A lime neobrutalist opening with heavy type, a pink action and original curious characters."),
   hero("woven-hero", "WovenHero", "Afterimage", "An orange, pink and midnight woven gradient with a decisive editorial opening.", [prop("imageSrc", "string", "Replace the locally authored woven glow material.", "/art/sections/woven-glow.webp")]),
-  hero("neon-hero", "NeonHero", "After hours", "A black studio opening with warm orange glass tubes, mint actions and cream typography.", [prop("signText", "string", "Up to eight sign characters.", "OPEN"), prop("flicker", "boolean", "Visibility-aware tube flicker; respects reduced motion.", "true")]),
+  hero("neon-hero", "NeonHero", "After hours", "A black studio opening with mint lettering, orange light accents and glowing borders.", [prop("signText", "string", "Availability text beside the neon artwork.", "OPEN"), prop("flicker", "boolean", "Occasional border light cycles, paused offscreen and in reduced motion.", "true")]),
 ];

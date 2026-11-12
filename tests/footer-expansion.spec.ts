@@ -37,7 +37,7 @@ test("all five footer compositions render at desktop and phone widths in both pa
       const footer = page.locator(selectors[i]);
       if (slugs[i] === "studio-footer") expect(await footer.locator(".pf-studio-address").innerText()).not.toContain("\\n");
       for (const palette of ["light", "dark"]) {
-        await page.getByLabel("Preview palette").selectOption(palette);
+        await page.evaluate(palette => { document.documentElement.dataset.theme = palette; }, palette);
         await expect(footer).toBeVisible();
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${slugs[i]} ${width} ${palette}`).toBe(true);
         expect(await footer.locator("img").evaluateAll(images => images.every(image => (image as HTMLImageElement).naturalWidth > 0))).toBe(true);

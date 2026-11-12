@@ -459,3 +459,9 @@ Chai's gripping hand moves with the tilted kettle, with articulated fingertips, 
 ### Chai pour geometry and hand layering, November 10, 2026
 
 Chai sizes its kettle and gripping hand together to preserve a downward drop above the glass on short, wide pages. The grip stays inside the page and the sleeve reaches its upper-left edge. Original hand artwork layers far fingers and palm behind the handle and glass, with curled fingertips and the opposing thumb in front, smaller nails, soft skin shading and restrained joint creases. These are local illustration and placement decisions within the established cream, brass and block-print scene, with no new shared tokens, fonts or raster assets.
+
+### Neon blocks and copy feedback, November 12, 2026
+
+NeonHero and NeonBento use mint, orange and violet light borders, cream copy and original geometric line artwork on black. The 404 billboard no longer appears in either composition. Bento cells brighten on hover or focus within, with one occasional one-second dimming cycle every 5.5 to 11 seconds. Automatic cycles pause offscreen, in a hidden document and for reduced motion. Availability text remains configurable through signText. The host palette remains available through the site's shared controls; local block palette selectors are removed.
+
+Hero preview actions preserve the current page for pointer and keyboard activation. Portable component destinations remain configurable by the consuming application. Block copy controls acknowledge successful clipboard writes with a checkmark and a temporary Copied label, retain feedback with reduced motion, and expose selected text when clipboard access fails. The generic demo content banner is removed across block previews; callback and auth-flow controls remain usable. Catalogue captures now show the revised neon compositions. Validation and the scoped ship review are recorded in BLOCK_UI_REFINEMENTS.md.

@@ -1,0 +1,13 @@
+.sb-neon-panel { --neon-edge: #35efbb; position: relative; isolation: isolate; border: 1px solid color-mix(in srgb, var(--neon-edge) 22%, #121a17); border-radius: 14px; background: #080d0b; }
+.sb-neon-panel::before { content: ""; position: absolute; z-index: 3; inset: -1px; border: 1px solid var(--neon-edge); border-radius: inherit; box-shadow: 0 0 14px color-mix(in srgb, var(--neon-edge) 25%, transparent), inset 0 0 12px color-mix(in srgb, var(--neon-edge) 12%, transparent); opacity: .5; pointer-events: none; transition: opacity 280ms ease-out; }
+.sb-neon-panel[data-lit="false"]::before { opacity: 0; }
+.sb-neon-panel:is(:hover, :focus-within)::before { opacity: 1; }
+.sb-neon-panel[data-neon="orange"] { --neon-edge: #ff825c; background: #120c09; }
+.sb-neon-panel[data-neon="violet"] { --neon-edge: #bda0ff; background: #0f0c16; }
+.sb-neon-orbit { display: block; width: 100%; max-width: 330px; overflow: visible; }
+.sb-neon-orbit-mint { color: #35efbb; filter: drop-shadow(0 0 4px #35efbb80); }
+.sb-neon-orbit-orange { color: #ff825c; filter: drop-shadow(0 0 4px #ff825c80); }
+.sb-neon-panel[data-lit="false"] .sb-neon-orbit { opacity: .55; }
+.sb-neon-panel:is(:hover, :focus-within) .sb-neon-orbit { opacity: 1; }
+.sb-neon-orbit { transition: opacity 280ms ease-out; }
+@media (prefers-reduced-motion: reduce) { .sb-neon-panel::before, .sb-neon-orbit { transition: none; } }

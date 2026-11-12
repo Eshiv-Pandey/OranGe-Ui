@@ -2,7 +2,7 @@
 
 import { useId, useState } from "react";
 import { ArrowUpRight, Check, Circle, Flower2, Leaf, MoveUpRight, Radio, Sun, Waves, Zap } from "lucide-react";
-import { NeonSign404 } from "../neon-sign-404";
+import { NeonOrbit, useNeonBorders } from "./neon-borders";
 import { BlockFrame, BlockPhoto, type BlockAction, type BlockProps } from "./shared";
 import { SectionArt, SectionLink, SectionPhone, SectionRosette } from "./section-visuals";
 import "../../../styles/bento-variants.css";
@@ -110,13 +110,14 @@ export function StudioBento({ brand = "SIDEQUEST", title = "Good work.\nA little
 export type NeonBentoProps = BlockProps & { brand?: string; title?: string; description?: string; action?: BlockAction; hours?: { day: string; time: string }[]; signText?: string; flicker?: boolean; imageSrc?: string };
 
 export function NeonBento({ brand = "Nightshift", title = "Small hours.\nBig ideas.", description = "A creative space for the things that keep you up at night.", action = { label: "Step inside", href: "#studio" }, hours = [{ day: "Mon - Fri", time: "18:00 - 02:00" }, { day: "Saturday", time: "16:00 - late" }], signText = "OPEN", flicker = true, imageSrc, ...props }: NeonBentoProps) {
+  const { ref, lit } = useNeonBorders(5, flicker);
   return <BlockFrame {...props} className={`sb-section sb-neon sb-neon-bento ${props.className ?? ""}`}>
-    <div className="sb-neon-grid">
-      <article className="sb-neon-intro"><span className="sb-neon-brand"><Radio size={22} aria-hidden="true" />{brand}</span><h2>{title}</h2><p>{description}</p><SectionLink action={action} /></article>
-      <div className="sb-neon-sign-cell"><NeonSign404 digits={signText} flicker={flicker} sound={false} size={180} /></div>
-      <article className="sb-neon-hours"><div><Sun size={24} aria-hidden="true" /><h3>After the everyday.</h3></div><dl>{hours.map(hour => <div key={hour.day}><dt>{hour.day}</dt><dd>{hour.time}</dd></div>)}</dl><p>Come as you are.<br />Stay for the good ideas.</p></article>
-      <div className="sb-photo-cell sb-neon-photo"><BlockPhoto photo="night" src={imageSrc} alt="A city coming alive after dark" /><span>THE NIGHT<br />IS STILL YOUNG.</span></div>
-      <article className="sb-neon-note"><Zap size={34} aria-hidden="true" /><h3>Leave a little<br />light on.</h3><span>For your next good idea.</span></article>
+    <div className="sb-neon-grid" ref={ref}>
+      <article className="sb-neon-intro sb-neon-panel" data-lit={lit(0)}><span className="sb-neon-brand"><Radio size={22} aria-hidden="true" />{brand}</span><h2>{title}</h2><p>{description}</p><SectionLink action={action} /></article>
+      <article className="sb-neon-hours sb-neon-panel" data-lit={lit(1)}><div><Sun size={24} aria-hidden="true" /><h3>After the everyday.</h3></div><dl>{hours.map(hour => <div key={hour.day}><dt>{hour.day}</dt><dd>{hour.time}</dd></div>)}</dl><p>Come as you are.<br />Stay for the good ideas.</p></article>
+      <div className="sb-photo-cell sb-neon-photo sb-neon-panel" data-neon="violet" data-lit={lit(2)}><BlockPhoto photo="night" src={imageSrc} alt="A city coming alive after dark" /><span>THE NIGHT<br />IS STILL YOUNG.</span></div>
+      <div className="sb-neon-signal sb-neon-panel" data-lit={lit(3)}><span className="sb-neon-availability"><i aria-hidden="true" />{signText}</span><NeonOrbit /></div>
+      <article className="sb-neon-note sb-neon-panel" data-neon="orange" data-lit={lit(4)}><Zap size={34} aria-hidden="true" /><h3>Leave a little<br />light on.</h3><span>For your next good idea.</span></article>
     </div>
   </BlockFrame>;
 }

@@ -99,8 +99,9 @@ test("each layout retains its form across widths, palette and source view until 
       await expect(live).toHaveAttribute("data-width", width);
       await expect(live.getByLabel(/^Email address/)).toHaveValue(email);
     }
-    await entry.getByRole("combobox", { name: `${layout.name} preview palette`, exact: true }).selectOption("dark");
-    await expect(live).toHaveAttribute("data-theme", "dark");
+    await expect(entry.getByRole("combobox", { name: `${layout.name} preview palette`, exact: true })).toHaveCount(0);
+    await setPagePalette(page, "dark");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
     await entry.getByRole("button", { name: `${layout.name} source code`, exact: true }).click();
     await expect(live).toBeHidden();
     await expect(entry.getByRole("combobox", { name: `${layout.name} source file`, exact: true })).toHaveValue(layout.file);
@@ -214,7 +215,7 @@ test("ContrastAuth and PlayfulAuth paint different form surfaces in inherited li
   await page.goto("/blocks/category/auth");
   for (const layout of layouts.filter(item => item.name === "ContrastAuth" || item.name === "PlayfulAuth")) {
     const entry = entryFor(page, layout.title), live = previewFor(page, layout.name);
-    const palette = entry.getByRole("combobox", { name: `${layout.name} preview palette`, exact: true });
+    await expect(entry.getByRole("combobox", { name: `${layout.name} preview palette`, exact: true })).toHaveCount(0);
     const paintedSurface = () => live.locator(".ob-auth-layout-main").evaluate(element => {
       const colorScheme = getComputedStyle(element).colorScheme;
       // Contrast's form shares its section background; Playful has an opaque panel.
@@ -226,11 +227,11 @@ test("ContrastAuth and PlayfulAuth paint different form surfaces in inherited li
       }
       return { background: "transparent", colorScheme };
     });
-    await palette.selectOption("light");
+    await setPagePalette(page, "light");
     const light = await paintedSurface();
     expect(light.colorScheme, `${layout.name} inherits the light color scheme`).toBe("light");
     expect(light.background).not.toBe("transparent");
-    await palette.selectOption("dark");
+    await setPagePalette(page, "dark");
     await expect.poll(async () => (await paintedSurface()).background, { message: `${layout.name} form background should respond to the palette` }).not.toBe(light.background);
     const dark = await paintedSurface();
     expect(dark.colorScheme, `${layout.name} inherits the dark color scheme`).toBe("dark");
@@ -244,8 +245,8 @@ for (const palette of ["light", "dark"] as const) {
     await setPagePalette(page, palette);
     for (const layout of layouts) {
       const entry = entryFor(page, layout.title), live = previewFor(page, layout.name);
-      await entry.getByRole("combobox", { name: `${layout.name} preview palette`, exact: true }).selectOption(palette);
-      await expect(live).toHaveAttribute("data-theme", palette);
+      await expect(entry.getByRole("combobox", { name: `${layout.name} preview palette`, exact: true })).toHaveCount(0);
+      await expect(page.locator("html")).toHaveAttribute("data-theme", palette);
       await live.scrollIntoViewIfNeeded();
       await readyAssets(page, live);
       const result = await new AxeBuilder({ page })
@@ -346,7 +347,7 @@ for (const scene of [
   test(`${scene.name} remains usable inside narrow category previews`, async ({ page }) => {
     // Crop the component itself so catalogue miniatures exclude demo chrome.
     await page.goto(`/preview/blocks/${scene.slug}`);
-    await page.getByRole("combobox", { name: "Preview palette", exact: true }).selectOption("light");
+    await page.evaluate(() => { document.documentElement.dataset.theme = "light"; });
     const standaloneScene = page.locator(scene.root);
     await expect(standaloneScene).toBeVisible();
     await readyAssets(page, standaloneScene);
@@ -361,7 +362,7 @@ for (const scene of [
       await setPagePalette(page, viewport.palette);
       const entry = entryFor(page, scene.title), live = previewFor(page, scene.name);
       await entry.getByRole("button", { name: `${scene.name} phone width`, exact: true }).click();
-      await entry.getByRole("combobox", { name: `${scene.name} preview palette`, exact: true }).selectOption(viewport.palette);
+      await expect(entry.getByRole("combobox", { name: `${scene.name} preview palette`, exact: true })).toHaveCount(0);
       await expect(live).toHaveAttribute("data-width", "phone");
       await expect(live.locator(scene.root)).toBeVisible();
       await live.scrollIntoViewIfNeeded();
@@ -406,14 +407,14 @@ for (const viewport of [
       await page.goto("/blocks/category/auth");
       await expect(page.locator("html")).toHaveAttribute("data-theme", palette);
       for (const layout of layouts) {
-        await entryFor(page, layout.title).getByRole("combobox", { name: `${layout.name} preview palette`, exact: true }).selectOption(palette);
+        await expect(entryFor(page, layout.title).getByRole("combobox", { name: `${layout.name} preview palette`, exact: true })).toHaveCount(0);
       }
       await readyAssets(page, page.locator(".block-collection"));
       await page.locator("#library-main").getByRole("heading", { level: 1, name: "Auth", exact: true }).scrollIntoViewIfNeeded();
       await capture(page, `auth-category-overview-${viewport.name}-${palette}.png`);
       for (const layout of layouts) {
         const entry = entryFor(page, layout.title), live = previewFor(page, layout.name);
-        await expect(live).toHaveAttribute("data-theme", palette);
+        await expect(page.locator("html")).toHaveAttribute("data-theme", palette);
         await entry.scrollIntoViewIfNeeded();
         await readyAssets(page, live);
         await noHorizontalOverflow(page, live, `${layout.name} ${viewport.name} ${palette}`);

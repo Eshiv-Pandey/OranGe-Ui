@@ -24,7 +24,9 @@ test("new and existing sections fit phone, tablet and desktop in both palettes",
       await page.goto(`/preview/blocks/${slug}`, { waitUntil: "load" });
       await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].map(image => { image.loading = "eager"; return image.decode().catch(() => {}); })); });
       for (const palette of ["light", "dark"]) {
-        await page.getByLabel("Preview palette").selectOption(palette);
+        await page.evaluate(palette => { document.documentElement.dataset.theme = palette; }, palette);
+        await expect(page.getByLabel("Preview palette")).toHaveCount(0);
+        await expect(page.getByText("Demo content. Actions do not save data.")).toHaveCount(0);
         const section = page.locator(selector);
         expect.soft(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${slug} ${width} ${palette} viewport`).toBe(true);
         expect.soft(await section.locator("a[href],button").evaluateAll(elements => elements.every(element => {
@@ -61,7 +63,8 @@ test("catalogue ordering, agent prompt and keyboard revenue controls work", asyn
   await revenue.getByRole("button", { name: "Copy RevenueBento prompt for your agent" }).click();
   expect(await page.evaluate(() => navigator.clipboard.readText())).toContain("block-revenue-bento.json");
   await page.goto("/preview/blocks/neon-bento");
-  await expect(page.locator(".neon-sign")).toHaveAttribute("data-off-count", "0");
+  await expect(page.locator(".neon-sign")).toHaveCount(0);
+  await expect(page.locator(".sb-neon-panel[data-lit='true']")).toHaveCount(5);
 });
 
 test("Hero collection leads with the new layouts and has a portable prompt", async ({ page, context }) => {
@@ -76,5 +79,91 @@ test("Hero collection leads with the new layouts and has a portable prompt", asy
   const payload = await response.json();
   expect(payload.files.some((file: { content: string }) => file.content.includes("data:image/webp;base64,"))).toBe(true);
   await page.goto("/preview/blocks/neon-hero");
-  await expect(page.locator(".neon-sign")).toHaveAttribute("data-off-count", "0");
+  await expect(page.locator(".neon-sign")).toHaveCount(0);
+  await expect(page.locator(".sb-neon-panel[data-lit='true']")).toHaveCount(2);
+});
+
+
+test("every hero preview action stays on the current page with mouse and keyboard", async ({ page }) => {
+  for (const [slug] of heroes) {
+    await page.goto(`/preview/blocks/${slug}`);
+    const url = page.url();
+    const links = page.locator(".block-demo a");
+    expect(await links.count(), slug).toBeGreaterThan(0);
+    for (const link of await links.all()) {
+      await link.click();
+      await expect(page).toHaveURL(url);
+      await link.focus();
+      await page.keyboard.press("Enter");
+      await expect(page).toHaveURL(url);
+    }
+  }
+  await page.goto("/blocks/category/hero");
+  const url = page.url();
+  for (const link of await page.locator(".bc-entry .block-demo a").all()) {
+    await link.click();
+    await expect(page).toHaveURL(url);
+  }
+});
+
+test("neon borders respond to hover and cycle quietly with reduced-motion and visibility support", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/preview/blocks/neon-bento");
+  const panel = page.locator(".sb-neon-intro");
+  await page.mouse.move(0, 0);
+  await expect.poll(() => panel.evaluate(element => getComputedStyle(element, "::before").opacity)).toBe("0.5");
+  await panel.hover();
+  await expect.poll(() => panel.evaluate(element => getComputedStyle(element, "::before").opacity)).toBe("1");
+  await page.mouse.move(0, 0);
+  await expect(page.locator(".sb-neon-panel[data-lit='false']")).toHaveCount(1, { timeout: 12000 });
+  await expect(page.locator(".sb-neon-panel[data-lit='false']")).toHaveCount(0);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator(".sb-neon-panel[data-lit='true']")).toHaveCount(5);
+  expect(await panel.evaluate(element => getComputedStyle(element, "::before").transitionDuration)).toBe("0s");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.evaluate(() => {
+    Object.defineProperty(document, "visibilityState", { configurable: true, value: "hidden" });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await page.waitForTimeout(6000);
+  await expect(page.locator(".sb-neon-panel[data-lit='true']")).toHaveCount(5);
+});
+
+test("copy actions confirm the actual clipboard content and keep denied copies selectable", async ({ page, context }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/blocks/category/hero");
+  const entry = page.locator("#block-neon-hero");
+  const prompt = entry.getByRole("button", { name: "Copy NeonHero prompt for your agent" });
+  await prompt.click();
+  await expect(prompt).toHaveAttribute("data-copied", "true");
+  await expect(prompt).toContainText("Copied");
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain("block-neon-hero.json");
+  await expect(prompt).toHaveAttribute("data-copied", "false", { timeout: 4000 });
+  await prompt.click();
+  await expect(prompt).toHaveAttribute("data-copied", "true");
+  const command = entry.getByRole("button", { name: "Copy NeonHero install command" });
+  await command.click();
+  await expect(command).toHaveAttribute("data-copied", "true");
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(/^npx shadcn@latest add/);
+  await entry.getByRole("button", { name: "NeonHero source code" }).click();
+  const file = entry.getByRole("button", { name: /^Copy NeonHero components/ });
+  await file.click();
+  await expect(file).toHaveAttribute("data-copied", "true");
+  expect((await page.evaluate(() => navigator.clipboard.readText())).replace(/\r\n/g, "\n")).toEqual((await entry.locator(".bc-source-code code").textContent())?.replace(/\r\n/g, "\n"));
+  await page.evaluate(() => { Object.defineProperty(navigator.clipboard, "writeText", { configurable: true, value: async () => { throw new Error("Denied"); } }); });
+  await prompt.click();
+  await expect(prompt).toHaveAttribute("data-copied", "false");
+  await expect(entry.locator("textarea")).toBeFocused();
+  await expect(entry.locator("textarea")).toHaveValue(/Add the NeonHero block/);
+  await page.goto("/blocks/neon-hero");
+  await expect(page.getByLabel("Preview palette")).toHaveCount(0);
+  await page.getByRole("button", { name: "Usage", exact: true }).click();
+  const example = page.locator(".block-code-view .block-copy-button");
+  await example.click();
+  await expect(example).toHaveAttribute("data-copied", "true");
+  expect((await page.evaluate(() => navigator.clipboard.readText())).replace(/\r\n/g, "\n")).toEqual((await page.locator(".block-code-view code").textContent())?.replace(/\r\n/g, "\n"));
+  const install = page.locator(".block-install .block-copy-button");
+  await install.click();
+  await expect(install).toHaveAttribute("data-copied", "true");
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain("block-neon-hero.json");
 });

@@ -34,3 +34,13 @@ it("ships original art and display fonts with complete portable installs", async
   expect(item.files.find(file => file.path.endsWith("section-materials.css"))?.content).toContain("data:font/woff2;base64,");
   expect(strFromU8(bundle.files["README.md"])).toContain("fictional");
 }, 30000);
+
+
+it("ships the neon border controls without the 404 billboard", async () => {
+  for (const slug of ["neon-hero", "neon-bento"]) {
+    const bundle = await blockSource(findBlock(slug)!);
+    expect(bundle.files["components/ui/blocks/neon-borders.tsx"]).toBeDefined();
+    expect(bundle.files["styles/neon-borders.css"]).toBeDefined();
+    expect(bundle.files["components/ui/neon-sign-404.tsx"]).toBeUndefined();
+  }
+}, 30000);

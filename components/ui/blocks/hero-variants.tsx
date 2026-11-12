@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowDown, Flower2, Radio, Sun } from "lucide-react";
-import { NeonSign404 } from "../neon-sign-404";
+import { NeonOrbit, useNeonBorders } from "./neon-borders";
 import { BlockFrame, type BlockAction, type BlockProps } from "./shared";
 import { SectionArt, SectionLink } from "./section-visuals";
 import "../../../styles/hero-variants.css";
@@ -48,9 +48,10 @@ export function WovenHero({ brand = "Afterimage", title = "Stay with\nthe feelin
 
 export type NeonHeroProps = BlockProps & { brand?: string; title?: string; description?: string; primaryAction?: BlockAction; secondaryAction?: BlockAction; signText?: string; flicker?: boolean; note?: string };
 export function NeonHero({ brand = "Nightshift", title = "Made after\nhours.", description = "An independent studio for bright ideas, late conversations and work that has a little soul.", primaryAction = { label: "Come on in", href: "#work" }, secondaryAction = { label: "Meet the studio", href: "#about" }, signText = "OPEN", flicker = true, note = "Stay curious. Stay a little longer.", ...props }: NeonHeroProps) {
+  const { ref, lit } = useNeonBorders(2, flicker);
   return <BlockFrame {...props} className={`sb-section sb-neon sb-neon-hero ${props.className ?? ""}`}>
     <header className="sb-neon-hero-header"><span className="sb-neon-brand"><Radio size={22} aria-hidden="true" />{brand}</span><a href={secondaryAction.href}>{secondaryAction.label}</a></header>
-    <div className="sb-neon-hero-layout"><div className="sb-neon-hero-copy"><h1>{title}</h1><p>{description}</p><SectionLink action={primaryAction} /></div><div className="sb-neon-hero-sign"><NeonSign404 digits={signText} flicker={flicker} sound={false} size={230} /></div></div>
+    <div className="sb-neon-hero-layout" ref={ref}><div className="sb-neon-hero-copy"><h1>{title.split("\n").map((line, index) => <span key={index}>{index > 0 && <span className="sr-only"> </span>}{line}</span>)}</h1><p>{description}</p><SectionLink action={primaryAction} /></div><div className="sb-neon-hero-art sb-neon-panel" data-lit={lit(0)}><div className="sb-neon-availability"><i aria-hidden="true" />{signText}</div><NeonOrbit /><div className="sb-neon-hero-art-note sb-neon-panel" data-neon="orange" data-lit={lit(1)}><span>Bright ideas.</span><span>After dark.</span></div></div></div>
     <div className="sb-neon-hero-foot"><span><i aria-hidden="true" />{note}</span><a href={primaryAction.href}>Follow the light<ArrowDown size={16} aria-hidden="true" /></a></div>
   </BlockFrame>;
 }

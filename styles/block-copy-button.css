@@ -1,0 +1,11 @@
+.block-copy-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 40px; padding: 9px 13px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--ink); font: 500 12px/1.4 var(--font-body), sans-serif; cursor: pointer; transition: background 160ms ease-out, border-color 160ms ease-out; }
+.block-copy-button:hover { background: var(--surface-soft); }
+.block-copy-button:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.block-copy-button:disabled { cursor: wait; }
+.block-copy-button[data-copied="true"] { color: var(--ink); border-color: var(--ink); background: var(--surface-soft); }
+.block-copy-icon { display: grid; place-items: center; flex: none; width: 16px; height: 16px; }
+.block-copy-button[data-copied="true"] .block-copy-icon { animation: block-copy-confirm 220ms cubic-bezier(.16, 1, .3, 1); }
+.block-copy-button[data-copied="true"] .block-copy-icon svg { stroke-dasharray: 30; animation: block-copy-check 260ms ease-out; }
+@keyframes block-copy-confirm { from { opacity: .3; transform: scale(.65); } to { opacity: 1; transform: scale(1); } }
+@keyframes block-copy-check { from { stroke-dashoffset: 30; } to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .block-copy-button, .block-copy-button[data-copied="true"] .block-copy-icon, .block-copy-button[data-copied="true"] .block-copy-icon svg { animation: none; transition: none; } }

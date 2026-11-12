@@ -17,12 +17,12 @@ test("all seven footers fit phone, tablet and desktop in both palettes", async (
     await page.setViewportSize({width,height:1000});
     for (const [slug, selector] of footers) {
       await page.goto(`/preview/blocks/${slug}`, {waitUntil:"load"});
-      await page.getByLabel("Preview palette").selectOption("dark");
+      await page.evaluate(() => { document.documentElement.dataset.theme = "dark"; });
       await expect(page.locator(".standalone-block-preview")).toHaveAttribute("data-theme", "dark");
       await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].map(image => {image.loading = "eager"; return image.decode().catch(() => {});})); });
       await page.addStyleTag({content:"nextjs-portal { display:none; }"});
       for (const palette of ["light", "dark"]) {
-        await page.getByLabel("Preview palette").selectOption(palette);
+        await page.evaluate(palette => { document.documentElement.dataset.theme = palette; }, palette);
         const footer = page.locator(selector);
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${slug} ${width} ${palette}`).toBe(true);
         expect.soft(await footer.locator("a[href], input").evaluateAll(elements => elements.every(element => {
@@ -66,7 +66,8 @@ test("one toolbar, agent prompt, compact controls and preserved newsletter state
       await entry.getByRole("button", {name:"BlueHourFooter preview settings",exact:true}).click();
       const settings = page.getByRole("dialog", {name:"Preview settings"});
       await settings.getByRole("button", {name:"Phone",exact:true}).click();
-      await settings.getByLabel("Palette").selectOption("dark");
+      await expect(settings.getByLabel("Palette")).toHaveCount(0);
+      await page.evaluate(() => { document.documentElement.dataset.theme = "dark"; });
       await settings.getByRole("button", {name:"Close popover"}).click();
       await expect(entry.locator(".bc-preview-canvas")).toHaveAttribute("data-width","phone");
       await expect(entry.getByRole("textbox", {name:"Email address"})).toHaveValue("reader@example.com");
