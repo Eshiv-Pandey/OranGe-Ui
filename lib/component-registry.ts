@@ -52,6 +52,7 @@ function destination(source: string, slug: string): string | undefined {
   if (source === "public/portfolio/NOTICE.md") return "licenses/PORTFOLIO_ARTWORK.md";
   if (source === "public/art/footer/NOTICE.md") return "licenses/FOOTER_ARTWORK.md";
   if (source.startsWith("public/fonts/footer/")) return "licenses/" + source.split("/").at(-1);
+  if (source.startsWith("public/fonts/sections/")) return source.endsWith("NOTICE.md") ? "licenses/SECTION_FONT_CREDITS.md" : "licenses/" + source.split("/").at(-1);
   if (source.startsWith("public/fonts/portfolio/")) return "licenses/" + source.split("/").at(-1);
   if (source.startsWith("public/fonts/film/")) return source.endsWith("NOTICE.md") ? "licenses/FILM_FONT_CREDITS.md" : "licenses/" + source.split("/").at(-1);
   if (source === "public/photos/keepsakes/NOTICE.md") return "licenses/KEEPSAKE_PHOTOS.md";

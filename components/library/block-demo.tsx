@@ -10,6 +10,7 @@ import { BlueHourFooter, HillsideFooter } from "../ui/blocks/landscape-footers";
 import { StudioFooter, ColonyFooter } from "../ui/blocks/playful-footers";
 import { SkylineFooter } from "../ui/blocks/skyline-footer";
 import { EditorialHero, ProductHero } from "../ui/blocks/heroes";
+import { WildseedBento, CurrentBento, RevenueBento, StudioBento, NeonBento } from "../ui/blocks/bento-variants";
 import { SiteHeader, SiteFooter, AnnouncementBar } from "../ui/blocks/navigation";
 import { FeatureStory, BentoOverview, PricingSection, TestimonialSection, LogoCloud, IntegrationDirectory, FaqSection, CallToAction } from "../ui/blocks/marketing";
 import { JournalSection, TeamSection, CareersSection, ImageGallery, EmptyPage, StatsSection } from "../ui/blocks/content";
@@ -52,6 +53,15 @@ export function BlockDemo({ slug, controls = true, theme = "auto" }: { slug: str
     case "announcement": content = <AnnouncementBar link={{ label: "Take a look", href: landing }} onDismiss={() => setStatus("Announcement dismissed. Reset the preview to bring it back.")} />; break;
     case "feature-story": content = <FeatureStory />; break;
     case "bento-overview": content = <BentoOverview />; break;
+    case "wildseed-bento": content = <WildseedBento action={{ label: "Explore our world", href: `${landing}#about` }} />; break;
+    case "current-bento": content = <CurrentBento action={{ label: "Find your next move", href: "/preview/blocks/image-gallery" }} />; break;
+    case "revenue-bento": content = <RevenueBento action={{ label: "Explore the workspace", href: "/preview/blocks/workspace-overview" }} />; break;
+    case "studio-bento": content = <StudioBento action={{ label: "Start something", href: `${landing}#contact` }} projects={[
+      { name: "A brighter start", category: "Brand identity", href: `${landing}#features`, art: "sun", color: "lime" },
+      { name: "Good company", category: "Digital experience", href: "/preview/blocks/editorial-hero", art: "smile", color: "pink" },
+      { name: "Fresh perspective", category: "Art direction", href: "/preview/blocks/image-gallery", art: "eye", color: "yellow" },
+    ]} />; break;
+    case "neon-bento": content = <NeonBento action={{ label: "Step inside", href: `${landing}#about` }} />; break;
     case "pricing-section": content = <PricingSection onChoose={chosen} />; break;
     case "testimonials": content = <TestimonialSection />; break;
     case "logo-cloud": content = <LogoCloud />; break;

@@ -5,6 +5,7 @@ import { componentUsage, type ComponentDefinition } from "./components";
 import type { Appearance } from "../components/ui/appearance";
 import { externalPackage, relativeSourceImport, rewriteSourceImports, sourceAlias, sourceImports, type SourceImport } from "./source-imports";
 import { FOOTER_ASSETS } from "./footer-assets";
+import { SECTION_ASSETS } from "./section-assets";
 
 export type ComponentSourceBundle = { files: Record<string, Uint8Array>; dependencies: string[]; devDependencies: string[] };
 export const BUNDLED_FONTS = ["geist-latin.woff2", "pixelify-sans-latin.woff2", "OFL-Geist.txt", "OFL-PixelifySans.txt"] as const;
@@ -19,7 +20,7 @@ function allowedSource(relative: string): boolean {
     || /^styles\/.+\.(?:css|css\.d\.ts)$/.test(relative)
     || relative === "lib/utils.ts"
     || BUNDLED_FONTS.some((name) => relative === `public/fonts/${name}`)
-    || [...CREATIVE_FONT_ASSETS, ...FILM_FONT_ASSETS, ...CREATIVE_AUDIO_ASSETS, ...KEEPSAKE_PHOTO_ASSETS, ...PORTFOLIO_ASSETS, ...FOOTER_ASSETS].some((name) => relative === name)
+    || [...CREATIVE_FONT_ASSETS, ...FILM_FONT_ASSETS, ...CREATIVE_AUDIO_ASSETS, ...KEEPSAKE_PHOTO_ASSETS, ...PORTFOLIO_ASSETS, ...FOOTER_ASSETS, ...SECTION_ASSETS].some((name) => relative === name)
     || relative === "LICENSE" || relative === "THIRD_PARTY_NOTICES.md";
 }
 
@@ -154,6 +155,7 @@ export async function collectComponentSource(component: ComponentDefinition, app
   if (files["components/ui/keepsake-photos.ts"]) for (const asset of KEEPSAKE_PHOTO_ASSETS) await include(asset);
   if (files["styles/portfolio.css"]) for (const asset of PORTFOLIO_ASSETS) await include(asset);
   if (files["styles/landscape-footers.css"] || files["styles/playful-footers.css"]) for (const asset of FOOTER_ASSETS) await include(asset);
+  if (files["styles/section-materials.css"]) for (const asset of [...SECTION_ASSETS, ...FOOTER_ASSETS]) await include(asset);
   if (files["styles/landscape-footers.css"]) for (const asset of FILM_FONT_ASSETS) await include(asset);
   files["Example.tsx"] = strToU8(example);
   await include("LICENSE");

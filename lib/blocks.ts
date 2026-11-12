@@ -1,6 +1,7 @@
 import type { ComponentDefinition, PropDoc } from "./components";
 import { SCENE_COMPONENTS } from "./scene-components";
 import { FOOTER_BLOCKS } from "./footer-blocks";
+import { BENTO_BLOCKS } from "./bento-blocks";
 
 export const blockCategories = ["Auth", "Hero", "Header", "Footer", "Features", "Bento", "Pricing", "Testimonials", "Logo Cloud", "Integrations", "FAQ", "Contact", "Newsletter", "Blog", "Team", "Careers", "Image Gallery", "CTA", "Announcement", "Not Found", "App Shell", "Dashboard", "Settings", "Notifications", "File Upload", "Stats", "Widgets", "Templates"] as const;
 export type BlockCategory = typeof blockCategories[number];
@@ -65,6 +66,7 @@ blocks.push(...SCENE_COMPONENTS.map((item): BlockDefinition => ({
 })));
 // Reference-led footer examples lead the collection; the original simple close is last.
 const originalFooterIndex = blocks.findIndex(item => item.slug === "site-footer");
+blocks.splice(blocks.findIndex(item => item.slug === "bento-overview"), 0, ...BENTO_BLOCKS);
 blocks.splice(originalFooterIndex, 0, ...FOOTER_BLOCKS);
 const [originalFooter] = blocks.splice(blocks.findIndex(item => item.slug === "site-footer"), 1);
 blocks.push(originalFooter);
