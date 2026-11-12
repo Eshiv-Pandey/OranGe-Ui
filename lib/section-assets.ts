@@ -6,3 +6,8 @@ export const SECTION_ASSETS = [
   "public/fonts/sections/OFL-bricolagegrotesque.txt",
   "public/fonts/sections/NOTICE.md",
 ] as const;
+
+export const SECTION_ART_ASSETS = [
+  "public/art/sections/woven-glow.webp",
+  "public/art/sections/NOTICE.md",
+] as const;

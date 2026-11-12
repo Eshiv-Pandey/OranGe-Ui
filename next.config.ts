@@ -3,7 +3,7 @@ import { readdirSync } from "node:fs";
 import path from "node:path";
 
 // Keep downloadable source traces scoped to public library files.
-const downloadableSource = ["./components/ui/**/*", "./lib/avatar/**/*", "./lib/utils.ts", "./styles/**/*", "./public/portfolio/**/*", "./public/art/footer/**/*", "./public/fonts/**/*", "./public/audio/orangeui/**/*", "./public/photos/keepsakes/**/*", "./LICENSE", "./THIRD_PARTY_NOTICES.md"];
+const downloadableSource = ["./components/ui/**/*", "./lib/avatar/**/*", "./lib/utils.ts", "./styles/**/*", "./public/portfolio/**/*", "./public/art/footer/**/*", "./public/art/sections/**/*", "./public/fonts/**/*", "./public/audio/orangeui/**/*", "./public/photos/keepsakes/**/*", "./LICENSE", "./THIRD_PARTY_NOTICES.md"];
 // Turbopack can conservatively trace the project around dynamic fs paths.
 // Enumerate only shallow directory entries at config time, then exclude exact
 // non-public paths. Runtime chunks and installed packages remain untouched.
@@ -12,7 +12,7 @@ const traceScopes: Record<string, readonly string[]> = {
   components: ["ui"],
   lib: ["avatar", "utils.ts"],
   public: ["fonts", "audio", "photos", "portfolio", "art"],
-  "public/art": ["footer"],
+  "public/art": ["footer", "sections"],
   "public/photos": ["keepsakes"],
 };
 const nonPublicSources = Object.entries(traceScopes).flatMap(([folder, retained]) =>

@@ -10,4 +10,4 @@ The Pinterest references supplied by the owner were inspected through Pinterest'
 
 Source ZIPs and registry installs include all required CSS, dependencies, fonts and illustrations. Registry source embeds local art and fonts as data URLs. Native links remain application-owned; demonstration data is fictional.
 
-Verification uses the production build, standalone source compilation, keyboard interaction and a 320/390/768/1440 width matrix in both palettes. Local evidence is under out/section-expansion/.
+Verified on 12 November 2026: the production build, standalone source compilation and keyboard revenue interaction passed. The combined Bento and Hero browser run passed 96 renders across all 12 new and existing sections at 320/390/768/1440 pixels in both palettes, with no viewport or content overflow, clipping-boundary width failures, page errors or Axe WCAG A/AA findings. Report and captures remain local under out/section-expansion/.

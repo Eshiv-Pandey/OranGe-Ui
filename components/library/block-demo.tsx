@@ -10,6 +10,7 @@ import { BlueHourFooter, HillsideFooter } from "../ui/blocks/landscape-footers";
 import { StudioFooter, ColonyFooter } from "../ui/blocks/playful-footers";
 import { SkylineFooter } from "../ui/blocks/skyline-footer";
 import { EditorialHero, ProductHero } from "../ui/blocks/heroes";
+import { PlaygroundHero, OddkinHero, WovenHero, NeonHero } from "../ui/blocks/hero-variants";
 import { WildseedBento, CurrentBento, RevenueBento, StudioBento, NeonBento } from "../ui/blocks/bento-variants";
 import { SiteHeader, SiteFooter, AnnouncementBar } from "../ui/blocks/navigation";
 import { FeatureStory, BentoOverview, PricingSection, TestimonialSection, LogoCloud, IntegrationDirectory, FaqSection, CallToAction } from "../ui/blocks/marketing";
@@ -47,6 +48,10 @@ export function BlockDemo({ slug, controls = true, theme = "auto" }: { slug: str
     case "pavilion-footer": content = <PavilionFooter />; break;
     case "auth-panel": content = <AuthPanel mode={authMode} onModeChange={setAuthMode} onSubmit={service} providers={[{ id: "provider", label: "Demo provider" }]} onProvider={service} successMessage="Demo complete. No account was created or authenticated." />; break;
     case "editorial-hero": content = <EditorialHero primaryAction={{ label: "Find your space", href: `${landing}#features` }} secondaryAction={{ label: "See how it works", href: `${landing}#about` }} />; break;
+    case "playground-hero": content = <PlaygroundHero primaryAction={{ label: "Meet the collection", href: "/preview/blocks/image-gallery" }} secondaryAction={{ label: "Our story", href: `${landing}#about` }} navigation={[{ label: "Objects", href: "/preview/blocks/image-gallery" }, { label: "About us", href: `${landing}#about` }]} />; break;
+    case "oddkin-hero": content = <OddkinHero primaryAction={{ label: "Find your kind", href: "/preview/blocks/image-gallery" }} secondaryAction={{ label: "Meet the studio", href: `${landing}#about` }} />; break;
+    case "woven-hero": content = <WovenHero primaryAction={{ label: "Explore the work", href: `${landing}#features` }} secondaryAction={{ label: "Start a conversation", href: `${landing}#contact` }} />; break;
+    case "neon-hero": content = <NeonHero primaryAction={{ label: "Come on in", href: `${landing}#features` }} secondaryAction={{ label: "Meet the studio", href: `${landing}#about` }} />; break;
     case "product-hero": content = <ProductHero action={{ label: "Start a new chapter", href: `${landing}#get-started` }} />; break;
     case "site-header": content = <SiteHeader homeHref={landing} links={links} action={{ label: "Get in touch", href: `${landing}#contact` }} />; break;
     case "site-footer": content = <SiteFooter groups={[{ title: "Explore", links }, { title: "Say hello", links: [{ label: "Contact", href: `${landing}#contact` }, { label: "The journal", href: "/preview/blocks/journal" }, { label: "The team", href: "/preview/blocks/team" }] }]} />; break;

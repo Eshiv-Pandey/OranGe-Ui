@@ -37,6 +37,7 @@ export function registryAssetSource(source: string, files: Readonly<Record<strin
       : asset.startsWith("public/portfolio/") && asset.endsWith(".webp") ? "image/webp"
       : asset.startsWith("public/portfolio/") && asset.endsWith(".png") ? "image/png"
       : asset.startsWith("public/art/footer/") && asset.endsWith(".webp") ? "image/webp"
+      : asset.startsWith("public/art/sections/") && asset.endsWith(".webp") ? "image/webp"
       : asset.startsWith("public/photos/keepsakes/") && asset.endsWith(".jpg") ? "image/jpeg" : undefined;
     if (!mime) continue;
     const url = "/" + asset.slice("public/".length);
@@ -51,6 +52,7 @@ function destination(source: string, slug: string): string | undefined {
   if (source.endsWith(".woff2") || source.endsWith(".wav") || source.endsWith(".jpg") || source.endsWith(".webp") || source.endsWith(".png") || source === "README.md") return undefined;
   if (source === "public/portfolio/NOTICE.md") return "licenses/PORTFOLIO_ARTWORK.md";
   if (source === "public/art/footer/NOTICE.md") return "licenses/FOOTER_ARTWORK.md";
+  if (source === "public/art/sections/NOTICE.md") return "licenses/SECTION_ARTWORK.md";
   if (source.startsWith("public/fonts/footer/")) return "licenses/" + source.split("/").at(-1);
   if (source.startsWith("public/fonts/sections/")) return source.endsWith("NOTICE.md") ? "licenses/SECTION_FONT_CREDITS.md" : "licenses/" + source.split("/").at(-1);
   if (source.startsWith("public/fonts/portfolio/")) return "licenses/" + source.split("/").at(-1);

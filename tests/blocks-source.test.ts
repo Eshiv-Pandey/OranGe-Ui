@@ -10,7 +10,7 @@ import { GET as sourceGet } from "../app/api/blocks/[slug]/route";
 import { GET as registryGet } from "../app/r/[name]/route";
 
 it("covers every researched section with unique, trusted original entries", () => {
-  expect(blocks).toHaveLength(47); expect(new Set(blocks.map(block => block.slug)).size).toBe(47);
+  expect(blocks).toHaveLength(51); expect(new Set(blocks.map(block => block.slug)).size).toBe(51);
   expect(blocks.filter(block => block.category === "Auth")).toHaveLength(5);
   expect(blocks.filter(block => block.category === "Not Found").map(block => block.slug)).toEqual(expect.arrayContaining(["neon-sign-404", "chai-break-404"]));
   expect(findBlock("pavilion-footer")?.category).toBe("Footer");
