@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type DragEvent, type KeyboardEvent, type PointerEvent } from "react";
-import { ArrowDown, ArrowUp, Check, Copy, Download, GripVertical, Layers, Plus, RotateCcw, Search, Trash2, Undo2, X } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties, type DragEvent, type KeyboardEvent, type PointerEvent } from "react";
+import { ArrowDown, ArrowUp, Check, ChevronDown, Copy, Download, GripVertical, Layers, Maximize2, Minimize2, Plus, RotateCcw, Search, Trash2, Undo2, X } from "lucide-react";
 import { Sticker, STICKERS, getSticker, type StickerName, type StickerFinish } from "../ui/sticker-pack";
 import { StickerBackgroundControl, StickerControls } from "./sticker-controls";
 import { boundStickerPlacement, moveStickerLayer, stickerCanvasCaptionColor, stickerCanvasIsDark, STICKER_CANVAS_BACKGROUNDS, STICKER_SCENE_HEIGHT, STICKER_SCENE_WIDTH, stickerSceneHtml, stickerSceneJson, stickerSceneReact, type StickerPlacement, type StickerScene } from "../../lib/sticker-scene";
@@ -24,10 +24,6 @@ type LayerDrag = { id: string; pointerId: number; target: LayerDropTarget | null
 type SceneHistory = { scene: StickerScene; selected: string | null };
 type ToolTab = "Stickers" | "Edit" | "Layers" | "Canvas";
 const sameScene = (a: StickerScene, b: StickerScene) => JSON.stringify(a) === JSON.stringify(b);
-const compactTrayQuery = "(max-width: 760px) and (max-height: 650px)";
-const subscribeCompactTray = (listener: () => void) => { const media = window.matchMedia(compactTrayQuery); media.addEventListener("change", listener); return () => media.removeEventListener("change", listener); };
-const getCompactTray = () => window.matchMedia(compactTrayQuery).matches;
-const getServerCompactTray = () => false;
 function saveFile(content: string, filename: string, type: string) {
   const url = URL.createObjectURL(new Blob([content], { type })), anchor = document.createElement("a");
   anchor.href = url; anchor.download = filename; anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
@@ -39,12 +35,14 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
   const [query, setQuery] = useState(""), [trayPage, setTrayPage] = useState(0);
   const [format, setFormat] = useState<"React" | "HTML" | "JSON">("React"), [status, setStatus] = useState(""), [copied, setCopied] = useState(false);
   const [dropTarget, setDropTarget] = useState<LayerDropTarget | null>(null);
+  const [preview, setPreview] = useState(false), [traySize, setTraySize] = useState(18), [canvasWidth, setCanvasWidth] = useState<number>();
   const board = useRef<HTMLDivElement>(null), addControl = useRef<HTMLButtonElement>(null), dialog = useRef<HTMLDialogElement>(null);
+  const workspace = useRef<HTMLElement>(null), viewport = useRef<HTMLDivElement>(null), trayGrid = useRef<HTMLDivElement>(null);
+  const previewControl = useRef<HTMLButtonElement>(null), previewExit = useRef<HTMLButtonElement>(null), previewRequested = useRef(false), ownedFullscreen = useRef(false);
   const sequence = useRef(0), drag = useRef<DragState | null>(null), suppressedClick = useRef<string | null>(null);
   const layerDrag = useRef<LayerDrag | null>(null), nativeLayer = useRef<string | null>(null);
   const current = scene.placements.find(placement => placement.id === selected), dark = stickerCanvasIsDark(scene.background);
   const tray = STICKERS.filter(sticker => `${sticker.title} ${sticker.tags} ${sticker.category}`.toLowerCase().includes(query.trim().toLowerCase()));
-  const compactTray = useSyncExternalStore(subscribeCompactTray, getCompactTray, getServerCompactTray), traySize = compactTray ? 6 : 9;
   const pages = Math.max(1, Math.ceil(tray.length / traySize)), page = Math.min(trayPage, pages - 1), frontFirst = [...scene.placements].reverse();
   const code = format === "React" ? stickerSceneReact(scene) : format === "HTML" ? stickerSceneHtml(scene) : stickerSceneJson(scene);
 
@@ -52,10 +50,68 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
     if (!onClose || !dialog.current) return;
     if (expanded && !dialog.current.open) dialog.current.showModal();
     else if (!expanded && dialog.current.open) dialog.current.close();
-    if (!expanded) return;
+  }, [expanded, onClose]);
+
+  useEffect(() => {
+    if (!(onClose && expanded) && !preview) return;
     const previous = document.body.style.overflow; document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = previous; };
-  }, [expanded, onClose]);
+  }, [expanded, onClose, preview]);
+
+  useEffect(() => {
+    const element = viewport.current;
+    if (!element) return;
+    const measure = () => {
+      const rect = element.getBoundingClientRect(), style = getComputedStyle(element);
+      const width = rect.width - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      const height = rect.height - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+      if (width > 0 && height > 0) setCanvasWidth(Math.min(width, height * STICKER_SCENE_WIDTH / STICKER_SCENE_HEIGHT));
+    };
+    const observer = new ResizeObserver(measure); observer.observe(element); measure();
+    return () => observer.disconnect();
+  }, [expanded, preview]);
+
+  useEffect(() => {
+    const element = trayGrid.current;
+    if (!element) return;
+    const measure = () => {
+      const style = getComputedStyle(element), row = parseFloat(style.gridAutoRows), gap = parseFloat(style.rowGap);
+      const height = element.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+      if (height > 0 && row > 0) setTraySize(Math.min(30, Math.max(1, Math.floor((height + gap) / (row + gap))) * 3));
+    };
+    const observer = new ResizeObserver(measure); observer.observe(element); measure();
+    return () => observer.disconnect();
+  }, [expanded, tab, preview]);
+
+  useEffect(() => {
+    const element = workspace.current;
+    const changed = () => {
+      if (document.fullscreenElement === element) { ownedFullscreen.current = true; return; }
+      if (!ownedFullscreen.current) return;
+      ownedFullscreen.current = false; previewRequested.current = false; setPreview(false);
+      requestAnimationFrame(() => previewControl.current?.focus({ preventScroll: true }));
+    };
+    document.addEventListener("fullscreenchange", changed);
+    return () => {
+      document.removeEventListener("fullscreenchange", changed);
+      if (document.fullscreenElement === element) void document.exitFullscreen().catch(() => {});
+    };
+  }, []);
+
+  useEffect(() => { if (preview) previewExit.current?.focus({ preventScroll: true }); }, [preview]);
+
+  async function enterPreview() {
+    previewRequested.current = true; setPreview(true);
+    try {
+      if (workspace.current?.requestFullscreen) await workspace.current.requestFullscreen();
+      if (!previewRequested.current && document.fullscreenElement === workspace.current) await document.exitFullscreen();
+    } catch { /* The same clean preview fills the window when fullscreen is unavailable. */ }
+  }
+  function exitPreview() {
+    previewRequested.current = false; setPreview(false);
+    if (document.fullscreenElement === workspace.current) void document.exitFullscreen().catch(() => {});
+    requestAnimationFrame(() => previewControl.current?.focus({ preventScroll: true }));
+  }
 
   function commit(next: StickerScene, previous = scene) {
     if (sameScene(next, previous)) return;
@@ -91,7 +147,7 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
     setSelected(id); focusPlacement(id); setStatus(`${getSticker(placement.name).title} duplicated.`);
   }
   function pointerDown(event: PointerEvent<HTMLDivElement>, placement: StickerPlacement) {
-    if (event.button !== 0) return;
+    if (preview || event.button !== 0) return;
     setSelected(placement.id); setTab("Edit"); suppressedClick.current = null;
     drag.current = { id: placement.id, pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, placement, before: scene, moved: false };
   }
@@ -116,6 +172,7 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
     }
   }
   function keyboard(event: KeyboardEvent<HTMLDivElement>, placement: StickerPlacement) {
+    if (preview) return;
     const step = event.shiftKey ? 3 : .75;
     const movement: Record<string, { x: number; y: number }> = { ArrowLeft: { x: -step, y: 0 }, ArrowRight: { x: step, y: 0 }, ArrowUp: { x: 0, y: -step }, ArrowDown: { x: 0, y: step } };
     if (movement[event.key]) { event.preventDefault(); setSelected(placement.id); updatePlacement(placement.id, { x: placement.x + movement[event.key].x, y: placement.y + movement[event.key].y }); }
@@ -152,8 +209,9 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
     saveFile(code, `my-sticker-canvas.${extension}`, format === "HTML" ? "text/html;charset=utf-8" : format === "JSON" ? "application/json" : "text/plain;charset=utf-8"); setStatus(`${format} canvas downloaded.`);
   }
 
-  const content = <section className="sticker-playground" aria-label="Sticker playground" data-expanded={Boolean(onClose)}>
-    <header className="sticker-playground-heading">
+  const content = <section ref={workspace} className="sticker-playground" aria-label="Sticker playground" data-expanded={Boolean(onClose)} data-preview={preview} onKeyDown={event => { if (preview && event.key === "Escape") { event.preventDefault(); event.stopPropagation(); exitPreview(); } }}>
+    {preview && <button ref={previewExit} type="button" className="sticker-playground-preview-exit" onClick={exitPreview} aria-label="Back to editor" title="Back to editor (Esc)"><Minimize2 size={16} aria-hidden="true" /><span>Back to editor</span></button>}
+    <header className="sticker-playground-heading" hidden={preview}>
       <h2>Playground</h2>
       <div className="sticker-playground-header-actions">
         <button ref={addControl} type="button" className="sticker-playground-add" disabled={scene.placements.length >= 80} onClick={() => add(name)} aria-label={`Add ${getSticker(name).title}`}><Plus size={16} aria-hidden="true" /><span>Add sticker</span></button>
@@ -161,7 +219,8 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
         <button type="button" onClick={() => { commit({ ...scene, placements: [] }); setSelected(null); setStatus("Canvas cleared. Undo restores your arrangement."); }} disabled={!scene.placements.length} aria-label="Clear canvas" title="Clear canvas"><Trash2 size={16} aria-hidden="true" /></button>
       </div>
       <div className="sticker-playground-export-toolbar">
-        <select aria-label="Canvas code format" value={format} onChange={event => { setFormat(event.target.value as typeof format); setCopied(false); }}><option>React</option><option>HTML</option><option>JSON</option></select>
+        <button ref={previewControl} type="button" className="sticker-playground-preview-launch" onClick={enterPreview} aria-label="Preview fullscreen" title="Preview fullscreen"><Maximize2 size={16} aria-hidden="true" /><span>Preview</span></button>
+        <div className="sticker-playground-format"><select aria-label="Canvas code format" value={format} onChange={event => { setFormat(event.target.value as typeof format); setCopied(false); }}><option>React</option><option>HTML</option><option>JSON</option></select><ChevronDown size={13} aria-hidden="true" /></div>
         <button type="button" onClick={copyCode} aria-label="Copy canvas code" title={copied ? "Copied" : "Copy code"}>{copied ? <Check size={16} aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}</button>
         <button type="button" onClick={downloadCode} aria-label={`Download ${format} canvas`} title={`Download ${format}`}><Download size={16} aria-hidden="true" /><span>Export</span></button>
         {onClose && <button type="button" onClick={onClose} aria-label="Close playground" title="Back to collection"><X size={18} aria-hidden="true" /></button>}
@@ -169,23 +228,23 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
     </header>
     <div className="sticker-playground-workspace">
       <div className="sticker-playground-stage">
-        <div className="sticker-playground-toolbar"><span>{scene.placements.length}/80 stickers</span><span>960 × 600 canvas</span></div>
-        <div className="sticker-playground-viewport">
-          <div ref={board} className="sticker-playground-board" data-dark={dark} data-transparent={scene.background === "transparent"} style={{ background: scene.background, aspectRatio: `${STICKER_SCENE_WIDTH} / ${STICKER_SCENE_HEIGHT}` }} aria-label="Sticker placement canvas" onPointerDown={event => { if (event.target === event.currentTarget) setSelected(null); }}>
+        <div className="sticker-playground-toolbar" hidden={preview}><span>{scene.placements.length}/80 stickers</span><span>960 × 600 canvas</span></div>
+        <div ref={viewport} className="sticker-playground-viewport">
+          <div ref={board} className="sticker-playground-board" data-dark={dark} data-transparent={scene.background === "transparent"} style={{ background: scene.background, width: canvasWidth, aspectRatio: `${STICKER_SCENE_WIDTH} / ${STICKER_SCENE_HEIGHT}` }} aria-label="Sticker placement canvas" onPointerDown={event => { if (!preview && event.target === event.currentTarget) setSelected(null); }}>
             <p className="sticker-playground-caption" style={{ color: stickerCanvasCaptionColor(scene.background) }}>{scene.caption}</p>
-            {scene.placements.map((placement, index) => <div key={placement.id} className="sticker-playground-placement" data-placement={placement.id} data-selected={selected === placement.id} style={{ left: `${placement.x}%`, top: `${placement.y}%`, width: `${placement.size / STICKER_SCENE_WIDTH * 100}%`, zIndex: index + 1, "--placement-rotation": `${placement.rotate}deg` } as CSSProperties} onPointerDown={event => pointerDown(event, placement)} onPointerMove={pointerMove} onPointerUp={event => pointerEnd(event)} onPointerCancel={event => pointerEnd(event, true)} onLostPointerCapture={event => pointerEnd(event, true)} onKeyDown={event => keyboard(event, placement)} onFocus={() => setSelected(placement.id)} onClickCapture={event => { if (suppressedClick.current === placement.id) { event.preventDefault(); event.stopPropagation(); suppressedClick.current = null; } }}><Sticker name={placement.name} finish={placement.finish} size="100%" rotate={placement.rotate} motion={placement.motion} duration={placement.duration} intensity={placement.intensity} shadow={placement.shadow} interactive label={`Move ${getSticker(placement.name).title}. Arrow keys to move, Delete to remove.`} onClick={() => { setSelected(placement.id); setTab("Edit"); }} /></div>)}
-            {current && <button type="button" className="sticker-playground-remove-selected" style={{ left: `clamp(14px, ${current.x + current.size / STICKER_SCENE_WIDTH * 50}%, calc(100% - 14px))`, top: `clamp(14px, ${current.y - current.size / STICKER_SCENE_HEIGHT * 50}%, calc(100% - 14px))` }} onPointerDown={event => event.stopPropagation()} onClick={() => remove(current.id)} aria-label={`Remove ${getSticker(current.name).title} from canvas`} title="Remove sticker"><X size={14} aria-hidden="true" /></button>}
-            {!scene.placements.length && !scene.caption && <p className="sticker-playground-empty">Add a sticker to begin.</p>}
+            {scene.placements.map((placement, index) => <div key={placement.id} className="sticker-playground-placement" data-placement={placement.id} data-selected={!preview && selected === placement.id} style={{ left: `${placement.x}%`, top: `${placement.y}%`, width: `${placement.size / STICKER_SCENE_WIDTH * 100}%`, zIndex: index + 1, "--placement-rotation": `${placement.rotate}deg` } as CSSProperties} onPointerDown={event => pointerDown(event, placement)} onPointerMove={pointerMove} onPointerUp={event => pointerEnd(event)} onPointerCancel={event => pointerEnd(event, true)} onLostPointerCapture={event => pointerEnd(event, true)} onKeyDown={event => keyboard(event, placement)} onFocus={() => { if (!preview) setSelected(placement.id); }} onClickCapture={event => { if (suppressedClick.current === placement.id) { event.preventDefault(); event.stopPropagation(); suppressedClick.current = null; } }}><Sticker name={placement.name} finish={placement.finish} size="100%" rotate={placement.rotate} motion={placement.motion} duration={placement.duration} intensity={placement.intensity} shadow={placement.shadow} interactive label={preview ? `Animate ${getSticker(placement.name).title}` : `Move ${getSticker(placement.name).title}. Arrow keys to move, Delete to remove.`} onClick={() => { if (!preview) { setSelected(placement.id); setTab("Edit"); } }} /></div>)}
+            {current && !preview && <button type="button" className="sticker-playground-remove-selected" style={{ left: `clamp(14px, ${current.x + current.size / STICKER_SCENE_WIDTH * 50}%, calc(100% - 14px))`, top: `clamp(14px, ${current.y - current.size / STICKER_SCENE_HEIGHT * 50}%, calc(100% - 14px))` }} onPointerDown={event => event.stopPropagation()} onClick={() => remove(current.id)} aria-label={`Remove ${getSticker(current.name).title} from canvas`} title="Remove sticker"><X size={14} aria-hidden="true" /></button>}
+            {!preview && !scene.placements.length && !scene.caption && <p className="sticker-playground-empty">Add a sticker to begin.</p>}
           </div>
         </div>
-        <div className="sticker-playground-bottom-bar"><p className="sticker-playground-instructions">Drag freely, including beyond the edges. Arrow keys move; Delete removes.</p><p className="sticker-playground-status" role="status">{status}</p></div>
+        <div className="sticker-playground-bottom-bar" hidden={preview}><p className="sticker-playground-instructions">Drag freely, including beyond the edges. Arrow keys move; Delete removes.</p><p className="sticker-playground-status" role="status">{status}</p></div>
       </div>
-      <aside className="sticker-playground-tools" aria-label="Canvas layers and placement controls">
+      <aside className="sticker-playground-tools" aria-label="Canvas layers and placement controls" hidden={preview}>
         <div className="sticker-playground-tool-tabs" role="group" aria-label="Playground tools">{(["Stickers", "Edit", "Layers", "Canvas"] as const).map(item => <button key={item} type="button" aria-pressed={tab === item} onClick={() => setTab(item)}>{item}</button>)}</div>
         <div className="sticker-playground-tool-content">
           {tab === "Stickers" && <div className="sticker-playground-stickers-panel">
             <label className="sticker-playground-search"><Search size={15} aria-hidden="true" /><span className="sr-only">Find a sticker to place</span><input type="search" value={query} onChange={event => { setQuery(event.target.value); setTrayPage(0); }} placeholder="Search stickers" />{query && <button type="button" onClick={() => { setQuery(""); setTrayPage(0); }} aria-label="Clear playground search"><X size={14} aria-hidden="true" /></button>}</label>
-            <div className="sticker-playground-tray" aria-label="Stickers to place">{tray.slice(page * traySize, (page + 1) * traySize).map(sticker => <button type="button" key={sticker.name} onClick={() => add(sticker.name)} disabled={scene.placements.length >= 80} aria-label={`Place ${sticker.title}`}><Sticker name={sticker.name} finish={finish} size={60} decorative /><span>{sticker.title}</span></button>)}{!tray.length && <p>No matches. Try another name.</p>}</div>
+            <div ref={trayGrid} className="sticker-playground-tray" aria-label="Stickers to place">{tray.slice(page * traySize, (page + 1) * traySize).map(sticker => <button type="button" key={sticker.name} onClick={() => add(sticker.name)} disabled={scene.placements.length >= 80} aria-label={`Place ${sticker.title}`}><Sticker name={sticker.name} finish={finish} size={60} decorative /><span>{sticker.title}</span></button>)}{!tray.length && <p>No matches. Try another name.</p>}</div>
             <div className="sticker-playground-tray-pagination"><button type="button" onClick={() => setTrayPage(page - 1)} disabled={page === 0} aria-label="Previous sticker page">Previous</button><span>{page + 1} / {pages}</span><button type="button" onClick={() => setTrayPage(page + 1)} disabled={page === pages - 1} aria-label="Next sticker page">Next</button></div>
           </div>}
           {tab === "Edit" && (current ? <div className="sticker-playground-placement-controls">
@@ -207,5 +266,5 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
       </aside>
     </div>
   </section>;
-  return onClose ? <dialog ref={dialog} className="sticker-playground-window" aria-label="Sticker playground" onCancel={event => { event.preventDefault(); onClose(); }} onClose={() => { if (expanded) onClose(); }}>{content}</dialog> : content;
+  return onClose ? <dialog ref={dialog} className="sticker-playground-window" aria-label="Sticker playground" onCancel={event => { event.preventDefault(); if (preview) exitPreview(); else onClose(); }} onClose={() => { previewRequested.current = false; setPreview(false); if (document.fullscreenElement === workspace.current) void document.exitFullscreen().catch(() => {}); if (expanded) onClose(); }}>{content}</dialog> : content;
 }

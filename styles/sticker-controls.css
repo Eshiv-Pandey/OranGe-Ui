@@ -17,14 +17,19 @@
 .sticker-controls-range input { width: 100%; height: 18px; margin: 5px 0 0; display: block; accent-color: var(--primary); }
 .sticker-controls-range input:disabled { opacity: .4; }
 .sticker-controls-select { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 35px; }
-.sticker-controls-select select { min-width: 105px; max-width: 55%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); }
+.sticker-controls-select-field { position: relative; display: block; min-width: 105px; max-width: 55%; }
+.sticker-controls-select select { display: block; width: 100%; padding: 7px 28px 7px 9px; appearance: none; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); }
+.sticker-controls-select-field > svg { position: absolute; right: 9px; top: 50%; transform: translateY(-50%); pointer-events: none; }
 .sticker-controls-check { display: flex; align-items: center; gap: 8px; min-height: 24px; }
 .sticker-controls-check input { margin: 0; accent-color: var(--primary); width: 15px; height: 15px; }
 .sticker-controls-motion-note { color: var(--muted); font-size: 11px; line-height: 1.4; margin: 0; }
 .sticker-background-control { min-width: 0; font: 12px/1.4 var(--font-body), sans-serif; color: var(--ink); }
-.sticker-background-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+.sticker-background-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
 .sticker-background-colors { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.sticker-background-colors input[type="color"] { flex: none; width: 30px; height: 30px; padding: 2px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); cursor: pointer; margin-right: 2px; }
+.sticker-background-custom { position: relative; flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 5px 7px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); font-size: 11px; cursor: pointer; }
+.sticker-background-custom:hover { background: var(--surface-soft); }
+.sticker-background-custom:focus-within { outline: 2px solid var(--focus); outline-offset: 3px; }
+.sticker-background-custom input[type="color"] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; padding: 0; margin: 0; cursor: pointer; }
 .sticker-background-swatch { display: block; flex: none; width: 24px; height: 24px; padding: 0; border: 1px solid rgb(127 127 127 / .35); border-radius: 50%; }
 .sticker-background-swatch[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
 .sticker-background-transparent { background: conic-gradient(#ccc 25%, #fff 0 50%, #ccc 0 75%, #fff 0) 0 0 / 8px 8px; }

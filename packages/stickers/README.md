@@ -7,7 +7,7 @@ Original SVG stickers for React 18 and 19. Includes a playful collection, a shar
 Install from npm:
 
 ```sh
-npm install orangeui-stickers
+npm install orangeui-stickers@0.1.1
 ```
 
 You can also download the versioned package from the sticker gallery, or pack this repository and install its tarball:
@@ -16,7 +16,7 @@ You can also download the versioned package from the sticker gallery, or pack th
 cd packages/stickers
 npm pack
 # In your application's folder, install the resulting tarball by its path:
-npm install /path/to/orangeui-stickers-0.1.0.tgz
+npm install /path/to/orangeui-stickers-0.1.1.tgz
 ```
 
 Import the package stylesheet once in your application's CSS entry point. In Next.js, use your root layout; in Vite, use your main entry point.
@@ -50,12 +50,15 @@ export function Favorites() {
 | `duration` | Animation duration in milliseconds. |
 | `intensity` | Animation strength. |
 | `animationKey` | Increment this number to replay a motion in an external control. |
+| `hoverPeel` | Compatibility option to enable hover lift and wiggle on static artwork. |
 | `shadow` | Whether to render the sticker's shadow. |
 | `label` | Overrides the accessible artwork title. |
 | `decorative` | Hides non-interactive artwork from assistive technology. |
 | `className`, `style` | Layout and styling hooks. |
 
-Reduced-motion preferences disable the animated treatment. The older `hoverPeel` prop is retained as compatibility for a gentle lift.
+Interactive stickers rise and wiggle on hover or keyboard focus. Set the older `hoverPeel` prop on static artwork to enable the same treatment. Reduced-motion preferences and touch-only devices disable the hover animation.
+
+Version 0.1.1 redraws the hand, pencil, moon, comet, satellite, sun, cube, flag, pinwheel, music note and ribbon designs. Both finishes share precise painted silhouettes, with black outlines and white die-cut borders that stay inside the exported SVG.
 
 The package also exports the named sticker components, `STICKERS`, `STICKER_CATEGORIES`, `STICKER_FINISHES`, `getSticker` and `stickerSvg`.
 

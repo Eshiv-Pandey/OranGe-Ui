@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useRef, useState, type KeyboardEvent } from "react";
+import { ChevronDown, Palette } from "lucide-react";
 import type { StickerOptions } from "../../lib/sticker-options";
 import type { StickerMotion } from "../ui/sticker-pack";
 import "../../styles/sticker-controls.css";
@@ -28,7 +29,7 @@ export function StickerControls({ options, onChange }: StickerControlsProps) {
       <label className="sticker-controls-check"><input type="checkbox" checked={options.shadow} onChange={event => onChange({ shadow: event.target.checked })} /> Soft shadow</label>
     </div>
     <div className="sticker-controls-pane" id={`${id}-motion`} role="tabpanel" aria-labelledby={`${id}-motion-tab`} hidden={tab !== "motion"}>
-      <label className="sticker-controls-select" htmlFor={`${id}-motion-choice`}><span>Click animation</span><select id={`${id}-motion-choice`} value={options.motion} onChange={event => onChange({ motion: event.target.value as StickerMotion })}><option value="bounce">Bounce</option><option value="wiggle">Wiggle</option><option value="spin">Spin</option><option value="none">None</option></select></label>
+      <label className="sticker-controls-select" htmlFor={`${id}-motion-choice`}><span>Click animation</span><span className="sticker-controls-select-field"><select id={`${id}-motion-choice`} value={options.motion} onChange={event => onChange({ motion: event.target.value as StickerMotion })}><option value="bounce">Bounce</option><option value="wiggle">Wiggle</option><option value="spin">Spin</option><option value="none">None</option></select><ChevronDown size={13} aria-hidden="true" /></span></label>
       <label className="sticker-controls-range" htmlFor={`${id}-duration`}><span>Duration <output>{options.duration} ms</output></span><input id={`${id}-duration`} aria-label="Duration" type="range" min="200" max="2000" step="50" disabled={options.motion === "none"} value={options.duration} onChange={event => onChange({ duration: Number(event.target.value) })} /></label>
       <label className="sticker-controls-range" htmlFor={`${id}-intensity`}><span>Intensity <output>{options.intensity.toFixed(2)}×</output></span><input id={`${id}-intensity`} aria-label="Intensity" type="range" min=".25" max="2" step=".05" disabled={options.motion === "none"} value={options.intensity} onChange={event => onChange({ intensity: Number(event.target.value) })} /></label>
       <p className="sticker-controls-motion-note">Reduced motion follows your device settings.</p>
@@ -45,8 +46,8 @@ export function StickerBackgroundControl({ value, onChange, label = "Background"
   const id = useId();
   const color = /^#[\da-f]{6}$/i.test(value) ? value : /^#[\da-f]{3}$/i.test(value) ? `#${value.slice(1).split("").map(char => char + char).join("")}` : "#f3f0eb";
   return <div className="sticker-background-control" role="group" aria-label={label}>
-    <div className="sticker-background-heading"><label htmlFor={`${id}-color`}>{label}</label><output>{value === "transparent" ? "Transparent" : color.toUpperCase()}</output></div>
-    <div className="sticker-background-colors"><input id={`${id}-color`} aria-label={label} type="color" value={color} onChange={event => onChange(event.target.value)} title="Choose any color" />
+    <div className="sticker-background-heading"><label htmlFor={`${id}-color`}>{label}</label><label className="sticker-background-custom" title={`Choose any color. Current: ${value === "transparent" ? "transparent" : color.toUpperCase()}`}><Palette size={14} aria-hidden="true" /><span>Custom color</span><input id={`${id}-color`} aria-label={label} type="color" value={color} onChange={event => onChange(event.target.value)} /></label></div>
+    <div className="sticker-background-colors"><output className="sr-only">{value === "transparent" ? "Transparent" : color.toUpperCase()}</output>
       {STICKER_BACKGROUND_PALETTE.map(item => <button key={item.value} type="button" className="sticker-background-swatch" aria-label={item.name} title={`${item.name} ${item.value}`} aria-pressed={value.toLowerCase() === item.value} style={{ background: item.value }} onClick={() => onChange(item.value)} />)}
       {allowTransparent && <button type="button" className="sticker-background-swatch sticker-background-transparent" aria-label="Transparent" title="Transparent" aria-pressed={value === "transparent"} onClick={() => onChange("transparent")} />}
     </div>

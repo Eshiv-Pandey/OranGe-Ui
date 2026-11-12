@@ -39,6 +39,13 @@ describe("portable sticker playground exports", () => {
     const svg = parsed.querySelector("svg")!;
     expect(svg.getAttribute("viewBox")).toBe("0 0 128 128");
     expect(svg.getAttribute("aria-hidden")).toBe("true");
+    const repeated = new DOMParser().parseFromString(stickerSceneHtml({ ...scene, placements: [placement, { ...placement, id: "repeat" }] }), "text/html");
+    const ids = [...repeated.querySelectorAll("[id]")].map(element => element.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    for (const element of repeated.querySelectorAll("[clip-path]")) {
+      const id = element.getAttribute("clip-path")!.slice(5, -1);
+      expect(element.closest("svg")!.querySelector(`[id="${id}"]`)).not.toBeNull();
+    }
   });
 
   it("escapes canvas text so export content cannot become code or HTML", () => {

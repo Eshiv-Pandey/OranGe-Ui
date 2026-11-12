@@ -44,13 +44,16 @@ describe("original sticker pack", () => {
     expect(control.style.getPropertyValue("--sticker-duration")).toBe("650ms");
     expect(control.style.getPropertyValue("--sticker-intensity")).toBe("1");
   });
-  it("exports fifty parseable standalone SVGs without fonts, external assets or duplicate IDs", () => {
+  it("exports seventy parseable standalone SVGs without fonts, external assets or duplicate IDs", () => {
     for (const sticker of pack.STICKERS) {
       const svg = pack.stickerSvg(sticker.name, 512), parsed = new DOMParser().parseFromString(svg, "image/svg+xml");
       expect(parsed.querySelector("parsererror"), sticker.name).toBeNull();
       expect(parsed.documentElement.getAttribute("viewBox")).toBe("0 0 128 128");
       expect(parsed.querySelectorAll("path").length).toBeGreaterThan(1);
-      expect(svg).not.toMatch(/<(?:script|image|text|foreignObject)|\bid=|(?:href|url)\s*[=(]/i);
+      expect(svg).not.toMatch(/<(?:script|image|text|foreignObject)|\bhref\s*=/i);
+      const ids = [...parsed.querySelectorAll("[id]")].map(element => element.id);
+      expect(new Set(ids).size).toBe(ids.length);
+      for (const reference of svg.matchAll(/url\(#([^)]*)\)/g)) expect(ids).toContain(reference[1]);
     }
     expect(pack.stickerSvg("orbit-snail", NaN)).toContain('width="512"');
     expect(pack.stickerSvg("orbit-snail", 99999)).toContain('width="4096"');

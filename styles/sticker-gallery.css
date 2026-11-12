@@ -44,6 +44,8 @@
 .sticker-card:hover { background:var(--surface-soft); }
 .sticker-card[aria-pressed="true"] { border-color:var(--primary); background:color-mix(in srgb,var(--primary) 3%,var(--surface)); }
 .sticker-card > .orange-sticker { pointer-events:none; }
+.sticker-card:is(:hover, :focus-visible) .orange-sticker-front, .sticker-peel-preview:is(:hover, :focus-visible) .orange-sticker-front { transform: translateY(-6px) rotate(-2deg); animation: orange-sticker-hover-wiggle 560ms ease-out both; }
+@media (prefers-reduced-motion:reduce), (hover:none) { .sticker-card:is(:hover, :focus-visible) .orange-sticker-front, .sticker-peel-preview:is(:hover, :focus-visible) .orange-sticker-front { transform:none; animation:none; } }
 .sticker-card > span:last-of-type { font-size:11px; font-weight:450; line-height:1.4; text-align:center; }
 .sticker-card-check { position:absolute; right:10px; top:10px; color:var(--primary-text); }
 .sticker-inspector { position:sticky; top:76px; width:100%; border:1px solid var(--line); border-radius:12px; background:var(--surface); scroll-margin-top:76px; overflow:visible; }

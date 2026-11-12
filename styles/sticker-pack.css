@@ -4,13 +4,14 @@
 .orange-sticker-sheet { position: relative; display: block; width: 100%; height: 100%; transform-origin: 50% 50%; }
 .orange-sticker[data-shadow="true"] .orange-sticker-sheet { filter: drop-shadow(0 3px 2px rgb(18 26 44 / .15)); }
 .orange-sticker svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.orange-sticker[data-hover]:hover .orange-sticker-front { transform: translateY(-2px); }
-.orange-sticker-front { transition: transform 180ms ease-out; }
+.orange-sticker[data-hover]:is(:hover, :focus-visible) .orange-sticker-front { transform: translateY(-6px) rotate(-2deg); animation: orange-sticker-hover-wiggle 560ms ease-out both; }
+.orange-sticker-front { transform-origin: 50% 60%; transition: transform 180ms ease-out; }
+@keyframes orange-sticker-hover-wiggle { 0% { transform: translateY(0) rotate(0); } 28% { transform: translateY(-6px) rotate(-3deg); } 55% { transform: translateY(-6px) rotate(2deg); } 78% { transform: translateY(-6px) rotate(-1deg); } 100% { transform: translateY(-6px) rotate(-2deg); } }
 .orange-sticker-sheet[data-motion="bounce"] { animation: orange-sticker-bounce var(--sticker-duration, 650ms) cubic-bezier(.2,.8,.2,1) both; }
 .orange-sticker-sheet[data-motion="wiggle"] { animation: orange-sticker-wiggle var(--sticker-duration, 650ms) ease-out both; }
 .orange-sticker-sheet[data-motion="spin"] { animation: orange-sticker-spin var(--sticker-duration, 650ms) cubic-bezier(.2,.8,.2,1) both; }
 @keyframes orange-sticker-bounce { 0%, 100% { transform: none; } 18% { transform: translateY(calc(1.5% * var(--sticker-intensity, 1))) scale(1.06,.9) rotate(-3deg); } 42% { transform: translateY(calc(-5% * var(--sticker-intensity, 1))) scale(.96,1.07) rotate(5deg); } 68% { transform: translateY(1%) scale(1.02,.98) rotate(-2deg); } }
 @keyframes orange-sticker-wiggle { 0%, 100% { transform: none; } 15% { transform: rotate(calc(-10deg * var(--sticker-intensity, 1))); } 35% { transform: rotate(calc(8deg * var(--sticker-intensity, 1))); } 55% { transform: rotate(calc(-5deg * var(--sticker-intensity, 1))); } 75% { transform: rotate(calc(2deg * var(--sticker-intensity, 1))); } }
 @keyframes orange-sticker-spin { 0% { transform: rotate(0) scale(1); } 25% { transform: rotate(60deg) scale(.9); } 76% { transform: rotate(390deg) scale(1.04); } 100% { transform: rotate(360deg) scale(1); } }
-@media (prefers-reduced-motion: reduce) { .orange-sticker .orange-sticker-sheet { animation: none; } .orange-sticker .orange-sticker-front { transition: none; } .orange-sticker[data-hover]:hover .orange-sticker-front { transform: none; } }
-@media (hover: none) { .orange-sticker[data-hover]:hover .orange-sticker-front { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .orange-sticker .orange-sticker-sheet { animation: none; } .orange-sticker .orange-sticker-front { transition: none; animation: none; } .orange-sticker[data-hover]:is(:hover, :focus-visible) .orange-sticker-front { transform: none; } }
+@media (hover: none) { .orange-sticker[data-hover]:is(:hover, :focus-visible) .orange-sticker-front { transform: none; animation: none; } }

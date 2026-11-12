@@ -2,9 +2,9 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const evidence = process.env.STICKER_REVIEW_DIR || ".impeccable/review/stickers-v3";
+const evidence = process.env.STICKER_REVIEW_DIR || ".impeccable/review/stickers-v4/captures";
 async function noScroll(element: Locator) {
-  expect(await element.evaluate(node => node.scrollHeight <= node.clientHeight + 1 && node.scrollWidth <= node.clientWidth + 1)).toBe(true);
+  await expect.poll(() => element.evaluate(node => node.scrollHeight <= node.clientHeight + 1 && node.scrollWidth <= node.clientWidth + 1)).toBe(true);
 }
 async function withinViewport(element: Locator, page: Page) {
   const rect = await element.boundingBox(), viewport = page.viewportSize()!;
@@ -59,6 +59,7 @@ test("fullscreen canvas supports edge bleed, selected removal, reorder and porta
   await page.goto("/stickers"); const launcher = page.getByRole("button", { name: "Playground", exact: true }); await launcher.click();
   const workspace = page.getByRole("dialog", { name: "Sticker playground", exact: true }), board = workspace.locator(".sticker-playground-board");
   await expect(workspace).toBeVisible(); await noScroll(workspace); await withinViewport(workspace, page);
+  expect(await workspace.getByRole("button", { name: /^Place / }).count()).toBeGreaterThan(9);
   expect((await board.boundingBox())!.width).toBeGreaterThan(850);
   await workspace.getByRole("button", { name: "Add Essential heart", exact: true }).click();
   const placed = board.locator('[data-placement="placed-1"]'); await expect(placed).toHaveCount(1);
@@ -106,6 +107,43 @@ test("fullscreen canvas supports edge bleed, selected removal, reorder and porta
   await workspace.getByRole("button", { name: "Undo last canvas change" }).click(); await expect(board.locator("[data-placement]")).toHaveCount(5);
 });
 
+test("clean fullscreen preview preserves the design and exits safely when browser fullscreen is unavailable", async ({ page }) => {
+  await page.addInitScript(() => { HTMLElement.prototype.requestFullscreen = () => Promise.reject(new Error("Fullscreen unavailable")); });
+  await page.setViewportSize({ width: 1536, height: 772 }); await page.goto("/stickers");
+  await page.getByRole("button", { name: "Playground", exact: true }).click();
+  const workspace = page.getByRole("dialog", { name: "Sticker playground", exact: true }), board = workspace.locator(".sticker-playground-board");
+  await workspace.getByRole("button", { name: "Add Essential heart", exact: true }).click();
+  await workspace.getByLabel("Sticker X position", { exact: true }).fill("-5");
+  const before = await board.locator("[data-placement]").evaluateAll(nodes => nodes.map(node => node.getAttribute("style")));
+  const editingWidth = (await board.boundingBox())!.width, launcher = workspace.getByRole("button", { name: "Preview fullscreen" });
+  await launcher.click(); await expect(workspace.locator(".sticker-playground")).toHaveAttribute("data-preview", "true");
+  await expect(workspace.getByRole("group", { name: "Playground tools" })).toHaveCount(0);
+  await expect(workspace.getByRole("combobox", { name: "Canvas code format" })).toHaveCount(0);
+  await expect(workspace.getByRole("button", { name: "Remove Essential heart from canvas" })).toHaveCount(0);
+  await expect.poll(async () => (await board.boundingBox())!.width).toBeGreaterThan(editingWidth);
+  await noScroll(workspace); await withinViewport(board, page);
+  await workspace.getByRole("button", { name: "Animate Essential heart", exact: true }).focus();
+  await page.keyboard.press("ArrowRight"); await page.keyboard.press("Delete");
+  expect(await board.locator("[data-placement]").evaluateAll(nodes => nodes.map(node => node.getAttribute("style")))).toEqual(before);
+  await page.keyboard.press("Escape"); await expect(launcher).toBeFocused();
+  await expect(workspace.locator(".sticker-playground")).toHaveAttribute("data-preview", "false");
+  expect(await board.locator("[data-placement]").evaluateAll(nodes => nodes.map(node => node.getAttribute("style")))).toEqual(before);
+  await expect(workspace.getByRole("button", { name: "Remove Essential heart from canvas" })).toBeVisible();
+});
+
+test("hover lifts and wiggles artwork while reduced motion keeps it still", async ({ page }) => {
+  await page.setViewportSize({ width: 1536, height: 772 }); await page.emulateMedia({ reducedMotion: "no-preference" }); await page.goto("/stickers");
+  const card = page.getByRole("button", { name: "Preview Essential heart", exact: true }), art = card.locator(".orange-sticker-front");
+  await card.hover();
+  const frames = await art.evaluate(element => element.getAnimations().flatMap(animation => (animation.effect as KeyframeEffect).getKeyframes().map(frame => frame.transform)));
+  expect(frames).toContain("translateY(-6px) rotate(-3deg)"); expect(frames).toContain("translateY(-6px) rotate(2deg)");
+  await expect.poll(() => art.evaluate(element => new DOMMatrix(getComputedStyle(element).transform).m42)).toBeLessThan(-5);
+  await card.click(); await expect(card.locator(".orange-sticker-sheet")).toHaveAttribute("data-motion", "bounce");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(() => art.evaluate(element => getComputedStyle(element).transform)).toBe("none");
+  expect(await art.evaluate(element => element.getAnimations().length)).toBe(0);
+});
+
 test("one capture batch: compact clean surfaces in both themes and short phones", async ({ page }) => {
   test.setTimeout(180000); await mkdir(evidence, { recursive: true }); await page.emulateMedia({ reducedMotion: "reduce" });
   const accessibility: unknown[] = [], errors: string[] = []; page.on("pageerror", error => errors.push(error.message));
@@ -145,6 +183,12 @@ test("one capture batch: compact clean surfaces in both themes and short phones"
     await page.screenshot({ path: `${evidence}/${prefix}-layers.png` });
     await workspace.getByRole("group", { name: "Playground tools" }).getByRole("button", { name: "Canvas", exact: true }).click();
     await page.screenshot({ path: `${evidence}/${prefix}-canvas.png` });
+    await workspace.getByRole("button", { name: "Preview fullscreen" }).click();
+    await expect(workspace.locator(".sticker-playground")).toHaveAttribute("data-preview", "true");
+    await expect(workspace.getByRole("group", { name: "Playground tools" })).toHaveCount(0);
+    await noScroll(workspace); await withinViewport(workspace.locator(".sticker-playground-board"), page);
+    await page.screenshot({ path: `${evidence}/${prefix}-preview.png` });
+    await workspace.getByRole("button", { name: "Back to editor" }).click();
     await workspace.getByRole("button", { name: "Close playground" }).click();
     if (width === 1536) { const scan = await new AxeBuilder({ page }).include(".sticker-gallery").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze(); accessibility.push(...scan.violations); }
   }

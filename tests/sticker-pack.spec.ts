@@ -12,10 +12,17 @@ test("all seventy designs in both finishes export transparently and install with
   const sharp = await request.get("/api/stickers?finish=sharp"); expect(Object.keys(unzipSync(await sharp.body())).filter(name => name.endsWith(".svg"))).toHaveLength(70);
   expect((await request.get("/api/stickers?finish=unknown")).status()).toBe(400);
   const source = await request.get("/api/components/sticker-pack?style=polished"); expect(source.status()).toBe(200);
-  const sourceFiles = unzipSync(await source.body()); expect(sourceFiles["components/ui/sticker-artwork.ts"]).toBeDefined();
+  const sourceFiles = unzipSync(await source.body());
+  expect(sourceFiles["components/ui/sticker-artwork.ts"]).toBeDefined();
+  expect(sourceFiles["components/ui/sticker-contours.ts"]).toBeDefined();
+  expect(strFromU8(sourceFiles["components/ui/sticker-artwork.ts"])).toContain('from "./sticker-contours"');
+  expect(strFromU8(sourceFiles["components/ui/sticker-contours.ts"])).toContain("export const STICKER_CONTOURS");
   const registry = await request.get("/r/sticker-pack.json?style=polished"); expect(registry.status()).toBe(200);
-  expect((await registry.json()).files.some((file: { target: string }) => file.target.endsWith("sticker-artwork.ts"))).toBe(true);
-  const tarball = await request.get("/downloads/orangeui-stickers-0.1.0.tgz"); expect(tarball.status()).toBe(200); expect((await tarball.body())[0]).toBe(31); expect((await tarball.body())[1]).toBe(139);
+  const registryFiles: { target: string; content: string }[] = (await registry.json()).files;
+  expect(registryFiles.find(file => file.target === "~/orangeui/components/ui/sticker-artwork.ts")?.content).toContain('from "./sticker-contours"');
+  expect(registryFiles.find(file => file.target === "~/orangeui/components/ui/sticker-contours.ts")?.content).toContain("export const STICKER_CONTOURS");
+  const tarball = await request.get("/downloads/orangeui-stickers-0.1.1.tgz"); expect(tarball.status()).toBe(200);
+  const tarballBytes = await tarball.body(); expect(tarballBytes[0]).toBe(31); expect(tarballBytes[1]).toBe(139);
   const pixels = await page.evaluate(async svgs => Promise.all(svgs.map(async ([name, svg]) => {
     const image = new Image(); image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`; await image.decode();
     const canvas = document.createElement("canvas"); canvas.width = canvas.height = 128;

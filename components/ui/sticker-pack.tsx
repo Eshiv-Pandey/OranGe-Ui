@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type CSSProperties, type HTMLAttributes } from "react";
+import { useId, useState, type CSSProperties, type HTMLAttributes } from "react";
 import type { Appearance } from "./appearance";
 import { getSticker, stickerMarkup, type StickerName, type StickerFinish } from "./sticker-artwork";
 import "../../styles/library-base.css";
@@ -28,6 +28,7 @@ export type StickerProps = Omit<HTMLAttributes<HTMLSpanElement>, "children"> & {
 
 /** A scalable sticker. Interactive stickers animate on click, Enter or Space. */
 export function Sticker({ name, size = 128, hoverPeel = false, finish = "playful", motion = "bounce", duration = 650, intensity = 1, shadow = true, interactive = false, animationKey, rotate = 0, label, decorative = false, appearance, className = "", style, onClick, onKeyDown, ...props }: StickerProps) {
+  const instanceId = useId();
   const [activation, setActivation] = useState(0);
   const artwork = getSticker(name);
   const dimension = typeof size === "number" ? Number.isFinite(size) ? Math.max(24, Math.min(2048, size)) : 128 : size;
@@ -37,7 +38,7 @@ export function Sticker({ name, size = 128, hoverPeel = false, finish = "playful
   const pulse = activation + (animationKey || 0);
   return <span {...props} className={`orange-sticker ${className}`} data-hover={hoverPeel || interactive || undefined} data-finish={finish} data-shadow={shadow} data-appearance={appearance} role={interactive ? "button" : decorative ? undefined : "img"} tabIndex={interactive ? 0 : props.tabIndex} aria-label={interactive ? label || `Animate ${artwork.title}` : decorative ? undefined : label || artwork.title} aria-hidden={!interactive && decorative || undefined} onClick={event => { onClick?.(event); if (interactive && !event.defaultPrevented) setActivation(value => value + 1); }} onKeyDown={event => { onKeyDown?.(event); if (interactive && !event.defaultPrevented && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); event.currentTarget.click(); } }} style={{ width: dimension, "--sticker-rotation": `${angle}deg`, "--sticker-duration": `${milliseconds}ms`, "--sticker-intensity": strength, ...style } as CSSProperties}>
     <span key={pulse} className="orange-sticker-sheet" data-motion={pulse > 0 ? motion : undefined}>
-      <svg className="orange-sticker-front" viewBox="0 0 128 128" aria-hidden="true" focusable="false" dangerouslySetInnerHTML={{ __html: stickerMarkup(name, finish) }} />
+      <svg className="orange-sticker-front" viewBox="0 0 128 128" aria-hidden="true" focusable="false" dangerouslySetInnerHTML={{ __html: stickerMarkup(name, finish, instanceId) }} />
     </span>
   </span>;
 }
