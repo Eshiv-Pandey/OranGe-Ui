@@ -15,7 +15,9 @@ describe("portable sticker playground exports", () => {
     expect(result.diagnostics?.filter(diagnostic => diagnostic.category === ts.DiagnosticCategory.Error)).toEqual([]);
     expect(source).toContain('from "orangeui-stickers"');
     expect(source).toContain('import "orangeui-stickers/styles.css"');
-    expect(source).toContain('aspectRatio: "960 / 600"');
+    expect(source).toContain('height = "100dvh"');
+    expect(source).toContain('height?: CSSProperties["height"]');
+    expect(source).not.toContain('aspectRatio:');
     expect(source).toContain('left: "32.5%", top: "44%", width: "20%"');
     expect(source).toContain('motion="wiggle" duration={900} intensity={1.5} shadow={false} interactive');
     expect(source.indexOf('name="woven-heart"')).toBeLessThan(source.indexOf('name="side-b-vinyl"'));
@@ -96,7 +98,7 @@ describe("portable sticker playground exports", () => {
     expect(malformed.placements).toHaveLength(1);
     expect(malformed.placements[0]).toMatchObject({ size: 160, x: 50, y: 50, duration: 650, intensity: 1 });
     const saved = JSON.parse(stickerSceneJson(scene));
-    expect(saved).toMatchObject({ version: 1, width: 960, height: 600, caption: scene.caption });
+    expect(saved).toMatchObject({ version: 1, layout: "viewport", width: 960, height: 600, caption: scene.caption });
     expect(saved.placements.map((item: StickerPlacement) => item.name)).toEqual(["woven-heart", "side-b-vinyl"]);
     expect(stickerSceneJson(malformed)).not.toMatch(/NaN|Infinity/);
   });

@@ -18,9 +18,10 @@
 .sticker-playground-heading button:hover { background: var(--surface-soft); }
 .sticker-playground-heading .sticker-playground-add { padding-inline: 12px; background: var(--ink); color: var(--surface); }
 .sticker-playground-heading .sticker-playground-add:hover { background: var(--ink); color: var(--surface); opacity: .88; }
-.sticker-playground-format { position: relative; flex: none; }
-.sticker-playground-export-toolbar select { display: block; width: 76px; min-height: 34px; padding: 5px 28px 5px 9px; appearance: none; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; color: var(--ink); font-size: 12px; }
-.sticker-playground-format > svg { position: absolute; right: 9px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+.sticker-playground-format { display: flex; flex: none; gap: 2px; padding: 2px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); }
+.sticker-playground-heading .sticker-playground-format button { min-width: 42px; min-height: 28px; padding: 4px 7px; border-radius: 4px; font-size: 11px; }
+.sticker-playground-heading .sticker-playground-format button[aria-checked="true"] { background: var(--ink); color: var(--surface); }
+.sticker-playground-format button:focus-visible { outline-offset: -2px; }
 .sticker-playground-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 288px; flex: 1; min-height: 0; }
 .sticker-playground-stage { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--surface-soft); }
 .sticker-playground-toolbar { display: flex; flex: none; justify-content: space-between; padding: 10px 16px 0; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
@@ -49,8 +50,9 @@
 .sticker-playground-tool-content p { color: var(--muted); margin: 0 0 16px; font-size: 12px; line-height: 1.6; }
 .sticker-playground-search { display: flex; align-items: center; gap: 7px; padding: 10px; background: var(--surface); color: var(--muted); border: 1px solid var(--line); border-radius: 7px; min-width: 0; }
 .sticker-playground-search input { width: 100%; min-width: 0; font-size: 12px; border: 0; outline: 0; padding: 0; background: transparent; color: var(--ink); }
+.sticker-playground .sticker-playground-search input:focus-visible { outline: none; box-shadow: none; }
 .sticker-playground-search input::placeholder { color: var(--muted); opacity: 1; }
-.sticker-playground-search:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+.sticker-playground-search:focus-within { border-color: var(--focus); outline: 1px solid var(--focus); outline-offset: 0; }
 .sticker-playground-search button { display: flex; background: none; border: 0; padding: 2px; }
 .sticker-playground-stickers-panel { height: 100%; display: flex; flex-direction: column; }
 .sticker-playground-tray { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 80px; align-content: start; gap: 3px 6px; padding: 10px 0; }
@@ -95,8 +97,7 @@
   .sticker-playground-heading button span { display: none; }
   .sticker-playground-header-actions, .sticker-playground-export-toolbar { gap: 2px; }
   .sticker-playground-heading .sticker-playground-add { padding-inline: 7px; }
-  .sticker-playground-export-toolbar select { width: 64px; font-size: 11px; padding-left: 7px; padding-right: 23px; }
-  .sticker-playground-format > svg { right: 7px; }
+  .sticker-playground-heading .sticker-playground-format button { min-width: 0; min-height: 26px; padding: 3px 5px; font-size: 10px; }
   .sticker-playground-workspace { display: flex; flex-direction: column; }
   .sticker-playground-stage { flex: none; height: 37dvh; min-height: 200px; }
   .sticker-playground-toolbar { padding: 8px 16px 0; font-size: 10px; }
@@ -163,9 +164,16 @@
   .sticker-playground-tray > button > span:last-child { font-size: 10px; }
   .sticker-playground-search { padding: 8px 10px; }
 }
-@media (max-width: 360px) {
+@media (max-width: 480px) {
   .sticker-playground-heading h2 { display: none; }
   .sticker-playground-heading { gap: 6px; padding-inline: 8px; }
+}
+@media (max-width: 360px) {
+  .sticker-playground-heading { gap: 3px; padding-inline: 6px; }
+  .sticker-playground-heading button { min-width: 26px; padding-inline: 4px; }
+  .sticker-playground-heading .sticker-playground-add { padding-inline: 5px; }
+  .sticker-playground-header-actions, .sticker-playground-export-toolbar { gap: 1px; }
+  .sticker-playground-heading .sticker-playground-format button { padding-inline: 3px; }
 }
 @media (max-height: 550px) and (max-width: 760px) {
   .sticker-playground-placement-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 10px; }
@@ -181,12 +189,12 @@
 .sticker-playground[data-preview="true"] { position: fixed; inset: 0; width: 100dvw; height: 100dvh; z-index: 100; }
 .sticker-playground[data-preview="true"] .sticker-playground-workspace { display: flex; flex: 1; }
 .sticker-playground[data-preview="true"] .sticker-playground-stage { flex: 1; width: 100%; height: 100%; min-height: 0; }
-.sticker-playground[data-preview="true"] .sticker-playground-viewport { flex: 1; padding: 12px; }
-.sticker-playground[data-preview="true"] .sticker-playground-board { max-width: 100%; outline: none; }
-.sticker-playground[data-preview="true"] .sticker-playground-board { overflow: clip; }
-.sticker-playground-tray > button:is(:hover, :focus-visible) .orange-sticker-front { transform: translateY(-6px) rotate(-2deg); animation: orange-sticker-hover-wiggle 560ms ease-out both; }
-@media (prefers-reduced-motion:reduce), (hover:none) { .sticker-playground-tray > button:is(:hover, :focus-visible) .orange-sticker-front { transform:none; animation:none; } }
-.sticker-playground[data-preview="true"] .sticker-playground-placement { cursor: pointer; touch-action: auto; }
+.sticker-playground[data-preview="true"] .sticker-playground-viewport { flex: 1; width: 100%; height: 100%; padding: 0; display: block; }
+.sticker-playground[data-preview="true"] .sticker-playground-board { max-width: 100%; max-height: 100%; outline: none; overflow: clip; }
+.sticker-playground-tray > button:is(:hover, :focus-visible) .orange-sticker-front { transform: var(--sticker-hover-transform, translateY(-8px) rotate(-2deg)); animation: var(--sticker-hover-animation, orange-sticker-hover-wiggle 620ms ease-out both); }
+.sticker-playground-tray > button:is(:hover, :focus-visible) .orange-sticker[data-shadow="true"] .orange-sticker-front { filter: var(--sticker-hover-filter, drop-shadow(0 9px 5px rgb(18 26 44 / .28))); }
+@media (prefers-reduced-motion:reduce), (hover:none) { .sticker-playground-tray > button:is(:hover, :focus-visible) .orange-sticker-front { transform:none; animation:none; } .sticker-playground-tray > button:is(:hover, :focus-visible) .orange-sticker[data-shadow="true"] .orange-sticker-front { filter: none; } }
+.sticker-playground[data-preview="true"] .sticker-playground-placement { cursor: grab; touch-action: none; }
 .sticker-playground[data-preview="true"] .sticker-playground-caption { font-size: clamp(20px, 4vw, 64px); }
 .sticker-playground-preview-exit { position: absolute; z-index: 101; top: 12px; right: 12px; display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--ink); font-size: 11px; }
 .sticker-playground-preview-exit:hover { background: var(--surface-soft); }

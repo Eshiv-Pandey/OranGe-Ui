@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties, type DragEvent, type KeyboardEvent, type PointerEvent } from "react";
-import { ArrowDown, ArrowUp, Check, ChevronDown, Copy, Download, GripVertical, Layers, Maximize2, Minimize2, Plus, RotateCcw, Search, Trash2, Undo2, X } from "lucide-react";
+import { ArrowDown, ArrowUp, Check, Copy, Download, GripVertical, Layers, Maximize2, Minimize2, Plus, RotateCcw, Search, Trash2, Undo2, X } from "lucide-react";
 import { Sticker, STICKERS, getSticker, type StickerName, type StickerFinish } from "../ui/sticker-pack";
 import { StickerBackgroundControl, StickerControls } from "./sticker-controls";
 import { boundStickerPlacement, moveStickerLayer, stickerCanvasCaptionColor, stickerCanvasIsDark, STICKER_CANVAS_BACKGROUNDS, STICKER_SCENE_HEIGHT, STICKER_SCENE_WIDTH, stickerSceneHtml, stickerSceneJson, stickerSceneReact, type StickerPlacement, type StickerScene } from "../../lib/sticker-scene";
@@ -24,6 +24,7 @@ type LayerDrag = { id: string; pointerId: number; target: LayerDropTarget | null
 type SceneHistory = { scene: StickerScene; selected: string | null };
 type ToolTab = "Stickers" | "Edit" | "Layers" | "Canvas";
 const sameScene = (a: StickerScene, b: StickerScene) => JSON.stringify(a) === JSON.stringify(b);
+const codeFormats = ["React", "HTML", "JSON"] as const;
 function saveFile(content: string, filename: string, type: string) {
   const url = URL.createObjectURL(new Blob([content], { type })), anchor = document.createElement("a");
   anchor.href = url; anchor.download = filename; anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
@@ -39,12 +40,22 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
   const board = useRef<HTMLDivElement>(null), addControl = useRef<HTMLButtonElement>(null), dialog = useRef<HTMLDialogElement>(null);
   const workspace = useRef<HTMLElement>(null), viewport = useRef<HTMLDivElement>(null), trayGrid = useRef<HTMLDivElement>(null);
   const previewControl = useRef<HTMLButtonElement>(null), previewExit = useRef<HTMLButtonElement>(null), previewRequested = useRef(false), ownedFullscreen = useRef(false);
+  const formatControls = useRef<(HTMLButtonElement | null)[]>([]);
   const sequence = useRef(0), drag = useRef<DragState | null>(null), suppressedClick = useRef<string | null>(null);
   const layerDrag = useRef<LayerDrag | null>(null), nativeLayer = useRef<string | null>(null);
   const current = scene.placements.find(placement => placement.id === selected), dark = stickerCanvasIsDark(scene.background);
   const tray = STICKERS.filter(sticker => `${sticker.title} ${sticker.tags} ${sticker.category}`.toLowerCase().includes(query.trim().toLowerCase()));
   const pages = Math.max(1, Math.ceil(tray.length / traySize)), page = Math.min(trayPage, pages - 1), frontFirst = [...scene.placements].reverse();
   const code = format === "React" ? stickerSceneReact(scene) : format === "HTML" ? stickerSceneHtml(scene) : stickerSceneJson(scene);
+
+  function cancelDrag() {
+    const active = drag.current; if (!active) return;
+    drag.current = null;
+    if (active.moved) setScene(active.before);
+    const element = board.current?.querySelector<HTMLElement>(`[data-placement="${active.id}"]`);
+    if (element?.hasPointerCapture(active.pointerId)) element.releasePointerCapture(active.pointerId);
+    suppressedClick.current = active.moved ? active.id : null;
+  }
 
   useEffect(() => {
     if (!onClose || !dialog.current) return;
@@ -88,7 +99,7 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
     const changed = () => {
       if (document.fullscreenElement === element) { ownedFullscreen.current = true; return; }
       if (!ownedFullscreen.current) return;
-      ownedFullscreen.current = false; previewRequested.current = false; setPreview(false);
+      cancelDrag(); ownedFullscreen.current = false; previewRequested.current = false; setPreview(false);
       requestAnimationFrame(() => previewControl.current?.focus({ preventScroll: true }));
     };
     document.addEventListener("fullscreenchange", changed);
@@ -108,7 +119,7 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
     } catch { /* The same clean preview fills the window when fullscreen is unavailable. */ }
   }
   function exitPreview() {
-    previewRequested.current = false; setPreview(false);
+    cancelDrag(); previewRequested.current = false; setPreview(false);
     if (document.fullscreenElement === workspace.current) void document.exitFullscreen().catch(() => {});
     requestAnimationFrame(() => previewControl.current?.focus({ preventScroll: true }));
   }
@@ -147,8 +158,8 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
     setSelected(id); focusPlacement(id); setStatus(`${getSticker(placement.name).title} duplicated.`);
   }
   function pointerDown(event: PointerEvent<HTMLDivElement>, placement: StickerPlacement) {
-    if (preview || event.button !== 0) return;
-    setSelected(placement.id); setTab("Edit"); suppressedClick.current = null;
+    if (event.button !== 0) return;
+    setSelected(placement.id); if (!preview) setTab("Edit"); suppressedClick.current = null;
     drag.current = { id: placement.id, pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, placement, before: scene, moved: false };
   }
   function pointerMove(event: PointerEvent<HTMLDivElement>) {
@@ -172,10 +183,10 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
     }
   }
   function keyboard(event: KeyboardEvent<HTMLDivElement>, placement: StickerPlacement) {
-    if (preview) return;
     const step = event.shiftKey ? 3 : .75;
     const movement: Record<string, { x: number; y: number }> = { ArrowLeft: { x: -step, y: 0 }, ArrowRight: { x: step, y: 0 }, ArrowUp: { x: 0, y: -step }, ArrowDown: { x: 0, y: step } };
     if (movement[event.key]) { event.preventDefault(); setSelected(placement.id); updatePlacement(placement.id, { x: placement.x + movement[event.key].x, y: placement.y + movement[event.key].y }); }
+    if (preview) { if (event.key === "Delete" || event.key === "Backspace") event.preventDefault(); return; }
     if (event.key === "Delete" || event.key === "Backspace") { event.preventDefault(); remove(placement.id); }
     if (event.key === "Escape") { event.preventDefault(); event.stopPropagation(); setSelected(null); addControl.current?.focus(); }
   }
@@ -208,6 +219,16 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
     const extension = format === "React" ? "tsx" : format === "HTML" ? "html" : "json";
     saveFile(code, `my-sticker-canvas.${extension}`, format === "HTML" ? "text/html;charset=utf-8" : format === "JSON" ? "application/json" : "text/plain;charset=utf-8"); setStatus(`${format} canvas downloaded.`);
   }
+  function chooseFormat(next: typeof format) { setFormat(next); setCopied(false); }
+  function formatKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    let next = index;
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % codeFormats.length;
+    else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (index + codeFormats.length - 1) % codeFormats.length;
+    else if (event.key === "Home") next = 0;
+    else if (event.key === "End") next = codeFormats.length - 1;
+    else return;
+    event.preventDefault(); chooseFormat(codeFormats[next]); formatControls.current[next]?.focus();
+  }
 
   const content = <section ref={workspace} className="sticker-playground" aria-label="Sticker playground" data-expanded={Boolean(onClose)} data-preview={preview} onKeyDown={event => { if (preview && event.key === "Escape") { event.preventDefault(); event.stopPropagation(); exitPreview(); } }}>
     {preview && <button ref={previewExit} type="button" className="sticker-playground-preview-exit" onClick={exitPreview} aria-label="Back to editor" title="Back to editor (Esc)"><Minimize2 size={16} aria-hidden="true" /><span>Back to editor</span></button>}
@@ -220,7 +241,7 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
       </div>
       <div className="sticker-playground-export-toolbar">
         <button ref={previewControl} type="button" className="sticker-playground-preview-launch" onClick={enterPreview} aria-label="Preview fullscreen" title="Preview fullscreen"><Maximize2 size={16} aria-hidden="true" /><span>Preview</span></button>
-        <div className="sticker-playground-format"><select aria-label="Canvas code format" value={format} onChange={event => { setFormat(event.target.value as typeof format); setCopied(false); }}><option>React</option><option>HTML</option><option>JSON</option></select><ChevronDown size={13} aria-hidden="true" /></div>
+        <div className="sticker-playground-format" role="radiogroup" aria-label="Canvas code format">{codeFormats.map((item, index) => <button type="button" role="radio" key={item} ref={element => { formatControls.current[index] = element; }} aria-checked={format === item} tabIndex={format === item ? 0 : -1} onClick={() => chooseFormat(item)} onKeyDown={event => formatKeyDown(event, index)}>{item}</button>)}</div>
         <button type="button" onClick={copyCode} aria-label="Copy canvas code" title={copied ? "Copied" : "Copy code"}>{copied ? <Check size={16} aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}</button>
         <button type="button" onClick={downloadCode} aria-label={`Download ${format} canvas`} title={`Download ${format}`}><Download size={16} aria-hidden="true" /><span>Export</span></button>
         {onClose && <button type="button" onClick={onClose} aria-label="Close playground" title="Back to collection"><X size={18} aria-hidden="true" /></button>}
@@ -230,9 +251,9 @@ export function StickerPlayground({ name, finish, options = DEFAULT_STICKER_OPTI
       <div className="sticker-playground-stage">
         <div className="sticker-playground-toolbar" hidden={preview}><span>{scene.placements.length}/80 stickers</span><span>960 × 600 canvas</span></div>
         <div ref={viewport} className="sticker-playground-viewport">
-          <div ref={board} className="sticker-playground-board" data-dark={dark} data-transparent={scene.background === "transparent"} style={{ background: scene.background, width: canvasWidth, aspectRatio: `${STICKER_SCENE_WIDTH} / ${STICKER_SCENE_HEIGHT}` }} aria-label="Sticker placement canvas" onPointerDown={event => { if (!preview && event.target === event.currentTarget) setSelected(null); }}>
+          <div ref={board} className="sticker-playground-board" data-dark={dark} data-transparent={scene.background === "transparent"} style={{ background: scene.background, width: preview ? "100%" : canvasWidth, height: preview ? "100%" : undefined, aspectRatio: preview ? "auto" : `${STICKER_SCENE_WIDTH} / ${STICKER_SCENE_HEIGHT}` }} aria-label="Sticker placement canvas" onPointerDown={event => { if (!preview && event.target === event.currentTarget) setSelected(null); }}>
             <p className="sticker-playground-caption" style={{ color: stickerCanvasCaptionColor(scene.background) }}>{scene.caption}</p>
-            {scene.placements.map((placement, index) => <div key={placement.id} className="sticker-playground-placement" data-placement={placement.id} data-selected={!preview && selected === placement.id} style={{ left: `${placement.x}%`, top: `${placement.y}%`, width: `${placement.size / STICKER_SCENE_WIDTH * 100}%`, zIndex: index + 1, "--placement-rotation": `${placement.rotate}deg` } as CSSProperties} onPointerDown={event => pointerDown(event, placement)} onPointerMove={pointerMove} onPointerUp={event => pointerEnd(event)} onPointerCancel={event => pointerEnd(event, true)} onLostPointerCapture={event => pointerEnd(event, true)} onKeyDown={event => keyboard(event, placement)} onFocus={() => { if (!preview) setSelected(placement.id); }} onClickCapture={event => { if (suppressedClick.current === placement.id) { event.preventDefault(); event.stopPropagation(); suppressedClick.current = null; } }}><Sticker name={placement.name} finish={placement.finish} size="100%" rotate={placement.rotate} motion={placement.motion} duration={placement.duration} intensity={placement.intensity} shadow={placement.shadow} interactive label={preview ? `Animate ${getSticker(placement.name).title}` : `Move ${getSticker(placement.name).title}. Arrow keys to move, Delete to remove.`} onClick={() => { if (!preview) { setSelected(placement.id); setTab("Edit"); } }} /></div>)}
+            {scene.placements.map((placement, index) => <div key={placement.id} className="sticker-playground-placement" data-placement={placement.id} data-selected={!preview && selected === placement.id} style={{ left: `${placement.x}%`, top: `${placement.y}%`, width: `${placement.size / STICKER_SCENE_WIDTH * 100}%`, zIndex: index + 1, "--placement-rotation": `${placement.rotate}deg` } as CSSProperties} onPointerDown={event => pointerDown(event, placement)} onPointerMove={pointerMove} onPointerUp={event => pointerEnd(event)} onPointerCancel={event => pointerEnd(event, true)} onLostPointerCapture={event => pointerEnd(event, true)} onKeyDown={event => keyboard(event, placement)} onFocus={() => { if (!preview) setSelected(placement.id); }} onClickCapture={event => { if (suppressedClick.current === placement.id) { event.preventDefault(); event.stopPropagation(); suppressedClick.current = null; } }}><Sticker name={placement.name} finish={placement.finish} size="100%" rotate={placement.rotate} motion={placement.motion} duration={placement.duration} intensity={placement.intensity} shadow={placement.shadow} interactive label={preview ? `Move ${getSticker(placement.name).title}. Drag or use arrow keys.` : `Move ${getSticker(placement.name).title}. Arrow keys to move, Delete to remove.`} onClick={() => { if (!preview) { setSelected(placement.id); setTab("Edit"); } }} /></div>)}
             {current && !preview && <button type="button" className="sticker-playground-remove-selected" style={{ left: `clamp(14px, ${current.x + current.size / STICKER_SCENE_WIDTH * 50}%, calc(100% - 14px))`, top: `clamp(14px, ${current.y - current.size / STICKER_SCENE_HEIGHT * 50}%, calc(100% - 14px))` }} onPointerDown={event => event.stopPropagation()} onClick={() => remove(current.id)} aria-label={`Remove ${getSticker(current.name).title} from canvas`} title="Remove sticker"><X size={14} aria-hidden="true" /></button>}
             {!preview && !scene.placements.length && !scene.caption && <p className="sticker-playground-empty">Add a sticker to begin.</p>}
           </div>

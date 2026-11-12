@@ -21,7 +21,7 @@ test("all seventy designs in both finishes export transparently and install with
   const registryFiles: { target: string; content: string }[] = (await registry.json()).files;
   expect(registryFiles.find(file => file.target === "~/orangeui/components/ui/sticker-artwork.ts")?.content).toContain('from "./sticker-contours"');
   expect(registryFiles.find(file => file.target === "~/orangeui/components/ui/sticker-contours.ts")?.content).toContain("export const STICKER_CONTOURS");
-  const tarball = await request.get("/downloads/orangeui-stickers-0.1.1.tgz"); expect(tarball.status()).toBe(200);
+  const tarball = await request.get("/downloads/orangeui-stickers-0.1.2.tgz"); expect(tarball.status()).toBe(200);
   const tarballBytes = await tarball.body(); expect(tarballBytes[0]).toBe(31); expect(tarballBytes[1]).toBe(139);
   const pixels = await page.evaluate(async svgs => Promise.all(svgs.map(async ([name, svg]) => {
     const image = new Image(); image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`; await image.decode();

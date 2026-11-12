@@ -2,7 +2,7 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const evidence = process.env.STICKER_REVIEW_DIR || ".impeccable/review/stickers-v4/captures";
+const evidence = process.env.STICKER_REVIEW_DIR || ".impeccable/review/stickers-v5/captures";
 async function noScroll(element: Locator) {
   await expect.poll(() => element.evaluate(node => node.scrollHeight <= node.clientHeight + 1 && node.scrollWidth <= node.clientWidth + 1)).toBe(true);
 }
@@ -10,6 +10,12 @@ async function withinViewport(element: Locator, page: Page) {
   const rect = await element.boundingBox(), viewport = page.viewportSize()!;
   expect(rect).not.toBeNull(); expect(rect!.x).toBeGreaterThanOrEqual(-1); expect(rect!.y).toBeGreaterThanOrEqual(-1);
   expect(rect!.x + rect!.width).toBeLessThanOrEqual(viewport.width + 1); expect(rect!.y + rect!.height).toBeLessThanOrEqual(viewport.height + 1);
+}
+async function singleSearchFocus(input: Locator) {
+  await input.focus();
+  const styles = await input.evaluate(node => { const input = getComputedStyle(node), wrapper = getComputedStyle(node.parentElement!); return { inputOutline: input.outlineStyle, inputBorder: input.borderWidth, inputShadow: input.boxShadow, outlineWidth: wrapper.outlineWidth, outlineOffset: wrapper.outlineOffset, border: wrapper.borderColor, outline: wrapper.outlineColor }; });
+  expect(styles.inputOutline).toBe("none"); expect(styles.inputBorder).toBe("0px"); expect(styles.inputShadow).toBe("none");
+  expect(styles.outlineWidth).toBe("1px"); expect(styles.outlineOffset).toBe("0px"); expect(styles.border).toBe(styles.outline);
 }
 async function downloadText(page: Page, control: Locator) {
   const waiting = page.waitForEvent("download"); await control.click(); const download = await waiting;
@@ -19,8 +25,14 @@ async function downloadText(page: Page, control: Locator) {
 }
 async function canvasJson(page: Page) {
   const workspace = page.getByRole("dialog", { name: "Sticker playground", exact: true });
-  await workspace.getByRole("combobox", { name: "Canvas code format" }).selectOption("JSON");
+  await workspace.getByRole("radiogroup", { name: "Canvas code format" }).getByRole("radio", { name: "JSON", exact: true }).click();
   return JSON.parse(await downloadText(page, workspace.getByRole("button", { name: "Download JSON canvas" })));
+}
+async function canvasArrangement(board: Locator) {
+  return board.locator("[data-placement]").evaluateAll(nodes => nodes.map(node => {
+    const element = node as HTMLElement;
+    return { id: element.dataset.placement, x: parseFloat(element.style.left), y: parseFloat(element.style.top), width: parseFloat(element.style.width), layer: Number(element.style.zIndex), rotation: parseFloat(element.style.getPropertyValue("--placement-rotation")) };
+  }));
 }
 
 test("compact editor and inspector keep controls visible and export all settings", async ({ page, context }) => {
@@ -95,40 +107,69 @@ test("fullscreen canvas supports edge bleed, selected removal, reorder and porta
   saved = await canvasJson(page); expect(saved.background).toBe("#102030"); expect(saved.caption).toBe("My canvas <3");
   await expect(board).toHaveAttribute("data-dark", "true");
   for (const format of ["React", "HTML"] as const) {
-    await workspace.getByRole("combobox", { name: "Canvas code format" }).selectOption(format);
+    await workspace.getByRole("radiogroup", { name: "Canvas code format" }).getByRole("radio", { name: format, exact: true }).click();
     const source = await downloadText(page, workspace.getByRole("button", { name: `Download ${format} canvas` }));
     expect(source).toContain("#102030"); expect(source).toContain("#f4f3f0");
     if (format === "HTML") { expect(source).toContain("My canvas &lt;3"); expect(source).toContain("<!doctype html>"); }
   }
-  const arrangement = await board.locator("[data-placement]").evaluateAll(nodes => nodes.map(node => node.getAttribute("style")));
+  const arrangement = await canvasArrangement(board);
   await workspace.getByRole("button", { name: "Close playground" }).click(); await expect(launcher).toBeFocused();
-  await launcher.click(); expect(await board.locator("[data-placement]").evaluateAll(nodes => nodes.map(node => node.getAttribute("style")))).toEqual(arrangement);
+  await launcher.click(); expect(await canvasArrangement(board)).toEqual(arrangement);
   await workspace.getByRole("button", { name: "Clear canvas", exact: true }).click(); await expect(board.locator("[data-placement]")).toHaveCount(0);
   await workspace.getByRole("button", { name: "Undo last canvas change" }).click(); await expect(board.locator("[data-placement]")).toHaveCount(5);
 });
 
-test("clean fullscreen preview preserves the design and exits safely when browser fullscreen is unavailable", async ({ page }) => {
-  await page.addInitScript(() => { HTMLElement.prototype.requestFullscreen = () => Promise.reject(new Error("Fullscreen unavailable")); });
-  await page.setViewportSize({ width: 1536, height: 772 }); await page.goto("/stickers");
+for (const fullscreen of ["native", "window fallback"] as const) test(`clean ${fullscreen} preview fills the viewport, moves existing stickers and exports the same layout`, async ({ page, context }) => {
+  if (fullscreen === "window fallback") await page.addInitScript(() => { HTMLElement.prototype.requestFullscreen = () => Promise.reject(new Error("Fullscreen unavailable")); });
+  const viewport = { width: 1536, height: 772 };
+  await page.setViewportSize(viewport); await page.emulateMedia({ reducedMotion: "no-preference" }); await page.goto("/stickers");
   await page.getByRole("button", { name: "Playground", exact: true }).click();
   const workspace = page.getByRole("dialog", { name: "Sticker playground", exact: true }), board = workspace.locator(".sticker-playground-board");
   await workspace.getByRole("button", { name: "Add Essential heart", exact: true }).click();
   await workspace.getByLabel("Sticker X position", { exact: true }).fill("-5");
-  const before = await board.locator("[data-placement]").evaluateAll(nodes => nodes.map(node => node.getAttribute("style")));
+  const before = await canvasArrangement(board);
   const editingWidth = (await board.boundingBox())!.width, launcher = workspace.getByRole("button", { name: "Preview fullscreen" });
   await launcher.click(); await expect(workspace.locator(".sticker-playground")).toHaveAttribute("data-preview", "true");
   await expect(workspace.getByRole("group", { name: "Playground tools" })).toHaveCount(0);
-  await expect(workspace.getByRole("combobox", { name: "Canvas code format" })).toHaveCount(0);
+  await expect(workspace.getByRole("radiogroup", { name: "Canvas code format" })).toHaveCount(0);
   await expect(workspace.getByRole("button", { name: "Remove Essential heart from canvas" })).toHaveCount(0);
   await expect.poll(async () => (await board.boundingBox())!.width).toBeGreaterThan(editingWidth);
   await noScroll(workspace); await withinViewport(board, page);
-  await workspace.getByRole("button", { name: "Animate Essential heart", exact: true }).focus();
-  await page.keyboard.press("ArrowRight"); await page.keyboard.press("Delete");
-  expect(await board.locator("[data-placement]").evaluateAll(nodes => nodes.map(node => node.getAttribute("style")))).toEqual(before);
+  const canvas = (await board.boundingBox())!;
+  expect(canvas.x).toBeCloseTo(0, 0); expect(canvas.y).toBeCloseTo(0, 0); expect(canvas.width).toBeCloseTo(viewport.width, 0); expect(canvas.height).toBeCloseTo(viewport.height, 0);
+  if (fullscreen === "native") expect(await workspace.locator(".sticker-playground").evaluate(node => document.fullscreenElement === node)).toBe(true);
+  const existing = board.locator('[data-placement="start-1"]'), sticker = existing.getByRole("button", { name: "Move Checkered daisy. Drag or use arrow keys.", exact: true }), initial = (await existing.boundingBox())!;
+  await page.mouse.move(initial.x + initial.width / 2, initial.y + initial.height / 2); await page.mouse.down();
+  await page.mouse.move(canvas.x - 15, canvas.y + canvas.height * .35, { steps: 16 }); await page.mouse.up();
+  expect(await existing.locator(".orange-sticker-sheet").getAttribute("data-motion")).toBeNull();
+  const dragged = await existing.evaluate(node => ({ x: parseFloat((node as HTMLElement).style.left), y: parseFloat((node as HTMLElement).style.top) }));
+  expect(dragged.x).toBeLessThan(0); expect(dragged.y).toBeGreaterThan(24);
+  await sticker.focus(); await page.keyboard.press("ArrowRight");
+  const moved = await canvasArrangement(board);
+  expect(moved).not.toEqual(before);
+  await page.keyboard.press("Delete"); await page.keyboard.press("Backspace");
+  expect(await canvasArrangement(board)).toEqual(moved);
+  const previewPlacements = await board.locator("[data-placement]").evaluateAll(nodes => nodes.map(node => { const rect = node.getBoundingClientRect(); return { x: rect.x, y: rect.y, width: rect.width, height: rect.height }; }));
   await page.keyboard.press("Escape"); await expect(launcher).toBeFocused();
   await expect(workspace.locator(".sticker-playground")).toHaveAttribute("data-preview", "false");
-  expect(await board.locator("[data-placement]").evaluateAll(nodes => nodes.map(node => node.getAttribute("style")))).toEqual(before);
-  await expect(workspace.getByRole("button", { name: "Remove Essential heart from canvas" })).toBeVisible();
+  expect(await canvasArrangement(board)).toEqual(moved);
+  await expect(workspace.getByRole("button", { name: "Remove Checkered daisy from canvas" })).toBeVisible();
+  const saved = await canvasJson(page), savedDaisy = saved.placements.find((placement: { name: string }) => placement.name === "checkered-daisy");
+  expect(saved.layout).toBe("viewport"); expect(savedDaisy.x).toBeCloseTo(dragged.x + .75, 1); expect(savedDaisy.y).toBeCloseTo(dragged.y, 1);
+  await workspace.getByRole("radiogroup", { name: "Canvas code format" }).getByRole("radio", { name: "HTML", exact: true }).click();
+  const html = await downloadText(page, workspace.getByRole("button", { name: "Download HTML canvas" })), exported = await context.newPage(), requests: string[] = [];
+  exported.on("request", request => requests.push(request.url()));
+  await exported.setViewportSize(viewport); await exported.setContent(html);
+  const exportedCanvas = exported.locator(".sticker-canvas"), exportedRect = (await exportedCanvas.boundingBox())!;
+  expect(exportedRect.x).toBe(0); expect(exportedRect.y).toBe(0); expect(exportedRect.width).toBe(viewport.width); expect(exportedRect.height).toBe(viewport.height);
+  const exportedPlacements = await exported.locator(".sticker-position").evaluateAll(nodes => nodes.map(node => { const rect = node.getBoundingClientRect(); return { x: rect.x, y: rect.y, width: rect.width, height: rect.height }; }));
+  expect(exportedPlacements).toHaveLength(previewPlacements.length);
+  exportedPlacements.forEach((placement, index) => { for (const key of ["x", "y", "width", "height"] as const) expect(placement[key]).toBeCloseTo(previewPlacements[index][key], 0); });
+  expect(requests).toEqual([]); await exported.close();
+  await workspace.getByRole("button", { name: "Undo last canvas change" }).click();
+  expect((await canvasJson(page)).placements.find((placement: { name: string }) => placement.name === "checkered-daisy").x).toBeCloseTo(dragged.x, 1);
+  await workspace.getByRole("button", { name: "Undo last canvas change" }).click();
+  expect(await canvasArrangement(board)).toEqual(before);
 });
 
 test("hover lifts and wiggles artwork while reduced motion keeps it still", async ({ page }) => {
@@ -136,12 +177,27 @@ test("hover lifts and wiggles artwork while reduced motion keeps it still", asyn
   const card = page.getByRole("button", { name: "Preview Essential heart", exact: true }), art = card.locator(".orange-sticker-front");
   await card.hover();
   const frames = await art.evaluate(element => element.getAnimations().flatMap(animation => (animation.effect as KeyframeEffect).getKeyframes().map(frame => frame.transform)));
-  expect(frames).toContain("translateY(-6px) rotate(-3deg)"); expect(frames).toContain("translateY(-6px) rotate(2deg)");
-  await expect.poll(() => art.evaluate(element => new DOMMatrix(getComputedStyle(element).transform).m42)).toBeLessThan(-5);
+  expect(frames).toContain("translateY(-8px) rotate(-6deg)"); expect(frames).toContain("translateY(-8px) rotate(4deg)");
+  await expect.poll(() => art.evaluate(element => new DOMMatrix(getComputedStyle(element).transform).m42)).toBeLessThan(-7);
+  await expect.poll(() => art.evaluate(element => getComputedStyle(element).filter)).toContain("drop-shadow");
+  const shadowedSticker = card.locator(".orange-sticker"); await shadowedSticker.evaluate(element => element.setAttribute("data-shadow", "false"));
+  await expect.poll(() => art.evaluate(element => getComputedStyle(element).filter)).toBe("none");
+  await shadowedSticker.evaluate(element => element.setAttribute("data-shadow", "true"));
   await card.click(); await expect(card.locator(".orange-sticker-sheet")).toHaveAttribute("data-motion", "bounce");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect.poll(() => art.evaluate(element => getComputedStyle(element).transform)).toBe("none");
+  await expect.poll(() => art.evaluate(element => getComputedStyle(element).filter)).toBe("none");
   expect(await art.evaluate(element => element.getAnimations().length)).toBe(0);
+  await page.emulateMedia({ reducedMotion: "no-preference" }); await page.getByRole("button", { name: "Playground", exact: true }).click();
+  const traySticker = page.getByRole("button", { name: "Place Orbit snail", exact: true }), trayArt = traySticker.locator(".orange-sticker-front");
+  await traySticker.hover(); await expect.poll(() => trayArt.evaluate(element => getComputedStyle(element).filter)).toContain("drop-shadow");
+  await expect.poll(() => trayArt.evaluate(element => new DOMMatrix(getComputedStyle(element).transform).m42)).toBeLessThan(-7);
+  await traySticker.locator(".orange-sticker").evaluate(element => element.setAttribute("data-shadow", "false"));
+  await expect.poll(() => trayArt.evaluate(element => getComputedStyle(element).filter)).toBe("none");
+  await traySticker.locator(".orange-sticker").evaluate(element => element.setAttribute("data-shadow", "true"));
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(() => trayArt.evaluate(element => getComputedStyle(element).filter)).toBe("none");
+  await expect.poll(() => trayArt.evaluate(element => getComputedStyle(element).transform)).toBe("none");
 });
 
 test("one capture batch: compact clean surfaces in both themes and short phones", async ({ page }) => {
@@ -154,6 +210,8 @@ test("one capture batch: compact clean surfaces in both themes and short phones"
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     if (width === 320 && height === 568) await withinViewport(page.locator(".sticker-card").first(), page);
     await page.screenshot({ path: `${evidence}/${prefix}-gallery.png` });
+    await singleSearchFocus(page.getByRole("searchbox", { name: "Search stickers", exact: true }));
+    await page.screenshot({ path: `${evidence}/${prefix}-gallery-focus.png` });
     await page.getByRole("button", { name: "Preview Essential heart", exact: true }).click();
     const inspector = page.locator(".sticker-inspector"); await noScroll(inspector); await withinViewport(inspector, page);
     await withinViewport(inspector.getByRole("button", { name: "Download sticker React code" }), page);
@@ -171,8 +229,19 @@ test("one capture batch: compact clean surfaces in both themes and short phones"
     if (width < 700) await page.getByRole("button", { name: "Back to stickers", exact: true }).click();
     await page.getByRole("button", { name: "Playground", exact: true }).click();
     const workspace = page.getByRole("dialog", { name: "Sticker playground", exact: true }); await noScroll(workspace); await withinViewport(workspace, page);
+    const heading = workspace.locator(".sticker-playground-heading"), formats = workspace.getByRole("radiogroup", { name: "Canvas code format" });
+    await noScroll(heading); await withinViewport(heading, page); await withinViewport(formats, page); await noScroll(formats);
+    for (const control of await heading.getByRole("button").all()) await withinViewport(control, page);
+    for (const control of await formats.getByRole("radio").all()) await withinViewport(control, page);
     if (width === 320 && height === 568) expect((await workspace.locator(".sticker-playground-board").boundingBox())!.width).toBeGreaterThanOrEqual(270);
     await page.screenshot({ path: `${evidence}/${prefix}-playground.png` });
+    await singleSearchFocus(workspace.getByRole("searchbox", { name: "Find a sticker to place", exact: true }));
+    await page.screenshot({ path: `${evidence}/${prefix}-playground-focus.png` });
+    await formats.getByRole("radio", { name: "React", exact: true }).focus(); await page.keyboard.press("ArrowRight");
+    await expect(formats.getByRole("radio", { name: "HTML", exact: true })).toBeFocused();
+    await expect(formats.getByRole("radio", { name: "HTML", exact: true })).toHaveAttribute("aria-checked", "true");
+    await expect(workspace.getByRole("button", { name: "Download HTML canvas" })).toBeVisible();
+    await heading.screenshot({ path: `${evidence}/${prefix}-formats.png` });
     await workspace.getByRole("button", { name: "Add Essential heart", exact: true }).click();
     await workspace.getByLabel("Sticker X position", { exact: true }).fill("-5"); await workspace.getByLabel("Sticker Y position", { exact: true }).fill("100");
     await expect(workspace.getByRole("button", { name: "Remove Essential heart from canvas", exact: true })).toBeVisible();
@@ -187,6 +256,8 @@ test("one capture batch: compact clean surfaces in both themes and short phones"
     await expect(workspace.locator(".sticker-playground")).toHaveAttribute("data-preview", "true");
     await expect(workspace.getByRole("group", { name: "Playground tools" })).toHaveCount(0);
     await noScroll(workspace); await withinViewport(workspace.locator(".sticker-playground-board"), page);
+    const previewBoard = (await workspace.locator(".sticker-playground-board").boundingBox())!;
+    expect(previewBoard.width).toBeCloseTo(width, 0); expect(previewBoard.height).toBeCloseTo(height, 0); expect(previewBoard.x).toBeCloseTo(0, 0); expect(previewBoard.y).toBeCloseTo(0, 0);
     await page.screenshot({ path: `${evidence}/${prefix}-preview.png` });
     await workspace.getByRole("button", { name: "Back to editor" }).click();
     await workspace.getByRole("button", { name: "Close playground" }).click();

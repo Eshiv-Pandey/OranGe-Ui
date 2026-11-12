@@ -27,8 +27,9 @@
 .sticker-browse-bar { display:flex; flex-direction:column; gap:10px; padding:0 0 12px; margin-bottom:14px; border-bottom:1px solid var(--line); }
 .sticker-search { display:flex; gap:8px; align-items:center; min-width:0; border:1px solid var(--line); border-radius:8px; padding:10px 12px; color:var(--muted); background:var(--surface); }
 .sticker-search input { width:100%; min-width:0; border:0; outline:none; background:transparent; color:var(--ink); font-size:13px; }
+.sticker-gallery .sticker-search input:focus-visible { outline:none; box-shadow:none; }
 .sticker-search input::placeholder { color:var(--muted); opacity:1; }
-.sticker-search:focus-within { outline:2px solid var(--focus); outline-offset:2px; }
+.sticker-search:focus-within { border-color:var(--focus); outline:1px solid var(--focus); outline-offset:0; }
 .sticker-search button { display:flex; padding:3px; border:0; background:transparent; }
 .sticker-categories { display:flex; flex-wrap:wrap; gap:4px; }
 .sticker-categories button { display:inline-flex; align-items:center; gap:6px; border:0; border-radius:7px; padding:8px 10px; min-height:36px; background:transparent; white-space:nowrap; font-size:12px; }
@@ -44,8 +45,8 @@
 .sticker-card:hover { background:var(--surface-soft); }
 .sticker-card[aria-pressed="true"] { border-color:var(--primary); background:color-mix(in srgb,var(--primary) 3%,var(--surface)); }
 .sticker-card > .orange-sticker { pointer-events:none; }
-.sticker-card:is(:hover, :focus-visible) .orange-sticker-front, .sticker-peel-preview:is(:hover, :focus-visible) .orange-sticker-front { transform: translateY(-6px) rotate(-2deg); animation: orange-sticker-hover-wiggle 560ms ease-out both; }
-@media (prefers-reduced-motion:reduce), (hover:none) { .sticker-card:is(:hover, :focus-visible) .orange-sticker-front, .sticker-peel-preview:is(:hover, :focus-visible) .orange-sticker-front { transform:none; animation:none; } }
+.sticker-card:is(:hover, :focus-visible) .orange-sticker-front, .sticker-peel-preview:is(:hover, :focus-visible) .orange-sticker-front { transform:var(--sticker-hover-transform); animation:var(--sticker-hover-animation); }
+.sticker-card:is(:hover, :focus-visible) .orange-sticker[data-shadow="true"] .orange-sticker-front, .sticker-peel-preview:is(:hover, :focus-visible) .orange-sticker[data-shadow="true"] .orange-sticker-front { filter:var(--sticker-hover-filter); }
 .sticker-card > span:last-of-type { font-size:11px; font-weight:450; line-height:1.4; text-align:center; }
 .sticker-card-check { position:absolute; right:10px; top:10px; color:var(--primary-text); }
 .sticker-inspector { position:sticky; top:76px; width:100%; border:1px solid var(--line); border-radius:12px; background:var(--surface); scroll-margin-top:76px; overflow:visible; }
