@@ -1,25 +1,25 @@
 # Sticker workspace expansion
 
-Status: the fourth workspace refinement is complete with a fresh `ship` verdict at the v4 refinement scope. Production build, TypeScript, seven focused unit files with twenty-four tests, all six final browser tests, scoped ESLint, copy and whitespace checks passed. `orangeui-stickers@0.1.1` is published publicly as npm latest, with passing isolated local and registry consumer checks and matching tarball SHA-512 integrity. The earlier `0.1.0` release remains recorded as history.
+Status: the fifth workspace refinement passed a fresh `ship` review with no material fixes. Production build, TypeScript, twenty-six focused unit tests, seven final browser checks, scoped ESLint, copy and whitespace checks passed. The verified `orangeui-stickers@0.1.2` tarball is ready; npm publication is awaiting account 2FA. The earlier public releases remain recorded as history.
 
 ## Scope
 
-Keep the established seventy named designs and both playful and sharp finishes. The fourth pass redraws the requested hand, pencil, moon, comet, satellite, sun, cube, flag, pinwheel, music note and ribbon motifs. Both finishes use precise painted silhouettes, black outlines and die-cut paper margins. Sharp retains saturated fills and the applicable enamel facets. Preserve the existing oRangeUi neutral workspace and the right-side inspector.
+Keep the established seventy named designs and both playful and sharp finishes. The fifth pass refines recognition of Peace hand, Moka morning, Pocket play, Comet tail, Bubble tea, Infinity ribbon and Link knot with matching silhouettes and facets. Both finishes use precise painted geometry, black outlines and die-cut paper margins. Sharp retains saturated fills and the applicable facets. Preserve the existing oRangeUi neutral workspace and the right-side inspector.
 
-Click motion remains bounce, wiggle, spin or none. Size, rotation, duration, intensity and shadow are editable. Interactive stickers rise and wiggle on hover or keyboard focus; the legacy hoverPeel prop enables the same treatment on static artwork. Reduced motion and touch-only devices disable hover movement. The complete die-cut artwork stays within its exported SVG, with painted details contained by the silhouette.
+Click motion remains bounce, wiggle, spin or none. Size, rotation, duration, intensity and shadow are editable. Hover or keyboard focus raises artwork eight pixels with a stronger short wiggle and optional soft elevated shadow; the legacy hoverPeel prop enables the same treatment on static artwork. Reduced motion and touch-only devices disable hover movement. The complete die-cut artwork stays within its exported SVG, with painted details contained by the silhouette. Search fields use one continuous focus border without a nested input outline.
 
 ## Delivered surfaces and exports
 
 - `/stickers`: compact introduction, searchable collection, Everyday favorites first, Sharp/Playful choice, a compact right-side inspector and one Playground launcher. Phones open the inspector after sticker selection.
 - Inspector and native modal editor: shared Appearance/Motion tabs keep the complete property controls and copy/download actions visible without internal scrolling. Native dropdowns have a consistent visible chevron. A labelled Custom color control opens the real color picker beside background presets. Preview colors change the editing surface while exported artwork remains transparent.
 - Playground: a full-window native workspace with a larger measured canvas and a narrower right sidebar, with tools below the canvas on phones. Stickers/Edit/Layers/Canvas panes keep each task short. The denser three-column tray measures available height and shows up to thirty stickers per page. Arrangements survive closing and reopening the workspace.
-- Preview: an explicit Preview action fills the window with the arranged artwork and a Back to editor control. It requests browser fullscreen when available and retains the same clean preview if fullscreen is denied. Editing chrome, selection frames and removal controls are hidden, and drag, keyboard placement and deletion are disabled. Sticker activation still plays its chosen motion. Escape or Back to editor restores the editor and returns focus to Preview without changing the scene.
+- Preview: the canvas fills the entire viewport without letterbox bars. It requests browser fullscreen when available and retains the same clean window-filling view if denied. Normalized anchors follow its width and height while SVG artwork remains square. Existing stickers support drag and keyboard placement; deletion is protected and editing chrome is hidden. Completed drags create one undo step, interrupted drags roll back, and Escape or Back to editor restores the editor and returns focus to Preview.
 - Place and drag beyond the canvas edges, keyboard nudge, resize/rotate, duplicate, visible selected-sticker X removal and undo. X/Y coordinates allow -50% through 150%; the deliberate crop is preserved in exports. Layers support native drag, pointer grips and keyboard forward/back controls; the top list item paints in front. The eighty-item limit remains.
 - Canvas backgrounds use a native color picker, palette presets or transparency. On solid custom backgrounds, caption lettering selects the readable neutral foreground or falls back to black/white for at least 4.5:1 contrast. This content-caption correction also reaches React/HTML exports; custom canvas colors survive every scene format.
-- Copy/download React, self-contained HTML and JSON canvas layouts. Each placement retains its own finish and animation settings.
+- Themed React/HTML/JSON radio choices support keyboard navigation. Copy/download retains each placement's finish and animation settings. React and self-contained HTML match the responsive full-viewport Preview; React accepts a height prop for embedding. JSON identifies viewport layout and keeps logical 960 x 600 size units.
 - `Sticker` and seventy named components ship through the existing source ZIP and registry workflows.
 - `/api/stickers`: seventy designs in both finishes (140 SVGs); `?finish=sharp` or `?finish=playful` selects one edition.
-- `orangeui-stickers@0.1.1`: publicly published npm latest, with React peer dependencies, ESM, CommonJS, TypeScript and standalone CSS. `npm install orangeui-stickers@0.1.1` is verified against the registry. The tested tarball is also served locally at `/downloads/orangeui-stickers-0.1.1.tgz` and can be installed by its file path or preview URL. This version includes the new contours and hover motion; the earlier `0.1.0` registry release remains historical verified evidence.
+- `orangeui-stickers@0.1.2`: locally verified React package with ESM, CommonJS, TypeScript and standalone CSS. The tested tarball is served at `/downloads/orangeui-stickers-0.1.2.tgz`; npm publication is awaiting account 2FA. The earlier `0.1.0` and `0.1.1` tarballs remain intact.
 
 ## Package build and consumer verification
 
@@ -29,7 +29,17 @@ node packages/stickers/scripts/test-package.mjs --release --registry
 
 The package consumer check installs the real tarball in an isolated project, renders all designs in both finishes through ESM/CommonJS, bundles React and CSS without Next.js/Tailwind/fonts, and checks NodeNext ESM/CommonJS declarations. Preserve the intentional public tarball when changing package source.
 
-The final release check installs both the local tarball and the published registry version. Registry installation passed and its exact SHA-512 integrity matches the local package. Local tarball verification alone remains insufficient evidence of a future version's registry availability.
+The final release check installs both the local tarball and the published registry version. Earlier registry releases passed with matching exact SHA-512 integrity; the 0.1.2 registry check follows publication. Local tarball verification alone remains insufficient evidence of a future version's registry availability.
+
+## Fifth workspace refinement verification, November 13, 2026
+
+- Production webpack build and TypeScript passed with existing shared named-version-import advisories. The machine exhausted memory with eleven page-generation workers; a one-worker build succeeded without changing application configuration.
+- Seven focused unit files with twenty-six tests passed, followed by the final artwork/source checks. Scoped ESLint, copy and whitespace checks passed.
+- Seven final browser checks passed across the initial successful matrix/export/editor/layer checks and the three affected confirmations. Initial test-only failures compared raw CSS serialization after correct undo and targeted a sticker outside the first tray page; geometry comparisons and a visible Orbit snail target corrected them. Application source and the 120 captures stayed unchanged.
+- Five viewport sizes in both themes produced 120 valid captures. Scanned gallery/editor/playground accessibility violations and page errors were zero. Native and fallback Preview fill the viewport, support existing drag/keyboard movement, protect deletion, preserve undo and produce matching standalone HTML bounds without network requests.
+- All fourteen revised padded 512px variants have zero outside pixels. Metadata, names and the other sixty-three artwork definitions were preserved. Browser export checks cover all 140 variants.
+- The fresh reviewer returned `ship` with no material fixes at this refinement scope. The documenter preserved `DESIGN.md`, the sidecar and shared tokens; pre-existing sidecar coverage drift remains outside scope.
+- Isolated local package verification passed all seventy designs in both finishes, ESM/CommonJS rendering, standalone CSS, React bundling, Bundler declarations and both NodeNext declaration modes. Registry verification follows publication.
 
 ## Fourth workspace refinement verification, November 12, 2026
 
