@@ -3,6 +3,7 @@ import { SCENE_COMPONENTS } from "./scene-components";
 import { FOOTER_BLOCKS } from "./footer-blocks";
 import { BENTO_BLOCKS } from "./bento-blocks";
 import { HERO_BLOCKS } from "./hero-blocks";
+import { TESTIMONIAL_BLOCKS, PRICING_BLOCKS, FAQ_BLOCKS } from "./marketing-proof-blocks";
 
 export const blockCategories = ["Auth", "Hero", "Header", "Footer", "Features", "Bento", "Pricing", "Testimonials", "Logo Cloud", "Integrations", "FAQ", "Contact", "Newsletter", "Blog", "Team", "Careers", "Image Gallery", "CTA", "Announcement", "Not Found", "App Shell", "Dashboard", "Settings", "Notifications", "File Upload", "Stats", "Widgets", "Templates"] as const;
 export type BlockCategory = typeof blockCategories[number];
@@ -66,6 +67,9 @@ blocks.push(...SCENE_COMPONENTS.map((item): BlockDefinition => ({
   notes: [...(item.notes ?? []), "This original layout belongs to Blocks. Demonstration copy is fictional and configurable; replace destinations and branding for your application."],
 })));
 // Reference-led footer examples lead the collection; the original simple close is last.
+blocks.splice(blocks.findIndex(item => item.slug === "testimonials"), 0, ...TESTIMONIAL_BLOCKS);
+blocks.splice(blocks.findIndex(item => item.slug === "pricing-section"), 0, ...PRICING_BLOCKS);
+blocks.splice(blocks.findIndex(item => item.slug === "faq"), 0, ...FAQ_BLOCKS);
 blocks.splice(blocks.findIndex(item => item.slug === "bento-overview"), 0, ...BENTO_BLOCKS);
 blocks.splice(blocks.findIndex(item => item.slug === "editorial-hero"), 0, ...HERO_BLOCKS);
 const originalFooterIndex = blocks.findIndex(item => item.slug === "site-footer");

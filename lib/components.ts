@@ -1195,10 +1195,12 @@ export const components: ComponentDefinition[] = [
 ];
 components.push(PAPER_CUT_COMPONENT);
 components.push(WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT, ...PORTFOLIO_COMPONENTS, ...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS);
+const legacyAccordion = components.find(component => component.slug === "accordion");
+if (legacyAccordion) components.splice(components.indexOf(legacyAccordion), 1);
 export function componentsInCollection(appearance: Appearance) { return components.filter((component) => !component.collection || component.collection === appearance); }
 // ShaderCanvas remains installable as the low-level engine behind the effects.
 // Its former showcase is now part of the single gradient playground.
-export function findComponent(slug: string) { return components.find((component) => component.slug === (slug === "live-orb" ? "emberling" : slug)) ?? SHADER_COMPONENTS.find((component) => component.slug === slug) ?? SCENE_COMPONENTS.find((component) => component.slug === slug); }
+export function findComponent(slug: string) { return components.find((component) => component.slug === (slug === "live-orb" ? "emberling" : slug)) ?? (slug === "accordion" ? legacyAccordion : undefined) ?? SHADER_COMPONENTS.find((component) => component.slug === slug) ?? SCENE_COMPONENTS.find((component) => component.slug === slug); }
 export function componentUsage(component: ComponentDefinition, appearance: Appearance) {
   if (component.slug === "avatar-editor") return '"use client";\n\nimport { useState } from "react";\nimport { AvatarEditor } from "./components/ui/avatar-editor";\nimport { generateAvatarConfig } from "./lib/avatar/index";\n\nexport default function Example() {\n  const [config, setConfig] = useState(() => generateAvatarConfig("user-42"));\n  return <AvatarEditor appearance="' + appearance + '" seed="user-42" value={config} onChange={setConfig} />;\n}\n';
   const imports = [`import { ${component.name === "Toast" ? "Toast, ToastProvider" : component.name} } from "./${component.file.replace(/\.tsx$/, "")}";`];

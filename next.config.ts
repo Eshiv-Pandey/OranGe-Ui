@@ -28,6 +28,7 @@ const config: NextConfig = {
   ...(process.env.ORANGEUI_BUILD_WORKERS ? { experimental: { cpus: Math.max(1, Number(process.env.ORANGEUI_BUILD_WORKERS) || 2) } } : {}),
   poweredByHeader: false,
   redirects: async () => [
+    { source: "/components/accordion", destination: "/blocks/accordion-faq", permanent: true },
     { source: "/blocks/auth", destination: "/blocks/category/auth", permanent: true },
     { source: "/components/neon-sign-404", destination: "/blocks/neon-sign-404", permanent: true },
     { source: "/components/chai-break-404", destination: "/blocks/chai-break-404", permanent: true },

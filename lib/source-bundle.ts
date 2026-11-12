@@ -15,12 +15,14 @@ export const PORTFOLIO_ASSETS = ["public/portfolio/truck-art.webp", "public/port
 export const CREATIVE_AUDIO_ASSETS = ["public/audio/orangeui/sunroom.wav", "public/audio/orangeui/blue-hour.wav", "public/audio/orangeui/pocket-garden.wav", "public/audio/orangeui/LICENSE.txt", "public/audio/orangeui/CC0-1.0.txt"] as const;
 export const KEEPSAKE_PHOTO_ASSETS = ["summit.jpg", "road.jpg", "lake.jpg", "water.jpg", "forest.jpg", "mist.jpg", "coast.jpg", "city.jpg", "desert.jpg", "flowers.jpg", "ocean.jpg", "night.jpg", "NOTICE.md"].map((name) => `public/photos/keepsakes/${name}`);
 
+export const TESTIMONIAL_PHOTO_ASSETS = ["review-avery.jpg", "review-jamie.jpg", "review-riley.jpg", "review-morgan.jpg", "TESTIMONIAL_PHOTOS.md"].map(name => `public/photos/keepsakes/${name}`);
+
 function allowedSource(relative: string): boolean {
   return /^(?:components\/ui\/|lib\/avatar\/).+\.tsx?$/.test(relative)
     || /^styles\/.+\.(?:css|css\.d\.ts)$/.test(relative)
     || relative === "lib/utils.ts"
     || BUNDLED_FONTS.some((name) => relative === `public/fonts/${name}`)
-    || [...CREATIVE_FONT_ASSETS, ...FILM_FONT_ASSETS, ...CREATIVE_AUDIO_ASSETS, ...KEEPSAKE_PHOTO_ASSETS, ...PORTFOLIO_ASSETS, ...FOOTER_ASSETS, ...SECTION_ASSETS, ...SECTION_ART_ASSETS].some((name) => relative === name)
+    || [...CREATIVE_FONT_ASSETS, ...FILM_FONT_ASSETS, ...CREATIVE_AUDIO_ASSETS, ...KEEPSAKE_PHOTO_ASSETS, ...TESTIMONIAL_PHOTO_ASSETS, ...PORTFOLIO_ASSETS, ...FOOTER_ASSETS, ...SECTION_ASSETS, ...SECTION_ART_ASSETS].some((name) => relative === name)
     || relative === "LICENSE" || relative === "THIRD_PARTY_NOTICES.md";
 }
 
@@ -158,6 +160,7 @@ export async function collectComponentSource(component: ComponentDefinition, app
   if (files["styles/endless-film.css"]) for (const asset of FILM_FONT_ASSETS) await include(asset);
   if (files["components/ui/creative-playlist.ts"]) for (const asset of CREATIVE_AUDIO_ASSETS) await include(asset);
   if (files["components/ui/keepsake-photos.ts"]) for (const asset of KEEPSAKE_PHOTO_ASSETS) await include(asset);
+  if (files["components/ui/blocks/testimonial-data.ts"]) for (const asset of TESTIMONIAL_PHOTO_ASSETS) await include(asset);
   if (files["styles/portfolio.css"]) for (const asset of PORTFOLIO_ASSETS) await include(asset);
   if (files["styles/landscape-footers.css"] || files["styles/playful-footers.css"]) for (const asset of FOOTER_ASSETS) await include(asset);
   if (files["styles/section-materials.css"]) for (const asset of [...SECTION_ASSETS, ...FOOTER_ASSETS]) await include(asset);

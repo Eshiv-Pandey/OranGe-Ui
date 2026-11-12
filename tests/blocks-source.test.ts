@@ -10,7 +10,7 @@ import { GET as sourceGet } from "../app/api/blocks/[slug]/route";
 import { GET as registryGet } from "../app/r/[name]/route";
 
 it("covers every researched section with unique, trusted original entries", () => {
-  expect(blocks).toHaveLength(51); expect(new Set(blocks.map(block => block.slug)).size).toBe(51);
+  expect(blocks).toHaveLength(61); expect(new Set(blocks.map(block => block.slug)).size).toBe(61);
   expect(blocks.filter(block => block.category === "Auth")).toHaveLength(5);
   expect(blocks.filter(block => block.category === "Not Found").map(block => block.slug)).toEqual(expect.arrayContaining(["neon-sign-404", "chai-break-404"]));
   expect(findBlock("pavilion-footer")?.category).toBe("Footer");
@@ -52,3 +52,14 @@ it("rejects unknown and malformed routes before reading files", async () => {
   expect((await registryGet(new Request("http://localhost/r/x"), { params: Promise.resolve({ name: "../USER_INSTRUCTIONS" }) })).status).toBe(404);
   expect((await sourceGet(new Request("http://localhost/api/blocks/auth-panel?format=private"), { params: Promise.resolve({ slug: "auth-panel" }) })).status).toBe(400);
 });
+it("bundles testimonial portraits and their notices in both portable transports", async () => {
+  const entry = findBlock("infinite-testimonials")!;
+  const bundle = await blockSource(entry);
+  for (const name of ["avery", "jamie", "riley", "morgan"]) expect(bundle.files[`public/photos/keepsakes/review-${name}.jpg`]).toBeDefined();
+  expect(bundle.files["public/photos/keepsakes/TESTIMONIAL_PHOTOS.md"]).toBeDefined();
+  const registry = await blockRegistryItem(entry);
+  expect(registry.files.some(file => file.target.endsWith("licenses/TESTIMONIAL_PHOTOS.md"))).toBe(true);
+  const data = registry.files.find(file => file.target.endsWith("testimonial-data.ts"))!.content;
+  expect(data).toContain("data:image/jpeg;base64,");
+  expect(data).not.toContain("/photos/keepsakes/review-");
+}, 30000);

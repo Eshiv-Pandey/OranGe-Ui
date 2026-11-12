@@ -18,6 +18,9 @@ import { JournalSection, TeamSection, CareersSection, ImageGallery, EmptyPage, S
 import { ContactSection, NewsletterSection, UploadSection } from "../ui/blocks/forms";
 import { AppShell, WorkspaceOverview, SettingsPanel, NotificationInbox, FocusWidget } from "../ui/blocks/workspace";
 import { StudioLanding, StudioWorkspace } from "../ui/blocks/templates";
+import { StackedTestimonials, CollageTestimonials, PortraitTestimonials, InfiniteTestimonials } from "../ui/blocks/testimonial-variants";
+import { GlassPricing, TicketPricing } from "../ui/blocks/pricing-variants";
+import { FolderFaq, BubbleFaq, PosterFaq, AccordionFaq } from "../ui/blocks/faq-variants";
 
 const landing = "/preview/blocks/studio-landing";
 const links = [{ label: "Our approach", href: `${landing}#about` }, { label: "Features", href: `${landing}#features` }, { label: "Plans", href: `${landing}#pricing` }];
@@ -31,6 +34,16 @@ export function BlockDemo({ slug, controls = true, theme = "auto" }: { slug: str
   const chosen = (plan: string, billing: string) => setStatus(`Demo: ${plan} selected with ${billing} billing. No purchase was made.`);
   let content: ReactNode;
   switch (slug) {
+    case "stacked-testimonials": content = <StackedTestimonials />; break;
+    case "collage-testimonials": content = <CollageTestimonials />; break;
+    case "portrait-testimonials": content = <PortraitTestimonials />; break;
+    case "infinite-testimonials": content = <InfiniteTestimonials />; break;
+    case "glass-pricing": content = <GlassPricing onChoose={async () => { await service(); }} />; break;
+    case "ticket-pricing": content = <TicketPricing onChoose={async () => { await service(); }} />; break;
+    case "folder-faq": content = <FolderFaq />; break;
+    case "bubble-faq": content = <BubbleFaq />; break;
+    case "poster-faq": content = <PosterFaq />; break;
+    case "accordion-faq": content = <AccordionFaq />; break;
     case "blue-hour-footer": content = <BlueHourFooter theme={theme} homeHref={landing} groups={[
       { title: "Collections", links: [{ label: "All objects", href: "/preview/blocks/image-gallery" }, { label: "For the home", href: `${landing}#features` }, { label: "Small editions", href: "/preview/blocks/pricing" }, { label: "The journal", href: "/preview/blocks/journal" }] },
       { title: "Our studio", links: [{ label: "Our story", href: `${landing}#about` }, { label: "Our work", href: `${landing}#features` }, { label: "The people", href: "/preview/blocks/team" }, { label: "Join the studio", href: "/preview/blocks/careers" }] },

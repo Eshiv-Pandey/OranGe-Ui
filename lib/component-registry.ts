@@ -58,6 +58,7 @@ function destination(source: string, slug: string): string | undefined {
   if (source.startsWith("public/fonts/portfolio/")) return "licenses/" + source.split("/").at(-1);
   if (source.startsWith("public/fonts/film/")) return source.endsWith("NOTICE.md") ? "licenses/FILM_FONT_CREDITS.md" : "licenses/" + source.split("/").at(-1);
   if (source === "public/photos/keepsakes/NOTICE.md") return "licenses/KEEPSAKE_PHOTOS.md";
+  if (source === "public/photos/keepsakes/TESTIMONIAL_PHOTOS.md") return "licenses/TESTIMONIAL_PHOTOS.md";
   if (source.startsWith("public/fonts/desi/")) return source.endsWith("README.md") ? "licenses/DISPLAY_FONT_CREDITS.md" : "licenses/" + source.split("/").at(-1);
   if (source.startsWith("public/audio/orangeui/")) return "licenses/Orange-sessions-" + source.split("/").at(-1);
   if (source === "Example.tsx") return `examples/${slug}.tsx`;
