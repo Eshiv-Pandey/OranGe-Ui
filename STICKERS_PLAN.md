@@ -1,6 +1,6 @@
 # Sticker workspace expansion
 
-Status: the fourth workspace refinement is complete with a fresh `ship` verdict at the v4 refinement scope. Production build, TypeScript, seven focused unit files with twenty-four tests, all six final browser tests, scoped ESLint, copy and whitespace checks passed. The `orangeui-stickers@0.1.1` tarball and isolated consumer checks are complete. Npm registry publication is pending completion of web sign-in after authentication expired. The earlier published release remains `orangeui-stickers@0.1.0`.
+Status: the fourth workspace refinement is complete with a fresh `ship` verdict at the v4 refinement scope. Production build, TypeScript, seven focused unit files with twenty-four tests, all six final browser tests, scoped ESLint, copy and whitespace checks passed. `orangeui-stickers@0.1.1` is published publicly as npm latest, with passing isolated local and registry consumer checks and matching tarball SHA-512 integrity. The earlier `0.1.0` release remains recorded as history.
 
 ## Scope
 
@@ -19,17 +19,17 @@ Click motion remains bounce, wiggle, spin or none. Size, rotation, duration, int
 - Copy/download React, self-contained HTML and JSON canvas layouts. Each placement retains its own finish and animation settings.
 - `Sticker` and seventy named components ship through the existing source ZIP and registry workflows.
 - `/api/stickers`: seventy designs in both finishes (140 SVGs); `?finish=sharp` or `?finish=playful` selects one edition.
-- `orangeui-stickers@0.1.1`: React peer dependencies, ESM, CommonJS, TypeScript and standalone CSS. The tested tarball is served locally at `/downloads/orangeui-stickers-0.1.1.tgz` and can be installed by its file path or preview URL. This version includes the new contours and hover motion. Registry publication is pending; the earlier `0.1.0` registry release remains historical verified evidence.
+- `orangeui-stickers@0.1.1`: publicly published npm latest, with React peer dependencies, ESM, CommonJS, TypeScript and standalone CSS. `npm install orangeui-stickers@0.1.1` is verified against the registry. The tested tarball is also served locally at `/downloads/orangeui-stickers-0.1.1.tgz` and can be installed by its file path or preview URL. This version includes the new contours and hover motion; the earlier `0.1.0` registry release remains historical verified evidence.
 
 ## Package build and consumer verification
 
 ```powershell
-node packages/stickers/scripts/test-package.mjs --release
+node packages/stickers/scripts/test-package.mjs --release --registry
 ```
 
 The package consumer check installs the real tarball in an isolated project, renders all designs in both finishes through ESM/CommonJS, bundles React and CSS without Next.js/Tailwind/fonts, and checks NodeNext ESM/CommonJS declarations. Preserve the intentional public tarball when changing package source.
 
-Run the additional `--registry` check only after publishing the new version. A passing local tarball consumer check does not establish npm registry availability.
+The final release check installs both the local tarball and the published registry version. Registry installation passed and its exact SHA-512 integrity matches the local package. Local tarball verification alone remains insufficient evidence of a future version's registry availability.
 
 ## Fourth workspace refinement verification, November 12, 2026
 
@@ -37,10 +37,10 @@ Run the additional `--registry` check only after publishing the new version. A p
 - Seven focused unit files with twenty-four tests passed. Final scoped ESLint, copy and whitespace checks passed.
 - All six final production-browser tests passed with zero skips, unexpected results or flakiness in `out/iteration/stickers/browser-v4-report.json`. They cover all 140 transparent SVG exports and artwork bounds, ZIP/registry source delivery including contours, compact editor settings and exports, free edge placement, removal/undo, layer reordering, portable custom colors, fullscreen denial and exit behavior, scene persistence, focus restoration, hover wiggle and reduced motion.
 - Ninety captures cover nine surface states at 1536x772, 1440x900, 390x844, 320x780 and 320x568 in both palettes. Every decoded capture is valid in the local `stickers-v4/contact-sheets/capture-validity.json`. The accessibility record for the scanned gallery, editor and playground states is an empty violation list. The browser checks found no page errors.
-- `out/iteration/stickers/npm/package-report.json` records `orangeui-stickers@0.1.1`, seventy designs and both finishes, with passing isolated installation, ESM/CommonJS rendering, React/CSS bundling and both NodeNext declaration modes. The packed files include contour declarations. The release tarball is copied to `public/downloads/orangeui-stickers-0.1.1.tgz`.
+- `out/iteration/stickers/npm/package-report.json` records publicly published `orangeui-stickers@0.1.1`, seventy designs and both finishes, with passing isolated local and registry installation, ESM/CommonJS rendering, React/CSS bundling, Bundler declarations and both NodeNext declaration modes. The packed files include contour declarations. Registry and local tarballs have matching exact SHA-512 integrity. The release tarball is copied to `public/downloads/orangeui-stickers-0.1.1.tgz`.
 - The fresh reviewer returned `disposition: ship` at the v4 refinement scope with no material fixes. `.impeccable/review/stickers-v4/final-review.md` records inspection of the saved five-viewport render matrix, the all-140 artwork sheet and primary source samples with supplied functional evidence. The reviewer ran no browser, build or recapture and claimed no comp-based score. The v3 verdict below belongs to the prior pass.
 - The documenter preserved `DESIGN.md`, `.impeccable/design.json` and shared token files. All forty normative frontmatter colors still match the sidecar's canonical metadata. Existing document/sidecar coverage drift remains local and unrepaired; sticker colors, geometry, motion and compact layout values stay scoped to this surface.
-- Npm registry authentication returned 401 and a new web sign-in is awaiting completion, so `orangeui-stickers@0.1.1` publication remains pending. The local tarball is tested, and no new registry installation or integrity match is claimed.
+- After npm sign-in completed, `orangeui-stickers@0.1.1` publication succeeded as public latest. The registry briefly returned 404 while processing the release, then returned 200. The final `--release --registry` consumer check passed, including fresh registry installation and an exact local/registry SHA-512 match.
 
 ## Third workspace pass verification, November 12, 2026
 
