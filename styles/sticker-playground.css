@@ -1,110 +1,172 @@
-.sticker-playground { color: var(--ink); min-width: 0; padding-top: 28px; }
+.sticker-playground-window { position: fixed; inset: 0; width: 100dvw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; color: var(--ink); background: var(--surface); overflow: hidden; }
+.sticker-playground-window::backdrop { background: var(--surface); }
+.sticker-playground { color: var(--ink); font: 12px/1.4 var(--font-body), sans-serif; min-width: 0; height: min(800px, 100dvh); display: flex; flex-direction: column; background: var(--surface); }
+.sticker-playground[data-expanded="true"] { height: 100%; }
 .sticker-playground *, .sticker-playground *::before, .sticker-playground *::after { box-sizing: border-box; }
 .sticker-playground button, .sticker-playground input, .sticker-playground select { font: inherit; }
 .sticker-playground button { color: inherit; cursor: pointer; }
-.sticker-playground button:disabled { opacity: .45; cursor: not-allowed; }
+.sticker-playground button:disabled { opacity: .4; cursor: not-allowed; }
 .sticker-playground :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 .sticker-playground input { caret-color: var(--primary); accent-color: var(--primary); }
-.sticker-playground-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
-.sticker-playground-heading h2 { margin: 0 0 9px; font-size: clamp(28px, 3vw, 38px); font-weight: 550; line-height: 1.1; letter-spacing: -.035em; }
-.sticker-playground-heading p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; max-width: 470px; }
-.sticker-playground-add { display: inline-flex; flex: none; align-items: center; justify-content: center; gap: 7px; padding: 11px 15px; border: 0; border-radius: 8px; background: var(--ink); color: var(--surface) !important; font-size: 12px !important; font-weight: 550 !important; }
-.sticker-playground-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 230px; align-items: start; gap: 24px; }
-.sticker-playground-stage { min-width: 0; }
-.sticker-playground-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 0 12px; font-size: 11px; color: var(--muted); }
-.sticker-playground-toolbar > div { display: flex; gap: 10px; }
-.sticker-playground-toolbar button { display: inline-flex; align-items: center; gap: 5px; border: 0; padding: 6px 0; background: transparent; font-size: 11px; }
-.sticker-playground-board { width: 100%; position: relative; overflow: hidden; isolation: isolate; border: 1px solid var(--line); border-radius: 12px; -webkit-user-select: none; user-select: none; }
+.sticker-playground ::selection { background: var(--primary); color: var(--on-primary); }
+.sticker-playground-heading { flex: none; min-height: 60px; display: flex; align-items: center; gap: 24px; padding: 10px 20px; border-bottom: 1px solid var(--line); }
+.sticker-playground-heading h2 { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -.02em; }
+.sticker-playground-header-actions, .sticker-playground-export-toolbar { display: flex; align-items: center; gap: 6px; }
+.sticker-playground-export-toolbar { margin-left: auto; }
+.sticker-playground-heading button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 36px; min-width: 36px; padding: 8px; border: 0; border-radius: 7px; background: transparent; font-size: 12px; }
+.sticker-playground-heading button:hover { background: var(--surface-soft); }
+.sticker-playground-heading .sticker-playground-add { padding-inline: 12px; background: var(--ink); color: var(--surface); }
+.sticker-playground-heading .sticker-playground-add:hover { background: var(--ink); color: var(--surface); opacity: .88; }
+.sticker-playground-export-toolbar select { min-height: 34px; padding: 5px 7px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; color: var(--ink); font-size: 12px; }
+.sticker-playground-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 304px; flex: 1; min-height: 0; }
+.sticker-playground-stage { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--surface-soft); }
+.sticker-playground-toolbar { display: flex; flex: none; justify-content: space-between; padding: 14px 24px 0; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.sticker-playground-viewport { flex: 1; min-height: 0; display: grid; place-items: center; padding: 24px 32px; }
+.sticker-playground-board { width: 100%; max-width: calc(160dvh - 288px); position: relative; overflow: hidden; isolation: isolate; outline: 1px solid var(--line); -webkit-user-select: none; user-select: none; }
+.sticker-playground-board[data-transparent="true"] { background-color: var(--surface) !important; background-image: conic-gradient(var(--surface-soft) 25%, transparent 0 50%, var(--surface-soft) 0 75%, transparent 0); background-size: 16px 16px; }
 .sticker-playground-caption { position: absolute; inset: 0; display: grid; place-items: center; padding: 10%; margin: 0; color: #25242b; font-family: var(--font-body), sans-serif; font-size: clamp(20px, 4vw, 54px); line-height: 1.05; font-weight: 550; text-align: center; letter-spacing: -.035em; pointer-events: none; }
 .sticker-playground-board[data-dark="true"] .sticker-playground-caption { color: #f4f3f0; }
 .sticker-playground-placement { position: absolute; transform: translate(-50%, -50%); aspect-ratio: 1; cursor: grab; touch-action: none; }
-.sticker-playground-placement::after { content: ""; position: absolute; inset: 0; pointer-events: none; border: 1px solid transparent; border-radius: 5px; transform: rotate(var(--placement-rotation)); }
+.sticker-playground-placement::after { content: ""; position: absolute; inset: 0; pointer-events: none; border: 1px solid transparent; transform: rotate(var(--placement-rotation)); }
 .sticker-playground-placement[data-selected="true"]::after { border-color: #c14900; }
 .sticker-playground-board[data-dark="true"] .sticker-playground-placement[data-selected="true"]::after { border-color: #ffb36b; }
 .sticker-playground-placement:active, .sticker-playground-placement:active .orange-sticker { cursor: grabbing; }
 .sticker-playground-placement .orange-sticker { display: block; cursor: inherit; }
-.sticker-playground-instructions { margin: 12px 0 20px; color: var(--muted); font-size: 11px; line-height: 1.6; }
-.sticker-playground-surface-controls { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 18px; }
-.sticker-playground-surface-controls > label { display: flex; flex: 1; min-width: 160px; flex-direction: column; gap: 7px; font-size: 11px; }
-.sticker-playground-surface-controls input { width: 100%; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 7px; padding: 10px 11px; font-size: 12px; }
-.sticker-playground-surface-controls input::placeholder { color: var(--muted); opacity: 1; }
-.sticker-playground-surface-controls > div { display: flex; gap: 8px; }
-.sticker-playground-swatch { display: flex; flex-direction: column; align-items: center; position: relative; gap: 6px; background: none; border: 0; padding: 0 3px; font-size: 10px !important; }
-.sticker-playground-swatch::before { content: ""; display: block; width: 29px; height: 29px; border-radius: 50%; background: var(--swatch); border: 1px solid var(--line); }
-.sticker-playground-swatch[aria-pressed="true"]::before { outline: 1px solid var(--ink); outline-offset: 3px; }
-.sticker-playground-swatch > svg { position: absolute; top: 8px; left: calc(50% - 6.5px); color: #25242b; }
-.sticker-playground-swatch[aria-label="Ink canvas"] > svg { color: #f4f3f0; }
-.sticker-playground-tools { border-top: 1px solid var(--line); min-width: 0; }
-.sticker-playground-tools-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 14px 0; }
-.sticker-playground-tools-heading h3 { display: flex; align-items: center; gap: 7px; margin: 0; font-size: 13px; font-weight: 550; }
-.sticker-playground-tools-heading > span { color: var(--muted); font-size: 10px; }
-.sticker-playground-layers { display: flex; flex-direction: column; gap: 4px; max-height: 188px; overflow: auto; scrollbar-color: var(--muted) var(--surface); scrollbar-width: thin; }
-.sticker-playground-layers button { display: flex; align-items: center; gap: 8px; background: transparent; border: 0; border-radius: 7px; padding: 5px 7px; text-align: left; font-size: 11px; }
-.sticker-playground-layers button:hover, .sticker-playground-layers button[aria-pressed="true"] { background: var(--surface-soft); }
-.sticker-playground-layers button > span:nth-of-type(2) { flex: 1; }
-.sticker-playground-layers button > svg { margin-left: auto; color: var(--primary-text); }
-.sticker-playground-layers > p, .sticker-playground-selection-hint { color: var(--muted); font-size: 11px; line-height: 1.6; }
-.sticker-playground-placement-controls { padding-top: 20px; margin-top: 15px; border-top: 1px solid var(--line); }
-.sticker-playground-placement-controls h4 { margin: 0 0 16px; font-size: 13px; font-weight: 550; }
-.sticker-playground-placement-controls label { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 11px; }
-.sticker-playground-placement-controls label > output { color: var(--muted); font-variant-numeric: tabular-nums; }
-.sticker-playground-placement-controls input[type="range"] { width: 100%; margin: 8px 0 15px; }
-.sticker-playground-placement-controls select { border: 1px solid var(--line); color: var(--ink); background: var(--surface); padding: 5px 8px; border-radius: 5px; font-size: 11px; }
-.sticker-playground-position-readout { display: flex; justify-content: space-between; margin: 0 0 18px; color: var(--muted); font-size: 10px; font-variant-numeric: tabular-nums; }
-.sticker-playground-layer-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; margin-top: 18px; }
-.sticker-playground-layer-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; border: 1px solid var(--line); border-radius: 6px; background: transparent; padding: 8px 5px; font-size: 10px; }
-.sticker-playground-layer-actions button:hover { background: var(--surface-soft); }
-.sticker-playground-tray-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; border-top: 1px solid var(--line); margin-top: 32px; padding: 25px 0 15px; }
-.sticker-playground-tray-heading h3 { margin: 0; font-size: 18px; font-weight: 550; letter-spacing: -.025em; }
-.sticker-playground-search { display: flex; align-items: center; gap: 7px; padding: 8px 10px; background: var(--surface); color: var(--muted); border: 1px solid var(--line); border-radius: 7px; max-width: 260px; min-width: 0; }
-.sticker-playground-search input { width: 100%; min-width: 0; font-size: 11px; border: 0; outline: 0; padding: 0; background: transparent; color: var(--ink); }
+.sticker-playground-remove-selected { position: absolute; z-index: 100; transform: translate(-50%, -50%); display: grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--ink); }
+.sticker-playground-remove-selected:hover { background: var(--surface-soft); }
+.sticker-playground-bottom-bar { flex: none; min-height: 38px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 5px 20px; padding: 8px 24px; }
+.sticker-playground-instructions, .sticker-playground-status { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.sticker-playground-status:empty { display: none; }
+.sticker-playground-tools { min-width: 0; display: flex; flex-direction: column; border-left: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+.sticker-playground-tool-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px; flex: none; padding: 14px 12px 10px; border-bottom: 1px solid var(--line); }
+.sticker-playground-tool-tabs button { border: 0; border-radius: 6px; padding: 9px 3px; font-size: 11px; background: transparent; }
+.sticker-playground-tool-tabs button[aria-pressed="true"] { background: var(--surface-soft); font-weight: 600; }
+.sticker-playground-tool-content { min-height: 0; padding: 18px 16px; flex: 1; }
+.sticker-playground-tool-content h3 { margin: 0 0 16px; font-size: 14px; font-weight: 550; }
+.sticker-playground-tool-content p { color: var(--muted); margin: 0 0 16px; font-size: 12px; line-height: 1.6; }
+.sticker-playground-search { display: flex; align-items: center; gap: 7px; padding: 10px; background: var(--surface); color: var(--muted); border: 1px solid var(--line); border-radius: 7px; min-width: 0; }
+.sticker-playground-search input { width: 100%; min-width: 0; font-size: 12px; border: 0; outline: 0; padding: 0; background: transparent; color: var(--ink); }
 .sticker-playground-search input::placeholder { color: var(--muted); opacity: 1; }
 .sticker-playground-search:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
 .sticker-playground-search button { display: flex; background: none; border: 0; padding: 2px; }
-.sticker-playground-tray { display: flex; gap: 9px; overflow: auto; padding: 4px 4px 12px; scrollbar-color: var(--muted) var(--surface); scrollbar-width: thin; }
-.sticker-playground-tray > button { flex: 0 0 95px; min-width: 0; position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px; border: 0; background: var(--surface-soft); padding: 8px 7px 10px; border-radius: 8px; }
-.sticker-playground-tray > button:hover { background: color-mix(in srgb, var(--primary) 7%, var(--surface-soft)); }
-.sticker-playground-tray > button > span:nth-of-type(2) { font-size: 10px; line-height: 1.25; }
-.sticker-playground-tray-plus { position: absolute; top: 7px; right: 7px; color: var(--muted); }
-.sticker-playground-tray > p { margin: 10px 0; font-size: 12px; color: var(--muted); }
-.sticker-playground-export { display: grid; grid-template-columns: minmax(160px, .7fr) minmax(0, 1.5fr); gap: 26px; border-top: 1px solid var(--line); margin-top: 28px; padding-top: 28px; }
-.sticker-playground-export h3 { margin: 0 0 10px; font-size: 20px; letter-spacing: -.025em; font-weight: 550; }
-.sticker-playground-export p { margin: 0; max-width: 320px; font-size: 12px; line-height: 1.6; color: var(--muted); }
-.sticker-playground-export-content { min-width: 0; }
-.sticker-playground-export-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
-.sticker-playground-export-toolbar > div { display: flex; gap: 4px; }
-.sticker-playground-export-toolbar button { display: inline-flex; align-items: center; gap: 5px; border: 0; border-radius: 6px; padding: 7px 8px; background: transparent; font-size: 11px; }
-.sticker-playground-export-toolbar button[aria-pressed="true"], .sticker-playground-export-toolbar button:hover { background: var(--surface-soft); }
-.sticker-playground-code { max-height: 230px; overflow: auto; margin: 0; padding: 14px; color: var(--ink); background: var(--surface-soft); border-radius: 7px; font-family: var(--font-mono), monospace; font-size: 11px; line-height: 1.6; scrollbar-color: var(--muted) var(--surface-soft); scrollbar-width: thin; }
-.sticker-playground-status { margin: 12px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
-.sticker-playground-status:empty { display: none; }
+.sticker-playground-tray { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 18px 0 12px; }
+.sticker-playground-tray > button { min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; border: 0; background: transparent; padding: 8px 2px; border-radius: 7px; }
+.sticker-playground-tray > button:hover { background: var(--surface-soft); }
+.sticker-playground-tray > button > span:last-child { font-size: 10px; line-height: 1.3; text-align: center; }
+.sticker-playground-tray > p { grid-column: 1 / -1; margin: 12px 0; }
+.sticker-playground-tray-pagination { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 11px; color: var(--muted); }
+.sticker-playground-tray-pagination button { background: transparent; padding: 8px; border: 1px solid var(--line); border-radius: 6px; font-size: 11px; }
+.sticker-playground-selected-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+.sticker-playground-selected-heading h3 { margin: 0; }
+.sticker-playground-selected-heading button { display: flex; background: transparent; border: 0; padding: 6px; }
+.sticker-playground-position-inputs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.sticker-playground-position-inputs label { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 11px; white-space: nowrap; }
+.sticker-playground-position-inputs input { width: 100%; min-width: 0; border: 1px solid var(--line); border-radius: 6px; padding: 8px; background: var(--surface); color: var(--ink); font-size: 12px; font-variant-numeric: tabular-nums; }
+.sticker-playground-layer-actions { display: flex; gap: 8px; margin-top: 14px; }
+.sticker-playground-layer-actions button { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 7px; background: transparent; border: 1px solid var(--line); border-radius: 6px; font-size: 11px; }
+.sticker-playground-layers-panel { height: 100%; display: flex; flex-direction: column; }
+.sticker-playground-layers-panel h3 { display: flex; align-items: center; gap: 8px; }
+.sticker-playground-layers-panel > p { font-size: 11px; }
+.sticker-playground-layers { min-height: 0; display: flex; flex-direction: column; gap: 5px; overflow: auto; scrollbar-color: var(--muted) var(--surface); scrollbar-width: thin; padding: 2px; }
+.sticker-playground-layer-item { display: grid; grid-template-columns: 22px minmax(0, 1fr) 24px 24px; align-items: center; gap: 3px; border-radius: 6px; border-top: 2px solid transparent; }
+.sticker-playground-layer-item[data-drop-target="before"] { border-top-color: var(--primary); }
+.sticker-playground-layer-item[data-drop-target="after"] { position: relative; }
+.sticker-playground-layer-item[data-drop-target="after"]::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 2px; background: var(--primary); pointer-events: none; }
+.sticker-playground-layer-item button { min-width: 0; min-height: 32px; display: flex; align-items: center; justify-content: center; padding: 3px; background: transparent; border: 0; border-radius: 5px; }
+.sticker-playground-layer-item button:hover { background: var(--surface-soft); }
+.sticker-playground-layer-item .sticker-playground-layer-grip { color: var(--muted); cursor: grab; touch-action: none; }
+.sticker-playground-layer-item .sticker-playground-layer-select { justify-content: start; gap: 7px; font-size: 11px; text-align: left; }
+.sticker-playground-layer-select > span:last-child { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sticker-playground-layer-select[aria-pressed="true"] { background: var(--surface-soft); font-weight: 550; }
+.sticker-playground-caption-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; font-size: 12px; }
+.sticker-playground-caption-field input { width: 100%; border: 1px solid var(--line); border-radius: 7px; padding: 10px; background: var(--surface); color: var(--ink); font-size: 12px; }
+.sticker-playground-canvas-panel > p { margin-top: 20px; font-size: 11px; }
 .sticker-playground-empty { display: grid; position: absolute; inset: 0; align-items: center; margin: 0; text-align: center; pointer-events: none; font-size: 14px; color: #55515c; }
-@media (max-width: 1000px) { .sticker-playground-workspace { grid-template-columns: minmax(0, 1fr) 200px; gap: 18px; } .sticker-playground-heading { align-items: start; } .sticker-playground-add { max-width: 200px; } }
-@media (max-width: 700px) {
-  .sticker-playground { padding-top: 24px; }
-  .sticker-playground-heading { flex-direction: column; gap: 16px; margin-bottom: 20px; }
-  .sticker-playground-heading h2 { font-size: 32px; }
-  .sticker-playground-add { width: 100%; max-width: none; padding-block: 12px; }
-  .sticker-playground-workspace { display: flex; flex-direction: column; gap: 25px; }
-  .sticker-playground-stage, .sticker-playground-tools { width: 100%; }
-  .sticker-playground-caption { font-size: clamp(20px, 6vw, 34px); }
-  .sticker-playground-toolbar { font-size: 10px; }
-  .sticker-playground-toolbar > div { gap: 13px; }
-  .sticker-playground-surface-controls { gap: 15px; }
-  .sticker-playground-surface-controls > label { width: 100%; flex-basis: 100%; }
-  .sticker-playground-layers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 155px; }
-  .sticker-playground-placement-controls { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 20px; }
-  .sticker-playground-placement-controls h4 { grid-column: 1 / -1; }
-  .sticker-playground-placement-controls label[for="playground-size"] { grid-column: 1; grid-row: 2; }
-  .sticker-playground-placement-controls label[for="playground-rotation"] { grid-column: 2; grid-row: 2; }
-  .sticker-playground-placement-controls #playground-size { grid-column: 1; grid-row: 3; }
-  .sticker-playground-placement-controls #playground-rotation { grid-column: 2; grid-row: 3; }
-  .sticker-playground-position-readout { grid-column: 1; margin-bottom: 0; align-items: center; }
-  .sticker-playground-layer-actions { grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
-  .sticker-playground-layer-actions button { flex-direction: column; gap: 7px; font-size: 10px; padding: 9px 3px; }
-  .sticker-playground-tray-heading { margin-top: 26px; align-items: start; flex-direction: column; gap: 13px; }
-  .sticker-playground-search { width: 100%; max-width: none; }
-  .sticker-playground-export { grid-template-columns: 1fr; gap: 18px; }
-  .sticker-playground-export p { max-width: none; }
-  .sticker-playground-code { font-size: 11px; }
+@media (max-width: 1000px) { .sticker-playground-workspace { grid-template-columns: minmax(0, 1fr) 280px; } .sticker-playground-viewport { padding: 20px; } }
+@media (max-width: 760px) {
+  .sticker-playground-heading { gap: 8px; padding: 8px 12px; min-height: 52px; }
+  .sticker-playground-heading h2 { font-size: 14px; }
+  .sticker-playground-heading button { min-width: 30px; min-height: 32px; padding: 6px; }
+  .sticker-playground-heading button span { display: none; }
+  .sticker-playground-header-actions, .sticker-playground-export-toolbar { gap: 2px; }
+  .sticker-playground-heading .sticker-playground-add { padding-inline: 7px; }
+  .sticker-playground-export-toolbar select { width: 65px; font-size: 11px; }
+  .sticker-playground-workspace { display: flex; flex-direction: column; }
+  .sticker-playground-stage { flex: none; height: 37dvh; min-height: 200px; }
+  .sticker-playground-toolbar { padding: 8px 16px 0; font-size: 10px; }
+  .sticker-playground-viewport { padding: 12px 16px; }
+  .sticker-playground-board { max-width: calc(59.2dvh - 102.4px); }
+  .sticker-playground-caption { font-size: clamp(18px, 6vw, 34px); }
+  .sticker-playground-bottom-bar { min-height: 25px; padding: 4px 16px; }
+  .sticker-playground-instructions { display: none; }
+  .sticker-playground-status { font-size: 10px; }
+  .sticker-playground-tools { flex: 1; min-height: 0; border-left: 0; border-top: 1px solid var(--line); }
+  .sticker-playground-tool-tabs { padding: 8px 12px; }
+  .sticker-playground-tool-content { padding: 12px 16px; }
+  .sticker-playground-tool-content h3 { font-size: 13px; }
+  .sticker-playground-stickers-panel { height: 100%; display: flex; flex-direction: column; }
+  .sticker-playground-tray { flex: 1; min-height: 0; gap: 2px 8px; padding: 8px 0; }
+  .sticker-playground-tray > button { gap: 4px; padding-block: 2px; }
+  .sticker-playground-tray .orange-sticker { width: 48px !important; }
+  .sticker-playground-tray > button > span:last-child { font-size: 10px; }
+  .sticker-playground-tray-pagination button { padding: 5px 8px; }
+  .sticker-playground-selected-heading { margin-bottom: 10px; }
+  .sticker-playground-position-inputs { margin-top: 10px; }
+  .sticker-playground-layer-actions { margin-top: 10px; }
+}
+@media (max-height: 680px) and (max-width: 760px) {
+  .sticker-playground-stage { height: 27dvh; min-height: 144px; }
+  .sticker-playground-board { max-width: calc(43.2dvh - 89.6px); }
+  .sticker-playground-tray .orange-sticker { width: 36px !important; }
+  .sticker-playground-tray > button > span:last-child { font-size: 9px; }
+  .sticker-playground-tool-content { padding-top: 10px; }
+  .sticker-playground-selected-heading { margin-bottom: 6px; }
+  .sticker-playground .sticker-controls-pane { min-height: 148px; gap: 6px; }
+  .sticker-playground .sticker-controls-finish button { min-height: 26px; padding-block: 3px; }
+  .sticker-playground .sticker-controls-range > span { font-size: 11px; }
+  .sticker-playground .sticker-controls-check { min-height: 20px; }
+  .sticker-playground .sticker-controls-tabs { margin-bottom: 8px; }
+  .sticker-playground .sticker-controls-tabs button { min-height: 28px; padding-bottom: 6px; }
+  .sticker-playground-position-inputs { margin-top: 8px; }
+  .sticker-playground-position-inputs input { padding: 6px; }
+  .sticker-playground-layer-actions { margin-top: 8px; }
+  .sticker-playground-layer-actions button { padding-block: 7px; }
+}
+@media (max-height: 650px) and (max-width: 760px) {
+  .sticker-playground-stage { height: auto; min-height: 0; }
+  .sticker-playground-board { max-width: none; }
+  .sticker-playground-viewport { flex: none; padding: 8px 16px; }
+  .sticker-playground-toolbar { padding-top: 6px; }
+  .sticker-playground-tool-tabs { padding: 6px 12px; }
+  .sticker-playground-tool-tabs button { padding-block: 7px; }
+  .sticker-playground-tool-content { padding: 8px 16px; }
+  .sticker-playground-placement-controls { position: relative; }
+  .sticker-playground-selected-heading { min-height: 24px; padding-right: 82px; margin-bottom: 6px; }
+  .sticker-playground-selected-heading h3 { font-size: 12px; }
+  .sticker-playground-placement-controls .sticker-controls-tabs { margin-bottom: 6px; }
+  .sticker-playground-placement-controls .sticker-controls-tabs button { min-height: 26px; padding-bottom: 5px; }
+  .sticker-playground-placement-controls .sticker-controls-pane { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); min-height: 104px; gap: 6px; align-content: start; }
+  .sticker-playground-placement-controls .sticker-controls-finish, .sticker-playground-placement-controls .sticker-controls-select, .sticker-playground-placement-controls .sticker-controls-check { grid-column: 1 / -1; }
+  .sticker-playground-placement-controls .sticker-controls-motion-note { display: none; }
+  .sticker-playground-position-inputs { margin-top: 6px; }
+  .sticker-playground-position-inputs input { padding: 4px; height: 28px; }
+  .sticker-playground-layer-actions { position: absolute; right: 30px; top: 0; width: 56px; margin: 0; gap: 4px; }
+  .sticker-playground-layer-actions button { min-height: 24px; padding: 4px; font-size: 0; }
+  .sticker-playground-tray .orange-sticker { width: 40px !important; }
+  .sticker-playground-tray > button > span:last-child { font-size: 10px; }
+  .sticker-playground-search { padding: 8px 10px; }
+}
+@media (max-width: 360px) {
+  .sticker-playground-heading h2 { display: none; }
+  .sticker-playground-heading { gap: 6px; padding-inline: 8px; }
+}
+@media (max-height: 550px) and (max-width: 760px) {
+  .sticker-playground-placement-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 10px; }
+  .sticker-playground-selected-heading, .sticker-playground-placement-controls > .sticker-controls { grid-column: 1 / -1; }
+  .sticker-playground .sticker-controls-pane { min-height: 116px; }
+  .sticker-playground-position-inputs { gap: 5px; }
+  .sticker-playground-position-inputs label { flex-direction: column; align-items: start; gap: 2px; }
+  .sticker-playground-layer-actions { align-items: end; gap: 4px; }
+  .sticker-playground-layer-actions button { font-size: 10px; padding-inline: 3px; }
+  .sticker-playground-layer-actions svg { display: none; }
 }

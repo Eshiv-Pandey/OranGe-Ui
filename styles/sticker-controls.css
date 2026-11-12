@@ -1,0 +1,37 @@
+.sticker-controls { min-width: 0; color: var(--ink); font: 12px/1.4 var(--font-body), sans-serif; }
+.sticker-controls *, .sticker-background-control * { box-sizing: border-box; }
+.sticker-controls [hidden] { display: none !important; }
+.sticker-controls button, .sticker-controls select, .sticker-controls input, .sticker-background-control button, .sticker-background-control input { font: inherit; }
+.sticker-controls :focus-visible, .sticker-background-control :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.sticker-controls button, .sticker-background-control button { color: inherit; cursor: pointer; }
+.sticker-controls-tabs { display: flex; gap: 20px; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+.sticker-controls-tabs button { min-height: 34px; padding: 0 0 9px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--muted); }
+.sticker-controls-tabs button[aria-selected="true"] { border-bottom-color: var(--ink); color: var(--ink); font-weight: 550; }
+.sticker-controls-pane { display: flex; flex-direction: column; gap: 12px; min-height: 186px; }
+.sticker-controls-finish { display: flex; gap: 4px; background: var(--surface-soft); padding: 3px; border-radius: 7px; }
+.sticker-controls-finish button { flex: 1; min-height: 30px; padding: 5px 8px; border: 0; border-radius: 5px; background: transparent; }
+.sticker-controls-finish button[aria-pressed="true"] { background: var(--surface); box-shadow: 0 1px 3px rgb(0 0 0 / .12); font-weight: 550; }
+.sticker-controls-range { display: block; }
+.sticker-controls-range > span { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.sticker-controls-range output, .sticker-background-heading output { color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.sticker-controls-range input { width: 100%; height: 18px; margin: 5px 0 0; display: block; accent-color: var(--primary); }
+.sticker-controls-range input:disabled { opacity: .4; }
+.sticker-controls-select { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 35px; }
+.sticker-controls-select select { min-width: 105px; max-width: 55%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); }
+.sticker-controls-check { display: flex; align-items: center; gap: 8px; min-height: 24px; }
+.sticker-controls-check input { margin: 0; accent-color: var(--primary); width: 15px; height: 15px; }
+.sticker-controls-motion-note { color: var(--muted); font-size: 11px; line-height: 1.4; margin: 0; }
+.sticker-background-control { min-width: 0; font: 12px/1.4 var(--font-body), sans-serif; color: var(--ink); }
+.sticker-background-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+.sticker-background-colors { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.sticker-background-colors input[type="color"] { flex: none; width: 30px; height: 30px; padding: 2px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); cursor: pointer; margin-right: 2px; }
+.sticker-background-swatch { display: block; flex: none; width: 24px; height: 24px; padding: 0; border: 1px solid rgb(127 127 127 / .35); border-radius: 50%; }
+.sticker-background-swatch[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
+.sticker-background-transparent { background: conic-gradient(#ccc 25%, #fff 0 50%, #ccc 0 75%, #fff 0) 0 0 / 8px 8px; }
+@media (max-height: 650px) { .sticker-controls-tabs { margin-bottom: 10px; }.sticker-controls-pane { min-height: 169px; gap: 9px; }.sticker-controls-range input { margin-top: 3px; }.sticker-controls-tabs button { min-height: 30px; padding-bottom: 7px; } }
+@media (max-height: 550px) {
+  .sticker-controls-pane { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; min-height: 120px; gap: 8px; }
+  .sticker-controls-finish, .sticker-controls-select, .sticker-controls-check, .sticker-controls-motion-note { grid-column: 1 / -1; }
+  .sticker-controls-range > span { font-size: 11px; gap: 4px; }
+  .sticker-controls-range output { font-size: 10px; }
+}

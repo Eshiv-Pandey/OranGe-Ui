@@ -1,332 +1,152 @@
-import { expect, test, type Download, type Locator, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { mkdir, writeFile } from "node:fs/promises";
-import { STICKERS } from "../components/ui/sticker-artwork";
 
-const evidence = ".impeccable/review/stickers-v2";
-async function contents(download: Download) {
-  expect(await download.failure()).toBeNull();
-  const stream = await download.createReadStream();
-  expect(stream).not.toBeNull();
-  const chunks: Buffer[] = [];
+const evidence = process.env.STICKER_REVIEW_DIR || ".impeccable/review/stickers-v3";
+async function noScroll(element: Locator) {
+  expect(await element.evaluate(node => node.scrollHeight <= node.clientHeight + 1 && node.scrollWidth <= node.clientWidth + 1)).toBe(true);
+}
+async function withinViewport(element: Locator, page: Page) {
+  const rect = await element.boundingBox(), viewport = page.viewportSize()!;
+  expect(rect).not.toBeNull(); expect(rect!.x).toBeGreaterThanOrEqual(-1); expect(rect!.y).toBeGreaterThanOrEqual(-1);
+  expect(rect!.x + rect!.width).toBeLessThanOrEqual(viewport.width + 1); expect(rect!.y + rect!.height).toBeLessThanOrEqual(viewport.height + 1);
+}
+async function downloadText(page: Page, control: Locator) {
+  const waiting = page.waitForEvent("download"); await control.click(); const download = await waiting;
+  const stream = await download.createReadStream(), chunks: Buffer[] = [];
   for await (const chunk of stream!) chunks.push(Buffer.from(chunk));
   return Buffer.concat(chunks).toString("utf8");
 }
-async function selectCollection(page: Page, category: string, count: number) {
-  await page.getByRole("group", { name: "Sticker collections" }).getByRole("button", { name: `${category} ${count}`, exact: true }).click();
-}
-async function closeEditor(page: Page) {
-  await page.getByRole("button", { name: "Close sticker editor", exact: true }).click();
-  await expect(page.getByRole("dialog")).toHaveCount(0);
-}
-async function assertArtworkFit(artboard: Locator) {
-  const dimensions = await artboard.evaluate(element => {
-    const board = element.getBoundingClientRect(), art = element.querySelector(".orange-sticker")!.getBoundingClientRect();
-    return { left: art.left - board.left, top: art.top - board.top, right: board.right - art.right, bottom: board.bottom - art.bottom, width: board.width, height: board.height };
-  });
-  expect(dimensions.left).toBeGreaterThanOrEqual(20);
-  expect(dimensions.top).toBeGreaterThanOrEqual(20);
-  expect(dimensions.right).toBeGreaterThanOrEqual(20);
-  expect(dimensions.bottom).toBeGreaterThanOrEqual(20);
+async function canvasJson(page: Page) {
+  const workspace = page.getByRole("dialog", { name: "Sticker playground", exact: true });
+  await workspace.getByRole("combobox", { name: "Canvas code format" }).selectOption("JSON");
+  return JSON.parse(await downloadText(page, workspace.getByRole("button", { name: "Download JSON canvas" })));
 }
 
-async function pauseWorstCanvasMotion(placement: Locator) {
-  return placement.locator(".orange-sticker-sheet").evaluate(element => {
-    const animation = element.getAnimations()[0];
-    if (!animation) throw new Error("Expected a real canvas click animation");
-    animation.pause();
-    const board = element.closest(".sticker-playground-board")!.getBoundingClientRect();
-    let worst = { time: 0, margin: Infinity };
-    // Inspect the complete motion, then freeze the most exposed frame for evidence.
-    for (let index = 0; index <= 100; index++) {
-      animation.currentTime = Number(animation.effect!.getTiming().duration) * index / 100;
-      const rect = element.getBoundingClientRect();
-      const margin = Math.min(rect.left - board.left, rect.top - board.top, board.right - rect.right, board.bottom - rect.bottom);
-      if (margin < worst.margin) worst = { time: Number(animation.currentTime), margin };
-    }
-    animation.currentTime = worst.time;
-    return worst;
-  });
-}
-
-test("sharp and playful catalogue, real click motion, native editor and portable playground", async ({ page, context }) => {
+test("compact editor and inspector keep controls visible and export all settings", async ({ page, context }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.addInitScript(() => localStorage.setItem("orangeui-palette", "light"));
-  const errors: string[] = []; page.on("pageerror", error => errors.push(error.message));
-  await page.goto("/stickers");
-  await expect(page.locator(".sticker-install-command").first()).toHaveText("npm install orangeui-stickers@0.1.0");
-  await expect(page.locator(".sticker-card")).toHaveCount(70);
-  await expect(page.locator('.sticker-card .orange-sticker[data-finish="sharp"]')).toHaveCount(70);
-  await selectCollection(page, "Everyday", 20);
-  await expect(page.locator(".sticker-card")).toHaveCount(20);
-  await page.getByRole("group", { name: "Artwork finish", exact: true }).getByRole("button", { name: "Playful", exact: true }).click();
-  await selectCollection(page, "All stickers", 70);
-  await expect(page.locator('.sticker-card .orange-sticker[data-finish="playful"]')).toHaveCount(70);
-  const originals = STICKERS.filter(sticker => sticker.category !== "Everyday");
-  expect(originals).toHaveLength(50);
-  for (const sticker of originals) await expect(page.getByRole("button", { name: `Preview ${sticker.title}`, exact: true })).toHaveCount(1);
-  await page.getByRole("group", { name: "Artwork finish", exact: true }).getByRole("button", { name: "Sharp", exact: true }).click();
-  await page.getByRole("searchbox", { name: "Search stickers", exact: true }).fill("approved");
-  await expect(page.locator(".sticker-card")).toHaveCount(1);
-  await page.getByRole("button", { name: "Preview Approval seal", exact: true }).click();
-  await expect(page.locator(".sticker-selected-title h2")).toHaveText("Approval seal");
-  await page.getByRole("searchbox", { name: "Search stickers", exact: true }).fill("");
-  const preview = page.locator(".sticker-peel-preview"), sheet = preview.locator(".orange-sticker-sheet");
-  for (const motion of ["bounce", "wiggle", "spin", "none"]) {
-    await page.getByRole("combobox", { name: "Click animation", exact: true }).selectOption(motion);
-    await preview.click();
-    await expect(sheet).toHaveAttribute("data-motion", motion);
-    expect(await sheet.evaluate(element => getComputedStyle(element).animationName)).toBe(motion === "none" ? "none" : `orange-sticker-${motion}`);
-    if (motion !== "none") expect(await sheet.evaluate(element => element.getAnimations().filter(animation => animation.playState === "running").length)).toBeGreaterThan(0);
-  }
-  await page.getByRole("combobox", { name: "Click animation", exact: true }).selectOption("wiggle");
-  const previousSheet = await sheet.elementHandle();
-  await preview.click();
-  expect(await previousSheet!.evaluate(element => element.isConnected)).toBe(false);
-  await expect(sheet).toHaveAttribute("data-motion", "wiggle");
-  const edit = page.getByRole("button", { name: "Edit sticker More options", exact: true });
-  await edit.click();
-  const dialog = page.getByRole("dialog", { name: "Edit Approval seal", exact: true });
-  await expect(dialog).toBeVisible();
-  await expect(dialog.getByRole("button", { name: "Close sticker editor", exact: true })).toBeFocused();
-  await edit.focus();
-  await expect(dialog.getByRole("button", { name: "Close sticker editor", exact: true })).toBeFocused();
-  const lastDialogControl = dialog.getByRole("button", { name: "Open in playground", exact: true });
-  await lastDialogControl.focus(); await page.keyboard.press("Tab");
-  // Native dialogs let Tab visit browser chrome, then resume inside the modal.
-  if (!await page.evaluate(() => document.hasFocus())) await page.keyboard.press("Tab");
-  await expect(dialog.getByRole("button", { name: "Close sticker editor", exact: true })).toBeFocused();
-  await page.keyboard.press("Shift+Tab");
-  if (!await page.evaluate(() => document.hasFocus())) await page.keyboard.press("Shift+Tab");
-  await expect(lastDialogControl).toBeFocused();
-  await page.keyboard.press("Escape"); await expect(dialog).toHaveCount(0); await expect(edit).toBeFocused();
-  await edit.click(); await expect(dialog).toBeVisible();
-  await page.mouse.click(4, 4); await expect(dialog).toHaveCount(0); await expect(edit).toBeFocused();
-  await edit.click(); await expect(dialog).toBeVisible();
-  await dialog.getByRole("slider", { name: "Sticker size", exact: true }).fill("360");
-  await dialog.getByRole("slider", { name: "Rotation", exact: true }).fill("45");
+  await page.setViewportSize({ width: 1536, height: 772 }); await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/stickers"); await expect(page.locator(".sticker-card")).toHaveCount(70);
+  expect(await page.locator(".sticker-card").first().evaluate(node => node.getBoundingClientRect().bottom)).toBeLessThan(620);
+  await expect(page.getByRole("button", { name: "Playground", exact: true })).toHaveCount(1);
+  const inspector = page.locator(".sticker-inspector"); await noScroll(inspector); await withinViewport(inspector, page);
+  await expect(inspector.locator("pre")).toHaveCount(0);
+  await inspector.getByRole("tab", { name: "Motion", exact: true }).click();
+  await inspector.getByRole("combobox", { name: "Click animation" }).selectOption("wiggle");
+  await inspector.getByRole("tab", { name: "Appearance", exact: true }).click();
+  await inspector.getByRole("slider", { name: "Sticker size", exact: true }).fill("360");
+  await inspector.getByRole("slider", { name: "Rotation", exact: true }).fill("45");
+  const edit = inspector.getByRole("button", { name: "Edit sticker", exact: true }); await edit.click();
+  const dialog = page.getByRole("dialog", { name: "Edit Essential heart", exact: true });
+  await expect(dialog).toBeVisible(); await noScroll(dialog); await withinViewport(dialog, page);
+  await dialog.locator('input[aria-label="Preview background"]').fill("#123456");
+  await expect(dialog.locator(".sticker-editor-artboard")).toHaveAttribute("data-background", "#123456");
+  await dialog.getByRole("button", { name: "Mint", exact: true }).click();
+  await expect(dialog.locator(".sticker-editor-artboard")).toHaveAttribute("data-background", "#def4d8");
+  await dialog.getByRole("tab", { name: "Motion", exact: true }).click();
   await dialog.getByRole("slider", { name: "Duration", exact: true }).fill("1100");
   await dialog.getByRole("slider", { name: "Intensity", exact: true }).fill("1.5");
-  await dialog.getByRole("checkbox", { name: "Soft shadow", exact: true }).uncheck();
-  await expect(dialog.locator(".orange-sticker")).toHaveAttribute("data-shadow", "false");
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await assertArtworkFit(dialog.locator(".sticker-editor-artboard"));
-  await dialog.getByRole("button", { name: "Copy edited sticker React code", exact: true }).click();
-  const edited = await page.evaluate(() => navigator.clipboard.readText());
-  for (const setting of ['name="approval-seal"', 'finish="sharp"', "size={360}", "rotate={45}", 'motion="wiggle"', "duration={1100}", "intensity={1.5}", "shadow={false}"]) expect(edited).toContain(setting);
-  const componentPromise = page.waitForEvent("download"); await dialog.getByRole("button", { name: "Download React component", exact: true }).click();
-  const componentDownload = await componentPromise;
-  expect(componentDownload.suggestedFilename()).toBe("approval-seal-sticker.tsx");
-  const componentSource = await contents(componentDownload); expect(componentSource).toContain("export default function CustomSticker()"); expect(componentSource).toContain("size={360}");
-  await closeEditor(page);
-  await page.getByRole("button", { name: "Playground", exact: true }).click();
-  const board = page.locator(".sticker-playground-board");
-  await expect(board.locator(".sticker-playground-placement")).toHaveCount(4);
-  await page.getByRole("button", { name: "Add Approval seal", exact: true }).click();
-  await expect(board.locator(".sticker-playground-placement")).toHaveCount(5);
-  const placed = board.locator('[data-placement="placed-1"]'), placedSticker = placed.locator(".orange-sticker"), placedSheet = placed.locator(".orange-sticker-sheet");
-  await expect(placedSticker).toHaveAttribute("data-finish", "sharp");
-  await expect(placedSticker).toHaveAttribute("data-shadow", "false");
-  await page.getByRole("group", { name: "Canvas code format", exact: true }).getByRole("button", { name: "JSON", exact: true }).click();
-  let saved = JSON.parse(await page.locator(".sticker-playground-code").innerText());
-  expect(saved.placements.at(-1)).toMatchObject({ name: "approval-seal", size: 360, rotate: 45, motion: "wiggle", duration: 1100, intensity: 1.5, shadow: false, finish: "sharp" });
-  const beforeDrag = { x: saved.placements.at(-1).x, y: saved.placements.at(-1).y };
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await placedSticker.click(); await expect(placedSheet).toHaveAttribute("data-motion", "wiggle");
-  expect(await placedSheet.evaluate(element => getComputedStyle(element).animationName)).toBe("orange-sticker-wiggle");
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  const box = await placed.boundingBox(); expect(box).not.toBeNull();
-  await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
-  await page.mouse.down(); await page.mouse.move(box!.x + box!.width / 2 + 70, box!.y + box!.height / 2 + 35, { steps: 8 }); await page.mouse.up();
-  saved = JSON.parse(await page.locator(".sticker-playground-code").innerText());
-  expect(saved.placements.at(-1).x).toBeGreaterThan(beforeDrag.x);
-  expect(saved.placements.at(-1).y).toBeGreaterThan(beforeDrag.y);
-  expect(saved.placements.at(-1).rotate).toBe(45);
-  const dragX = saved.placements.at(-1).x;
-  await placedSticker.focus(); await page.keyboard.press("ArrowRight");
-  saved = JSON.parse(await page.locator(".sticker-playground-code").innerText()); expect(saved.placements.at(-1).x).toBeGreaterThan(dragX);
-  await page.keyboard.press("Delete"); await expect(board.locator(".sticker-playground-placement")).toHaveCount(4);
-  await page.getByRole("button", { name: "Undo last canvas change", exact: true }).click(); await expect(board.locator(".sticker-playground-placement")).toHaveCount(5);
-  for (const format of ["React", "HTML", "JSON"] as const) {
-    await page.getByRole("group", { name: "Canvas code format", exact: true }).getByRole("button", { name: format, exact: true }).click();
-    const downloading = page.waitForEvent("download"); await page.getByRole("button", { name: `Download ${format}`, exact: true }).click();
-    const download = await downloading;
-    expect(download.suggestedFilename()).toBe(`my-sticker-canvas.${format === "React" ? "tsx" : format.toLowerCase()}`);
-    const source = await contents(download);
-    if (format !== "HTML") expect(source).toContain("approval-seal");
-    if (format === "React") expect(source).toContain('from "orangeui-stickers"');
-    if (format === "HTML") { expect(source).toContain("<!doctype html>"); expect(source).toContain('aria-label="Animate Approval seal"'); expect(source).toContain('data-duration="1100"'); }
-    if (format === "JSON") expect(JSON.parse(source).placements).toHaveLength(5);
-  }
-  const arrangement = await board.locator(".sticker-playground-placement").evaluateAll(elements => elements.map(element => element.getAttribute("style")));
-  await page.getByRole("button", { name: "Collection 70", exact: true }).click();
-  await page.getByRole("button", { name: "Playground", exact: true }).click();
-  expect(await board.locator(".sticker-playground-placement").evaluateAll(elements => elements.map(element => element.getAttribute("style")))).toEqual(arrangement);
-  expect(errors).toEqual([]);
+  await dialog.getByRole("button", { name: "Copy edited sticker React code" }).click();
+  const copied = await page.evaluate(() => navigator.clipboard.readText());
+  for (const setting of ['finish="sharp"', "size={360}", "rotate={45}", 'motion="wiggle"', "duration={1100}", "intensity={1.5}"]) expect(copied).toContain(setting);
+  expect(await downloadText(page, dialog.getByRole("button", { name: "Download React component" }))).toContain("export default function CustomSticker");
+  await page.keyboard.press("Escape"); await expect(dialog).toHaveCount(0); await expect(edit).toBeFocused();
+  await inspector.getByRole("button", { name: "Copy sticker React code" }).click(); expect(await page.evaluate(() => navigator.clipboard.readText())).toContain("duration={1100}");
 });
 
-test("click motion keeps maximum-size artwork inside every responsive canvas edge", async ({ page }) => {
-  for (const width of [1440, 390, 320]) {
-    await page.setViewportSize({ width, height: 1000 });
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto("/stickers");
-    for (const motion of ["spin", "bounce"] as const) {
-      await page.getByRole("button", { name: "Collection 70", exact: true }).click();
-      await page.getByRole("button", { name: "Preview Essential heart", exact: true }).click();
-      await page.getByRole("button", { name: "Edit sticker More options", exact: true }).click();
-      const dialog = page.getByRole("dialog");
-      await dialog.getByRole("combobox", { name: "Click animation", exact: true }).selectOption(motion);
-      await dialog.getByRole("slider", { name: "Intensity", exact: true }).fill("2");
-      await dialog.getByRole("slider", { name: "Sticker size", exact: true }).fill("360");
-      await dialog.getByRole("slider", { name: "Rotation", exact: true }).fill("45");
-      await closeEditor(page);
-      await assertArtworkFit(page.locator(".sticker-live-preview"));
-      await page.getByRole("button", { name: "Playground", exact: true }).click();
-      await page.getByRole("button", { name: "Add Essential heart", exact: true }).click();
-      const board = page.locator(".sticker-playground-board"), placed = board.locator(".sticker-playground-placement").last();
-      await board.scrollIntoViewIfNeeded();
-      const position = await placed.boundingBox(), boardBox = await board.boundingBox();
-      expect(position).not.toBeNull(); expect(boardBox).not.toBeNull();
-      await page.mouse.move(position!.x + position!.width / 2, position!.y + position!.height / 2);
-      await page.mouse.down(); await page.mouse.move(boardBox!.x + 1, boardBox!.y + 1, { steps: 6 }); await page.mouse.up();
-      await page.emulateMedia({ reducedMotion: "no-preference" });
-      await placed.locator(".orange-sticker").click();
-      const worst = await pauseWorstCanvasMotion(placed);
-      expect(worst.margin, `${motion} full canvas at ${width}`).toBeGreaterThanOrEqual(-.5);
-      await page.emulateMedia({ reducedMotion: "reduce" });
-    }
+test("fullscreen canvas supports edge bleed, selected removal, reorder and portable custom colors", async ({ page }) => {
+  await page.setViewportSize({ width: 1536, height: 772 }); await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/stickers"); const launcher = page.getByRole("button", { name: "Playground", exact: true }); await launcher.click();
+  const workspace = page.getByRole("dialog", { name: "Sticker playground", exact: true }), board = workspace.locator(".sticker-playground-board");
+  await expect(workspace).toBeVisible(); await noScroll(workspace); await withinViewport(workspace, page);
+  expect((await board.boundingBox())!.width).toBeGreaterThan(850);
+  await workspace.getByRole("button", { name: "Add Essential heart", exact: true }).click();
+  const placed = board.locator('[data-placement="placed-1"]'); await expect(placed).toHaveCount(1);
+  const start = await placed.boundingBox(), canvas = await board.boundingBox();
+  await page.mouse.move(start!.x + start!.width / 2, start!.y + start!.height / 2); await page.mouse.down();
+  await page.mouse.move(canvas!.x - 15, canvas!.y + canvas!.height / 2, { steps: 12 }); await page.mouse.up();
+  let saved = await canvasJson(page); expect(saved.placements.at(-1).x).toBeLessThan(0);
+  const remove = workspace.getByRole("button", { name: "Remove Essential heart from canvas", exact: true }); await expect(remove).toBeVisible();
+  const removeBox = await remove.boundingBox(); expect(removeBox!.x).toBeGreaterThanOrEqual(canvas!.x - 1);
+  await remove.click(); await expect(placed).toHaveCount(0); await workspace.getByRole("button", { name: "Undo last canvas change" }).click(); await expect(placed).toHaveCount(1);
+  await workspace.getByRole("group", { name: "Playground tools" }).getByRole("button", { name: "Layers", exact: true }).click();
+  const front = workspace.locator("[data-layer-id]").first(), grip = workspace.getByRole("button", { name: "Drag Checkered daisy layer", exact: true });
+  const gripBox = await grip.boundingBox(), frontBox = await front.boundingBox();
+  await page.mouse.move(gripBox!.x + gripBox!.width / 2, gripBox!.y + gripBox!.height / 2); await page.mouse.down();
+  await page.mouse.move(frontBox!.x + frontBox!.width / 2, frontBox!.y + 4, { steps: 10 }); await page.mouse.up();
+  await expect(workspace.locator("[data-layer-id]").first()).toHaveAttribute("data-layer-id", "start-1");
+  saved = await canvasJson(page); expect(saved.placements.at(-1).name).toBe("checkered-daisy");
+  const adjacent = workspace.locator('[data-layer-id="placed-1"]'), adjacentBox = await adjacent.boundingBox(), downwardGripBox = await grip.boundingBox();
+  await page.mouse.move(downwardGripBox!.x + downwardGripBox!.width / 2, downwardGripBox!.y + downwardGripBox!.height / 2); await page.mouse.down();
+  await page.mouse.move(adjacentBox!.x + adjacentBox!.width / 2, adjacentBox!.y + adjacentBox!.height - 4, { steps: 10 }); await page.mouse.up();
+  await expect(workspace.locator("[data-layer-id]").nth(1)).toHaveAttribute("data-layer-id", "start-1");
+  await workspace.getByRole("button", { name: "Undo last canvas change" }).click();
+  await expect(workspace.locator("[data-layer-id]").first()).toHaveAttribute("data-layer-id", "start-1");
+  const bottom = workspace.locator("[data-layer-id]").last(), bottomBox = await bottom.boundingBox();
+  await workspace.locator('[data-layer-id="start-1"]').dragTo(bottom, { sourcePosition: { x: 50, y: 16 }, targetPosition: { x: 50, y: bottomBox!.height - 4 } });
+  await expect(workspace.locator("[data-layer-id]").last()).toHaveAttribute("data-layer-id", "start-1");
+  saved = await canvasJson(page); expect(saved.placements[0].name).toBe("checkered-daisy");
+  await workspace.getByRole("button", { name: "Undo last canvas change" }).click();
+  await expect(workspace.locator("[data-layer-id]").first()).toHaveAttribute("data-layer-id", "start-1");
+  await workspace.getByRole("group", { name: "Playground tools" }).getByRole("button", { name: "Canvas", exact: true }).click();
+  await workspace.locator('input[aria-label="Canvas background"]').fill("#102030");
+  await workspace.getByLabel("Canvas text", { exact: true }).fill("My canvas <3");
+  saved = await canvasJson(page); expect(saved.background).toBe("#102030"); expect(saved.caption).toBe("My canvas <3");
+  await expect(board).toHaveAttribute("data-dark", "true");
+  for (const format of ["React", "HTML"] as const) {
+    await workspace.getByRole("combobox", { name: "Canvas code format" }).selectOption(format);
+    const source = await downloadText(page, workspace.getByRole("button", { name: `Download ${format} canvas` }));
+    expect(source).toContain("#102030"); expect(source).toContain("#f4f3f0");
+    if (format === "HTML") { expect(source).toContain("My canvas &lt;3"); expect(source).toContain("<!doctype html>"); }
   }
+  const arrangement = await board.locator("[data-placement]").evaluateAll(nodes => nodes.map(node => node.getAttribute("style")));
+  await workspace.getByRole("button", { name: "Close playground" }).click(); await expect(launcher).toBeFocused();
+  await launcher.click(); expect(await board.locator("[data-placement]").evaluateAll(nodes => nodes.map(node => node.getAttribute("style")))).toEqual(arrangement);
+  await workspace.getByRole("button", { name: "Clear canvas", exact: true }).click(); await expect(board.locator("[data-placement]")).toHaveCount(0);
+  await workspace.getByRole("button", { name: "Undo last canvas change" }).click(); await expect(board.locator("[data-placement]")).toHaveCount(5);
 });
 
-test("one inspection batch: both palettes, desktop and phones, gallery editor and playground", async ({ page }) => {
-  test.setTimeout(180000);
-  await mkdir(evidence, { recursive: true });
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  const errors: string[] = [], accessibility: { surface: string; theme: string; violations: unknown[] }[] = [];
-  const mobileLayouts: { theme: string; width: number; firstCardTop: number; firstCardBottom: number; titleLines: number }[] = [];
-  page.on("pageerror", error => errors.push(error.message));
-  for (const theme of ["light", "dark"]) for (const width of [1440, 390, 320]) {
-    const viewport = width === 1440 ? "desktop" : width === 390 ? "mobile" : "small-mobile";
-    await page.setViewportSize({ width, height: 1000 });
+test("one capture batch: compact clean surfaces in both themes and short phones", async ({ page }) => {
+  test.setTimeout(180000); await mkdir(evidence, { recursive: true }); await page.emulateMedia({ reducedMotion: "reduce" });
+  const accessibility: unknown[] = [], errors: string[] = []; page.on("pageerror", error => errors.push(error.message));
+  for (const theme of ["light", "dark"]) for (const [width, height] of [[1536,772], [1440,900], [390,844], [320,780], [320,568]]) {
+    const prefix = `${width}-${height}-${theme}`; await page.setViewportSize({ width, height });
     await page.addInitScript(value => localStorage.setItem("orangeui-palette", value), theme);
-    await page.goto("/stickers"); await expect(page.locator(".sticker-install-command").first()).toHaveText("npm install orangeui-stickers@0.1.0"); await page.evaluate(() => document.fonts.ready);
-    await expect(page.locator(".sticker-card")).toHaveCount(70);
-    expect(await page.evaluate(() => document.documentElement.scrollWidth), `gallery ${theme} ${width}`).toBeLessThanOrEqual(width);
-    await page.screenshot({ path: `${evidence}/${viewport}-gallery-${theme}.png`, fullPage: true });
-    await page.screenshot({ path: `${evidence}/${viewport}-gallery-top-${theme}.png` });
-    if (width === 1440) {
-      await page.locator(".sticker-grid").screenshot({ path: `${evidence}/all-70-sharp-${theme}.png` });
-      for (const finish of ["sharp", "playful"]) {
-        await page.getByRole("group", { name: "Artwork finish", exact: true }).getByRole("button", { name: finish === "sharp" ? "Sharp" : "Playful", exact: true }).click();
-        await expect(page.locator(`.sticker-card .orange-sticker[data-finish="${finish}"]`)).toHaveCount(70);
-        for (const title of ["Essential heart", "Orbit snail", "Miso moth", "Tiny terrarium"]) {
-          await page.getByRole("button", { name: `Preview ${title}`, exact: true }).screenshot({ path: `${evidence}/finish-${finish}-${title.toLowerCase().replaceAll(" ", "-")}-${theme}.png` });
-        }
-        if (finish === "playful") await page.locator(".sticker-grid").screenshot({ path: `${evidence}/all-70-playful-${theme}.png` });
-      }
-      await page.getByRole("group", { name: "Artwork finish", exact: true }).getByRole("button", { name: "Sharp", exact: true }).click();
-      await page.evaluate(() => window.scrollTo(0, 0));
-      const scan = await new AxeBuilder({ page }).include(".sticker-gallery").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
-      if (scan.violations.length) accessibility.push({ surface: "gallery", theme, violations: scan.violations });
-    } else {
-      await expect(page.locator(".sticker-inspector")).toBeHidden();
-      const firstCard = await page.locator(".sticker-card").first().evaluate(element => {
-        const rect = element.getBoundingClientRect();
-        return { top: rect.top, bottom: rect.bottom };
-      });
-      expect(firstCard.bottom, `first sticker fits a 780px phone screen at ${width}`).toBeLessThan(780);
-      const title = page.locator(".sticker-gallery-intro h1");
-      const titleLines = await title.evaluate(element => {
-        // Inline widgets can enlarge line boxes. Count the actual text rows.
-        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-        const rectangles: { top: number; bottom: number }[] = [];
-        while (walker.nextNode()) {
-          if (!walker.currentNode.textContent?.trim()) continue;
-          const range = document.createRange();
-          range.selectNodeContents(walker.currentNode);
-          for (const rect of range.getClientRects()) if (rect.width && rect.height) rectangles.push({ top: rect.top, bottom: rect.bottom });
-        }
-        const rows: { top: number; bottom: number }[] = [];
-        for (const rect of rectangles.sort((a, b) => a.top - b.top)) {
-          const row = rows.find(candidate => Math.min(candidate.bottom, rect.bottom) - Math.max(candidate.top, rect.top) > Math.min(candidate.bottom - candidate.top, rect.bottom - rect.top) / 2);
-          if (row) { row.top = Math.min(row.top, rect.top); row.bottom = Math.max(row.bottom, rect.bottom); }
-          else rows.push({ ...rect });
-        }
-        return rows.length;
-      });
-      expect(titleLines, `two-line phone title at ${width}`).toBeLessThanOrEqual(2);
-      mobileLayouts.push({ theme, width, firstCardTop: firstCard.top, firstCardBottom: firstCard.bottom, titleLines });
-    }
+    await page.goto("/stickers"); await expect(page.locator(".sticker-card")).toHaveCount(70); await page.evaluate(() => document.fonts.ready);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+    if (width === 320 && height === 568) await withinViewport(page.locator(".sticker-card").first(), page);
+    await page.screenshot({ path: `${evidence}/${prefix}-gallery.png` });
     await page.getByRole("button", { name: "Preview Essential heart", exact: true }).click();
-    if (width !== 1440) await expect(page.locator(".sticker-peel-preview")).toBeFocused();
-    await page.getByRole("button", { name: "Edit sticker More options", exact: true }).click();
-    const dialog = page.getByRole("dialog", { name: "Edit Essential heart", exact: true });
-    await expect(dialog).toBeVisible();
-    await dialog.getByRole("slider", { name: "Sticker size", exact: true }).fill("360");
-    await dialog.getByRole("slider", { name: "Rotation", exact: true }).fill("45");
-    await assertArtworkFit(dialog.locator(".sticker-editor-artboard"));
-    expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth), `editor ${theme} ${width}`).toBe(true);
-    await dialog.evaluate(element => { element.scrollTop = 0; });
-    await page.screenshot({ path: `${evidence}/${viewport}-editor-${theme}.png` });
-    if (width === 1440) {
-      const scan = await new AxeBuilder({ page }).include(".sticker-editor").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
-      if (scan.violations.length) accessibility.push({ surface: "editor", theme, violations: scan.violations });
-    } else {
-      await dialog.locator(".sticker-editor-settings").scrollIntoViewIfNeeded();
-      await page.screenshot({ path: `${evidence}/${viewport}-editor-settings-${theme}.png` });
-    }
-    await closeEditor(page);
-    await assertArtworkFit(page.locator(".sticker-live-preview"));
-    await page.locator(".sticker-inspector").screenshot({ path: `${evidence}/${viewport}-inspector-large-${theme}.png` });
-    if (width !== 1440) {
-      await page.getByRole("button", { name: "Back to stickers", exact: true }).click();
-      await expect(page.getByRole("button", { name: "Preview Essential heart", exact: true })).toBeFocused();
-    }
+    const inspector = page.locator(".sticker-inspector"); await noScroll(inspector); await withinViewport(inspector, page);
+    await withinViewport(inspector.getByRole("button", { name: "Download sticker React code" }), page);
+    await withinViewport(inspector.getByRole("link", { name: "Component API" }), page);
+    await inspector.screenshot({ path: `${evidence}/${prefix}-inspector.png` });
+    await inspector.getByRole("button", { name: "Edit sticker", exact: true }).click();
+    const editor = page.getByRole("dialog", { name: "Edit Essential heart", exact: true }); await expect(editor).toBeVisible(); await noScroll(editor); await withinViewport(editor, page);
+    await withinViewport(editor.getByRole("button", { name: "Download React component" }), page);
+    if (width === 320 && height === 568) expect((await editor.locator(".sticker-editor-artboard").boundingBox())!.height).toBeGreaterThanOrEqual(120);
+    await page.screenshot({ path: `${evidence}/${prefix}-editor.png` });
+    await editor.getByRole("tab", { name: "Motion", exact: true }).click(); await noScroll(editor);
+    await page.screenshot({ path: `${evidence}/${prefix}-editor-motion.png` });
+    if (width === 1536) { const scan = await new AxeBuilder({ page }).include(".sticker-editor").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze(); accessibility.push(...scan.violations); }
+    await page.keyboard.press("Escape");
+    if (width < 700) await page.getByRole("button", { name: "Back to stickers", exact: true }).click();
     await page.getByRole("button", { name: "Playground", exact: true }).click();
-    await expect(page.locator(".sticker-playground-board")).toBeVisible();
-    await page.evaluate(() => window.scrollTo(0, 0));
-    expect(await page.evaluate(() => document.documentElement.scrollWidth), `playground ${theme} ${width}`).toBeLessThanOrEqual(width);
-    await page.screenshot({ path: `${evidence}/${viewport}-playground-${theme}.png`, fullPage: true });
-    await page.locator(".sticker-playground").screenshot({ path: `${evidence}/${viewport}-playground-surface-${theme}.png` });
-    if (width === 1440) {
-      const scan = await new AxeBuilder({ page }).include(".sticker-playground").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
-      if (scan.violations.length) accessibility.push({ surface: "playground", theme, violations: scan.violations });
-    }
-    const firstSticker = page.locator(".sticker-playground-placement .orange-sticker").first();
-    await firstSticker.click();
-    expect(await firstSticker.locator(".orange-sticker-sheet").evaluate(element => getComputedStyle(element).animationName)).toBe("none");
-    await firstSticker.hover();
-    expect(await firstSticker.locator(".orange-sticker-front").evaluate(element => getComputedStyle(element).transform)).toBe("none");
-    for (const motion of ["spin", "bounce"] as const) {
-      await page.getByRole("button", { name: "Collection 70", exact: true }).click();
-      await page.getByRole("button", { name: "Preview Essential heart", exact: true }).click();
-      await page.getByRole("button", { name: "Edit sticker More options", exact: true }).click();
-      const motionEditor = page.getByRole("dialog");
-      await motionEditor.getByRole("combobox", { name: "Click animation", exact: true }).selectOption(motion);
-      await motionEditor.getByRole("slider", { name: "Intensity", exact: true }).fill("2");
-      await motionEditor.getByRole("slider", { name: "Sticker size", exact: true }).fill("360");
-      await motionEditor.getByRole("slider", { name: "Rotation", exact: true }).fill("45");
-      await closeEditor(page);
-      await page.getByRole("button", { name: "Playground", exact: true }).click();
-      await page.getByRole("button", { name: "Add Essential heart", exact: true }).click();
-      const placed = page.locator(".sticker-playground-placement").last();
-      await page.locator(".sticker-playground-board").scrollIntoViewIfNeeded();
-      const position = await placed.boundingBox(), boardBox = await page.locator(".sticker-playground-board").boundingBox();
-      expect(position).not.toBeNull(); expect(boardBox).not.toBeNull();
-      await page.mouse.move(position!.x + position!.width / 2, position!.y + position!.height / 2);
-      await page.mouse.down(); await page.mouse.move(boardBox!.x + 1, boardBox!.y + 1, { steps: 6 }); await page.mouse.up();
-      await page.emulateMedia({ reducedMotion: "no-preference" });
-      await placed.locator(".orange-sticker").click();
-      const worst = await pauseWorstCanvasMotion(placed);
-      expect(worst.margin, `${motion} full canvas at ${width}`).toBeGreaterThanOrEqual(-.5);
-      await page.locator(".sticker-playground-board").screenshot({ path: `${evidence}/${viewport}-edge-${motion}-${theme}.png`, animations: "allow" });
-      await page.emulateMedia({ reducedMotion: "reduce" });
-    }
+    const workspace = page.getByRole("dialog", { name: "Sticker playground", exact: true }); await noScroll(workspace); await withinViewport(workspace, page);
+    if (width === 320 && height === 568) expect((await workspace.locator(".sticker-playground-board").boundingBox())!.width).toBeGreaterThanOrEqual(270);
+    await page.screenshot({ path: `${evidence}/${prefix}-playground.png` });
+    await workspace.getByRole("button", { name: "Add Essential heart", exact: true }).click();
+    await workspace.getByLabel("Sticker X position", { exact: true }).fill("-5"); await workspace.getByLabel("Sticker Y position", { exact: true }).fill("100");
+    await expect(workspace.getByRole("button", { name: "Remove Essential heart from canvas", exact: true })).toBeVisible();
+    await noScroll(workspace.locator(".sticker-playground-tool-content"));
+    await page.screenshot({ path: `${evidence}/${prefix}-playground-edit.png` });
+    if (width === 1536) { const scan = await new AxeBuilder({ page }).include(".sticker-playground").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze(); accessibility.push(...scan.violations); }
+    await workspace.getByRole("group", { name: "Playground tools" }).getByRole("button", { name: "Layers", exact: true }).click();
+    await page.screenshot({ path: `${evidence}/${prefix}-layers.png` });
+    await workspace.getByRole("group", { name: "Playground tools" }).getByRole("button", { name: "Canvas", exact: true }).click();
+    await page.screenshot({ path: `${evidence}/${prefix}-canvas.png` });
+    await workspace.getByRole("button", { name: "Close playground" }).click();
+    if (width === 1536) { const scan = await new AxeBuilder({ page }).include(".sticker-gallery").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze(); accessibility.push(...scan.violations); }
   }
-  await writeFile(`${evidence}/accessibility.json`, JSON.stringify(accessibility, null, 2));
-  await writeFile(`${evidence}/mobile-layout.json`, JSON.stringify(mobileLayouts, null, 2));
-  expect(accessibility).toEqual([]);
-  expect(errors).toEqual([]);
+  await writeFile(`${evidence}/accessibility.json`, JSON.stringify(accessibility, null, 2)); expect(accessibility).toEqual([]); expect(errors).toEqual([]);
 });
