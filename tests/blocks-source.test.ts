@@ -10,7 +10,7 @@ import { GET as sourceGet } from "../app/api/blocks/[slug]/route";
 import { GET as registryGet } from "../app/r/[name]/route";
 
 it("covers every researched section with unique, trusted original entries", () => {
-  expect(blocks).toHaveLength(61); expect(new Set(blocks.map(block => block.slug)).size).toBe(61);
+  expect(blocks).toHaveLength(75); expect(new Set(blocks.map(block => block.slug)).size).toBe(75);
   expect(blocks.filter(block => block.category === "Auth")).toHaveLength(5);
   expect(blocks.filter(block => block.category === "Not Found").map(block => block.slug)).toEqual(expect.arrayContaining(["neon-sign-404", "chai-break-404"]));
   expect(findBlock("pavilion-footer")?.category).toBe("Footer");
@@ -62,4 +62,13 @@ it("bundles testimonial portraits and their notices in both portable transports"
   const data = registry.files.find(file => file.target.endsWith("testimonial-data.ts"))!.content;
   expect(data).toContain("data:image/jpeg;base64,");
   expect(data).not.toContain("/photos/keepsakes/review-");
+}, 30000);
+it("ships outreach backgrounds, original team art and the contact serif font portably", async () => {
+  for (const slug of ["scene-announcement", "editorial-contact", "flip-team", "character-team"]) {
+    const entry = findBlock(slug)!, bundle = await blockSource(entry), item = await blockRegistryItem(entry);
+    const source = item.files.map(file => file.content).join("\n");
+    expect(source).toContain("data:image/"); expect(source).not.toMatch(/url\(["']?\/fonts\//);
+    if (slug === "editorial-contact") { expect(bundle.files["public/fonts/film/cormorant-garamond-italic-latin.woff2"]).toBeDefined(); expect(source).toContain("Contact Editorial"); expect(item.files.some(file => file.target.endsWith("licenses/FILM_FONT_CREDITS.md"))).toBe(true); }
+    if (slug.includes("team")) expect(item.files.some(file => file.target.endsWith("licenses/TESTIMONIAL_PHOTOS.md"))).toBe(true);
+  }
 }, 30000);

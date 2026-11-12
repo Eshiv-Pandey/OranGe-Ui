@@ -21,6 +21,10 @@ import { StudioLanding, StudioWorkspace } from "../ui/blocks/templates";
 import { StackedTestimonials, CollageTestimonials, PortraitTestimonials, InfiniteTestimonials } from "../ui/blocks/testimonial-variants";
 import { GlassPricing, TicketPricing } from "../ui/blocks/pricing-variants";
 import { FolderFaq, BubbleFaq, PosterFaq, AccordionFaq } from "../ui/blocks/faq-variants";
+import { DotStats, PulseStats, PosterStats } from "../ui/blocks/stats-variants";
+import { PosterAnnouncement, ReminderAnnouncement, SceneAnnouncement } from "../ui/blocks/announcement-variants";
+import { EditorialContact, ChannelContact, SignalContact, PosterContact } from "../ui/blocks/contact-variants";
+import { CollageTeam, FlipTeam, CharacterTeam, PosterTeam } from "../ui/blocks/team-variants";
 
 const landing = "/preview/blocks/studio-landing";
 const links = [{ label: "Our approach", href: `${landing}#about` }, { label: "Features", href: `${landing}#features` }, { label: "Plans", href: `${landing}#pricing` }];
@@ -28,12 +32,27 @@ const serviceBlocks = new Set(["auth-panel", "integrations", "contact", "newslet
 const authBlocks = new Set(["auth-panel", "quiet-auth", "studio-auth", "contrast-auth", "playful-auth"]);
 const heroBlocks = new Set(["editorial-hero", "product-hero", "playground-hero", "oddkin-hero", "woven-hero", "neon-hero"]);
 authBlocks.forEach(slug => serviceBlocks.add(slug));
+["poster-announcement", "reminder-announcement", "scene-announcement", "editorial-contact", "channel-contact", "signal-contact", "poster-contact"].forEach(slug => serviceBlocks.add(slug));
 export function BlockDemo({ slug, controls = true, theme = "auto" }: { slug: string; controls?: boolean; theme?: "light" | "dark" | "auto" }) {
   const [failure, setFailure] = useState(false), [status, setStatus] = useState(""), [authMode, setAuthMode] = useState<AuthMode>(slug === "playful-auth" ? "sign-up" : "sign-in");
   async function service() { await new Promise(resolve => setTimeout(resolve, 450)); if (failure) throw new Error("This is a demo error. Switch to Success and try again."); }
   const chosen = (plan: string, billing: string) => setStatus(`Demo: ${plan} selected with ${billing} billing. No purchase was made.`);
   let content: ReactNode;
   switch (slug) {
+    case "dot-stats": content = <DotStats />; break;
+    case "pulse-stats": content = <PulseStats />; break;
+    case "poster-stats": content = <PosterStats />; break;
+    case "poster-announcement": content = <PosterAnnouncement onAction={service} />; break;
+    case "reminder-announcement": content = <ReminderAnnouncement onAction={service} />; break;
+    case "scene-announcement": content = <SceneAnnouncement onAction={service} />; break;
+    case "editorial-contact": content = <EditorialContact onSubmit={service} successMessage="Message preview complete." />; break;
+    case "channel-contact": content = <ChannelContact onSubmit={service} successMessage="Message preview complete." />; break;
+    case "signal-contact": content = <SignalContact onSubmit={service} successMessage="Message preview complete." />; break;
+    case "poster-contact": content = <PosterContact onSubmit={service} successMessage="Message preview complete." />; break;
+    case "collage-team": content = <CollageTeam />; break;
+    case "flip-team": content = <FlipTeam />; break;
+    case "character-team": content = <CharacterTeam />; break;
+    case "poster-team": content = <PosterTeam />; break;
     case "stacked-testimonials": content = <StackedTestimonials />; break;
     case "collage-testimonials": content = <CollageTestimonials />; break;
     case "portrait-testimonials": content = <PortraitTestimonials />; break;

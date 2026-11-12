@@ -158,6 +158,7 @@ export async function collectComponentSource(component: ComponentDefinition, app
   if (files["components/ui/styled-text.tsx"]) for (const asset of CREATIVE_FONT_ASSETS) await include(asset);
   if (files["styles/chai-break-404.css"]) for (const asset of CREATIVE_FONT_ASSETS) await include(asset);
   if (files["styles/endless-film.css"]) for (const asset of FILM_FONT_ASSETS) await include(asset);
+  if (files["styles/contact-variants.css"]) for (const asset of FILM_FONT_ASSETS) await include(asset);
   if (files["components/ui/creative-playlist.ts"]) for (const asset of CREATIVE_AUDIO_ASSETS) await include(asset);
   if (files["components/ui/keepsake-photos.ts"]) for (const asset of KEEPSAKE_PHOTO_ASSETS) await include(asset);
   if (files["components/ui/blocks/testimonial-data.ts"]) for (const asset of TESTIMONIAL_PHOTO_ASSETS) await include(asset);

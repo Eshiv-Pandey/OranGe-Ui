@@ -4,6 +4,7 @@ import { FOOTER_BLOCKS } from "./footer-blocks";
 import { BENTO_BLOCKS } from "./bento-blocks";
 import { HERO_BLOCKS } from "./hero-blocks";
 import { TESTIMONIAL_BLOCKS, PRICING_BLOCKS, FAQ_BLOCKS } from "./marketing-proof-blocks";
+import { STATS_BLOCKS, ANNOUNCEMENT_BLOCKS, CONTACT_BLOCKS, TEAM_BLOCKS } from "./outreach-blocks";
 
 export const blockCategories = ["Auth", "Hero", "Header", "Footer", "Features", "Bento", "Pricing", "Testimonials", "Logo Cloud", "Integrations", "FAQ", "Contact", "Newsletter", "Blog", "Team", "Careers", "Image Gallery", "CTA", "Announcement", "Not Found", "App Shell", "Dashboard", "Settings", "Notifications", "File Upload", "Stats", "Widgets", "Templates"] as const;
 export type BlockCategory = typeof blockCategories[number];
@@ -70,6 +71,10 @@ blocks.push(...SCENE_COMPONENTS.map((item): BlockDefinition => ({
 blocks.splice(blocks.findIndex(item => item.slug === "testimonials"), 0, ...TESTIMONIAL_BLOCKS);
 blocks.splice(blocks.findIndex(item => item.slug === "pricing-section"), 0, ...PRICING_BLOCKS);
 blocks.splice(blocks.findIndex(item => item.slug === "faq"), 0, ...FAQ_BLOCKS);
+blocks.splice(blocks.findIndex(item => item.slug === "stats"), 0, ...STATS_BLOCKS);
+blocks.splice(blocks.findIndex(item => item.slug === "announcement"), 0, ...ANNOUNCEMENT_BLOCKS);
+blocks.splice(blocks.findIndex(item => item.slug === "contact"), 0, ...CONTACT_BLOCKS);
+blocks.splice(blocks.findIndex(item => item.slug === "team"), 0, ...TEAM_BLOCKS);
 blocks.splice(blocks.findIndex(item => item.slug === "bento-overview"), 0, ...BENTO_BLOCKS);
 blocks.splice(blocks.findIndex(item => item.slug === "editorial-hero"), 0, ...HERO_BLOCKS);
 const originalFooterIndex = blocks.findIndex(item => item.slug === "site-footer");
