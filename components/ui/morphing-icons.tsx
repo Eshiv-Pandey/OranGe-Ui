@@ -32,12 +32,12 @@ export type MorphIconProps = Omit<SVGProps<SVGSVGElement>, "name" | "children"> 
   appearance?: Appearance;
 };
 
-function MorphGlyph({ name, active = false, size = 24, duration = 260, strokeWidth = 2, reducedMotion = false, label, decorative, appearance, style, ...props }: MorphIconProps) {
+function MorphGlyph({ name, active = false, size = 24, duration = 260, strokeWidth = 1.75, reducedMotion = false, label, decorative, appearance, style, ...props }: MorphIconProps) {
   const definition = getMorphIcon(name), prefersReducedMotion = useMorphReducedMotion();
   const nodes = useRef<(SVGPathElement | null)[]>([]), position = useRef(active ? 1 : 0);
   const [initialActive] = useState(active);
   const milliseconds = Number.isFinite(duration) ? Math.max(120, Math.min(1200, duration)) : 260;
-  const stroke = typeof strokeWidth === "number" && Number.isFinite(strokeWidth) ? Math.max(.75, Math.min(3, strokeWidth)) : 2;
+  const stroke = typeof strokeWidth === "number" && Number.isFinite(strokeWidth) ? Math.max(.75, Math.min(3, strokeWidth)) : 1.75;
   const dimension = typeof size === "number" ? Number.isFinite(size) ? Math.max(12, Math.min(1024, size)) : 24 : size;
   const explicitHidden = props["aria-hidden"];
   const hidden = decorative ?? (explicitHidden !== undefined ? explicitHidden === true || explicitHidden === "true" : !(label || props["aria-label"] || props["aria-labelledby"]));
@@ -52,6 +52,10 @@ function MorphGlyph({ name, active = false, size = 24, duration = 260, strokeWid
         const node = nodes.current[index]; if (!node) return;
         const value = morphPathFrame(path, progress);
         node.setAttribute("d", value.d); node.setAttribute("opacity", String(value.opacity));
+        if (value.transform) node.setAttribute("transform", value.transform); else node.removeAttribute("transform");
+        if (value.draw !== undefined) {
+          node.setAttribute("pathLength", "1"); node.setAttribute("stroke-dasharray", "1"); node.setAttribute("stroke-dashoffset", String(1 - value.draw));
+        } else { node.removeAttribute("pathLength"); node.removeAttribute("stroke-dasharray"); node.removeAttribute("stroke-dashoffset"); }
       });
     };
     if (quiet || start === target) { paint(target); return; }
@@ -66,7 +70,7 @@ function MorphGlyph({ name, active = false, size = 24, duration = 260, strokeWid
   }, [active, definition, milliseconds, quiet]);
 
   return <svg {...props} data-morph-icon={definition.name} data-state={active ? "active" : "idle"} data-appearance={appearance} viewBox="0 0 24 24" width={dimension} height={dimension} fill="none" stroke="currentColor" strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" role={hidden ? undefined : props.role || "img"} aria-hidden={hidden || undefined} aria-label={hidden ? undefined : label || props["aria-label"] || (props["aria-labelledby"] ? undefined : `${definition.title}: ${definition.states[active ? 1 : 0]}`)} aria-labelledby={hidden ? undefined : props["aria-labelledby"]} focusable="false" style={{ display: "inline-block", flex: "none", verticalAlign: "middle", overflow: "visible", width: dimension, height: dimension, strokeWidth: stroke, ...style }}>
-    {definition.paths.map((path, index) => { const initial = morphPathFrame(path, initialActive ? 1 : 0); return <path key={index} ref={node => { nodes.current[index] = node; }} d={initial.d} opacity={initial.opacity} fill={path.filled ? "currentColor" : "none"} stroke={path.filled ? "none" : undefined} />; })}
+    {definition.paths.map((path, index) => { const initial = morphPathFrame(path, initialActive ? 1 : 0); return <path key={index} ref={node => { nodes.current[index] = node; }} d={initial.d} opacity={initial.opacity} transform={initial.transform} pathLength={initial.draw !== undefined ? 1 : undefined} strokeDasharray={initial.draw !== undefined ? 1 : undefined} strokeDashoffset={initial.draw !== undefined ? 1 - initial.draw : undefined} fill={path.filled ? "currentColor" : "none"} stroke={path.filled ? "none" : undefined} />; })}
   </svg>;
 }
 
@@ -83,8 +87,8 @@ export const PlayPauseMorphIcon = named("play-pause"), VolumeMorphIcon = named("
 
 const escapeXml = (value: string) => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 /** The selected state as a portable SVG, without script, font or network dependencies. */
-export function morphIconSvg(name: MorphIconName, active = false, size = 128, strokeWidth = 2): string {
+export function morphIconSvg(name: MorphIconName, active = false, size = 128, strokeWidth = 1.75): string {
   const definition = getMorphIcon(name), dimension = Number.isFinite(size) ? Math.max(12, Math.min(2048, size)) : 128;
-  const stroke = Number.isFinite(strokeWidth) ? Math.max(.75, Math.min(3, strokeWidth)) : 2;
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${dimension}" height="${dimension}" fill="none" stroke="currentColor" color="#171717" stroke-width="${stroke}" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="${escapeXml(definition.title + ": " + definition.states[active ? 1 : 0])}">${definition.paths.map(path => { const value = morphPathFrame(path, active ? 1 : 0); return `<path d="${value.d}" opacity="${value.opacity}" fill="${path.filled ? "currentColor" : "none"}"${path.filled ? ' stroke="none"' : ""}/>`; }).join("")}</svg>`;
+  const stroke = Number.isFinite(strokeWidth) ? Math.max(.75, Math.min(3, strokeWidth)) : 1.75;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${dimension}" height="${dimension}" fill="none" stroke="currentColor" color="#171717" stroke-width="${stroke}" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="${escapeXml(definition.title + ": " + definition.states[active ? 1 : 0])}">${definition.paths.map(path => { const value = morphPathFrame(path, active ? 1 : 0); return `<path d="${value.d}" opacity="${value.opacity}"${value.transform ? ` transform="${value.transform}"` : ""}${value.draw !== undefined ? ` pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1 - value.draw}"` : ""} fill="${path.filled ? "currentColor" : "none"}"${path.filled ? ' stroke="none"' : ""}/>`; }).join("")}</svg>`;
 }

@@ -56,6 +56,7 @@ import { WallSwitchDemo } from "./wall-switch-demo";
 import { EndlessFilmDemo } from "./endless-film-demo";
 import { StickerSocialDemo } from "./sticker-social-demo";
 import { StickerPackDemo } from "./sticker-pack-demo";
+import { MorphIconsDemo } from "./morph-icons-demo";
 import { SceneDemo } from "./scene-demos";
 import { NavigationDemo, NAVIGATION_DEMO_SLUGS } from "./navigation-demos";
 import { AIDemo, AI_DEMO_SLUGS } from "./ai-demos";
@@ -99,6 +100,7 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   const action = <Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Ready for a fresh start." : "Project created in this preview."); }}>{saved ? "Start again" : "Create project"}</Button>;
   if (slug === "sticker-social-icons") return <StickerSocialDemo appearance={appearance} thumbnail={thumbnail} />;
   if (slug === "sticker-pack") return <StickerPackDemo appearance={appearance} thumbnail={thumbnail} />;
+  if (slug === "morphing-icons") return <MorphIconsDemo appearance={appearance} thumbnail={thumbnail} />;
   if (PORTFOLIO_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing portfolio preview...</div>}><PortfolioDemos slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if (CREATIVE_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing preview...</div>}><CreativeDemo slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if (slug === "human-avatar") return <HumanAvatarDemo appearance={appearance} thumbnail={thumbnail} />;

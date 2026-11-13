@@ -57,7 +57,7 @@ const name: MorphIconName = "play-pause";
 | `name` | Required | Typed name from the forty-icon collection. |
 | `active` | `false` | Chooses the alternate state. The containing application owns this value. |
 | `size` | `24` | Equal width and height. Numbers are clamped to 12 through 1024 pixels; strings accept CSS dimensions. |
-| `strokeWidth` | `2` | Line weight on the 24-unit grid, clamped to 0.75 through 3. |
+| `strokeWidth` | `1.75` | Line weight on the 24-unit grid, clamped to 0.75 through 3. |
 | `duration` | `260` | Full-transition milliseconds, clamped to 120 through 1200. A reversal scales its duration to the remaining distance. |
 | `reducedMotion` | `false` | Immediately displays the chosen state. The system reduced-motion preference also disables transitions. |
 | `label` | Unset | Accessible name for an informative SVG. |
@@ -66,7 +66,7 @@ const name: MorphIconName = "play-pause";
 
 Use `style={{ color: "..." }}` or a surrounding text color to change the icon color. The core icon needs React and its bundled geometry/motion source; it imports no Next.js runtime, site stylesheet, font or network asset.
 
-Changing `active` interpolates matching path coordinates and opacity with a short eased transition. Reversing during a transition continues from the displayed geometry. Changing `name` starts the new icon in its requested state. The initial SVG contains the requested state before hydration.
+Changing `active` follows an authored route with matching path coordinates, rigid rotations, staged opacity and stroke drawing. Reversing during a transition continues from the displayed geometry. Changing `name` starts the new icon in its requested state. The initial SVG contains the requested state before hydration.
 
 Application semantics belong to the containing native control. Give buttons an accessible action name. A toggle such as Favorite uses a stable label with `aria-pressed`; a disclosure uses `aria-expanded`. Feedback states such as Copied or Downloaded should follow the result of the application action.
 
@@ -125,14 +125,24 @@ Visible previews alternate automatically in staggered groups with a resting inte
 
 The shared Pause control stops automatic switching. Automatic previews also stop under reduced motion, when the collection is offscreen or when the tab is hidden. Individual offscreen tiles do not advance. Reduced motion leaves the controls available and shows chosen states immediately.
 
-The selected preview has controls for either state, icon size, stroke and duration. Choosing a state holds that icon until Resume. Copy React uses the current values and offers selectable code if clipboard access is unavailable.
+The gallery displays 48px specimens and the selected preview starts at 80px, with a size control up to 128px. The selected preview has controls for either state, icon size, stroke and duration. Choosing a state holds that icon until Resume. Copy React uses the current values and offers selectable code if clipboard access is unavailable.
 
 SVG downloads contain the selected still state. The animated React source is available through the registry and source ZIP.
 
-`morphIconSvg(name, active, size, strokeWidth)` also returns that portable SVG string directly. Its defaults are `active=false`, `size=128` and `strokeWidth=2`; numeric size is clamped to 12 through 2048. The SVG includes a state label and a default dark color that can be changed when embedding the markup.
+`morphIconSvg(name, active, size, strokeWidth)` also returns that portable SVG string directly. Its defaults are `active=false`, `size=128` and `strokeWidth=1.75`; numeric size is clamped to 12 through 2048. The SVG includes a state label and a default dark color that can be changed when embedding the markup.
 
 ## Design and reference research
 
 The behavioral reference was [Kobra's morphing icons](https://kobra.systems/components/morphing-icons): small monochrome icons with meaningful state changes. The owner's clarified preview behavior guided automatic switching, hover pause and click control. The forty-icon family uses independently authored geometry and matching path topology. Reference SVG paths, source code and captures are not distributed as product assets.
 
 Consistency and accessibility research also used [Lucide's icon design principles](https://lucide.dev/contribute/icons/design-principles), [Material animated icon guidance](https://m2.material.io/design/iconography/animated-icons.html), the [WAI button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/) and [WCAG guidance on interaction animation](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html). The implemented 260ms default is the collection's own timing choice.
+
+## Verification, November 13, 2026
+
+The polish pass checks all forty pairs at nine positions through each transition. The 1,800 rendered samples cover the default 1.75 and maximum 3 stroke weights at interface and enlarged sizes, with no clipping or empty frames. Layout's visible contours stay separate through the grid-to-row route.
+
+Thirty-four focused unit and source tests pass, including all named exports, both server-rendered states, eighty portable SVG endpoints, authored phases and keyframes, rigid turns, partially drawn strokes, rapid reversal, preview lifecycle and source/registry examples for all five library appearances. The preview tests were reconfirmed after aligning the Alerts tile's visible and accessible names.
+
+Five production browser scenarios pass across the interaction run and the final accessibility confirmation: automatic switching and hover/keyboard control; search, settings and exports; touch, offscreen and reduced motion; responsive themes; and long transitions with reversal. The layout matrix covers 1440 by 900, 1536 by 772, 390 by 844 and 320 by 568 in both themes. All eight cases have zero Axe findings, horizontal overflow or inspector overflow. Timed strips sample eight difficult pairs at 600ms and reverse them during motion, verifying no jump at the reversal and return to the initial geometry.
+
+Production build `zAPnNBnfyJsvONciwAUFm`, scoped ESLint, copy and whitespace checks pass. The component-source route trace contains all five core files and no local instructions or research evidence. The build retains existing named-version-import advisories in the shared library shell and getting-started page. Browser coverage is Chromium with emulated touch; no physical-device performance claim is made.

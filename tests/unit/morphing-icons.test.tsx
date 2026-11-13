@@ -59,18 +59,29 @@ function frame(time: number) {
   });
 }
 function pathState(svg: SVGSVGElement) {
-  return [...svg.querySelectorAll("path")].map(path => ({ d: path.getAttribute("d"), opacity: Number(path.getAttribute("opacity")) }));
+  return [...svg.querySelectorAll("path")].map(path => ({
+    d: path.getAttribute("d"), opacity: Number(path.getAttribute("opacity")),
+    transform: path.getAttribute("transform"), pathLength: path.getAttribute("pathLength"),
+    dasharray: path.getAttribute("stroke-dasharray"), dashoffset: path.getAttribute("stroke-dashoffset"),
+  }));
 }
 function endpoint(name: MorphIconName, active: boolean) {
-  return getMorphIcon(name).paths.map(path => ({ d: active ? path.to : path.from, opacity: (path.opacity || [1, 1])[active ? 1 : 0] }));
+  const index = active ? 1 : 0;
+  return getMorphIcon(name).paths.map(path => ({
+    d: active ? path.to : path.from,
+    opacity: path.draw?.[index] === 0 ? 0 : (path.opacity || [1, 1])[index],
+    transform: path.rotation ? `rotate(${path.rotation[index]} ${(path.origin || [12, 12]).join(" ")})` : null,
+    pathLength: path.draw ? "1" : null, dasharray: path.draw ? "1" : null,
+    dashoffset: path.draw ? String(1 - path.draw[index]) : null,
+  }));
 }
 function svgElement(container: HTMLElement) {
   const svg = container.querySelector("svg");
   if (!svg) throw new Error("Missing morph SVG");
   return svg;
 }
-function firstX(svg: SVGSVGElement) {
-  return Number(svg.querySelector("path")?.getAttribute("d")?.match(/^M([-+\d.]+)/)?.[1]);
+function rotation(svg: SVGSVGElement) {
+  return Number(svg.querySelector("path")?.getAttribute("transform")?.match(/^rotate\(([-+\d.]+)/)?.[1]);
 }
 
 describe("controlled morph icons", () => {
@@ -110,6 +121,14 @@ describe("controlled morph icons", () => {
     }
   });
 
+  it("shares the 1.75 default stroke between React artwork and standalone SVG", () => {
+    const { container } = render(<MorphIcon name="menu" />);
+    expect(svgElement(container)).toHaveAttribute("stroke-width", "1.75");
+    expect(svgElement(container).style.strokeWidth).toBe("1.75");
+    const exported = new DOMParser().parseFromString(morphIconSvg("menu"), "image/svg+xml");
+    expect(exported.documentElement.getAttribute("stroke-width")).toBe("1.75");
+  });
+
   it("stays controlled and has no automatic loop or internal click toggle", () => {
     const { container, rerender } = render(<MorphIcon name="plus" />);
     const svg = svgElement(container);
@@ -132,7 +151,7 @@ describe("controlled morph icons", () => {
     rerender(<MorphIcon name="plus" active duration={400} />);
     frame(100);
     const forward = pathState(svg);
-    const forwardX = firstX(svg);
+    const forwardAngle = rotation(svg);
     expect(forward).not.toEqual(endpoint("plus", false));
     expect(forward).not.toEqual(endpoint("plus", true));
     rerender(<MorphIcon name="plus" duration={400} />);
@@ -142,8 +161,8 @@ describe("controlled morph icons", () => {
     expect(pathState(svg)).toEqual(forward);
     frame(125);
     const reverse = pathState(svg);
-    expect(firstX(svg)).toBeLessThan(forwardX);
-    expect(firstX(svg)).toBeGreaterThan(5);
+    expect(rotation(svg)).toBeLessThan(forwardAngle);
+    expect(rotation(svg)).toBeGreaterThan(0);
     rerender(<MorphIcon name="plus" active duration={400} />);
     expect(pathState(svg)).toEqual(reverse);
     frame(125);
@@ -152,6 +171,36 @@ describe("controlled morph icons", () => {
     frame(1000);
     expect(pathState(svg)).toEqual(endpoint("plus", true));
     expect([...svg.querySelectorAll("path")]).toEqual(paths);
+    expect(frames.size).toBe(0);
+  });
+
+  it("reverses a partially drawn confirmation continuously and returns to a fully hidden stroke", () => {
+    const { container, rerender } = render(<MorphIcon name="check" duration={600} />);
+    const svg = svgElement(container);
+    rerender(<MorphIcon name="check" active duration={600} />);
+    frame(100);
+    const forward = pathState(svg), confirmation = forward[1];
+    expect(confirmation.pathLength).toBe("1");
+    expect(confirmation.dasharray).toBe("1");
+    expect(Number(confirmation.dashoffset)).toBeGreaterThan(0);
+    expect(Number(confirmation.dashoffset)).toBeLessThan(1);
+    rerender(<MorphIcon name="check" duration={600} />);
+    expect(pathState(svg)).toEqual(forward);
+    frame(100);
+    expect(pathState(svg)).toEqual(forward);
+    frame(125);
+    const reverse = pathState(svg);
+    expect(Number(reverse[1].dashoffset)).toBeGreaterThan(Number(confirmation.dashoffset));
+    rerender(<MorphIcon name="check" active duration={600} />);
+    expect(pathState(svg)).toEqual(reverse);
+    frame(125);
+    expect(pathState(svg)).toEqual(reverse);
+    frame(1000);
+    expect(pathState(svg)).toEqual(endpoint("check", true));
+    rerender(<MorphIcon name="check" duration={600} />);
+    frame(2000);
+    expect(pathState(svg)).toEqual(endpoint("check", false));
+    expect(pathState(svg)[1]).toMatchObject({ opacity: 0, dashoffset: "1" });
     expect(frames.size).toBe(0);
   });
 

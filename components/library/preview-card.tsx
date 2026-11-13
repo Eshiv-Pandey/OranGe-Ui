@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { useDemoPlayer, type DemoStep } from "./use-demo-player";
 import "../../styles/preview-card.css";
 
-export const AUTONOMOUS_PREVIEWS = new Set(["shader-canvas", "flowing-water", "flowing-grass", "drifting-clouds", "grain-gradient", "anime-fire", "season-tree", "marquee", "skeleton", "progress", "thinking-indicator", "agent-status"]);
+export const AUTONOMOUS_PREVIEWS = new Set(["shader-canvas", "flowing-water", "flowing-grass", "drifting-clouds", "grain-gradient", "anime-fire", "season-tree", "marquee", "skeleton", "progress", "thinking-indicator", "agent-status", "morphing-icons"]);
 /** Live subtree plus an inert DOM/canvas frame when its playback slot is paused. */
 export function PreviewCard({ children, demo, autonomous = false, pixel = false, label }: { children: ReactNode; demo?: DemoStep[]; autonomous?: boolean; pixel?: boolean; label: string }) {
   const { root, live, still, cursor, mounted } = useDemoPlayer(demo, autonomous);
