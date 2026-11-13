@@ -29,18 +29,19 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test("signature collections lead the component tree and Essentials starts closed", async ({ page }) => {
+test("setup leads the four offerings and ordinary primitives start collapsed", async ({ page }) => {
   await page.goto("/docs?style=polished");
   const navigation = desktopNavigation(page);
   await expect(navigation).toBeVisible();
-  const signatures = navigation.getByRole("group", { name: "Signature components", exact: true });
-  await expect(signatures.getByRole("link")).toHaveText(["Stickers", "Morphing icons", "Liquid Metal", "Wiggle Text"]);
-  const componentDestinations = await navigation.locator("a[href]").evaluateAll(links => links
-    .map(link => new URL((link as HTMLAnchorElement).href).pathname)
-    .filter(path => path === "/stickers" || path.startsWith("/components/")));
-  expect(componentDestinations.slice(0, 4)).toEqual([
-    "/stickers", "/components/morphing-icons", "/components/liquid-metal", "/components/wiggle-text",
+  const offerings = navigation.getByRole("group", { name: "Main offerings", exact: true });
+  await expect(offerings.getByRole("link")).toHaveText(["Stickers", "Morphing icons", "Components", "Blocks"]);
+  const destinations = await navigation.locator(":scope > a, .docs-nav-offerings a").evaluateAll(links => links
+    .map(link => new URL((link as HTMLAnchorElement).href).pathname));
+  expect(destinations.slice(0, 5)).toEqual([
+    "/docs", "/stickers", "/components/morphing-icons", "/components", "/blocks",
   ]);
+  const order = await navigation.evaluate(element => [...element.children].map(child => child.textContent));
+  expect(order[1]).toContain("Setup guide");
   await expect(navigation.getByRole("button", { name: /^Essentials/ })).toHaveAttribute("aria-expanded", "false");
   await expect(navigation.getByRole("link", { name: "Button", exact: true, includeHidden: true })).toBeHidden();
 });
@@ -58,6 +59,38 @@ test("Essentials can be expanded and collapsed with the keyboard", async ({ page
   await expect(essentials).toHaveAttribute("aria-expanded", "false");
   await expect(essentials).toBeFocused();
   await expect(navigation.getByRole("link", { name: "Button", exact: true, includeHidden: true })).toBeHidden();
+});
+
+test("sidebar hover shows one live preview and links remain direct", async ({ page }) => {
+  await page.goto("/docs?style=polished");
+  const navigation = desktopNavigation(page);
+  await navigation.getByRole("link", { name: "Morphing icons", exact: true }).hover();
+  const preview = page.locator(".docs-link-preview");
+  await expect(preview).toHaveCount(1);
+  await expect(preview.locator("[data-morph-icon]").first()).toBeVisible();
+  await navigation.getByRole("button", { name: /^Essentials/ }).click();
+  const input = navigation.getByRole("link", { name: "Input", exact: true });
+  await input.hover();
+  await expect(preview).toHaveCount(1);
+  await expect(preview.locator(".docs-preview-caption strong")).toHaveText("Input");
+  await input.click();
+  await expectDestination(page, "/components/input", "polished");
+  await expect(preview).toHaveCount(0);
+});
+
+test("morph inspector uses the full panel width for editing", async ({ page }) => {
+  await page.goto("/components/morphing-icons?style=polished");
+  const controls = page.locator(".morph-icon-controls");
+  await expect(controls).toBeVisible();
+  const bounds = await controls.evaluate(element => ({ width: element.clientWidth, content: element.scrollWidth }));
+  expect(bounds.width).toBeGreaterThan(260);
+  expect(bounds.content).toBeLessThanOrEqual(bounds.width + 1);
+  for (const label of ["Icon size", "Stroke", "Duration"]) {
+    const range = controls.getByRole("slider", { name: label, exact: true });
+    expect((await range.boundingBox())?.width).toBeGreaterThan(200);
+  }
+  await controls.getByRole("button", { name: "Close", exact: true }).click();
+  await expect(controls.locator(".morph-state-picker button").last()).toHaveAttribute("aria-pressed", "true");
 });
 
 for (const destination of [
@@ -236,7 +269,7 @@ for (const route of [
     else await expect(heading).toBeVisible();
     if (route.startsWith("/blocks")) {
       await expect(desktopNavigation(page).getByRole("region", { name: "Block categories", exact: true })).toBeVisible();
-      await expect(desktopNavigation(page).getByRole("button", { name: /^Essentials/ })).toHaveCount(0);
+      await expect(desktopNavigation(page).getByRole("button", { name: /^Essentials/ })).toHaveAttribute("aria-expanded", "false");
     }
     expect(runtimeErrors).toEqual([]);
   });

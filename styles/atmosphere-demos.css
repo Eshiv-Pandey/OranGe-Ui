@@ -1,0 +1,7 @@
+.atmosphere-demo-preview { width: 100%; min-width: 0; height: clamp(320px, 56vh, 580px); }
+.atmosphere-demo-thumbnail { height: 230px; }
+.atmosphere-demo-details { width: 100%; margin: 4px 0 0; }
+.atmosphere-demo-details summary { display: list-item; padding: 8px 0; color: var(--muted); font-size: 12px; cursor: pointer; }
+.atmosphere-demo-details summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; border-radius: 3px; }
+.atmosphere-demo-details > div { display: grid; gap: 18px; padding-top: 16px; }
+@media (max-width: 600px) { .atmosphere-demo-preview { height: 360px; }.atmosphere-demo-thumbnail { height: 220px; } }

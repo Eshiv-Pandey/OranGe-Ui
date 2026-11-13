@@ -22,13 +22,6 @@ function smooth(points: Point[], closed = false) {
   }
   return result + (closed ? "Z" : "");
 }
-function island(x: number, y: number, width: number, height: number, phase: number) {
-  return smooth(Array.from({ length: 18 }, (_, index) => {
-    const angle = index / 18 * Math.PI * 2;
-    const radius = 1 + .16 * Math.sin(angle * 3 + phase) + .07 * Math.cos(angle * 5 - phase);
-    return { x: x + Math.cos(angle) * width * radius, y: y + Math.sin(angle) * height * radius };
-  }), true);
-}
 export function createPaperCutArt(seed = 7, count = 8, palette: PaperCutPalette = "ocean"): PaperCutSheet[] {
   const colors = PAPER_CUT_PALETTES[palette] ?? PAPER_CUT_PALETTES.ocean;
   const total = Math.round(paperBound(count, 5, 10, 8));
@@ -37,20 +30,14 @@ export function createPaperCutArt(seed = 7, count = 8, palette: PaperCutPalette 
     const t = index / (total - 1);
     const points = Array.from({ length: 29 }, (_, point) => {
       const x = -180 + point * 50;
-      const y = 412 - x * .32 + t * 310
-        + Math.sin(x * .0071 + phase + t * .42) * (76 - t * 16)
-        + Math.cos(x * .0142 - phase * .6 + t * .25) * 38;
+      // Leave a continuous, quiet text area at the upper left. The evenly
+      // spaced lower-right relief works as a banner rather than a busy map.
+      const y = 610 - x * .45 + t * 270
+        + Math.sin(x * .0058 + phase * .4 + t * .18) * 32
+        + Math.cos(x * .0112 - phase * .25) * 14;
       return { x, y };
     });
     return { path: smooth(points) + "L1220,900L-180,900Z", color: colors.sheets[Math.round(t * 9)], depth: .28 + t * .72 };
   });
-  // A second shoreline opens a quiet pocket without repeating the first contour.
-  const coast = Array.from({ length: 24 }, (_, index) => {
-    const x = 100 + index * 50;
-    return { x, y: 850 - x * .31 + Math.sin(x * .0085 + phase * .4) * 64 + Math.cos(x * .016) * 25 };
-  });
-  sheets.push({ path: smooth(coast) + "L1400,1000L100,1000Z", color: colors.paper, depth: 1.12 });
-  sheets.push({ path: island(660, 371, 35, 55, phase), color: colors.paper, depth: 1.24 });
-  sheets.push({ path: island(267, 588, 42, 24, phase + 2), color: colors.sheets[1], depth: .93 });
   return sheets;
 }

@@ -116,7 +116,7 @@ export function PaperCut({ palette = "ocean", seed = 7, layers = 8, depth = 1, s
     tabIndex={interactive ? 0 : undefined} style={{ aspectRatio: ratio, background: colors.paper }}>
     <svg className="paper-cut-art" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
       <defs><filter id={`${unique}-shadow`} x="-30%" y="-30%" width="160%" height="160%" colorInterpolationFilters="sRGB">
-        <feDropShadow dx={-2 * relief} dy={-6 * relief} stdDeviation={5 * relief} floodColor={colors.shadow} floodOpacity={.36 * relief} />
+        <feDropShadow dx={-2 * relief} dy={-6 * relief} stdDeviation={3.5 * relief} floodColor={colors.shadow} floodOpacity={.22 * relief} />
       </filter></defs>
       <rect width="1000" height="700" fill={colors.paper} />
       {sheets.map((sheet, index) => <g key={index} data-paper-sheet filter={`url(#${unique}-shadow)`}>

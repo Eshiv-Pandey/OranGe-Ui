@@ -1,12 +1,16 @@
 # oRangeUi status
 
-## Integrated main and signature-first documentation
+## Original component expansion and four-offering documentation
 
-November 14, 2026: the stickers, morph icons and next-iteration branches are integrated into `main`, together with the newer local refinements. The catalogue has 117 unique entries. The four-entry adaptive public scope and published sticker package 0.1.2 are preserved.
+November 14, 2026: `main` contains the integrated sticker, morph-icon and next-iteration work, plus ten new reusable components. The catalogue now has 127 unique entries. The four-entry adaptive public scope and published sticker package 0.1.2 are preserved.
 
-Docs navigation leads with signature collections and groups conventional controls under Essentials. Setup sections have searchable anchors, active component groups open automatically, and Blocks retains category browsing. Shuffle's arrow pose is corrected. Liquid Metal and Mini Driver match the latest original checkout; Film Strip stage sizing is restored and uploaded photos keep their proportions.
+Getting started and Setup guide lead the sidebar, followed by Stickers, Morphing icons, Components and Blocks. Essentials / Primitives contains only conventional controls, navigation, overlays and layout. Desktop component links have one lazy live hover or keyboard-focus preview; touch links navigate directly. Searchable setup anchors, active groups and Blocks categories share the same mobile navigation. The workspace inspector uses full-width fields, and the appearance picker has one aligned arrow.
 
-The integrated production build, type checking, lint, copy checks, component and portable-source tests, bundle checks and source traces pass. Eight viewport/theme docs captures have no Axe findings, runtime errors or horizontal overflow. Earlier sections below record historical branch-specific validation; [DOCS_NAVIGATION.md](DOCS_NAVIGATION.md) describes this integration.
+AgentMap adds geographic places, transport routes, pan/zoom, stop selection and reordering, optional XYZ map tiles with attribution, and full screen viewing. GlyphOrb adds an original ASCII sphere with lighting, cloud bands and drag momentum. ArcField, SatinFlow, ContourTerrain and SignalLens provide independently authored animated backgrounds with editable palettes, rendering limits and static fallbacks. SpringDeck, CascadeMenu, ChoiceDial and ApertureGallery add photo browsing, navigation sheets, option selection and expanding photo panels. Each has typed props, controls, barrel exports, complete ZIP downloads and portable registry examples. Public references informed the interactions; their code and artwork were not copied.
+
+MiniDriver gestures now appear in front of the helmet. FloatingDock has refined tiles, neighboring magnification, badges and keyboard controls. PaperCut provides editable content compositions. EndlessFilm shows wider film and clearer photographs. FlipBoard transitions settle in about half a second, and profile cards blend their cover art into the identity panel with an unavailable-avatar fallback.
+
+The production build, type checking, lint, copy checks, component and portable-source tests pass. Focused source checks compile the eight new background/interaction ZIP and relocated registry examples in 16 independent ES2020 compilations; map/orb portable-source checks also pass. All four background shaders compile and paint in Chromium WebGL2 without GL errors. The 27 docs cases are covered by 26 passing initial cases and one corrected-selector confirmation. Desktop/mobile extension checks and corrected map, gallery, profile and morph accessibility confirmations pass. Hover/focus previews and picker captures pass in both themes without runtime errors. The final build's bundle isolation and deployment source traces pass. Earlier sections below record historical validation; [DOCS_NAVIGATION.md](DOCS_NAVIGATION.md) describes the current navigation.
 
 ## Footer collection and compact Blocks navigation
 

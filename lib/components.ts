@@ -1,5 +1,8 @@
 import { PORTFOLIO_COMPONENTS } from "./portfolio-components";
 import { PAPER_CUT_COMPONENT } from "./paper-cut-component";
+import { MAP_ORB_COMPONENTS } from "./map-orb-components";
+import { ATMOSPHERE_COMPONENTS } from "./atmosphere-components";
+import { KINETIC_COMPONENTS } from "./kinetic-components";
 import { WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT } from "./physical-components";
 import { SCENE_COMPONENTS } from "./scene-components";
 import { GITHUB_GRAPH_COMPONENT } from "./github-graph-component";
@@ -1222,6 +1225,9 @@ const componentDefinitions: ComponentDefinition[] = [
   }
 ];
 componentDefinitions.push(PAPER_CUT_COMPONENT);
+componentDefinitions.push(...MAP_ORB_COMPONENTS);
+componentDefinitions.push(...ATMOSPHERE_COMPONENTS);
+componentDefinitions.push(...KINETIC_COMPONENTS);
 componentDefinitions.push(WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT, ...ADAPTIVE_COMPONENTS, GITHUB_GRAPH_COMPONENT, ...PORTFOLIO_COMPONENTS, ...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS, STICKER_PACK_COMPONENT);
 export const components: ComponentDefinition[] = componentDefinitions.map((component) => ({ ...component, category: categoryForComponent(component) })).sort((a, b) => componentCategories.indexOf(a.category as typeof componentCategories[number]) - componentCategories.indexOf(b.category as typeof componentCategories[number]) || a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
 const legacyAccordion = components.find(component => component.slug === "accordion");

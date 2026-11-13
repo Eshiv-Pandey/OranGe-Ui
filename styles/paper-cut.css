@@ -2,10 +2,10 @@
 
 .paper-cut { position: relative; isolation: isolate; width: 100%; min-width: 0; overflow: hidden; border-radius: 14px; touch-action: pan-y; }
 .paper-cut-art { position: absolute; inset: 0; display: block; width: 100%; height: 100%; pointer-events: none; }
-.paper-cut[data-interactive="true"] { cursor: crosshair; }
+.paper-cut[data-interactive="true"] { cursor: default; }
 .paper-cut:focus-visible { outline: 2px solid var(--focus); outline-offset: 5px; box-shadow: none; }
 .paper-cut-content { position: absolute; inset: 0; z-index: 1; }
 .paper-cut-help { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
-.paper-cut[data-appearance="pixelated"], .paper-cut[data-appearance="terminal"] { border-radius: 0; }
+.paper-cut[data-appearance="pixel"], .paper-cut[data-appearance="terminal"] { border-radius: 0; }
 .paper-cut[data-appearance="retro-os"] { border-radius: 6px; }
 @media (prefers-reduced-motion: reduce) { .paper-cut[data-interactive="true"] { cursor: default; } }

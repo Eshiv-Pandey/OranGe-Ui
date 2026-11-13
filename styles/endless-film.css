@@ -10,7 +10,10 @@
 .endless-film-stage:active { cursor: grabbing; }
 .endless-film-ribbon { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 .endless-film-fallback { position: absolute; inset: 0; box-sizing: border-box; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 20px; overflow: hidden; pointer-events: none; }
-.endless-film-fallback-frame { min-height: 0; padding: 12px; overflow: hidden; background: #24211c; border-radius: 2px; }
+.endless-film-fallback-frame { position: relative; min-height: 0; padding: 18px 9px; overflow: hidden; background: #373129; border: 1px solid #877252; border-radius: 2px; }
+.endless-film-fallback-frame::before, .endless-film-fallback-frame::after { content: ''; position: absolute; left: 7px; right: 7px; height: 7px; background: repeating-linear-gradient(90deg, #000 0 9px, transparent 9px 18px); }
+.endless-film-fallback-frame::before { top: 5px; }
+.endless-film-fallback-frame::after { bottom: 5px; }
 .endless-film-fallback-frame img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .endless-film-stage[data-renderer="webgl"] .endless-film-fallback { display: none; }
 .endless-film-stage:not([data-renderer="webgl"]) .endless-film-ribbon { visibility: hidden; }

@@ -1,23 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { version } from "../../package.json";
+import packageInfo from "../../package.json";
 import type { ReactNode } from "react";
 import { components } from "../../lib/components";
-import { DOC_SECTIONS, SIGNATURE_LINKS } from "../../lib/docs-navigation";
+import { DOC_SECTIONS, OFFERING_LINKS } from "../../lib/docs-navigation";
 import { APPEARANCES } from "../ui/appearance";
 import { useLibrary } from "./library-shell";
 import "../../styles/docs-navigation.css";
+
+const { version } = packageInfo;
 
 export function GettingStarted({ serverAvatar }: { serverAvatar: ReactNode }) {
   const { href } = useLibrary();
   return <>
     <div className="library-heading docs-index-heading">
-      <h1>Explore oRangeUi.</h1>
-      <p>Start with our signature components, then bring the source into your React project.</p>
+      <h1>Getting started.</h1>
+      <p>Stickers, morphing icons, components and blocks. Explore a preview, make it your own, then bring it into your React project.</p>
+      <a className="text-link docs-install-link" href="#installation">Set up your project <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8" /></svg></a>
     </div>
-    <ul className="docs-signature-index" aria-label="Signature components">
-      {SIGNATURE_LINKS.map(entry => <li key={entry.id}><Link prefetch={false} href={entry.href.startsWith("/components/") ? href(entry.href) : entry.href}><strong>{entry.label}</strong><span>{entry.description}</span></Link></li>)}
+    <ul className="docs-signature-index" aria-label="Main offerings">
+      {OFFERING_LINKS.map(entry => <li key={entry.id}><Link prefetch={false} href={entry.href.startsWith("/components") ? href(entry.href) : entry.href}><strong>{entry.label}</strong><span>{entry.description}</span></Link></li>)}
     </ul>
     <nav className="docs-page-links" aria-label="On this page">
       <h2>On this page</h2>
@@ -25,10 +28,16 @@ export function GettingStarted({ serverAvatar }: { serverAvatar: ReactNode }) {
     </nav>
     <div className="docs-content">
       <section id="installation">
-        <h2>Install a component.</h2>
+        <h2>Install what you need.</h2>
         <p>Open a component and try its preview. Copy its shadcn install command to add the source, styles and dependencies to your project. The registry puts files inside an orangeui/ folder, with runnable examples in orangeui/examples/.</p>
         <p>You can also download a ZIP containing the component, its local imports, styles, fonts and licenses. Source stays in your project, ready to read and change.</p>
         <Link className="text-link" prefetch={false} href={href("/components")}>Explore all {components.length} components</Link>
+        <h3>Stickers from npm.</h3>
+        <p>Install the sticker package, then use the playground to arrange stickers and export React, HTML or JSON for your composition.</p>
+        <pre className="install-command" tabIndex={0}><code>npm install orangeui-stickers</code></pre>
+        <Link className="text-link" prefetch={false} href="/stickers">Open the sticker playground</Link>
+        <h3>Morphing icons and blocks.</h3>
+        <p>Morphing icons use a controlled <code>active</code> prop to connect each icon to your app state. Their page includes the collection source and individual SVG exports. Blocks include complete sections, their styles and a runnable example; install or download them from the block preview.</p>
         <h3>Use your existing React app.</h3>
         <p>Use React 19 and TypeScript with a bundler that supports CSS imports, such as Next.js or Vite. React and React DOM are peer requirements of your app.</p>
         <p>The registry installs only the packages your selected component uses. For a ZIP, follow the included README. Common controls use these packages; creative components may have different dependencies:</p>

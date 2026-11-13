@@ -1,5 +1,5 @@
 "use client";
-import { useState, type ReactNode } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 import { HoverCard } from "radix-ui";
 import { motion, AnimatePresence } from "framer-motion";
 import { useReducedMotion } from "./use-reduced-motion";
@@ -10,18 +10,18 @@ export interface SocialProfile {
   platform?: string; badge?: string;
 }
 export default function SocialHoverCard({ profile, children, theme }: { profile?: SocialProfile; children: ReactNode; theme: "light" | "dark" }) {
-  const [open, setOpen] = useState(false), reduced = useReducedMotion();
+  const [open, setOpen] = useState(false), [failedAvatar, setFailedAvatar] = useState<string>(), reduced = useReducedMotion();
   if (!profile) return <>{children}</>;
   return <HoverCard.Root open={open} onOpenChange={setOpen} openDelay={80} closeDelay={120}>
     <HoverCard.Trigger asChild onFocus={() => setOpen(true)} onBlur={() => setOpen(false)}>{children}</HoverCard.Trigger>
     <AnimatePresence>{open && <HoverCard.Portal forceMount><HoverCard.Content asChild forceMount side="bottom" align="center" sideOffset={8} collisionPadding={12}>
-      <motion.div className="portfolio-scope portfolio-hover-card" data-theme={theme} initial={reduced ? false : { opacity: 0, y: 4, scale: .985 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={reduced ? { opacity: 0 } : { opacity: 0, y: 3, scale: .985 }} transition={{ duration: reduced ? 0 : .22, ease: [.16, 1, .3, 1] }}>
-        <div className="portfolio-hover-accent" style={{ backgroundColor: profile.accent ?? "var(--portfolio-desi-teal)" }}><span aria-hidden="true" className="portfolio-hover-cover-mark" />{profile.platform && <span className="portfolio-hover-platform">{profile.platform}</span>}</div>
+      <motion.div className="portfolio-scope portfolio-hover-card" data-theme={theme} style={{ "--profile-accent": profile.accent ?? "var(--portfolio-desi-teal)" } as CSSProperties} initial={reduced ? false : { opacity: 0, y: 4, scale: .985 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={reduced ? { opacity: 0 } : { opacity: 0, y: 3, scale: .985 }} transition={{ duration: reduced ? 0 : .22, ease: [.16, 1, .3, 1] }}>
+        <div className="portfolio-hover-accent">{profile.platform && <span className="portfolio-hover-platform">{profile.platform}</span>}</div>
         <div className="portfolio-hover-body"><div className="portfolio-hover-identity">
           <div className="portfolio-hover-avatar">
-            {profile.avatar ? <>
+            {profile.avatar && failedAvatar !== profile.avatar ? <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={profile.avatar} alt={profile.name} width={48} height={48} loading="eager" decoding="async" />
+            <img src={profile.avatar} alt="" width={56} height={56} loading="eager" decoding="async" onError={() => setFailedAvatar(profile.avatar)} />
             </> : <span aria-hidden="true">{profile.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase()}</span>}
           </div>
           <div className="portfolio-hover-name"><h3>{profile.name}</h3><span>{profile.handle}</span></div>{profile.badge && <span className="portfolio-hover-badge">{profile.badge}</span>}

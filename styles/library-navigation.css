@@ -50,8 +50,11 @@
   .library-navigation-shell .library-mobile-menu .pixel-button { min-width: 36px; padding: 8px; }
 }
 
-.header-appearance select { max-width: 132px; min-height: 40px; border: 1px solid var(--line); border-radius: 7px; padding: 5px 7px; font-size: 11px; background: var(--surface); color: var(--ink); }
-@media (max-width: 480px) { .header-appearance select { max-width: 92px; } .library-mobile-brand .wordmark > span { display: none; } }
+.header-appearance { position: relative; display: inline-flex; flex: none; }
+.header-appearance[hidden] { display: none; }
+.header-appearance select { appearance: none; width: 126px; min-height: 40px; border: 1px solid var(--line); border-radius: 7px; padding: 8px 30px 8px 12px; font: 12px/1.5 var(--font-body), sans-serif; background: var(--surface); background-image: none; color: var(--ink); cursor: pointer; }
+.header-appearance select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+@media (max-width: 480px) { .header-appearance select { width: 112px; padding-left: 9px; font-size: 11px; } .library-mobile-brand .wordmark > span { display: none; } }
 
 @media (min-width: 801px) and (max-width: 1100px) {
   .library-navigation-shell .library-header { padding-inline: 16px; gap: 12px; }

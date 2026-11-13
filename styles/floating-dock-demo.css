@@ -1,0 +1,6 @@
+.floating-dock-demo-stage { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; min-width: 0; min-height: 360px; gap: 32px; padding: 32px 14px; }
+.floating-dock-demo-copy { max-width: 340px; text-align: center; }
+.floating-dock-demo-copy h2 { margin: 0 0 12px; font-size: clamp(24px, 2.7vw, 34px); font-weight: 550; line-height: 1.18; letter-spacing: -.03em; }
+.floating-dock-demo-copy p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.floating-dock-demo-thumbnail { min-height: 220px; padding: 20px 0; }
+@media (max-width: 480px) { .floating-dock-demo-stage { padding-inline: 6px; gap: 24px; }.floating-dock-demo-copy { max-width: 280px; } }

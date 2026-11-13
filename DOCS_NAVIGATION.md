@@ -1,13 +1,13 @@
 # Documentation navigation
 
-The November 14 integration brings the stickers, morph icons and next-iteration branches into `main`, together with the newer local component refinements.
+Getting started and the Setup guide lead the sidebar. The four main offerings follow in a single list: Stickers, Morphing icons, Components and Blocks. Liquid Metal, Wiggle Text and the other expressive components remain within the component catalogue.
 
-The sidebar leads with Stickers, Morphing icons, Liquid Metal and Wiggle Text. Creative components are grouped by purpose. Everyday buttons, inputs, navigation, feedback and layout controls live under one collapsed Essentials group. Experimental work stays separate. All 117 catalogue entries have one navigation destination; existing component URLs remain available.
+Essentials / Primitives contains only conventional controls, navigation, overlays and basic layout components. Other components are grouped by purpose, with Experimental separate. A group opens for its current component, and every catalogue component has one destination. The Blocks route shows its page-section categories below the same four offerings.
 
-Groups open for the current component and can be collapsed deliberately. Desktop and mobile use the same navigation tree. Ctrl+K and Command+K search signature collections, components, block categories and setup sections. The Blocks sidebar retains its category navigation.
+Desktop and mobile share one navigation tree. Ctrl+K and Command+K search offerings, components, blocks and setup sections. Setup links preserve the selected appearance and section hash.
 
-The docs index leads with signature components, then links to Installation, Source structure, Appearances, Theming, Accessibility and License. Links preserve the selected appearance before the section hash.
+On desktop, hovering or keyboard-focusing a component link opens its real preview beside the sidebar. Only one preview is mounted at a time. The preview is supplementary and noninteractive; touch links navigate directly. Reduced-motion preferences apply to the preview and its transition.
 
-The integration also restores the analytic Liquid Metal ribbons, Film Strip stage sizing, newer character and helmet controls, camera improvements, GitHub Graph and the approved four-entry adaptive collection. Film Strip now preserves uploaded photo proportions. Mini Driver's source matches the latest original checkout. The published `orangeui-stickers@0.1.2` package remains unchanged.
+The docs index describes all four offerings and leads into installation, including the npm sticker package, source and registry downloads, controlled morph-icon state, and block examples. Source structure, appearances, theming, accessibility and licenses follow.
 
-Validation covers component behavior and portable source, the production build, bundle and deployment traces, keyboard navigation, search recovery, mobile dismissal, active routes and responsive layouts. Eight docs viewport/theme cases have no Axe findings, runtime errors or horizontal overflow. An uploaded 1500 by 500 photograph retains its 3:1 ratio.
+The component workspace uses full-width editor groups, readable state selectors, exact numeric fields and separate API documentation. Appearance selection has a dedicated arrow space and visible keyboard focus. Component previews and controls remain independent so changing a setting does not hide the work.

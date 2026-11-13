@@ -1,11 +1,25 @@
 @import "./artwork-customizer.css";
 .paper-cut-demo { width: 100%; min-width: 0; }
 .paper-cut-demo-preview { justify-content: center; }
-.paper-cut-demo-art { width: min(100%, 850px); min-width: 0; }
+.paper-cut-demo-art { width: min(100%, 850px); min-width: 0; container-type: inline-size; }
+.paper-cut-demo-art[data-composition="card"] { max-width: 460px; }
+.paper-cut-demo-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; width: 53%; padding: clamp(24px, 4cqw, 42px); color: #18343f; }
+.paper-cut-demo-copy h2 { margin: 0; font-size: clamp(25px, 5cqw, 42px); line-height: 1.13; font-weight: 600; letter-spacing: -.035em; overflow-wrap: anywhere; }
+.paper-cut-demo-copy p { margin: 0; font-size: clamp(12px, 1.8cqw, 15px); line-height: 1.6; color: #425862; }
+.paper-cut-demo-copy a { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; margin-top: 4px; padding: 8px 12px; border-radius: 7px; background: #18343f; color: #fff; text-decoration: none; font-size: 12px; font-weight: 550; }
+.paper-cut-demo-copy a:hover { background: #284a59; }
+.paper-cut-demo-copy a:focus-visible { outline: 2px solid #18343f; outline-offset: 3px; }
+.paper-cut-demo-art[data-composition="card"] .paper-cut-demo-copy { width: 70%; }
+.paper-cut-demo-field { display: grid; gap: 8px; font-size: 12px; font-weight: 550; }
+.paper-cut-demo-field :is(input, textarea) { width: 100%; min-width: 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--ink); font: inherit; font-weight: 400; }
+.paper-cut-demo-field textarea { resize: vertical; }
 .paper-cut-demo-caption { margin: 24px 0 0; color: var(--muted); max-width: 50ch; text-align: center; font-size: 12px; line-height: 1.7; }
 .paper-cut-demo-controls { display: flex; flex-direction: column; gap: 20px; }
 .paper-cut-demo-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .paper-cut-demo-note { color: var(--muted); font-size: 12px; line-height: 1.7; margin: 0; }
 .paper-cut-thumbnail { width: 100%; min-width: 0; }
 .paper-cut-thumbnail .paper-cut { border-radius: 10px; }
+.paper-cut-thumbnail .paper-cut-demo-copy { width: 65%; padding: 24px; }
+.paper-cut-thumbnail .paper-cut-demo-copy h2 { font-size: 25px; }
+@container (max-width: 450px) { .paper-cut-demo-art[data-composition="banner"] .paper-cut { aspect-ratio: 1.15 !important; }.paper-cut-demo-copy { width: 70%; padding: 24px; gap: 10px; }.paper-cut-demo-copy h2 { font-size: 29px; }.paper-cut-demo-copy p { font-size: 12px; } }
 @media(max-width:480px) { .workspace-view .paper-cut-demo-preview { padding-inline: 16px; } }

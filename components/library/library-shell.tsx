@@ -11,12 +11,14 @@ import { ThemeToggle } from "../landing/theme-toggle";
 import { PixelLogo } from "../landing/pixel-icon";
 import { CommandSearch } from "./command-search";
 import { ThemeTools } from "./theme-tools";
-import { version } from "../../package.json";
+import packageInfo from "../../package.json";
 import "../../styles/library.css";
 import "../../styles/launch-docs.css";
 import "../../styles/component-workbench.css";
 import "../../styles/library-navigation.css";
 import "../../styles/library-workspace.css";
+
+const { version } = packageInfo;
 
 const AppearanceContext = createContext<{ appearance: Appearance; href: (path: string) => string }>({ appearance: "polished", href: (path) => path });
 export const useLibrary = () => useContext(AppearanceContext);

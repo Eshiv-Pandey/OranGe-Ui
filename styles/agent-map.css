@@ -1,0 +1,48 @@
+.agent-map { --agent-map-ground: #e7ece8; --agent-map-panel: var(--surface, #fff); width: 100%; min-width: 0; color: var(--ink, #171717); }
+.agent-map[data-theme="dark"] { --agent-map-ground: #28312f; }
+.agent-map-viewport { height: var(--agent-map-height, 460px); min-height: 240px; overflow: hidden; border-radius: 16px; isolation: isolate; position: relative; background: var(--agent-map-ground); cursor: grab; touch-action: pan-y; }
+.agent-map-viewport:active { cursor: grabbing; }
+.agent-map-drawing { position: absolute; inset: 0; width: 100%; height: 100%; }
+.agent-map-viewport:focus-visible { outline: 2px solid var(--agent-map-accent); outline-offset: 4px; }
+.agent-map-toolbar { position: absolute; inset: 14px 14px auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; pointer-events: none; }
+.agent-map-toolbar > * { pointer-events: auto; }
+.agent-map-route { display: flex; align-items: center; gap: 8px; min-width: 0; max-width: calc(100% - 50px); padding: 0 12px; min-height: 40px; border-radius: 10px; background: var(--agent-map-panel); box-shadow: 0 3px 12px #00000016; font-size: 13px; font-weight: 550; }
+.agent-map-route select { width: 100%; min-width: 0; max-width: 280px; color: inherit; background: transparent; border: 0; font: inherit; padding: 10px 0; }
+.agent-map-route svg { flex: 0 0 auto; }
+.agent-map button { font: inherit; }
+.agent-map button:focus-visible,.agent-map a:focus-visible,.agent-map select:focus-visible { outline: 2px solid var(--agent-map-accent); outline-offset: 3px; }
+.agent-map-expand,.agent-map-zoom button { display: grid; place-items: center; flex-shrink: 0; width: 38px; height: 38px; border: 0; border-radius: 10px; color: inherit; background: var(--agent-map-panel); cursor: pointer; }
+.agent-map-expand { box-shadow: 0 3px 12px #00000016; }
+.agent-map-zoom { display: grid; gap: 2px; position: absolute; right: 14px; bottom: 32px; border-radius: 10px; overflow: hidden; background: var(--agent-map-panel); box-shadow: 0 3px 12px #00000016; }
+.agent-map-zoom button { border-radius: 0; }
+.agent-map button:disabled { opacity: .38; cursor: default; }
+.agent-map-summary { display: flex; gap: 8px; align-items: center; position: absolute; bottom: 32px; left: 14px; padding: 9px 12px; border-radius: 10px; background: var(--agent-map-panel); box-shadow: 0 3px 12px #00000016; font-size: 12px; }
+.agent-map-marker { position: absolute; display: grid; justify-items: center; gap: 7px; transform: translate(-50%, -100%); border: 0; padding: 0; background: transparent; color: #242822; cursor: pointer; z-index: 1; }
+.agent-map-marker[aria-pressed="true"] { z-index: 2; }
+.agent-map-marker-label { display: block; white-space: nowrap; max-width: 180px; overflow: hidden; text-overflow: ellipsis; padding: 7px 10px; border-radius: 8px; background: #ffffffed; box-shadow: 0 3px 12px #0000001a; font-size: 12px; font-weight: 600; }
+.agent-map-marker[aria-pressed="true"] .agent-map-marker-label { color: #fff; background: #242822; }
+.agent-map-marker-pin { display: grid; place-items: center; width: 27px; height: 27px; color: #fff; background: var(--agent-map-accent); border: 3px solid #fff; border-radius: 50%; font-size: 11px; font-weight: 700; box-shadow: 0 2px 6px #00000033; }
+.agent-map-marker[aria-pressed="true"] .agent-map-marker-pin { outline: 5px solid color-mix(in srgb, var(--agent-map-accent) 25%, transparent); }
+.agent-map-attribution { position: absolute; right: 0; bottom: 0; max-width: 100%; padding: 3px 7px; background: #fffffff0; color: #444; font-size: 9px; }
+.agent-map-attribution a { color: inherit; }
+.agent-map-offline { position: absolute; left: 14px; bottom: 7px; color: #343f39; background: #fffffff0; font-size: 10px; padding: 3px 6px; border-radius: 4px; }
+.agent-map-empty { position: absolute; inset: 50% 20px auto; text-align: center; margin: 0; transform: translateY(-50%); font-size: 14px; }
+.agent-map-stops { list-style: none; display: flex; gap: 8px; margin: 10px 0 0; padding: 0; overflow-x: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.agent-map-stops li { flex: 1 0 min(210px, 78%); background: color-mix(in srgb, var(--ink, #171717) 4%, var(--agent-map-panel)); border-radius: 12px; overflow: hidden; }
+.agent-map-stops li[data-selected="true"] { background: color-mix(in srgb, var(--agent-map-accent) 10%, var(--agent-map-panel)); }
+.agent-map-stop-card { border: 0; display: flex; align-items: center; gap: 11px; padding: 14px; width: 100%; text-align: left; color: inherit; background: transparent; cursor: pointer; }
+.agent-map-stop-card > span:last-child { display: grid; gap: 4px; min-width: 0; }
+.agent-map-stop-card strong { font-size: 13px; line-height: 1.35; overflow-wrap: anywhere; }
+.agent-map-stop-card small,.agent-map-stop-card > span > span { font-size: 11px; line-height: 1.35; color: var(--muted, #666); }
+.agent-map-stop-card img,.agent-map-stop-number { width: 44px; height: 44px; flex-shrink: 0; object-fit: cover; border-radius: 8px; }
+.agent-map-stop-number { display: grid; place-items: center; color: var(--agent-map-accent); background: color-mix(in srgb, var(--agent-map-accent) 12%, transparent); font-size: 14px; font-weight: 650; }
+.agent-map-stop-actions { display: flex; align-items: center; justify-content: flex-end; gap: 6px; padding: 0 14px 10px; }
+.agent-map-stop-actions button { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--line, #ddd); background: var(--agent-map-panel); color: inherit; border-radius: 6px; cursor: pointer; }
+.agent-map-stop-actions a { margin-right: auto; color: inherit; font-size: 11px; }
+.agent-map-composer { margin-top: 14px; }
+.agent-map[data-expanded="true"] { position: fixed; z-index: 120; inset: 0; padding: 20px; background: var(--agent-map-panel); display: flex; flex-direction: column; gap: 0; }
+.agent-map[data-expanded="true"] .agent-map-viewport { flex: 1; height: auto; }
+.agent-map[data-expanded="true"] .agent-map-stops { flex: 0 0 auto; }
+.agent-map[data-expanded="true"] .agent-map-composer { flex: 0 0 auto; }
+.agent-map[data-appearance="pixel"] .agent-map-viewport,.agent-map[data-appearance="terminal"] .agent-map-viewport { border-radius: 0; }
+@media(max-width:600px) { .agent-map-viewport { min-height: 300px; } .agent-map-marker-label { max-width: 130px; font-size: 10px; } .agent-map[data-expanded="true"] { padding: 8px; } .agent-map-offline { max-width: calc(100% - 70px); bottom: 24px; } }

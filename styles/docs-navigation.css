@@ -1,9 +1,7 @@
 .docs-navigation { padding-top: 2px; }
-.docs-navigation .docs-nav-start { color: var(--muted); margin-bottom: 4px; font-size: 12px; }
-.docs-nav-signatures { display: grid; gap: 2px; padding-bottom: 10px; }
-.docs-navigation .docs-nav-signatures a { color: var(--ink); font-weight: 600; }
-.docs-nav-browse { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 8px 0 12px; border-top: 1px solid var(--line); font-size: 11px; }
-.docs-nav-browse a { min-width: 0; padding-inline: 8px; }
+.docs-navigation .docs-nav-start { color: var(--ink); margin-bottom: 2px; font-size: 12px; }
+.docs-nav-offerings { display: grid; gap: 2px; margin: 10px 0; padding: 10px 0; border-block: 1px solid var(--line); }
+.docs-navigation .docs-nav-offerings a { color: var(--ink); font-weight: 600; min-height: 38px; }
 .docs-nav-collections { padding: 2px 0 10px; }
 .docs-nav-group { margin: 2px 0; }
 .docs-nav-disclosure { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; min-height: 38px; padding: 8px 10px; text-align: left; border: 0; border-radius: 7px; color: var(--ink); background: transparent; font: inherit; font-size: 12px; line-height: 1.5; cursor: pointer; }
@@ -20,6 +18,15 @@
 .docs-navigation a[aria-current] { box-shadow: none; outline: 1px solid var(--line); outline-offset: -1px; background: var(--surface-soft); color: var(--ink); }
 .docs-navigation a[aria-current]:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .docs-nav-results { padding: 8px 10px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+.docs-link-preview { z-index: 60; width: 288px; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); box-shadow: 0 12px 32px rgb(0 0 0 / .16); pointer-events: none; transform-origin: var(--radix-hover-card-content-transform-origin); animation: docs-preview-in 150ms cubic-bezier(.16, 1, .3, 1); }
+.docs-link-preview .component-thumbnail { height: 214px; }
+.docs-link-preview .thumbnail-inner { pointer-events: none; }
+.docs-preview-caption { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-top: 1px solid var(--line); font: 11px/1.5 var(--font-body), sans-serif; }
+.docs-preview-caption strong { font-weight: 600; }
+.docs-preview-caption span { color: var(--muted); text-align: right; font-size: 10px; }
+.docs-preview-loading { display: grid; place-items: center; min-height: 160px; color: var(--muted); font: 12px var(--font-body), sans-serif; }
+@keyframes docs-preview-in { from { opacity: 0; transform: translateX(-3px) scale(.985); } to { opacity: 1; transform: translateX(0) scale(1); } }
+@media (prefers-reduced-motion: reduce) { .docs-link-preview { animation: none; } }
 
 .docs-index-heading { margin-bottom: 28px; }
 .library-main .docs-index-heading h1 { letter-spacing: -.04em; }
@@ -31,6 +38,8 @@
 .docs-signature-index a:hover strong { text-decoration: underline; text-underline-offset: 5px; }
 .docs-signature-index a:focus-visible, .docs-page-links a:focus-visible { outline: 2px solid var(--focus); outline-offset: 5px; border-radius: 2px; }
 .docs-page-links { max-width: 820px; margin: 0 0 32px; }
+.docs-install-link { display: inline-flex; align-items: center; gap: 8px; }
+.docs-install-link svg { width: 15px; height: 15px; }
 .docs-page-links h2 { margin: 0 0 8px; font-size: 15px; font-weight: 600; letter-spacing: -.015em; }
 .docs-page-links > div { display: flex; flex-wrap: wrap; gap: 2px 20px; }
 .docs-page-links a { display: inline-flex; align-items: center; min-height: 36px; color: var(--muted); font-size: 12px; text-decoration: none; }

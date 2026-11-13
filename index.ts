@@ -163,6 +163,16 @@ export * from "./components/ui/sticker-pack";
 export * from "./components/ui/paper-cut";
 export * from "./components/ui/blocks/auth-variants";
 export * from "./components/ui/morphing-icons";
+export * from "./components/ui/agent-map";
+export * from "./components/ui/glyph-orb";
+export * from "./components/ui/arc-field";
+export * from "./components/ui/satin-flow";
+export * from "./components/ui/contour-terrain";
+export * from "./components/ui/signal-lens";
+export * from "./components/ui/spring-deck";
+export * from "./components/ui/cascade-menu";
+export * from "./components/ui/choice-dial";
+export * from "./components/ui/aperture-gallery";
 
 export * from "./components/ui/github-graph";
 export * from "./components/ui/adaptive-input";

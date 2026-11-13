@@ -142,6 +142,11 @@ describe("helmet and driver interaction", () => {
     expect(container.querySelector(".mini-driver-svg")).toBe(originalSvg);
     expect(container.querySelector(".driver-hand-thumb")?.closest(".mini-driver-arm-wave")).toBeNull();
     expect(container.querySelector(".driver-hand-thumb")?.closest(".mini-driver-arm-thumb")).not.toBeNull();
+    const head = container.querySelector(".mini-driver-head")!;
+    const gestures = container.querySelector(".mini-driver-foreground")!;
+    expect(head.compareDocumentPosition(gestures) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(gestures.querySelector(".mini-driver-arm-wave")).not.toBeNull();
+    expect(gestures.querySelector(".mini-driver-arm-thumb")).not.toBeNull();
     await user.click(screen.getByRole("button", { name: "Pause animation" }));
     expect(onPausedChange).toHaveBeenCalledWith(true);
     expect(container.querySelector(".mini-driver")).toHaveAttribute("data-paused", "false");

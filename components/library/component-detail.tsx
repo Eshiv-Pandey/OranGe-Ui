@@ -80,7 +80,7 @@ export function ComponentDetail({ component, source }: { component: ComponentDef
       <section className="component-workspace" aria-label={`${component.name} playground`}>
         <div className="workspace-stage" data-preview-surface={surface} style={{ "--preview-scale": scale / 100 } as CSSProperties}>
           <div role="tabpanel" id="example-panel" aria-labelledby={`tab-${view}`} tabIndex={0} className="workspace-view">
-            <div hidden={view !== "preview"} className={`detail-demo demo-${component.slug}`} data-testid="live-demo"><div className="detail-demo-content" data-main-preview={component.customizerPreview ? undefined : ""}><ComponentDemo key={previewKey} slug={component.slug} appearance={appearance} /></div></div>
+            <div hidden={view !== "preview"} className={`detail-demo demo-${component.slug}`} data-testid="live-demo"><h2 className="sr-only">Live preview</h2><div className="detail-demo-content" data-main-preview={component.customizerPreview ? undefined : ""}><ComponentDemo key={previewKey} slug={component.slug} appearance={appearance} /></div></div>
             {view !== "preview" && <pre className="code-block" tabIndex={0}><code>{code}</code></pre>}
           </div>
           <div className="workspace-stage-toolbar" aria-label="Playground views">

@@ -1,22 +1,26 @@
-export const FILM_FRAME_SPACING = 148;
+export const FILM_FRAME_SPACING = 236;
 export type FilmPoint = { x: number; y: number; z: number; distance: number; angle: number; nx: number; ny: number; nz: number };
 const knots = [
-  [-650, 350, -35], [-360, 240, -20], [-250, 20, 15], [-330, -170, 25],
-  [-160, -260, 40], [80, -80, 40], [260, 180, 0], [430, 190, -30],
-  [460, -20, -45], [340, -200, -25], [460, -230, 5], [680, -90, 10],
+  [-740, 300, -35], [-430, 220, -20], [-290, 20, 15], [-300, -150, 25],
+  [-100, -230, 40], [130, -70, 40], [310, 150, 0], [480, 180, -30],
+  [540, 20, -35], [530, -130, -20], [650, -190, 5], [810, -100, 10],
+] as const;
+const compactKnots = [
+  [-420, 290, -20], [-230, 230, -15], [-150, 100, 0], [-155, -60, 15],
+  [-80, -200, 30], [90, -215, 30], [210, -110, 10], [235, 80, -10], [410, 210, -30],
 ] as const;
 
 /** A smooth, spatial film loop. Distance drives both photos and perforations. */
 export function createFilmPath(compact = false) {
-  const points: FilmPoint[] = [], scale = compact ? .5 : 1;
+  const points: FilmPoint[] = [], sourceKnots = compact ? compactKnots : knots;
   function position(t: number) {
-    const segment = Math.min(knots.length - 2, Math.floor(t)), u = t - segment;
-    const a = knots[Math.max(0, segment - 1)], b = knots[segment], c = knots[segment + 1], d = knots[Math.min(knots.length - 1, segment + 2)];
+    const segment = Math.min(sourceKnots.length - 2, Math.floor(t)), u = t - segment;
+    const a = sourceKnots[Math.max(0, segment - 1)], b = sourceKnots[segment], c = sourceKnots[segment + 1], d = sourceKnots[Math.min(sourceKnots.length - 1, segment + 2)];
     const coordinate = (axis: 0 | 1 | 2) => .5 * ((2 * b[axis]) + (-a[axis] + c[axis]) * u + (2 * a[axis] - 5 * b[axis] + 4 * c[axis] - d[axis]) * u * u + (-a[axis] + 3 * b[axis] - 3 * c[axis] + d[axis]) * u * u * u);
-    return { x: coordinate(0) * scale, y: coordinate(1), z: coordinate(2) };
+    return { x: coordinate(0), y: coordinate(1), z: coordinate(2) };
   }
   let distance = 0;
-  const count = 720, extent = knots.length - 1;
+  const count = 720, extent = sourceKnots.length - 1;
   for (let index = 0; index <= count; index++) {
     const t = index / count * extent, point = position(t);
     const before = position(Math.max(0, t - .002)), after = position(Math.min(extent, t + .002));
@@ -25,7 +29,7 @@ export function createFilmPath(compact = false) {
     const horizontal = Math.hypot(tx, ty) || 1, ax = -ty / horizontal, ay = tx / horizontal;
     const bx = -tz * ay, by = tz * ax, bz = tx * ay - ty * ax;
     const progress = index / count;
-    const twist = Math.sin(progress * Math.PI * 3 - .3) * .16 + .22 * Math.exp(-Math.pow((progress - .67) / .16, 2));
+    const twist = Math.sin(progress * Math.PI * 3 - .3) * .08 + .1 * Math.exp(-Math.pow((progress - .67) / .16, 2));
     const nx = ax * Math.cos(twist) + bx * Math.sin(twist), ny = ay * Math.cos(twist) + by * Math.sin(twist), nz = bz * Math.sin(twist);
     const previous = points.at(-1);
     if (previous) distance += Math.hypot(point.x - previous.x, point.y - previous.y, point.z - previous.z);

@@ -2,9 +2,15 @@
 
 ## Unreleased
 
+- Put setup before the four main offerings: Stickers, Morphing icons, Components and Blocks. Limit Essentials / Primitives to conventional components, add live sidebar hover previews and repair inspector and appearance-picker alignment.
+- Add original geographic AgentMap and interactive ASCII GlyphOrb components, with editable previews and portable source.
+- Add original ArcField, SatinFlow, ContourTerrain and SignalLens backgrounds with editable palettes, bounded rendering and server-rendered fallback artwork.
+- Add SpringDeck photo selection, CascadeMenu navigation sheets, ChoiceDial options and ApertureGallery image panels, with controlled state, keyboard navigation and reduced motion.
+- Bring MiniDriver gestures in front of its helmet; refine FloatingDock motion, make PaperCut useful for content banners, improve EndlessFilm photo visibility, shorten FlipBoard transitions and blend profile-card covers into their content.
+
 - Merge the stickers, morph icons and next-iteration branches into main, including newer local component refinements.
 - Align Shuffle's crossed-lane arrowheads with their diagonal exits while preserving the other morph icons.
-- Lead docs navigation with signature collections, collapse conventional controls into Essentials, and retain block categories and searchable setup anchors.
+- Keep everyday controls in Essentials, with block categories and searchable setup anchors.
 - Restore the newer Liquid Metal ribbons and Film Strip stage sizing; preserve uploaded photo proportions and the latest Mini Driver source.
 
 - Fill the workspace with component previews, including the complete BloomTrail, DraggableCards, BubbleWrap, PhotoGarland and LiquidMetal fields. Remove the inherited mobile preview offset and keep component controls clear of the view dock.

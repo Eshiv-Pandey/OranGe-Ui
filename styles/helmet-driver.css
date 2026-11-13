@@ -17,7 +17,7 @@
 :is(.helmet, .mini-driver)[data-visor-open="false"] .helmet-interior-face { opacity: 0; }
 :is(.helmet, .mini-driver) .helmet-pupil { transform: translate(calc(var(--gaze-x, 0) * 3px), calc(var(--gaze-y, 0) * 2px)); }
 :is(.helmet, .mini-driver) .helmet-blink { transform: scaleY(var(--blink-scale, 1)); }
-:is(.helmet, .mini-driver) .mini-driver-body { transform-origin: 120px 290px; animation: mini-driver-breathe 3.8s ease-in-out infinite; }
+:is(.helmet, .mini-driver) :is(.mini-driver-body, .mini-driver-foreground) { transform-origin: 120px 290px; animation: mini-driver-breathe 3.8s ease-in-out infinite; }
 :is(.helmet, .mini-driver) .mini-driver-head { transform-origin: 120px 144px; animation: mini-driver-bob 3.8s ease-in-out infinite; }
 :is(.helmet, .mini-driver) .mini-driver-arm-wave { transform-origin: 158px 157px; }
 .mini-driver[data-gesture="wave"] .mini-driver-arm-wave { animation: mini-driver-wave 1500ms ease-in-out both; }

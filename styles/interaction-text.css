@@ -8,8 +8,8 @@
 .flap-letter { position: absolute; inset: 0; display: grid; place-items: center; font-size: 95cqw; }
 .flap-seam { position: absolute; z-index: 3; top: calc(50% - 1px); left: 0; right: 0; height: 2px; background: #0b100b; box-shadow: 0 1px 0 rgb(255 255 255 / .05); }
 .flap-moving, .flap-arriving { position: absolute; left: 0; right: 0; height: 50%; overflow: hidden; background: #2b3026; backface-visibility: hidden; font-size: 95cqw; }
-.flap-moving { top: 0; z-index: 4; transform-origin: bottom; animation: flap-out .38s ease-in forwards; animation-delay: var(--flap-delay); }
-.flap-arriving { bottom: 0; z-index: 4; background: #292e26; transform-origin: top; animation: flap-in .4s var(--ix-ease) both; animation-delay: calc(var(--flap-delay) + .25s); }
+.flap-moving { top: 0; z-index: 4; transform-origin: bottom; animation: flap-out .2s ease-in forwards; animation-delay: var(--flap-delay); }
+.flap-arriving { bottom: 0; z-index: 4; background: #292e26; transform-origin: top; animation: flap-in .24s var(--ix-ease) both; animation-delay: calc(var(--flap-delay) + .12s); }
 .flap-moving > span, .flap-arriving > span { position: absolute; inset: 0; height: 200%; display: grid; place-items: center; }
 .flap-arriving > span { top: -100%; }
 .flip-board-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }

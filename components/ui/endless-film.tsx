@@ -23,6 +23,7 @@ export function EndlessFilm({ photos = KEEPSAKE_PHOTOS, label = 'Let the good da
   const drag = useRef<{ x: number; y: number; phase: number; touch: boolean } | null>(null), moved = useRef(false);
   const [stopped, setStopped] = useState(false), [reverse, setReverse] = useState(false), [reduced, setReduced] = useState(false), [selectedId, setSelectedId] = useState(photos[0]?.id);
   const resolved = useCreativeTheme(theme), selected = photos.find(photo => photo.id === selectedId) ?? photos[0];
+  const fallbackPhotos = selected ? [selected, ...photos.filter(photo => photo.id !== selected.id)].slice(0, 6) : [];
   const selectedIndex = useRef(0);
   const draw = useCallback(() => {
     if (!photos.length) return;
@@ -38,6 +39,7 @@ export function EndlessFilm({ photos = KEEPSAKE_PHOTOS, label = 'Let the good da
     void import('./endless-film-renderer').then(module => module.createEndlessFilmRenderer(element, photos, controller.signal)).then(owner => {
       if (controller.signal.aborted) { owner?.destroy(); return; }
       renderer.current = owner; owner?.select(selectedIndex.current); owner?.update(phase.current);
+      if (!owner && stage.current) stage.current.dataset.renderer = 'fallback';
     }).catch(() => { if (!controller.signal.aborted && stage.current) stage.current.dataset.renderer = 'fallback'; });
     return () => { controller.abort(); renderer.current?.destroy(); renderer.current = null; };
   }, [photos]);
@@ -94,7 +96,7 @@ export function EndlessFilm({ photos = KEEPSAKE_PHOTOS, label = 'Let the good da
         const bounds = event.currentTarget.getBoundingClientRect(); cursor.current = (event.clientX - bounds.left) / bounds.width * 4 - 2;
       }
     }} onPointerLeave={() => { cursor.current = 1; }} onPointerDown={event => {
-      if (!interactive) return;
+      if (!interactive || event.button !== 0) return;
       drag.current = { x: event.clientX, y: event.clientY, phase: phase.current, touch: event.pointerType === 'touch' }; moved.current = false; event.currentTarget.setPointerCapture(event.pointerId);
     }} onPointerUp={event => {
       if (!drag.current) return;
@@ -104,7 +106,7 @@ export function EndlessFilm({ photos = KEEPSAKE_PHOTOS, label = 'Let the good da
     }} onPointerCancel={() => { drag.current = null; }} onLostPointerCapture={() => { drag.current = null; }}>
       {!photos.length ? <p className="endless-film-empty">Add photos to start your reel.</p> : <>
         <canvas ref={canvas} className="endless-film-ribbon" role="img" aria-label="A curling photographic film ribbon with punched sprockets" />
-        <div className="endless-film-fallback" aria-hidden="true">{photos.slice(0, 6).map(photo => <div className="endless-film-fallback-frame" key={photo.id}>
+        <div className="endless-film-fallback" aria-hidden="true">{fallbackPhotos.map(photo => <div className="endless-film-fallback-frame" key={photo.id}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={photo.src} alt="" draggable="false" />
         </div>)}</div>

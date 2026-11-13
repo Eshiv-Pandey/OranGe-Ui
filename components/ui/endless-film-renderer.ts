@@ -37,16 +37,16 @@ export async function createEndlessFilmRenderer(canvas: HTMLCanvasElement, photo
     context!.imageSmoothingEnabled = true; context!.imageSmoothingQuality = 'high';
     photos.forEach((photo, index) => {
       const x = index * 256, edge = context!.createLinearGradient(0, 0, 0, 200);
-      edge.addColorStop(0, '#776249'); edge.addColorStop(.06, '#24211c'); edge.addColorStop(.94, '#24211c'); edge.addColorStop(1, '#806649');
+      edge.addColorStop(0, '#c3a77b'); edge.addColorStop(.025, '#877252'); edge.addColorStop(.08, '#373129'); edge.addColorStop(.92, '#373129'); edge.addColorStop(.975, '#877252'); edge.addColorStop(1, '#c3a77b');
       context!.fillStyle = edge; context!.fillRect(x, 0, 256, 200);
-      context!.fillStyle = photo.color ?? '#6a6655'; context!.fillRect(x + 24, 35, 208, 130);
+      context!.fillStyle = photo.color ?? '#6a6655'; context!.fillRect(x + 15, 29, 226, 142);
       const image = images[index];
       if (image.complete && image.naturalWidth) {
-        const crop = Math.min(image.naturalWidth / 208, image.naturalHeight / 130), width = 208 * crop, height = 130 * crop;
-        context!.drawImage(image, (image.naturalWidth - width) / 2, (image.naturalHeight - height) / 2, width, height, x + 24, 35, 208, 130);
+        const crop = Math.min(image.naturalWidth / 226, image.naturalHeight / 142), width = 226 * crop, height = 142 * crop;
+        context!.drawImage(image, (image.naturalWidth - width) / 2, (image.naturalHeight - height) / 2, width, height, x + 15, 29, 226, 142);
       }
-      context!.strokeStyle = index === selected ? '#d7a34e' : '#a9997770'; context!.lineWidth = index === selected ? 2 : 1; context!.strokeRect(x + 24, 35, 208, 130);
-      context!.font = '9px sans-serif'; context!.fillStyle = '#caa771'; context!.fillText(`FRAME ${String(index + 1).padStart(2, '0')}`, x + 27, 174);
+      context!.strokeStyle = index === selected ? '#f2d18e' : '#d3bb9270'; context!.lineWidth = index === selected ? 2 : 1; context!.strokeRect(x + 15, 29, 226, 142);
+      context!.font = '7px sans-serif'; context!.fillStyle = '#dac49b'; context!.fillText(String(index + 1).padStart(2, '0'), x + 2, 102);
       context!.globalCompositeOperation = 'destination-out';
       for (let hole = 0; hole < 8; hole++) for (const y of [9, 176]) { context!.beginPath(); context!.roundRect(x + hole * 32 + 11, y, 13, 15, 2.5); context!.fill(); }
       context!.globalCompositeOperation = 'source-over';
@@ -55,7 +55,8 @@ export async function createEndlessFilmRenderer(canvas: HTMLCanvasElement, photo
     canvas.parentElement?.setAttribute('data-texture-size', `${atlas.width}x${atlas.height}`);
   }
   paintAtlas();
-  const frontMaterial = new THREE.MeshStandardMaterial({ map: texture, color: 0xffffff, roughness: .94, metalness: 0, alphaTest: .45, side: THREE.FrontSide });
+  // A photographic print keeps its original color instead of being darkened by scene lighting.
+  const frontMaterial = new THREE.MeshBasicMaterial({ map: texture, color: 0xffffff, toneMapped: false, alphaTest: .45, side: THREE.FrontSide });
   const backMaterial = new THREE.MeshStandardMaterial({ map: texture, color: 0x32271e, roughness: .62, alphaTest: .45, side: THREE.BackSide });
   const depthMaterial = new THREE.MeshDepthMaterial({ map: texture, alphaTest: .45, depthPacking: THREE.RGBADepthPacking, side: THREE.DoubleSide });
   const front = new THREE.Mesh(geometry, frontMaterial), back = new THREE.Mesh(geometry, backMaterial);
@@ -66,7 +67,7 @@ export async function createEndlessFilmRenderer(canvas: HTMLCanvasElement, photo
     for (let row = 0; row <= rows; row++) {
       const point = path.at(row / rows * path.length);
       for (let column = 0; column <= columns; column++) {
-        const offset = (column / columns - .5) * 116;
+        const offset = (column / columns - .5) * 184;
         positions.push(point.x + point.nx * offset, point.y + point.ny * offset, point.z + point.nz * offset); uv.push(row / rows, column / columns);
         if (row < rows && column < columns) { const a = row * (columns + 1) + column, b = a + columns + 1; indices.push(a, b, a + 1, b, b + 1, a + 1); }
       }

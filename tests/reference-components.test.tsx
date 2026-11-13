@@ -132,6 +132,15 @@ describe("reference collection", () => {
     first.focus(); fireEvent.keyDown(first, { key: "ArrowRight" }); expect(last).toHaveFocus(); fireEvent.click(last); expect(change).toHaveBeenCalledWith("c"); expect(first).toHaveAttribute("aria-pressed", "true");
   });
 
+  it("keeps a keyboard entry point when dock items change and names notification badges", () => {
+    const { rerender } = render(<FloatingDock items={[{ id: "a", label: "First", icon: "A" }, { id: "b", label: "Inbox", icon: "B", badge: 3 }]} />);
+    expect(screen.getByRole("button", { name: "Inbox, 3 notifications" })).toHaveAttribute("tabindex", "-1");
+    rerender(<FloatingDock items={[{ id: "a", label: "First", icon: "A", disabled: true }, { id: "b", label: "Inbox", icon: "B", badge: 3 }]} />);
+    expect(screen.getByRole("button", { name: "Inbox, 3 notifications" })).toHaveAttribute("tabindex", "0");
+    fireEvent.click(screen.getByRole("button", { name: "Inbox, 3 notifications" }));
+    expect(screen.getByRole("button", { name: "Inbox, 3 notifications" })).toHaveAttribute("aria-pressed", "true");
+  });
+
   it("expands, submits trimmed search text and returns focus on Escape", () => {
     const submit = vi.fn(); render(<MorphInput onSubmit={submit} />);
     fireEvent.click(screen.getByRole("button", { name: "Open search" })); const input = screen.getByRole("searchbox"); expect(input).toHaveFocus(); expect(screen.getByRole("button", { name: "Submit search" })).toBeDisabled();
