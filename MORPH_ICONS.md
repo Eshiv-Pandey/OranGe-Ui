@@ -1,0 +1,159 @@
+# Morphing icons
+
+Forty original React icons connect two useful interface states through continuous SVG geometry. They use a shared `24 × 24` grid, rounded caps and joins, and `currentColor`. The component collection is available at `/components/morphing-icons`.
+
+The reusable icon follows application state. Listening pulses five centered bars; Typing animates three standalone dots with a small staggered rise and resting interval. The catalogue preview supplies the automatic state switching, hover pause and click interaction separately.
+
+## Install and use
+
+Use the install command shown on the component page. For a local catalogue running on port 3000:
+
+```sh
+npx shadcn@latest add "http://localhost:3000/r/morphing-icons.json?style=polished"
+```
+
+Replace the origin with the running or hosted catalogue. The existing shadcn-compatible registry installs editable source in the project-root `orangeui/` namespace, including an example at `orangeui/examples/morphing-icons.tsx`.
+
+The page also offers a complete source ZIP through `/api/components/morphing-icons?style=polished`. Keep the included files and license notices together. Adjust relative imports to match the location of your application file.
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import { HeartMorphIcon } from "./orangeui/components/ui/morphing-icons";
+
+export function FavoriteButton() {
+  const [favorite, setFavorite] = useState(false);
+
+  return (
+    <button
+      type="button"
+      aria-pressed={favorite}
+      onClick={() => setFavorite(value => !value)}
+    >
+      <HeartMorphIcon active={favorite} size={24} />
+      <span>Favorite</span>
+    </button>
+  );
+}
+```
+
+The generic export is useful when the icon is chosen dynamically:
+
+```tsx
+import { MorphIcon, type MorphIconName } from "./orangeui/components/ui/morphing-icons";
+
+const name: MorphIconName = "play-pause";
+
+<MorphIcon name={name} active={playing} size={24} duration={260} />;
+```
+
+## Component API
+
+`MorphIcon` accepts ordinary React SVG props, including `className`, `style`, ARIA attributes, event handlers and `ref`. Named exports accept the same props with `name` already chosen.
+
+| Prop | Default | Behavior |
+| --- | --- | --- |
+| `name` | Required | Typed name from the forty-icon collection. |
+| `active` | `false` | Chooses the alternate state. The containing application owns this value. |
+| `size` | `24` | Equal width and height. Numbers are clamped to 12 through 1024 pixels; strings accept CSS dimensions. |
+| `strokeWidth` | `1.5` | Line weight on the 24-unit grid, clamped to 0.75 through 3. |
+| `duration` | `260` | Full-transition milliseconds, clamped to 120 through 1200. A reversal scales its duration to the remaining distance. |
+| `reducedMotion` | `false` | Immediately displays the chosen state. The system reduced-motion preference also disables transitions. |
+| `animateActivity` | `true` | Pulse the active Listening bars and bounce the Typing dots. Set `false` for a still active state. Reduced motion, hidden tabs and offscreen icons suspend this activity. |
+| `label` | Unset | Accessible name for an informative SVG. |
+| `decorative` | Automatic | Unlabeled icons are hidden from assistive technology. Set `false` to expose an informative image with its state label. |
+| `appearance` | Unset | Records the existing library appearance. The glyph still inherits its surrounding text color. |
+
+Use `style={{ color: "..." }}` or a surrounding text color to change the icon color. The core icon needs React and its bundled geometry/motion source; it imports no Next.js runtime, site stylesheet, font or network asset.
+
+Changing `active` follows an authored route with matching path coordinates, rigid rotations, staged opacity and stroke drawing. Reversing during a transition continues from the displayed geometry. Changing `name` starts the new icon in its requested state. The initial SVG contains the requested state before hydration.
+
+Application semantics belong to the containing native control. Give buttons an accessible action name. A toggle such as Favorite uses a stable label with `aria-pressed`; a disclosure uses `aria-expanded`. Feedback states such as Copied or Downloaded should follow the result of the application action.
+
+## Collection
+
+`active={false}` displays the first state; `active={true}` displays the second. `MORPH_ICONS` exports the name, title, category and pair of state labels for each definition. `MorphIconName` and `MorphIconCategory` provide the corresponding TypeScript types.
+
+| Name | Named export | First state / alternate state |
+| --- | --- | --- |
+| `menu` | `MenuMorphIcon` | Menu / Close |
+| `chevron` | `ChevronMorphIcon` | Collapsed / Expanded |
+| `arrow` | `ArrowMorphIcon` | Forward / Back |
+| `fullscreen` | `FullscreenMorphIcon` | Windowed / Fullscreen |
+| `sidebar` | `SidebarMorphIcon` | Compact sidebar / Expanded sidebar |
+| `layout` | `LayoutMorphIcon` | Grid / Rows |
+| `sort` | `SortMorphIcon` | Ascending / Descending |
+| `filter` | `FilterMorphIcon` | All results / Filtered |
+| `folder` | `FolderMorphIcon` | Closed / Open |
+| `lock` | `LockMorphIcon` | Locked / Unlocked |
+| `search` | `SearchMorphIcon` | Search / Close search |
+| `settings` | `SettingsMorphIcon` | Default settings / Adjusted settings |
+| `sun-moon` | `ThemeMorphIcon` | Light / Dark |
+| `eye` | `VisibilityMorphIcon` | Visible / Hidden |
+| `link` | `LinkMorphIcon` | Disconnected / Linked |
+| `bookmark` | `BookmarkMorphIcon` | Unsaved / Saved |
+| `pin` | `PinMorphIcon` | Unpinned / Pinned |
+| `calendar` | `CalendarMorphIcon` | Calendar / Scheduled |
+| `edit` | `EditMorphIcon` | Edit / Edited |
+| `trash` | `TrashMorphIcon` | Closed / Open |
+| `play-pause` | `PlayPauseMorphIcon` | Play / Pause |
+| `volume` | `VolumeMorphIcon` | Sound on / Muted |
+| `microphone` | `MicrophoneMorphIcon` | Microphone / Listening |
+| `camera` | `CameraMorphIcon` | Camera / Captured |
+| `record` | `RecordMorphIcon` | Record / Stop |
+| `repeat` | `RepeatMorphIcon` | Repeat / Repeat one |
+| `shuffle` | `ShuffleMorphIcon` | Straight / Shuffle |
+| `heart` | `HeartMorphIcon` | Unselected / Selected |
+| `star` | `StarMorphIcon` | Unstarred / Starred |
+| `check` | `CheckMorphIcon` | Unchecked / Checked |
+| `plus` | `PlusMorphIcon` | Add / Close |
+| `copy` | `CopyMorphIcon` | Copy / Copied |
+| `send` | `SendMorphIcon` | Send / Sent |
+| `download` | `DownloadMorphIcon` | Download / Downloaded |
+| `upload` | `UploadMorphIcon` | Upload / Uploaded |
+| `cloud` | `CloudMorphIcon` | Cloud / Synced |
+| `notification` | `NotificationMorphIcon` | Notifications on / Muted |
+| `mail` | `MailMorphIcon` | Closed / Open |
+| `message` | `MessageMorphIcon` | Message / Typing |
+| `user` | `UserMorphIcon` | Follow / Following |
+
+## Preview behavior
+
+The collection groups icons into Navigation, Workspace, Media, Actions and Communication. Search matches their titles, names and state labels. An empty result offers Clear filters.
+
+Visible previews alternate automatically in staggered groups with a resting interval between transitions. Hover pauses an icon; clicking switches its state and selects it. Leaving resumes automatic switching. Keyboard focus pauses switching, Enter or Space changes state, and blur resumes it. A touch press holds that preview for manual control; Resume releases held previews.
+
+Hover holds the selected state while Listening and Typing continue their activity. The shared Pause control stops automatic switching and activity. Automatic previews also stop under reduced motion, when the collection is offscreen or when the tab is hidden. Individual offscreen tiles do not advance. Reduced motion leaves the controls available and shows chosen states immediately without activity.
+
+The gallery displays 48px specimens and the selected preview starts at 80px, with a size control up to 128px. The selected preview has controls for either state, icon size, stroke and duration. Choosing a state holds that icon until Resume. Copy React uses the current values and offers selectable code if clipboard access is unavailable.
+
+SVG downloads contain the selected still state. The animated React source is available through the registry and source ZIP.
+
+`morphIconSvg(name, active, size, strokeWidth)` also returns that portable SVG string directly. Its defaults are `active=false`, `size=128` and `strokeWidth=1.5`; numeric size is clamped to 12 through 2048. The SVG includes a state label and a default dark color that can be changed when embedding the markup. It exports the resting still state; ongoing activity is supplied by the React component.
+
+## Design and reference research
+
+The behavioral reference was [Kobra's morphing icons](https://kobra.systems/components/morphing-icons): small monochrome icons with meaningful state changes. The owner's clarified preview behavior guided automatic switching, hover pause and click control. The forty-icon family uses independently authored geometry and matching path topology. Reference SVG paths, source code and captures are not distributed as product assets.
+
+Consistency and accessibility research also used [Lucide's icon design principles](https://lucide.dev/contribute/icons/design-principles), [Material animated icon guidance](https://m2.material.io/design/iconography/animated-icons.html), the [WAI button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/) and [WCAG guidance on interaction animation](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html). The implemented 260ms default is the collection's own timing choice.
+
+## Initial verification, November 13, 2026
+
+The polish pass checks all forty pairs at nine positions through each transition. The 1,800 rendered samples cover the default 1.75 and maximum 3 stroke weights at interface and enlarged sizes, with no clipping or empty frames. Layout's visible contours stay separate through the grid-to-row route.
+
+Thirty-four focused unit and source tests pass, including all named exports, both server-rendered states, eighty portable SVG endpoints, authored phases and keyframes, rigid turns, partially drawn strokes, rapid reversal, preview lifecycle and source/registry examples for all five library appearances. The preview tests were reconfirmed after aligning the Alerts tile's visible and accessible names.
+
+Five production browser scenarios pass across the interaction run and the final accessibility confirmation: automatic switching and hover/keyboard control; search, settings and exports; touch, offscreen and reduced motion; responsive themes; and long transitions with reversal. The layout matrix covers 1440 by 900, 1536 by 772, 390 by 844 and 320 by 568 in both themes. All eight cases have zero Axe findings, horizontal overflow or inspector overflow. Timed strips sample eight difficult pairs at 600ms and reverse them during motion, verifying no jump at the reversal and return to the initial geometry.
+
+Production build `zAPnNBnfyJsvONciwAUFm`, scoped ESLint, copy and whitespace checks pass. The component-source route trace contains all five core files and no local instructions or research evidence. The build retains existing named-version-import advisories in the shared library shell and getting-started page. Browser coverage is Chromium with emulated touch; no physical-device performance claim is made.
+
+## Activity and proportion refinement, November 13, 2026
+
+The current default stroke is 1.5 in the React core, gallery and static export. Heart and Follow have more width relative to height; Layout settles into two rows. Shuffle keeps continuous attached routes, Visibility has a clear almond and pupil, Unlocked has an obvious opening, and Mail uses a simple connected envelope outline. Microphone and Copy use balanced rounded contours and staged detail transitions.
+
+Listening pulses five bars independently around a fixed vertical center. Their lengths change while their stroke width stays constant. Typing replaces the bubble with three equal dots that rise in sequence and rest together. Hover holds the state while these activities continue. `animateActivity={false}`, explicit preview Pause, reduced motion, hidden tabs and offscreen visibility stop the activity. The component owns one cancellable animation-frame callback and preserves interruption, SVG refs and still server-rendered/exported states.
+
+Current verification includes 41 passing unit/source tests, with seven new activity cases covering geometry, resting intervals, opt-out, reduced motion, visibility, reversal and cleanup. All six production browser scenarios passed in the initial refinement run. After the final bar and dot spacing correction, the layout, timed reversal and activity scenarios passed again on production build `styWDoLb762347zlXB_ko`. The final matrix has sixteen valid captures across eight viewport/theme cases, with zero Axe findings, horizontal overflow or inspector overflow. The final trace includes all five core files and no private source.
+
+The static refinement sheets cover all forty pairs in 1,800 samples before the last spacing correction. Final activity samples additionally verify the five bar centers and safe bounds at the maximum stroke; the three dot centers, radius and maximum rise stay inside the canvas. Scoped ESLint, copy and whitespace checks pass. The existing shared version-import advisories and Chromium/emulated-touch verification limits still apply.

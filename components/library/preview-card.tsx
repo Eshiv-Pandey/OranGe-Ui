@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { useDemoPlayer, type DemoStep } from "./use-demo-player";
 import "../../styles/preview-card.css";
 
-export const AUTONOMOUS_PREVIEWS = new Set(["shader-canvas", "flowing-water", "flowing-grass", "drifting-clouds", "grain-gradient", "anime-fire", "season-tree", "marquee", "skeleton", "progress", "thinking-indicator", "agent-status"]);
+export const AUTONOMOUS_PREVIEWS = new Set(["shader-canvas", "flowing-water", "flowing-grass", "drifting-clouds", "grain-gradient", "anime-fire", "season-tree", "marquee", "skeleton", "progress", "thinking-indicator", "agent-status", "morphing-icons"]);
 export const STATIC_PREVIEWS = new Set(["paper-cut"]);
 /** Static catalogue artwork consumes no playback slot. */
 export function PreviewCard({ staticPreview = false, ...props }: { children: ReactNode; demo?: DemoStep[]; autonomous?: boolean; pixel?: boolean; label: string; staticPreview?: boolean }) {
