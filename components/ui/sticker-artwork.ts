@@ -1,5 +1,7 @@
+import { STICKER_CONTOURS } from "./sticker-contours";
+
 /** Original oRangeUi artwork. All coordinates and marks are authored for this pack. */
-const ink = "#242038";
+const ink = "#171717";
 const p = (d: string, fill: string, stroke = ink, width = 2.5) => `<path d="${d}" fill="${fill}" stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`;
 const c = (x: number, y: number, r: number, fill: string, stroke = ink, width = 2.5) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${width}"/>`;
 const e = (x: number, y: number, rx: number, ry: number, fill: string, stroke = ink, width = 2.5) => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${fill}" stroke="${stroke}" stroke-width="${width}"/>`;
@@ -10,7 +12,9 @@ const smile = (x: number, y: number) => line(`M${x} ${y}q6 7 12 0`, ink, 2.5);
 const spark = (x: number, y: number, size: number, fill: string) => p(`M${x} ${y-size}q2 ${size-2} ${size} ${size}q-${size-2} 2 -${size} ${size}q-2 -${size-2} -${size} -${size}q${size-2} -2 ${size} -${size}Z`, fill, "none");
 const dots = (items: number[][], fill: string) => items.map(([x, y, radius]) => c(x, y, radius, fill, "none")).join("");
 
-export const STICKER_CATEGORIES = ["Oddlings", "Pocket objects", "In bloom", "Out there", "Graphic joy"] as const;
+export const STICKER_CATEGORIES = ["Oddlings", "Pocket objects", "In bloom", "Out there", "Graphic joy", "Everyday"] as const;
+export const STICKER_FINISHES = ["playful", "sharp"] as const;
+export type StickerFinish = typeof STICKER_FINISHES[number];
 export type StickerCategory = typeof STICKER_CATEGORIES[number];
 type Artwork = { name: string; title: string; category: StickerCategory; tags: string; color: string; outline: string; body: string; transform: string };
 const art = <N extends string>(name: N, title: string, category: StickerCategory, tags: string, color: string, outline: string, body: string, transform = ""): Artwork & { name: N } => ({ name, title, category, tags, color, outline, body, transform });
@@ -56,8 +60,8 @@ export const STICKER_ARTWORK = [
     "M107 64A43 43 0 1 1 21 64a43 43 0 0 1 86 0Z",
     c(64,64,43,"#363145") + c(64,64,32,"none","#817995",1.5) + c(64,64,24,"none","#817995",1.5) + c(64,64,17,"#fc8d51") + c(64,64,4,"#fff8e7") + line("M33 45q7-12 20-15m20 66q14-3 22-17", "#fff8e7", 3) + p("M54 51 57 56 53 60 48 55Z","#fff8e7","none")),
   art("moka-morning", "Moka morning", "Pocket objects", "coffee espresso pot purple", "#9c91ee",
-    "M49 15 79 15 82 25 91 28 91 42 109 43 108 71 94 77 101 103 36 108 40 73 24 39 40 37 43 26 48 25Z",
-    p("M86 42 109 43 108 71 92 79 89 68 100 64 100 52 90 52Z", "#ff9b5f") + p("M44 27 86 27 94 72 40 75 25 40 40 39Z", "#9c91ee") + p("M42 73 93 72 101 103 36 108Z", "#7563cf") + r(49,15,30,12,4,"#ff9b5f") + line("M55 33 56 65m20-32 7 31", "#e4defb", 4) + p("M59 86q-7-8 1-12 3 8 9 10 7 7-1 12-11-1-9-10Z", "#ffc96b", "none") + line("M38 100 96 98")),
+    "M79,74v7l15,30h-61l15,-30v-7l-11,-30l-15,-8l2,-4h19l9,-9h6v-10h12v10h6l7,9l3.75,6h14.25c8.66667,0 13,4.33333 13,13v14c0,8.66667 -4.33333,13 -13,13h-20l1.2093,-16.12403zM88,68h11c3.33333,0 5,-2 5,-6v-8c0,-4 -1.66667,-6 -5,-6h-7z",
+    p("M84 38H101Q114 38 114 51V65Q114 78 101 78H81ZM92 48H99Q104 48 104 54V62Q104 68 99 68H88Z", "#ff9b5f", ink, 3).replace("/>", ' fill-rule="evenodd"/>') + p("M48 81H79L94 111H33Z", "#9c91ee", ink, 3) + p("M49 84H59L54 108H36Z", "#c6baf7", "none") + p("M69 84H78L91 108H78Z", "#7563cf", "none") + p("M48 73H79V82H48Z", "#494060", ink, 2.5) + p("M43 32H83L88 40 79 74H48L37 44 22 36 24 32Z", "#9c91ee", ink, 3) + p("M46 35H56L55 70H49L41 42Z", "#c6baf7", "none") + p("M70 35H81L85 41 77 70H70Z", "#7563cf", "none") + p("M43 32 52 23H76L83 32Z", "#9c91ee", ink, 2.8) + p("M58 13H70V23H58Z", ink, ink, 2) + c(72, 96, 4.2, "#ff9b5f", ink, 2) + c(72, 96, 1.3, ink, "none") + line("M37 108H90", ink, 2) + line("M48 41 51 62", "#fff8e7", 2.5)),
   art("fizz-can", "Fizz can", "Pocket objects", "soda drink can citrus teal", "#69d1cc",
     "M39 22q25-10 50-2l4 83q-26 16-52 4Z",
     p("M39 22q25-10 50-2l4 83q-26 16-52 4Z", "#69d1cc") + e(64,22,25,7,"#e1f3ec") + e(64,23,8,3,"#5c5882") + p("M41 44 90 33l1 28-49 11Z", "#fbe192", "none") + p("M42 83 91 72l1 28-49 11Z", "#fc9666", "none") + c(66,73,16,"#ffe5a4") + line("M65 59 68 87m-13-20 22 12m-23-2 22-10", "#e48544", 2) + spark(82,48,5,"#ff8251")),
@@ -68,14 +72,14 @@ export const STICKER_ARTWORK = [
     "M24 57 36 46 47 24 55 27 44 50 68 46 89 16 96 20 81 48 104 57 104 70q-4 32-35 34H56Q26 100 24 70Z",
     line("M42 59 52 27m21 32 20-40", "#dd9360", 6) + e(64,58,40,14,"#ffcc75") + line("M35 55q10-15 21 1t18-2 20 3m-47 3q8-8 13 1t18 0", "#fff2c4", 4) + p("M24 62q39 21 80 0-1 37-35 42H56Q28 99 24 62Z","#ff865e") + p("M47 78h34l-8 12H55Z", "#fff4d5", "none") + line("M43 101h43")),
   art("pocket-play", "Pocket play", "Pocket objects", "handheld game console retro pink", "#f3a0bf",
-    "M35 16h57q9 0 9 9v72q0 16-16 16H35q-8 0-8-8V24q0-8 8-8Z",
-    r(27,16,74,97,9,"#f3a0bf") + r(37,27,54,38,4,"#494060") + r(43,33,42,25,2,"#bce19b") + p("M51 48v-8h8v8h8v8h-8v-8Z","#649d77","none") + p("M40 76h6v8h8v6h-8v8h-6v-8h-8v-6h8Z", "#494060") + c(77,88,5,"#fc8e53") + c(89,78,5,"#fc8e53") + line("M76 103 91 99m-16 9 16-4", "#494060", 2)),
+    "M37 15H88Q101 15 101 28V89Q101 113 77 113H37Q28 113 28 104V24Q28 15 37 15Z",
+    p("M37 15H88Q101 15 101 28V89Q101 113 77 113H37Q28 113 28 104V24Q28 15 37 15Z", "#f3a0bf", ink, 3.2) + r(37, 26, 55, 42, 5, "#494060", ink, 2.8) + r(43, 33, 43, 28, 2, "#bce19b", ink, 1.8) + p("M46 55H60V49H69V55H83V59H46ZM50 39H56V45H62V51H56V45H50Z", "#649d77", "none") + r(77, 37, 5, 5, 0, "#fff8e7", "none") + p("M40 76H47V84H55V91H47V99H40V91H32V84H40Z", "#494060", ink, 2.2) + c(43.5, 87.5, 2.2, "#817995", "none") + c(77, 89, 6, "#fc8e53", ink, 2.4) + c(90, 79, 6, "#fc8e53", ink, 2.4) + r(54, 102, 9, 3.5, 1.75, "#494060", "none") + r(66, 102, 9, 3.5, 1.75, "#494060", "none") + line("M84 99 93 96m-9 8 8-3m-8 8 6-2", "#494060", 1.7) + line("M35 22H53", "#ffe1ed", 2.8)),
   art("bubble-tea", "Bubble tea", "Pocket objects", "drink boba tea yellow purple", "#ffcc75",
-    "M33 40 37 29 76 29 84 10 93 13 87 29 98 33 102 43 94 108 44 112Z",
-    p("M36 41 101 40 94 108 44 112Z","#ffcc75") + p("M41 66 98 60 94 108 44 112Z","#d799b5", "none") + line("M70 76 90 13", "#7963bc", 8) + e(68,39,34,10,"#fff1c9") + line("M82 35 90 13", "#7963bc", 8) + dots([[53,95,5],[70,101,5],[86,94,5],[69,85,5],[84,78,4],[54,80,4]], "#494060") + line("M44 47 47 62", "#fff8e7", 3)),
+    "M31,40l0.3342,0c-0.22024,-0.3266 -0.3342,-0.66048 -0.3342,-1c0,-3.866 14.775,-7 33,-7c4.76013,0 9.28492,0.2138 13.37255,0.59859l4.62745,-19.59859l9,2l-4.45952,18.88736c6.43669,1.27741 10.45952,3.09537 10.45952,5.11264c0,0.33952 -0.11396,0.6734 -0.3342,1h0.3342l-8,67c-16.66667,7.33333 -33,7.33333 -49,0z",
+    p("M31 40H97L89 107Q64 118 40 107Z", "#fff1c9", ink, 3) + p("M34 61H94L88 106Q64 115 41 106Z", "#ffcc75", "none") + line("M35 61H94", "#c08852", 1.8) + p("M97 39C97 42.866 82.225 46 64 46C45.775 46 31 42.866 31 39C31 35.134 45.775 32 64 32C82.225 32 97 35.134 97 39Z", "#fff1c9", ink, 2.8) + line("M38 39H74", "#d8b47a", 1.5) + p("M82 13 91 15 74 87 65 85Z", "#7963bc", ink, 2.8) + line("M84 21 70 79", "#c9b2f2", 2.2) + dots([[51,99,5.5],[66,104,5.2],[81,98,5.5],[48,85,4.8],[61,91,5],[80,83,4.8]], "#494060") + line("M39 50 43 70", "#fff8e7", 3)),
   art("pencil-launch", "Pencil launch", "Pocket objects", "pencil rocket creative blue", "#88bcee",
-    "M57 17 77 26 81 47 49 100 25 111 30 85Z",
-    p("M57 17 77 26 81 47 49 100 25 111 30 85Z","#88bcee") + p("M57 17 77 26 71 38 51 29Z","#f6a2bc") + line("M52 29 72 39") + p("M30 85 49 100 25 111Z","#ffdc8d") + p("M25 111 35 105 28 98Z",ink) + line("M40 86 66 42", "#fff8e7", 4) + spark(97,75,10,"#ffbf57") + spark(87,97,6,"#f68faf")),
+    "M82 18 106 42 53 95 22 112 39 82ZM31 27 35 33 42 37 35 41 31 48 27 41 20 37 27 33Z",
+    p("M82 18 106 42 53 95 22 112 39 82Z", "#88bcee", ink, 3.6) + p("M82 18 106 42 96 52 72 30Z", "#f6a2bc", ink, 3) + p("M72 30 96 52 90 58 66 36Z", "#fff0d5", ink, 2.5) + p("M39 82 53 95 22 112Z", "#ffdc8d", ink, 3) + p("M22 112 28 98 36 106Z", ink, ink, 2) + line("M76 47 45 78", "#fff8e7", 3.5) + p("M31 27 35 33 42 37 35 41 31 48 27 41 20 37 27 33Z", "#ffbf57", ink, 2.8)),
   art("checkered-daisy", "Checkered daisy", "In bloom", "flower daisy checker yellow", "#ffd55c",
     "M52 33q-19-22-30-6-9 14 9 27-30 0-23 19 3 15 26 6-17 25 3 31 15 7 24-18 12 30 28 17 12-10-1-27 30 7 29-12-1-14-27-14 26-18 12-33-13-14-29 9-1-31-20-21-12 7-1 22Z",
     p("M52 33q-19-22-30-6-9 14 9 27-30 0-23 19 3 15 26 6-17 25 3 31 15 7 24-18 12 30 28 17 12-10-1-27 30 7 29-12-1-14-27-14 26-18 12-33-13-14-29 9-1-31-20-21-12 7-1 22Z","#ffd55c") + c(62,63,22,"#fff3d6") + p("M42 57h14v-14h14v14h14v14H70v14H56V71H42Z", "#8c70d8", "none") + p("M56 57h14v14H56Z", "#fff3d6", "none")),
@@ -113,11 +117,11 @@ export const STICKER_ARTWORK = [
     "M28 105V54a37 37 0 0 1 74 0v51Z",
     p("M28 105V54a37 37 0 0 1 74 0v51Z", "#949ce9") + p("M39 105V55a26 26 0 0 1 52 0v50Z", "#4d416d") + c(73,46,10,"#ffc677", "none") + p("M39 84q24-16 52-3v24H39Z", "#f392a8", "none") + p("M39 100q29-21 52-8v13H39Z", "#ffb97b", "none") + spark(54,58,5,"#e7d4ff") + dots([[80,66,2],[53,37,2]],"#e7d4ff")),
   art("comet-tail", "Comet tail", "Out there", "shooting star meteor yellow orange", "#ffca60",
-    "M14 74 77 18 69 48 108 21 93 59 115 47 104 81q-9 30-38 28-34-1-52-35Z",
-    p("M14 74 77 18 69 48 108 21 93 59 115 47 104 81q-9 30-38 28-34-1-52-35Z", "#ffca60") + p("M28 76 69 39 61 69 92 48 82 83Z", "#ff876c", "none") + c(74,81,25,"#b091e6") + spark(74,81,13,"#fff0cc") + line("M26 65 40 54m8 37-10-3", "#fff0cc", 4)),
+    "M113,15l-17,42c-10.76102,21.52203 -24.09535,35.3241 -40.00301,43.2523c-4.58518,5.35449 -11.39482,8.7477 -18.99699,8.7477c-13.80712,0 -25,-11.19288 -25,-25c0,-13.80712 11.19288,-25 25,-25c0.10941,0 0.21865,0.0007 0.32772,0.0021c24.50838,-19.4177 52.97521,-35.83116 75.67228,-44.0021z",
+    p("M30 65C56 43 88 24 113 15L96 57C81 87 61 102 36 107Z", "#ffca60", ink, 3.4) + p("M38 75C61 53 84 35 104 24L86 60C75 80 56 94 39 100Z", "#ff876c", "none") + p("M43 79C62 59 80 43 96 33L77 68C66 82 53 91 40 98Z", "#fff0cc", "none") + c(37, 84, 25, "#ffca60", ink, 3.2) + c(37, 84, 16, "#ff876c", "none") + c(32, 78, 7, "#fff0cc", "none") + line("M21 77Q24 69 31 67", "#fff0cc", 3)),
   art("crescent-nap", "Crescent nap", "Out there", "moon night sleepy lavender", "#bea0e6",
-    "M87 18a45 45 0 1 0 26 65q-32 10-49-13-17-26 23-52Z",
-    p("M87 18a45 45 0 1 0 26 65q-32 10-49-13-17-26 23-52Z", "#bea0e6") + line("M32 61q7 9 14 0m0 15q6 7 12 0", ink, 2.5) + dots([[43,35,5],[36,84,4],[64,97,3]], "#987bd0") + spark(101,37,10,"#ffce68") + spark(83,57,5,"#ff9f82")),
+    "M89 24C72 31 60 48 63 67 66 87 82 97 101 94 83 113 54 113 34 96 14 80 13 52 30 33 45 17 69 13 89 24ZM99 35 103 44 112 47 103 51 99 60 95 51 86 47 95 43Z",
+    p("M89 24C72 31 60 48 63 67 66 87 82 97 101 94 83 113 54 113 34 96 14 80 13 52 30 33 45 17 69 13 89 24Z", "#bea0e6", ink, 3.6) + c(31,77,5,"#987bd0","none") + c(50,93,4,"#987bd0","none") + c(55,31,3,"#987bd0","none") + line("M34 58q6 5 12-1", ink, 2.5) + line("M28 46q3-7 9-11", "#e7d4ff", 3) + p("M99 35 103 44 112 47 103 51 99 60 95 51 86 47 95 43Z", "#ffce68", ink, 2.8)),
   art("star-helmet", "Star helmet", "Out there", "astronaut space helmet blue", "#85cee8",
     "M22 59a42 42 0 0 1 84 0l7 3v23l-16 4-4 16H37l-5-17-17-4V62Z",
     p("M22 59a42 42 0 0 1 84 0l7 3v23l-16 4-4 16H37l-5-17-17-4V62Z", "#85cee8") + e(65,58,32,28,"#494060") + p("M37 58q7-24 27-23-4 18-27 23Z", "#b9c6f4", "none") + spark(78,61,11,"#ffcd70") + r(38,93,54,12,3,"#ffb58b") + dots([[26,74,3],[103,74,3]],"#fff5d5") + line("M49 99h30", "#fff5d5", 2)),
@@ -128,11 +132,11 @@ export const STICKER_ARTWORK = [
     "M62 13q27 14 27 44l17 24-2 19-23-11-5 13-1 15-13-6-14 6-1-16-6-12-20 11-1-19 16-24q0-29 26-44Z",
     p("M42 59 23 81l-2 19 28-14 27 1 28 13 2-19-19-26Z", "#7f98dd") + p("M48 96 47 117l15-6 13 6 1-21Z", "#ffc85e") + p("M62 13q27 14 27 44 0 24-13 45H48Q34 80 36 57q0-29 26-44Z", "#ff957e") + c(62,54,15,"#fff0d2") + c(62,54,10,"#87c7df") + p("M41 35q9-16 21-22 16 8 21 22Z", "#ba9ae9") + line("M56 78h13", "#fff0d2", 4)),
   art("tiny-satellite", "Tiny satellite", "Out there", "satellite signal science purple", "#a6a1e7",
-    "M12 47 28 28 49 43 65 24 88 37 104 22 118 47 99 67 104 87 84 104 66 88 41 102 19 85 39 62Z",
-    p("M12 47 28 28 51 44 34 68Z", "#a6a1e7") + p("M80 44 104 22 118 47 99 69Z", "#a6a1e7") + line("M24 41 41 54m-7-18-13 21m80-16 10 17m-1-26-17 23", "#e3daf7", 2) + p("M49 47 65 30 87 43 87 78 67 95 46 80Z", "#ffc685") + p("M49 47 68 60 87 43v35L67 95 46 80Z", "#ef956f") + line("M68 60v35") + p("M42 79 23 84 40 102 57 85Z", "#a6a1e7") + p("M81 84 97 73 104 87 88 102Z", "#a6a1e7") + line("M65 30 67 18", ink, 4) + c(67,17,5,"#97d6b8")),
+    "M15 43 39 33 47 48 58 41V33L48 22Q63 14 78 22L68 33V40L80 48 104 38 114 64 90 75 81 67V74L63 86 46 76 44 65 24 69Z",
+    line("M39 57 54 61m22 3 16-6", ink, 5) + p("M16 43 39 33 48 58 24 69Z", "#a6a1e7", ink, 3.5) + p("M80 50 104 39 114 64 90 75Z", "#a6a1e7", ink, 3.5) + line("M24 39 33 65m-4-28 9 25M20 53l23-10m-19 18 24-10M88 46l10 26m-3-30 11 26M84 59l24-10m-20 18 23-10", "#e3daf7", 1.8) + line("M63 40V30", ink, 3.5) + p("M48 22Q63 14 78 22L63 34Z", "#97d6b8", ink, 3) + p("M47 48 63 39 80 49 63 59Z", "#ffc685", ink, 3) + p("M47 48 63 59V84L47 74Z", "#ef956f", ink, 3) + p("M63 59 80 49V73L63 84Z", "#ffdc8d", ink, 3) + c(69,66,3,"#fff0d5",ink,1.8)),
   art("solar-hug", "Solar hug", "Out there", "eclipse sun moon yellow", "#ffcc5e",
-    "M60 12 69 22 81 16 84 30 100 30 98 44 113 51 105 63 115 76 100 83 101 99 85 98 77 113 64 105 50 113 43 99 27 100 27 85 13 76 23 64 14 50 29 43 27 28 43 29 48 14Z",
-    p("M60 12 69 22 81 16 84 30 100 30 98 44 113 51 105 63 115 76 100 83 101 99 85 98 77 113 64 105 50 113 43 99 27 100 27 85 13 76 23 64 14 50 29 43 27 28 43 29 48 14Z", "#ffcc5e") + c(64,64,34,"#ff9b61") + p("M77 33a34 34 0 1 1-32 60q47-7 32-60Z", "#7762a6", "none") + line("M45 54q5 6 10 0",ink,2.5) + smile(45,67)),
+    "M64 14 75.1 22.5 89 20.7 94.4 33.6 107.3 39 105.5 52.9 114 64 105.5 75.1 107.3 89 94.4 94.4 89 107.3 75.1 105.5 64 114 52.9 105.5 39 107.3 33.6 94.4 20.7 89 22.5 75.1 14 64 22.5 52.9 20.7 39 33.6 33.6 39 20.7 52.9 22.5Z",
+    p("M64 14 75.1 22.5 89 20.7 94.4 33.6 107.3 39 105.5 52.9 114 64 105.5 75.1 107.3 89 94.4 94.4 89 107.3 75.1 105.5 64 114 52.9 105.5 39 107.3 33.6 94.4 20.7 89 22.5 75.1 14 64 22.5 52.9 20.7 39 33.6 33.6 39 20.7 52.9 22.5Z", "#ffcc5e", ink, 3.6) + c(64,64,33,"#ff9b61",ink,2.8) + p("M77 34C95 41 102 62 94 79 87 95 70 101 54 93 79 91 87 75 84 61 82 49 78 41 77 34Z", "#7762a6", ink, 2.8) + line("M43 46q7-9 17-12", "#fff0d5", 3) + c(44,73,3,"#ffc685","none")),
   art("constellation-note", "Constellation note", "Out there", "stars constellation night stamp", "#8b85cb",
     "M25 22 99 15 109 99 31 110 18 30Z",
     p("M25 22 99 15 109 99 31 110 18 30Z", "#8b85cb") + p("M32 34 90 27 97 88 38 97Z", "#4a416c") + line("M42 76 55 48 76 59 85 39", "#e0c6f3", 1.5) + spark(42,76,5,"#ffcf70") + spark(55,48,6,"#ffcf70") + spark(76,59,6,"#ffcf70") + spark(85,39,4,"#ffcf70") + dots([[42,42,2],[79,80,2],[89,70,2],[61,85,2]],"#f6d9bd") + line("M43 103 94 96", "#e0c6f3", 2)),
@@ -143,14 +147,14 @@ export const STICKER_ARTWORK = [
     "M64 37C37-2-3 40 24 72l40 39 40-39C131 41 91-3 64 37Z",
     p("M64 37C37-2-3 40 24 72l40 39 40-39C131 41 91-3 64 37Z", "#f48eaa") + p("M27 33q10-10 21 0l49 46-14 14Z", "#ffa76e", "none") + p("M44 20q11-1 20 17L99 70 85 84 35 36Z", "#ffcc87", "none") + p("M25 73 73 27q12-9 22 0L39 85Z", "#bd8ccf", "none") + p("M51 97 102 46q4 15-7 28L64 111Z", "#b487ca", "none") + line("M38 47 52 60m14-28 19 19", "#ffe8d5", 3)),
   art("infinity-ribbon", "Infinity ribbon", "Graphic joy", "loop knot infinity blue", "#83b9ec",
-    "M63 49q-31-40-49-13-20 35 9 51 22 14 42-10 29 40 51 11 22-29-8-53-22-13-45 14Z",
-    p("M63 49q-31-40-49-13-20 35 9 51 22 14 42-10 29 40 51 11 22-29-8-53-22-13-45 14Z", "#83b9ec") + p("M50 63q-19-26-24-12-7 18 6 20 7 2 18-8Zm28 0q18 26 25 14 8-16-5-21-8-3-20 7Z", "#fff8e7") + line("M56 40 79 75m-31-2 24 20", "#456caf", 3) + line("M26 34q10-4 22 8m38 44q12 8 20-3", "#d1eaf9", 3), "translate(6 6) scale(.9)"),
+    "M64 50C51 35 43 27 31 27C15 27 8 43 8 64C8 85 18 101 33 101C45 101 54 90 64 78C74 90 83 101 95 101C110 101 120 85 120 64C120 43 113 27 97 27C85 27 77 35 64 50ZM53 64C45 53 39 43 32 43C25 43 23 52 23 64C23 76 26 85 33 85C40 85 46 75 53 64ZM75 64C83 53 89 43 96 43C103 43 105 52 105 64C105 76 102 85 95 85C88 85 82 75 75 64Z",
+    p("M64 50C51 35 43 27 31 27C15 27 8 43 8 64C8 85 18 101 33 101C45 101 54 90 64 78C74 90 83 101 95 101C110 101 120 85 120 64C120 43 113 27 97 27C85 27 77 35 64 50ZM53 64C45 53 39 43 32 43C25 43 23 52 23 64C23 76 26 85 33 85C40 85 46 75 53 64ZM75 64C83 53 89 43 96 43C103 43 105 52 105 64C105 76 102 85 95 85C88 85 82 75 75 64Z", "#83b9ec", ink, 3).replace("/>", ' fill-rule="evenodd"/>') + p("M54 57 67 72 75 64 62 49Z", "#6083bd", "none") + line("M17 51Q14 63 18 75m88-30q5 9 5 19", "#d1eaf9", 2.6)),
   art("tidal-badge", "Tidal badge", "Graphic joy", "wave ocean blue badge", "#83cfe5",
     "M108 64a44 44 0 1 1-88 0 44 44 0 0 1 88 0Z",
     c(64,64,44,"#ffe0a3") + p("M24 66q11-27 30-26 29-3 33 24-12-15-21-1-11 17-42 3Z", "#75c8dc", "none") + p("M21 71q12 4 25-6 18-19 39 0 9 7 22 0-2 31-40 43-37-7-46-37Z", "#6083bd", "none") + p("M33 78q15 14 30 0t33 0", "none", "#fff0d0", 4) + c(76,39,8,"#f8976d", "none") + line("M52 30 55 34m-21 7 5 2", "#d89e60", 2)),
   art("pinwheel-pop", "Pinwheel pop", "Graphic joy", "pinwheel wind geometric color", "#b294df",
-    "M62 63 25 17 75 16 74 50 112 23 112 73 79 75 107 112 58 112 58 79 18 105 16 55 49 55Z",
-    p("M63 63 25 17 75 16 74 50Z", "#f5947d") + p("M63 63 112 23 112 73 79 75Z", "#ffcd71") + p("M63 63 107 112 58 112 58 79Z", "#b294df") + p("M63 63 18 105 16 55 49 55Z", "#80cbaa") + c(63,63,7,"#fff0d5") + line("M25 17 63 63l49-40M16 55l47 8 44 49",ink,2)),
+    "M32 22H72Q83 22 83 33V43L101 26V66Q101 78 89 78H82L96 94H67V112H61V94H55Q45 94 45 83V75L27 90V49Q27 38 39 38H46Z",
+    p("M61 64h6v48h-6Z", "#ffcd71", ink, 3) + p("M64 58 32 22H72Q83 22 83 33V38Z", "#f5947d", ink, 3.3) + p("M64 58 101 26V66Q101 78 89 78H84Z", "#ffcd71", ink, 3.3) + p("M64 58 96 94H55Q45 94 45 83V78Z", "#b294df", ink, 3.3) + p("M64 58 27 90V49Q27 38 39 38H44Z", "#80cbaa", ink, 3.3) + p("M64 58 44 38 32 22Z", "#f28267", ink, 2) + p("M64 58 84 78 101 66Z", "#e49a4c", ink, 2) + p("M64 58 84 78 96 94Z", "#8270ba", ink, 2) + p("M64 58 44 38 27 49Z", "#55b88b", ink, 2) + c(64,58,7,"#fff0d5",ink,3)),
   art("happy-ticket", "Happy ticket", "Graphic joy", "ticket smile admission green", "#c3dc87",
     "M16 41 107 29l4 24q-16 8 3 16l4 25-90 12-3-25q13-9-3-15Z",
     p("M16 41 107 29l4 24q-16 8 3 16l4 25-90 12-3-25q13-9-3-15Z", "#c3dc87") + line("M39 39l7 62", "#56846b", 2) + eyes(60,59,23) + line("M57 76q17 23 32-5", ink, 4) + dots([[36,49,1],[38,61,1],[39,74,1],[41,87,1]], "#56846b") + spark(100,81,5,"#fff0d5")),
@@ -158,14 +162,74 @@ export const STICKER_ARTWORK = [
     "M89 45q-40-41-61-5-25 43 30 63 43 6 48-24L90 68Q80 95 59 84 24 65 43 45q14-13 32 13L58 71l50 1-7-47Z",
     p("M89 45q-40-41-61-5-25 43 30 63 43 6 48-24L90 68Q80 95 59 84 24 65 43 45q14-13 32 13L58 71l50 1-7-47Z", "#ffbd68") + line("M32 62q2 30 27 31", "#fff0c7", 4) + p("M75 64 99 64 97 47Z", "#e28b57", "none")),
   art("cube-candy", "Cube candy", "Graphic joy", "cube block geometric pink blue", "#b09ee3",
-    "M62 14 110 40 108 91 64 115 18 89 18 39Z",
-    p("M62 14 110 40 64 67 18 39Z", "#f4a0b8") + p("M18 39 64 67v48L18 89Z", "#b09ee3") + p("M64 67 110 40 108 91 64 115Z", "#88c8d7") + line("M41 27 86 54m-48-4 1 49m47-43v46M18 64 64 89l45-26", "#fff1d9", 2.5) + c(41,69,6,"#ffd27c","none") + c(86,78,6,"#f7b793","none")),
+    "M64 17 105 40V87L64 111 23 87V40Z",
+    p("M64 17 105 40 64 64 23 40Z", "#f4a0b8", ink, 3.6) + p("M23 40 64 64v47L23 87Z", "#b09ee3", ink, 3.6) + p("M64 64 105 40v47L64 111Z", "#88c8d7", ink, 3.6) + p("M43.5 28.5 84.5 52 74.3 58 33.3 34.3ZM84.5 28.5 94.8 34.3 53.8 58 43.5 52Z", "#fff1d9", "none") + p("M43.5 52 53.8 58V105L43.5 99ZM74.3 58 84.5 52V99L74.3 105Z", "#fff1d9", "none") + line("M23 40 64 64 105 40M64 64v47", ink, 3.6)),
   art("finish-flutter", "Finish flutter", "Graphic joy", "checkered flag race sport", "#b3a1df",
-    "M29 14 101 25 98 38 113 46 103 99 35 84 26 116 15 112Z",
-    p("M29 24 103 39 100 94 31 79Z", "#fff0d6") + p("M31 27 49 31 45 48 27 44ZM49 49 67 53 63 70 45 66ZM67 35 85 39 81 57 63 53ZM85 58 102 61 98 79 81 75ZM27 61 45 65 41 82 23 78ZM63 71 81 75 77 92 59 88Z", "#8270ba", "none") + line("M31 20 20 112", "#f09e71", 7) + line("M32 17 23 12m75 18 10-6", "#f09e71", 3)),
+    "M26 14a5 5 0 0 1 5 5v11C35.5 27 41.5 26 47.5 26S59 31 65 32 76.5 35 82.5 34 94.5 33 100 30v56C94.5 89 88.5 90 82.5 90S71 89 65 88 53.5 82 47.5 82 35.5 83 31 86v26H23V24a5 5 0 0 1 3-10Z",
+    p("M23 19h7v93h-7Z", "#f09e71", ink, 3.2) + c(26.5,19,5,"#ffcd71",ink,3) + p("M30 30C35.5 27 41.5 26 47.5 26S59 31 65 32 76.5 35 82.5 34 94.5 33 100 30v56C94.5 89 88.5 90 82.5 90S71 89 65 88 53.5 82 47.5 82 35.5 83 30 86Z", "#fff0d6", ink, 3.6) + p("M30 30C35.5 27 41.5 26 47.5 26v14C41.5 40 35.5 41 30 44ZM65 32C71 33 76.5 35 82.5 34v14C76.5 49 71 47 65 46ZM47.5 40C53.5 40 59 45 65 46v14C59 59 53.5 54 47.5 54ZM82.5 48C88.5 47 94.5 47 100 44v14C94.5 61 88.5 61 82.5 62ZM30 58C35.5 55 41.5 54 47.5 54v14C41.5 68 35.5 69 30 72ZM65 60C71 61 76.5 63 82.5 62v14C76.5 77 71 75 65 74ZM47.5 68C53.5 68 59 73 65 74v14C59 87 53.5 82 47.5 82ZM82.5 76C88.5 75 94.5 75 100 72v14C94.5 89 88.5 89 82.5 90Z", "#8270ba", "none") + line("M30 30C35.5 27 41.5 26 47.5 26S59 31 65 32 76.5 35 82.5 34 94.5 33 100 30v56C94.5 89 88.5 90 82.5 90S71 89 65 88 53.5 82 47.5 82 35.5 83 30 86Z", ink, 3.6)),
   art("spark-bouquet", "Spark bouquet", "Graphic joy", "star sparkle abstract peach purple", "#e9a1be",
     "M56 18 65 38 86 15 83 44 110 43 91 65 115 83 85 87 88 111 63 92 43 114 42 86 15 90 33 67 13 48 42 47Z",
     p("M56 18 65 38 86 15 83 44 110 43 91 65 115 83 85 87 88 111 63 92 43 114 42 86 15 90 33 67 13 48 42 47Z", "#e9a1be") + p("M56 34 66 57 88 38 77 62 100 69 75 75 77 97 62 80 49 98 49 76 27 77 46 63 31 53 52 55Z", "#ffcf7b", "none") + c(63,67,10,"#8a75bb") + spark(63,67,5,"#fff3d6")),
+  art("essential-heart", "Essential heart", "Everyday", "love favorite like romance valentine red", "#ff5d83",
+    "M64 111 23 73C-4 47 14 16 35 17q18-1 29 17 11-18 29-17c22-1 39 30 12 56Z",
+    p("M64 111 23 73C-4 47 14 16 35 17q18-1 29 17 11-18 29-17c22-1 39 30 12 56Z", "#ff5d83") + p("M66 38q18-26 36-8c14 18 2 32-12 46l-24 25Z", "#d93f71", "none") + line("M26 39q3-11 13-9", "#ffe1e7", 5)),
+  art("four-point-spark", "Four point spark", "Everyday", "sparkle star shine magic highlight yellow", "#ffc83d",
+    "M65 10 80 45 115 62 79 79 63 117 46 80 11 63 47 46Z",
+    p("M65 10 80 45 115 62 79 79 63 117 46 80 11 63 47 46Z", "#ffc83d") + p("M65 10 64 63 115 62 79 79 63 117 64 63 11 63 47 46Z", "#ff9851", "none") + spark(64,63,10,"#fff3bd")),
+  art("approval-seal", "Approval seal", "Everyday", "verified check approved success quality badge green", "#42bf97",
+    "M64 15 76 22 90 20 96 33 108 40 105 54 113 65 103 76 103 91 89 96 82 109 68 105 55 113 44 103 29 103 25 88 14 80 20 66 14 53 27 44 27 29 42 26 51 15Z",
+    p("M64 15 76 22 90 20 96 33 108 40 105 54 113 65 103 76 103 91 89 96 82 109 68 105 55 113 44 103 29 103 25 88 14 80 20 66 14 53 27 44 27 29 42 26 51 15Z", "#42bf97") + c(64,64,32,"#c7edbb") + p("M41 62 51 52 61 62 81 42 91 52 61 82Z", "#218367") + line("M37 38 47 33", "#d6ffe8", 3)),
+  art("pointer-pop", "Pointer pop", "Everyday", "cursor pointer click mouse website blue", "#79aef1",
+    "M24 14 110 69 74 76 89 108 68 117 52 85 25 111Z",
+    p("M24 14 110 69 74 76 89 108 68 117 52 85 25 111Z", "#79aef1") + p("M24 14 62 65 110 69 74 76 89 108 68 117 52 85 62 65 25 111Z", "#637ae8", "none") + line("M34 34 39 71", "#e8f1ff", 4)),
+  art("thumbs-up", "Thumbs up", "Everyday", "like good yes approval hand yellow", "#ffc65a",
+    "M15 56h27l17-19 3-22q13-6 20 7 6 12-2 26h20q18 0 14 16l-9 39q-2 13-15 13H55l-13-9H15Z",
+    r(15,56,28,51,5,"#9686e6") + p("M43 57 59 37l3-22q13-6 20 7 6 12-2 26h20q18 0 14 16l-9 39q-2 13-15 13H55l-12-9Z", "#ffc65a") + line("M84 67h23M82 81h22M79 95h22", "#c48143", 2) + c(29,93,4,"#fff3bd", "none") + line("M67 23q8 7 4 18", "#fff3bd", 3)),
+  art("bright-smile", "Bright smile", "Everyday", "smile happy smiley positivity mood yellow", "#ffcf58",
+    "M112 64a48 48 0 1 1-96 0 48 48 0 0 1 96 0Z",
+    c(64,64,48,"#ffcf58") + e(47,50,5,8,ink,"none") + e(81,50,5,8,ink,"none") + p("M35 72q29 17 58 0c-4 34-54 34-58 0Z", "#fff8e7") + line("M39 80q24 10 50 0", "#e49a4c", 2) + line("M34 34q8-10 17-10", "#fff3bd", 4)),
+  art("coffee-to-go", "Coffee to go", "Everyday", "coffee cup takeaway cafe drink work caffeine orange", "#ef9a63",
+    "M28 34 32 23h15l1-10h34l2 10h14l4 11 7 10-11 62q-32 17-64 0L23 45Z",
+    p("M31 42h69l-10 66q-27 12-54 0Z", "#ef9a63") + p("M33 66h63l-5 31H38Z", "#f5d891", "none") + e(65,82,12,10,"#7e5673", "none") + line("M65 73q7 8-1 18", "#f5d891", 2) + p("M28 34 32 23h66l4 11 7 10H23Z", "#494060") + r(47,13,37,10,3,"#494060") + line("M42 49 47 60", "#fff8e7", 3)),
+  art("studio-headphones", "Studio headphones", "Everyday", "headphones music podcast audio listening purple", "#9b83ed",
+    "M17 61V54a47 47 0 0 1 94 0v33q0 12-12 14h-5q-12 0-12-12V66q0-12 11-13v-1a29 29 0 0 0-58 0v1q11 1 11 13v23q0 12-12 12h-5q-13-2-13-14Z",
+    p("M17 64V54a47 47 0 0 1 94 0v25H93V52a29 29 0 0 0-58 0v27H17Z", "#9b83ed") + r(15,54,31,49,12,"#9b83ed") + r(82,54,31,49,12,"#9b83ed") + r(34,62,12,34,5,"#494060") + r(82,62,12,34,5,"#494060") + line("M29 31q13-18 34-18", "#e4dcff", 4) + line("M23 65v19m80-19v19", "#c2b5ff", 3)),
+  art("instant-camera", "Instant camera", "Everyday", "camera photo photography capture picture cyan", "#76c7dc",
+    "M15 35h25l7-14h34l8 14h24v66H15Z",
+    p("M15 35h25l7-14h34l8 14h24v66H15Z", "#76c7dc") + p("M15 82h98v19H15Z", "#65a0c4", "none") + c(65,66,26,"#494060") + c(65,66,17,"#a9d7ed") + c(65,66,10,"#637ae8", "none") + p("M54 56q6-7 16-3l-7 15Z", "#fff8e7", "none") + r(91,43,15,9,2,"#ffcf58", "none") + line("M21 43h15", "#fff8e7", 3)),
+  art("music-note", "Music note", "Everyday", "music song note sound audio pink", "#f487b6",
+    "M46 32 103 18v60C108 83 107 92 100 97 91 104 76 101 73 92 69 82 79 73 89 73V45L60 52v39C63 100 56 109 45 111 33 113 23 107 24 98 24 88 34 81 46 82Z",
+    p("M46 32 103 18v60C108 83 107 92 100 97 91 104 76 101 73 92 69 82 79 73 89 73V45L60 52v39C63 100 56 109 45 111 33 113 23 107 24 98 24 88 34 81 46 82Z", "#f487b6", ink, 3.6) + p("M46 32 103 18v17L46 49Z", "#b17ce0", "none") + line("M47 48 101 35", ink, 2.2) + line("M55 36 94 26m-64 71q5-7 12-7m39-6q4-4 9-5", "#ffe1ed", 3)),
+  art("world-wide", "World wide", "Everyday", "earth globe world travel international planet green blue", "#78c4e5",
+    "M111 64a47 47 0 1 1-94 0 47 47 0 0 1 94 0Z",
+    c(64,64,47,"#78c4e5") + p("M30 31 47 20l15 4 8 13-11 9-5 17-13 5-1 16-10-7-8-22Z", "#83c997", "none") + p("M78 30 91 27l15 16-8 14-16-2-9-11Zm-5 43 22-5 11 17-17 21-17-6-4-16Z", "#83c997", "none") + line("M27 46q-7 18 1 37m72-30q3 15-3 28", "#d4f4fd", 3)),
+  art("paper-plane", "Paper plane", "Everyday", "send message plane flight travel arrow blue", "#97c4f0",
+    "M13 56 114 17 94 112 65 85 47 102 40 74Z",
+    p("M13 56 114 17 94 112 65 85 47 102 40 74Z", "#97c4f0") + p("M40 74 114 17 55 80 47 102Z", "#637ae8", "none") + p("M55 80 114 17 65 85 47 102Z", "#d6e8ff", "none") + line("M26 58 49 65", "#ffffff", 3)),
+  art("location-pin", "Location pin", "Everyday", "location map pin travel place destination red", "#ff7c80",
+    "M64 112C54 97 26 77 26 53a38 38 0 0 1 76 0c0 24-28 44-38 59Z",
+    p("M64 112C54 97 26 77 26 53a38 38 0 0 1 76 0c0 24-28 44-38 59Z", "#ff7c80") + p("M65 17q35 0 36 36c0 22-26 42-37 58V91q24-20 24-37 0-26-23-29Z", "#e95f78", "none") + c(64,53,15,"#fff8e7") + line("M37 43q4-12 15-17", "#ffe2df", 3)),
+  art("chat-pop", "Chat pop", "Everyday", "chat message conversation comment bubble purple", "#ac96ed",
+    "M16 31q0-14 15-14h66q15 0 15 14v51q0 14-15 14H59l-28 19V96q-15 0-15-14Z",
+    p("M16 31q0-14 15-14h66q15 0 15 14v51q0 14-15 14H59l-28 19V96q-15 0-15-14Z", "#ac96ed") + p("M59 80h38q15 0 15-14v16q0 14-15 14H59l-28 19V96Z", "#8b71c7", "none") + dots([[39,56,6],[64,56,6],[89,56,6]], "#fff8e7") + line("M26 31q0-5 7-5h12", "#e7dfff", 3)),
+  art("link-knot", "Link knot", "Everyday", "link chain connect connection together website purple", "#a792e8",
+    "M80,45c5.05557,5.05557 7.78761,11.37851 8.19613,17.80387l12.80387,-12.80387c7,-7 7,-18 0,-25c-7,-7 -18,-7 -25,0l-11.98241,11.98241c5.78994,0.76819 11.40554,3.44072 15.98241,8.01759zM80,84l-21,21c-11,11 -28,11 -39,0c-11,-11 -11,-28 0,-39l21,-21c1.67053,-1.67053 3.47944,-3.08737 5.38471,-4.2505c0.50913,-0.59805 1.04756,-1.18177 1.61529,-1.7495l21,-21c11,-11 28,-11 39,0c11,11 11,28 0,39l-21,21c-1.67053,1.67053 -3.47944,3.08737 -5.38471,4.2505c-0.50913,0.59805 -1.04756,1.18177 -1.61529,1.7495zM27,73c-7,7 -7,18 0,25c7,7 18,7 25,0l11.98241,-11.98241c-5.78994,-0.76819 -11.40554,-3.44072 -15.98241,-8.01759c-5.05557,-5.05557 -7.78761,-11.37851 -8.19613,-17.80387zM73,52c-5.51771,-5.51771 -13.52074,-6.68612 -20.09101,-3.50522c-4.82095,6.92219 -4.12395,16.29026 2.09101,22.50522c5.51771,5.51771 13.52074,6.68612 20.09101,3.50522c4.82095,-6.92219 4.12395,-16.29026 -2.09101,-22.50522z",
+    p("M41 45 20 66C9 77 9 94 20 105C31 116 48 116 59 105L80 84C91 73 91 56 80 45C69 34 52 34 41 45ZM48 52 27 73C20 80 20 91 27 98C34 105 45 105 52 98L73 77C80 70 80 59 73 52C66 45 55 45 48 52Z", "#75b9dd", ink, 3).replace("/>", ' fill-rule="evenodd"/>') + p("M69 18 48 39C37 50 37 67 48 78C59 89 76 89 87 78L108 57C119 46 119 29 108 18C97 7 80 7 69 18ZM76 25 55 46C48 53 48 64 55 71C62 78 73 78 80 71L101 50C108 43 108 32 101 25C94 18 83 18 76 25Z", "#a792e8", ink, 3).replace("/>", ' fill-rule="evenodd"/>') + p("M80 45C91 56 91 73 80 84L72 92 65 85 73 77C80 70 80 59 73 52Z", "#75b9dd", "none") + line("M80 45C91 56 91 73 80 84L72 92M65 85 73 77C80 70 80 59 73 52", ink, 3) + line("M18 81q-1 13 9 21m64-85q10-1 17 6", "#e7dfff", 2.2)),
+  art("code-brackets", "Code brackets", "Everyday", "code coding developer html javascript brackets slash blue", "#7e9fe4",
+    "M25 22h78q10 0 10 10v64q0 10-10 10H25q-10 0-10-10V32q0-10 10-10Z",
+    r(15,22,98,84,10,"#7e9fe4") + p("M15 88h98v8q0 10-10 10H25q-10 0-10-10Z", "#6373bd", "none") + line("M44 45 29 63 44 80M84 45 99 63 84 80", "#fff8e7", 8) + line("M71 41 57 85", "#ffcf58", 7) + line("M26 31h19", "#dfe8ff", 3)),
+  art("bookmark-ribbon", "Bookmark ribbon", "Everyday", "save bookmark reading favorite book orange", "#fba974",
+    "M35 14h58v100L64 96l-29 18Z",
+    p("M35 14h58v100L64 96l-29 18Z", "#fba974") + p("M64 14h29v100L64 96Z", "#f28267", "none") + spark(64,47,15,"#fff3c4") + line("M43 22v44", "#ffe8d4", 3)),
+  art("peace-hand", "Peace hand", "Everyday", "peace victory two fingers hand gesture yellow", "#ffd16c",
+    "M47 111C37 108 31 99 30 87L23 71C20 63 24 58 30 60L42 70 28 29C25 20 29 15 36 17C42 19 43 23 46 31L57 62 69 23C71 16 76 13 82 16C88 19 87 25 85 31L77 63C82 60 88 65 89 70C96 69 101 74 101 81L98 96C95 107 86 113 77 113Z",
+    p("M47 111C37 108 31 99 30 87L23 71C20 63 24 58 30 60L42 70 28 29C25 20 29 15 36 17C42 19 43 23 46 31L57 62 69 23C71 16 76 13 82 16C88 19 87 25 85 31L77 63C82 60 88 65 89 70C96 69 101 74 101 81L98 96C95 107 86 113 77 113Z", "#ffd16c", ink, 3.4) + p("M70 62Q79 60 83 68L87 77Q88 83 82 87Q76 90 72 85L65 76Q60 68 70 62Z", "#f3ac67", ink, 2.7) + p("M88 69Q98 67 98 77L96 88Q95 97 86 94L79 89Q73 84 79 78Z", "#f3ac67", ink, 2.7) + p("M29 62C34 60 38 64 41 68L60 79C65 82 66 89 61 93C57 96 53 94 49 91L39 86C34 83 31 77 29 72Z", "#ffd16c", ink, 2.8) + line("M68 70q5-2 10 3m7 10 8 3", "#b9784e", 1.8) + line("M50 101Q67 106 81 98", "#b9784e", 2.2) + line("M34 25 45 55m34-33-10 30", "#fff0d5", 3)),
+  art("rainbow-arc", "Rainbow arc", "Everyday", "rainbow colors hope pride bright arch", "#f7949e",
+    "M13 109V64a51 51 0 0 1 102 0v45H88V65a24 24 0 0 0-48 0v44Z",
+    p("M13 109V64a51 51 0 0 1 102 0v45H98V64a34 34 0 0 0-68 0v45Z", "#f7949e") + p("M30 109V64a34 34 0 0 1 68 0v45H82V64a18 18 0 0 0-36 0v45Z", "#ffd16c") + p("M46 109V64a18 18 0 0 1 36 0v45H68V64a4 4 0 0 0-8 0v45Z", "#85c7bf") + line("M23 55q4-22 24-30", "#ffe0e6", 3)),
+  art("small-win", "Small win", "Everyday", "trophy award achievement winner success gold", "#ffcf58",
+    "M35 17h58v13h21v21q0 29-33 32l-9 14v9h21v11H35v-11h21v-9l-9-14q-33-3-33-32V30h21Z",
+    p("M35 30H14v21q0 29 33 32l4-14q-23 0-23-18v-7h11Zm58 0h21v21q0 29-33 32l-4-14q23 0 23-18v-7H89Z", "#f3a85e") + p("M35 17h58v34q0 27-21 36v19h21v11H35v-11h21V87q-21-9-21-36Z", "#ffcf58") + p("M64 17h29v34q0 27-21 36v19h21v11H64Z", "#eda443", "none") + spark(64,46,13,"#fff3bd") + line("M44 27v19q0 15 7 23", "#fff3bd", 3)),
 ] as const;
 
 export type StickerName = typeof STICKER_ARTWORK[number]["name"];
@@ -176,12 +240,130 @@ export function getSticker(name: StickerName): StickerDefinition {
   if (!result) throw new RangeError(`Unknown oRangeUi sticker: ${name}`);
   return result;
 }
-export function stickerMarkup(name: StickerName): string {
-  const sticker = getSticker(name);
-  return `<g transform="${sticker.transform}" stroke-linecap="round" stroke-linejoin="round"><path d="${sticker.outline}" fill="#fff8f0" stroke="#fff8f0" stroke-width="10"/>${sticker.body}</g>`;
+// Sharp is an enamel-like edition: tighter white trim, precise navy contours,
+// saturated pigments and individually placed facets. The playful vectors stay intact.
+const sharpPalette: Readonly<Record<string, string>> = {
+  "#242038": "#102451", "#494060": "#15294f", "#4a386d": "#35217a", "#4d416d": "#252661",
+  "#4a416c": "#242261", "#38314d": "#182344", "#363145": "#192235", "#817995": "#55647e",
+  "#ff8251": "#ff6925", "#ff814a": "#ff6520", "#ff744a": "#ff502b", "#ff714b": "#ff5735",
+  "#ff7154": "#ff482c", "#ff876c": "#ff7043", "#ff865e": "#ff602a", "#ff957e": "#ff624e",
+  "#ff986e": "#ff752b", "#ff9b61": "#ff941d", "#ffae50": "#ffae1c", "#ff9a53": "#ff8e1d",
+  "#ffbd68": "#ffae28", "#ffca60": "#ffbd19", "#ffcc5e": "#ffca1b", "#ffcf58": "#ffd21c",
+  "#ffd468": "#ffd628", "#ffd55c": "#ffdc22", "#ffcc75": "#ffbd30", "#ffdd83": "#ffda42",
+  "#ffdfae": "#ffd975", "#ffdf82": "#ffd730", "#ffe0a3": "#ffd869", "#ffc65a": "#ffc323",
+  "#ffc83d": "#ffe019", "#ffc85e": "#ffc71c", "#ffc677": "#ffb933", "#ffc59a": "#ff9956",
+  "#f3a85e": "#e7911b", "#eda443": "#e6a00a", "#f3ac67": "#ed9c38", "#ffd16c": "#ffd429",
+  "#fc8d51": "#ff7323", "#fc8e53": "#ff7133", "#ff9b5f": "#ff8925", "#ffa151": "#ff921b",
+  "#ffb959": "#ffa823", "#ffb97b": "#ffad3f", "#ffb179": "#ff9e37", "#ffbf57": "#ffc31a",
+  "#ffcf70": "#ffdb24", "#ffcf7b": "#ffcb31", "#ffdc8d": "#ffd65a", "#ffc96b": "#ffcb22",
+  "#ffcc87": "#ffd952", "#ffce62": "#ffcf1e", "#ffc685": "#ffb84e", "#ffbd62": "#ffa527",
+  "#ff685e": "#ff342b", "#ff5d83": "#fa235c", "#d93f71": "#ce164a", "#ff7c80": "#ff415b",
+  "#e95f78": "#d42655", "#f176a0": "#ec2a7d", "#ffa0a7": "#ff557a", "#f791bd": "#ff53a1",
+  "#f3a0bf": "#ff74af", "#f6a2bc": "#ff679d", "#f68faf": "#fd477e", "#f782a6": "#f94780",
+  "#f48eaa": "#fa4a80", "#f4a0b8": "#ff76a3", "#e9a1be": "#f76eae", "#f487b6": "#fa499d",
+  "#f7949e": "#ff596a", "#ed6e64": "#ff403d", "#f392a8": "#ff508e", "#f28267": "#f2663d",
+  "#ef9a63": "#ee8533", "#fba974": "#ff9845", "#f5947d": "#ff7147", "#f49872": "#ff8b49",
+  "#f8976d": "#ff6d37", "#fa976d": "#ff8642", "#fc9666": "#ff722a", "#ffa76e": "#ff8d36",
+  "#65d4ce": "#00c7c1", "#69d1cc": "#00c8bf", "#82d4ed": "#22bbf4", "#83cfe5": "#16b7e6",
+  "#75c8dc": "#08b3db", "#88bcee": "#58a4ff", "#83b9ec": "#469aff", "#88c8d7": "#17c0dc",
+  "#78c4e5": "#28b1f2", "#76c7dc": "#14b8da", "#79aef1": "#408afa", "#97c4f0": "#69b7ff",
+  "#7e9fe4": "#4c80e7", "#75b9dd": "#20abe0", "#85c7bf": "#10c6b0", "#87c7df": "#35b9ed",
+  "#a9d7ed": "#75d4ff", "#6083bd": "#1669c9", "#65a0c4": "#178db5", "#6373bd": "#254cac",
+  "#7f98dd": "#396ce9", "#637ae8": "#3c50ff", "#949ce9": "#636cf7", "#8b85cb": "#6251d8",
+  "#a6a1e7": "#8a72fa", "#8560eb": "#7c35ff", "#ba92ff": "#8b3dff", "#b49deb": "#9864f4",
+  "#9c91ee": "#7d62f9", "#7563cf": "#6041e7", "#7963bc": "#6540c5", "#8971cf": "#8651e5",
+  "#a389db": "#9b55e6", "#bea0e6": "#b477f2", "#8c76d8": "#804be6", "#b3a1df": "#9e7bdf",
+  "#b09ee3": "#9968e8", "#b294df": "#a166e6", "#ac96ed": "#9e65f1", "#a792e8": "#a564eb",
+  "#9b83ed": "#8950ee", "#9686e6": "#7b59e7", "#b17ce0": "#933cda", "#b487ca": "#a74cce",
+  "#bd8ccf": "#b855d9", "#8b71c7": "#7e39c6", "#8c70d8": "#7a44e7", "#8270ba": "#7047c6",
+  "#8a75bb": "#8550c6", "#7660b6": "#6938b9", "#8e75bd": "#8b49c8", "#7762a6": "#674198",
+  "#8fdb6f": "#70df31", "#b9dc6c": "#b3e12d", "#b5d968": "#b5e337", "#55b88b": "#14ac73",
+  "#7dc594": "#4bc879", "#69b781": "#31b575", "#65b47b": "#32b869", "#5aaf79": "#169b5d",
+  "#4aa879": "#119c65", "#91d5ba": "#62dcb4", "#97d6b8": "#36cf92", "#83c997": "#37c982",
+  "#42bf97": "#12bb88", "#80cbaa": "#29c688", "#c3dc87": "#b2e54d", "#c7edbb": "#b4f09d",
+  "#bce19b": "#b4ed72", "#d9f29a": "#d2fc81", "#e8f2a1": "#e1ffa1", "#e49a4c": "#de931e",
+  "#fff8f0": "#ffffff", "#fff8e7": "#ffffff", "#fff3d6": "#ffffff", "#fff1d9": "#fffce7",
+  "#fff4d5": "#fffdeb", "#fff0c2": "#fff6c3", "#fff0d2": "#fff9db", "#fff0d5": "#fffbe7",
+  "#fff0d6": "#fffbe7", "#fff0d0": "#fffbd7", "#fff0c1": "#fff9d4", "#fff0c7": "#fff9d9",
+  "#fff3bd": "#fffce3", "#fff3c4": "#fffce3", "#fff2c4": "#fffbd5", "#fff1c9": "#fffbe3",
+  "#fff1cb": "#fffce8", "#ffe1e7": "#ffffff", "#ffe1ed": "#ffffff", "#d6e8ff": "#e8f3ff",
+};
+
+const sharpFacets: Readonly<Partial<Record<StickerName, string>>> = {
+  "orbit-snail": p("M66 43q23-10 38 15-15-9-36-5Z", "#b6a0ff", "none"),
+  "miso-moth": p("M22 21q15-4 26 14L29 30Zm84 3q-3 14-16 25l8-23Z", "#d5a3ff", "none"),
+  "peach-axolotl": p("M39 39q10-9 24-9l-10 12Z", "#ff98b2", "none"),
+  "cloud-yak": p("M26 72q-4 14 16 19l-3 9q-19-3-19-15Z", "#008fe1", "none"),
+  "jelly-comet": p("M78 23q22 6 26 29l-16-4Z", "#ffad64", "none"),
+  "paper-koi": p("M49 29 59 51 19 62Z", "#ff916c", "none"),
+  "moss-sprite": p("M23 77 30 72 36 86 28 87Z", "#7dbd15", "none"),
+  "sun-beetle": p("M76 51q14 8 13 31l-13 9Z", "#ffec61", "none"),
+  "ribbon-seahorse": p("M53 22 63 23 57 36 53 44Z", "#71f4ec", "none"),
+  "match-day": p("M43 96 105 85 107 92 44 103Z", "#d8342a", "none"),
+  "sunday-skate": p("M34 22 42 21 48 59 36 58Z", "#ffa3d3", "none"),
+  "side-b-vinyl": p("M42 30q17-11 36-6L57 42Z", "#ffffff", "none").replace("/>", ' opacity=".14"/>'),
+  "moka-morning": p("M83 96 90 107H84L79 96Z", "#6041e7", "none"),
+  "fizz-can": p("M79 32 85 29 89 98 83 102Z", "#ffffff", "none").replace("/>", ' opacity=".22"/>'),
+  "mixtape": p("M23 30 34 30 27 97 21 94Z", "#d0a3ff", "none"),
+  "noodle-break": p("M87 75 96 70q-6 21-24 27Z", "#d54224", "none"),
+  "pocket-play": p("M59 18H84V22H59Z", "#ff9ad0", "none"),
+  "bubble-tea": p("M88 64H92L87 103 83 105Z", "#ffffff", "none").replace("/>", ' opacity=".25"/>'),
+  "checkered-daisy": p("M72 82 83 87q3 16-7 20l-7-15Z", "#f7ad0a", "none"),
+  "pepper-dance": p("M77 82q-14 18-40 19l14-11Z", "#d8231e", "none"),
+  "pear-pair": p("M83 85q9 18-11 24l-18 1 28-10Z", "#8fbe14", "none"),
+  "radish-rebel": p("M78 50q18 13 1 30l-10 9 11-22Z", "#dc1d59", "none"),
+  "tiny-terrarium": p("M91 57 96 60 99 87 93 84Z", "#ffffff", "none").replace("/>", ' opacity=".65"/>'),
+  "cactus-club": p("M41 108h47l-1 6H42Z", "#da552b", "none"),
+  "moon-shroom": p("M85 25q17 9 22 28l-14-10Z", "#c37cf4", "none"),
+  "split-leaf": p("M61 82 69 70 89 67 80 81Z", "#00825b", "none"),
+  "wildflower-post": p("M87 34h7v59H34v-6h53Z", "#ffe8b1", "none"),
+  "citrus-slice": p("M88 40q20 25 1 50l-3-4q15-22-2-42Z", "#ed700b", "none"),
+  "peach-planet": p("M76 25q24 8 29 29L86 43Z", "#ffb63d", "none"),
+  "portal-window": p("M30 100V56q-1-16 8-26L34 54v46Z", "#b3b9ff", "none"),
+  "star-helmet": p("M88 47q9 21 0 38l-10 8 8-24Z", "#257daa", "none"),
+  "pocket-rocket": p("M75 39q15 32-2 58h-9l13-31Z", "#d64143", "none"),
+  "constellation-note": p("M25 32 30 31 38 100l-5 2Z", "#a48af8", "none"),
+  "ziggy-bolt": p("M94 66 66 78 61 93Z", "#de5c0e", "none"),
+  "woven-heart": p("M98 51q7 10-5 23L66 102 61 97Z", "#c6236f", "none"),
+  "tidal-badge": p("M53 22q21-6 35 8L65 27Z", "#fff8bd", "none"),
+  "happy-ticket": p("M97 35 104 34 107 50 101 52Z", "#dcff8f", "none"),
+  "loop-arrow": p("M59 95q27 3 36-14l7 3q-12 22-35 15Z", "#e88d17", "none"),
+  "spark-bouquet": p("M90 78 102 81 84 83 82 99 73 87Z", "#d03992", "none"),
+  "essential-heart": p("M73 31q12-12 24-3l-9 1-10 7Z", "#ff8fb6", "none"),
+  "four-point-spark": p("M65 18 66 52 75 46Z", "#fff598", "none"),
+  "pointer-pop": p("M72 82 85 109 79 111 66 84Z", "#1654c1", "none"),
+  "thumbs-up": p("M51 103h41l-4 9H57Z", "#e4a51f", "none"),
+  "bright-smile": p("M85 24q22 17 17 46L96 55Z", "#f7b613", "none"),
+  "coffee-to-go": p("M81 51h10l-2 13H79Z", "#ce5917", "none"),
+  "studio-headphones": p("M20 83h9v13h-3q-6 0-6-6Zm79 0h9v7q0 6-6 6h-3Z", "#6724c9", "none"),
+  "instant-camera": p("M17 87h20v10H17Z", "#0e789f", "none"),
+  "world-wide": p("M53 19q-10 3-17 12l14-4 13 7-7-10Z", "#84f8ad", "none"),
+  "paper-plane": p("M80 82 106 40 92 102Z", "#338dec", "none"),
+  "chat-pop": p("M99 28h7v42q0 9-9 11l-7 1V75q9 0 9-7Z", "#7732c9", "none"),
+  "code-brackets": p("M94 26h10q5 0 5 6v9H96Z", "#81b4ff", "none"),
+  "bookmark-ribbon": p("M70 64h17v39l-17-11Z", "#e35a15", "none"),
+  "rainbow-arc": p("M105 74h7v31h-7Z", "#dc2747", "none"),
+  "small-win": p("M38 109h20v5H38Z", "#ffea68", "none"),
+  "comet-tail": p("M91 41 107 22 95 56 83 73 74 82 83 60Z", "#ff9319", "none"),
+  "infinity-ribbon": p("M14 70Q18 94 33 95C43 95 51 84 59 76L63 80C52 94 43 99 33 99Q18 99 14 82Z", "#1669c9", "none"),
+  "link-knot": p("M22 102Q35 115 49 108L60 97 53 103Q38 115 24 101Z", "#168bc6", "none"),
+  "peace-hand": p("M92 96Q89 107 78 109H50L47 106Q73 109 85 100Z", "#ed9c38", "none"),
+};
+
+function sharpBody(body: string): string {
+  return body.replace(/#[\da-f]{6}/gi, color => sharpPalette[color.toLowerCase()] ?? color);
 }
-/** Self-contained vector: no fonts, external images, IDs, scripts or network dependencies. */
-export function stickerSvg(name: StickerName, size = 512): string {
+
+export function stickerMarkup(name: StickerName, finish: StickerFinish = "playful", instanceId?: string): string {
+  const sticker = getSticker(name);
+  const contour = STICKER_CONTOURS[name] ?? sticker.outline;
+  const clipId = `sticker-clip-${(instanceId || `${name}-${finish}`).replace(/[^a-zA-Z0-9_-]/g, "")}`;
+  const paper = finish === "sharp" ? "#ffffff" : "#fff8f0";
+  const body = finish === "sharp" ? sharpBody(sticker.body) + (sharpFacets[name] ?? "") : sticker.body;
+  return `<g transform="translate(5.12 5.12) scale(.92) ${sticker.transform}" stroke-linecap="round" stroke-linejoin="round"><defs><clipPath id="${clipId}" clipPathUnits="userSpaceOnUse"><path d="${contour}" clip-rule="evenodd"/></clipPath></defs><path d="${contour}" fill="${paper}" fill-rule="evenodd" stroke="${paper}" stroke-width="${finish === "sharp" ? 8 : 10}"/><g clip-path="url(#${clipId})">${body}</g><path class="orange-sticker-contour" d="${contour}" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+}
+/** Self-contained vector: clip references stay inside this SVG, without fonts, images or scripts. */
+export function stickerSvg(name: StickerName, size = 512, finish: StickerFinish = "playful", instanceId?: string): string {
   const pixels = Number.isFinite(size) ? Math.round(Math.max(24, Math.min(4096, size))) : 512;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${pixels}" height="${pixels}" viewBox="0 0 128 128" role="img" aria-label="${getSticker(name).title}">${stickerMarkup(name)}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${pixels}" height="${pixels}" viewBox="0 0 128 128" role="img" aria-label="${getSticker(name).title}">${stickerMarkup(name, finish, instanceId)}</svg>`;
 }

@@ -1,0 +1,49 @@
+{
+  "name": "orangeui-stickers",
+  "version": "0.1.2",
+  "description": "Original colorful SVG stickers for React, with sharp and playful finishes and configurable click motion.",
+  "license": "MIT",
+  "author": "Eshiv Pandey",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./styles.css": "./styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": ["dist", "styles.css", "LICENSE", "README.md"],
+  "sideEffects": ["**/*.css"],
+  "peerDependencies": {
+    "react": ">=18.0.0 <20.0.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "prepack": "node scripts/build.mjs",
+    "prepublishOnly": "node scripts/test-package.mjs",
+    "test:package": "node scripts/test-package.mjs",
+    "release:tarball": "node scripts/test-package.mjs --release",
+    "publish:public": "npm publish --access public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eshiv-Pandey/OranGe-Ui.git",
+    "directory": "packages/stickers"
+  },
+  "homepage": "https://github.com/Eshiv-Pandey/OranGe-Ui/tree/feat/stickers-50/packages/stickers",
+  "keywords": ["react", "stickers", "svg", "motion", "typescript", "orangeui"],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

@@ -1,0 +1,200 @@
+.sticker-playground-window { position: fixed; inset: 0; width: 100dvw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; color: var(--ink); background: var(--surface); overflow: hidden; }
+.sticker-playground-window::backdrop { background: var(--surface); }
+.sticker-playground { color: var(--ink); font: 12px/1.4 var(--font-body), sans-serif; min-width: 0; height: min(800px, 100dvh); display: flex; flex-direction: column; background: var(--surface); }
+.sticker-playground[data-expanded="true"] { height: 100%; }
+.sticker-playground [hidden] { display: none !important; }
+.sticker-playground *, .sticker-playground *::before, .sticker-playground *::after { box-sizing: border-box; }
+.sticker-playground button, .sticker-playground input, .sticker-playground select { font: inherit; }
+.sticker-playground button { color: inherit; cursor: pointer; }
+.sticker-playground button:disabled { opacity: .4; cursor: not-allowed; }
+.sticker-playground :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.sticker-playground input { caret-color: var(--primary); accent-color: var(--primary); }
+.sticker-playground ::selection { background: var(--primary); color: var(--on-primary); }
+.sticker-playground-heading { flex: none; min-height: 52px; display: flex; align-items: center; gap: 24px; padding: 8px 16px; border-bottom: 1px solid var(--line); }
+.sticker-playground-heading h2 { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -.02em; }
+.sticker-playground-header-actions, .sticker-playground-export-toolbar { display: flex; align-items: center; gap: 6px; }
+.sticker-playground-export-toolbar { margin-left: auto; }
+.sticker-playground-heading button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 36px; min-width: 36px; padding: 8px; border: 0; border-radius: 7px; background: transparent; font-size: 12px; }
+.sticker-playground-heading button:hover { background: var(--surface-soft); }
+.sticker-playground-heading .sticker-playground-add { padding-inline: 12px; background: var(--ink); color: var(--surface); }
+.sticker-playground-heading .sticker-playground-add:hover { background: var(--ink); color: var(--surface); opacity: .88; }
+.sticker-playground-format { display: flex; flex: none; gap: 2px; padding: 2px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); }
+.sticker-playground-heading .sticker-playground-format button { min-width: 42px; min-height: 28px; padding: 4px 7px; border-radius: 4px; font-size: 11px; }
+.sticker-playground-heading .sticker-playground-format button[aria-checked="true"] { background: var(--ink); color: var(--surface); }
+.sticker-playground-format button:focus-visible { outline-offset: -2px; }
+.sticker-playground-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 288px; flex: 1; min-height: 0; }
+.sticker-playground-stage { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--surface-soft); }
+.sticker-playground-toolbar { display: flex; flex: none; justify-content: space-between; padding: 10px 16px 0; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.sticker-playground-viewport { flex: 1; min-height: 0; display: grid; place-items: center; padding: 12px 16px; }
+.sticker-playground-board { width: 100%; max-width: 100%; position: relative; overflow: hidden; isolation: isolate; outline: 1px solid var(--line); -webkit-user-select: none; user-select: none; }
+.sticker-playground-board[data-transparent="true"] { background-color: var(--surface) !important; background-image: conic-gradient(var(--surface-soft) 25%, transparent 0 50%, var(--surface-soft) 0 75%, transparent 0); background-size: 16px 16px; }
+.sticker-playground-caption { position: absolute; inset: 0; display: grid; place-items: center; padding: 10%; margin: 0; color: #25242b; font-family: var(--font-body), sans-serif; font-size: clamp(20px, 4vw, 54px); line-height: 1.05; font-weight: 550; text-align: center; letter-spacing: -.035em; pointer-events: none; }
+.sticker-playground-board[data-dark="true"] .sticker-playground-caption { color: #f4f3f0; }
+.sticker-playground-placement { position: absolute; transform: translate(-50%, -50%); aspect-ratio: 1; cursor: grab; touch-action: none; }
+.sticker-playground-placement::after { content: ""; position: absolute; inset: 0; pointer-events: none; border: 1px solid transparent; transform: rotate(var(--placement-rotation)); }
+.sticker-playground-placement[data-selected="true"]::after { border-color: #c14900; }
+.sticker-playground-board[data-dark="true"] .sticker-playground-placement[data-selected="true"]::after { border-color: #ffb36b; }
+.sticker-playground-placement:active, .sticker-playground-placement:active .orange-sticker { cursor: grabbing; }
+.sticker-playground-placement .orange-sticker { display: block; cursor: inherit; }
+.sticker-playground-remove-selected { position: absolute; z-index: 100; transform: translate(-50%, -50%); display: grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--ink); }
+.sticker-playground-remove-selected:hover { background: var(--surface-soft); }
+.sticker-playground-bottom-bar { flex: none; min-height: 28px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 5px 20px; padding: 5px 16px; }
+.sticker-playground-instructions, .sticker-playground-status { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.sticker-playground-status:empty { display: none; }
+.sticker-playground-tools { min-width: 0; display: flex; flex-direction: column; border-left: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+.sticker-playground-tool-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px; flex: none; padding: 14px 12px 10px; border-bottom: 1px solid var(--line); }
+.sticker-playground-tool-tabs button { border: 0; border-radius: 6px; padding: 9px 3px; font-size: 11px; background: transparent; }
+.sticker-playground-tool-tabs button[aria-pressed="true"] { background: var(--surface-soft); font-weight: 600; }
+.sticker-playground-tool-content { min-height: 0; padding: 18px 16px; flex: 1; }
+.sticker-playground-tool-content h3 { margin: 0 0 16px; font-size: 14px; font-weight: 550; }
+.sticker-playground-tool-content p { color: var(--muted); margin: 0 0 16px; font-size: 12px; line-height: 1.6; }
+.sticker-playground-search { display: flex; align-items: center; gap: 7px; padding: 10px; background: var(--surface); color: var(--muted); border: 1px solid var(--line); border-radius: 7px; min-width: 0; }
+.sticker-playground-search input { width: 100%; min-width: 0; font-size: 12px; border: 0; outline: 0; padding: 0; background: transparent; color: var(--ink); }
+.sticker-playground .sticker-playground-search input:focus-visible { outline: none; box-shadow: none; }
+.sticker-playground-search input::placeholder { color: var(--muted); opacity: 1; }
+.sticker-playground-search:focus-within { border-color: var(--focus); outline: 1px solid var(--focus); outline-offset: 0; }
+.sticker-playground-search button { display: flex; background: none; border: 0; padding: 2px; }
+.sticker-playground-stickers-panel { height: 100%; display: flex; flex-direction: column; }
+.sticker-playground-tray { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 80px; align-content: start; gap: 3px 6px; padding: 10px 0; }
+.sticker-playground-tray .orange-sticker { width: 52px !important; }
+.sticker-playground-tray > button { min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border: 0; background: transparent; padding: 3px 2px; border-radius: 7px; }
+.sticker-playground-tray > button:hover { background: var(--surface-soft); }
+.sticker-playground-tray > button > span:last-child { font-size: 10px; line-height: 1.25; text-align: center; max-height: 25px; overflow: hidden; }
+.sticker-playground-tray > p { grid-column: 1 / -1; margin: 12px 0; }
+.sticker-playground-tray-pagination { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 11px; color: var(--muted); }
+.sticker-playground-tray-pagination button { background: transparent; padding: 8px; border: 1px solid var(--line); border-radius: 6px; font-size: 11px; }
+.sticker-playground-selected-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+.sticker-playground-selected-heading h3 { margin: 0; }
+.sticker-playground-selected-heading button { display: flex; background: transparent; border: 0; padding: 6px; }
+.sticker-playground-position-inputs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.sticker-playground-position-inputs label { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 11px; white-space: nowrap; }
+.sticker-playground-position-inputs input { width: 100%; min-width: 0; border: 1px solid var(--line); border-radius: 6px; padding: 8px; background: var(--surface); color: var(--ink); font-size: 12px; font-variant-numeric: tabular-nums; }
+.sticker-playground-layer-actions { display: flex; gap: 8px; margin-top: 14px; }
+.sticker-playground-layer-actions button { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 7px; background: transparent; border: 1px solid var(--line); border-radius: 6px; font-size: 11px; }
+.sticker-playground-layers-panel { height: 100%; display: flex; flex-direction: column; }
+.sticker-playground-layers-panel h3 { display: flex; align-items: center; gap: 8px; }
+.sticker-playground-layers-panel > p { font-size: 11px; }
+.sticker-playground-layers { min-height: 0; display: flex; flex-direction: column; gap: 5px; overflow: auto; scrollbar-color: var(--muted) var(--surface); scrollbar-width: thin; padding: 2px; }
+.sticker-playground-layer-item { display: grid; grid-template-columns: 22px minmax(0, 1fr) 24px 24px; align-items: center; gap: 3px; border-radius: 6px; border-top: 2px solid transparent; }
+.sticker-playground-layer-item[data-drop-target="before"] { border-top-color: var(--primary); }
+.sticker-playground-layer-item[data-drop-target="after"] { position: relative; }
+.sticker-playground-layer-item[data-drop-target="after"]::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 2px; background: var(--primary); pointer-events: none; }
+.sticker-playground-layer-item button { min-width: 0; min-height: 32px; display: flex; align-items: center; justify-content: center; padding: 3px; background: transparent; border: 0; border-radius: 5px; }
+.sticker-playground-layer-item button:hover { background: var(--surface-soft); }
+.sticker-playground-layer-item .sticker-playground-layer-grip { color: var(--muted); cursor: grab; touch-action: none; }
+.sticker-playground-layer-item .sticker-playground-layer-select { justify-content: start; gap: 7px; font-size: 11px; text-align: left; }
+.sticker-playground-layer-select > span:last-child { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sticker-playground-layer-select[aria-pressed="true"] { background: var(--surface-soft); font-weight: 550; }
+.sticker-playground-caption-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; font-size: 12px; }
+.sticker-playground-caption-field input { width: 100%; border: 1px solid var(--line); border-radius: 7px; padding: 10px; background: var(--surface); color: var(--ink); font-size: 12px; }
+.sticker-playground-canvas-panel > p { margin-top: 20px; font-size: 11px; }
+.sticker-playground-empty { display: grid; position: absolute; inset: 0; align-items: center; margin: 0; text-align: center; pointer-events: none; font-size: 14px; color: #55515c; }
+@media (max-width: 1000px) { .sticker-playground-workspace { grid-template-columns: minmax(0, 1fr) 280px; } .sticker-playground-viewport { padding: 20px; } }
+@media (max-width: 760px) {
+  .sticker-playground-heading { gap: 8px; padding: 8px 12px; min-height: 52px; }
+  .sticker-playground-heading h2 { font-size: 14px; }
+  .sticker-playground-heading button { min-width: 30px; min-height: 32px; padding: 6px; }
+  .sticker-playground-heading button span { display: none; }
+  .sticker-playground-header-actions, .sticker-playground-export-toolbar { gap: 2px; }
+  .sticker-playground-heading .sticker-playground-add { padding-inline: 7px; }
+  .sticker-playground-heading .sticker-playground-format button { min-width: 0; min-height: 26px; padding: 3px 5px; font-size: 10px; }
+  .sticker-playground-workspace { display: flex; flex-direction: column; }
+  .sticker-playground-stage { flex: none; height: 37dvh; min-height: 200px; }
+  .sticker-playground-toolbar { padding: 8px 16px 0; font-size: 10px; }
+  .sticker-playground-viewport { padding: 12px 16px; }
+  .sticker-playground-board { max-width: 100%; }
+  .sticker-playground-caption { font-size: clamp(18px, 6vw, 34px); }
+  .sticker-playground-bottom-bar { min-height: 25px; padding: 4px 16px; }
+  .sticker-playground-instructions { display: none; }
+  .sticker-playground-status { font-size: 10px; }
+  .sticker-playground-tools { flex: 1; min-height: 0; border-left: 0; border-top: 1px solid var(--line); }
+  .sticker-playground-tool-tabs { padding: 8px 12px; }
+  .sticker-playground-tool-content { padding: 12px 16px; }
+  .sticker-playground-tool-content h3 { font-size: 13px; }
+  .sticker-playground-stickers-panel { height: 100%; display: flex; flex-direction: column; }
+  .sticker-playground-tray { grid-auto-rows: 76px; gap: 2px 8px; padding: 8px 0; }
+  .sticker-playground-tray > button { gap: 4px; padding-block: 2px; }
+  .sticker-playground-tray .orange-sticker { width: 48px !important; }
+  .sticker-playground-tray > button > span:last-child { font-size: 10px; }
+  .sticker-playground-tray-pagination button { padding: 5px 8px; }
+  .sticker-playground-selected-heading { margin-bottom: 10px; }
+  .sticker-playground-position-inputs { margin-top: 10px; }
+  .sticker-playground-layer-actions { margin-top: 10px; }
+}
+@media (max-height: 680px) and (max-width: 760px) {
+  .sticker-playground-stage { height: 27dvh; min-height: 144px; }
+  .sticker-playground-board { max-width: 100%; }
+  .sticker-playground-tray .orange-sticker { width: 36px !important; }
+  .sticker-playground-tray > button > span:last-child { font-size: 9px; }
+  .sticker-playground-tool-content { padding-top: 10px; }
+  .sticker-playground-selected-heading { margin-bottom: 6px; }
+  .sticker-playground .sticker-controls-pane { min-height: 148px; gap: 6px; }
+  .sticker-playground .sticker-controls-finish button { min-height: 26px; padding-block: 3px; }
+  .sticker-playground .sticker-controls-range > span { font-size: 11px; }
+  .sticker-playground .sticker-controls-check { min-height: 20px; }
+  .sticker-playground .sticker-controls-tabs { margin-bottom: 8px; }
+  .sticker-playground .sticker-controls-tabs button { min-height: 28px; padding-bottom: 6px; }
+  .sticker-playground-position-inputs { margin-top: 8px; }
+  .sticker-playground-position-inputs input { padding: 6px; }
+  .sticker-playground-layer-actions { margin-top: 8px; }
+  .sticker-playground-layer-actions button { padding-block: 7px; }
+}
+@media (max-height: 650px) and (max-width: 760px) {
+  .sticker-playground-stage { height: auto; min-height: 0; }
+  .sticker-playground-board { max-width: none; }
+  .sticker-playground-viewport { flex: none; padding: 8px 16px; }
+  .sticker-playground-toolbar { padding-top: 6px; }
+  .sticker-playground-tool-tabs { padding: 6px 12px; }
+  .sticker-playground-tool-tabs button { padding-block: 7px; }
+  .sticker-playground-tool-content { padding: 8px 16px; }
+  .sticker-playground-placement-controls { position: relative; }
+  .sticker-playground-selected-heading { min-height: 24px; padding-right: 82px; margin-bottom: 6px; }
+  .sticker-playground-selected-heading h3 { font-size: 12px; }
+  .sticker-playground-placement-controls .sticker-controls-tabs { margin-bottom: 6px; }
+  .sticker-playground-placement-controls .sticker-controls-tabs button { min-height: 26px; padding-bottom: 5px; }
+  .sticker-playground-placement-controls .sticker-controls-pane { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); min-height: 104px; gap: 6px; align-content: start; }
+  .sticker-playground-placement-controls .sticker-controls-finish, .sticker-playground-placement-controls .sticker-controls-select, .sticker-playground-placement-controls .sticker-controls-check { grid-column: 1 / -1; }
+  .sticker-playground-placement-controls .sticker-controls-motion-note { display: none; }
+  .sticker-playground-position-inputs { margin-top: 6px; }
+  .sticker-playground-position-inputs input { padding: 4px; height: 28px; }
+  .sticker-playground-layer-actions { position: absolute; right: 30px; top: 0; width: 56px; margin: 0; gap: 4px; }
+  .sticker-playground-layer-actions button { min-height: 24px; padding: 4px; font-size: 0; }
+  .sticker-playground-tray { grid-auto-rows: 66px; }
+  .sticker-playground-tray .orange-sticker { width: 40px !important; }
+  .sticker-playground-tray > button > span:last-child { font-size: 10px; }
+  .sticker-playground-search { padding: 8px 10px; }
+}
+@media (max-width: 480px) {
+  .sticker-playground-heading h2 { display: none; }
+  .sticker-playground-heading { gap: 6px; padding-inline: 8px; }
+}
+@media (max-width: 360px) {
+  .sticker-playground-heading { gap: 3px; padding-inline: 6px; }
+  .sticker-playground-heading button { min-width: 26px; padding-inline: 4px; }
+  .sticker-playground-heading .sticker-playground-add { padding-inline: 5px; }
+  .sticker-playground-header-actions, .sticker-playground-export-toolbar { gap: 1px; }
+  .sticker-playground-heading .sticker-playground-format button { padding-inline: 3px; }
+}
+@media (max-height: 550px) and (max-width: 760px) {
+  .sticker-playground-placement-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 10px; }
+  .sticker-playground-selected-heading, .sticker-playground-placement-controls > .sticker-controls { grid-column: 1 / -1; }
+  .sticker-playground .sticker-controls-pane { min-height: 116px; }
+  .sticker-playground-position-inputs { gap: 5px; }
+  .sticker-playground-position-inputs label { flex-direction: column; align-items: start; gap: 2px; }
+  .sticker-playground-layer-actions { align-items: end; gap: 4px; }
+  .sticker-playground-layer-actions button { font-size: 10px; padding-inline: 3px; }
+  .sticker-playground-layer-actions svg { display: none; }
+}
+
+.sticker-playground[data-preview="true"] { position: fixed; inset: 0; width: 100dvw; height: 100dvh; z-index: 100; }
+.sticker-playground[data-preview="true"] .sticker-playground-workspace { display: flex; flex: 1; }
+.sticker-playground[data-preview="true"] .sticker-playground-stage { flex: 1; width: 100%; height: 100%; min-height: 0; }
+.sticker-playground[data-preview="true"] .sticker-playground-viewport { flex: 1; width: 100%; height: 100%; padding: 0; display: block; }
+.sticker-playground[data-preview="true"] .sticker-playground-board { max-width: 100%; max-height: 100%; outline: none; overflow: clip; }
+.sticker-playground-tray > button:is(:hover, :focus-visible) .orange-sticker-front { transform: var(--sticker-hover-transform, translateY(-8px) rotate(-2deg)); animation: var(--sticker-hover-animation, orange-sticker-hover-wiggle 620ms ease-out both); }
+.sticker-playground-tray > button:is(:hover, :focus-visible) .orange-sticker[data-shadow="true"] .orange-sticker-front { filter: var(--sticker-hover-filter, drop-shadow(0 9px 5px rgb(18 26 44 / .28))); }
+@media (prefers-reduced-motion:reduce), (hover:none) { .sticker-playground-tray > button:is(:hover, :focus-visible) .orange-sticker-front { transform:none; animation:none; } .sticker-playground-tray > button:is(:hover, :focus-visible) .orange-sticker[data-shadow="true"] .orange-sticker-front { filter: none; } }
+.sticker-playground[data-preview="true"] .sticker-playground-placement { cursor: grab; touch-action: none; }
+.sticker-playground[data-preview="true"] .sticker-playground-caption { font-size: clamp(20px, 4vw, 64px); }
+.sticker-playground-preview-exit { position: absolute; z-index: 101; top: 12px; right: 12px; display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--ink); font-size: 11px; }
+.sticker-playground-preview-exit:hover { background: var(--surface-soft); }

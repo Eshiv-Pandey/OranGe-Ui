@@ -1,0 +1,81 @@
+.sticker-editor { width: min(820px, calc(100vw - 24px)); max-width: none; max-height: calc(100dvh - 24px); margin: auto; padding: 0; border: 0; border-radius: 12px; overflow: hidden; background: var(--surface); color: var(--ink); font: 13px/1.4 var(--font-body), sans-serif; box-shadow: 0 18px 72px rgb(10 17 32 / .3); }
+.sticker-editor::backdrop { background: rgb(12 20 35 / .55); }
+.sticker-editor, .sticker-editor * { box-sizing: border-box; }
+.sticker-editor button { font: inherit; cursor: pointer; color: inherit; }
+.sticker-editor button:disabled { cursor: default; opacity: .5; }
+.sticker-editor :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.sticker-editor ::selection { background: var(--primary); color: var(--on-primary); }
+.sticker-editor-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--line); }
+.sticker-editor-header h2 { margin: 0; font-size: 19px; line-height: 1.2; font-weight: 550; letter-spacing: -.025em; }
+.sticker-editor-close { display: grid; place-items: center; flex: none; width: 32px; height: 32px; padding: 0; background: transparent; border: 0; border-radius: 6px; }
+.sticker-editor-close:hover { background: var(--surface-soft); }
+.sticker-editor-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; }
+.sticker-editor-preview { min-width: 0; padding: 20px; }
+.sticker-editor-artboard { position: relative; display: flex; justify-content: center; align-items: center; width: 100%; height: min(38dvh, 300px); min-height: 180px; border-radius: 8px; overflow: hidden; }
+.sticker-editor-artboard[data-background="transparent"] { background-color: #fff; background-image: conic-gradient(#e5e7eb 25%, #fff 0 50%, #e5e7eb 0 75%, #fff 0); background-size: 16px 16px; }
+.sticker-editor-fit { flex: none; transform-origin: center; }
+.sticker-editor-fit .orange-sticker { max-width: none; }
+.sticker-editor-preview-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 7px 0 15px; }
+.sticker-editor-preview-actions button { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 4px 0; border: 0; background: transparent; font-size: 11px; }
+.sticker-editor-preview-actions > span { color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.sticker-editor-settings { min-width: 0; padding: 20px; border-left: 1px solid var(--line); display: flex; flex-direction: column; }
+.sticker-editor-export { display: flex; gap: 8px; margin-top: auto; padding-top: 16px; }
+.sticker-editor-export button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; flex: 1; min-height: 36px; padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: transparent; font-size: 12px; }
+.sticker-editor-export button:last-child { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.sticker-editor-status { margin: 7px 0 0; color: var(--muted); font-size: 11px; line-height: 1.4; }
+.sticker-editor-status:empty { display: none; }
+.sticker-editor-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; border-top: 1px solid var(--line); }
+.sticker-editor-footer button { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 5px 0; border: 0; background: transparent; font-size: 11px; }
+.sticker-editor-footer button:hover { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 660px) {
+  .sticker-editor { width: min(420px, calc(100vw - 24px)); }
+  .sticker-editor-header { padding: 10px 14px; }
+  .sticker-editor-header h2 { font-size: 17px; }
+  .sticker-editor-layout { grid-template-columns: minmax(0, 1fr); }
+  .sticker-editor-preview { padding: 12px 14px; }
+  .sticker-editor-artboard { height: min(19dvh, 150px); min-height: 70px; }
+  .sticker-editor-preview-actions { margin: 2px 0 8px; }
+  .sticker-editor-settings { border-left: 0; border-top: 1px solid var(--line); padding: 12px 14px; }
+  .sticker-editor-export { margin-top: 0; padding-top: 12px; }
+  .sticker-editor-footer { padding: 8px 14px; }
+  .sticker-editor .sticker-controls-tabs { margin-bottom: 10px; }
+  .sticker-editor .sticker-controls-pane { min-height: 169px; gap: 9px; }
+  .sticker-editor .sticker-controls-range input { margin-top: 3px; }
+  .sticker-editor .sticker-background-colors { gap: 5px; }
+  .sticker-editor .sticker-background-swatch { width: 22px; height: 22px; }
+}
+@media (max-width: 660px) and (max-height: 650px) {
+  .sticker-editor-header { padding-block: 7px; }
+  .sticker-editor-preview { padding-block: 9px; }
+  .sticker-editor-artboard { height: 70px; }
+  .sticker-editor-preview-actions { display: none; }
+  .sticker-editor .sticker-background-control { margin-top: 9px; }
+  .sticker-editor-settings { padding-block: 10px; }
+  .sticker-editor-footer { padding-block: 6px; }
+}
+@media (max-height: 550px) {
+  .sticker-editor-header { padding-block: 5px; }
+  .sticker-editor-preview, .sticker-editor-settings { padding-block: 10px; }
+  .sticker-editor-artboard { height: 120px; min-height: 45px; }
+  .sticker-editor-preview-actions { display: none; }
+  .sticker-editor .sticker-background-control { margin-top: 8px; }
+  .sticker-editor .sticker-controls-pane { min-height: 120px; gap: 8px; }
+  .sticker-editor-export { padding-top: 8px; }
+  .sticker-editor-footer { padding-block: 3px; }
+}
+@media (max-width: 660px) and (max-height: 550px) { .sticker-editor-artboard { height: 45px; } }
+@media (max-height: 480px) { .sticker-editor .sticker-controls-motion-note { display: none; }.sticker-editor .sticker-controls-pane { min-height: 112px; } }
+@media (max-width: 660px) and (max-height: 650px) {
+  .sticker-editor-header { padding-block: 5px; }
+  .sticker-editor-preview { padding-block: 7px; }
+  .sticker-editor-artboard { height: 140px; }
+  .sticker-editor-settings { padding-block: 8px; }
+  .sticker-editor .sticker-controls-pane { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); min-height: 112px; gap: 8px; align-content: start; }
+  .sticker-editor .sticker-controls-finish, .sticker-editor .sticker-controls-select, .sticker-editor .sticker-controls-check { grid-column: 1 / -1; }
+  .sticker-editor .sticker-controls-motion-note { display: none; }
+  .sticker-editor .sticker-controls-tabs { margin-bottom: 6px; }
+  .sticker-editor-export { padding-top: 8px; }
+  .sticker-editor-footer { padding-block: 3px; }
+}
+@media (max-width: 660px) and (max-height: 550px) { .sticker-editor-artboard { height: 100px; } }
+@media (max-width: 660px) and (max-height: 480px) { .sticker-editor-artboard { height: 80px; } }

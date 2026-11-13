@@ -1,9 +1,18 @@
-.orange-sticker { display: inline-block; max-width: 100%; aspect-ratio: 1; vertical-align: middle; flex: none; isolation: isolate; transform: rotate(var(--sticker-rotation, 0deg)); }
-.orange-sticker-sheet { position: relative; display: block; width: 100%; height: 100%; filter: drop-shadow(0 2px 1px rgb(36 32 56 / .16)); }
+.orange-sticker { --sticker-hover-transform: translateY(-8px) rotate(-2deg); --sticker-hover-filter: drop-shadow(0 9px 5px rgb(18 26 44 / .28)); --sticker-hover-animation: orange-sticker-hover-wiggle 620ms ease-out both; display: inline-block; max-width: 100%; aspect-ratio: 1; vertical-align: middle; flex: none; isolation: isolate; transform: rotate(var(--sticker-rotation, 0deg)); -webkit-tap-highlight-color: transparent; }
+.orange-sticker[role="button"] { cursor: pointer; user-select: none; }
+.orange-sticker[role="button"]:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; border-radius: 12px; }
+.orange-sticker-sheet { position: relative; display: block; width: 100%; height: 100%; transform-origin: 50% 50%; }
+.orange-sticker[data-shadow="true"] .orange-sticker-sheet { filter: drop-shadow(0 3px 2px rgb(18 26 44 / .15)); }
 .orange-sticker svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.orange-sticker-front { clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%); transition: clip-path 420ms cubic-bezier(.16, 1, .3, 1); }
-.orange-sticker-back { position: absolute; inset: 0; clip-path: polygon(100% 30%, 30% 100%, 100% 100%); transform-origin: 65% 65%; transform: matrix(0, -1, -1, 0, 0, 0) scale(.96); opacity: 0; filter: drop-shadow(-2px -3px 2px rgb(36 32 56 / .25)); transition: opacity 180ms ease-out; pointer-events: none; }
-.orange-sticker[data-peel]:hover .orange-sticker-front, :focus-visible > .orange-sticker[data-peel] .orange-sticker-front, .orange-sticker[data-peel]:focus-visible .orange-sticker-front { clip-path: polygon(0 0, 100% 0, 100% 30%, 30% 100%, 0 100%); }
-.orange-sticker[data-peel]:hover .orange-sticker-back, :focus-visible > .orange-sticker[data-peel] .orange-sticker-back, .orange-sticker[data-peel]:focus-visible .orange-sticker-back { opacity: 1; }
-@media (prefers-reduced-motion: reduce) { .orange-sticker-front { transition: none; } .orange-sticker .orange-sticker-back { display: none; } .orange-sticker[data-peel]:hover .orange-sticker-front, :focus-visible > .orange-sticker[data-peel] .orange-sticker-front, .orange-sticker[data-peel]:focus-visible .orange-sticker-front { clip-path: none; } }
-@media (hover: none) { .orange-sticker[data-peel]:hover .orange-sticker-front { clip-path: none; } .orange-sticker[data-peel]:hover .orange-sticker-back { opacity: 0; } }
+.orange-sticker[data-hover]:is(:hover, :focus-visible) .orange-sticker-front { transform: var(--sticker-hover-transform); animation: var(--sticker-hover-animation); }
+.orange-sticker[data-shadow="true"][data-hover]:is(:hover, :focus-visible) .orange-sticker-front { filter: var(--sticker-hover-filter); }
+.orange-sticker-front { transform-origin: 50% 60%; transition: transform 180ms ease-out, filter 180ms ease-out; }
+@keyframes orange-sticker-hover-wiggle { 0% { transform: translateY(0) rotate(0); } 28% { transform: translateY(-8px) rotate(-6deg); } 55% { transform: translateY(-8px) rotate(4deg); } 78% { transform: translateY(-8px) rotate(-2deg); } 100% { transform: translateY(-8px) rotate(-2deg); } }
+.orange-sticker-sheet[data-motion="bounce"] { animation: orange-sticker-bounce var(--sticker-duration, 650ms) cubic-bezier(.2,.8,.2,1) both; }
+.orange-sticker-sheet[data-motion="wiggle"] { animation: orange-sticker-wiggle var(--sticker-duration, 650ms) ease-out both; }
+.orange-sticker-sheet[data-motion="spin"] { animation: orange-sticker-spin var(--sticker-duration, 650ms) cubic-bezier(.2,.8,.2,1) both; }
+@keyframes orange-sticker-bounce { 0%, 100% { transform: none; } 18% { transform: translateY(calc(1.5% * var(--sticker-intensity, 1))) scale(1.06,.9) rotate(-3deg); } 42% { transform: translateY(calc(-5% * var(--sticker-intensity, 1))) scale(.96,1.07) rotate(5deg); } 68% { transform: translateY(1%) scale(1.02,.98) rotate(-2deg); } }
+@keyframes orange-sticker-wiggle { 0%, 100% { transform: none; } 15% { transform: rotate(calc(-10deg * var(--sticker-intensity, 1))); } 35% { transform: rotate(calc(8deg * var(--sticker-intensity, 1))); } 55% { transform: rotate(calc(-5deg * var(--sticker-intensity, 1))); } 75% { transform: rotate(calc(2deg * var(--sticker-intensity, 1))); } }
+@keyframes orange-sticker-spin { 0% { transform: rotate(0) scale(1); } 25% { transform: rotate(60deg) scale(.9); } 76% { transform: rotate(390deg) scale(1.04); } 100% { transform: rotate(360deg) scale(1); } }
+@media (prefers-reduced-motion: reduce) { .orange-sticker { --sticker-hover-transform: none; --sticker-hover-filter: none; --sticker-hover-animation: none; } .orange-sticker .orange-sticker-sheet { animation: none; } .orange-sticker .orange-sticker-front { transition: none; animation: none; } }
+@media (hover: none) { .orange-sticker { --sticker-hover-transform: none; --sticker-hover-filter: none; --sticker-hover-animation: none; } }
