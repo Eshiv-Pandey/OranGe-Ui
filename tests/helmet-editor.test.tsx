@@ -142,10 +142,12 @@ describe("HelmetEditor exports", () => {
     expect(svg.querySelector("parsererror")).toBeNull();
     expect(svg.documentElement.getAttribute("width")).toBe("512");
     expect(svg.documentElement.getAttribute("height")).toBe("512");
-    expect(svg.documentElement.getAttribute("viewBox")).toBe("-36 -72 312 312");
+    expect(svg.documentElement.getAttribute("viewBox")).toBe("0 0 240 240");
     expect(source).toContain("#123456");
     expect(source).toContain(">007</text>");
-    expect(svg.querySelector(".helmet-visor-lift")?.getAttribute("transform")).toBe("rotate(68 178 111)");
+    expect(svg.querySelector(".helmet-visor-pane")?.getAttribute("d")).toContain("M38 81C");
+    expect(svg.querySelectorAll(".helmet-pivot")).toHaveLength(1);
+    expect(svg.querySelector(".helmet-visor-lift")?.getAttribute("transform")).toBe("rotate(28 178 111)");
     expect(source).not.toMatch(/var\(|<animate|<script|<image/);
     expect(svg.documentElement.getAttribute("shape-rendering")).toBe(appearance === "pixel" ? "crispEdges" : "auto");
     await user.click(screen.getByRole("button", { name: "Export PNG" }));

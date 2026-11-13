@@ -9,9 +9,15 @@ for(const component of PORTFOLIO_COMPONENTS) it(`${component.name} installs with
   expect(Object.keys(bundle.files).some(path=>/favicon-red|footer-favicon|portfolio-favicon/.test(path))).toBe(false);
   expect(strFromU8(bundle.files["public/portfolio/truck-art.webp"])).toContain("WEBP");
   expect(bundle.dependencies).not.toContain("next");
+  if(component.slug==="sticker-social-icons") {
+    expect(bundle.dependencies).toContain("react-icons");
+    expect(strFromU8(bundle.files["components/ui/portfolio/social-sticker-presets.ts"])).toContain('name: "Instagram"');
+    expect(strFromU8(bundle.files["Example.tsx"])).toContain("SOCIAL_STICKER_PRESETS.map");
+  }
   const item=await componentRegistryItem(component,"polished");
   expect(item.files.some(file=>file.target.endsWith("licenses/PORTFOLIO_ARTWORK.md"))).toBe(true);
   const sources=item.files.filter(file=>file.path.endsWith(".tsx")).map(file=>file.content).join("\n");
+  if(component.slug==="sticker-social-icons") expect(item.files.some(file=>file.path.endsWith("social-sticker-presets.ts"))).toBe(true);
   expect(sources).not.toContain('"/portfolio/truck-art.webp"');
   if(component.slug!=="sticker-social-icons") expect(sources).toContain("data:image/webp;base64,");
   const css=item.files.filter(file=>file.path.endsWith(".css")).map(file=>file.content).join("\n");

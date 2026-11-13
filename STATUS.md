@@ -1,5 +1,13 @@
 # oRangeUi status
 
+## Integrated main and signature-first documentation
+
+November 14, 2026: the stickers, morph icons and next-iteration branches are integrated into `main`, together with the newer local refinements. The catalogue has 117 unique entries. The four-entry adaptive public scope and published sticker package 0.1.2 are preserved.
+
+Docs navigation leads with signature collections and groups conventional controls under Essentials. Setup sections have searchable anchors, active component groups open automatically, and Blocks retains category browsing. Shuffle's arrow pose is corrected. Liquid Metal and Mini Driver match the latest original checkout; Film Strip stage sizing is restored and uploaded photos keep their proportions.
+
+The integrated production build, type checking, lint, copy checks, component and portable-source tests, bundle checks and source traces pass. Eight viewport/theme docs captures have no Axe findings, runtime errors or horizontal overflow. Earlier sections below record historical branch-specific validation; [DOCS_NAVIGATION.md](DOCS_NAVIGATION.md) describes this integration.
+
 ## Footer collection and compact Blocks navigation
 
 Implemented and verified on 11 November 2026 on `feat/next-iteration`.

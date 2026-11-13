@@ -35,4 +35,5 @@ The component registry, implemented examples, source download pipeline and exist
 - Show working behavior and immediately usable source.
 - Make editing controls clearly interactive and keep the preview visible.
 - Keep component navigation predictable.
+- Keep the public catalogue focused on useful standalone APIs. Label experiments explicitly and keep supporting recipes inside their demos.
 - Match the owner's supplied visual references and preserve useful existing routes.

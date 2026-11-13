@@ -80,6 +80,10 @@ export function ArtworkCustomizer<T extends object>({ value, onChange, normalize
     </div>
     <WorkbenchInspector><div className="artwork-customizer-settings">
       <div className="artwork-customizer-heading"><h3>{label}</h3>{description && <p>{description}</p>}</div>
+      <div className="artwork-customizer-primary-actions">
+        <Button appearance={appearance} onClick={() => { randomIndex.current += 1; replace(generateConfig(`${seed}:random:${randomIndex.current}`)); setFeedback({ text: "A new combination is ready.", error: false }); }}>Randomize</Button>
+        <Button appearance={appearance} variant="secondary" onClick={() => { randomIndex.current = 0; replace(generateConfig(seed)); setFeedback({ text: "Default configuration restored.", error: false }); }}>Reset</Button>
+      </div>
       {activeTab && <>
         <div className="artwork-customizer-tabs" role="tablist" aria-label={`${label} options`}>
           {tabs.map((tab, index) => <button type="button" role="tab" key={tab.id} id={`${id}-tab-${index}`} aria-selected={activeTab.id === tab.id} aria-controls={`${id}-panel`} tabIndex={activeTab.id === tab.id ? 0 : -1} onClick={() => setSelectedTab(tab.id)} onKeyDown={(event) => moveTab(event, index)}>{tab.label}</button>)}
@@ -87,8 +91,6 @@ export function ArtworkCustomizer<T extends object>({ value, onChange, normalize
         <div className="artwork-customizer-panel" role="tabpanel" id={`${id}-panel`} aria-labelledby={`${id}-tab-${tabs.indexOf(activeTab)}`} tabIndex={0}>{activeTab.render(context)}</div>
       </>}
       <div className="artwork-customizer-actions">
-        <Button appearance={appearance} onClick={() => { randomIndex.current += 1; replace(generateConfig(`${seed}:random:${randomIndex.current}`)); setFeedback({ text: "A new combination is ready.", error: false }); }}>Randomize</Button>
-        <Button appearance={appearance} variant="secondary" onClick={() => { randomIndex.current = 0; replace(generateConfig(seed)); setFeedback({ text: "Default configuration restored.", error: false }); }}>Reset</Button>
         <Button appearance={appearance} variant="secondary" onClick={copyConfig}>Copy config</Button>
         <Button appearance={appearance} variant="secondary" disabled={Boolean(exporting)} onClick={() => exportArtwork("svg")}>Export SVG</Button>
         <Button appearance={appearance} variant="secondary" loading={exporting === "png"} disabled={Boolean(exporting)} onClick={() => exportArtwork("png")}>Export PNG</Button>

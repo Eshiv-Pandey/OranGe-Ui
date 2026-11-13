@@ -1,108 +1,79 @@
-import { clamp, hexRgb, type ShaderModule } from "./types";
+﻿import { clamp, hexRgb, type ShaderModule } from "./types";
 
-/** Ray-marched chrome loops with open centers and reflected studio lights. */
+/** Twisted, beveled ribbons with analytic normals and a reflected studio environment. */
 export const liquidMetal: ShaderModule = {
-  id: "liquid-metal", kind: "source", defaults: {}, renderBudget: { maxPixels: 240_000, maxFps: 24 },
+  id: "liquid-metal", kind: "source", defaults: {}, renderBudget: { maxPixels: 360_000, maxFps: 30 },
   uniforms: {
     uMetal: { type: "vec3", value: (s) => hexRgb(s.color) }, uBackdrop: { type: "vec3", value: (s) => hexRgb(s.background) },
-    uSpeed: { type: "float", value: (s) => clamp(s.speed, 0, 3, .35) }, uRibbonCount: { type: "int", value: (s) => Math.round(clamp(s.ribbons, 1, 5, 2)) },
-    uTwist: { type: "float", value: (s) => clamp(s.twist, 0, 2, 1) }, uRoughness: { type: "float", value: (s) => clamp(s.roughness, 0, 1, .25) },
+    uSpeed: { type: "float", value: (s) => clamp(s.speed, 0, 3, .35) }, uRibbonCount: { type: "int", value: (s) => Math.round(clamp(s.ribbons, 1, 5, 3)) },
+    uTwist: { type: "float", value: (s) => clamp(s.twist, 0, 2, 1) }, uRoughness: { type: "float", value: (s) => clamp(s.roughness, 0, 1, .12) },
     uSheen: { type: "float", value: (s) => clamp(s.sheen, 0, 1, .2) }, uFollow: { type: "float", value: (s) => s.interactive === false ? 0 : 1 },
   },
   fragment: `
-uniform vec3 uMetal;
-uniform vec3 uBackdrop;
-uniform float uSpeed;
+uniform vec3 uMetal, uBackdrop;
+uniform float uSpeed, uTwist, uRoughness, uSheen, uFollow;
 uniform int uRibbonCount;
-uniform float uTwist;
-uniform float uRoughness;
-uniform float uSheen;
-uniform float uFollow;
-
-
-float smoothMetal(float a, float b, float k) {
-  float h = clamp(.5 + .5 * (b - a) / k, 0.0, 1.0);
-  return mix(b, a, h) - k * h * (1.0 - h);
+float ribbonSpine(float x, float lane, float t) {
+  float shift = (uPointer.y - .5) * uPointerActive * uFollow * .06;
+  return lane + .12 * sin(x * 2.8 + t * .67 + lane * 8.0)
+    + .045 * cos(x * 5.1 - t * .43 + lane * 12.0) + shift;
 }
-float metalRing(vec3 p, float offset, float phase) {
-  float t = uTime * uSpeed;
-  p.x -= offset;
-  float tilt = .42 * sin(phase + t * .18);
-  p.yz = mat2(cos(tilt), -sin(tilt), sin(tilt), cos(tilt)) * p.yz;
-  float angle = atan(p.y, p.x);
-  float radius = .67 + sin(angle * 2.0 + phase + t * .25) * .085 * uTwist;
-  float tube = .17 + .055 * sin(angle * 3.0 + phase - t * .3);
-  vec2 q = vec2(length(p.xy / vec2(1.12, .82)) - radius, p.z - sin(angle * 2.0 + t * .2 + phase) * .18 * uTwist);
-  return length(q) * .8 - tube;
+vec3 reflectedRoom(vec3 r) {
+  vec2 lamp = (uPointer - .5) * uPointerActive * uFollow * .7;
+  float blur = .035 + uRoughness * .25;
+  float softbox = 1.0 - smoothstep(.26, .26 + blur, abs(r.x + .35 - lamp.x));
+  softbox *= 1.0 - smoothstep(.6, .95, abs(r.y - lamp.y));
+  float strip = 1.0 - smoothstep(.045, .045 + blur, abs(r.x - .63 - lamp.x));
+  float ceiling = smoothstep(.1, .55, r.y + lamp.y);
+  float horizon = exp(-pow((r.y + .32) * 6.0, 2.0));
+  return vec3(.012 + ceiling * .16) + softbox * vec3(3.1, 3.0, 2.9)
+    + strip * vec3(2.5, 2.75, 3.0) + horizon * .38;
 }
-float metalShape(vec3 p) {
-  float t = uTime * uSpeed;
-  float spin = sin(t * .16) * .25;
-  p.xz = mat2(cos(spin), -sin(spin), sin(spin), cos(spin)) * p.xz;
-  p.xy = mat2(cos(-.35), -sin(-.35), sin(-.35), cos(-.35)) * p.xy;
-  float d = metalRing(p, 0.0, .5);
-  for (int i = 1; i < 5; i++) {
-    if (i >= uRibbonCount) break;
-    float signX = mod(float(i), 2.0) < .5 ? -1.0 : 1.0;
-    vec3 q = p;
-    q.y += signX * .16;
-    q.z += sin(float(i) * 1.8 + t * .15) * .15;
-    float ring = metalRing(q, signX * (.53 + float(i - 1) * .09), float(i) * 1.4);
-    d = smoothMetal(d, ring, .10 + uTwist * .025);
-  }
-  return d;
-}
-vec3 metalNormal(vec3 p) {
-  vec2 e = vec2(.002, 0);
-  return normalize(vec3(metalShape(p + e.xyy) - metalShape(p - e.xyy), metalShape(p + e.yxy) - metalShape(p - e.yxy), metalShape(p + e.yyx) - metalShape(p - e.yyx)));
-}
-vec3 metalStudio(vec3 ray) {
-  vec2 lamp = (uPointer - .5) * uPointerActive * uFollow * .6;
-  float angle = atan(ray.x, ray.z) + lamp.x;
-  float soft = .025 + uRoughness * .18;
-  float ribbon = smoothstep(-.9 - soft, -.9 + soft, angle) * (1.0 - smoothstep(-.38 - soft, -.38 + soft, angle));
-  float strip = smoothstep(.8 - soft, .8 + soft, angle) * (1.0 - smoothstep(1.05 - soft, 1.05 + soft, angle));
-  float ceiling = smoothstep(.15, .6, ray.y + lamp.y);
-  float horizon = 1.0 - smoothstep(.04, .2 + uRoughness * .2, abs(ray.y + .3));
-  vec3 room = mix(vec3(.006), vec3(.18), ray.y * .5 + .5);
-  room += ribbon * (1.0 - smoothstep(.6, .9, abs(ray.y))) * vec3(2.6, 2.65, 2.7);
-  room += strip * vec3(2.1) + ceiling * .75 + horizon * .35;
-  return room;
+vec3 metalTone(vec3 c) {
+  c *= 1.1;
+  return pow(clamp((c * (2.51 * c + .03)) / (c * (2.43 * c + .59) + .14), 0.0, 1.0), vec3(.4545));
 }
 void main() {
-  vec2 uv = sourceUv();
   float aspect = uCssSize.x / max(uCssSize.y, 1.0);
-  vec2 p = (uv - .5) * vec2(aspect, 1.0);
-  vec2 framed = p / min(aspect, 1.0);
-  vec3 origin = vec3(0, 0, 3.8);
-  vec3 ray = normalize(vec3(framed * 4.3, -3.8));
-  float travel = 0.0;
-  float distanceToSurface = 1.0;
-  float minimumDistance = 100.0, closestTravel = 0.0;
-  for (int i = 0; i < 68; i++) {
-    distanceToSurface = metalShape(origin + ray * travel);
-    if (distanceToSurface < minimumDistance) { minimumDistance = distanceToSurface; closestTravel = travel; }
-    if (distanceToSurface < .001 || travel > 6.0) break;
-    travel += distanceToSurface * .8;
+  vec2 screen = (sourceUv() - .5) * vec2(aspect, 1.0);
+  vec2 p = mat2(.9394, -.3429, .3429, .9394) * screen;
+  float t = uTime * uSpeed;
+  vec3 color = uBackdrop * (1.0 - min(length(screen) * .055, .12));
+  float count = float(uRibbonCount);
+  for (int i = 0; i < 5; i++) {
+    if (i >= uRibbonCount) break;
+    float k = float(i), f = count > 1.0 ? k / (count - 1.0) : .5;
+    float lane = (f - .5) * (.18 + count * .11);
+    float localTime = t * (.85 + f * .15);
+    float middle = ribbonSpine(p.x, lane, localTime);
+    float slope = (ribbonSpine(p.x + .002, lane, localTime) - ribbonSpine(p.x - .002, lane, localTime)) / .004;
+    float distance = (p.y - middle) / sqrt(1.0 + slope * slope);
+    float roll = (.65 + uTwist * .8) * p.x + k * 1.63 + localTime * .36;
+    roll += sin(p.x * 2.1 - localTime * .3 + k) * .35 * uTwist;
+    float width = (.115 - count * .008) * (.9 + .16 * sin(p.x * 1.7 + localTime * .5 + k));
+    float projected = width * max(abs(cos(roll)), .06);
+    float aa = max(fwidth(distance), .0008);
+    float shadow = exp(-pow((distance + .027) / (projected + .024), 4.0)) * .2;
+    color *= 1.0 - shadow;
+    float coverage = 1.0 - smoothstep(projected - aa, projected + aa, abs(distance));
+    if (coverage <= .001) continue;
+    float crossSection = clamp(distance / projected, -1.0, 1.0);
+    vec3 tangent = normalize(vec3(1.0, slope, 0.0));
+    vec3 across = normalize(vec3(-slope, 1.0, 0.0));
+    vec3 normal = cos(roll) * vec3(0.0, 0.0, 1.0) - sin(roll) * across;
+    float bevel = crossSection * .35 + pow(abs(crossSection), 5.0) * sign(crossSection) * .8;
+    normal = normalize(normal + across * bevel + tangent * sin(p.x * 18.0 - localTime * 2.4 + k) * .025);
+    if (normal.z < 0.0) normal = -normal;
+    vec3 reflected = reflect(vec3(0.0, 0.0, -1.0), normal);
+    float fresnel = pow(1.0 - normal.z, 4.0);
+    vec3 film = .5 + .5 * cos(vec3(0.0, 2.1, 4.2) + p.x * 1.9 + crossSection * 1.2 + localTime * .4);
+    vec3 tint = mix(uMetal, vec3(1.0), fresnel * .6) * mix(vec3(1.0), .65 + film * .8, uSheen * (.3 + fresnel * .7));
+    vec3 light = reflectedRoom(reflected) * tint;
+    light += pow(max(dot(reflected, normalize(vec3(-.45, .5, 1.0))), 0.0), 90.0) * tint * 2.2;
+    float cutline = pow(abs(crossSection), 20.0);
+    light += cutline * (.22 + fresnel * .65) * tint;
+    color = mix(color, metalTone(light), coverage);
   }
-  float vignette = smoothstep(.0, 1.0, length(p));
-  vec3 background = uBackdrop * (1.0 - vignette * .06);
-  // The contact shadow follows the sculpture's broad footprint.
-  background *= 1.0 - exp(-pow(framed.x * 2.2, 2.0) - pow((framed.y + .34) * 12.0, 2.0)) * .17;
-  vec3 color = background;
-  float edgeWidth = max(length(dFdx(ray)), length(dFdy(ray))) * max(closestTravel, 1.0) * 1.25;
-  float coverage = 1.0 - smoothstep(.001, .001 + edgeWidth, minimumDistance);
-  if (closestTravel < 6.0 && coverage > 0.0) {
-    vec3 position = origin + ray * closestTravel;
-    vec3 normal = metalNormal(position);
-    vec3 reflected = reflect(ray, normal);
-    float fresnel = pow(1.0 - max(dot(-ray, normal), 0.0), 3.0);
-    vec3 chrome = metalStudio(reflected) * mix(uMetal, vec3(1.0), fresnel * .6);
-    chrome += pow(max(dot(reflected, normalize(vec3(-.7, .8, 1))), 0.0), 75.0) * 1.3;
-    vec3 film = .5 + .5 * cos(vec3(0, 2.1, 4.2) + normal.x * 4.0 + normal.y * 5.0);
-    chrome += (film - .5) * uSheen * fresnel * .2;
-    color = mix(background, pow(max(chrome, vec3(0.0)) / (1.0 + max(chrome, vec3(0.0))), vec3(.72)), coverage);
-  }
-  fragColor = vec4(clamp(color, 0.0, 1.0), 1.0);
+  fragColor = vec4(color, 1.0);
 }`,
 };

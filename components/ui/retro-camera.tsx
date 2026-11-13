@@ -30,6 +30,7 @@ export function RetroCamera({ bodyColor = "#a7cf59", stickers, onStickersChange,
   const sound = useRef<ReturnType<typeof createCreativeSound> | null>(null), flashTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [view, setView] = useState<"back" | "front">("back"), [status, setStatus] = useState<"demo" | "requesting" | "live" | "denied" | "missing" | "paused">("demo");
   const [photos, setPhotos] = useState<CameraPhoto[]>([]), [selected, setSelected] = useState<number | null>(null), [zoom, setZoom] = useState(1);
+  const [captureMessage, setCaptureMessage] = useState("");
   const [filter, setFilter] = useState<CameraFilter>("none"), [menu, setMenu] = useState(true), [flash, setFlash] = useState(false), [editing, setEditing] = useState(false), [localMuted, setLocalMuted] = usePropPreference(muted);
   const [localStickers, setLocalStickers] = useState<readonly CreativeSticker[]>(cameraStickers);
   const resolved = useCreativeTheme(theme), lensId = useId().replace(/:/g, ""), currentPhoto = photos.find((photo) => photo.id === selected), currentStickers = stickers ?? localStickers;
@@ -50,6 +51,7 @@ export function RetroCamera({ bodyColor = "#a7cf59", stickers, onStickersChange,
     };
   }, []);
   const enable = async () => {
+    setCaptureMessage("");
     if (!navigator.mediaDevices?.getUserMedia) { setStatus("missing"); return; }
     const id = ++requestId.current; setStatus("requesting");
     try {
@@ -63,13 +65,23 @@ export function RetroCamera({ bodyColor = "#a7cf59", stickers, onStickersChange,
       setStatus((error as DOMException).name === "NotAllowedError" || (error as DOMException).name === "SecurityError" ? "denied" : "missing");
     }
   };
+  const disableCamera = () => {
+    requestId.current++;
+    stream.current?.getTracks().forEach(track => track.stop()); stream.current = null;
+    if (video.current) video.current.srcObject = null;
+    setStatus("demo"); setCaptureMessage(""); setSelected(null);
+  };
   const capture = () => {
+    setCaptureMessage("");
+    if (status === "requesting") return;
+    if (status === "live" && (!video.current || video.current.readyState < 2)) { setCaptureMessage("Camera is warming up. Try taking your photo in a moment."); return; }
     const element = document.createElement("canvas"), context = element.getContext("2d");
     if (!context) return;
     const live = status === "live" && video.current && video.current.readyState >= 2;
     const image = live ? video.current! : still.current;
-    if (!image || (!live && !still.current?.complete)) return;
+    if (!image || (!live && !still.current?.complete)) { setCaptureMessage("The preview is still loading. Try taking your photo in a moment."); return; }
     const width = live ? video.current!.videoWidth : still.current!.naturalWidth, height = live ? video.current!.videoHeight : still.current!.naturalHeight;
+    if (!width || !height) { setCaptureMessage("The preview is not ready yet. Try again in a moment."); return; }
     element.width = Math.min(1280, width); element.height = Math.round(element.width * height / width);
     context.filter = filterCss[filter];
     if (mirror && live && facingMode === "user") { context.translate(element.width, 0); context.scale(-1, 1); }
@@ -96,7 +108,7 @@ export function RetroCamera({ bodyColor = "#a7cf59", stickers, onStickersChange,
   const changeStickers = (next: CreativeSticker[]) => { if (stickers === undefined) setLocalStickers(next); onStickersChange?.(next); };
   const message = { demo: "Demo scene. Enable your camera for a live view.", requesting: "Waiting for camera permission...", live: "Live camera", denied: "Camera permission denied. Allow access in your browser, then try again.", missing: "No camera is available here. You can still capture the demo scene.", paused: "Camera stopped while hidden. Enable it to resume." }[status];
   return <div ref={root} className={cn("creative-surface retro-camera", className)} data-theme={resolved} data-appearance={appearance} style={{ "--device-body": bodyColor, "--camera-size": typeof size === "number" ? size + "px" : size } as CSSProperties}>
-    <div className="retro-camera-top"><span>{brandText} / POCKET CAMERA</span><button type="button" className="camera-shutter" aria-label="Take photo" onClick={capture}><CreativeIcon name="camera" width="15" height="15" /></button></div>
+    <div className="retro-camera-top"><span>{brandText} / POCKET CAMERA</span><button type="button" className="camera-shutter" aria-label="Camera shutter" disabled={status === "requesting"} onClick={capture}><CreativeIcon name="camera" width="15" height="15" /></button></div>
     <div className="retro-camera-stage" data-view={view} data-layout={layout}>
       <div className="retro-camera-rotator">
         <div className="retro-camera-side retro-camera-back" aria-hidden={layout === "flip" && view !== "back"} inert={layout === "flip" && view !== "back"}>
@@ -111,8 +123,8 @@ export function RetroCamera({ bodyColor = "#a7cf59", stickers, onStickersChange,
           <div className="camera-buttons">
             <div className="camera-zoom"><button type="button" aria-label="Zoom out" onClick={() => setZoom(clamp(zoom - 0.25, 1, 3))}>W</button><button type="button" aria-label="Zoom in" onClick={() => setZoom(clamp(zoom + 0.25, 1, 3))}>T</button></div>
             <div className="camera-dpad"><button type="button" aria-label="Previous photo" onClick={() => { const index = photos.findIndex((photo) => photo.id === selected); setSelected(photos[(index - 1 + photos.length) % photos.length]?.id ?? null); }} disabled={!photos.length}>‹</button><button type="button" aria-label="OK, return to preview" onClick={() => setSelected(null)}>OK</button><button type="button" aria-label="Next photo" onClick={() => { const index = photos.findIndex((photo) => photo.id === selected); setSelected(photos[(index + 1) % photos.length]?.id ?? null); }} disabled={!photos.length}>›</button></div>
-            <button type="button" className="camera-menu-button" onClick={() => setMenu(!menu)} aria-expanded={menu}>MENU</button>
-            <button type="button" className="camera-delete-button" aria-label="Delete selected photo" disabled={!currentPhoto} onClick={remove}><CreativeIcon name="trash" width="13" height="13" /></button>
+            <div className="camera-tools"><button type="button" className="camera-menu-button" onClick={() => setMenu(!menu)} aria-expanded={menu}>MENU</button>
+            <button type="button" className="camera-delete-button" aria-label="Delete selected photo" disabled={!currentPhoto} onClick={remove}><CreativeIcon name="trash" width="13" height="13" /></button></div>
           </div>
           <span className="camera-bottom-brand" aria-hidden="true">{brandText}</span>
         </div>
@@ -123,12 +135,12 @@ export function RetroCamera({ bodyColor = "#a7cf59", stickers, onStickersChange,
         </div>
       </div>
     </div>
+    <div className="camera-capture-bar"><button type="button" className="creative-button camera-enable-button" onClick={() => status === "live" ? disableCamera() : void enable()} disabled={status === "requesting"}>{status === "live" ? "Stop camera" : status === "requesting" ? "Connecting..." : "Enable camera"}</button><button type="button" className="creative-button camera-capture-button" onClick={capture} disabled={status === "requesting"}><CreativeIcon name="camera" width="18" height="18" />Take photo</button></div>
+    <p className="camera-capture-status creative-feedback" role="status">{captureMessage || (currentPhoto ? "Photo saved in this session. Download or return to preview." : message)}</p>
     <CreativeEditorSlot><div className="camera-action-row">
       {layout === "flip" && <button type="button" className="creative-button camera-flip-button" onClick={() => setView(view === "back" ? "front" : "back")}><CreativeIcon name="flip" width="15" height="15" />{view === "back" ? "Flip to front" : "Flip to back"}</button>}
-      <button type="button" className="creative-button" onClick={() => void enable()} disabled={status === "requesting" || status === "live"}>{status === "live" ? "Camera on" : "Enable camera"}</button>
       <button type="button" className="creative-icon-button" aria-label={localMuted ? "Unmute shutter" : "Mute shutter"} aria-pressed={localMuted} onClick={() => { if (localMuted) sound.current?.unlock(); setLocalMuted(!localMuted); }}><CreativeIcon name={localMuted ? "muted" : "speaker"} /></button>
     </div>
-    <p className="creative-feedback" role="status">{currentPhoto ? "Photo saved in this session. Download or return to preview." : message}</p>
     {menu && <div className="creative-controls"><label>Photo filter<select value={filter} onChange={(event) => setFilter(event.target.value as CameraFilter)}>{filters.map((value) => <option value={value} key={value}>{value}</option>)}</select></label><button type="button" className="creative-button" onClick={() => { setEditing(!editing); setView("front"); }}>{editing ? "Done editing" : "Edit stickers"}</button></div>}
     {editing && <StickerEditor stickers={currentStickers} onChange={changeStickers} />}</CreativeEditorSlot>
     {!!photos.length && <div className="camera-gallery" aria-label="Captured photos">{photos.map((photo, index) => <button type="button" key={photo.id} onClick={() => { setSelected(photo.id); setView("back"); }} aria-label={"Review photo " + (index + 1)} aria-pressed={selected === photo.id}><img src={photo.url} alt="" /></button>)}{currentPhoto && <a className="creative-button" href={currentPhoto.url} download={"orange-photo-" + currentPhoto.id + ".png"} aria-label="Download selected photo"><CreativeIcon name="download" width="17" height="17" /></a>}</div>}

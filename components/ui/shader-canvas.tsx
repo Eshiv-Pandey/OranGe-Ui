@@ -20,10 +20,10 @@ export function ShaderCanvas(props: ShaderCanvasProps) {
     try { renderer.current = createShaderRenderer(canvas.current, () => current.current, (ready) => { if (root.current) root.current.dataset.renderer = ready ? "webgl2" : "fallback"; }); }
     catch { if (root.current) root.current.dataset.renderer = "fallback"; }
     return () => { renderer.current?.destroy(); renderer.current = null; };
-  }, []);
+  }, [props.transparent]);
   const colors = sourceColors(source || {}).map((color) => "rgb(" + hexRgb(color).map((channel) => Math.round(channel * 255)).join(" ") + ")");
   return <div ref={root} role="img" aria-label={label} className={cn("creative-surface shader-canvas", className)} data-theme={resolved} data-appearance={appearance} data-renderer="fallback" style={{ "--shader-fallback": "linear-gradient(125deg," + colors.join(",") + ")", ...style } as CSSProperties}>
     <div className="shader-canvas-fallback" aria-hidden="true" />
-    <canvas ref={canvas} aria-hidden="true" />
+    <canvas key={props.transparent ? "transparent" : "opaque"} ref={canvas} aria-hidden="true" />
   </div>;
 }

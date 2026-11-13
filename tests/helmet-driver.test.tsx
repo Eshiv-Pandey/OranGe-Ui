@@ -80,6 +80,20 @@ describe("original helmet and miniature driver artwork", () => {
 });
 
 describe("helmet and driver interaction", () => {
+  it("rotates the side-profile shield around its visible temple mount", () => {
+    const base = generateHelmetConfig("side-profile");
+    const panes = [];
+    for (const visorOpen of [false, true]) {
+      const svg = new DOMParser().parseFromString(helmetToSvgString({ ...base, parts: { ...base.parts, visorOpen } }), "image/svg+xml");
+      expect([...svg.querySelectorAll(".helmet-pivot > circle:first-child")].map(circle => [circle.getAttribute("cx"), circle.getAttribute("cy")])).toEqual([["178", "111"]]);
+      const path = svg.querySelector(".helmet-visor-pane")!.getAttribute("d")!;
+      expect(path).toMatch(/^M38 81C/);
+      expect(svg.querySelector(".helmet-visor-lift")!.getAttribute("transform")).toBe(visorOpen ? "rotate(28 178 111)" : null);
+      expect(svg.querySelector('clipPath[id$="-visor-clip"] path')!.getAttribute("d")).toBe(path);
+      panes.push(path);
+    }
+    expect(panes[0]).toBe(panes[1]);
+  });
   it("flips the visor with native keyboard activation and exposes its state", async () => {
     const user = userEvent.setup(), changed = vi.fn();
     render(<Helmet onVisorOpenChange={changed} />);

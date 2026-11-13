@@ -1,11 +1,11 @@
 /** All scene tuning lives here. Distances are fractions of the source image. */
 export const REFERENCE_SCENE_CONFIG = {
   windStrength: 0.014,
-  windSpeed: 1.45,
-  gustSpeed: 0.85,
-  cloudSpeed: 0.085,
+  windSpeed: 2.9,
+  gustSpeed: 1.7,
+  cloudSpeed: 0.17,
   cloudDisplacement: 0.048,
-  sparkleCount: 1800,
+  sparkleCount: 0,
   sparkleIntensity: 1.05,
   sparkleSpeed: 1.1,
   grain: 0.002,
@@ -17,18 +17,22 @@ export const REFERENCE_SCENE_CONFIG = {
 export type ReferenceSceneConfig = { [Key in keyof typeof REFERENCE_SCENE_CONFIG]: number };
 
 export const REFERENCE_SCENE_ASSETS = {
-  plate: "/landing/reference-scene.png",
-  flowers: "/landing/reference-flowers-mask.png",
-  clouds: "/landing/reference-clouds-mask.png",
-  person: "/landing/reference-person-mask.png",
-  grass: "/landing/reference-grass-mask.png",
+  plate: "/landing/sunset-flight-scene.png",
+  flowers: "/landing/sunset-empty-mask.png",
+  clouds: "/landing/sunset-clouds-mask.png",
+  person: "/landing/sunset-still-mask.png",
+  grass: "/landing/sunset-trees-mask.png",
+  birds: "/landing/sunset-birds.png",
 } as const;
 
-/** Matches CSS object-fit: cover, with a small portrait correction for the person. */
-export function referenceCover(width: number, height: number, imageWidth = 1199, imageHeight = 805) {
+/** Matches CSS cover at 50% 64%, keeping the forest crowns in wide viewports. */
+export function referenceCover(width: number, height: number, imageWidth = 736, imageHeight = 920) {
   const aspect = Math.max(1, width) / Math.max(1, height), imageAspect = imageWidth / imageHeight;
   const x = Math.min(1, aspect / imageAspect), y = Math.min(1, imageAspect / aspect);
-  return { scale: [x, y] as const, center: [.5 + .011 * (1 - x), .5] as const };
+  // CSS positions the overflow, rather than the image center. WebGL's Y axis
+  // runs upward, so translate the lower anchor into the same source crop.
+  const verticalAnchor = aspect >= 2.5 ? .56 : .64;
+  return { scale: [x, y] as const, center: [.5, 1 - (y * .5 + (1 - y) * verticalAnchor)] as const };
 }
 
 /** A deterministic weighted distribution follows the photographed luminous river. */

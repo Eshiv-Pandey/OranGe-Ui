@@ -2,11 +2,9 @@
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createContext, Suspense, useContext, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
-import { componentCategories, components, findComponent } from "../../lib/components";
-import { blocks } from "../../lib/blocks";
-import { BlockSectionNav } from "./block-section-nav";
+import { findComponent } from "../../lib/components";
+import { DocsNavigation } from "./docs-navigation";
 import { APPEARANCES, isAppearance, parseAppearance, type Appearance } from "../ui/appearance";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Sheet } from "../ui/sheet";
 import { ThemeToggle } from "../landing/theme-toggle";
@@ -49,7 +47,14 @@ export function LibraryShell({ children }: { children: ReactNode }) {
   const appearance = (pathname.startsWith("/blocks") || pathname.startsWith("/stickers")) ? "polished" : isAppearance(requested) ? requested : stored;
   const [menu, setMenu] = useState(false), [localCollapsed, setLocalCollapsed] = useState<boolean>();
   const isCollapsed = localCollapsed ?? collapsed;
-  const href = (path: string) => path + "?style=" + (path.startsWith("/components/") ? findComponent(path.split("/").at(-1) || "")?.collection ?? appearance : appearance);
+  const href = (path: string) => {
+    const destination = new URL(path, "https://orangeui.local");
+    if ((destination.pathname.startsWith("/components") || destination.pathname === "/docs") && !destination.searchParams.has("style")) {
+      const collection = destination.pathname.startsWith("/components/") ? findComponent(destination.pathname.split("/").at(-1) || "")?.collection : undefined;
+      destination.searchParams.set("style", collection ?? appearance);
+    }
+    return destination.pathname + destination.search + destination.hash;
+  };
   function choose(next: Appearance) {
     try { localStorage.setItem("orangeui-appearance", next); window.dispatchEvent(new Event("orange-appearance")); } catch { /* Direct URLs also preserve appearance. */ }
     router.replace(`${pathname}?style=${next}`, { scroll: false });
@@ -74,19 +79,12 @@ export function LibraryShell({ children }: { children: ReactNode }) {
         <div className="library-sidebar-brand"><Brand /><button className="sidebar-collapse" type="button" onClick={toggleSidebar} aria-expanded={!isCollapsed} aria-controls="desktop-component-navigation" aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"} title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}><PanelIcon /></button></div>
         <CommandSearch className="sidebar-search" />
       </div>
-      <div id="desktop-component-navigation" className="library-sidebar-scroll" hidden={isCollapsed}><LibraryNav /></div>
+      <div id="desktop-component-navigation" className="library-sidebar-scroll" hidden={isCollapsed}><DocsNavigation /></div>
       <div className="library-sidebar-footer"><a href="https://github.com/Eshiv-Pandey/OranGe-Ui" aria-label="oRangeUi on GitHub">GitHub</a><Link href="/docs#version">v{version}</Link></div>
     </aside>
     <div className="library-content-column">
-      <header className="library-header"><div className="library-mobile-brand"><Brand /></div><nav aria-label="Main navigation"><Link href={href("/components")} aria-current={pathname.startsWith("/components") ? "page" : undefined}>Components</Link><Link href="/stickers" aria-current={pathname.startsWith("/stickers") ? "page" : undefined}>Stickers</Link><Link href="/blocks" aria-current={pathname.startsWith("/blocks") ? "page" : undefined}>Blocks</Link><Link href={href("/docs")} aria-current={pathname === "/docs" ? "page" : undefined}>Documentation</Link></nav><div className="library-header-actions"><div className="library-mobile-search"><CommandSearch /></div><label className="header-appearance" hidden={pathname.startsWith("/blocks") || pathname.startsWith("/stickers")}><span className="sr-only">Component appearance</span><select value={appearance} onChange={(event) => choose(parseAppearance(event.target.value))}>{APPEARANCES.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label><ThemeTools appearance={appearance} /><ThemeToggle /><div className="library-mobile-menu"><Sheet open={menu} onOpenChange={setMenu} side="left" trigger={<Button variant="secondary" aria-label="Open component navigation menu"><PanelIcon /></Button>} title="oRangeUi components"><LibraryNav close={() => setMenu(false)} /></Sheet></div></div></header>
+      <header className="library-header"><div className="library-mobile-brand"><Brand /></div><nav aria-label="Main navigation"><Link href={href("/components")} aria-current={pathname.startsWith("/components") && pathname !== "/components/morphing-icons" ? "page" : undefined}>Components</Link><Link href="/stickers" aria-current={pathname.startsWith("/stickers") ? "page" : undefined}>Stickers</Link><Link href={href("/components/morphing-icons")} aria-current={pathname === "/components/morphing-icons" ? "page" : undefined}>Morph icons</Link><Link href="/blocks" aria-current={pathname.startsWith("/blocks") ? "page" : undefined}>Blocks</Link><Link href={href("/docs")} aria-current={pathname === "/docs" ? "page" : undefined}>Docs</Link></nav><div className="library-header-actions"><div className="library-mobile-search"><CommandSearch /></div><label className="header-appearance" hidden={pathname.startsWith("/blocks") || pathname.startsWith("/stickers")}><span className="sr-only">Component appearance</span><select value={appearance} onChange={(event) => choose(parseAppearance(event.target.value))}>{APPEARANCES.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label><ThemeTools appearance={appearance} /><ThemeToggle /><div className="library-mobile-menu"><Sheet open={menu} onOpenChange={setMenu} side="left" trigger={<Button variant="secondary" aria-label="Open documentation navigation"><PanelIcon /></Button>} title="oRangeUi navigation"><DocsNavigation close={() => setMenu(false)} /></Sheet></div></div></header>
       <div className="library-layout"><main id="library-main" className="library-main">{children}<footer className="library-footer"><span>A pixel soul. A polished finish.</span><Link href="/">Back to the little orange</Link></footer></main></div>
     </div>
   </div></AppearanceContext.Provider>;
-}
-
-function LibraryNav({ close }: { close?: () => void }) {
-  const { href, appearance } = useLibrary(), pathname = usePathname();
-  const [query, setQuery] = useState("");
-  const filtered = components.filter((c) => `${c.name} ${c.description} ${c.category}`.toLowerCase().includes(query.toLowerCase().trim()));
-  return <nav className="library-nav" aria-label="Component navigation"><Input type="search" label="Search navigation" hideLabel placeholder={pathname.startsWith("/blocks") ? "Filter blocks..." : "Filter components..."} value={query} onChange={(event) => setQuery(event.target.value)} /><div className="library-nav-intro"><Link href="/stickers" onClick={close} aria-current={pathname === "/stickers" ? "page" : undefined}>All stickers <span>50</span></Link><Link href="/blocks" onClick={close} aria-current={pathname === "/blocks" ? "page" : undefined}>All blocks <span>{blocks.length}</span></Link><Link onClick={close} href={href("/docs")} aria-current={pathname === "/docs" ? "page" : undefined}>Getting started</Link><Link onClick={close} href={href("/components")} aria-current={pathname === "/components" ? "page" : undefined}>All components <span>{components.length}</span></Link>{APPEARANCES.filter((item) => item.value !== "polished").map((item) => <Link key={item.value} onClick={close} href={`/components?style=${item.value}`} aria-current={pathname === "/components" && appearance === item.value ? "page" : undefined}>{item.label} collection</Link>)}</div>{!pathname.startsWith("/blocks") && componentCategories.filter((category) => filtered.some((c) => c.category === category)).map((category) => <div className="library-nav-group" key={category}><p>{category}</p>{filtered.filter((c) => c.category === category).map((c) => <Link href={href(`/components/${c.slug}`)} key={c.slug} onClick={close} aria-current={pathname === `/components/${c.slug}` ? "page" : undefined}>{c.name}{c.slug === "gamer-boy" && <span className="nav-new">PLAY</span>}</Link>)}</div>)}{pathname.startsWith("/blocks") && <BlockSectionNav query={query} pathname={pathname} close={close} />}{!filtered.length && !pathname.startsWith("/blocks") && <p role="status" className="ui-help">No matching components.</p>}</nav>;
 }

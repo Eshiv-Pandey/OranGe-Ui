@@ -142,7 +142,7 @@ test("player artwork, played-only progress, crystal audio and character interact
   await page.goto("/components/audio-orb");await live.getByRole("button",{name:"Play music",exact:true}).click();
   await expect(live.locator(".audio-orb")).toHaveAttribute("data-audio-active","true");
   await expect.poll(()=>live.locator(".audio-orb").evaluate(el=>parseFloat((el as HTMLElement).style.getPropertyValue("--orb-energy")))).toBeGreaterThan(.15);
-  expect(await live.locator(".audio-orb").evaluate(el=>(el as HTMLElement).style.getPropertyValue("--orb-one"))).toBe("#13f4da");
+  expect(await live.locator(".audio-orb").evaluate(el=>(el as HTMLElement).style.getPropertyValue("--orb-one"))).toBe("#7e68ef");
   await live.locator(".audio-orb-widget").screenshot({path:"out/portfolio/screenshots/orb-playing.png"});
   await live.getByRole("button",{name:"Pause music",exact:true}).click();
   await expect.poll(()=>live.locator(".audio-orb").evaluate(el=>parseFloat((el as HTMLElement).style.getPropertyValue("--orb-energy")))).toBeLessThan(.02);

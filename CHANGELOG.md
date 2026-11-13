@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Merge the stickers, morph icons and next-iteration branches into main, including newer local component refinements.
+- Align Shuffle's crossed-lane arrowheads with their diagonal exits while preserving the other morph icons.
+- Lead docs navigation with signature collections, collapse conventional controls into Essentials, and retain block categories and searchable setup anchors.
+- Restore the newer Liquid Metal ribbons and Film Strip stage sizing; preserve uploaded photo proportions and the latest Mini Driver source.
+
 - Fill the workspace with component previews, including the complete BloomTrail, DraggableCards, BubbleWrap, PhotoGarland and LiquidMetal fields. Remove the inherited mobile preview offset and keep component controls clear of the view dock.
 - Rebuild BubbleWrap with clear plastic highlights, collapsed creases and an audible plastic pop on the first interaction. Sound starts enabled and remains gesture-gated.
 - Redraw HumanAvatar as expressive head-only stickers, add eight hair silhouettes and six expressions, and expose Randomize avatar in the playground.

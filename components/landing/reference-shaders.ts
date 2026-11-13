@@ -24,6 +24,45 @@ void main() {
   vUv = point; gl_Position = vec4(point*2.0-1.0,0,1);
 }`;
 
+/** Padded ink sprites stay centered at their source-painting positions. */
+export const REFERENCE_BIRD_VERTEX_SHADER = `#version 300 es
+precision highp float;
+layout(location=0) in vec4 aBird;
+layout(location=1) in vec4 aWing;
+uniform vec2 uCover, uCenter;
+out vec2 vLocal;
+flat out vec2 vTile;
+flat out float vHalfSpan, vPhase;
+void main() {
+  const vec2 corners[6] = vec2[6](vec2(0,0),vec2(1,0),vec2(0,1),vec2(0,1),vec2(1,0),vec2(1,1));
+  vLocal = corners[gl_VertexID];
+  vec2 position = aBird.xy+(vLocal-.5)*aBird.zw;
+  gl_Position = vec4((position-uCenter)/uCover*2.0,0,1);
+  vHalfSpan = aWing.x; vPhase = aWing.y; vTile = aWing.zw;
+}`;
+
+export const REFERENCE_BIRD_FRAGMENT_SHADER = `#version 300 es
+precision highp float;
+in vec2 vLocal;
+flat in vec2 vTile;
+flat in float vHalfSpan, vPhase;
+uniform sampler2D uBirds;
+uniform vec2 uAtlasGrid, uTileSize;
+uniform float uTime, uMotion, uGustSpeed, uWindStrength;
+out vec4 fragColor;
+void main() {
+  // A narrow body strip is fixed. Only wing tips bend, with independent
+  // phases and the same slow cadence as the scene's wind gusts.
+  float wing = smoothstep(1.2/uTileSize.x,max(2.0/uTileSize.x,vHalfSpan),abs(vLocal.x-.5));
+  float amplitude = min(2.2,.9+uWindStrength*90.0);
+  float flap = sin(uTime*uGustSpeed+vPhase)*amplitude*uMotion;
+  vec2 source = vLocal-vec2(0,flap*wing/uTileSize.y);
+  if (any(lessThan(source,vec2(0))) || any(greaterThan(source,vec2(1)))) discard;
+  vec4 ink = texture(uBirds,(vTile+source)/uAtlasGrid);
+  if (ink.a < .003) discard;
+  fragColor = ink;
+}`;
+
 export const REFERENCE_FRAGMENT_SHADER = `#version 300 es
 precision highp float;
 in vec2 vUv;
@@ -69,17 +108,17 @@ void main() {
   float phase = field(p*vec2(10.0,16.0)).x*4.0;
   float gust = pow(.5+.5*sin(uTime*uGustSpeed-p.x*6.5+p.y*3.0),3.0);
   float sway = sin(uTime*uWindSpeed*(1.0-foreground*.2)-p.x*8.0+phase);
-  sway += .28*sin(uTime*2.6-p.x*16.0+phase);
+  sway += .28*sin(uTime*5.2-p.x*16.0+phase);
   float wind = (.4+sway*.55)*(.48+gust*.85)*uWindStrength;
   vec2 bend = vec2(wind,-abs(wind)*.2);
-  vec2 landOffset = bend*(flowers*(.6+foreground*1.15)+grass*.3);
+  vec2 landOffset = bend*(flowers*(.6+foreground*1.15)+grass*.9);
   landOffset += uPointer*uParallax*flowers;
   vec3 color = samplePlate(uv,landOffset*uMotion,person);
 
   if (clouds > .001 && uMotion > .5) {
     vec2 velocity = cloudVelocity(p);
     vec2 travel = vec2(velocity.x,-velocity.y)*uCloudDisplacement;
-    vec2 billow = (field(p*13.0+vec2(uTime*.08,-uTime*.035))-.5)*uCloudDisplacement*.08;
+    vec2 billow = (field(p*13.0+vec2(uTime*.16,-uTime*.07))-.5)*uCloudDisplacement*.08;
     // Two staggered advection phases keep the cloud texture moving in one
     // direction. Each reset happens at zero weight, so there is no snap back.
     float first = fract(uTime*uCloudSpeed), second = fract(first+.5);

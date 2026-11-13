@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { renderToString } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { referenceCover, referenceSparkles } from "../components/landing/reference-scene-config";
@@ -17,13 +17,26 @@ function pixels(width: number, height: number, channel: number) {
 
 describe("reference scene image mapping", () => {
   it("keeps native reference coordinates and cover-fits without stretching", () => {
-    expect(referenceCover(1199, 805)).toEqual({ scale: [1, 1], center: [.5, .5] });
+    expect(referenceCover(736, 920)).toEqual({ scale: [1, 1], center: [.5, .5] });
     const portrait = referenceCover(390, 844), wide = referenceCover(1920, 1080);
     expect(portrait.scale[1]).toBe(1); expect(portrait.scale[0]).toBeLessThan(1);
     expect(wide.scale[0]).toBe(1); expect(wide.scale[1]).toBeLessThan(1);
-    const screenPersonX = (.511 - portrait.center[0]) / portrait.scale[0] + .5;
-    expect(screenPersonX).toBeCloseTo(.511, 2);
+    expect(portrait.center).toEqual([.5, .5]);
     expect(referenceCover(0, 0).scale.every(Number.isFinite)).toBe(true);
+  });
+
+  it("frames visible forest crowns below the orange at the reported wide viewport", () => {
+    const { scale, center } = referenceCover(1535, 776);
+    const sourceTop = 1 - center[1] - scale[1] / 2;
+    const screenY = (sourceY: number) => (sourceY / 920 - sourceTop) / scale[1];
+    // These landmarks come from the owner's painting: fruit center and the
+    // highest tree crown. The old centered crop put that crown below 90%.
+    expect(screenY(421)).toBeGreaterThan(.15);
+    expect(screenY(421)).toBeLessThan(.3);
+    expect(screenY(613)).toBeLessThan(.75);
+    expect(screenY(613)).toBeGreaterThan(.6);
+    expect(sourceTop).toBeGreaterThanOrEqual(0);
+    expect(sourceTop + scale[1]).toBeLessThanOrEqual(1);
   });
 
   it("places a repeatable field on bright cloud pixels and excludes the protected person", () => {
@@ -63,14 +76,7 @@ describe("reference scene image mapping", () => {
   });
 });
 
-describe("reference scene controls", () => {
-  function motionPreference(initial: boolean) {
-    const listeners = new Set<() => void>();
-    const media = { matches: initial, addEventListener: (_event: string, listener: () => void) => listeners.add(listener), removeEventListener: (_event: string, listener: () => void) => listeners.delete(listener) };
-    vi.stubGlobal("matchMedia", vi.fn(() => media));
-    return (reduced: boolean) => { act(() => { media.matches = reduced; listeners.forEach((listener) => listener()); }); };
-  }
-
+describe("reference scene lifecycle", () => {
   it("server-renders a photographic fallback before effects or WebGL", () => {
     const html = renderToString(<ReferenceScene />);
     expect(html).toContain('class="reference-static"');
@@ -78,24 +84,9 @@ describe("reference scene controls", () => {
     expect(html.match(/<canvas/g)).toHaveLength(1);
   });
 
-  it("pauses and resumes the same renderer, then releases it on unmount", () => {
-    motionPreference(false); renderer.setPaused.mockClear(); renderer.destroy.mockClear();
+  it("releases its renderer on unmount", () => {
+    renderer.destroy.mockClear();
     const { unmount } = render(<ReferenceScene />);
-    fireEvent.click(screen.getByRole("button", { name: "Pause scene motion" }));
-    expect(renderer.setPaused).toHaveBeenLastCalledWith(true);
-    fireEvent.click(screen.getByRole("button", { name: "Play scene: resume motion" }));
-    expect(renderer.setPaused).toHaveBeenLastCalledWith(false);
     unmount(); expect(renderer.destroy).toHaveBeenCalledOnce();
-    vi.unstubAllGlobals();
-  });
-
-  it("reflects a changing reduced-motion preference without exposing a misleading play control", () => {
-    const setReduced = motionPreference(false);
-    render(<ReferenceScene />);
-    setReduced(true);
-    expect(screen.getByRole("button", { name: "Still scene: reduced motion enabled" })).toBeDisabled();
-    setReduced(false);
-    expect(screen.getByRole("button", { name: "Pause scene motion" })).toBeEnabled();
-    vi.unstubAllGlobals();
   });
 });

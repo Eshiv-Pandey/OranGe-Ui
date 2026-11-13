@@ -1,7 +1,7 @@
 @import "./artwork-customizer.css";
 .portfolio-demo { width:100%; min-width:0; max-width:none; grid-template-columns:minmax(0,1fr); }
 .portfolio-demo .artwork-customizer-preview { position:static; }
-.portfolio-demo .artwork-customizer-artwork { display:block; padding:0; width:100%; min-height:300px; background:var(--portfolio-demo-paper); }
+.portfolio-demo .artwork-customizer-artwork { display:block; padding:0; width:100%; min-height:300px; background:transparent; }
 /* Full-width scenes need their authored height inside the generic artwork preview. */
 .workspace-view:has(.portfolio-demo) { overflow:auto; }
 .workspace-view .portfolio-demo .artwork-customizer-artwork { display:block; flex:none; min-height:300px; }
@@ -9,10 +9,12 @@
 .portfolio-banner-container { position:relative; width:100%; min-width:0; }
 .portfolio-demo .portfolio-footer { margin-top:0; }
 .portfolio-social-demo { display:grid; place-items:center; min-height:320px; padding:24px; }
+.portfolio-social-demo nav { display:grid; grid-template-columns:repeat(5,minmax(64px,1fr)); gap:28px 20px; width:min(100%,520px); }
+@media (max-width:600px) { .portfolio-social-demo { padding:20px 8px; }.portfolio-social-demo nav { grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px 16px; } }
 .portfolio-demo-status { margin:12px 16px; color:var(--muted); font-size:12px; text-align:center; }
 .portfolio-combined-link { color:var(--ink); text-underline-offset:4px; font-size:13px; }
 .portfolio-composition { width:100%; min-width:0; --portfolio-page-frame:min(calc(100% - 4rem),1680px); }
-.portfolio-blueprint-content { padding:40px 16px; min-height:250px; display:flex; flex-direction:column; align-items:center; gap:20px; background:var(--portfolio-demo-paper); }
+.portfolio-blueprint-content { padding:40px 16px; min-height:250px; display:flex; flex-direction:column; align-items:center; gap:20px; background:var(--cream); }
 .portfolio-demo-wordmark { font-family:var(--font-display),monospace; font-size:36px; line-height:1.1; margin:0; color:var(--ink); }
 .portfolio-composition-caption { max-width:45ch; margin:0; color:var(--muted); font-size:13px; text-align:center; }
 .portfolio-standalone { min-height:100vh; padding:24px; background:var(--cream); }

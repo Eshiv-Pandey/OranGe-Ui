@@ -14,7 +14,6 @@ export const FILM_FONT_ASSETS = ["public/fonts/film/cormorant-garamond-italic-la
 export const PORTFOLIO_ASSETS = ["public/portfolio/truck-art.webp", "public/portfolio/NOTICE.md", "public/fonts/portfolio/doto.woff2", "public/fonts/portfolio/geist-mono.woff2", "public/fonts/portfolio/noto-devanagari.woff2", "public/fonts/portfolio/OFL-doto.txt", "public/fonts/portfolio/OFL-geist-mono.txt", "public/fonts/portfolio/OFL-noto-devanagari.txt"] as const;
 export const CREATIVE_AUDIO_ASSETS = ["public/audio/orangeui/sunroom.wav", "public/audio/orangeui/blue-hour.wav", "public/audio/orangeui/pocket-garden.wav", "public/audio/orangeui/LICENSE.txt", "public/audio/orangeui/CC0-1.0.txt"] as const;
 export const KEEPSAKE_PHOTO_ASSETS = ["summit.jpg", "road.jpg", "lake.jpg", "water.jpg", "forest.jpg", "mist.jpg", "coast.jpg", "city.jpg", "desert.jpg", "flowers.jpg", "ocean.jpg", "night.jpg", "NOTICE.md"].map((name) => `public/photos/keepsakes/${name}`);
-
 export const TESTIMONIAL_PHOTO_ASSETS = ["review-avery.jpg", "review-jamie.jpg", "review-riley.jpg", "review-morgan.jpg", "TESTIMONIAL_PHOTOS.md"].map(name => `public/photos/keepsakes/${name}`);
 
 function allowedSource(relative: string): boolean {
@@ -131,7 +130,7 @@ export async function collectComponentSource(component: ComponentDefinition, app
               ? await readFile(path.join(root, "public/portfolio", normalized.slice("public/portfolio/".length)))
             : normalized.startsWith("public/art/footer/")
                 ? await readFile(path.join(root, "public/art/footer", normalized.slice("public/art/footer/".length)))
-              : normalized.startsWith("public/art/sections/")
+            : normalized.startsWith("public/art/sections/")
                 ? await readFile(path.join(root, "public/art/sections", normalized.slice("public/art/sections/".length)))
             : normalized.startsWith("public/photos/keepsakes/")
                 ? await readFile(path.join(root, "public/photos/keepsakes", normalized.slice("public/photos/keepsakes/".length)))
@@ -169,7 +168,7 @@ export async function collectComponentSource(component: ComponentDefinition, app
   if (files["styles/landscape-footers.css"]) for (const asset of FILM_FONT_ASSETS) await include(asset);
   files["Example.tsx"] = strToU8(example);
   await include("LICENSE");
-  const attributedComponents = [files["components/ui/anime-fire-shader.ts"] && "Shader Anime Fire", files["components/ui/shader-canvas/clouds-field.ts"] && "Shader Sky"].filter(Boolean);
+  const attributedComponents = [files["components/ui/anime-fire-shader.ts"] && "Shader Anime Fire", files["components/ui/shader-canvas/clouds-field.ts"] && "Shader Sky", files["components/ui/github-graph.tsx"] && "Unlumen UI GitHub Graph", files["components/ui/shader-canvas/audio-orb.ts"] && "Live Orb"].filter(Boolean);
   if (attributedComponents.length) await include("THIRD_PARTY_NOTICES.md");
   const dependencies = [...external].sort();
   const devDependencies = external.has("three") ? ["@types/three"] : [];
@@ -209,7 +208,10 @@ Components assign unique SVG definition IDs automatically. If you insert several
     files["THIRD_PARTY_NOTICES.md"] ? `## Third-party attribution\n\nThis bundle includes ${attributedComponents.join(" and ")}. Keep THIRD_PARTY_NOTICES.md, including its attribution and complete MIT permission notice, with redistributed source.\n` : "",
   ].filter(Boolean).join("\n");
   files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n" + extraNotes);
-  if (component.notes?.length) files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n## Creative component\n\n" + (component.collection ? "This component retains its " + component.collection + " material. " : "Choose any of the five appearances. ") + "Theme follows live HTML dark/light classes, data-theme, then the system preference.\n\n" + (component.notes ?? []).join("\n\n") + "\n\nMerge the included public/ folder into your public assets, including audio/ for the original sample playlist and fonts/desi/ for display lettering. Retain all included license and credit files.\n");
+  if (files["components/ui/adaptive/types.ts"]) {
+    const propDocs = component.props.map(prop => `### ${prop.name}\n\nType: \`${prop.type}\`. Default: ${prop.defaultValue}.\n\n${prop.description}`).join("\n\n");
+    files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n## Adaptive component\n\n" + (component.notes ?? []).join("\n\n") + "\n\n## Typed props\n\n" + propDocs + "\n\nImport data types from ./components/ui/adaptive/types. Keep callback props inside a client component in Next.js. No API service is needed for the offline parser.\n");
+  } else if (component.notes?.length) files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n## Creative component\n\n" + (component.collection ? "This component retains its " + component.collection + " material. " : "Choose any of the five appearances. ") + "Theme follows live HTML dark/light classes, data-theme, then the system preference.\n\n" + (component.notes ?? []).join("\n\n") + "\n\nMerge the included public/ folder into your public assets, including audio/ for the original sample playlist and fonts/desi/ for display lettering. Retain all included license and credit files.\n");
   if (files["components/ui/keepsake-photos.ts"]) files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n## Demonstration photographs\n\nCopy public/photos/keepsakes/ into your public directory. The twelve small landscape images are demonstration content under the Unsplash license. Keep their NOTICE.md with redistributed samples. Supply your own photos/items for production content.\n");
   if (files["styles/portfolio.css"]) files["README.md"] = strToU8(Buffer.from(files["README.md"]).toString("utf8") + "\n## Portfolio assets\n\nCopy public/portfolio/ and public/fonts/portfolio/ into your app public directory. Keep the image credit and all OFL font notices. Registry installation embeds the images and fonts as data URLs. Avatar URLs remain configurable. The banner needs a positioned parent with the same explicit height. Full-bleed footer behavior is opt-in through fullBleed and --portfolio-page-inset. No Tailwind configuration is required.\n");
   return { files, dependencies, devDependencies };

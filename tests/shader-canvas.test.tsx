@@ -28,6 +28,16 @@ it("renders an SSR-safe gradient before a context is available and normalizes he
   expect(markup).toContain("data-renderer=\"fallback\""); expect(markup).toContain("linear-gradient"); expect(markup).toContain("role=\"img\"");
   expect(hexRgb("#0f8")).toEqual([0, 1, 136 / 255]); expect(sourceColors({ colors: ["#123"] })).toHaveLength(3);
 });
+it("uses an alpha channel only for explicitly transparent artwork", () => {
+  const opaque = harness();
+  const background = createShaderRenderer(opaque.canvas, () => ({}), vi.fn());
+  expect(opaque.canvas.getContext).toHaveBeenCalledWith("webgl2", expect.objectContaining({ alpha: false }));
+  background.destroy();
+  const transparent = harness();
+  const orb = createShaderRenderer(transparent.canvas, () => ({ transparent: true }), vi.fn());
+  expect(transparent.canvas.getContext).toHaveBeenCalledWith("webgl2", expect.objectContaining({ alpha: true, premultipliedAlpha: false }));
+  orb.destroy();
+});
 it("runs ordered passes through alternating targets, scales resolution, and releases every resource", () => {
   const h = harness(); let config: ShaderCanvasProps = { ...gameboyNoise, renderScale: .5 }; const ready = vi.fn();
   const renderer = createShaderRenderer(h.canvas, () => config, ready);

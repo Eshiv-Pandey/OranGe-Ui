@@ -32,7 +32,7 @@ export const SHADER_COMPONENTS: ComponentDefinition[] = [
       { name: "depth / choppiness", type: "number / number", defaultValue: "0.65 / 0.55", description: "Water depth and the sharpness of the surface ripples." },
       { name: "sparkle / sunAngle", type: "number / degrees", defaultValue: "0.8 / 35", description: "Strength of the small sun reflections and the light direction." },
       { name: "color / deepColor", type: "hex string / hex string", defaultValue: "#067b83 / #001d31", description: "Shallow turquoise and deep blue water colors." },
-      { name: "interaction", type: "ShaderInteraction", defaultValue: "All toggles false", description: "Optional pointer warp, touch/click ripples and scroll-linked flow, with adjustable radius and strength." },
+      { name: "interaction", type: "ShaderInteraction", defaultValue: "ripple: true", description: "Touch/click ripples are enabled by default. Set ripple: false to disable them. Optional pointer warp and scroll-linked flow retain adjustable radius and strength." },
       ...lifecycle,
     ],
     notes: ["Water is generated in a fragment shader from layered wave normals, light refraction and sun glints. It requires no image, video or network downloads.", "Uses the same WebGL2 lifecycle and reduced-motion behavior as ShaderCanvas. Set style={{ height: 640 }} for a taller surface."],

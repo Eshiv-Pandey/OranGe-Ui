@@ -84,7 +84,8 @@ export function helmetSvgBody(input: HelmetConfig, id: string, options: HelmetRe
   const opening = "M28 130C61 116 119 117 176 123L181 143C166 159 139 168 103 169L38 167L27 159L29 145Z";
   const visorPath = "M38 81C75 74 129 82 176 98C187 100 191 109 186 119C180 131 169 141 151 143C106 145 71 130 22 140C12 141 14 132 18 122Z";
   const pivotX = 178, pivotY = 111;
-  const visorTransform = options.portable && parts.visorOpen ? ` transform="rotate(68 ${pivotX} ${pivotY})"` : "";
+  // A side-view shield rolls back over the brow, staying attached at the temple.
+  const visorTransform = options.portable && parts.visorOpen ? ` transform="rotate(28 ${pivotX} ${pivotY})"` : "";
   const defs = `<defs><clipPath id="${ns}-shell"><path d="${shellPath}"/></clipPath><clipPath id="${ns}-opening"><path d="${opening}"/></clipPath><clipPath id="${ns}-visor-clip"><path d="${visorPath}"/></clipPath>
     <linearGradient id="${ns}-paint" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="${light}"/><stop offset=".14" stop-color="${shell}"/><stop offset=".78" stop-color="${shell}"/><stop offset="1" stop-color="${dark}"/></linearGradient>
     <linearGradient id="${ns}-chrome" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="${light}"/><stop offset=".3" stop-color="${shell}"/><stop offset=".46" stop-color="#f3f5ec"/><stop offset=".5" stop-color="${ink}"/><stop offset=".7" stop-color="${shell}"/><stop offset="1" stop-color="${light}"/></linearGradient>
@@ -100,8 +101,8 @@ export function helmetSvgBody(input: HelmetConfig, id: string, options: HelmetRe
   return `${defs}<g class="helmet-shell-layer"><path d="${shellPath}" fill="${finish}" stroke="${ink}" stroke-width="${line}" stroke-linejoin="round"/><g clip-path="url(#${ns}-shell)"><g class="helmet-stripe-layer">${stripes}</g>${shine}</g>
     <path d="${opening}" fill="${ink}" stroke="${ink}" stroke-width="4"/><g clip-path="url(#${ns}-opening)"><path d="M35 139Q106 122 167 134L151 165L101 173L39 172Z" fill="${shade("lining", "trim", "#060b14", .5)}"/><g class="helmet-interior-face"${options.portable && !parts.visorOpen ? ' opacity="0"' : ""}>${eye(69)}${eye(119)}<path d="M94 159Q107 166 121 158" stroke="${light}" stroke-opacity=".6" stroke-width="2" fill="none"/></g></g>
     <path d="M28 150L39 163Q113 174 164 153" stroke="${shade("lining-edge", "trim", "#f3eee5", .15)}" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <g class="helmet-visor-orbit"><g class="helmet-visor-lift"${visorTransform}><path d="${visorPath}" fill="url(#${ns}-visor)" stroke="${ink}" stroke-width="${line}" stroke-linejoin="round"/><g clip-path="url(#${ns}-visor-clip)"><path d="M55 73L69 77L43 143L28 145ZM91 78L108 85L86 139L68 136ZM124 84L132 87L113 142L104 140Z" fill="${light}" opacity="${parts.finish === "matte" ? .2 : .42}"/><path d="M33 90Q98 83 177 106" fill="none" stroke="${light}" stroke-width="2" opacity=".4"/></g><path d="M38 82Q102 76 171 97" fill="none" stroke="${ink}" stroke-width="6"/></g></g>
-    <circle cx="178" cy="111" r="13" fill="${ink}"/><circle cx="178" cy="111" r="8" fill="${shade("pivot", "trim", "#ffffff", .23)}"/><circle cx="176" cy="108" r="2.2" fill="${light}"/>
+    <g class="helmet-visor-orbit"><g class="helmet-visor-lift"${visorTransform}><path class="helmet-visor-pane" d="${visorPath}" fill="url(#${ns}-visor)" stroke="${ink}" stroke-width="${line}" stroke-linejoin="round"/><g clip-path="url(#${ns}-visor-clip)"><path d="M55 73L69 77L43 143L28 145ZM91 78L108 85L86 139L68 136ZM124 84L132 87L113 142L104 140Z" fill="${light}" opacity="${parts.finish === "matte" ? .2 : .42}"/><path d="M33 90Q98 83 177 106" fill="none" stroke="${light}" stroke-width="2" opacity=".4"/></g><path d="M38 82Q102 76 171 97" fill="none" stroke="${ink}" stroke-width="6"/></g></g>
+    <g class="helmet-pivot" data-side="visible"><circle cx="178" cy="111" r="13" fill="${ink}"/><circle cx="178" cy="111" r="8" fill="${shade("pivot", "trim", "#ffffff", .23)}"/><circle cx="176" cy="108" r="2.2" fill="${light}"/></g>
     ${vents}<g class="helmet-number-layer"><path d="M167 58L197 69L193 87L163 77Z" fill="${alternate}" stroke="${ink}" stroke-width="1.5"/><text x="180" y="75" transform="rotate(18 180 75)" fill="${ink}" text-anchor="middle" font-family="monospace" font-weight="900" font-size="10">${config.number}</text></g>
     <g transform="translate(183 166) rotate(-17)" fill="none" stroke="${light}" stroke-width="2"><circle r="7"/><path d="M-4 3L0 -4L4 3M-3 1H3"/></g><path d="M52 211Q114 230 186 205" fill="none" stroke="${ink}" stroke-width="4" stroke-linecap="round"/>
   </g>`;
@@ -110,7 +111,5 @@ export function helmetSvgBody(input: HelmetConfig, id: string, options: HelmetRe
 /** Portable, settled frame with explicit colors and no animation or external files. */
 export function helmetToSvgString(config: HelmetConfig, size = 256, options: Omit<HelmetRenderOptions, "portable"> & { id?: string } = {}): string {
   const pixels = artworkDimension(size, 256);
-  // The raised visor extends above the shell. Keep its settled export inside a square frame.
-  const viewBox = normalizeHelmetConfig(config).parts.visorOpen ? "-36 -72 312 312" : "0 0 240 240";
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" width="${pixels}" height="${pixels}" shape-rendering="${options.appearance === "pixel" ? "crispEdges" : "auto"}" role="img" aria-label="Original motorsport helmet">${helmetSvgBody(config, options.id ?? "helmet-export", { ...options, portable: true })}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="${pixels}" height="${pixels}" shape-rendering="${options.appearance === "pixel" ? "crispEdges" : "auto"}" role="img" aria-label="Original motorsport helmet">${helmetSvgBody(config, options.id ?? "helmet-export", { ...options, portable: true })}</svg>`;
 }

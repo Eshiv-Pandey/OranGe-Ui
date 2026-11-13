@@ -7,6 +7,6 @@ export type FlowingWaterProps = Omit<ShaderCanvasProps, "source" | "modules" | "
 };
 const WATER_MODULES = [water];
 /** Procedural flowing water, with no texture downloads or video assets. */
-export function FlowingWater({ speed = .55, scale = 1.8, depth = .65, sparkle = .8, choppiness = .55, sunAngle = 35, color = "#067b83", deepColor = "#001d31", label = "Sunlight sparkling on flowing teal water", ...props }: FlowingWaterProps) {
-  return <ShaderCanvas {...props} label={label} modules={WATER_MODULES} className={["flowing-water", props.className].filter(Boolean).join(" ")} source={{ type: "water", speed, scale, depth, sparkle, choppiness, sunAngle, color, deepColor, colors: [deepColor, color, "#23989f"] }} />;
+export function FlowingWater({ speed = .55, scale = 1.8, depth = .65, sparkle = .8, choppiness = .55, sunAngle = 35, color = "#067b83", deepColor = "#001d31", label = "Sunlight sparkling on flowing teal water", interaction, ...props }: FlowingWaterProps) {
+  return <ShaderCanvas {...props} interaction={{ ripple: true, ...interaction }} label={label} modules={WATER_MODULES} className={["flowing-water", props.className].filter(Boolean).join(" ")} source={{ type: "water", speed, scale, depth, sparkle, choppiness, sunAngle, color, deepColor, colors: [deepColor, color, "#23989f"] }} />;
 }

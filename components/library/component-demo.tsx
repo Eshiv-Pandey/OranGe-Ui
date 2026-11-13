@@ -3,6 +3,7 @@
 import { CreativeWorkbench } from "../ui/creative-editor-slot";
 import { lazy, Suspense, useState } from "react";
 import { PORTFOLIO_COMPONENT_SLUGS } from "../../lib/portfolio-components";
+import { ADAPTIVE_COMPONENT_SLUGS } from "../../lib/adaptive-components";
 import { CREATIVE_COMPONENT_SLUGS } from "../../lib/creative-components";
 import { REFERENCE_COMPONENT_SLUGS } from "../../lib/reference-components";
 import type { Appearance } from "../ui/appearance";
@@ -10,6 +11,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Select } from "../ui/select";
+import { CustomizerSelect } from "../ui/artwork-customizer";
 import { Checkbox } from "../ui/checkbox";
 import { RadioGroup } from "../ui/radio-group";
 import { Switch } from "../ui/switch";
@@ -67,6 +69,8 @@ import ReferenceTextDemo from "./reference-text-demo";
 
 const PortfolioDemos = lazy(() => import("./portfolio-demos"));
 const PaperCutDemo = lazy(() => import("./paper-cut-demo"));
+const GitHubGraphDemo = lazy(() => import("./github-graph-demo"));
+const AdaptiveDemos = lazy(() => import("./adaptive-demos"));
 const CreativeDemo = lazy(() => import("./creative-demos"));
 const ReferenceDemo = lazy(() => import("./reference-demos"));
 const ShaderCanvasDemo = lazy(() => import("./shader-canvas-demo"));
@@ -99,10 +103,11 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   const [validated, setValidated] = useState(false);
   const status = <p className="demo-feedback" role="status">{feedback || "Try it. Every example is interactive."}</p>;
   const action = <Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Ready for a fresh start." : "Project created in this preview."); }}>{saved ? "Start again" : "Create project"}</Button>;
-  if (slug === "paper-cut") return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing paper layers...</div>}><PaperCutDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
+  if (ADAPTIVE_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing card preview...</div>}><AdaptiveDemos slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if (slug === "sticker-social-icons") return <StickerSocialDemo appearance={appearance} thumbnail={thumbnail} />;
   if (slug === "sticker-pack") return <StickerPackDemo appearance={appearance} thumbnail={thumbnail} />;
   if (slug === "morphing-icons") return <MorphIconsDemo appearance={appearance} thumbnail={thumbnail} />;
+  if (slug === "paper-cut") return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing paper layers...</div>}><PaperCutDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if (PORTFOLIO_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing portfolio preview...</div>}><PortfolioDemos slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if (CREATIVE_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing preview...</div>}><CreativeDemo slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if (slug === "human-avatar") return <HumanAvatarDemo appearance={appearance} thumbnail={thumbnail} />;
@@ -114,6 +119,7 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   if (["neon-sign-404", "chai-break-404", "pavilion-footer"].includes(slug)) return <SceneDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   if ((AI_DEMO_SLUGS as readonly string[]).includes(slug)) return <AIDemo slug={slug} appearance={appearance} thumbnail={thumbnail} />;
   switch (slug) {
+    case "github-graph": return <Suspense fallback={<div className="creative-demo-loading">Loading graph...</div>}><GitHubGraphDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
     case "shader-canvas": return <Suspense fallback={<ShaderFallback />}><ShaderCanvasDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
     case "flowing-water": return <Suspense fallback={<ShaderFallback kind="water" />}><FlowingWaterDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
     case "flowing-grass": return <Suspense fallback={<ShaderFallback kind="grass" />}><FlowingGrassDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
@@ -179,9 +185,9 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
 function MascotDemo({ appearance }: { appearance: Appearance }) {
   const [mascot, setMascot] = useState<MascotKind>("dune-hopper");
   const [state, setState] = useState<MascotState>("idle");
-  return <div className="creative-surface creative-demo mascot-demo"><CreativeWorkbench preview={<MascotAvatar seed="studio-helper" mascot={mascot} state={state} size={300} appearance={appearance} aria-label={`Mascot preview, ${state}`} />}><div className="avatar-editor-selects">
-      <Select appearance={appearance} label="Character" value={mascot} onValueChange={(value) => setMascot(value as MascotKind)} options={MASCOT_OPTIONS.map(({ value, label }) => ({ value, label }))} />
-      <Select appearance={appearance} label="Chat state" value={state} onValueChange={(value) => setState(value as MascotState)} options={["idle", "thinking", "talking", "error"].map((value) => ({ value, label: value[0].toUpperCase() + value.slice(1) }))} />
+  return <div className="creative-surface creative-demo mascot-demo"><CreativeWorkbench preview={<MascotAvatar seed="studio-helper" mascot={mascot} state={state} size={300} appearance={appearance} aria-label={`Mascot preview, ${state}`} />}><div className="mascot-demo-fields">
+      <CustomizerSelect label="Character" value={mascot} onChange={(value) => setMascot(value as MascotKind)} options={MASCOT_OPTIONS.map(({ value, label }) => ({ value, label }))} />
+      <CustomizerSelect label="Chat state" value={state} onChange={(value) => setState(value as MascotState)} options={["idle", "thinking", "talking", "error"].map((value) => ({ value, label: value[0].toUpperCase() + value.slice(1) }))} />
     </div>
     <p className="demo-feedback">Move your pointer, then click the character to say hello.</p></CreativeWorkbench>
   </div>;

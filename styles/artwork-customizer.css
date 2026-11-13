@@ -7,6 +7,10 @@
 .artwork-customizer-artwork > svg { height: auto; }
 .artwork-customizer-caption { margin-top: 16px; color: var(--muted); font-size: 12px; text-align: center; }
 .artwork-customizer-settings { min-width: 0; }
+.artwork-customizer-primary-actions { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin: 16px 0; }
+.artwork-customizer-primary-actions .pixel-button { min-height: 40px; font-size: 12px; padding: 8px 12px; }
+.customizer-part-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.customizer-seed summary { font-size: 12px; cursor: pointer; padding: 10px 0; }
 .customizer-field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .artwork-customizer-heading h3 { margin: 0; color: var(--ink); font-size: 23px; line-height: 1.2; letter-spacing: -.03em; }
 .artwork-customizer-heading p { margin: 8px 0 0; color: var(--muted); font-size: 13px; }

@@ -13,6 +13,7 @@ async function harness(width = 1199, height = 805) {
     getUniformLocation: (_program: unknown, name: string) => name,
     uniform1f: (name: string, value: number) => uniforms.set(name, value),
     deleteTexture: vi.fn(), deleteProgram: vi.fn(), drawArrays: vi.fn(),
+    drawArraysInstanced: vi.fn(),
   }, { get(target, key) { return key in target ? target[key as keyof typeof target] : /^[A-Z_0-9]+$/.test(String(key)) ? 0 : () => {}; } });
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(((kind: string) => kind === "webgl2" ? gl : null) as typeof HTMLCanvasElement.prototype.getContext);
   const canvas = document.createElement("canvas");
@@ -64,7 +65,19 @@ it("freezes the scene on pause and visibility loss, then resumes without catchin
     h.media.matches = false; h.media.dispatchEvent(new Event("change")); h.frame(100_000);
     expect(h.uniforms.get("uTime")).toBeCloseTo(.2);
   } finally { h.renderer.destroy(); }
-  expect(h.queue.size).toBe(0); expect(h.gl.deleteTexture).toHaveBeenCalledTimes(6);
+  expect(h.queue.size).toBe(0); expect(h.gl.deleteTexture).toHaveBeenCalledTimes(7);
+});
+
+it("draws the whole flock in one batch on the existing scene frame loop", async () => {
+  const h = await harness();
+  try {
+    h.gl.drawArraysInstanced.mockClear();
+    h.frame(0);
+    expect(h.gl.drawArraysInstanced).toHaveBeenCalledOnce();
+    expect(h.gl.drawArraysInstanced.mock.calls[0].slice(1)).toEqual([0, 6, 13]);
+    expect(h.queue.size).toBe(1);
+    expect(h.uniforms.get("uGustSpeed")).toBe(REFERENCE_SCENE_CONFIG.gustSpeed);
+  } finally { h.renderer.destroy(); }
 });
 
 it("caps large high-DPR buffers and restores the same scene after context loss", async () => {

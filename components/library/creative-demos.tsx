@@ -27,13 +27,11 @@ import { creativeFileData } from "../ui/creative-export";
 import { BOTANICAL_GARDEN } from "../ui/botanical-art";
 import { CreativeWorkbench } from "../ui/creative-editor-slot";
 import { PaletteShelf } from "./palette-shelf";
+import { EditorColor as Color } from "../ui/editor-controls";
 import "../../styles/creative-demos.css";
 
 function Range({ label, value, onChange, min = 0, max = 1, step = 0.05 }: { label: string; value: number; onChange: (value: number) => void; min?: number; max?: number; step?: number }) {
   return <label className="creative-range"><span>{label}<output>{Number(value.toFixed(2))}</output></span><input aria-label={label} type="range" min={min} max={max} step={step} value={value} onChange={(event) => onChange(Number(event.target.value))} /></label>;
-}
-function Color({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
-  return <label className="creative-color"><span>{label}</span><span><input type="color" aria-label={label} value={value} onChange={(event) => onChange(event.target.value)} /><code>{value}</code></span></label>;
 }
 function Check({ label, value, onChange }: { label: string; value: boolean; onChange: (value: boolean) => void }) {
   return <label className="creative-check"><input type="checkbox" checked={value} onChange={(event) => onChange(event.target.checked)} />{label}</label>;
@@ -54,7 +52,7 @@ function RetroDemo() {
 }
 function CameraDemo() {
   const [body, setBody] = useState("#a7cf59"), [mirror, setMirror] = useState(true), [volume, setVolume] = useState(0.35), [brand, setBrand] = useState("ORANGE"), [both, setBoth] = useState(true);
-  return <Panel preview={<RetroCamera layout={both ? "stacked" : "flip"} size={308} bodyColor={body} mirror={mirror} brandText={brand} volume={volume} />}><Check label="Show both sides" value={both} onChange={setBoth} /><Color label="Body color" value={body} onChange={setBody} /><label>Brand text<input value={brand} onChange={(event) => setBrand(event.target.value)} /></label><Check label="Mirror front camera" value={mirror} onChange={setMirror} /><Range label="Shutter volume" value={volume} onChange={setVolume} /></Panel>;
+  return <Panel preview={<RetroCamera layout={both ? "stacked" : "flip"} size="440px" bodyColor={body} mirror={mirror} brandText={brand} volume={volume} />}><Check label="Show both sides" value={both} onChange={setBoth} /><Color label="Body color" value={body} onChange={setBody} /><label>Brand text<input value={brand} onChange={(event) => setBrand(event.target.value)} /></label><Check label="Mirror front camera" value={mirror} onChange={setMirror} /><Range label="Shutter volume" value={volume} onChange={setVolume} /></Panel>;
 }
 function KeychainDemo() {
   const [count, setCount] = useState(5), [gravity, setGravity] = useState(850), [damping, setDamping] = useState(0.96), [chain, setChain] = useState(6), [volume, setVolume] = useState(0.35), [user, setUser] = useState<KeychainCharm | null>(null);
@@ -120,9 +118,10 @@ function FrostDemo() {
 }
 const PHOTO_PLAYLIST = CREATIVE_PLAYLIST.map((track, index) => ({ ...track, cover: KEEPSAKE_PHOTOS[[4, 7, 6][index % 3]].src }));
 function OrbDemo({ appearance }: { appearance: Appearance }) {
-  const [speed, setSpeed] = useState(.6), [paused, setPaused] = useState(false), [palette, setPalette] = useState("Lagoon"), [sensitivity, setSensitivity] = useState(1.6);
-  const palettes: Record<string, string[]> = { Lagoon: ["#13f4da", "#1d8bff", "#ef41ff", "#ffe866"], Ember: ["#ffda24", "#ff641e", "#a444ff", "#ff498e"], Iris: ["#a37bff", "#386aff", "#42ffb2", "#ff64dc"] };
-  return <Panel preview={<div className="audio-orb-demo"><AudioOrb appearance={appearance} colors={palettes[palette]} speed={speed} sensitivity={sensitivity} paused={paused} tracks={CREATIVE_PLAYLIST} showControls /></div>}><Select label="Orb palette" value={palette} options={Object.keys(palettes)} onChange={setPalette} /><Range label="Audio sensitivity" value={sensitivity} onChange={setSensitivity} min={.25} max={4} step={.05} /><Range label="Flow speed" value={speed} onChange={setSpeed} min={0} max={2} step={.1} /><Check label="Pause orb animation" value={paused} onChange={setPaused} /></Panel>;
+  const [speed, setSpeed] = useState(.6), [paused, setPaused] = useState(false), [palette, setPalette] = useState("Coral tide"), [sensitivity, setSensitivity] = useState(1.6);
+  const [showEyes, setShowEyes] = useState(true), [eyeColor, setEyeColor] = useState("#1d2328"), [interactive, setInteractive] = useState(true), [blink, setBlink] = useState(true);
+  const palettes: Record<string, string[]> = { "Coral tide": ["#f58b6b", "#74d7bb", "#8094e8"], Lagoon: ["#13f4da", "#1d8bff", "#ef41ff", "#ffe866"], Ember: ["#ffda24", "#ff641e", "#a444ff", "#ff498e"], Iris: ["#a37bff", "#386aff", "#42ffb2", "#ff64dc"] };
+  return <Panel preview={<div className="audio-orb-demo"><AudioOrb appearance={appearance} colors={palettes[palette]} speed={speed} sensitivity={sensitivity} paused={paused} eyeColor={eyeColor} showEyes={showEyes} interactive={interactive} blink={blink} tracks={CREATIVE_PLAYLIST} showControls /></div>}><Select label="Orb palette" value={palette} options={Object.keys(palettes)} onChange={setPalette} /><Range label="Audio sensitivity" value={sensitivity} onChange={setSensitivity} min={.25} max={4} step={.05} /><Range label="Flow speed" value={speed} onChange={setSpeed} min={0} max={2} step={.1} /><Color label="Eye color" value={eyeColor} onChange={setEyeColor} /><Check label="Show eyes" value={showEyes} onChange={setShowEyes} /><Check label="Follow pointer" value={interactive} onChange={setInteractive} /><Check label="Blink" value={blink} onChange={setBlink} /><Check label="Pause orb animation" value={paused} onChange={setPaused} /></Panel>;
 }
 function ReferencePlayerDemo({ kind, appearance }: { kind: "vinyl" | "wave"; appearance: Appearance }) {
   const [volume, setVolume] = useState(.65), [muted, setMuted] = useState(false);

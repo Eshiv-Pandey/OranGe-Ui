@@ -1,10 +1,15 @@
 @import "./interaction-foundation.css";
-.halo-button { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 52px; max-width: 100%; padding: 2px; border: 0; border-radius: 999px; background: color-mix(in srgb, var(--creative-ink) 15%, var(--creative-paper)); color: var(--creative-ink); cursor: pointer; overflow: hidden; isolation: isolate; }
-.halo-ring { position: absolute; inset: -250%; z-index: -1; background: conic-gradient(from 0deg, transparent 0 56%, var(--halo-color) 74%, #fff7d5 81%, var(--halo-color) 88%, transparent 100%); transform: rotate(var(--halo-angle, 0rad)); transition: transform .25s var(--ix-ease), opacity .2s; animation: halo-orbit 5s linear infinite; }
-.halo-button:not(:hover):not(:focus-visible) .halo-ring { opacity: .55; animation-play-state: paused; }
-.halo-content { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 48px; padding: 12px 25px; border-radius: inherit; background: var(--creative-paper); font-weight: 550; }
+.creative-surface.halo-button { --creative-paper: #fcfcfc; position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 54px; max-width: 100%; padding: 3px; border: 0; border-radius: 999px; background: color-mix(in srgb, var(--halo-color) 24%, var(--creative-paper)); color: var(--creative-ink); cursor: pointer; overflow: hidden; isolation: isolate; }
+.creative-surface.halo-button[data-theme="dark"] { --creative-paper: #111111; }
+.halo-ring { position: absolute; inset: 0; z-index: 0; border-radius: inherit; overflow: hidden; opacity: .8; pointer-events: none; transition: opacity .2s; }
+.halo-ring::before { content: ""; position: absolute; left: 50%; top: 50%; width: calc(150% + 64px); aspect-ratio: 1; background: conic-gradient(from calc(var(--halo-angle, 0rad) + 90deg), #fff7d5 0deg, var(--halo-color) 30deg, transparent 75deg 285deg, var(--halo-color) 330deg, #fff7d5 360deg); transform: translate(-50%, -50%); animation: halo-orbit 6s linear infinite; }
+.halo-button:is(:hover, :focus-visible) .halo-ring { opacity: 1; }
+.halo-button:is(:hover, :focus-visible) .halo-ring::before { animation: none; }
+.halo-content { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-width: 0; min-height: 48px; padding: 12px 25px; border-radius: inherit; background: var(--creative-paper); font-weight: 550; overflow-wrap: anywhere; }
 .halo-button:active:not(:disabled) .halo-content { background: color-mix(in srgb, var(--halo-color) 9%, var(--creative-paper)); }
-.halo-button:disabled .halo-ring { animation: none; opacity: .2; }
+.halo-button:disabled .halo-ring { opacity: .3; }
+.halo-button:disabled .halo-ring::before { animation: none; }
+.halo-button:focus-visible { outline: 3px solid var(--creative-ink); outline-offset: 4px; }
 .halo-button[data-appearance="pixel"], .halo-button[data-appearance="terminal"], .halo-button[data-appearance="retro-os"] { border-radius: var(--ix-radius); }
 .halo-button[data-appearance="neobrutalism"] { border-radius: 6px; box-shadow: 4px 4px 0 var(--creative-ink); }
 .halo-spinner { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: halo-orbit .7s linear infinite; }
@@ -27,7 +32,7 @@
 .morph-input { width: 100%; max-width: 440px; }
 .morph-input-label { display: block; margin-bottom: 20px; text-align: center; font-size: 15px; font-weight: 500; }
 .morph-defs { position: absolute; pointer-events: none; }
-.morph-input-form { position: relative; display: flex; align-items: center; height: 58px; width: 58px; margin-inline: auto; isolation: isolate; transition: width .65s cubic-bezier(.2, 1.45, .4, 1); }
+.morph-input-form { position: relative; display: flex; align-items: center; height: 58px; width: 58px; margin-inline: auto; border-radius: 29px; isolation: isolate; transition: width .65s cubic-bezier(.2, 1.45, .4, 1); }
 .morph-input[data-open="true"] .morph-input-form { width: 100%; }
 .morph-input-fluid { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
 .morph-input-fluid i { position: absolute; top: 0; bottom: 0; left: 0; width: 58px; border-radius: 50%; background: var(--creative-ink); }
@@ -36,6 +41,9 @@
 .morph-input-trigger { flex: none; display: grid; place-items: center; width: 58px; height: 58px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--creative-paper); cursor: pointer; }
 .morph-input-field { display: flex; align-items: center; min-width: 0; flex: 1; padding-right: 7px; animation: morph-field-in .4s var(--ix-ease) both; }
 .morph-input .morph-input-field input { width: 100%; min-width: 0; height: 44px; padding: 0 6px; border: 0; outline-offset: 0; background: transparent; color: var(--creative-paper); caret-color: var(--creative-paper); font-size: 14px; }
+.morph-input .morph-input-field input:focus, .morph-input .morph-input-field input:focus-visible { outline: none; box-shadow: none; }
+.morph-input-form:has(:focus-visible) { outline: 2px solid var(--primary-text, var(--ix-accent)); outline-offset: 5px; }
+.morph-input .morph-input-field input::-webkit-search-cancel-button { appearance: none; }
 .morph-input-field input::placeholder { color: color-mix(in srgb, var(--creative-paper) 80%, transparent); }
 .morph-input-field button { display: grid; place-items: center; flex: none; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 50%; background: var(--creative-paper); color: var(--creative-ink); cursor: pointer; }
 @keyframes halo-orbit { to { rotate: 360deg; } }

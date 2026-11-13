@@ -226,7 +226,7 @@ components:
 
 oRangeUi pairs expressive component artwork with a precise, neutral workspace. The orange pixel character, Geist interface type, restrained borders and clearly differentiated component appearances form the shared identity. The working example gets visual priority; navigation and editing controls remain legible around it.
 
-The landscape is a scoped expression of that identity: a photographic plate, indigo-blue sky, lavender terrain, peach-lit mist and small teal sparkles. Quiet white lettering and translucent controls preserve the image's depth. This treatment belongs to the landscape landing and its related pricing surface; the component library keeps its established light and dark workspace palettes.
+The landing is a scoped expression of that identity: the owner's forest painting, a photographed orange with a photographic citrus leaf replacing its red sun, layered clouds, rooted trees and original painted birds with slow wingbeats in place. Quiet white lettering and the retained glass navigation sit over the artwork. Its warm sky and dark forest remain scene materials; the component library keeps its established light and dark workspace palettes, and pricing retains its existing scenic interface treatment.
 
 Component appearances are independent of palette. Polished, Pixelated, Neobrutalism, Retro OS and Terminal retain their own geometry, typography and depth. The landing and playground composition contracts live in their respective .impeccable/surfaces briefs.
 
@@ -234,7 +234,7 @@ Component appearances are independent of palette. Polished, Pixelated, Neobrutal
 
 - Orange pixel branding alongside readable interface typography.
 - Neutral light and dark workspaces with a separate appearance choice.
-- Photographic landscape material with visible wind, flowing mist and independent twinkles.
+- Reference-led component artwork, with localized tree and cloud motion and anchored bird wingbeats in the forest landing.
 - Visible field boundaries, exact editable values and a persistent live preview.
 - Distinct depth and shape language for all five component appearances.
 
@@ -257,7 +257,7 @@ The shared palette places warm orange against near-neutral paper, charcoal and b
 - **Cream, surface and soft surface:** page, panel and inset layers in each palette. The historical `cream` token is neutral paper in light mode and black in dark mode.
 - **Ink, muted and line:** primary content, secondary content and visible boundaries. Keep each palette's values paired.
 - **Focus:** a neutral keyboard outline in each palette, independent of the selected accent. Components with their own material may inherit their readable foreground for focus.
-- **Reference white, soft, rule, ground and sky:** the landscape's text, divider and backdrop roles. Its glass colors retain the source CSS alpha values rather than becoming opaque surface colors.
+- **Reference white, soft, rule, ground and sky:** scoped reference text, boundary and backdrop roles. The current landing has no divider; the retained token values remain unchanged. Its glass colors retain the source CSS alpha values rather than becoming opaque surface colors.
 
 The portfolio exports preserve the source palette in `styles/portfolio-tokens.css`, under their own `--portfolio-*` variables. Marigold, indigo, teal, rose, maroon and cream keep their source light and dark pairs. The footer retains its terracotta frame, printed card, ink, rules and monument colors. Its light-mode muted copy has a component-only accessibility override (`--portfolio-fx-muted: #5b3e35`) for readable small links and contact text over the animated card. The source token file remains unchanged. These are component artwork materials and a scoped readability correction; they do not replace or extend the shared workspace palette.
 
@@ -293,11 +293,13 @@ The shared spacing scale advances in eight-pixel steps, with a smaller workspace
 
 The component workspace uses a fixed navigation rail (240px, or 64px collapsed), a flexible preview stage and a right inspector (344px). At desktop widths up to 1200px the inspector narrows (300px). The stage and inspector use separate bounded surfaces with a shared gap; desktop workspace height follows the viewport (`calc(100dvh - 24px)`, minimum 520px). Controls, artwork and code reserve bottom space for the floating dock.
 
+The inspector pairs related controls in two columns while full-width groups and disclosures retain their space. Artwork Randomize and Reset actions appear before the option tabs. Canvas settings follow the actual component controls in a disclosure. Color labels sit above the swatch and editable hex value, keeping even Metal tint clear in a narrow column. The install command is one visually truncated line; copy and the accessible text retain the complete command. These are scoped workspace layout refinements, with the shared color, typography and elevation tokens unchanged.
+
 At widths up to 800px, the stage sits above the inspector and the navigation moves to its mobile controls. The stage has a minimum height (340px), the workbench follows the compact viewport, and the inspector body remains bounded (maximum 420px). Keep all three dock labels and the documentation link in one row.
 
 FrostedGlass owns the container that reflows its optional side actions below the pane. This layout travels with the installed component and responds to the space available inside an embed, independently of the library workspace.
 
-The landscape follows its own reference composition: central figure and river, top-center navigation, lower-left title, right-side action and lower divider/copy. At widths up to 700px, the text and action stack below the focal image area. Preserve that responsive relationship without imposing its composition on library pages. See [the landing surface brief](.impeccable/surfaces/app-page-tsx.md) and [the playground surface brief](.impeccable/surfaces/components-library-component-detail-tsx.md).
+The landscape follows the owner's forest painting with a proportional cover crop that keeps tree crowns visible on wide screens. CSS and WebGL share the same source crop, while portrait views retain the full image height. A real photographed orange with its photographic citrus leaf occupies the former red sun's position, with the original birds in front at fixed body positions. Top-center navigation and the lower-left orange UI title keep the exact tagline "Components with a little more warmth." At widths up to 700px, the heading and tagline retain their stack below the focal image area. The landing has no separate Get Started action, divider, bottom copy, footer or visible pause control. Preserve the retained responsive geometry without imposing its composition on library pages. See [the landing surface brief](.impeccable/surfaces/app-page-tsx.md) and [the playground surface brief](.impeccable/surfaces/components-library-component-detail-tsx.md).
 
 PortfolioBanner is absolute within a positioned parent that reserves the same height. The source component default is 22vh; the homepage composition at `/portfolio` uses 26vh. PortfolioFooter follows its host width, with explicit host inset configuration for optional full bleed. Container queries provide two link columns by default, three at a footer width of 680px, and a fourth contact column at 1240px. Below 1240px, Connect With Me spans the row with centered contact content and wrapped social stickers. Tiles are 44px on phones and 48px from 640px. The monument band keeps a minimum height (64px) so the mobile truck fits its scene.
 
@@ -309,9 +311,9 @@ Portfolio demos preserve full scene widths and authored heights inside the artwo
 
 Depth is material-specific. Polished controls and standard cards use subtle ambient shadows. Pixelated and Neobrutalism use solid offset shadows. Retro OS uses opposing light and dark bevels. Terminal uses fine lines and flat surfaces. The workspace stage and inspector rely on tone and borders rather than ornamental shadow.
 
-The landscape's image carries its depth. Navigation and its main action use a restrained blur (16px); the playground dock uses a stronger blur with saturation (24px, 1.55). GlassPlayer and FrostedGlass retain their own translucent component materials. The sidecar records the exact shadow and motion vocabulary, which the frontmatter schema cannot represent.
+The landscape's painted image carries its depth. A feathered shade stays local to the tagline, supporting its existing color, typography and position while leaving the exposed forest intact. Its navigation and the related pricing surface's action use a restrained blur (16px); the playground dock uses a stronger blur with saturation (24px, 1.55). GlassPlayer and FrostedGlass retain their own translucent component materials. The sidecar records the exact shadow and motion vocabulary, which the frontmatter schema cannot represent.
 
-Transitions provide brief state feedback. Pixelated and Retro OS/Terminal retain their stepped timing where authored. Reduced-motion rules remove decorative CSS animation and transitions, and canvas components retain their static presentation. Landscape movement remains localized to flowers, grass, mist and small sparkles; the fixed person is protected.
+Transitions provide brief state feedback. Pixelated and Retro OS/Terminal retain their stepped timing where authored. Reduced-motion rules remove decorative CSS animation and transitions, and canvas components retain their static presentation. Forest landing movement remains localized to clouds, tree crowns and the original birds' outer wings. The photographed orange and leaf remain protected, rooted trunks stay anchored, and each bird retains its center and fixed body strip. Reduced motion restores the birds' original wing pose.
 
 **The Scoped Glass Rule.** Use glass on the landscape navigation and action, the playground dock, and components whose own material is glass. Keep the inspector's field boundaries and neutral surfaces intact.
 
@@ -357,7 +359,7 @@ Alerts use outlined SVG status symbols beside the title and message; the polishe
 
 ### Navigation and playground dock
 
-Library navigation keeps brand and search stationary while the component list scrolls. The active entry uses readable text and a visible neutral boundary. The landing navigation retains its compact five-item arrangement with the orange logo at the center.
+Library navigation keeps brand and search stationary while the component list scrolls. A shared category map groups components by purpose for navigation, search and the catalogue. Entries follow that category order and alphabetize within each group using an explicit English locale, keeping adjacent-component navigation deterministic. The active entry uses readable text and a visible neutral boundary. The landing and pricing navigation retain their compact five-item arrangement with the orange logo at the center. The existing reference navigation styles and tokens serve both surfaces; the reference action styles and tokens remain in use on pricing.
 
 The playground dock contains Preview, Usage and Source, followed by the documentation link. Its shorter frame preserves a minimum height (44px) and compact tab targets (34px). Selected tabs invert ink and surface; unselected tabs use ink with clear hover and focus feedback. Keep the implemented arrow-key, Home and End behavior. A component entry starts in Preview, while explicit documentation navigation remains reachable.
 
@@ -369,7 +371,7 @@ The public gradient editor is GrainGradient. ShaderCanvas remains an installable
 
 ### Landscape and nature surfaces
 
-Use the existing cleaned photographic plate and masks for the landscape, preserving the recognizable river, fixed central figure, restrained type and orange logo. Make wind, directional mist and staggered twinkles visible within the first few seconds while keeping movement localized. Navigation, copy and the pause control remain HTML. The previous landing remains a separate visual surface at `/classic`.
+Use the mounted forest painting and its registered masks for the landscape. Keep the photographed orange and its photographic citrus leaf still while clouds advect within the sky and tree crowns sway above rooted trunks. The thirteen original painted birds retain their positions and fixed body strips; only their outer wings bend, with a slow rhythm tied to the existing wind gusts and individual phase offsets. Their extracted ink atlas uses one instanced draw on the existing scene clock, while the static painting retains the original birds for the CSS fallback. The optional flower channel and sparkle particles are disabled for this scene. The existing double-speed weather remains; the scene's color and motion values are local rendering choices. Navigation, the orange UI heading and the exact tagline remain HTML. The landing has no visible pause control; the renderer responds automatically to reduced motion and visibility, restores zero wing offset for reduced motion, and keeps the composited painting available as a static fallback. A skip link becomes visible on keyboard focus. `/classic` preserves the earlier library landing. [LANDING_SCENE.md](LANDING_SCENE.md) and [asset provenance](public/landing/README.md) record the runtime, original bird pigments, public-domain orange photograph and CC0 leaf photograph.
 
 SeasonTree uses layered foliage and a continuous, tapered branching form on a transparent canvas, so the chosen preview surface remains visible around the artwork. FlowingGrass uses fine, overlapping rooted blades, sunlight, optional flowers, directional wind and local interaction. DriftingClouds uses bounded cloud volume with lit edges and interior shadow. Their material, color controls and appearance APIs belong to the component examples, while the inspector remains consistent. Keep static presentation and motion preferences part of the component contract.
 
@@ -377,7 +379,9 @@ SeasonTree uses layered foliage and a continuous, tapered branching form on a tr
 
 Emberling's Fire, Water and Aqua variants follow the owner's character references with original vector artwork, expressive faces and strongly changing head contours. The bodies stay planted while the head's flame or water silhouette flows. Its two resting arms use matching mirrored geometry; hover or click briefly raises and waves one arm, and leaving the character restores the resting pose. Waving is interaction-only and respects disabled animation and reduced motion. Fluid orb mode uses a moving pigment wash under the same face. HumanAvatar uses bold head-only silhouettes, cutout ink eyes and restrained accent color, with a visible randomize action. These artwork palettes belong to the components and do not become workspace colors.
 
-Helmet and MiniDriver retain a fixed side hinge at artwork coordinates (178, 111). The visor opens through 68 degrees around that hinge, preserving its attached construction. Open-state Helmet SVG export uses a square frame with extra headroom (`-36 -72 312 312`) so the raised visor is included; the closed frame remains `0 0 240 240`. The hinge, opening angle and export framing are component geometry, not shared shape tokens.
+CharacterAvatar uses a smooth three-quarter face contour without a protruding point. Female, male and neutral options sit alongside none, stubble, beard and mustache facial hair, with the existing hair, glasses, outfit and face controls. The new `gender` and `facialHair` fields remain optional in public version 1 configurations; normalization supplies required fields and defaults legacy data to female and none. The same settled artwork supplies portable exports. These choices belong to the portrait rather than the shared shape system.
+
+Helmet and MiniDriver use a curved frontal shield attached at both fixed temple mounts, at artwork coordinates (35, 111) and (205, 111). Its projected contour rises between those points while the mounts stay in place; the pane and clip shape move together. Both settled visor positions fit the portable SVG frame (`0 0 240 240`). Visor state, keyboard activation, visibility and reduced-motion behavior remain available. This bilateral construction is component geometry, not a shared shape token.
 
 The workspace supplies the complete available preview area. BloomTrail, DraggableCards, BubbleWrap, PhotoGarland and LiquidMetal extend across that area, while individual controls and portraits retain useful proportions. Component actions sit above the shared view dock. Mobile previews start at the top of their stage without inherited sticky offsets.
 
@@ -387,7 +391,7 @@ PhotoGarland places up to 18 photos on separated, responsive rows with sagging w
 
 FloatingDock has monochrome, icon-only shortcut slots with labels revealed on hover or focus. Damped springs enlarge the layout slots as well as their icons, preserving separation. This component is distinct from the shared glass playground view dock.
 
-LiquidMetal is a ray-marched sculpture of broad, flowing chrome loops with open centers, smooth contours and high-contrast studio reflections. The ring forms flow and blend where they meet while keeping their hollow centers visible. Its framing adapts to the stage's aspect ratio. Finish, tint, fusion, roughness, sheen, speed, pointer lighting and pause remain controllable, with the existing parameter API preserved. Its renderer caps the backing image at 240,000 pixels and motion at 24 frames per second; these are effect budgets, not shared design tokens.
+LiquidMetal uses original analytic twisted ribbons with beveled edges and reflected studio light, following the owner's supplied shader-metal reference. Three ribbons and subtle iridescent sheen (0.15) are the component and demo defaults. Finish, tint, ribbon count, twist, roughness, sheen, speed, pointer lighting and pause remain controllable through the existing parameter API. Aspect-aware projection preserves the ribbons across stage sizes. Its renderer caps the backing image at 360,000 pixels and motion at 30 frames per second; these are effect budgets, not shared design tokens.
 
 ### Portfolio source components
 
@@ -401,7 +405,7 @@ StickerSocialIcons retains the original physical sticker silhouettes, local mate
 
 ### Audio orb and players
 
-AudioOrb is a shiny crystal sphere with bright cyan (#13f4da), blue (#1d8bff), magenta (#ef41ff) and yellow (#ffe866) internal color, a bright specular highlight and a luminous rim. These are editable component colors, not workspace palette roles. Real audio energy supplied through `getAnalyser` or `audioLevel` drives visible pulse, edge ripples and gradient displacement. Typed `sensitivity` accepts 0.25 to 4, defaults to 1.6 and is editable in the demo. Optional `tracks` and `showControls` connect Play music to the shared playback engine and Listen to local microphone analysis. Microphone activation requires a user gesture, reports denied permission and stops its media tracks on stop, hide and unmount. Offscreen and hidden-tab motion pauses, reduced motion retains a still, and unavailable WebGL retains a styled fallback.
+AudioOrb adapts the MIT Live Orb color wash to coral (#f58b6b), mint (#74d7bb) and blue (#8094e8), with smaller capsule eyes drawn into the WebGL surface. A transparent canvas surrounds its single antialiased silhouette without a separate rim or circular border band. Typed `showEyes`, `eyeColor`, `interactive` and `blink` props retain gaze and natural blinking. These are editable component colors and behaviors, not workspace palette roles. Real audio energy supplied through `getAnalyser` or `audioLevel` drives expansion, edge movement and internal flow. Typed `sensitivity` accepts 0.25 to 4, defaults to 1.6 and is editable in the demo. Optional `tracks` and `showControls` connect Play music to the shared playback engine and Listen to local microphone analysis. Microphone activation requires a user gesture, reports denied permission and stops its media tracks on stop, hide and unmount. The local rendering budget is 180,000 pixels at 30 frames per second. Offscreen and hidden-tab motion pauses, reduced motion retains a still, and unavailable WebGL retains a gradient and capsule-eye fallback that recovers when the context returns.
 
 VinylPlayer combines a neutral rounded body, a large cropped photographic record, playback-driven rotation, an audio meter and clear timing. Its responsive copy area preserves the metadata and transport space. Hovering the disk or focusing it with the keyboard expands the cover across the full card; tapping toggles the expanded state. Expansion resets rotation to zero, keeps the photo upright and still, removes the dimming and hides the grooves and spindle. The collapsed disk rotates during playback. The authored 550ms transition changes the disk's position, width, height and radius to match the full-card reference; this is a scoped artwork transition, not a shared control-motion rule. Reduced motion keeps the state change without the transition.
 
@@ -413,7 +417,7 @@ WavePlayer uses a wide photographic cover, pale blue controls in light mode and 
 
 - **Do** retain the oRangeUi name and existing orange pixel logo.
 - **Do** use semantic palette variables so light and dark surfaces, borders, text and focus adapt together.
-- **Do** preserve the photographic landing composition and keep the central figure clear of scene motion.
+- **Do** preserve the owner's forest landing composition, keep the photographed orange and leaf still, and limit bird motion to slow wingbeats around fixed body positions.
 - **Do** keep all five component appearances available without turning them into palette choices.
 - **Do** provide visible keyboard focus, descriptive field labels, precise value entry and useful disabled states.
 - **Do** keep navigation and page copy in HTML and preserve static content when motion or WebGL is unavailable.
@@ -423,7 +427,7 @@ WavePlayer uses a wide photographic cover, pale blue controls in light mode and 
 
 - **Don't** replace the library's neutral workspace palette with the landscape's scenic colors.
 - **Don't** spread glass across editor fields or reduce their visible boundaries.
-- **Don't** turn the fixed landing figure, readable interface text or navigation into animated scenery.
+- **Don't** animate the landing orange, leaf, bird centers or body strips, readable interface text or navigation; the original birds' outer wings alone follow the slow gust rhythm.
 - **Don't** present API documentation as editable controls.
 - **Don't** remove the palette, appearance, focus or reduced-motion behavior when restyling a component.
 - **Don't** use em dashes in project copy.

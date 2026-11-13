@@ -4,6 +4,8 @@ Reusable React components, five distinct appearances, and a little personality. 
 
 The shared palette uses vivid orange, neutral light surfaces, and OLED black in dark mode. Illustrated StatCards and the purple GamerBoy display keep their own artwork colors.
 
+Start with the original sticker collection, forty morphing icons, reflective Liquid Metal ribbons and interactive typography. The docs sidebar leads with signature components and groups everyday controls under Essentials. See [DOCS_NAVIGATION.md](DOCS_NAVIGATION.md) for the current navigation and integrated refinements.
+
 ## Run locally
 
 Use Node.js 22 LTS and npm.
@@ -23,12 +25,16 @@ Open `http://localhost:3000`. The main routes are:
 | `/components` | Searchable component catalogue |
 | `/components?style=terminal` | Direct link to an appearance |
 | `/components/[slug]` | Live preview, usage, source, props, and keyboard guidance |
-| `/components/shader-canvas` | Gradient and noise playground with ordered effects and pointer interactions |
+| `/stickers` | Sticker editor, placement playground and npm installation |
+| `/components/morphing-icons` | Forty paired icons, animation previews and reusable source |
+| `/components/liquid-metal` | Reflective chrome ribbons with editable finish and motion |
+| `/components/grain-gradient` | Gradient playground with ordered effects and pointer interactions |
+| `/components/shader-canvas` | Installable low-level shader engine |
 | `/components/flowing-water` | Flowing teal water with adjustable sun reflections and ripples |
 | `/components/flowing-grass` | Grass with editable wind, blades, colors and pointer interaction |
 | `/components/drifting-clouds` | Cumulus clouds with editable shape, sunlight and drift |
 | `/portfolio` | Portfolio artwork with a sample footer, animated truck and sticker socials together |
-| `/docs` | Installation, theming, and Infinite Avatar guide |
+| `/docs` | Signature collections, installation, source structure, appearances and theming |
 | `/api/components/[slug]?style=retro-os` | Download a component source ZIP |
 
 ## Project context

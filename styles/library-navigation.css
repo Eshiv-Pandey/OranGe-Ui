@@ -52,3 +52,9 @@
 
 .header-appearance select { max-width: 132px; min-height: 40px; border: 1px solid var(--line); border-radius: 7px; padding: 5px 7px; font-size: 11px; background: var(--surface); color: var(--ink); }
 @media (max-width: 480px) { .header-appearance select { max-width: 92px; } .library-mobile-brand .wordmark > span { display: none; } }
+
+@media (min-width: 801px) and (max-width: 1100px) {
+  .library-navigation-shell .library-header { padding-inline: 16px; gap: 12px; }
+  .library-navigation-shell .library-header > nav { gap: 12px; font-size: 11px; }
+  .library-navigation-shell .header-appearance { display: none; }
+}

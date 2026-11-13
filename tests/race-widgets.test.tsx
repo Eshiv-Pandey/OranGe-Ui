@@ -59,6 +59,7 @@ describe("RaceStartLights lifecycle", () => {
   it("waits for visibility, advances every light, and completes once without animation frames", () => {
     const complete = vi.fn();
     const { container } = render(<RaceStartLights running intervalMs={500} onComplete={complete} />);
+    expect(container.querySelectorAll(".race-start-lens")).toHaveLength(10);
     const lit = () => container.querySelectorAll('[data-lit="true"]').length;
     expect(screen.getByRole("group", { name: "Race start" })).toHaveAttribute("data-motion", "paused");
     expect(lit()).toBe(1);

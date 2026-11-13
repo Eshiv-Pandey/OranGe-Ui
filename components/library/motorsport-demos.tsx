@@ -10,6 +10,7 @@ import { LiveryEditor } from "../ui/livery-editor";
 import { generateVehicleConfig } from "../ui/vehicle-art";
 import { RaceProgress } from "../ui/race-progress";
 import { RaceStartLights } from "../ui/race-start-lights";
+import { WorkbenchInspector } from "../ui/workbench-inspector";
 
 export function MotorsportDemo({ slug, appearance }: { slug: string; appearance: Appearance }) {
   const [config, setConfig] = useState(() => generateVehicleConfig("orangeui:motorsport"));
@@ -24,7 +25,7 @@ function StartLightsDemo({ appearance }: { appearance: Appearance }) {
   const [running, setRunning] = useState(false);
   const [sequence, setSequence] = useState(0);
   const [interval, setInterval] = useState(800);
-  return <div className="demo-stack"><RaceStartLights running={running} sequenceKey={sequence} intervalMs={interval} appearance={appearance} /><div className="demo-row"><Button appearance={appearance} onClick={() => { setRunning(true); setSequence((value) => value + 1); }}>{running ? "Restart sequence" : "Start sequence"}</Button><Button appearance={appearance} variant="secondary" onClick={() => setRunning(false)} disabled={!running}>Reset lights</Button></div><CustomizerRange label="Light interval" value={interval} min={200} max={1500} step={100} onChange={setInterval} formatValue={(value) => `${value}ms`} /></div>;
+  return <div className="race-start-demo"><RaceStartLights running={running} sequenceKey={sequence} intervalMs={interval} appearance={appearance} /><div className="race-start-demo-actions"><Button appearance={appearance} onClick={() => { setRunning(true); setSequence((value) => value + 1); }}>{running ? "Restart sequence" : "Start sequence"}</Button><Button appearance={appearance} variant="secondary" onClick={() => setRunning(false)} disabled={!running}>Reset lights</Button></div><WorkbenchInspector><div className="race-start-demo-settings"><CustomizerRange label="Light interval" value={interval} min={200} max={1500} step={100} onChange={setInterval} formatValue={(value) => `${value}ms`} /></div></WorkbenchInspector></div>;
 }
 
 function RaceProgressDemo({ appearance }: { appearance: Appearance }) {

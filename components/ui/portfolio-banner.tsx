@@ -18,7 +18,7 @@ export type PortfolioBannerProps = AppearanceProps & {
 export function PortfolioBanner({ height = "22vh", particleCount = 90, showClock = true, showTruck = true, onTruckClick, truckImageSrc, truckInteractionLabel, timeZone, paused = false, theme = "auto", appearance = "polished", className }: PortfolioBannerProps) {
   const resolved = useCreativeTheme(theme);
   return <div className={["portfolio-scope portfolio-banner", className].filter(Boolean).join(" ")} data-cursor-hero data-theme={resolved} data-appearance={appearance} style={{ height }}>
-    <NebulaBackground paused={paused} theme={resolved} />
+    <NebulaBackground paused={paused} theme={resolved} stars />
     <BannerParticles count={particleCount} paused={paused} />
     <div className="portfolio-banner-pixels"><WildPixelField ambient={false} paused={paused} theme={resolved} /></div>
     <div className="portfolio-banner-fade portfolio-banner-fade-bottom" /><div className="portfolio-banner-fade portfolio-banner-fade-left" /><div className="portfolio-banner-fade portfolio-banner-fade-right" />

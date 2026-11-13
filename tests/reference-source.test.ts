@@ -22,6 +22,7 @@ it('ships the film renderer, its dependency and licensed display font in portabl
 
 it("ships actual photographs and their license notes in gallery source archives", async () => {
   const bundle = await collectComponentSource(findComponent("journal-stack")!, "polished");
+  expect(bundle.files["components/ui/portfolio/use-reduced-motion.ts"]).toBeDefined();
   for (const file of KEEPSAKE_PHOTO_ASSETS) expect(bundle.files[file], file).toBeDefined();
   expect([...bundle.files["public/photos/keepsakes/lake.jpg"].slice(0, 2)]).toEqual([255, 216]);
   expect(strFromU8(bundle.files["public/photos/keepsakes/NOTICE.md"])).toContain("https://unsplash.com/license");
@@ -38,7 +39,7 @@ it("embeds usable JPEGs in registry installs instead of depending on this server
 });
 
 it("caps metal rendering and normalizes invalid numeric shader settings", () => {
-  expect(liquidMetal.renderBudget).toEqual({ maxPixels: 240_000, maxFps: 24 });
+  expect(liquidMetal.renderBudget).toEqual({ maxPixels: 360_000, maxFps: 30 });
   expect(liquidMetal.uniforms.uRibbonCount.value({ ribbons: 100 })).toBe(5);
   expect(liquidMetal.uniforms.uSpeed.value({ speed: Number.NaN })).toBe(.35);
   expect(liquidMetal.uniforms.uRoughness.value({ roughness: -3 })).toBe(0);

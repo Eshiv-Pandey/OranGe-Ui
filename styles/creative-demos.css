@@ -11,15 +11,18 @@
   .workspace-view .frosted-glass-stage { max-height: calc(var(--workbench-height) - 220px); }
 }
 .creative-demo-loading { display: flex; align-items: center; justify-content: center; min-height: 280px; color: var(--muted); font-size: 12px; }
+.mascot-demo-fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; width: 100%; }
+.mascot-demo-fields > * { min-width: 0; }
 .component-notes { margin-top: 38px; }
 .component-notes h2 { font-size: 21px; margin: 0 0 14px; }
-.component-notes p { max-width: 70ch; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.component-notes p { max-width: 70ch; color: var(--muted); font-size: 14px; line-height: 1.8; overflow-wrap: anywhere; }
 .detail-demo:has(.creative-demo) { padding: 30px 26px; }
 .detail-demo:has(.styled-text) { padding: 25px 25px; }
 .creative-thumbnail { display: flex; align-items: center; justify-content: center; width: 290px; min-height: 220px; }
 .creative-thumbnail .creative-controls, .creative-thumbnail .creative-actions, .creative-thumbnail .creative-editor, .creative-thumbnail .creative-feedback, .creative-thumbnail .creative-player-feedback, .creative-thumbnail .styled-text-input, .creative-thumbnail .styled-text-actions, .creative-thumbnail .stamp-export-actions, .creative-thumbnail .retro-player-footer, .creative-thumbnail .camera-action-row, .creative-thumbnail .keychain-footer, .creative-thumbnail .tilt-stamp-footer, .creative-thumbnail .frosted-glass-footer, .creative-thumbnail .shader-sound-toggle { display: none; }
 .creative-thumbnail .retro-player-scene { transform: scale(.63); transform-origin: center; margin: -82px 0; width: 340px; min-width: 340px; }
 .creative-thumbnail .custom-stamp { width: 185px; }
+.creative-thumbnail .camera-capture-bar, .creative-thumbnail .camera-capture-status { display:none; }
 .creative-thumbnail .custom-stamp-stage { padding: 18px 26px; }
 .creative-thumbnail .swing-keychain { width: 230px; }
 .creative-thumbnail .tilt-stamp { width: 260px; transform: scale(.75); margin-block: -47px; }

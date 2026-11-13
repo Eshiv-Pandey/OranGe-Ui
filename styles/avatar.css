@@ -156,22 +156,22 @@
   .avatar-editor-context > div { gap: 8px; }
   .avatar-character-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
-/* Append to styles/avatar.css after task 3. No JS is needed by Avatar. */
+/* A visible tilt and lift keep the generated glyph readable throughout. */
 .ui-avatar[data-generated-avatar][data-animate="true"] .avatar-gradient-shift {
   animation: avatar-gradient-ping-pong 4s cubic-bezier(.45, 0, .55, 1) infinite alternate;
 }
 .ui-avatar[data-generated-avatar][data-animate="true"] .avatar-glyph-motion {
   transform-box: view-box;
   transform-origin: 50% 50%;
-  animation: avatar-glyph-ping-pong 4s cubic-bezier(.45, 0, .55, 1) infinite alternate;
+  animation: avatar-glyph-ping-pong 2.4s cubic-bezier(.45, 0, .55, 1) infinite;
 }
 @keyframes avatar-gradient-ping-pong {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 @keyframes avatar-glyph-ping-pong {
-  from { transform: translateY(0) rotate(-3deg) scale(1); }
-  to { transform: translateY(-3px) rotate(3deg) scale(1.035); }
+  0%, 100% { transform: translateY(3px) rotate(-12deg) scale(.94); }
+  45%, 55% { transform: translateY(-7px) rotate(12deg) scale(1.09); }
 }
 @media (prefers-reduced-motion: reduce) {
   .ui-avatar[data-generated-avatar][data-animate="true"] .avatar-gradient-shift,

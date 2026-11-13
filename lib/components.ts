@@ -1,7 +1,9 @@
+import { PORTFOLIO_COMPONENTS } from "./portfolio-components";
 import { PAPER_CUT_COMPONENT } from "./paper-cut-component";
 import { WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT } from "./physical-components";
 import { SCENE_COMPONENTS } from "./scene-components";
-import { PORTFOLIO_COMPONENTS } from "./portfolio-components";
+import { GITHUB_GRAPH_COMPONENT } from "./github-graph-component";
+import { ADAPTIVE_COMPONENTS } from "./adaptive-components";
 import type { DemoStep } from "../components/library/use-demo-player";
 import type { Appearance } from "../components/ui/appearance";
 import { launchFormComponents } from "./launch-form-components";
@@ -11,11 +13,12 @@ import { CREATIVE_COMPONENTS } from "./creative-components";
 import { SHADER_COMPONENTS } from "./shader-components";
 import { REFERENCE_COMPONENTS } from "./reference-components";
 import { STICKER_PACK_COMPONENT } from "./sticker-components";
-export type ComponentCategory = "Buttons & actions" | "Galleries & photography" | "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play" | "AI & chat" | "Human avatars" | "Backgrounds & shaders";
+import { categoryForComponent, componentCategories, type ComponentCategory } from "./component-categories";
+export { componentCategories } from "./component-categories";
+export type { ComponentCategory } from "./component-categories";
 export type PropDoc = { name: string; type: string; defaultValue: string; description: string };
 export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string; customizerPreview?: boolean; usageImports?: string[]; usageSetup?: string; collection?: Appearance; notes?: string[]; demo?: DemoStep[] };
-export const componentCategories: ComponentCategory[] = ["Buttons & actions", "Galleries & photography", "Forms & actions", "Navigation & disclosure", "Overlays & feedback", "Human avatars", "Content & layout", "Play", "AI & chat", "Backgrounds & shaders"];
-export const components: ComponentDefinition[] = [
+const componentDefinitions: ComponentDefinition[] = [
   {
     "slug": "button",
     demo: [{ t: 0, action: "move", to: "button:not(:disabled)" }, { t: 800, action: "hover" }, { t: 1800, action: "click" }, { t: 3000, action: "leave" }],
@@ -946,7 +949,7 @@ export const components: ComponentDefinition[] = [
       }
     ],
     "keyboard": "A linked card receives one focus stop. Avoid placing interactive children inside a linked card.",
-    "usage": "<StatCard appearance=\"polished\" accent=\"mint\" title=\"Small wins\" subtitle=\"Every detail adds up.\" counter=\"01 / 05\" art={<span>✦</span>} stats={[{ label: \"Ideas\", value: 24 }, { label: \"Shipped\", value: 8 }]} footer=\"A good day to build\" />",
+    "usage": "<StatCard appearance=\"polished\" accent=\"mint\" title=\"Small wins\" subtitle=\"Every detail adds up.\" counter=\"01 / 05\" art={<span>âœ¦</span>} stats={[{ label: \"Ideas\", value: 24 }, { label: \"Shipped\", value: 8 }]} footer=\"A good day to build\" />",
     "file": "components/ui/stat-card.tsx"
   },
   {
@@ -1060,7 +1063,7 @@ export const components: ComponentDefinition[] = [
       { "name": "seed / config", "type": "string | number / CharacterConfig", "defaultValue": "orangeui:portrait", "description": "Stable identity. A supplied versioned config takes priority over the seed." },
       { "name": "size", "type": "number", "defaultValue": "240", "description": "Square size in CSS pixels, clamped from 16 to 2048." },
       { "name": "colors", "type": "Partial<CharacterColors>", "defaultValue": "Generated", "description": "Skin, hair, outfit, accent, background, backgroundEnd, eye and frame. CSS variables use the --character- prefix." },
-      { "name": "parts", "type": "Partial<CharacterParts>", "defaultValue": "Generated", "description": "Hair, glasses, outfit, face, background accents and earring overrides." },
+      { "name": "parts", "type": "Partial<CharacterParts>", "defaultValue": "Generated", "description": "Separate male and female identity presets, facial hair, hair, glasses, outfit, face, background accents and earrings. Facial hair is rendered only for male identities. Legacy version 1 configs without gender or facialHair normalize to female and none." },
       { "name": "interactive / blink", "type": "boolean", "defaultValue": "true", "description": "Pointer tracking and seeded blinking. Offscreen or hidden artwork pauses; reduced motion settles every layer." }
     ],
     "keyboard": "The portrait is a named image. Customizer tabs use arrows, Home and End; native fields, copy and export actions work with the keyboard.",
@@ -1154,7 +1157,7 @@ export const components: ComponentDefinition[] = [
   },
   {
     slug: "race-start-lights", name: "RaceStartLights", category: "Play",
-    description: "Five lights build anticipation, then extinguish together to mark the start.",
+    description: "Five paired LED columns build anticipation, then extinguish together to mark the start.",
     props: [
       { name: "running / sequenceKey", type: "boolean / string | number", defaultValue: "false / 0", description: "Start the countdown and change the key to replay it. Stopping resets all lights." },
       { name: "intervalMs", type: "number", defaultValue: "800", description: "Active milliseconds between lights, from 100 to 10000. Hidden and offscreen time does not count." },
@@ -1218,8 +1221,9 @@ export const components: ComponentDefinition[] = [
     ]
   }
 ];
-components.push(PAPER_CUT_COMPONENT);
-components.push(WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT, ...PORTFOLIO_COMPONENTS, ...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS, STICKER_PACK_COMPONENT);
+componentDefinitions.push(PAPER_CUT_COMPONENT);
+componentDefinitions.push(WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT, ...ADAPTIVE_COMPONENTS, GITHUB_GRAPH_COMPONENT, ...PORTFOLIO_COMPONENTS, ...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS, STICKER_PACK_COMPONENT);
+export const components: ComponentDefinition[] = componentDefinitions.map((component) => ({ ...component, category: categoryForComponent(component) })).sort((a, b) => componentCategories.indexOf(a.category as typeof componentCategories[number]) - componentCategories.indexOf(b.category as typeof componentCategories[number]) || a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
 const legacyAccordion = components.find(component => component.slug === "accordion");
 if (legacyAccordion) components.splice(components.indexOf(legacyAccordion), 1);
 export function componentsInCollection(appearance: Appearance) { return components.filter((component) => !component.collection || component.collection === appearance); }

@@ -21,6 +21,8 @@ const FRAG = /* glsl */ `
   uniform vec2 uResolution;
   uniform float uTime;
   uniform float uDark;
+  uniform float uStars;
+  uniform float uScale;
 
   float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
   float noise(vec2 p){
@@ -62,8 +64,23 @@ const FRAG = /* glsl */ `
     col = mix(col, teal, smoothstep(0.50, 1.0, n2) * w * 0.7);
     col = mix(col, rose, smoothstep(0.55, 0.96, n1) * w * 0.65);
 
-    float star = pow(hash(floor(gl_FragCoord.xy * 0.5)), 42.0);
-    col += star * mix(0.18, 0.55, uDark);
+    col += pow(hash(floor(gl_FragCoord.xy * .5)), 42.0) * mix(.18, .55, uDark) * (1.0 - uStars);
+    // Sparse, softly glowing points measured in CSS pixels, so lowering the
+    // phone drawing buffer does not turn the stars into chunky noise.
+    vec2 sky = gl_FragCoord.xy / uScale;
+    vec2 cell = floor(sky / 32.0);
+    float seed = hash(cell + 19.7);
+    vec2 center = vec2(hash(cell + 3.1), hash(cell + 8.3)) * 24.0 + 4.0;
+    vec2 delta = mod(sky, 32.0) - center;
+    float radius = mix(0.7, 1.5, hash(cell + 41.2));
+    float d2 = dot(delta, delta) / (radius * radius);
+    float twinkle = 0.76 + 0.24 * sin(uTime * 1.7 + seed * 31.0);
+    float strength = step(0.62, seed) * twinkle * uStars;
+    float core = exp(-d2 * 1.5) * strength;
+    float halo = exp(-d2 * 0.22) * 0.16 * strength;
+    vec3 glow = mix(vec3(0.75, 0.58, 0.30), vec3(1.0, 0.96, 0.86), uDark);
+    col = mix(col, glow, halo);
+    col = mix(col, vec3(1.0, 0.98, 0.92), min(core * 1.4, 1.0));
 
     gl_FragColor = vec4(col, 1.0);
   }
@@ -73,13 +90,13 @@ const VERT = /* glsl */ `
   void main(){ gl_Position = vec4(position, 1.0); }
 `;
 
-export function NebulaBackground({ paused = false, theme = "light" }: { paused?: boolean; theme?: "light" | "dark" }) {
+export function NebulaBackground({ paused = false, theme = "light", stars = false }: { paused?: boolean; theme?: "light" | "dark"; stars?: boolean }) {
   const reducedMotion = useReducedMotion(), hostRef = useRef<HTMLDivElement>(null);
-  const updateRef = useRef<((theme: string, stop: boolean) => void) | null>(null);
+  const updateRef = useRef<((theme: string, stop: boolean, stars: boolean) => void) | null>(null);
   useEffect(() => {
     const host = hostRef.current;
     if (!host) return;
-    let disposed = false, raf = 0, visible = false, loading = false, stopped = false, dark = false, lost = false;
+    let disposed = false, raf = 0, visible = false, loading = false, stopped = false, dark = false, lost = false, showStars = false;
     let render: (() => void) | undefined, release: (() => void) | undefined;
     let last = 0, elapsed = 0;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -107,14 +124,14 @@ export function NebulaBackground({ paused = false, theme = "light" }: { paused?:
         renderer.domElement.style.cssText = "width:100%;height:100%;display:block";
         host!.appendChild(renderer.domElement);
         const scene = new THREE.Scene(), camera = new THREE.Camera();
-        const uniforms = { uResolution: { value: new THREE.Vector2(1, 1) }, uTime: { value: 0 }, uDark: { value: dark ? 1 : 0 } };
+        const uniforms = { uResolution: { value: new THREE.Vector2(1, 1) }, uTime: { value: 0 }, uDark: { value: dark ? 1 : 0 }, uStars: { value: showStars ? 1 : 0 }, uScale: { value: 1 } };
         const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ vertexShader: VERT, fragmentShader: FRAG, uniforms }));
         scene.add(mesh);
-        render = () => { uniforms.uTime.value = elapsed; uniforms.uDark.value = dark ? 1 : 0; renderer.render(scene, camera); };
+        render = () => { uniforms.uTime.value = elapsed; uniforms.uDark.value = dark ? 1 : 0; uniforms.uStars.value = showStars ? 1 : 0; renderer.render(scene, camera); };
         function resize() {
           const w = Math.max(1, host!.clientWidth), h = Math.max(1, host!.clientHeight);
           const ratio = Math.min(window.devicePixelRatio || 1, 1.5, Math.sqrt(260000 / (w * h)));
-          renderer.setPixelRatio(ratio); renderer.setSize(w, h, false);
+          renderer.setPixelRatio(ratio); renderer.setSize(w, h, false); uniforms.uScale.value = ratio;
           renderer.getDrawingBufferSize(uniforms.uResolution.value); render?.();
         }
         const ro = new ResizeObserver(resize); ro.observe(host!); resize();
@@ -128,10 +145,10 @@ export function NebulaBackground({ paused = false, theme = "light" }: { paused?:
     }
     const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible && !loading) void prepare(); schedule(); }, { rootMargin: "80px" });
     io.observe(host);
-    updateRef.current = (value, stop) => { dark = value === "dark"; stopped = stop; schedule(); };
+    updateRef.current = (value, stop, stars) => { dark = value === "dark"; stopped = stop; showStars = stars; schedule(); };
     document.addEventListener("visibilitychange", schedule); motion.addEventListener("change", schedule);
     return () => { disposed = true; cancelAnimationFrame(raf); io.disconnect(); motion.removeEventListener("change", schedule); document.removeEventListener("visibilitychange", schedule); updateRef.current = null; release?.(); };
   }, []);
-  useEffect(() => { updateRef.current?.(theme, paused || reducedMotion); }, [theme, paused, reducedMotion]);
+  useEffect(() => { updateRef.current?.(theme, paused || reducedMotion, stars); }, [theme, paused, reducedMotion, stars]);
   return <div ref={hostRef} aria-hidden="true" className="portfolio-nebula" />;
 }

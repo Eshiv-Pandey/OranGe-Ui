@@ -147,6 +147,29 @@ describe("reference collection", () => {
     fireEvent.change(screen.getByRole("slider", { name: "Opacity" }), { target: { value: "100" } }); expect(change.mock.lastCall?.[0]).toBe("#00ff00");
     fireEvent.keyDown(panel, { key: "Escape" }); expect(screen.getByRole("button", { name: "Find your color" })).toHaveFocus(); expect(screen.queryByRole("group", { name: "Color controls" })).toBeNull();
   });
+
+  it("keeps controlled colors owned by the parent and discards stale hex drafts on slider edits", () => {
+    const change = vi.fn(), { rerender } = render(<FluidColorPicker value="#ff8040" defaultOpen onValueChange={change} />);
+    const input = screen.getByRole("textbox", { name: "Hex" });
+    fireEvent.focus(input); fireEvent.change(input, { target: { value: "#123" } });
+    fireEvent.change(screen.getByRole("slider", { name: "Hue" }), { target: { value: "120" } });
+    expect(change.mock.lastCall?.[1].h).toBe(120);
+    expect(input).toHaveValue("#FF8040");
+    rerender(<FluidColorPicker value="#00ff00" defaultOpen onValueChange={change} />);
+    expect(input).toHaveValue("#00FF00");
+  });
+
+  it("normalizes preset selection and alpha visibility without allowing disabled edits", () => {
+    const change = vi.fn(), { rerender } = render(<FluidColorPicker defaultValue="#abc8" swatches={["#aabbcc88", "invalid"]} defaultOpen onValueChange={change} />);
+    expect(screen.getByRole("button", { name: "Use #AABBCC88" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.queryByRole("button", { name: "Use INVALID" })).toBeNull();
+    rerender(<FluidColorPicker value="#aabbcc88" swatches={["#abc8"]} alpha={false} disabled defaultOpen onValueChange={change} />);
+    expect(screen.queryByRole("slider", { name: "Opacity" })).toBeNull();
+    expect(screen.getByRole("textbox", { name: "Hex" })).toHaveValue("#AABBCC");
+    fireEvent.keyDown(screen.getByRole("slider", { name: "Saturation and brightness" }), { key: "ArrowRight" });
+    fireEvent.click(screen.getByRole("button", { name: "Use #ABC8" }));
+    expect(change).not.toHaveBeenCalled();
+  });
 });
 
 describe("color conversion", () => {

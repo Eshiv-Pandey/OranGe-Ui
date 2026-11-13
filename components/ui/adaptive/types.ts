@@ -1,0 +1,25 @@
+import type { AppearanceProps } from "../appearance";
+import type { ReactNode } from "react";
+
+export type EventData = { title: string; date: string; time: string; location: string; attendees: string[] };
+export type ReminderData = { title: string; due: string; priority: "low" | "normal" | "high"; completed: boolean };
+export type ChecklistItem = { id: string; text: string; checked: boolean };
+export type ChecklistData = { title: string; items: ChecklistItem[] };
+export type FocusTimerData = { title: string; seconds: number };
+export type ColorData = { color: string; name: string };
+export type BillSplitData = { amount: number; people: number; currency: string };
+export type Unit = "m" | "km" | "cm" | "mm" | "mi" | "ft" | "in" | "kg" | "g" | "lb" | "oz" | "c" | "f" | "k";
+export type UnitConverterData = { amount: number; from: Unit; to: Unit };
+export type CalculatorData = { expression: string };
+export type PollOption = { id: string; label: string; votes: number };
+export type PollData = { question: string; options: PollOption[]; selection?: string };
+export type BookmarkData = { url: string; title: string; description: string };
+export type NoteData = { title: string; text: string };
+export type AdaptiveDataMap = { event: EventData; reminder: ReminderData; checklist: ChecklistData; timer: FocusTimerData; color: ColorData; split: BillSplitData; convert: UnitConverterData; calculate: CalculatorData; poll: PollData; bookmark: BookmarkData; note: NoteData };
+export type AdaptiveKind = keyof AdaptiveDataMap;
+export type AdaptiveIntent = { [K in AdaptiveKind]: { kind: K; data: AdaptiveDataMap[K]; confidence: number; explanation?: string } }[AdaptiveKind];
+export type AdaptiveClassifier = (text: string, options: { signal: AbortSignal; now: Date }) => Promise<AdaptiveIntent>;
+export type AdaptiveCardProps<T> = AppearanceProps & { value?: T; defaultValue?: T; onChange?: (value: T) => void; onSubmit?: (value: T) => void; disabled?: boolean; editable?: boolean; showSubmit?: boolean };
+export type AdaptiveRenderers = { [K in AdaptiveKind]?: (props: { value: AdaptiveDataMap[K]; onChange: (value: AdaptiveDataMap[K]) => void; onSubmit: (value: AdaptiveDataMap[K]) => void; appearance: NonNullable<AppearanceProps["appearance"]>; disabled: boolean }) => ReactNode };
+export const ADAPTIVE_KINDS: readonly AdaptiveKind[] = ["event", "reminder", "checklist", "timer", "color", "split", "convert", "calculate", "poll", "bookmark", "note"];
+export const ADAPTIVE_LABELS: Record<AdaptiveKind, string> = { event: "Event", reminder: "Reminder", checklist: "Checklist", timer: "Focus timer", color: "Color", split: "Bill split", convert: "Unit converter", calculate: "Calculator", poll: "Poll", bookmark: "Bookmark", note: "Note" };

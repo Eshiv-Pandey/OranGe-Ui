@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { APPEARANCE_VALUES } from "../components/ui/appearance";
 import { CharacterAvatar } from "../components/ui/character-avatar";
-import { CHARACTER_FACES, CHARACTER_GLASSES, CHARACTER_HAIR, CHARACTER_OUTFITS, characterSvgBody, characterToSvgString, generateCharacterConfig, normalizeCharacterConfig, type CharacterConfig, type CharacterParts } from "../components/ui/character-art";
+import { CHARACTER_FACES, CHARACTER_GLASSES, CHARACTER_HAIR, CHARACTER_OUTFITS, CHARACTER_GENDERS, CHARACTER_FACIAL_HAIR, characterSvgBody, characterToSvgString, generateCharacterConfig, normalizeCharacterConfig, type CharacterConfig, type CharacterParts } from "../components/ui/character-art";
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -29,27 +29,43 @@ function configsForEveryPart() {
     ...CHARACTER_GLASSES.map((glasses) => ({ glasses })),
     ...CHARACTER_OUTFITS.map((outfit) => ({ outfit })),
     ...CHARACTER_FACES.map((face) => ({ face })),
+    ...CHARACTER_GENDERS.map((gender) => ({ gender })),
+    ...CHARACTER_FACIAL_HAIR.map((facialHair) => ({ gender: "male" as const, facialHair })),
     { accents: true, earring: true }, { accents: false, earring: false },
   ];
   return parts.map((part) => ({ ...base, parts: { ...base.parts, ...part } }));
 }
 
 describe("character identity and portable artwork", () => {
+  it("keeps legacy version 1 portraits valid and normalizes new saved appearance fields", () => {
+    const legacyParts = { ...generateCharacterConfig("legacy").parts };
+    delete (legacyParts as CharacterParts).gender; delete (legacyParts as CharacterParts).facialHair;
+    const legacy: CharacterConfig = { ...generateCharacterConfig("legacy"), parts: legacyParts };
+    const saved = JSON.stringify(legacy);
+    expect(normalizeCharacterConfig(legacy).parts).toEqual({ ...legacyParts, gender: "female", facialHair: "none" });
+    expect(JSON.stringify(legacy)).toBe(saved);
+    const male = normalizeCharacterConfig({ ...legacy, parts: { ...legacyParts, gender: "male", facialHair: "beard" } });
+    expect(male.parts.gender).toBe("male"); expect(male.parts.facialHair).toBe("beard");
+    expect(characterToSvgString(male)).not.toEqual(characterToSvgString(legacy));
+    expect(normalizeCharacterConfig({ ...legacy, parts: { ...legacyParts, gender: "<script>", facialHair: "url(evil)" } }).parts).toMatchObject({ gender: "female", facialHair: "none" });
+  });
   it("generates deterministic independent identities and reaches every part without ambient randomness", () => {
     const random = vi.spyOn(Math, "random").mockImplementation(() => { throw new Error("Identity must not use ambient randomness"); });
-    const seen = { hair: new Set<string>(), glasses: new Set<string>(), outfit: new Set<string>(), face: new Set<string>() };
+    const seen = { hair: new Set<string>(), glasses: new Set<string>(), outfit: new Set<string>(), face: new Set<string>(), gender: new Set<string>(), facialHair: new Set<string>() };
     try {
       for (let index = 0; index < 256; index += 1) {
         const seed = `character-${index}`;
         const config = generateCharacterConfig(seed);
         expect(generateCharacterConfig(seed)).toEqual(config);
         expect(normalizeCharacterConfig(JSON.parse(JSON.stringify(config)))).toEqual(config);
-        for (const key of ["hair", "glasses", "outfit", "face"] as const) seen[key].add(config.parts[key]);
+        for (const key of ["hair", "glasses", "outfit", "face", "gender", "facialHair"] as const) seen[key].add(config.parts[key]);
       }
       expect([...seen.hair].sort()).toEqual([...CHARACTER_HAIR].sort());
       expect([...seen.glasses].sort()).toEqual([...CHARACTER_GLASSES].sort());
       expect([...seen.outfit].sort()).toEqual([...CHARACTER_OUTFITS].sort());
       expect([...seen.face].sort()).toEqual([...CHARACTER_FACES].sort());
+      expect([...seen.gender].sort()).toEqual(["female", "male"]);
+      expect([...seen.facialHair].sort()).toEqual([...CHARACTER_FACIAL_HAIR].sort());
       expect(generateCharacterConfig(42)).toEqual(generateCharacterConfig("42"));
       const altered = generateCharacterConfig("copy");
       altered.colors.skin = "#000000";
@@ -71,7 +87,7 @@ describe("character identity and portable artwork", () => {
     expect(normalized.colors.outfit).toBe(fallback.colors.outfit);
     expect(normalized.colors.eye).toBe(fallback.colors.eye);
     expect(normalized.colors.backgroundEnd).toBe(fallback.colors.backgroundEnd);
-    expect(normalized.parts).toEqual({ ...fallback.parts, glasses: "none", outfit: "collar", accents: false, earring: true });
+    expect(normalized.parts).toEqual({ ...fallback.parts, gender: "female", facialHair: "none", glasses: "none", outfit: "collar", accents: false, earring: true });
     expect(input.colors.skin).toBe(" #AbC ");
     expect(normalized.colors).not.toBe(input.colors);
     expect(normalized.parts).not.toBe(input.parts);

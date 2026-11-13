@@ -1,7 +1,8 @@
 import { registerCanvasFrame } from "../ui/canvas-frame";
 import { REFERENCE_NOISE_SIZE, referenceNoiseTexels } from "./reference-noise";
 import { REFERENCE_SCENE_ASSETS, referenceCover, referenceSparkles, type ReferenceSceneConfig } from "./reference-scene-config";
-import { REFERENCE_FRAGMENT_SHADER, REFERENCE_SPARKLE_FRAGMENT_SHADER, REFERENCE_SPARKLE_VERTEX_SHADER, REFERENCE_VERTEX_SHADER } from "./reference-shaders";
+import { REFERENCE_BIRD_ATLAS, REFERENCE_BIRDS } from "./reference-birds";
+import { REFERENCE_BIRD_FRAGMENT_SHADER, REFERENCE_BIRD_VERTEX_SHADER, REFERENCE_FRAGMENT_SHADER, REFERENCE_SPARKLE_FRAGMENT_SHADER, REFERENCE_SPARKLE_VERTEX_SHADER, REFERENCE_VERTEX_SHADER } from "./reference-shaders";
 
 type State = "loading" | "webgl2" | "fallback";
 
@@ -13,6 +14,7 @@ export function createReferenceRenderer(canvas: HTMLCanvasElement, config: Refer
   if (!context || !win) { onState("fallback"); return { destroy() {}, setPaused(_paused: boolean) { void _paused; } }; }
   const gl = context;
   let program: WebGLProgram | null = null, sparkProgram: WebGLProgram | null = null;
+  let birdProgram: WebGLProgram | null = null, birdVao: WebGLVertexArrayObject | null = null, birdBuffer: WebGLBuffer | null = null;
   let vao: WebGLVertexArrayObject | null = null, sparkVao: WebGLVertexArrayObject | null = null, sparkBuffer: WebGLBuffer | null = null;
   let textures: WebGLTexture[] = [], sparkCount = 0, frame = 0, time = 0, dpr = 1;
   let previous: number | null = null;
@@ -21,6 +23,12 @@ export function createReferenceRenderer(canvas: HTMLCanvasElement, config: Refer
   let images: HTMLImageElement[] = [];
   const uniforms = new Map<string, WebGLUniformLocation | null>();
   const sparkleUniforms = new Map<string, WebGLUniformLocation | null>();
+  const birdUniforms = new Map<string, WebGLUniformLocation | null>();
+  const noiseUnit = Object.keys(REFERENCE_SCENE_ASSETS).length;
+  const birdLocation = (name: string) => {
+    if (!birdUniforms.has(name)) birdUniforms.set(name, birdProgram ? gl.getUniformLocation(birdProgram, name) : null);
+    return birdUniforms.get(name) ?? null;
+  };
   const location = (name: string, sparkle = false) => {
     const cache = sparkle ? sparkleUniforms : uniforms, target = sparkle ? sparkProgram : program;
     if (!cache.has(name)) cache.set(name, target ? gl.getUniformLocation(target, name) : null);
@@ -47,9 +55,11 @@ export function createReferenceRenderer(canvas: HTMLCanvasElement, config: Refer
     if (program) gl.deleteProgram(program); if (sparkProgram) gl.deleteProgram(sparkProgram);
     if (vao) gl.deleteVertexArray(vao); if (sparkVao) gl.deleteVertexArray(sparkVao);
     if (sparkBuffer) gl.deleteBuffer(sparkBuffer);
+    if (birdProgram) gl.deleteProgram(birdProgram); if (birdVao) gl.deleteVertexArray(birdVao); if (birdBuffer) gl.deleteBuffer(birdBuffer);
     textures.forEach((texture) => gl.deleteTexture(texture)); textures = [];
     program = sparkProgram = null; vao = sparkVao = null; sparkBuffer = null;
-    uniforms.clear(); sparkleUniforms.clear(); ready = false;
+    birdProgram = null; birdVao = null; birdBuffer = null;
+    uniforms.clear(); sparkleUniforms.clear(); birdUniforms.clear(); ready = false;
   };
   const paint = () => {
     if (!ready || lost || destroyed || !program) return;
@@ -58,7 +68,8 @@ export function createReferenceRenderer(canvas: HTMLCanvasElement, config: Refer
     gl.viewport(0, 0, canvas.width, canvas.height); gl.disable(gl.BLEND);
     gl.useProgram(program); gl.bindVertexArray(vao);
     textures.forEach((texture, index) => { gl.activeTexture(gl.TEXTURE0 + index); gl.bindTexture(gl.TEXTURE_2D, texture); });
-    ["uPlate", "uFlowers", "uClouds", "uPerson", "uGrass", "uNoise"].forEach((name, index) => gl.uniform1i(location(name), index));
+    ["uPlate", "uFlowers", "uClouds", "uPerson", "uGrass"].forEach((name, index) => gl.uniform1i(location(name), index));
+    gl.uniform1i(location("uNoise"), noiseUnit);
     gl.uniform2fv(location("uCover"), cover.scale); gl.uniform2fv(location("uCenter"), cover.center);
     gl.uniform2f(location("uPointer"), pointer[0], pointer[1]);
     const values = { uTime: media.matches ? 0 : time, uMotion: motion, uWindStrength: config.windStrength, uWindSpeed: config.windSpeed, uGustSpeed: config.gustSpeed, uCloudSpeed: config.cloudSpeed, uCloudDisplacement: config.cloudDisplacement, uGrain: config.grain, uParallax: config.parallax };
@@ -68,9 +79,19 @@ export function createReferenceRenderer(canvas: HTMLCanvasElement, config: Refer
       gl.useProgram(sparkProgram); gl.bindVertexArray(sparkVao);
       gl.uniform2fv(location("uCover", true), cover.scale); gl.uniform2fv(location("uCenter", true), cover.center);
       gl.uniform2f(location("uResolution", true), canvas.width, canvas.height);
-      gl.uniform1i(location("uNoise", true), 5); gl.uniform1i(location("uPerson", true), 3); gl.uniform1i(location("uClouds", true), 2);
+      gl.uniform1i(location("uNoise", true), noiseUnit); gl.uniform1i(location("uPerson", true), 3); gl.uniform1i(location("uClouds", true), 2);
       for (const [name, value] of Object.entries({ uTime: time, uMotion: motion, uCloudSpeed: config.cloudSpeed, uCloudDisplacement: config.cloudDisplacement, uDpr: dpr, uSparkleIntensity: config.sparkleIntensity, uSparkleSpeed: config.sparkleSpeed })) gl.uniform1f(location(name, true), value);
       gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE); gl.drawArrays(gl.POINTS, 0, sparkCount); gl.disable(gl.BLEND);
+    }
+    if (birdProgram) {
+      gl.useProgram(birdProgram); gl.bindVertexArray(birdVao);
+      gl.uniform1i(birdLocation("uBirds"), 5);
+      gl.uniform2fv(birdLocation("uCover"), cover.scale); gl.uniform2fv(birdLocation("uCenter"), cover.center);
+      gl.uniform2f(birdLocation("uAtlasGrid"), REFERENCE_BIRD_ATLAS.columns, REFERENCE_BIRD_ATLAS.rows);
+      gl.uniform2f(birdLocation("uTileSize"), REFERENCE_BIRD_ATLAS.tileWidth, REFERENCE_BIRD_ATLAS.tileHeight);
+      for (const [name, value] of Object.entries({ uTime: media.matches ? 0 : time, uMotion: motion, uGustSpeed: config.gustSpeed, uWindStrength: config.windStrength })) gl.uniform1f(birdLocation(name), value);
+      gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+      gl.drawArraysInstanced(gl.TRIANGLES, 0, 6, REFERENCE_BIRDS.length); gl.disable(gl.BLEND);
     }
     gl.bindVertexArray(null);
   };
@@ -119,7 +140,7 @@ export function createReferenceRenderer(canvas: HTMLCanvasElement, config: Refer
         }
       });
       const noise = gl.createTexture(); if (!noise) throw new Error("Noise texture allocation failed");
-      textures.push(noise); gl.activeTexture(gl.TEXTURE0 + 5); gl.bindTexture(gl.TEXTURE_2D, noise);
+      textures.push(noise); gl.activeTexture(gl.TEXTURE0 + noiseUnit); gl.bindTexture(gl.TEXTURE_2D, noise);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, REFERENCE_NOISE_SIZE, REFERENCE_NOISE_SIZE, 0, gl.RGBA, gl.UNSIGNED_BYTE, referenceNoiseTexels());
@@ -134,6 +155,18 @@ export function createReferenceRenderer(canvas: HTMLCanvasElement, config: Refer
         gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 4, gl.FLOAT, false, 28, 0);
         gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 28, 16); gl.bindVertexArray(null);
       }
+      birdProgram = link(REFERENCE_BIRD_VERTEX_SHADER, REFERENCE_BIRD_FRAGMENT_SHADER);
+      birdVao = gl.createVertexArray(); birdBuffer = gl.createBuffer();
+      gl.bindVertexArray(birdVao); gl.bindBuffer(gl.ARRAY_BUFFER, birdBuffer);
+      const atlas = REFERENCE_BIRD_ATLAS;
+      const instances = new Float32Array(REFERENCE_BIRDS.flatMap(([x, y, halfSpan, phase], index) => [
+        x / atlas.imageWidth, 1 - y / atlas.imageHeight, atlas.tileWidth / atlas.imageWidth, atlas.tileHeight / atlas.imageHeight,
+        halfSpan / atlas.tileWidth, phase, index % atlas.columns, atlas.rows - 1 - Math.floor(index / atlas.columns),
+      ]));
+      gl.bufferData(gl.ARRAY_BUFFER, instances, gl.STATIC_DRAW);
+      gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 4, gl.FLOAT, false, 32, 0); gl.vertexAttribDivisor(0, 1);
+      gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1, 4, gl.FLOAT, false, 32, 16); gl.vertexAttribDivisor(1, 1);
+      gl.bindVertexArray(null);
       reader.width = reader.height = 1;
       ready = true; resize(); onState("webgl2"); synchronize();
     } catch (error) {

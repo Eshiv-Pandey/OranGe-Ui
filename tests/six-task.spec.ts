@@ -8,24 +8,24 @@ import { strFromU8, unzipSync } from "fflate";
 const artifacts = "out/iteration/six-task/browser";
 test.beforeAll(async () => { await mkdir(artifacts, { recursive: true }); });
 
-for (const width of [1440, 390]) test(`landscape navigation and licensing work at ${width}px`, async ({ page }) => {
+for (const width of [1440, 390]) test(`landscape catalogue entry and licensing work at ${width}px`, async ({ page }) => {
   await page.setViewportSize({ width, height: 900 });
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("orange UI");
   await expect(page.locator(".reference-background canvas")).toHaveCount(1);
-  await expect(page.getByRole("link", { name: "Get Started", exact: true })).toHaveAttribute("href", "/components");
-  await expect(page.getByRole("link", { name: "Docs", exact: true })).toHaveAttribute("href", "/docs");
-  await expect(page.getByRole("link", { name: "GitHub", exact: true })).toHaveAttribute("href", "https://github.com/Eshiv-Pandey/OranGe-Ui");
-  await page.getByRole("link", { name: "Pricing", exact: true }).click();
+  await expect(page.getByRole("link", { name: "Get Started", exact: true })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Components", exact: true })).toHaveAttribute("href", "/components");
+  await page.getByRole("link", { name: "Components", exact: true }).click();
+  await expect(page).toHaveURL(/\/components$/);
+  await expect(page.locator(".component-grid")).toBeVisible();
+  await page.goto("/pricing");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Free to build with.");
   await expect(page.locator("main")).toContainText("MIT license");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   expect((await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze()).violations).toEqual([]);
   await page.screenshot({ path: `${artifacts}/pricing-${width}.png`, fullPage: true });
   await page.getByRole("link", { name: "Back to orange UI", exact: true }).click();
-  await page.getByRole("link", { name: "Classic view", exact: true }).click();
-  await expect(page).toHaveURL(/\/classic$/);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Play with pixels.Ship with polish.");
+  await expect(page.getByRole("link", { name: "Components", exact: true })).toBeVisible();
 });
 
 test("the photographic landing and licensing remain usable without JavaScript", async ({ browser, baseURL }) => {
@@ -34,9 +34,11 @@ test("the photographic landing and licensing remain usable without JavaScript", 
     const page = await context.newPage();
     await page.goto(new URL("/", baseURL!).href);
     await expect(page.locator(".reference-background")).toHaveAttribute("data-renderer", "fallback");
-    await expect(page.locator(".reference-static")).toHaveCSS("background-image", /reference-scene\.png/);
-    await expect(page.getByRole("link", { name: "Get Started", exact: true })).toBeVisible();
-    await page.getByRole("link", { name: "Pricing", exact: true }).click();
+    await expect(page.locator(".reference-static")).toHaveCSS("background-image", /sunset-scene\.png/);
+    await expect(page.getByRole("link", { name: "Components", exact: true })).toBeVisible();
+    await page.getByRole("link", { name: "Components", exact: true }).click();
+    await expect(page).toHaveURL(/\/components$/);
+    await page.goto(new URL("/pricing", baseURL!).href);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Free to build with.");
   } finally { await context.close(); }
 });

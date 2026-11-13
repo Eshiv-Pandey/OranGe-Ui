@@ -10,12 +10,13 @@
 .editor-field input[type="range"]::-moz-range-track { height: 4px; border-radius: 4px; background: var(--line); }
 .editor-field input[type="range"]::-moz-range-progress { height: 4px; border-radius: 4px; background: var(--primary); }
 .editor-field input[type="range"]::-moz-range-thumb { width: 10px; height: 10px; border: 3px solid var(--primary); border-radius: 50%; background: var(--surface); }
-.editor-color { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
-.editor-color-value { display: flex; flex: none; align-items: center; gap: 7px; padding: 4px 6px 4px 4px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.editor-color { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; }
+.editor-color > label { min-width: 0; overflow-wrap: anywhere; }
+.editor-color-value { display: grid; grid-template-columns: 27px minmax(0, 1fr); align-items: center; gap: 7px; min-width: 0; max-width: 100%; padding: 4px 6px 4px 4px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
 .editor-color .editor-color-value input[type="color"] { width: 27px; height: 27px; min-height: 27px; padding: 0; border: 0; border-radius: 4px; overflow: hidden; background: transparent; cursor: pointer; }
 .editor-color input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
 .editor-color input[type="color"]::-webkit-color-swatch { border: 0; border-radius: 3px; }
-.editor-color .editor-color-value input[type="text"] { width: 77px; min-height: 27px; padding: 1px; border: 0; background: transparent; font-family: ui-monospace, monospace; font-size: 11px; text-transform: uppercase; cursor: text; }
+.editor-color .editor-color-value input[type="text"] { width: 77px; max-width: 100%; min-width: 0; min-height: 27px; padding: 1px; border: 0; background: transparent; font-family: ui-monospace, monospace; font-size: 11px; text-transform: uppercase; cursor: text; }
 .editor-field input:hover { border-color: color-mix(in srgb, var(--ink) 45%, var(--line)); }
 .editor-field input:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; box-shadow: none; }
 .editor-color-value:focus-within { border-color: var(--primary); }
