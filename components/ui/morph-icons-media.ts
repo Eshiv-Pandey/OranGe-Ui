@@ -110,10 +110,10 @@ export const MORPH_MEDIA_ICONS = [
   {
     name: "shuffle", title: "Shuffle", category: "Media", states: ["Straight", "Shuffle"],
     paths: [
-      path("M4 6C10 6 14 6 20 6", "M4 18C10 18 14 6 20 6"),
-      path("M4 18C10 18 14 18 20 18", "M4 6C10 6 14 18 20 18"),
-      path(poly([[17.3, 3.3], [20, 6], [17.3, 8.7]])),
-      path(poly([[17.3, 15.3], [20, 18], [17.3, 20.7]])),
+      path("M4 6C10 6 14 6 20 6", "M4 18C10 18 15 11 20 6"),
+      path("M4 18C10 18 14 18 20 18", "M4 6C10 6 15 13 20 18"),
+      path(poly([[17.3, 3.3], [20, 6], [17.3, 8.7]]), undefined, { rotation: [0, -45], origin: [20, 6] }),
+      path(poly([[17.3, 15.3], [20, 18], [17.3, 20.7]]), undefined, { rotation: [0, 45], origin: [20, 18] }),
     ],
   },
   {

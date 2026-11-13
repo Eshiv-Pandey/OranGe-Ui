@@ -70,6 +70,28 @@ describe("morph path compilation and interpolation", () => {
     expect(morphPathFrame(plus, .5).transform).toBe("rotate(22.5 12 12)");
   });
 
+  it("keeps shuffled arrowheads attached and aligns their rigid turns with the crossed lane exits", () => {
+    const shuffle = MORPH_MEDIA_ICONS.find(icon => icon.name === "shuffle")!;
+    for (const index of [0, 1]) {
+      const lane = compileMorphPath(shuffle.paths[index]), head = compileMorphPath(shuffle.paths[index + 2]);
+      const initial = coordinates(head.from);
+      const legLengths = [Math.hypot(initial[2] - initial[0], initial[3] - initial[1]), Math.hypot(initial[4] - initial[2], initial[5] - initial[3])];
+      for (const progress of [0, .125, .25, .375, .5, .625, .75, .875, 1]) {
+        const body = coordinates(morphPathFrame(lane, progress).d), frame = morphPathFrame(head, progress), points = coordinates(frame.d);
+        expect(points.slice(2, 4)).toEqual(body.slice(-2));
+        expect(head.origin).toEqual(body.slice(-2));
+        expect(Math.hypot(points[2] - points[0], points[3] - points[1])).toBeCloseTo(legLengths[0], 3);
+        expect(Math.hypot(points[4] - points[2], points[5] - points[3])).toBeCloseTo(legLengths[1], 3);
+        expect(frame.opacity).toBe(1);
+      }
+      const body = coordinates(morphPathFrame(lane, 1).d), frame = morphPathFrame(head, 1);
+      const dx = body[6] - body[4], dy = body[7] - body[5], angle = Number(frame.transform!.match(/^rotate\(([-\d.]+)/)![1]) * Math.PI / 180;
+      expect(Math.abs(dy)).toBeGreaterThan(0);
+      expect(dx * Math.sin(angle) - dy * Math.cos(angle)).toBeCloseTo(0, 3);
+      expect(dx * Math.cos(angle) + dy * Math.sin(angle)).toBeGreaterThan(0);
+    }
+  });
+
   it("routes geometry through authored keyframes while independent channels wait for their phases", () => {
     const path = compileMorphPath({
       from: "M0 0L4 0", to: "M0 8L4 8", geometryPhase: [.2, .8],
