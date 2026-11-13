@@ -1,7 +1,7 @@
 ﻿import { describe, expect, it } from "vitest";
 import { MORPH_MEDIA_ICONS } from "../../components/ui/morph-icons-media";
 import { MORPH_NAVIGATION_ICONS } from "../../components/ui/morph-icons-navigation";
-import { compileMorphPath, morphEase, morphPathFrame } from "../../components/ui/morph-icon-motion";
+import { compileMorphPath, morphActivityFrame, morphEase, morphPathFrame } from "../../components/ui/morph-icon-motion";
 import type { MorphIconPath } from "../../components/ui/morph-icon-geometry";
 
 const definitions = [...MORPH_NAVIGATION_ICONS, ...MORPH_MEDIA_ICONS];
@@ -121,5 +121,63 @@ describe("morph path compilation and interpolation", () => {
     expect(samples[10]).toBe(1);
     expect(samples.slice(1).every((sample, index) => sample >= samples[index])).toBe(true);
     expect(morphEase(.5)).toBeGreaterThan(.5);
+  });
+
+  it("pulses all five listening lanes without moving their center, horizontal position or stroke", () => {
+    const bars = MORPH_MEDIA_ICONS.find(icon => icon.name === "microphone")!.paths.filter(path => path.activity?.kind === "wave");
+    expect(bars.map(path => path.activity!.lane)).toEqual([0, 1, 2, 3, 4]);
+    for (const path of bars) {
+      const base = coordinates(path.to), lengths = new Set<number>();
+      expect(morphActivityFrame(path.activity, path.to, 0, 800)).toEqual({ d: path.to });
+      expect(morphActivityFrame(path.activity, path.to, .55, 800)).toEqual({ d: path.to });
+      expect(morphActivityFrame(path.activity, path.to, 1, 0)).toEqual({ d: path.to });
+      for (const elapsed of [250, 400, 600, 900, 1200, 1500]) {
+        const frame = morphActivityFrame(path.activity, path.to, 1, elapsed), values = coordinates(frame.d);
+        expect(commands(frame.d)).toBe("ML");
+        expect(frame.transform).toBeUndefined();
+        expect(values[0]).toBe(base[0]);
+        expect(values[2]).toBe(base[2]);
+        expect((values[1] + values[3]) / 2).toBeCloseTo(12, 3);
+        expect(values[3] - values[1]).toBeGreaterThan(0);
+        expect(values[3] - values[1]).toBeLessThanOrEqual(base[3] - base[1] + .001);
+        lengths.add(values[3] - values[1]);
+      }
+      expect(lengths.size).toBeGreaterThan(1);
+    }
+  });
+
+  it("keeps typing dots circular while their staggered rise includes a shared resting interval", () => {
+    const dots = MORPH_MEDIA_ICONS.find(icon => icon.name === "message")!.paths.filter(path => path.activity?.kind === "dot");
+    expect(dots.map(path => path.activity!.lane)).toEqual([0, 1, 2]);
+    const offset = (path: typeof dots[number], elapsed: number) => {
+      const frame = morphActivityFrame(path.activity, path.to, 1, elapsed);
+      expect(frame.d).toBe(path.to);
+      expect(frame.transform).toMatch(/^translate\(0 [-\d.]+\)$/);
+      return Number(frame.transform!.match(/^translate\(0 ([-\d.]+)\)$/)![1]);
+    };
+    for (const path of dots) {
+      expect(morphActivityFrame(path.activity, path.to, 1, 0)).toEqual({ d: path.to });
+      for (const elapsed of [300, 450, 600, 900, 1150, 1410]) {
+        expect(offset(path, elapsed)).toBeGreaterThanOrEqual(-1.5);
+        expect(offset(path, elapsed)).toBeLessThanOrEqual(0);
+      }
+      expect(offset(path, 900)).toBe(0);
+    }
+    expect(offset(dots[0], 1150)).toBeLessThan(0);
+    expect(offset(dots[1], 1150)).toBe(0);
+    expect(offset(dots[2], 1150)).toBe(0);
+    expect(offset(dots[1], 1280)).toBeLessThan(0);
+    expect(offset(dots[2], 1280)).toBe(0);
+    expect(offset(dots[2], 1410)).toBeLessThan(0);
+  });
+
+  it("rejects activity lanes outside their authored five-bar and three-dot motifs", () => {
+    const base = { from: "M5 9L5 15", to: "M5 9L5 15" };
+    for (const kind of ["wave", "dot"] as const) {
+      const maximum = kind === "wave" ? 4 : 2;
+      for (const lane of [-1, .5, maximum + 1, NaN, Infinity]) expect(() => compileMorphPath({ ...base, activity: { kind, lane } })).toThrow(/Activity lanes/);
+      for (let lane = 0; lane <= maximum; lane++) expect(compileMorphPath({ ...base, activity: { kind, lane } }).activity).toEqual({ kind, lane });
+    }
+    expect(morphActivityFrame(undefined, base.from, 1, 400)).toEqual({ d: base.from });
   });
 });

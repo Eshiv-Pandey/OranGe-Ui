@@ -56,12 +56,14 @@ export const MORPH_NAVIGATION_ICONS = [
   {
     name: "layout", title: "Layout", category: "Workspace", states: ["Grid", "Rows"],
     paths: [
-      path(rect(3.5, 3.5, 6.5, 6.5, 1.5), rect(3.5, 3.5, 17, 3.5, 1.2), { keyframes: [.25, .55, .7].map(at => ({ at, d: rect(3.5, 3.5, 6.5, 3.5, 1.2) })) }),
-      path(rect(14, 3.5, 6.5, 6.5, 1.5), rect(3.5, 10.25, 17, 3.5, 1.2), {
-        keyframes: [{ at: .25, d: rect(14, 3.5, 6.5, 3.5, 1.2) }, { at: .55, d: rect(14, 10.25, 6.5, 3.5, 1.2) }, { at: .7, d: rect(3.5, 10.25, 6.5, 3.5, 1.2) }],
+      path(rect(3.5, 3.5, 6.5, 6.5, 1.5), rect(3.5, 4.5, 17, 5.5, 1.5), {
+        keyframes: [{ at: .25, d: rect(3.5, 4.5, 6.5, 5.5, 1.5) }, { at: .9, d: rect(3.5, 4.5, 17, 5.5, 1.5) }],
       }),
-      path(rect(3.5, 14, 6.5, 6.5, 1.5), rect(3.5, 17, 17, 3.5, 1.2), { keyframes: [.25, .55, .7].map(at => ({ at, d: rect(3.5, 17, 6.5, 3.5, 1.2) })) }),
-      path(rect(14, 14, 6.5, 6.5, 1.5), undefined, { opacity: [1, 0], opacityPhase: [0, .22] }),
+      path(rect(14, 3.5, 6.5, 6.5, 1.5), undefined, { opacity: [1, 0], opacityPhase: [0, .2] }),
+      path(rect(3.5, 14, 6.5, 6.5, 1.5), rect(3.5, 14, 17, 5.5, 1.5), {
+        keyframes: [{ at: .25, d: rect(3.5, 14, 6.5, 5.5, 1.5) }, { at: .9, d: rect(3.5, 14, 17, 5.5, 1.5) }],
+      }),
+      path(rect(14, 14, 6.5, 6.5, 1.5), undefined, { opacity: [1, 0], opacityPhase: [0, .2] }),
     ],
   },
   {
@@ -87,9 +89,9 @@ export const MORPH_NAVIGATION_ICONS = [
   {
     name: "lock", title: "Lock", category: "Workspace", states: ["Locked", "Unlocked"],
     paths: [
-      path(rect(5, 10.25, 14, 10.25, 2.25)),
-      path("M7.75 10.25L7.75 7.5C7.75 5.153 9.653 3.25 12 3.25C14.347 3.25 16.25 5.153 16.25 7.5L16.25 10.25", "M7.75 10.25L7.75 7.5C7.75 5.153 9.653 3.25 12 3.25C14.347 3.25 16.25 5.153 16.25 7.5L16.25 7.5", { geometryPhase: [.15, .8] }),
-      path(circle(12, 14.7, .7), undefined, { filled: true }), path(line(12, 15.1, 12, 17.5)),
+      path(rect(5, 10.5, 14, 10, 2.5)),
+      path("M8 10.5L8 7.5C8 5.291 9.791 3.5 12 3.5C14.209 3.5 16 5.291 16 7.5L16 10.5", "M8 10.5L8 6.5C8 4.291 9.791 2.5 12 2.5C14.209 2.5 16 4.291 16 6.5L16 6.8", { geometryPhase: [.1, .85] }),
+      path(line(12, 14, 12, 17)),
     ],
   },
   {
@@ -122,12 +124,13 @@ export const MORPH_NAVIGATION_ICONS = [
   {
     name: "eye", title: "Visibility", category: "Actions", states: ["Visible", "Hidden"],
     paths: [
-      path("M3.5 12C7 6.4 17 6.4 20.5 12", undefined, { opacity: [1, 0], opacityPhase: [.05, .4] }),
-      path("M3.5 12C7 17.6 17 17.6 20.5 12", "M3.5 10.25C7 16.4 17 16.4 20.5 10.25", { geometryPhase: [.2, .75] }),
-      path(circle(12, 12, 2.25), undefined, { opacity: [1, 0], opacityPhase: [0, .2] }),
-      path(line(7, 13.7, 5.8, 16.3), undefined, { opacity: [0, 1], opacityPhase: [.7, .95], draw: [0, 1], drawPhase: [.65, 1] }),
-      path(line(12, 14.8, 12, 17.75), undefined, { opacity: [0, 1], opacityPhase: [.7, .95], draw: [0, 1], drawPhase: [.65, 1] }),
-      path(line(17, 13.7, 18.2, 16.3), undefined, { opacity: [0, 1], opacityPhase: [.7, .95], draw: [0, 1], drawPhase: [.65, 1] }),
+      path("M3.5 12C6.2 7.6 9.2 5.8 12 5.8C14.8 5.8 17.8 7.6 20.5 12", undefined, { opacity: [1, 0], opacityPhase: [.05, .4] }),
+      path("M3.5 12C6.2 16.4 9.2 18.2 12 18.2C14.8 18.2 17.8 16.4 20.5 12", "M3.5 9.5C6.2 13.2 9.2 15 12 15C14.8 15 17.8 13.2 20.5 9.5", { geometryPhase: [.2, .75] }),
+      path(circle(12, 12, 2.6), undefined, { opacity: [1, 0], opacityPhase: [0, .2] }),
+      path(line(5.8, 12.6, 4.4, 14.1), undefined, { opacity: [0, 1], opacityPhase: [.7, .95], draw: [0, 1], drawPhase: [.65, 1] }),
+      path(line(8.4, 14.4, 7.4, 16.7), undefined, { opacity: [0, 1], opacityPhase: [.7, .95], draw: [0, 1], drawPhase: [.65, 1] }),
+      path(line(15.6, 14.4, 16.6, 16.7), undefined, { opacity: [0, 1], opacityPhase: [.7, .95], draw: [0, 1], drawPhase: [.65, 1] }),
+      path(line(18.2, 12.6, 19.6, 14.1), undefined, { opacity: [0, 1], opacityPhase: [.7, .95], draw: [0, 1], drawPhase: [.65, 1] }),
     ],
   },
   {

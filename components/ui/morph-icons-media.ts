@@ -31,8 +31,8 @@ const playLeftLane = roundedPolygon([[5.75, 4.75], [10.25, 5.7], [10.25, 18.3], 
 const playRightFold = roundedPolygon([[14, 8.8], [18.1, 11.1], [18.1, 12.9], [14, 15.2]], .65);
 const pauseLeft = rect(5.75, 4.75, 4.5, 14.5, 1.8), pauseRight = rect(13.75, 4.75, 4.5, 14.5, 1.8);
 
-const heart = "M12 20C10.1 18.5 4.2 14.8 4.2 9C4.2 4.5 9.4 3.2 12 7C14.6 3.2 19.8 4.5 19.8 9C19.8 14.8 13.9 18.5 12 20Z";
-const selectedHeart = "M12 20.2C10 18.6 4 14.8 4 8.8C4 4.3 9.4 3 12 6.8C14.6 3 20 4.3 20 8.8C20 14.8 14 18.6 12 20.2Z";
+const heart = "M12 19C9.6 17.1 3.2 13.5 3.2 8.8C3.2 4.7 8.6 3.5 12 7.3C15.4 3.5 20.8 4.7 20.8 8.8C20.8 13.5 14.4 17.1 12 19Z";
+const selectedHeart = "M12 19.2C9.5 17.2 3 13.6 3 8.7C3 4.4 8.6 3.2 12 7.1C15.4 3.2 21 4.4 21 8.7C21 13.6 14.5 17.2 12 19.2Z";
 const star = (outer: number, inner: number) => roundedPolygon(Array.from({ length: 10 }, (_, index) => {
   const angle = -Math.PI / 2 + index * Math.PI / 5, radius = index % 2 ? inner : outer;
   return [12 + Math.cos(angle) * radius, 12 + Math.sin(angle) * radius] as const;
@@ -47,7 +47,9 @@ function turnedCheck(cx: number, cy: number, scale: number, ox: number, oy: numb
 }
 
 const tray = "M4 16L4 18C4 19.1046 4.8954 20 6 20L18 20C19.1046 20 20 19.1046 20 18L20 16";
-const bubble = "M5.5 4.5L18.5 4.5C19.8807 4.5 21 5.6193 21 7L21 14C21 15.3807 19.8807 16.5 18.5 16.5L10 16.5L5.5 20.5L5.5 16.5C4.1193 16.5 3 15.3807 3 14L3 7C3 5.6193 4.1193 4.5 5.5 4.5Z";
+const bubble = "M7.3 5L16.7 5C18.909 5 20.7 6.791 20.7 9L20.7 13C20.7 15.209 18.909 17 16.7 17L9.5 17L6.4 20.1L6.4 16.9C4.621 16.508 3.3 14.918 3.3 13L3.3 9C3.3 6.791 5.091 5 7.3 5Z";
+const closedEnvelope = "M5.5 7.5L12 7.5L18.5 7.5C19.6046 7.5 20.5 8.3954 20.5 9.5L20.5 18C20.5 19.1046 19.6046 20 18.5 20L5.5 20C4.3954 20 3.5 19.1046 3.5 18L3.5 9.5C3.5 8.3954 4.3954 7.5 5.5 7.5Z";
+const openEnvelope = "M4.7 8.5L12 4.3L19.3 8.5C20 8.9 20.5 9.45 20.5 10.25L20.5 18C20.5 19.1046 19.6046 20 18.5 20L5.5 20C4.3954 20 3.5 19.1046 3.5 18L3.5 10.25C3.5 9.45 4 8.9 4.7 8.5Z";
 
 /** Twenty original paired states with restrained detail exits and joined feedback marks. */
 export const MORPH_MEDIA_ICONS = [
@@ -70,15 +72,15 @@ export const MORPH_MEDIA_ICONS = [
   {
     name: "microphone", title: "Microphone", category: "Media", states: ["Microphone", "Listening"],
     paths: [
-      path(rect(9, 3, 6, 11, 3), undefined, { opacity: [1, 0], opacityPhase: [.38, .62] }),
-      path("M6 10C6 18 18 18 18 10", "M8 13C8 16 16 16 16 13", { geometryPhase: [.15, .45], opacity: [1, 0], opacityPhase: [.2, .48], draw: [1, 0], drawPhase: [.18, .48] }),
-      path(line(12, 18, 12, 21), undefined, { opacity: [1, 0], opacityPhase: [.1, .34], draw: [1, 0], drawPhase: [.1, .34] }),
-      path(line(8.5, 21, 15.5, 21), undefined, { opacity: [1, 0], opacityPhase: [.05, .25], draw: [1, 0], drawPhase: [.05, .25] }),
-      path(line(6, 9, 6, 15), undefined, { opacity: [0, 1], opacityPhase: [.58, .72], draw: [0, 1], drawPhase: [.58, .84] }),
-      path(line(9, 7, 9, 17), undefined, { opacity: [0, 1], opacityPhase: [.6, .74], draw: [0, 1], drawPhase: [.6, .88] }),
-      path(line(12, 5, 12, 19), undefined, { opacity: [0, 1], opacityPhase: [.52, .68], draw: [0, 1], drawPhase: [.52, .82] }),
-      path(line(15, 7, 15, 17), undefined, { opacity: [0, 1], opacityPhase: [.6, .74], draw: [0, 1], drawPhase: [.6, .88] }),
-      path(line(18, 9, 18, 15), undefined, { opacity: [0, 1], opacityPhase: [.58, .72], draw: [0, 1], drawPhase: [.58, .84] }),
+      path(rect(8.5, 3.8, 7, 10, 3.5), undefined, { opacity: [1, 0], opacityPhase: [.12, .4] }),
+      path("M5 10.5C5 14.366 8.134 17.5 12 17.5C15.866 17.5 19 14.366 19 10.5", undefined, { opacity: [1, 0], opacityPhase: [.04, .28], draw: [1, 0], drawPhase: [0, .28] }),
+      path(line(12, 17.5, 12, 20.2), undefined, { opacity: [1, 0], opacityPhase: [0, .18], draw: [1, 0], drawPhase: [0, .18] }),
+      path(line(8.5, 20.2, 15.5, 20.2), undefined, { opacity: [1, 0], opacityPhase: [0, .16], draw: [1, 0], drawPhase: [0, .16] }),
+      path(line(4, 10.25, 4, 13.75), line(4, 8.75, 4, 15.25), { opacity: [0, 1], opacityPhase: [.43, .6], geometryPhase: [.43, .82], activity: { kind: "wave", lane: 0 } }),
+      path(line(8, 10.25, 8, 13.75), line(8, 5, 8, 19), { opacity: [0, 1], opacityPhase: [.45, .63], geometryPhase: [.45, .9], activity: { kind: "wave", lane: 1 } }),
+      path(line(12, 10.25, 12, 13.75), line(12, 2.5, 12, 21.5), { opacity: [0, 1], opacityPhase: [.4, .58], geometryPhase: [.4, .82], activity: { kind: "wave", lane: 2 } }),
+      path(line(16, 10.25, 16, 13.75), line(16, 5, 16, 19), { opacity: [0, 1], opacityPhase: [.45, .63], geometryPhase: [.45, .9], activity: { kind: "wave", lane: 3 } }),
+      path(line(20, 10.25, 20, 13.75), line(20, 8.75, 20, 15.25), { opacity: [0, 1], opacityPhase: [.43, .6], geometryPhase: [.43, .82], activity: { kind: "wave", lane: 4 } }),
     ],
   },
   {
@@ -108,22 +110,10 @@ export const MORPH_MEDIA_ICONS = [
   {
     name: "shuffle", title: "Shuffle", category: "Media", states: ["Straight", "Shuffle"],
     paths: [
-      path("M4 6C9 6 15 6 20 6", "M4 18C9 18 15 6 20 6", { keyframes: [
-        { at: .25, d: "M6.5 9C11.5 9 15 6 20 6" },
-        { at: .5, d: "M9 12C13 12 16 6 20 6" },
-        { at: .55, d: "M8.5 12.6C12.8 12.6 15.8 6 20 6" },
-        { at: .625, d: "M7.1 13.5C12.1 13.5 15.5 6 20 6" },
-        { at: .75, d: "M5.3 15C10.3 15 15 6 20 6" },
-      ] }),
-      path("M4 18C6 18 9 18 12 18M12 18C15 18 17 18 20 18", "M4 6C7 6 8.5 10 10 10.5M14 13.5C15.5 16 17 18 20 18", { keyframes: [
-        { at: .25, d: "M4 15C5 16 8 17.5 11 17.7M11 17.7C14 17.9 17 18 20 18" },
-        { at: .5, d: "M4 12C5 14 7.5 16 10.5 16.5M10.5 16.5C13.5 17 17 18 20 18" },
-        { at: .55, d: "M4 11.4C4.1 11.6 4.3 11.8 4.4 11.9M9 15.8C12 17.2 17 18 20 18" },
-        { at: .625, d: "M4 10.5C4.3 11 4.7 11.6 5 12M9.3 15C12 17 17 18 20 18" },
-        { at: .75, d: "M4 9C5 10.5 6 12 7 12.5M10.5 15.5C13 17 17 18 20 18" },
-      ] }),
-      path(poly([[17, 3], [20, 6], [17, 9]])),
-      path(poly([[17, 15], [20, 18], [17, 21]])),
+      path("M4 6C10 6 14 6 20 6", "M4 18C10 18 14 6 20 6"),
+      path("M4 18C10 18 14 18 20 18", "M4 6C10 6 14 18 20 18"),
+      path(poly([[17.3, 3.3], [20, 6], [17.3, 8.7]])),
+      path(poly([[17.3, 15.3], [20, 18], [17.3, 20.7]])),
     ],
   },
   {
@@ -145,9 +135,9 @@ export const MORPH_MEDIA_ICONS = [
   {
     name: "copy", title: "Copy", category: "Actions", states: ["Copy", "Copied"],
     paths: [
-      path("M6.5 15L5 15C3.8954 15 3 14.1046 3 13L3 5C3 3.8954 3.8954 3 5 3L13 3C14.1046 3 15 3.8954 15 5L15 6.5", "M7 13.5L6.5 13.5C5.6716 13.5 5 12.8284 5 12L5 7C5 6.1716 5.6716 5.5 6.5 5.5L12 5.5C12.8284 5.5 13.5 6.1716 13.5 7L13.5 8", { geometryPhase: [0, .35], opacity: [1, 0], opacityPhase: [.05, .35], draw: [1, 0], drawPhase: [.05, .35] }),
-      path(rect(7, 7, 14, 14, 2.3), rect(4, 4, 16, 16, 8), { geometryPhase: [.12, .6] }),
-      path(check(), undefined, { opacity: [0, 1], opacityPhase: [.5, .62], draw: [0, 1], drawPhase: [.55, .93] }),
+      path("M6.6 17L6.25 17C4.7312 17 3.5 15.7688 3.5 14.25L3.5 6.25C3.5 4.7312 4.7312 3.5 6.25 3.5L14.25 3.5C15.7688 3.5 17 4.7312 17 6.25L17 6.6", "M7.5 14.5L7.25 14.5C5.8693 14.5 4.75 13.3807 4.75 12L4.75 7.25C4.75 5.8693 5.8693 4.75 7.25 4.75L12 4.75C13.3807 4.75 14.5 5.8693 14.5 7.25L14.5 7.5", { geometryPhase: [0, .3], opacity: [1, 0], opacityPhase: [0, .3], draw: [1, 0], drawPhase: [0, .3] }),
+      path(rect(7, 7, 13.5, 13.5, 2.75), rect(4, 4, 16, 16, 8), { geometryPhase: [.05, .55] }),
+      path(check(), undefined, { opacity: [0, 1], opacityPhase: [.35, .48], draw: [0, 1], drawPhase: [.4, .85] }),
     ],
   },
   {
@@ -193,29 +183,27 @@ export const MORPH_MEDIA_ICONS = [
   {
     name: "mail", title: "Mail", category: "Communication", states: ["Closed", "Open"],
     paths: [
-      path(rect(3.5, 7.5, 17, 12.5, 2.4)),
-      path(poly([[4.3, 8.1], [12, 14.1], [19.7, 8.1]]), poly([[4.3, 8.1], [12, 3.8], [19.7, 8.1]]), { keyframes: [{ at: .42, d: poly([[4.3, 8.1], [12, 8.1], [19.7, 8.1]]) }, { at: .75, d: poly([[4.3, 8.1], [12, 4.9], [19.7, 8.1]]) }] }),
+      path(closedEnvelope, openEnvelope),
+      path(poly([[4.7, 8.5], [12, 13.7], [19.3, 8.5]]), poly([[4.7, 10.3], [12, 15.4], [19.3, 10.3]])),
     ],
   },
   {
     name: "message", title: "Message", category: "Communication", states: ["Message", "Typing"],
     paths: [
-      path(bubble),
-      path(line(7, 9, 17, 9), undefined, { opacity: [1, 0], opacityPhase: [.08, .32], draw: [1, 0], drawPhase: [0, .32] }),
-      path(line(7, 12.5, 14, 12.5), undefined, { opacity: [1, 0], opacityPhase: [.08, .32], draw: [1, 0], drawPhase: [0, .32] }),
-      path(circle(7.8, 10.8, .8), undefined, { filled: true, opacity: [0, 1], opacityPhase: [.35, .55] }),
-      path(circle(12, 10.8, .8), undefined, { filled: true, opacity: [0, 1], opacityPhase: [.4, .6] }),
-      path(circle(16.2, 10.8, .8), undefined, { filled: true, opacity: [0, 1], opacityPhase: [.45, .65] }),
+      path(bubble, undefined, { opacity: [1, 0], opacityPhase: [.1, .4] }),
+      path(circle(6.5, 12, 1.75), undefined, { filled: true, opacity: [0, 1], opacityPhase: [.32, .5], activity: { kind: "dot", lane: 0 } }),
+      path(circle(12, 12, 1.75), undefined, { filled: true, opacity: [0, 1], opacityPhase: [.36, .54], activity: { kind: "dot", lane: 1 } }),
+      path(circle(17.5, 12, 1.75), undefined, { filled: true, opacity: [0, 1], opacityPhase: [.4, .58], activity: { kind: "dot", lane: 2 } }),
     ],
   },
   {
     name: "user", title: "Follow", category: "Communication", states: ["Follow", "Following"],
     paths: [
-      path(circle(8.5, 7, 3)),
-      path("M2.5 20C2.5 16.3 5 14 8.5 14C12 14 14.5 16.3 14.5 20"),
-      path(line(17, 15, 21, 15), undefined, { opacity: [1, 0], opacityPhase: [.05, .32], draw: [1, 0], drawPhase: [0, .32] }),
-      path(line(19, 13, 19, 17), undefined, { opacity: [1, 0], opacityPhase: [.05, .32], draw: [1, 0], drawPhase: [0, .32] }),
-      path(check(18.5, 15, .6), undefined, { opacity: [0, 1], opacityPhase: [.36, .5], draw: [0, 1], drawPhase: [.36, .82] }),
+      path(circle(8.6, 8, 2.9)),
+      path("M2.8 18.5C2.8 15.65 5.25 13.8 8.6 13.8C11.95 13.8 14.4 15.65 14.4 18.5"),
+      path(line(16.6, 14.8, 21.4, 14.8), undefined, { opacity: [1, 0], opacityPhase: [.05, .32], draw: [1, 0], drawPhase: [0, .32] }),
+      path(line(19, 12.4, 19, 17.2), undefined, { opacity: [1, 0], opacityPhase: [.05, .32], draw: [1, 0], drawPhase: [0, .32] }),
+      path(check(18.75, 14.8, .55), undefined, { opacity: [0, 1], opacityPhase: [.36, .5], draw: [0, 1], drawPhase: [.36, .82] }),
     ],
   },
 ] as const satisfies readonly MorphIconDefinition[];

@@ -2,7 +2,7 @@
 
 Forty original React icons connect two useful interface states through continuous SVG geometry. They use a shared `24 × 24` grid, rounded caps and joins, and `currentColor`. The component collection is available at `/components/morphing-icons`.
 
-The reusable icon follows application state. The catalogue preview supplies the automatic switching, hover pause and click interaction separately.
+The reusable icon follows application state. Listening pulses five centered bars; Typing animates three standalone dots with a small staggered rise and resting interval. The catalogue preview supplies the automatic state switching, hover pause and click interaction separately.
 
 ## Install and use
 
@@ -57,9 +57,10 @@ const name: MorphIconName = "play-pause";
 | `name` | Required | Typed name from the forty-icon collection. |
 | `active` | `false` | Chooses the alternate state. The containing application owns this value. |
 | `size` | `24` | Equal width and height. Numbers are clamped to 12 through 1024 pixels; strings accept CSS dimensions. |
-| `strokeWidth` | `1.75` | Line weight on the 24-unit grid, clamped to 0.75 through 3. |
+| `strokeWidth` | `1.5` | Line weight on the 24-unit grid, clamped to 0.75 through 3. |
 | `duration` | `260` | Full-transition milliseconds, clamped to 120 through 1200. A reversal scales its duration to the remaining distance. |
 | `reducedMotion` | `false` | Immediately displays the chosen state. The system reduced-motion preference also disables transitions. |
+| `animateActivity` | `true` | Pulse the active Listening bars and bounce the Typing dots. Set `false` for a still active state. Reduced motion, hidden tabs and offscreen icons suspend this activity. |
 | `label` | Unset | Accessible name for an informative SVG. |
 | `decorative` | Automatic | Unlabeled icons are hidden from assistive technology. Set `false` to expose an informative image with its state label. |
 | `appearance` | Unset | Records the existing library appearance. The glyph still inherits its surrounding text color. |
@@ -123,13 +124,13 @@ The collection groups icons into Navigation, Workspace, Media, Actions and Commu
 
 Visible previews alternate automatically in staggered groups with a resting interval between transitions. Hover pauses an icon; clicking switches its state and selects it. Leaving resumes automatic switching. Keyboard focus pauses switching, Enter or Space changes state, and blur resumes it. A touch press holds that preview for manual control; Resume releases held previews.
 
-The shared Pause control stops automatic switching. Automatic previews also stop under reduced motion, when the collection is offscreen or when the tab is hidden. Individual offscreen tiles do not advance. Reduced motion leaves the controls available and shows chosen states immediately.
+Hover holds the selected state while Listening and Typing continue their activity. The shared Pause control stops automatic switching and activity. Automatic previews also stop under reduced motion, when the collection is offscreen or when the tab is hidden. Individual offscreen tiles do not advance. Reduced motion leaves the controls available and shows chosen states immediately without activity.
 
 The gallery displays 48px specimens and the selected preview starts at 80px, with a size control up to 128px. The selected preview has controls for either state, icon size, stroke and duration. Choosing a state holds that icon until Resume. Copy React uses the current values and offers selectable code if clipboard access is unavailable.
 
 SVG downloads contain the selected still state. The animated React source is available through the registry and source ZIP.
 
-`morphIconSvg(name, active, size, strokeWidth)` also returns that portable SVG string directly. Its defaults are `active=false`, `size=128` and `strokeWidth=1.75`; numeric size is clamped to 12 through 2048. The SVG includes a state label and a default dark color that can be changed when embedding the markup.
+`morphIconSvg(name, active, size, strokeWidth)` also returns that portable SVG string directly. Its defaults are `active=false`, `size=128` and `strokeWidth=1.5`; numeric size is clamped to 12 through 2048. The SVG includes a state label and a default dark color that can be changed when embedding the markup. It exports the resting still state; ongoing activity is supplied by the React component.
 
 ## Design and reference research
 
@@ -137,7 +138,7 @@ The behavioral reference was [Kobra's morphing icons](https://kobra.systems/comp
 
 Consistency and accessibility research also used [Lucide's icon design principles](https://lucide.dev/contribute/icons/design-principles), [Material animated icon guidance](https://m2.material.io/design/iconography/animated-icons.html), the [WAI button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/) and [WCAG guidance on interaction animation](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html). The implemented 260ms default is the collection's own timing choice.
 
-## Verification, November 13, 2026
+## Initial verification, November 13, 2026
 
 The polish pass checks all forty pairs at nine positions through each transition. The 1,800 rendered samples cover the default 1.75 and maximum 3 stroke weights at interface and enlarged sizes, with no clipping or empty frames. Layout's visible contours stay separate through the grid-to-row route.
 
@@ -146,3 +147,13 @@ Thirty-four focused unit and source tests pass, including all named exports, bot
 Five production browser scenarios pass across the interaction run and the final accessibility confirmation: automatic switching and hover/keyboard control; search, settings and exports; touch, offscreen and reduced motion; responsive themes; and long transitions with reversal. The layout matrix covers 1440 by 900, 1536 by 772, 390 by 844 and 320 by 568 in both themes. All eight cases have zero Axe findings, horizontal overflow or inspector overflow. Timed strips sample eight difficult pairs at 600ms and reverse them during motion, verifying no jump at the reversal and return to the initial geometry.
 
 Production build `zAPnNBnfyJsvONciwAUFm`, scoped ESLint, copy and whitespace checks pass. The component-source route trace contains all five core files and no local instructions or research evidence. The build retains existing named-version-import advisories in the shared library shell and getting-started page. Browser coverage is Chromium with emulated touch; no physical-device performance claim is made.
+
+## Activity and proportion refinement, November 13, 2026
+
+The current default stroke is 1.5 in the React core, gallery and static export. Heart and Follow have more width relative to height; Layout settles into two rows. Shuffle keeps continuous attached routes, Visibility has a clear almond and pupil, Unlocked has an obvious opening, and Mail uses a simple connected envelope outline. Microphone and Copy use balanced rounded contours and staged detail transitions.
+
+Listening pulses five bars independently around a fixed vertical center. Their lengths change while their stroke width stays constant. Typing replaces the bubble with three equal dots that rise in sequence and rest together. Hover holds the state while these activities continue. `animateActivity={false}`, explicit preview Pause, reduced motion, hidden tabs and offscreen visibility stop the activity. The component owns one cancellable animation-frame callback and preserves interruption, SVG refs and still server-rendered/exported states.
+
+Current verification includes 41 passing unit/source tests, with seven new activity cases covering geometry, resting intervals, opt-out, reduced motion, visibility, reversal and cleanup. All six production browser scenarios passed in the initial refinement run. After the final bar and dot spacing correction, the layout, timed reversal and activity scenarios passed again on production build `styWDoLb762347zlXB_ko`. The final matrix has sixteen valid captures across eight viewport/theme cases, with zero Axe findings, horizontal overflow or inspector overflow. The final trace includes all five core files and no private source.
+
+The static refinement sheets cover all forty pairs in 1,800 samples before the last spacing correction. Final activity samples additionally verify the five bar centers and safe bounds at the maximum stroke; the three dot centers, radius and maximum rise stay inside the canvas. Scoped ESLint, copy and whitespace checks pass. The existing shared version-import advisories and Chromium/emulated-touch verification limits still apply.

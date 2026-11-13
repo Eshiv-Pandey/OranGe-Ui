@@ -35,6 +35,7 @@ let mediaListeners: Set<() => void>;
 beforeEach(() => {
   now = 0; nextFrame = 0; reduced = false;
   frames = new Map(); mediaListeners = new Set();
+  vi.spyOn(document, "hidden", "get").mockReturnValue(false);
   vi.spyOn(performance, "now").mockImplementation(() => now);
   vi.stubGlobal("requestAnimationFrame", vi.fn((callback: FrameRequestCallback) => {
     const id = ++nextFrame; frames.set(id, callback); return id;
@@ -121,15 +122,15 @@ describe("controlled morph icons", () => {
     }
   });
 
-  it("shares the 1.75 default stroke between React artwork and standalone SVG", () => {
+  it("shares the 1.5 default stroke between React artwork and standalone SVG", () => {
     const { container } = render(<MorphIcon name="menu" />);
-    expect(svgElement(container)).toHaveAttribute("stroke-width", "1.75");
-    expect(svgElement(container).style.strokeWidth).toBe("1.75");
+    expect(svgElement(container)).toHaveAttribute("stroke-width", "1.5");
+    expect(svgElement(container).style.strokeWidth).toBe("1.5");
     const exported = new DOMParser().parseFromString(morphIconSvg("menu"), "image/svg+xml");
-    expect(exported.documentElement.getAttribute("stroke-width")).toBe("1.75");
+    expect(exported.documentElement.getAttribute("stroke-width")).toBe("1.5");
   });
 
-  it("stays controlled and has no automatic loop or internal click toggle", () => {
+  it("keeps ordinary icons controlled without an activity loop or internal click toggle", () => {
     const { container, rerender } = render(<MorphIcon name="plus" />);
     const svg = svgElement(container);
     expect(frames.size).toBe(0);
@@ -299,5 +300,109 @@ describe("controlled morph icons", () => {
     expect(mediaListeners.size).toBe(0);
     frame(1000);
     expect(pathState(svg)).toEqual(painted);
+  });
+
+  it("keeps listening activity running after settling and exits from the currently painted bars", () => {
+    const { container, rerender } = render(<MorphIcon name="microphone" active duration={400} />);
+    const svg = svgElement(container), paths = [...svg.querySelectorAll("path")];
+    expect(pathState(svg)).toEqual(endpoint("microphone", true));
+    expect(frames.size).toBe(1);
+    frame(0);
+    frame(250);
+    const first = pathState(svg);
+    frame(400);
+    const current = pathState(svg);
+    expect(current).not.toEqual(first);
+    expect(svg).toHaveAttribute("data-state", "active");
+    expect(svg).toHaveAttribute("stroke-width", "1.5");
+    expect([...svg.querySelectorAll("path")]).toEqual(paths);
+    expect(frames.size).toBe(1);
+    rerender(<MorphIcon name="microphone" duration={400} />);
+    expect(pathState(svg)).toEqual(current);
+    frame(400);
+    expect(pathState(svg)).toEqual(current);
+    frame(420);
+    expect(pathState(svg)).not.toEqual(current);
+    frame(1000);
+    expect(pathState(svg)).toEqual(endpoint("microphone", false));
+    expect(frames.size).toBe(0);
+  });
+
+  it("animates only three standalone typing dots and honors opt-out and both reduced-motion controls", () => {
+    const { container, rerender } = render(<MorphIcon name="message" active />);
+    const svg = svgElement(container);
+    frame(0);
+    frame(250);
+    const first = pathState(svg);
+    frame(400);
+    const current = pathState(svg), definition = getMorphIcon("message");
+    expect(current).not.toEqual(first);
+    expect(current.filter(path => path.opacity > 0)).toHaveLength(3);
+    definition.paths.forEach((path, index) => {
+      if (path.activity) {
+        expect(current[index].d).toBe(path.to);
+        expect(current[index].transform).toMatch(/^translate\(0 /);
+      } else expect(current[index].opacity).toBe(0);
+    });
+    expect(frames.size).toBe(1);
+    rerender(<MorphIcon name="message" active animateActivity={false} />);
+    expect(pathState(svg)).toEqual(endpoint("message", true));
+    expect(frames.size).toBe(0);
+    rerender(<MorphIcon name="message" active />);
+    expect(frames.size).toBe(1);
+    frame(500); frame(750);
+    expect(pathState(svg)).not.toEqual(endpoint("message", true));
+    act(() => { reduced = true; for (const listener of mediaListeners) listener(); });
+    expect(pathState(svg)).toEqual(endpoint("message", true));
+    expect(frames.size).toBe(0);
+    act(() => { reduced = false; for (const listener of mediaListeners) listener(); });
+    expect(frames.size).toBe(1);
+    rerender(<MorphIcon name="message" active reducedMotion />);
+    expect(pathState(svg)).toEqual(endpoint("message", true));
+    expect(frames.size).toBe(0);
+  });
+
+  it.each(["microphone", "message"] as const)("suspends %s activity offscreen or in a hidden tab and releases its observer and SVG ref", name => {
+    const records: { callback: IntersectionObserverCallback; observed: Element[]; disconnect: () => void }[] = [];
+    vi.stubGlobal("IntersectionObserver", class {
+      record: typeof records[number];
+      constructor(callback: IntersectionObserverCallback) {
+        this.record = { callback, observed: [], disconnect: vi.fn() }; records.push(this.record);
+      }
+      observe(element: Element) { this.record.observed.push(element); }
+      disconnect() { this.record.disconnect(); }
+    });
+    const hidden = vi.spyOn(document, "hidden", "get").mockReturnValue(false);
+    const removeListener = vi.spyOn(document, "removeEventListener");
+    const reference = createRef<SVGSVGElement>();
+    const { container, unmount } = render(<MorphIcon name={name} active ref={reference} />);
+    const svg = svgElement(container), observer = records[0];
+    expect(reference.current).toBe(svg);
+    expect(records).toHaveLength(1);
+    expect(observer.observed).toEqual([svg]);
+    frame(0); frame(250);
+    expect(frames.size).toBe(1);
+    const visibility = (isIntersecting: boolean) => act(() => observer.callback([{
+      target: svg, isIntersecting, time: now, rootBounds: null,
+      boundingClientRect: svg.getBoundingClientRect(), intersectionRect: svg.getBoundingClientRect(), intersectionRatio: isIntersecting ? 1 : 0,
+    }], {} as IntersectionObserver));
+    visibility(false);
+    expect(pathState(svg)).toEqual(endpoint(name, true));
+    expect(frames.size).toBe(0);
+    visibility(true);
+    expect(frames.size).toBe(1);
+    frame(300); frame(550);
+    expect(pathState(svg)).not.toEqual(endpoint(name, true));
+    act(() => { hidden.mockReturnValue(true); document.dispatchEvent(new Event("visibilitychange")); });
+    expect(pathState(svg)).toEqual(endpoint(name, true));
+    expect(frames.size).toBe(0);
+    act(() => { hidden.mockReturnValue(false); document.dispatchEvent(new Event("visibilitychange")); });
+    expect(frames.size).toBe(1);
+    unmount();
+    expect(reference.current).toBeNull();
+    expect(observer.disconnect).toHaveBeenCalledOnce();
+    expect(removeListener).toHaveBeenCalledWith("visibilitychange", expect.any(Function));
+    expect(mediaListeners.size).toBe(0);
+    expect(frames.size).toBe(0);
   });
 });

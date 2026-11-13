@@ -12,6 +12,7 @@ export type MorphIconPath = {
   opacityPhase?: readonly [number, number];
   rotationPhase?: readonly [number, number];
   drawPhase?: readonly [number, number];
+  activity?: { kind: "wave" | "dot"; lane: number };
   keyframes?: readonly { at: number; d: string }[];
 };
 export type MorphIconDefinition = {

@@ -277,7 +277,7 @@ describe("morph icon search and state controls", () => {
     expect(tile(container, "menu").querySelector("svg")).toHaveAttribute("width", "48");
     expect(screen.getByRole("button", { name: "Switch Menu state" }).querySelector("svg")).toHaveAttribute("width", "80");
     expect(screen.getByRole("slider", { name: "Icon size" })).toHaveAttribute("max", "128");
-    expect(tile(container, "menu").querySelector("svg")).toHaveAttribute("stroke-width", "1.75");
+    expect(tile(container, "menu").querySelector("svg")).toHaveAttribute("stroke-width", "1.5");
     expect(tile(container, "notification").getAttribute("aria-label")).toContain("Alerts");
     const picker = screen.getByRole("group", { name: "Selected icon state" });
     fireEvent.click(within(picker).getByRole("button", { name: "Close" }));

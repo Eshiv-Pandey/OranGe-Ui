@@ -220,3 +220,68 @@ test("authored morphs stay continuous through long transitions and rapid reversa
   }
   await sheet.close();
 });
+
+test("listening bars and standalone typing dots animate while hovered and respect pause and reduced motion", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await open(page);
+  await setRange(page, "Icon size", 96);
+  const records = [];
+  for (const name of ["microphone", "message"]) {
+    await page.getByRole("searchbox", { name: "Search morphing icons" }).fill(name);
+    await tile(page, name).click();
+    await page.getByRole("group", { name: "Selected icon state" }).getByRole("button").last().click();
+    const selected = page.locator(".morph-selected-preview");
+    await selected.hover();
+    await page.waitForTimeout(750);
+    const frames = await selected.evaluate(async element => {
+      const svg = element.querySelector("svg")!, begin = performance.now();
+      const snapshot = () => ({ elapsed: Math.round(performance.now() - begin), svg: svg.outerHTML, state: svg.getAttribute("data-state"), paths: [...svg.querySelectorAll("path")].map(path => ({ d: path.getAttribute("d"), opacity: Number(path.getAttribute("opacity")), transform: path.getAttribute("transform") })) });
+      const frames = [snapshot()];
+      for (const target of [150, 300, 450, 600, 750, 900, 1100]) {
+        await new Promise<void>(resolve => { const tick = () => performance.now() - begin >= target ? resolve() : requestAnimationFrame(tick); requestAnimationFrame(tick); });
+        frames.push(snapshot());
+      }
+      return frames;
+    });
+    expect(frames.every(frame => frame.state === "active")).toBe(true);
+    if (name === "microphone") {
+      expect(frames[0].paths).toHaveLength(9);
+      const lanes = frames.map(frame => frame.paths.slice(4).map(path => (path.d!.match(/[-+]?(?:\d*\.\d+|\d+\.?\d*)/g) || []).map(Number)));
+      for (const frame of lanes) frame.forEach((values, index) => {
+        expect(values[0]).toBe(lanes[0][index][0]);
+        expect(values[2]).toBe(values[0]);
+        expect((values[1] + values[3]) / 2).toBeCloseTo(12, 3);
+      });
+      for (let index = 0; index < 5; index++) expect(new Set(lanes.map(frame => frame[index][3] - frame[index][1])).size).toBeGreaterThan(3);
+    } else {
+      expect(frames[0].paths).toHaveLength(4);
+      expect(frames.every(frame => frame.paths[0].opacity === 0)).toBe(true);
+      for (let index = 1; index <= 3; index++) {
+        expect(new Set(frames.map(frame => frame.paths[index].d)).size).toBe(1);
+        expect(new Set(frames.map(frame => frame.paths[index].transform)).size).toBeGreaterThan(1);
+      }
+    }
+    records.push({ name, frames });
+    await page.getByRole("button", { name: "Resume previews" }).click();
+    await selected.hover();
+    await page.getByRole("button", { name: "Pause previews" }).click();
+    const snapshot = () => selected.locator("svg").evaluate(svg => svg.innerHTML);
+    const paused = await snapshot();
+    await page.waitForTimeout(350);
+    expect(await snapshot()).toBe(paused);
+    await page.getByRole("button", { name: "Resume previews" }).click();
+    await selected.hover();
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.waitForTimeout(50);
+    const quiet = await snapshot();
+    await page.waitForTimeout(350);
+    expect(await snapshot()).toBe(quiet);
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+  }
+  await writeFile(pathFor("activity-motion.json"), JSON.stringify(records, null, 2));
+  const sheet = await page.context().newPage();
+  await sheet.setViewportSize({ width: 1080, height: 460 });
+  await sheet.setContent(`<html><head><style>body{margin:0;padding:24px;color:#171717;background:#f7f7f7;font:12px Arial,sans-serif}section{margin:0 0 24px}h2{font-size:14px}.frames{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}.frame{display:flex;flex-direction:column;align-items:center;gap:10px;background:white;padding:10px}p{margin:0;color:#666}svg{color:#171717}</style></head><body>${records.map(record => `<section><h2>${record.name}: held active state</h2><div class="frames">${record.frames.map(frame => `<div class="frame">${frame.svg}<p>${frame.elapsed}ms</p></div>`).join("")}</div></section>`).join("")}</body></html>`);
+  await sheet.screenshot({ path: pathFor("activity-motion.png"), fullPage: true });
+  await sheet.close();
+});
