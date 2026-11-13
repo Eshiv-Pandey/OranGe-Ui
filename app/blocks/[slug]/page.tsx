@@ -6,7 +6,7 @@ export const dynamicParams = false;
 export function generateStaticParams() { return blocks.map(({ slug }) => ({ slug })); }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const block = findBlock((await params).slug);
-  return { title: `${block?.title ?? "Block not found"} | oRangeUi`, description: block?.description, alternates: block ? { canonical: `/blocks/${block.slug}` } : undefined };
+  return { title: `${block?.title ?? "Block not found"} | oRangeUi`, description: block?.description, alternates: block ? { canonical: `/blocks/${block.slug}` } : undefined, openGraph: block ? { title: `${block.title} | oRangeUi`, description: block.description, url: `/blocks/${block.slug}` } : undefined, twitter: block ? { title: `${block.title} | oRangeUi`, description: block.description } : undefined };
 }
 export default async function BlockPage({ params }: { params: Promise<{ slug: string }> }) {
   const block = findBlock((await params).slug); if (!block) notFound();

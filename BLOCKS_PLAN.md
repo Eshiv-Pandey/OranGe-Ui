@@ -1,6 +1,6 @@
 # Original oRangeUi blocks
 
-Status: complete, including implementation, verification, finish-review corrections and design documentation, 11 November 2026.
+Baseline status: the original 30-block implementation completed verification, finish-review corrections and design documentation on 11 November 2026. The expansion now includes five Auth layouts, seven Footer layouts and category collections.
 
 The brief is to examine Efferd and Watermelon UI, cover the same kinds of reusable sections, and make original polished work with consistent quality. Their component source, artwork and copy are not implementation inputs.
 
@@ -10,7 +10,26 @@ The union of the two public catalogues has 27 useful section types:
 
 Auth, Hero, Header, Footer, Features, Bento, Pricing, Testimonials, Logo Cloud, Integrations, FAQ, Contact, Newsletter, Blog, Team, Careers, Image Gallery, CTA, Announcement, Not Found, App Shell, Dashboard, Settings, Notifications, File Upload, Stats and Widgets.
 
-Each gets a complete original representative. Auth covers sign-in, signup, password recovery and verification. Two distinct heroes and composed marketing/workspace templates demonstrate how the same system works across a complete page. Variant counts do not take priority over craft.
+Each has a complete original representative. The expanded direction is at least five original examples per section. Auth has five distinct layouts covering sign-in, signup, password recovery and verification; Footer has seven distinct closes. The other categories retain their initial examples while subsequent sections are developed. Two distinct heroes and composed marketing/workspace templates show how the system works across a complete page. Quality and consistency remain the acceptance bar for every addition.
+
+## Auth expansion checkpoint
+
+- Five layouts: AuthPanel, QuietAuth, StudioAuth, ContrastAuth and PlayfulAuth.
+- Category-first discovery at `/blocks`, with large stacked previews at `/blocks/category/<slug>`.
+- Preview/Code, responsive widths, light/dark palettes, per-example Reset, source retry and manual clipboard recovery.
+- NeonNotFound and ChaiBreak404 moved into Not Found; PavilionFooter moved into Footer. Legacy component links redirect to their block pages.
+- At this verified checkpoint: 37 original blocks in 28 categories, with Auth expanded to five. The later Footer checkpoint is recorded below.
+- The 50-sticker collection has its own `feat/stickers-50` branch and separate worktree, with `STICKERS_PLAN.md` for its session handoff.
+- Auth verification and design receipts are recorded separately from the baseline in `BLOCKS.md` and local `out/iteration/auth-expansion/`.
+
+## Footer expansion checkpoint
+
+- Five new layouts lead the category: BlueHourFooter, StudioFooter, ColonyFooter, HillsideFooter and SkylineFooter. PavilionFooter follows; SiteFooter is last.
+- Current total: 42 original blocks in 28 categories. Auth has five layouts and Footer has seven; the other sections remain on their earlier coverage.
+- Browse and category headers are compact. Preview/Code, widths, palettes, Reset and interaction-state retention remain available.
+- Standalone source, typed props, complete ZIPs and registry entries include local artwork, styles, fonts and notices.
+- Engraved and painted landscape plates, playful characters and sticker accents are original local assets. SkylineFooter retains the existing user-supplied portfolio skyline and truck extraction. [FOOTERS.md](FOOTERS.md) records references and integration.
+- Seven metadata/source checks passed, including all 42 standalone examples. The first browser matrix passed 20 renders at 1440px/390px in both palettes with no Axe violations. Final build and browser confirmation after the font update are pending.
 
 ## Delivery
 
@@ -33,7 +52,7 @@ Each gets a complete original representative. Auth covers sign-in, signup, passw
 
 Private research captures and the existing worktree baseline are under ignored `out/iteration/`. Existing uncommitted work was recorded before integration and remains owned by its original work.
 
-## Current checkpoint
+## Historical 30-block checkpoint
 
 All 30 entries, discovery/detail pages, standalone previews, typed props, secure registry entries and ZIP downloads are implemented. The production build, scoped lint, copy check, 15 focused interaction/source checks and five production browser suites passed. All extracted examples compile at ES2020 and the composed landing example builds in React/Vite without Next.js.
 

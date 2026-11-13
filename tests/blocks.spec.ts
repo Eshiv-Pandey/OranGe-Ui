@@ -5,10 +5,10 @@ import { mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
 const captures = path.resolve(".impeccable/review/blocks");
 test("catalogue search, navigation and preview controls preserve form state", async ({ page }) => {
-  await page.goto("/blocks"); await expect(page.getByRole("heading", { name: "Blocks for good pages." })).toBeVisible();
-  await page.getByLabel("Search blocks").fill("auth"); await expect(page.locator(".block-card")).toHaveCount(1); await page.locator(".block-card").click();
+  await page.goto("/blocks"); await expect(page.getByRole("heading", { name: "Blocks" })).toBeVisible();
+  await page.getByLabel("Search blocks").fill("auth"); await expect(page.locator(".block-card")).toHaveCount(5); await page.locator('.block-card[href="/blocks/auth-panel"]').click();
   await page.getByLabel(/^Email address/).fill("alex@example.com"); await page.getByRole("button", { name: "Phone", exact: true }).click(); await expect(page.getByLabel(/^Email address/)).toHaveValue("alex@example.com");
-  await page.getByLabel(/[Pp]alette/).selectOption("dark"); await expect(page.getByLabel(/^Email address/)).toHaveValue("alex@example.com");
+  await page.evaluate(() => { document.documentElement.dataset.theme = "dark"; }); await expect(page.getByLabel(/^Email address/)).toHaveValue("alex@example.com");
   await page.getByRole("button", { name: "Usage", exact: true }).click(); await expect(page.locator(".block-code-view")).toContainText("AuthPanel"); await page.getByRole("button", { name: "Source", exact: true }).click(); await expect(page.getByLabel("Source file")).toBeVisible(); await expect(page.locator(".block-code-view")).toContainText("AuthPanelProps");
   await page.getByRole("button", { name: "Preview", exact: true }).click(); await expect(page.getByLabel(/^Email address/)).toHaveValue("alex@example.com");
   await page.getByRole("button", { name: "Reset block preview" }).click(); await expect(page.getByLabel(/^Email address/)).toHaveValue("");
@@ -38,9 +38,9 @@ test("desktop and phone renders have loaded assets, keyboard access and no horiz
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1); expect(overflow, `${slug} at ${viewport.name}`).toBe(false);
       expect(await page.locator("img").evaluateAll(images => images.every(image => (image as HTMLImageElement).naturalWidth > 0)), slug).toBe(true);
       await page.screenshot({ path: path.join(captures, `${slug}-${viewport.name}.png`), fullPage: true });
-      if (slug === "catalogue" && viewport.name === "desktop") for (const block of blocks) await page.locator(`.block-card[href="/blocks/${block.slug}"]`).screenshot({ path: path.join(captures, `card-${block.slug}.png`) });
+      if (slug === "catalogue" && viewport.name === "desktop") { await page.getByRole("button", { name: "All examples", exact: true }).click(); for (const block of blocks) await page.locator(`.block-card[href="/blocks/${block.slug}"]`).screenshot({ path: path.join(captures, `card-${block.slug}.png`) }); }
       if (["editorial-hero", "product-hero", "studio-landing", "studio-workspace", "pricing-section", "testimonials", "bento-overview", "focus-widget"].includes(slug)) {
-        await page.getByLabel(/[Pp]alette/).selectOption("dark"); await page.screenshot({ path: path.join(captures, `${slug}-dark-${viewport.name}.png`), fullPage: true });
+        await page.evaluate(() => { document.documentElement.dataset.theme = "dark"; }); await page.screenshot({ path: path.join(captures, `${slug}-dark-${viewport.name}.png`), fullPage: true });
       }
     }
     await page.goto("/blocks/auth-panel"); await page.evaluate(() => document.fonts.ready); expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), "detail page overflow").toBe(false); await page.screenshot({ path: path.join(captures, `detail-${viewport.name}.png`), fullPage: true });
@@ -49,7 +49,7 @@ test("desktop and phone renders have loaded assets, keyboard access and no horiz
   await page.goto("/preview/blocks/site-header"); await page.getByRole("button", { name: "Open navigation", exact: true }).click(); await expect(page.getByRole("link", { name: "Our approach" })).toBeVisible(); await page.getByRole("link", { name: "Our approach" }).focus(); await page.keyboard.press("Escape"); await expect(page.getByRole("button", { name: "Open navigation", exact: true })).toBeFocused();
   for (const slug of ["auth-panel", "workspace-overview", "settings", "file-upload"]) {
     await page.goto(`/preview/blocks/${slug}`); const result = await new AxeBuilder({ page }).include(".block-demo").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze(); expect(result.violations, `${slug} accessibility`).toEqual([]);
-    await page.getByLabel(/[Pp]alette/).selectOption("dark"); await page.screenshot({ path: path.join(captures, `${slug}-dark-mobile.png`), fullPage: true }); const dark = await new AxeBuilder({ page }).include(".block-demo").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze(); expect(dark.violations, `${slug} dark accessibility`).toEqual([]);
+    await page.evaluate(() => { document.documentElement.dataset.theme = "dark"; }); await page.screenshot({ path: path.join(captures, `${slug}-dark-mobile.png`), fullPage: true }); const dark = await new AxeBuilder({ page }).include(".block-demo").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze(); expect(dark.violations, `${slug} dark accessibility`).toEqual([]);
   }
 });
 test("review corrections preserve preview composition, dark anchor contrast and readable mobile props", async ({ page }) => {
@@ -62,7 +62,7 @@ test("review corrections preserve preview composition, dark anchor contrast and 
   const standalone = await page.locator(".ob-auth").evaluate(element => element.querySelector(".ob-auth-art-copy h2")!.getBoundingClientRect().top - element.querySelector(".ob-auth-art")!.getBoundingClientRect().top);
   expect(Math.abs(embedded.offset - standalone)).toBeLessThan(2);
   for (const slug of ["editorial-hero", "product-hero", "studio-landing"]) {
-    await page.goto(`/preview/blocks/${slug}`); await page.getByLabel(/[Pp]alette/).selectOption("dark");
+    await page.goto(`/preview/blocks/${slug}`); await page.evaluate(() => { document.documentElement.dataset.theme = "dark"; });
     const result = await new AxeBuilder({ page }).include(".orange-block").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze(); expect(result.violations, `${slug} dark contrast`).toEqual([]);
   }
   await page.setViewportSize({ width: 390, height: 844 }); await page.goto("/blocks/auth-panel");

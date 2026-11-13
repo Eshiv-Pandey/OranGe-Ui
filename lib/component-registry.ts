@@ -36,6 +36,8 @@ export function registryAssetSource(source: string, files: Readonly<Record<strin
       : asset.startsWith("public/audio/") && asset.endsWith(".wav") ? "audio/wav"
       : asset.startsWith("public/portfolio/") && asset.endsWith(".webp") ? "image/webp"
       : asset.startsWith("public/portfolio/") && asset.endsWith(".png") ? "image/png"
+      : asset.startsWith("public/art/footer/") && asset.endsWith(".webp") ? "image/webp"
+      : asset.startsWith("public/art/sections/") && asset.endsWith(".webp") ? "image/webp"
       : asset.startsWith("public/photos/keepsakes/") && asset.endsWith(".jpg") ? "image/jpeg" : undefined;
     if (!mime) continue;
     const url = "/" + asset.slice("public/".length);
@@ -49,9 +51,14 @@ export function registryAssetSource(source: string, files: Readonly<Record<strin
 function destination(source: string, slug: string): string | undefined {
   if (source.endsWith(".woff2") || source.endsWith(".wav") || source.endsWith(".jpg") || source.endsWith(".webp") || source.endsWith(".png") || source === "README.md") return undefined;
   if (source === "public/portfolio/NOTICE.md") return "licenses/PORTFOLIO_ARTWORK.md";
+  if (source === "public/art/footer/NOTICE.md") return "licenses/FOOTER_ARTWORK.md";
+  if (source === "public/art/sections/NOTICE.md") return "licenses/SECTION_ARTWORK.md";
+  if (source.startsWith("public/fonts/footer/")) return "licenses/" + source.split("/").at(-1);
+  if (source.startsWith("public/fonts/sections/")) return source.endsWith("NOTICE.md") ? "licenses/SECTION_FONT_CREDITS.md" : "licenses/" + source.split("/").at(-1);
   if (source.startsWith("public/fonts/portfolio/")) return "licenses/" + source.split("/").at(-1);
   if (source.startsWith("public/fonts/film/")) return source.endsWith("NOTICE.md") ? "licenses/FILM_FONT_CREDITS.md" : "licenses/" + source.split("/").at(-1);
   if (source === "public/photos/keepsakes/NOTICE.md") return "licenses/KEEPSAKE_PHOTOS.md";
+  if (source === "public/photos/keepsakes/TESTIMONIAL_PHOTOS.md") return "licenses/TESTIMONIAL_PHOTOS.md";
   if (source.startsWith("public/fonts/desi/")) return source.endsWith("README.md") ? "licenses/DISPLAY_FONT_CREDITS.md" : "licenses/" + source.split("/").at(-1);
   if (source.startsWith("public/audio/orangeui/")) return "licenses/Orange-sessions-" + source.split("/").at(-1);
   if (source === "Example.tsx") return `examples/${slug}.tsx`;
@@ -72,7 +79,7 @@ export async function componentRegistryItem(component: ComponentDefinition, appe
     if (!/^[a-zA-Z0-9_./-]+$/.test(relative) || relative.split("/").some((part) => part === "." || part === "..")) throw new Error("Unsafe registry target");
     let content = Buffer.from(bytes).toString("utf8");
     if (source.endsWith(".css") && /url\(["']?\/fonts\//.test(content)) content = registryBaseCss(content, bundle.files);
-    if (/\.tsx?$/.test(source)) content = registryAssetSource(content, bundle.files);
+    if (/\.(?:tsx?|css)$/.test(source)) content = registryAssetSource(content, bundle.files);
     if (source === "Example.tsx") content = relocateSource(content, source, relative);
     files.push({ path: `orangeui/${relative}`, type: "registry:file", target: `${registryRoot}/${relative}`, content });
   }

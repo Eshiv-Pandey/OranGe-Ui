@@ -1,0 +1,122 @@
+@import "./library-base.css";
+
+@font-face {
+  font-family: "Pacifico Footer";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/footer/pacifico-latin.woff2") format("woff2");
+}
+
+:where(.pf-studio, .pf-colony) { box-sizing: border-box; width: 100%; font-family: var(--font-body), sans-serif; container-type: inline-size; }
+:where(.pf-studio, .pf-colony) *, :where(.pf-studio, .pf-colony) *::before, :where(.pf-studio, .pf-colony) *::after { box-sizing: border-box; }
+:where(.pf-studio, .pf-colony) :where(a) { color: inherit; text-decoration: none; text-underline-offset: .25em; }
+:where(.pf-studio, .pf-colony) :where(a:hover) { text-decoration: underline; }
+:where(.pf-studio, .pf-colony) :where(a:focus-visible) { outline: 2px solid currentColor; outline-offset: 5px; }
+:where(.pf-studio, .pf-colony) :where(h2, p) { margin: 0; }
+:where(.pf-studio, .pf-colony) ::selection { background: #ffc899; color: #252126; }
+:where(.pf-studio, .pf-colony)[data-theme="light"] { color-scheme: light; }
+:where(.pf-studio, .pf-colony)[data-theme="dark"] { color-scheme: dark; }
+
+.pf-studio { container-name: studio-footer; padding: clamp(14px, 3.5%, 40px); background: light-dark(#849df6, #242d57); color: #f9f3e9; }
+.pf-studio-frame { padding: 7px; border-radius: 20px; background: #f3eee7; overflow: hidden; }
+.pf-studio-top { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 97px; padding: 4px 22px 23px; color: #202022; }
+.pf-studio-work { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 650; min-height: 44px; }
+.pf-studio-work svg { color: #c94023; }
+.pf-studio-small-brand { font: 400 35px/1 "Pacifico Footer", cursive; }
+.pf-studio-mail { display: grid; place-items: center; width: 44px; height: 44px; }
+.pf-studio-board { position: relative; isolation: isolate; border-radius: 15px; background: #465ee8; overflow: hidden; }
+.pf-studio-columns { display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: 30px; padding: clamp(26px, 5%, 58px) clamp(20px, 3.2%, 42px) 0; position: relative; z-index: 2; }
+.pf-studio-column { min-width: 0; }
+.pf-studio-column h2 { margin-bottom: 19px; font-size: 13px; line-height: 1.5; font-weight: 500; }
+.pf-studio-main-link, .pf-studio-address { font-size: clamp(19px, 2.5cqi, 28px); line-height: 1.2; letter-spacing: -.03em; font-weight: 650; white-space: pre-line; overflow-wrap: anywhere; }
+.pf-studio-main-link { display: flex; align-items: flex-start; gap: 8px; }
+.pf-studio-main-link svg { margin-top: 4px; flex: none; }
+.pf-studio-email { letter-spacing: -.025em; }
+.pf-studio-direction, .pf-studio-contact { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 550; margin-top: 18px; min-height: 40px; }
+.pf-studio-direction { text-decoration: underline !important; }
+.pf-studio-socials { display: flex; flex-wrap: wrap; align-items: center; gap: 0 15px; margin-top: 13px; }
+.pf-studio-socials a { min-height: 40px; display: inline-flex; align-items: center; font-size: 12px; }
+.pf-studio-signature { position: relative; display: grid; place-items: center; min-height: 190px; margin: 36px 12px -6px; padding-top: 30px; }
+.pf-studio-wordmark { display: block; max-width: 100%; font-family: "Pacifico Footer", cursive; font-weight: 400; line-height: .88; letter-spacing: -.02em; white-space: nowrap; padding: .07em .05em .16em; }
+.pf-studio-sticker { position: absolute; width: clamp(56px, 10cqi, 116px); height: auto; pointer-events: none; }
+.pf-sticker-sun { left: 2%; top: 35%; transform: rotate(-17deg); }
+.pf-sticker-smile { left: 24%; top: 1%; transform: rotate(14deg); }
+.pf-sticker-spark { right: 30%; top: 5%; transform: rotate(13deg); }
+.pf-sticker-eye { right: 6%; top: 40%; transform: rotate(-14deg); }
+.pf-studio-legal { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 24px 17px; font-size: 10px; }
+.pf-studio-legal > a { display: inline-flex; align-items: center; gap: 4px; min-height: 30px; }
+
+.pf-colony { container-name: colony-footer; position: relative; isolation: isolate; overflow: hidden; padding: clamp(130px, 16%, 190px) clamp(14px, 3.2%, 40px) 30px; background: light-dark(#f7f2df, #29243b); color: light-dark(#202022, #f5f0ff); }
+.pf-colony-ground { position: absolute; z-index: -1; inset: 10% -9% -16%; transform: rotate(6deg); background: #6854f5; border-radius: 12px; }
+.pf-colony-art { position: absolute; z-index: -1; left: 0; right: 0; top: 0; bottom: 0; pointer-events: none; }
+.pf-colony-art img { position: absolute; height: auto; }
+.pf-colony-sprout { width: 30%; max-width: 320px; min-width: 150px; left: 2%; top: -6%; transform: rotate(-15deg); }
+.pf-colony-fold { width: 17%; max-width: 184px; min-width: 110px; right: 21%; top: 13%; transform: rotate(8deg); }
+.pf-colony-card { position: relative; z-index: 1; padding: clamp(26px, 4%, 46px); background: light-dark(#fff, #201c2b); border-radius: 17px; }
+.pf-colony-columns { display: flex; align-items: flex-start; gap: 28px; }
+.pf-colony-brand { display: inline-flex; align-items: center; gap: 8px; font-size: clamp(24px, 3cqi, 32px); line-height: 1.1; letter-spacing: -.035em; font-weight: 800; min-height: 38px; }
+.pf-colony-brand-mark { position: relative; display: flex; align-items: center; justify-content: center; gap: 5px; width: 29px; height: 32px; border-radius: 42% 56% 40% 47%; background: light-dark(#202022, #f5f0ff); transform: rotate(-10deg); }
+.pf-colony-brand-mark > span { width: 5px; height: 11px; border-radius: 50%; background: light-dark(#fff, #201c2b); }
+.pf-colony-navigation { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); flex: 1; gap: 25px; min-width: 0; padding-top: 4px; }
+.pf-colony-navigation nav { min-width: 0; }
+.pf-colony-navigation h2 { margin-bottom: 14px; font-size: 12px; font-weight: 700; line-height: 1.5; }
+.pf-colony-navigation a { display: flex; align-items: center; min-height: 40px; font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+.pf-colony-action { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 48px; padding: 11px 19px; border: 1px solid light-dark(#202022, #bfb1d8); border-radius: 8px; font-size: 15px; line-height: 1.5; flex: none; }
+.pf-colony-action:hover { background: light-dark(#f2efff, #38304c); }
+.pf-colony-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 25px; padding-top: clamp(40px, 6cqi, 80px); font-size: 12px; line-height: 1.65; }
+.pf-colony-bottom > div { min-width: 0; }
+.pf-colony-bottom p { margin-top: 3px; }
+.pf-colony-bottom > a { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; margin-right: 12%; }
+.pf-colony-pebble { position: absolute; z-index: 2; pointer-events: none; width: 20%; max-width: 210px; min-width: 120px; height: auto; right: -3%; bottom: -4%; transform: rotate(-12deg); }
+
+@container studio-footer (max-width: 700px) {
+  .pf-studio-top { min-height: 77px; padding: 0 12px 12px; }
+  .pf-studio-work { font-size: 11px; gap: 5px; }
+  .pf-studio-work svg { width: 15px; }
+  .pf-studio-small-brand { font-size: 28px; }
+  .pf-studio-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 26px 23px 0; gap: 28px 20px; }
+  .pf-studio-column:last-child { grid-column: 1 / -1; }
+  .pf-studio-column h2 { margin-bottom: 11px; }
+  .pf-studio-main-link, .pf-studio-address { font-size: 21px; }
+  .pf-studio-column:last-child .pf-studio-main-link { font-size: 24px; }
+  .pf-studio-signature { margin-top: 20px; min-height: 140px; padding-top: 20px; }
+  .pf-studio-legal { padding: 8px 16px 12px; }
+  .pf-studio-sticker { width: 15cqi; }
+}
+@container studio-footer (max-width: 380px) {
+  .pf-studio-top { gap: 8px; padding-inline: 7px; }
+  .pf-studio-work { max-width: 112px; font-size: 10px; }
+  .pf-studio-work svg { display: none; }
+  .pf-studio-columns { padding: 23px 16px 0; gap: 25px 17px; }
+  .pf-studio-main-link, .pf-studio-address { font-size: 18px; }
+  .pf-studio-main-link svg { width: 17px; }
+  .pf-studio-column:last-child .pf-studio-main-link { font-size: 21px; }
+  .pf-studio-signature { min-height: 100px; margin-inline: 4px; }
+  .pf-studio-legal { font-size: 11px; flex-wrap: wrap; gap: 4px 12px; }
+}
+@container colony-footer (max-width: 880px) {
+  .pf-colony-columns { flex-wrap: wrap; justify-content: space-between; gap: 26px; }
+  .pf-colony-brand { order: 0; }
+  .pf-colony-action { order: 1; min-height: 44px; font-size: 13px; }
+  .pf-colony-navigation { order: 2; flex-basis: 100%; gap: 24px; }
+  .pf-colony-bottom { padding-top: 44px; }
+}
+@container colony-footer (max-width: 490px) {
+  .pf-colony-card { padding: 23px 20px; border-radius: 14px; }
+  .pf-colony-brand { font-size: 24px; }
+  .pf-colony-brand-mark { width: 23px; height: 27px; gap: 4px; }
+  .pf-colony-brand-mark > span { width: 4px; height: 9px; }
+  .pf-colony-action { padding: 9px 11px; min-height: 44px; gap: 6px; font-size: 13px; }
+  .pf-colony-action svg { width: 15px; }
+  .pf-colony-navigation { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 17px; }
+  .pf-colony-navigation h2 { margin-bottom: 8px; font-size: 12px; }
+  .pf-colony-navigation a { min-height: 36px; font-size: 12px; }
+  .pf-colony-bottom { align-items: flex-start; flex-direction: column; padding-top: 44px; gap: 10px; padding-right: 92px; font-size: 12px; }
+  .pf-colony-bottom > a { margin-right: 0; }
+  .pf-colony-fold { right: 12%; top: 12%; }
+  .pf-colony-sprout { left: -7%; top: 7%; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pf-colony-action { transition: background-color 180ms ease-out; }
+}

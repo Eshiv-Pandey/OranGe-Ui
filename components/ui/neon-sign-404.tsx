@@ -196,6 +196,6 @@ export function NeonSign404({ digits = "404", color, borderColor, glow = .8, fli
   </div>;
 }
 
-export function NeonNotFound({ reportHref = "https://github.com/Eshiv-Pandey/OranGe-Ui/issues", ...props }: NeonSign404Props & { reportHref?: string }) {
-  return <main className="neon-recovery"><NeonSign404 {...props} /><div className="neon-recovery-copy"><h1>This page is closed for the night.</h1><p>The page you&apos;re looking for doesn&apos;t exist or has moved.</p><a className="neon-home" href="/">Take me home <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12" /></svg></a><a className="neon-report" href={reportHref}>Report a broken link</a></div></main>;
+export function NeonNotFound({ homeHref = "/", reportHref = "https://github.com/Eshiv-Pandey/OranGe-Ui/issues", ...props }: NeonSign404Props & { homeHref?: string; reportHref?: string }) {
+  return <div className="neon-recovery-container"><section className="neon-recovery"><NeonSign404 {...props} /><div className="neon-recovery-copy"><h1>This page is closed for the night.</h1><p>The page you&apos;re looking for doesn&apos;t exist or has moved.</p><a className="neon-home" href={homeHref}>Take me home <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12" /></svg></a><a className="neon-report" href={reportHref}>Report a broken link</a></div></section></div>;
 }

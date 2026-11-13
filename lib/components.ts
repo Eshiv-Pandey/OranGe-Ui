@@ -1,3 +1,4 @@
+import { PAPER_CUT_COMPONENT } from "./paper-cut-component";
 import { WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT } from "./physical-components";
 import { SCENE_COMPONENTS } from "./scene-components";
 import { PORTFOLIO_COMPONENTS } from "./portfolio-components";
@@ -10,10 +11,10 @@ import { CREATIVE_COMPONENTS } from "./creative-components";
 import { SHADER_COMPONENTS } from "./shader-components";
 import { REFERENCE_COMPONENTS } from "./reference-components";
 import { STICKER_PACK_COMPONENT } from "./sticker-components";
-export type ComponentCategory = "Buttons & actions" | "Galleries & photography" | "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play" | "AI & chat" | "Human avatars";
+export type ComponentCategory = "Buttons & actions" | "Galleries & photography" | "Forms & actions" | "Navigation & disclosure" | "Overlays & feedback" | "Content & layout" | "Play" | "AI & chat" | "Human avatars" | "Backgrounds & shaders";
 export type PropDoc = { name: string; type: string; defaultValue: string; description: string };
 export type ComponentDefinition = { slug: string; name: string; category: ComponentCategory; description: string; props: PropDoc[]; keyboard: string; usage: string; file: string; customizerPreview?: boolean; usageImports?: string[]; usageSetup?: string; collection?: Appearance; notes?: string[]; demo?: DemoStep[] };
-export const componentCategories: ComponentCategory[] = ["Buttons & actions", "Galleries & photography", "Forms & actions", "Navigation & disclosure", "Overlays & feedback", "Human avatars", "Content & layout", "Play", "AI & chat"];
+export const componentCategories: ComponentCategory[] = ["Buttons & actions", "Galleries & photography", "Forms & actions", "Navigation & disclosure", "Overlays & feedback", "Human avatars", "Content & layout", "Play", "AI & chat", "Backgrounds & shaders"];
 export const components: ComponentDefinition[] = [
   {
     "slug": "button",
@@ -1193,11 +1194,14 @@ export const components: ComponentDefinition[] = [
     ]
   }
 ];
-components.push(WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT, ...SCENE_COMPONENTS, ...PORTFOLIO_COMPONENTS, ...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS, STICKER_PACK_COMPONENT);
+components.push(PAPER_CUT_COMPONENT);
+components.push(WALL_SWITCH_COMPONENT, ENDLESS_FILM_COMPONENT, ...PORTFOLIO_COMPONENTS, ...CREATIVE_COMPONENTS, ...SHADER_COMPONENTS.filter((component) => component.slug !== "shader-canvas"), ...REFERENCE_COMPONENTS, STICKER_PACK_COMPONENT);
+const legacyAccordion = components.find(component => component.slug === "accordion");
+if (legacyAccordion) components.splice(components.indexOf(legacyAccordion), 1);
 export function componentsInCollection(appearance: Appearance) { return components.filter((component) => !component.collection || component.collection === appearance); }
 // ShaderCanvas remains installable as the low-level engine behind the effects.
 // Its former showcase is now part of the single gradient playground.
-export function findComponent(slug: string) { return components.find((component) => component.slug === (slug === "live-orb" ? "emberling" : slug)) ?? SHADER_COMPONENTS.find((component) => component.slug === slug); }
+export function findComponent(slug: string) { return components.find((component) => component.slug === (slug === "live-orb" ? "emberling" : slug)) ?? (slug === "accordion" ? legacyAccordion : undefined) ?? SHADER_COMPONENTS.find((component) => component.slug === slug) ?? SCENE_COMPONENTS.find((component) => component.slug === slug); }
 export function componentUsage(component: ComponentDefinition, appearance: Appearance) {
   if (component.slug === "avatar-editor") return '"use client";\n\nimport { useState } from "react";\nimport { AvatarEditor } from "./components/ui/avatar-editor";\nimport { generateAvatarConfig } from "./lib/avatar/index";\n\nexport default function Example() {\n  const [config, setConfig] = useState(() => generateAvatarConfig("user-42"));\n  return <AvatarEditor appearance="' + appearance + '" seed="user-42" value={config} onChange={setConfig} />;\n}\n';
   const imports = [`import { ${component.name === "Toast" ? "Toast, ToastProvider" : component.name} } from "./${component.file.replace(/\.tsx$/, "")}";`];

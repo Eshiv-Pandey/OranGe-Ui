@@ -22,8 +22,9 @@
 .neon-sign[data-pixel="true"] .neon-sign-digit g { fill: var(--neon-tube); stroke-width: 0; font-family: var(--font-display), monospace; }
 .neon-sign[data-pixel="true"] .neon-sign-digit .neon-sign-core { fill: var(--neon-core, #ffd2a0); transform: scale(.92); transform-origin: 50px 70px; opacity: .8; }
 .neon-sign[data-pixel="true"] .neon-sign-digit[data-off="true"] g { fill: var(--neon-unlit, #483a32); }
-.neon-recovery { --neon-border-color: #19e6b0; display: flex; align-items: center; justify-content: center; gap: clamp(32px, 7vw, 100px); min-height: 100svh; width: 100%; padding: clamp(24px, 6vw, 80px); color: #f3eee5; background: #050505; }
-.neon-recovery-copy { max-width: 440px; font-family: var(--font-body), sans-serif; }
+.neon-recovery-container { container-type: inline-size; width: 100%; min-width: 0; }
+.neon-recovery { --neon-border-color: #19e6b0; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: clamp(32px, 7cqw, 100px); min-height: 100svh; width: 100%; padding: clamp(24px, 6cqw, 80px); color: #f3eee5; background: #050505; }
+.neon-recovery-copy { min-width: 0; max-width: 440px; font-family: var(--font-body), sans-serif; }
 .neon-recovery h1 { margin: 0; font-size: clamp(30px, 3.5vw, 48px); line-height: 1.12; font-weight: 500; letter-spacing: -.035em; text-wrap: balance; }
 .neon-recovery p { margin: 24px 0 32px; color: #b4afa6; font-size: 16px; line-height: 1.7; }
 .neon-home { display: flex; align-items: center; justify-content: space-between; gap: 32px; width: fit-content; padding: 14px 20px; border: 1px solid var(--neon-border-color); color: var(--neon-border-color); border-radius: 4px; text-decoration: none; transition: box-shadow .2s; }
@@ -31,5 +32,5 @@
 .neon-report { display: block; width: fit-content; margin-top: 24px; color: #b4afa6; font-size: 13px; text-underline-offset: 5px; }
 .neon-recovery a:focus-visible { outline: 3px solid #baffeb; outline-offset: 6px; }
 .neon-recovery ::selection { background: #19e6b0; color: #050505; }
-@media (max-width: 640px) { .neon-recovery { flex-direction: column; gap: 28px; }.neon-recovery > .neon-sign { width: 180px; }.neon-recovery-copy { text-align: center; }.neon-home, .neon-report { margin-inline: auto; } }
+@container (max-width: 640px) { .neon-recovery { flex-direction: column; gap: 28px; }.neon-recovery > .neon-sign { width: 180px; }.neon-recovery-copy { text-align: center; }.neon-home, .neon-report { margin-inline: auto; } }
 @media (prefers-reduced-motion: reduce) { .neon-home { transition: none; } }

@@ -1,0 +1,11 @@
+@import "./artwork-customizer.css";
+.paper-cut-demo { width: 100%; min-width: 0; }
+.paper-cut-demo-preview { justify-content: center; }
+.paper-cut-demo-art { width: min(100%, 850px); min-width: 0; }
+.paper-cut-demo-caption { margin: 24px 0 0; color: var(--muted); max-width: 50ch; text-align: center; font-size: 12px; line-height: 1.7; }
+.paper-cut-demo-controls { display: flex; flex-direction: column; gap: 20px; }
+.paper-cut-demo-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.paper-cut-demo-note { color: var(--muted); font-size: 12px; line-height: 1.7; margin: 0; }
+.paper-cut-thumbnail { width: 100%; min-width: 0; }
+.paper-cut-thumbnail .paper-cut { border-radius: 10px; }
+@media(max-width:480px) { .workspace-view .paper-cut-demo-preview { padding-inline: 16px; } }

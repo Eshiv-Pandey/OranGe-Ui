@@ -65,6 +65,7 @@ import HumanAvatarDemo from "./human-avatar-demo";
 import ReferenceTextDemo from "./reference-text-demo";
 
 const PortfolioDemos = lazy(() => import("./portfolio-demos"));
+const PaperCutDemo = lazy(() => import("./paper-cut-demo"));
 const CreativeDemo = lazy(() => import("./creative-demos"));
 const ReferenceDemo = lazy(() => import("./reference-demos"));
 const ShaderCanvasDemo = lazy(() => import("./shader-canvas-demo"));
@@ -97,6 +98,7 @@ export function ComponentDemo({ slug, appearance = "polished", thumbnail = false
   const [validated, setValidated] = useState(false);
   const status = <p className="demo-feedback" role="status">{feedback || "Try it. Every example is interactive."}</p>;
   const action = <Button {...a} onClick={() => { setSaved(!saved); setFeedback(saved ? "Ready for a fresh start." : "Project created in this preview."); }}>{saved ? "Start again" : "Create project"}</Button>;
+  if (slug === "paper-cut") return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing paper layers...</div>}><PaperCutDemo appearance={appearance} thumbnail={thumbnail} /></Suspense>;
   if (slug === "sticker-social-icons") return <StickerSocialDemo appearance={appearance} thumbnail={thumbnail} />;
   if (slug === "sticker-pack") return <StickerPackDemo appearance={appearance} thumbnail={thumbnail} />;
   if (PORTFOLIO_COMPONENT_SLUGS.includes(slug)) return <Suspense fallback={<div className="creative-demo-loading" data-preview-pending>Preparing portfolio preview...</div>}><PortfolioDemos slug={slug} appearance={appearance} thumbnail={thumbnail} /></Suspense>;

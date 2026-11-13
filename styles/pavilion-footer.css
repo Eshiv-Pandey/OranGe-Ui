@@ -1,11 +1,11 @@
 @import "./library-base.css";
 
-.pavilion-footer { --pavilion-sky: #d0e7dd; --pavilion-blue: #163084; --pavilion-mid: #407c9c; --pavilion-detail: #74afc3; --pavilion-moon: #9bcdd1; position: relative; width: 100%; padding: clamp(28px, 4vw, 52px) clamp(24px, 5vw, 64px) 26px; overflow: hidden; background: var(--pavilion-sky); color: var(--pavilion-blue); font-family: var(--font-body), sans-serif; container-type: inline-size; }
+.pavilion-footer { --pavilion-sky: #d0e7dd; --pavilion-blue: #163084; --pavilion-mid: #407c9c; --pavilion-detail: #74afc3; --pavilion-moon: #9bcdd1; position: relative; width: 100%; padding: clamp(28px, 4%, 52px) clamp(24px, 5%, 64px) 26px; overflow: hidden; background: var(--pavilion-sky); color: var(--pavilion-blue); font-family: var(--font-body), sans-serif; container-type: inline-size; }
 .pavilion-footer-top { display: grid; grid-template-columns: .75fr 1.4fr; gap: 20px; align-items: center; }
 .pavilion-footer-copy { position: relative; z-index: 1; padding-block: 24px; }
 .pavilion-footer h2 { margin: 0 0 40px; font-size: clamp(32px, 5.8cqw, 54px); line-height: 1.12; letter-spacing: -.035em; font-weight: 450; white-space: pre-line; text-wrap: balance; }
 .pavilion-footer-nav { display: flex; flex-wrap: wrap; gap: 28px 40px; }.pavilion-footer h3 { margin: 0 0 14px; font-size: 12px; font-weight: 700; }
-.pavilion-footer-nav a { display: block; width: fit-content; margin-top: 12px; color: #315972; font-size: 14px; text-decoration: none; transition: color 180ms; }
+.pavilion-footer-nav a { display: block; width: fit-content; min-height: 36px; padding-block: 7px; margin-top: 2px; color: #315972; font-size: 14px; text-decoration: none; transition: color 180ms; }
 .pavilion-footer a:hover { text-decoration: underline; text-underline-offset: 5px; }
 .pavilion-footer-scene { position: relative; align-self: end; min-width: 0; }.pavilion-footer-scene > svg { display: block; width: 100%; height: auto; overflow: visible; }
 /* Inherited values also reach the architecture inside each SVG use instance. */
@@ -20,5 +20,5 @@
 .pavilion-footer a:focus-visible, .pavilion-footer button:focus-visible { outline: 3px solid var(--pavilion-blue); outline-offset: 5px; }.pavilion-footer ::selection { background: var(--pavilion-blue); color: #eaf5ec; }
 .pavilion-footer[data-pixel="true"] svg { shape-rendering: crispEdges; }.pavilion-footer[data-pixel="true"] h2, .pavilion-footer[data-pixel="true"] .pavilion-wordmark { font-family: var(--font-display), monospace; letter-spacing: 0; }.pavilion-footer[data-pixel="true"] button { border-radius: 0; }
 .pavilion-bird { pointer-events: none; }
-@container (max-width: 620px) { .pavilion-footer-top { grid-template-columns: 1fr; gap: 10px; }.pavilion-footer-copy { padding-block: 0; }.pavilion-footer-scene { width: min(100%, 660px); justify-self: center; }.pavilion-footer h2 { font-size: 30px; }.pavilion-footer-bottom > span { flex-basis: 100%; order: 3; } }
+@container (max-width: 620px) { .pavilion-footer-top { grid-template-columns: 1fr; gap: 10px; }.pavilion-footer-copy { padding-block: 0; }.pavilion-footer-scene { width: min(100%, 660px); justify-self: center; }.pavilion-footer h2 { font-size: 32px; margin-bottom: 28px; }.pavilion-footer-nav { gap: 24px 32px; }.pavilion-footer-nav a { min-height: 44px; }.pavilion-footer-bottom > span { flex-basis: 100%; order: 3; } }
 @media (prefers-reduced-motion: reduce) { .pavilion-footer * { animation: none !important; transition: none !important; }.pavilion-building { transform: none; } }

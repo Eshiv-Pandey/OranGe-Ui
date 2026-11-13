@@ -1,0 +1,22 @@
+.skyline-footer { margin-top: 0; container-name: skyline-footer; }
+.skyline-footer .portfolio-footer-content { max-width: 1120px; margin-inline: auto; padding: 28px 24px 20px; }
+.skyline-footer .portfolio-footer-wordmark { font-size: clamp(26px, 5cqi, 44px); font-weight: 650; line-height: 1.12; letter-spacing: -.035em; }
+.skyline-footer .portfolio-footer-columns { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+.skyline-footer .portfolio-footer-connect { grid-column: auto; text-align: left; }
+.skyline-footer .portfolio-footer-contact { align-items: flex-start; }
+.skyline-footer .portfolio-footer-social { justify-content: flex-start; margin-inline: 0; flex-wrap: wrap; }
+.skyline-footer .portfolio-footer-column a { min-height: 36px; padding-block: 6px; font-size: 14px; }
+.skyline-footer .portfolio-footer-heading { font-size: 13px; margin-bottom: 8px; }
+.skyline-footer .portfolio-footer-contact li, .skyline-footer .portfolio-footer-contact a { font-size: 13px; line-height: 1.6; }
+.skyline-footer .portfolio-footer-masthead { padding-bottom: 4px; }
+.skyline-footer :focus-visible { outline: 2px solid var(--portfolio-fx-ink); outline-offset: 4px; }
+.skyline-footer ::selection { color: var(--portfolio-fx-card); background: var(--portfolio-fx-ink); }
+@container skyline-footer (min-width: 480px) {
+  .skyline-footer .portfolio-footer-columns { grid-template-columns: minmax(100px, 1fr) minmax(0, 1.5fr); gap: 24px 32px; }
+}
+@container skyline-footer (min-width: 900px) {
+  .skyline-footer .portfolio-footer-content { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(0, 560px); gap: 40px; padding: 44px 36px 28px; }
+  .skyline-footer .portfolio-footer-masthead { align-self: start; }
+  .skyline-footer .portfolio-footer-rule { display: none; }
+  .skyline-footer .portfolio-footer-columns { margin: 0; }
+}

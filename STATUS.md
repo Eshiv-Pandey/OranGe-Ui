@@ -1,5 +1,29 @@
 # oRangeUi status
 
+## Footer collection and compact Blocks navigation
+
+Implemented and verified on 11 November 2026 on `feat/next-iteration`.
+
+- Blocks contains 42 original examples in 28 categories. Auth has five layouts and Footer has seven: BlueHourFooter, StudioFooter, ColonyFooter, HillsideFooter, SkylineFooter, PavilionFooter and SiteFooter, in that order.
+- The five new footers cover engraved landscape, blue script/contact board, purple character/navigation panel, painted village and portfolio skyline compositions. Original raster art is under `public/art/footer/`; Cormorant Garamond and Pacifico are self-hosted with SIL Open Font License notices. SkylineFooter preserves the existing user-supplied truck and skyline extraction.
+- Browse and category headers are compact while Preview/Code, responsive widths, paired palettes, per-example Reset and interaction-state retention remain available. Each footer has typed props, browsable code, complete ZIP and portable registry assets with notices.
+- Final production build, TypeScript, scoped lint and copy checks pass. Seven focused source/behavior checks pass, including all 42 standalone examples compiling. Four footer browser tests verify 20 palette/device renders with no Axe violations, portable endpoints, embedded widths and newsletter recovery. Three affected Auth browsing/state/manual-copy checks also pass. The two playful footer ZIPs were rendered in a plain app and loaded their bundled Geist font and artwork. Staged source/type checks preserve the boundary from unrelated working changes. The independent reviewer scored its one material fix resolved and returned ship.
+
+The footer preview is `http://127.0.0.1:3140/blocks/category/footer`. Start the production preview with `node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3140`. [FOOTERS.md](FOOTERS.md), `BLOCKS.md` and `BLOCKS_PLAN.md` record the delivered scope and verification boundary.
+
+## Auth collections and paper-cut artwork
+
+Implemented and verified on 11 November 2026 on `feat/next-iteration`.
+
+- Blocks contains 37 original examples in 28 categories. Auth now has five distinct layouts: AuthPanel, QuietAuth, StudioAuth, ContrastAuth and PlayfulAuth. Other categories retain their initial examples as the broader five-per-section expansion continues.
+- `/blocks` starts with categories. `/blocks/category/<slug>` presents stacked live previews with Preview/Code, responsive widths, paired palettes, per-example Reset, source retry and manual clipboard recovery. Typed props remain on each block's documentation page.
+- NeonNotFound and ChaiBreak404 now belong to Not Found, and PavilionFooter belongs to Footer. Legacy component links redirect to their block pages. Narrow embedded Neon layouts use portable container rules.
+- PaperCut adds original contour geometry, visible paper shadows, demand-driven pointer parallax, keyboard perspective, reduced motion and a complete source/registry bundle at `/components/paper-cut`.
+- Production build, TypeScript, scoped lint and copy checks pass. All 31 focused unit/source checks pass; the 25 Auth/Blocks checks were refreshed after the correction batch. All 37 standalone block examples compile. The 18 Auth/category, five existing Blocks and two PaperCut browser tests pass, covering state, keyboard focus, palettes, source downloads, accessibility and desktop/mobile layouts. A separate staged snapshot also passes TypeScript and five source checks.
+- The 50-sticker work has its own pushed `feat/stickers-50` branch and worktree at `E:\CreativeCorner\OranGe Ui-stickers`, with `STICKERS_PLAN.md` for the separate session.
+
+The Auth preview is `http://127.0.0.1:3140/blocks/category/auth`. Auth verification and independent design-review receipts are local under `out/iteration/auth-expansion/`; PaperCut captures are under `.impeccable/review/paper-cut/`. `BLOCKS.md`, `BLOCKS_PLAN.md` and `PAPER_CUT.md` record the delivered scope. The independent reviewer scored the single material correction resolved and returned ship at the reviewed scope.
+
 ## Portfolio extraction and player corrections
 
 Implemented and verified on 4 November 2026 on `feat/next-iteration`. The catalogue now contains 108 unique entries. [PORTFOLIO_COMPONENTS.md](PORTFOLIO_COMPONENTS.md) records installation, props, source provenance and validation.
