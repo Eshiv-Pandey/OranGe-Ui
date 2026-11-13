@@ -1,6 +1,6 @@
 # Sticker workspace expansion
 
-Status: the fifth workspace refinement passed a fresh `ship` review with no material fixes. Production build, TypeScript, twenty-six focused unit tests, seven final browser checks, scoped ESLint, copy and whitespace checks passed. The verified `orangeui-stickers@0.1.2` tarball is ready; npm publication is awaiting account 2FA. The earlier public releases remain recorded as history.
+Status: the fifth workspace refinement is complete with a fresh `ship` review and no material fixes. Production build, TypeScript, twenty-six focused unit tests, seven final browser checks, scoped ESLint, copy and whitespace checks passed. `orangeui-stickers@0.1.2` is published publicly as npm latest. Isolated registry installation passed and its exact SHA-512 integrity matches the tested public tarball. The earlier releases remain recorded as history.
 
 ## Scope
 
@@ -19,7 +19,7 @@ Click motion remains bounce, wiggle, spin or none. Size, rotation, duration, int
 - Themed React/HTML/JSON radio choices support keyboard navigation. Copy/download retains each placement's finish and animation settings. React and self-contained HTML match the responsive full-viewport Preview; React accepts a height prop for embedding. JSON identifies viewport layout and keeps logical 960 x 600 size units.
 - `Sticker` and seventy named components ship through the existing source ZIP and registry workflows.
 - `/api/stickers`: seventy designs in both finishes (140 SVGs); `?finish=sharp` or `?finish=playful` selects one edition.
-- `orangeui-stickers@0.1.2`: locally verified React package with ESM, CommonJS, TypeScript and standalone CSS. The tested tarball is served at `/downloads/orangeui-stickers-0.1.2.tgz`; npm publication is awaiting account 2FA. The earlier `0.1.0` and `0.1.1` tarballs remain intact.
+- `orangeui-stickers@0.1.2`: publicly published npm latest with ESM, CommonJS, TypeScript and standalone CSS. Install with `npm install orangeui-stickers@0.1.2`. The tested tarball is also served at `/downloads/orangeui-stickers-0.1.2.tgz`, with matching registry integrity. The earlier `0.1.0` and `0.1.1` tarballs remain intact.
 
 ## Package build and consumer verification
 
@@ -29,7 +29,7 @@ node packages/stickers/scripts/test-package.mjs --release --registry
 
 The package consumer check installs the real tarball in an isolated project, renders all designs in both finishes through ESM/CommonJS, bundles React and CSS without Next.js/Tailwind/fonts, and checks NodeNext ESM/CommonJS declarations. Preserve the intentional public tarball when changing package source.
 
-The final release check installs both the local tarball and the published registry version. Earlier registry releases passed with matching exact SHA-512 integrity; the 0.1.2 registry check follows publication. Local tarball verification alone remains insufficient evidence of a future version's registry availability.
+The final release check installs both the local tarball and the published registry version. The 0.1.2 registry installation passed with matching exact SHA-512 integrity. Local tarball verification alone remains insufficient evidence of a future version's registry availability.
 
 ## Fifth workspace refinement verification, November 13, 2026
 
@@ -39,7 +39,7 @@ The final release check installs both the local tarball and the published regist
 - Five viewport sizes in both themes produced 120 valid captures. Scanned gallery/editor/playground accessibility violations and page errors were zero. Native and fallback Preview fill the viewport, support existing drag/keyboard movement, protect deletion, preserve undo and produce matching standalone HTML bounds without network requests.
 - All fourteen revised padded 512px variants have zero outside pixels. Metadata, names and the other sixty-three artwork definitions were preserved. Browser export checks cover all 140 variants.
 - The fresh reviewer returned `ship` with no material fixes at this refinement scope. The documenter preserved `DESIGN.md`, the sidecar and shared tokens; pre-existing sidecar coverage drift remains outside scope.
-- Isolated local package verification passed all seventy designs in both finishes, ESM/CommonJS rendering, standalone CSS, React bundling, Bundler declarations and both NodeNext declaration modes. Registry verification follows publication.
+- Isolated local and registry package verification passed all seventy designs in both finishes, ESM/CommonJS rendering, standalone CSS, React bundling, Bundler declarations and both NodeNext declaration modes. Npm latest is 0.1.2 and registry SHA-512 integrity exactly matches the tested tarball. Earlier tarballs are unchanged.
 
 ## Fourth workspace refinement verification, November 12, 2026
 

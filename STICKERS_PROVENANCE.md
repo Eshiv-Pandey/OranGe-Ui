@@ -41,4 +41,4 @@ Peace hand, Moka morning, Pocket play, Comet tail, Bubble tea, Infinity ribbon a
 
 All fourteen revised padded variants fit their SVG viewBox, and browser export checks passed all 140 variants. The stronger hover lift, wiggle and optional shadow remain presentation behavior, with reduced-motion and touch overrides. Responsive React/HTML scene exports match full-viewport Preview with normalized anchors and square art; each repeated SVG still has scoped clip identifiers.
 
-The `0.1.2` tarball passed isolated local consumer checks and is downloadable from the gallery. Publication and matching registry integrity verification follow npm account 2FA. The earlier public tarballs remain intact.
+The `0.1.2` tarball is downloadable from the gallery and published publicly as npm latest. Isolated local and registry consumer checks passed all seventy designs in both finishes, ESM/CommonJS rendering, standalone CSS, React bundling, Bundler declarations and both NodeNext declaration modes. Registry integrity exactly matches the tested public tarball. The earlier public tarballs remain intact.
